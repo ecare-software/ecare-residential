@@ -14,7 +14,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <h1>Users</h1>
+        <h1>Users fucking works</h1>
         <ul>
           {this.state.users.map((user, index) => (
             <li key={"user-index-" + index}>
