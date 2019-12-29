@@ -17,14 +17,14 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public'))); //old
+app.use(express.static(path.join(__dirname, 'public'))); //old
 
-app.use(express.static(path.join(__dirname, 'client/build'))); //new
+// app.use(express.static(path.join(__dirname, 'client/build'))); //new
 //test
-app.get("/",(req,res)=>{
-  res.sendFile(path.join(__dirname + "/client/build/index.html"))
-  // res.sendFile(path.join(__dirname + "/index.html"))
-})
+// app.get("/",(req,res)=>{
+//   res.sendFile(path.join(__dirname + "/client/build/index.html"))
+//   // res.sendFile(path.join(__dirname + "/index.html"))
+// })
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
