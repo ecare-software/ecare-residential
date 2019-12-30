@@ -1,13 +1,27 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+//routes
+var users = require('./routes/api/users');
 
+//user express
 var app = express();
+
+//  Body Parser middleware
+app.use(bodyParser.json());
+
+// get/connet to db
+const db = require("./config/keys").mongoURI;
+mongoose
+  .connect(db,{ useNewUrlParser: true,useUnifiedTopology: true })
+  .then(() => console.log("connected to db"))
+  .catch(err => {"failed-"+console.log(err)});
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,8 +40,8 @@ app.get("/",(req,res)=>{
   // res.sendFile(path.join(__dirname + "/index.html"))
 })
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+//use routes
+app.use('/api/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

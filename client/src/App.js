@@ -8,7 +8,7 @@ class App extends Component {
   };
 
   componentDidMount() {
-    Axios.get("/users").then(res => this.setState({ users: res.data }));
+    Axios.get("/api/users").then(res => this.setState({ users: res.data }));
   }
 
   render() {
