@@ -1,0 +1,148 @@
+.headerMainText{
+    color:white;
+    text-shadow: 0px 2px 6px #000000;
+  }
+  
+  .headerSubText{
+    color:rgb(255, 255, 255);
+    text-shadow: 0px 2px 6px #707070e7;
+    letter-spacing: 2px;
+  }
+  /* desktop */
+  @media only screen and (min-width: 1226px) {
+    .headerImg {
+      background: url("./images/Caregiver-Assistance.jpg") no-repeat;
+      background-size: cover;
+  
+      height: 900px;
+      width:100%;
+    }
+  
+    .headerTextContainer{
+      position: absolute;
+      top:200px;
+      left:48%;
+      width: 600px;
+      font-family: "Google Sans Display",Arial,Helvetica,sans-serif;
+    }
+    .headerMainText{
+      font-size: 4rem;
+      width:70%;
+    }
+    .headerSubText{
+      margin-top:25px;
+      font-size: 3rem;
+      line-height: 35px;
+    }
+    #headerDemoBtn{
+      position: relative;
+      left:70%;
+      top:10px;
+    }
+    #logEventInBtn{
+      display: none;
+    }
+  }
+  
+  /* ipad */
+  @media only screen and (min-width: 768px) and (max-width: 1225px) {
+    .headerImg {
+      background: url("./images/Caregiver-Assistance.jpg") no-repeat;
+      background-size: cover;
+  
+      height: 700px;
+      width:100%;
+    }
+  
+    .headerTextContainer{
+      position: absolute;
+      top:200px;
+      margin:0px 50px;
+      /* width: 600px; */
+      font-family: "Google Sans Display",Arial,Helvetica,sans-serif;
+    }
+    .headerMainText{
+      font-size: 4rem;
+      width:70%;
+    }
+    .headerSubText{
+      margin-top:25px;
+      font-size: 3rem;
+      line-height: 35px;
+    }
+    #headerDemoBtn{
+      position: relative;
+      left:70%;
+      top:10px;
+    }
+    #logEventInBtn{
+      display: none;
+    }
+  }
+  
+  /* mobile up right */
+  @media only screen and (max-width: 767px) {
+    .headerImg {
+      background: url("./images/Caregiver-Assistance.jpg") no-repeat;
+      background-position: -330px 0px;
+      height: 500px;
+      width: 101%;
+    }
+    .headerTextContainer{
+      position: absolute;
+      top:70px;
+      margin:0px 20px;
+      font-family: "Google Sans Display",Arial,Helvetica,sans-serif;
+    }
+    .headerMainText{
+      font-size: 3.5rem;
+    }
+    .headerSubText{
+      display: none;
+    }
+    #headerDemoBtn{
+      position: relative;
+      left:45%;
+      top:10px;
+      padding:5px 10px;
+      font-size: 1.2rem;
+  
+    }
+    #desktopLogin{
+      display: none;
+    }
+  }
+  /* mobile sideways */
+  @media only screen and (min-width: 550px) and (max-width: 766px){
+    .headerTextContainer{
+      position: absolute;
+      top:110px;
+      margin:0px 20px;
+      font-family: "Google Sans Display",Arial,Helvetica,sans-serif;
+
+    }
+    .headerSubText{
+      display: block;
+      margin-top:25px;
+      font-size: 3rem;
+      line-height: 35px;
+    }
+    #headerDemoBtn{
+      position: relative;
+      left:40%;
+      top:10px;
+    }
+  }
+  
+  /* stupid iphone 5 */
+  @media only screen and (max-width: 319px) {
+    #headerDemoBtn{
+      position: relative;
+      left:55%;
+      top:10px;
+    }
+    #headerTextContainer{
+      position: relative;
+      left:-10px;
+    }
+  }

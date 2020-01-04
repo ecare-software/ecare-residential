@@ -1,15 +1,456 @@
+.defaultLabel{
+  color: maroon;
+    border-bottom: .5px solid #eee;
+    padding:10px 10px;
+}
+
+.defaultSubLabel{
+  font-weight: 900;
+  /* margin2px; */
+}
+.flexNewPassword{
+  display:flex
+};
+
+label{
+  font-weight: 400 !important;
+}
+.formFields{
+  margin:25px 10px;
+  height: fit-content;
+}
+
+.formFieldsTitle{
+  margin:15px 0px;
+}
+.pointer{
+  cursor: pointer;
+}
+.glyphicon{
+position: inherit;
+}
+
+.modal-header {
+  display: flex;
+}
+
+.modal-header > h5 {
+  flex: 1;
+}
+
+.lightBtn {
+  background-color: white;
+  color: maroon;
+  font-weight: 800;
+  letter-spacing: 1px;
+  border-radius: 15px;
+  font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+  padding: 10px 20px;
+  transition: all 0.3s;
+  box-shadow: 0px 6px 23px 0px rgba(37, 37, 37, 0.459);
+}
+
+.mainFont {
+  font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+}
+
+.lightBtn:hover {
+  background-color: maroon;
+  color: white;
+  font-weight: 800;
+  letter-spacing: 1px;
+  border-radius: 15px;
+  font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+  padding: 10px 20px;
+  transition: all 0.3s;
+  box-shadow: 0px 6px 23px 0px rgba(37, 37, 37, 0.459);
+}
+
+.lightBtnSimple {
+  background-color: white;
+  color: maroon;
+  font-weight: 800;
+  letter-spacing: 1px;
+  border-radius: 15px;
+  font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+  padding: 10px 20px;
+  transition: all 0.3s;
+  box-shadow: 0px 6px 23px 0px rgba(37, 37, 37, 0.459);
+}
+
+.darkBtn {
+  background-color: maroon;
+  color: white;
+  font-weight: 800;
+  letter-spacing: 1px;
+  border-radius: 15px;
+  font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+  padding: 10px 20px;
+  transition: all 0.3s;
+  box-shadow: 0px 6px 23px 0px rgba(37, 37, 37, 0.459);
+}
+.darkBtn:hover {
+  background-color: white;
+  color: maroon;
+  font-weight: 800;
+  letter-spacing: 1px;
+  border-radius: 15px;
+  font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+  padding: 10px 20px;
+  transition: all 0.3s;
+  box-shadow: 0px 6px 23px 0px rgba(37, 37, 37, 0.459);
+}
+
+.darkBtnSimple {
+  background-color: maroon;
+  color: white;
+  font-weight: 800;
+  letter-spacing: 1px;
+  border-radius: 15px;
+  font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+  padding: 10px 20px;
+  transition: all 0.3s;
+}
+
+.clearBtn {
+  background-color: transparent;
+  text-shadow: 0px 2px 6px #707070e7;
+  font-weight: 800;
+  letter-spacing: 1px;
+  border-radius: 15px;
+  font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+  padding: 10px 20px;
+  transition: all 0.3s;
+}
+
+.clearOGBtn {
+  background-color: transparent;
+  font-weight: 800;
+  letter-spacing: 1px;
+  border-radius: 15px;
+  font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+  padding: 8px 10px 5px 10px;
+  transition: all 0.3s;
+}
+
+.textAreaSmall {
+  width: 100%;
+  border-radius: 9px;
+  resize: none;
+  height: 100px;
+  border: 1px solid #ccc;
+}
+
+.hideIt {
+  display: none;
+}
+
+.showWebinarDetail {
+  margin-left: 25px;
+}
+
+.modelBtn {
+  margin: 0px 5px;
+}
+
+body {
+  background-color: white;
+}
+
 .App {
-  text-align: center;
+  overflow-x: hidden;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* desktop */
+@media only screen and (min-width: 1226px) {
+  #desktopView{
+    padding-top: 25px;
+  }
+  #mobileView{
+    display: none;
+  }
+  #mainContainer {
+    height: 500px;
+    /* margin: 0px 250px; */
+  }
+  .App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+
+  .App-link {
+    color: #61dafb;
+  }
+
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  #greetingContainer {
+    padding: 0px;
+    border-bottom: 15px solid maroon;
+    padding-bottom: 150px;
+  }
+
+  #greetingRow {
+    margin: 100px 200px 0px 200px;
+  }
+
+  #greetingRowRight {
+    margin-top: -20px;
+  }
+
+  #greetingRowRightHeader {
+    font-size: 3.5em;
+    letter-spacing: 2px;
+    line-height: 70px;
+    color: maroon;
+    font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+    text-shadow: 0px 1px 2px #707070e7;
+  }
+
+  #greetingRowRightPContainer {
+    margin-right: 90px;
+  }
+
+  #greetingRowRightP {
+    font-size: 1.8em;
+    letter-spacing: 1px;
+    line-height: 40px;
+    font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+  }
+  #greetingRowRightBtnContainer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 150px;
+  }
+
+  #homeiPhone {
+    background: url("../src/images/iphone.jpg") no-repeat;
+    background-size: contain;
+    height: 600px;
+    width: 500px;
+    margin-left: 50px;
+  }
+
+  .userContainer {
+    background-color: white;
+    padding: 10px 0px;
+    width: 100%;
+  }
+
+  .hideOnDesktop{
+    display: none !important;
+  }
+  #navTitleDesktop {
+    color: maroon;
+    font-weight: 900;
+    font-size: 1.35em;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    position: fixed;
+    width: inherit;
+    background-color: white;
+    padding:50px 0px 8px 0px;
+    border-bottom:.5px solid rgb(202, 202, 202);
+    z-index:50;
+    
+  }
+  #navTitleDesktop > p{
+    margin-left:20px;
+  }
+  #navActionContainer{
+    margin-top: 35px;
+    position: fixed;
+  }
+
+  #navActionGreeting{
+    font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+    font-size: 2em;
+  }
+
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+/* ipad */
+@media only screen and (min-width: 768px) and (max-width: 1225px) {
+  #desktopView{
+    padding-top: 25px;
+      }
+      #navTitleDesktop {
+        z-index: 50;
+        color: maroon;
+        font-weight: 900;
+        font-size: 1.2em;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        display: flex;
+        position: fixed;
+        width: inherit;
+        background-color: white;
+        padding:50px 0px 8px 0px;
+        border-bottom:.5px solid rgb(202, 202, 202);
+        
+      }
+      #navTitleDesktop > p{
+        margin-left:20px;
+      }
+      #navActionContainer{
+        margin-top: 35px;
+        position: fixed;
+      }
+    
+      #navActionGreeting{
+        font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+        font-size: 2em;
+      }
+  .hideOnDesktop{
+    display: none !important;
+  }
+  #mobileView{
+    display: none;
+  }
+  #greetingContainer {
+    padding: 0px;
+    border-bottom: 15px solid maroon;
+    padding-bottom: 50px;
+  }
+
+  #greetingRow {
+    margin: -40px 50px 0px 50px;
+  }
+
+  #greetingRowRightHeader {
+    font-size: 3em;
+    letter-spacing: 2px;
+    line-height: 60px;
+    color: maroon;
+    font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+  }
+
+  #greetingRowRightPContainer {
+    margin-right: 20px;
+  }
+
+  #greetingRowRightP {
+    font-size: 1.2em;
+    letter-spacing: 1px;
+    line-height: 40px;
+    font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+  }
+
+  #greetingRowRightBtnContainer {
+    margin-top: 20px;
+    display: flex;
+  }
+
+  #homeiPhone {
+    margin-top: 80px;
+    background: url("../src/images/iphone.jpg") no-repeat;
+    background-size: contain;
+    height: 400px;
+    width: 300px;
+    position: relative;
+  }
+}
+
+/* mobile up right */
+@media only screen and (max-width: 767px) {
+#desktopView{
+  display: none;
+}
+  
+  #greetingContainer {
+    padding: 0px;
+    border-bottom: 15px solid maroon;
+    padding-bottom: 50px;
+  }
+
+  #greetingColRight {
+    padding: 0px;
+  }
+
+  #greetingRow {
+    margin: 50px 20px 0px 20px;
+  }
+
+  #greetingRowRightHeader {
+    font-size: 2em;
+    letter-spacing: 1px;
+    line-height: 40px;
+    color: maroon;
+    font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+  }
+
+  #greetingRowRightP {
+    font-size: 1.2em;
+    letter-spacing: 1.5px;
+    line-height: 30px;
+    font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+  }
+
+  #greetingRowRightBtnContainer {
+    margin-top: 70px;
+    display: flex;
+  }
+  #iPhoneContainer {
+    display: flex;
+    justify-content: flex-end;
+  }
+  #homeiPhone {
+    margin-top: -90px;
+    background: url("../src/images/iphone.jpg") no-repeat;
+    background-size: contain;
+    height: 200px;
+    width: 100px;
+  }
+
+  .modal-dialog {
+    margin-top: 100px;
+  }
+}
+
+/* mobile sideways */
+@media only screen and (min-width: 550px) and (max-width: 766px) {
+  #greetingRowRightPContainer {
+    margin-right: 200px;
+  }
+
+  #iPhoneContainer {
+    height: 0px;
+  }
+  #homeiPhone {
+    position: relative;
+    top: -250px;
+    left: -10%;
+    background: url("../src/images/iphone.jpg") no-repeat;
+    background-size: contain;
+    height: 200px;
+    width: 100px;
+  }
+}
+
+/* stupid iphone 5 */
+@media only screen and (max-width: 361px) {
+  #homeiPhone {
+    position: relative;
+    left: 10px;
+    background: url("../src/images/iphone.jpg") no-repeat;
+    background-size: contain;
+    height: 200px;
+    width: 100px;
   }
 }
 
