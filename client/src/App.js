@@ -18,7 +18,7 @@ class App extends Component {
         <ul>
           {this.state.users.map((user, index) => (
             <li key={"user-index-" + index}>
-              {user.id} - {user.username}
+              {user.firstName}
             </li>
           ))}
         </ul>
