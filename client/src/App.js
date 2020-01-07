@@ -8,7 +8,6 @@ import Testimonial from "./components/Testimonial/Testimonial.js";
 import "./App.css";
 import Fade from "react-reveal/Fade";
 //modals
-//apis
 
 //const classes
 const hideStyle = {
