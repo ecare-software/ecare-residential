@@ -3,6 +3,6 @@
         "node_modules{,/**}",
         ".vscode{,/**}"
     ],
-    "appService.defaultWebAppToDeploy": "/subscriptions/476c5050-f54a-401b-947e-861e5fc72918/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/ecare-residential-prod",
-    "appService.deploySubpath": ""
+    "appService.deploySubpath": "",
+    "appService.defaultWebAppToDeploy": "/subscriptions/476c5050-f54a-401b-947e-861e5fc72918/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/ecare-residential"
 }

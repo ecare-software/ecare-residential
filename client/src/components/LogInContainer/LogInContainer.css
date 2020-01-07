@@ -1,0 +1,80 @@
+  /* desktop */
+  @media only screen and (min-width: 1226px) {
+    .logInContainer{
+        width: 480px;
+        min-height: 280px;
+        background-color: whitesmoke;
+        display: flex;
+        align-items: center;
+        position: relative;
+        top:-150px;
+        left:53%;
+        border-radius: 9px;
+        box-shadow: 0px 6px 23px 0px rgba(199,199,199,1);
+    }
+    .logInInputFields{
+        margin:25px 50px;
+        width: 100%;
+    }
+
+    .logInInputField{
+        margin-bottom:30px;
+    }
+  }
+  
+  /* ipad */
+  @media only screen and (min-width: 768px) and (max-width: 1225px) {
+    .logInContainer{
+        width: 430px;
+        min-height: 260px;
+        background-color: whitesmoke;
+        display: flex;
+        align-items: center;
+        position: relative;
+        top:-150px;
+        left:43%;
+    }
+    .logInInputFields{
+        margin:25px 50px;
+        width: 100%;
+    }
+
+    .logInInputField{
+        margin-bottom:30px;
+    }
+  }
+  
+  /* mobile up right */
+  @media only screen and (max-width: 767px) {
+    .logInContainer{
+      width: 100%;
+      min-height: 260px;
+      background-color: whitesmoke;
+      display: flex;
+      align-items: center;
+      position: relative;
+      top:-150px;
+  }
+  .logInInputFields{
+      margin:25px 50px;
+      width: 100%;
+  }
+
+  .logInInputField{
+      margin-bottom:30px;
+  }
+  }
+  /* mobile sideways */
+  @media only screen and (min-width: 550px) and (max-width: 766px){
+    .logInContainer{
+        /* display: none; */
+    }
+  }
+  
+  /* stupid iphone 5 */
+  @media only screen and (max-width: 361px) {
+    .logInContainer{
+        /* display: none; */
+    }
+    
+  }

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Axios from "axios";
 //components
 import Header from "./components/Header/Header";
+import LogInContiner from "./components/LogInContainer/LogInContainer";
+import Testimonial from "./components/Testimonial/Testimonial.js";
 //styles
 import "./App.css";
 import Fade from "react-reveal/Fade";
@@ -155,6 +157,45 @@ class App extends Component {
       return (
         <div className="App">
           <Header logIn={this.toggleLogIn} />
+          <LogInContiner id="desktopLogin" logIn={this.toggleLogIn} />
+          {/* Body Start */}
+          <div className="container-fluid" id="greetingContainer">
+            <div className="row" id="greetingRow">
+              <div className="col-sm-7" id="greetingColRight">
+                <div id="greetingRowRight">
+                  <div id="greetingRowRightHeaderContainer">
+                    <h1 id="greetingRowRightHeader">
+                      Who we are and <br /> what we do
+                    </h1>
+                  </div>
+
+                  <div id="greetingRowRightPContainer">
+                    <p id="greetingRowRightP">
+                      Health care, health-care, or healthcare is the maintenance
+                      or improvement of health via the prevention, diagnosis,
+                      and treatment of disease, illness, injury, and other
+                      physical and mental impairments in people. Health care is
+                      delivered by health professionals in allied health fields.
+                    </p>
+                  </div>
+                  <div id="greetingRowRightBtnContainer">
+                    <button className="btn darkBtn">Request a Demo</button>
+                  </div>
+                </div>
+              </div>
+              <div className="col-sm-5" id="iPhoneContainer">
+                <Fade bottom>
+                  <div id="homeiPhone" />
+                </Fade>
+              </div>
+            </div>
+          </div>
+          <div style={{ paddingBottom: "100px" }}>
+            <Testimonial dir="right" />
+            <Testimonial dir="left" />
+            <Testimonial dir="right" />
+          </div>
+          {/* Body End */}
         </div>
       );
     }
