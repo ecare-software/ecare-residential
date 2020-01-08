@@ -4,6 +4,7 @@ import Axios from "axios";
 import Header from "./components/Header/Header";
 import LogInContiner from "./components/LogInContainer/LogInContainer";
 import Testimonial from "./components/Testimonial/Testimonial.js";
+import Navbar from "./components/NavBar/Navbar.js";
 //styles
 import "./App.css";
 import Fade from "react-reveal/Fade";
@@ -55,9 +56,9 @@ class App extends Component {
   };
 
   componentDidUpdate = () => {
-    if (this.state.userObj.isAdmin && !this.state.allUsersSet) {
+    if (!this.state.allUsersSet) {
+      console.log(this.state)
       this.getAllUsers();
-      console.log("test");
     }
 
     // if(!this.state.messagesInitLoad){
@@ -99,11 +100,11 @@ class App extends Component {
   //     });
   // };
 
-  // showErrorModal = (title, message) => {
-  //   this.setState({ message: message });
-  //   this.setState({ title: title });
-  //   document.getElementById("errorModalBtn").click();
-  // };
+  showErrorModal = (title, message) => {
+    this.setState({ message: message });
+    this.setState({ title: title });
+    // document.getElementById("errorModalBtn").click();
+  };
 
   getAllUsers = () => {
     Axios.get("/api/users/" + this.state.userObj.homeId).then(allUsers => {
@@ -118,23 +119,18 @@ class App extends Component {
   };
 
   toggleLogIn = userObj => {
-    //   console.log(userObj);
-    //   this.setState({ userObj: userObj });
-    //   this.setState({ loggedIn: !this.state.loggedIn });
-    //   //close logged in modal backdrop
-    //   console.log(this.state.loggedIn);
-    //   if (this.state.loggedIn === true) {
-    //     // document.getElementsByClassName("modal-backdrop")[0].remove();
-    //     document.body.classList.remove("modal-open");
-    //   }
-    //   // show error modal to reset password
-    //   if (userObj.newUser) {
-    //     this.showErrorModal(
-    //       "Welcome to RCS, Heres some information",
-    //       "You need to reset your password. Click the Manage Profile button to do so."
-    //     );
-    //   }
+      if(this.state.loggedIn){
+        document.body.classList.remove("modal-open");
+        this.setState({ userObj: userObj,loggedIn: !this.state.loggedIn,message:"",title:"" });
+      }else{
+        if (userObj.newUser) {
+          this.setState({ userObj: userObj,loggedIn: !this.state.loggedIn,message:"You need to reset your password. Click the Manage Profile button to do so.",title:"Welcome to RCS, Heres some information" });
+          // document.getElementById("errorModalBtn").click();
+        }
+      }
   };
+
+
 
   // toggleDisplay = display => {
   //   if (document.getElementsByClassName("slidingDiv")[1].style.left === "0%") {
@@ -148,8 +144,8 @@ class App extends Component {
   render() {
     if (this.state.loggedIn) {
       return (
-        <div className="App">
-          <div>Im logged in</div>
+        <div className="App" id="mainContainer">
+          <Navbar doDisplay={this.state.doDisplay} />
         </div>
       );
     } else {

@@ -1,0 +1,127 @@
+/* desktop */
+@media only screen and (min-width: 1226px) {
+    #NavbarContainer {
+      background-color: rgb(128, 0, 0);
+      height: 45px;
+      position: fixed;
+      width:100%;
+      flex-direction: row-reverse;
+      padding: 0px 50px;
+      -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.75);
+      -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.75);
+      box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.75);
+      z-index: 1000;
+    }
+  
+    .NavbarItem {
+      height: 100%;
+      color: maroon;
+      background-color: whitesmoke;
+      padding: 0px 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-left: 1px solid #eee;
+      border-right: 1px solid #eee;
+    }
+    .NavbarItem-active {
+      height: 100%;
+      color: maroon;
+      background-color: rgb(199, 199, 199);
+      padding: 0px 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-left: 1px solid #eee;
+      border-right: 1px solid #eee;
+    }
+    .NavbarItemText {
+      /* font-family: "Google Sans Display", Arial, Helvetica, sans-serif; */
+      font-size: 1.2em;
+      letter-spacing: 1px;
+      font-weight: 200;
+    }
+  }
+  
+  /* ipad */
+  @media only screen and (min-width: 768px) and (max-width: 1225px) {
+    #NavbarContainer {
+      background-color: rgb(128, 0, 0);
+      height: 45px;
+      position: fixed;
+      width:100%;
+      flex-direction: row-reverse;
+      padding: 0px 50px;
+      -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.75);
+      -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.75);
+      box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.75);
+      z-index: 10000;
+    }
+  }
+  
+  /* mobile up right */
+  @media only screen and (max-width: 767px) {
+  
+    #pageTitleContainer{
+      width:73%;
+      text-align:center;
+      display:flex;
+      justify-content:center;
+      flex-direction:column;
+    }
+    #NavbarContainer {
+      background-color: maroon;
+      width: 100%;
+      display: flex;
+      position: fixed;
+      top: 0px;
+      z-index: 100000;
+      -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.75);
+      -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.75);
+      box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.75);
+    }
+  
+    #userBtn {
+      background-color: transparent;
+      border: none;
+      color: white;
+      font-size: 1.5em;
+      margin: 0px 10px;
+      padding: 5px 5px;
+    }
+  
+    .DMBtn {
+      margin: 5px 10px;
+      border-radius: 9px;
+      padding: 5px 15px;
+      font-size: 1.5em;
+      padding: 0px;
+    }
+  
+    #navTitle {
+      color: white;
+      font-weight: 900;
+      font-size: 1.5em;
+    }
+  }
+  
+  /* mobile sideways */
+  @media only screen and (min-width: 550px) and (max-width: 766px) {
+    #NavbarContainer {
+      background-color: maroon;
+      height: 45px;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+    }
+  }
+  
+  /* stupid iphone 5 */
+  @media only screen and (max-width: 361px) {
+    #NavbarContainer {
+      background-color: maroon;
+      height: 45px;
+      width: 100%;
+    }
+  }
+  
