@@ -69,44 +69,44 @@ class App extends Component {
       this.getAllUsers();
     }
 
-    // if(!this.state.messagesInitLoad){
-    //   this.loadMessage();
-    // }
+    if(!this.state.messagesInitLoad){
+      this.loadMessage();
+    }
   };
 
-  // loadMessage = () => {
-  //   let curthis = this;
-  //   Axios.get("/api/discussionMessages")
-  //   .then(function(response) {
-  //     curthis.setState({discussionMessages:response.data,messagesInitLoad:true});
-  //     console.log(curthis.state.discussionMessages);
-  //   })
-  //   .catch(function(error) {
-  //     console.log(error);
-  //   });
-  // };
+  loadMessage = () => {
+    let curthis = this;
+    Axios.get("/api/discussionMessages")
+    .then(function(response) {
+      curthis.setState({discussionMessages:response.data,messagesInitLoad:true});
+      console.log(curthis.state.discussionMessages);
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+  };
 
-  // appendMessage = message => {
-  //   let curthis = this;
-  //   let newMessage = {
-  //     message: message,
-  //     firstName: this.state.userObj.firstName,
-  //     middleName: this.state.userObj.middleName,
-  //     lastName: this.state.userObj.lastName,
-  //     id: this.state.userObj._id,
-  //     date: new Date().toISOString()
-  //   };
+  appendMessage = message => {
+    let curthis = this;
+    let newMessage = {
+      message: message,
+      firstName: this.state.userObj.firstName,
+      middleName: this.state.userObj.middleName,
+      lastName: this.state.userObj.lastName,
+      id: this.state.userObj._id,
+      date: new Date().toISOString()
+    };
 
-  //   Axios.post("/api/discussionMessages", newMessage)
-  //     .then(function(response) {
-  //       curthis.state.discussionMessages.unshift(newMessage);
-  //       let discussionMessagesTmp = curthis.state.discussionMessages;
-  //       curthis.setState({discussionMessages:discussionMessagesTmp});
-  //     })
-  //     .catch(function(error) {
-  //       console.log(error);
-  //     });
-  // };
+    Axios.post("/api/discussionMessages", newMessage)
+      .then(function(response) {
+        curthis.state.discussionMessages.unshift(newMessage);
+        let discussionMessagesTmp = curthis.state.discussionMessages;
+        curthis.setState({discussionMessages:discussionMessagesTmp});
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
 
   showErrorModal = (title, message) => {
     this.setState({ message: message });
@@ -141,11 +141,11 @@ class App extends Component {
 
 
   toggleDisplay = display => {
-    if (document.getElementsByClassName("slidingDiv")[1].style.left === "0%") {
-      document.getElementsByClassName("slidingDiv")[1].style.left = "-66%";
-    } else {
-      document.getElementsByClassName("slidingDiv")[1].style.left = "0%";
-    }
+    // if (document.getElementsByClassName("slidingDiv")[1].style.left === "0%") {
+    //   document.getElementsByClassName("slidingDiv")[1].style.left = "-66%";
+    // } else {
+    //   document.getElementsByClassName("slidingDiv")[1].style.left = "0%";
+    // }
     this.setState({ doDisplay: display });
   };
 
@@ -282,7 +282,7 @@ class App extends Component {
                 <div
                   style={
                     this.state.doDisplay === "User Management"
-                      ? { marginBottom: "150px", border: ".5px solid #eee" }
+                      ? { marginBottom: "150px", border: ".5px solid #eee",minHeight:"90vh" }
                       : hideStyle
                   }
                 >

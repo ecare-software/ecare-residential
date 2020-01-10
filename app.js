@@ -1,16 +1,22 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
 //routes
-var users = require('./routes/api/users');
+const users = require('./routes/api/users');
+const treatmentPlans72 = require("./routes/api/treatmentPlans72");
+const incidentReport = require("./routes/api/incidentReport");
+const restraintReport = require("./routes/api/restraintReport");
+const dailyProgressAndActivity = require("./routes/api/dailyProgressAndActivity");
+const directMessages = require("./routes/api/directMessages");
+const discussionMessages = require("./routes/api/discussionMessages");
 
 //user express
-var app = express();
+const app = express();
 
 //  Body Parser middleware
 app.use(bodyParser.json());
@@ -42,6 +48,12 @@ app.get("/",(req,res)=>{
 
 //use routes
 app.use('/api/users', users);
+app.use("/api/treatmentPlans72",treatmentPlans72);
+app.use("/api/incidentReport",incidentReport);
+app.use("/api/restraintReport",restraintReport);
+app.use("/api/dailyProgressAndActivity",dailyProgressAndActivity);
+app.use("/api/directMessages",directMessages);
+app.use("/api/discussionMessages",discussionMessages);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

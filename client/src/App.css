@@ -170,7 +170,7 @@ body {
     display: none;
   }
   #mainContainer {
-    height: 500px;
+    /* height: 500px; */
     /* margin: 0px 250px; */
   }
   .App-header {
@@ -257,7 +257,7 @@ body {
   #navTitleDesktop {
     color: maroon;
     font-weight: 900;
-    font-size: 1.35em;
+    font-size: 1.22em;
     margin-top: 20px;
     margin-bottom: 20px;
     display: flex;

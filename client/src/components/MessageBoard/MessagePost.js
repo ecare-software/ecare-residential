@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./MessageBoard.css";
-import DMBtn from "../Navbar/DMBtn";
+import DMBtn from "../NavBar/DMBtn";
 import "../../App.css";
 
 
