@@ -5,6 +5,14 @@ import Header from "./components/Header/Header";
 import LogInContiner from "./components/LogInContainer/LogInContainer";
 import Testimonial from "./components/Testimonial/Testimonial.js";
 import Navbar from "./components/NavBar/Navbar.js";
+import TreatmentPlan72 from "./components/Forms/TreatmentPlan72";
+import IncidentReport from "./components/Forms/IncidentReport";
+import RestraintReport from "./components/Forms/RestraintReport";
+import DailyProgress from "./components/Forms/DailyProgressAndActivity";
+import MessageBoard from "./components/MessageBoard/MessageBoard";
+import Reports from "./components/Reports/ReportsContainer";
+import UserManagement from "./components/UserManagement/UserManagement";
+import SlidingNav from "./components/SlideingNav/SlidingNav";
 //styles
 import "./App.css";
 import Fade from "react-reveal/Fade";
@@ -132,20 +140,222 @@ class App extends Component {
 
 
 
-  // toggleDisplay = display => {
-  //   if (document.getElementsByClassName("slidingDiv")[1].style.left === "0%") {
-  //     document.getElementsByClassName("slidingDiv")[1].style.left = "-66%";
-  //   } else {
-  //     document.getElementsByClassName("slidingDiv")[1].style.left = "0%";
-  //   }
-  //   this.setState({ doDisplay: display });
-  // };
+  toggleDisplay = display => {
+    if (document.getElementsByClassName("slidingDiv")[1].style.left === "0%") {
+      document.getElementsByClassName("slidingDiv")[1].style.left = "-66%";
+    } else {
+      document.getElementsByClassName("slidingDiv")[1].style.left = "0%";
+    }
+    this.setState({ doDisplay: display });
+  };
 
   render() {
     if (this.state.loggedIn) {
       return (
         <div className="App" id="mainContainer">
           <Navbar doDisplay={this.state.doDisplay} />
+        {/* DESKTOP VIEW START */}
+        <div id="desktopView">
+            <div className="col-sm-3">
+              <div id="navActionContainer">
+                <div
+                  style={this.state.doDisplay !== "Reports" ? {} : hideStyle}
+                >
+                  <SlidingNav
+                    toggleDisplay={this.toggleDisplay}
+                    logOut={this.logOut}
+                    logIn={this.toggleLogIn}
+                    userObj={this.state.userObj}
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              className="col-sm-9"
+              style={{ paddingLeft: "0px", paddingRight: "0px", width: "65%" }}
+            >
+              <div id="navTitleDesktop">
+                <div style={{ marginRight: "10px" }}>
+                  <p
+                    className="mainFont pointer"
+                    style={
+                      this.state.doDisplay !== "Dashboard"
+                        ? navNotSelected
+                        : navSelected
+                    }
+                    onClick={this.toggleDisplay.bind({}, "Dashboard")}
+                  >
+                    Dashboard
+                  </p>
+                </div>
+                <div
+                  style={
+                    this.state.userObj.isAdmin === true
+                      ? { marginRight: "10px" }
+                      : hideStyle
+                  }
+                >
+                  <p
+                    className="mainFont pointer"
+                    style={
+                      this.state.doDisplay !== "User Management"
+                        ? navNotSelected
+                        : navSelected
+                    }
+                    onClick={this.toggleDisplay.bind({}, "User Management")}
+                  >
+                    User Management
+                  </p>
+                </div>
+                <div style={{ marginRight: "10px" }}>
+                  <p
+                    className="mainFont pointer"
+                    style={
+                      this.state.doDisplay !== "TreatmentPlan72"
+                        ? navNotSelected
+                        : navSelected
+                    }
+                    onClick={this.toggleDisplay.bind({}, "TreatmentPlan72")}
+                  >
+                    72 Hour Treatment Plan
+                  </p>
+                </div>
+                <div style={{ marginRight: "10px" }}>
+                  <p
+                    className="mainFont pointer"
+                    style={
+                      this.state.doDisplay !== "IncidentReport"
+                        ? navNotSelected
+                        : navSelected
+                    }
+                    onClick={this.toggleDisplay.bind({}, "IncidentReport")}
+                  >
+                    Incident Report
+                  </p>
+                </div>
+                <div style={{ marginRight: "10px" }}>
+                  <p
+                    className="mainFont pointer"
+                    style={
+                      this.state.doDisplay !== "DailyProgress"
+                        ? navNotSelected
+                        : navSelected
+                    }
+                    onClick={this.toggleDisplay.bind({}, "DailyProgress")}
+                  >
+                    Daily Progress
+                  </p>
+                </div>
+                <div style={{ marginRight: "10px" }}>
+                  <p
+                    className="mainFont pointer"
+                    style={
+                      this.state.doDisplay !== "restraintReport"
+                        ? navNotSelected
+                        : navSelected
+                    }
+                    onClick={this.toggleDisplay.bind({}, "restraintReport")}
+                  >
+                    Restraint Report
+                  </p>
+                </div>
+                <div style={{ marginRight: "10px" }}>
+                  <p
+                    className="mainFont pointer"
+                    style={
+                      this.state.doDisplay !== "Reports"
+                        ? navNotSelected
+                        : navSelected
+                    }
+                    onClick={this.toggleDisplay.bind({}, "Reports")}
+                  >
+                    Reports
+                  </p>
+                </div>
+              </div>
+              <div style={{ padding: "0px 0px 0px 0px", margin: "93px 0px" }}>
+                <div
+                  style={this.state.doDisplay === "Dashboard" ? {} : hideStyle}
+                >
+                  <MessageBoard messages={this.state.discussionMessages} />
+                </div>
+                <div
+                  style={
+                    this.state.doDisplay === "User Management"
+                      ? { marginBottom: "150px", border: ".5px solid #eee" }
+                      : hideStyle
+                  }
+                >
+                  <UserManagement
+                    userObj={this.state.userObj}
+                    allUsers={this.state.allUsers}
+                  />
+                </div>
+                <div
+                  style={
+                    this.state.doDisplay === "TreatmentPlan72"
+                      ? { marginBottom: "150px", border: ".5px solid #eee" }
+                      : hideStyle
+                  }
+                >
+                  <TreatmentPlan72
+                    valuesSet={false}
+                    userObj={this.state.userObj}
+                    id="treatment"
+                  />
+                </div>
+                <div
+                  style={
+                    this.state.doDisplay === "IncidentReport"
+                      ? { marginBottom: "150px", border: ".5px solid #eee" }
+                      : hideStyle
+                  }
+                >
+                  <IncidentReport
+                    valuesSet={false}
+                    userObj={this.state.userObj}
+                    id="incident"
+                  />
+                </div>
+                <div
+                  style={
+                    this.state.doDisplay === "DailyProgress"
+                      ? { marginBottom: "150px", border: ".5px solid #eee" }
+                      : hideStyle
+                  }
+                >
+                  <DailyProgress
+                    valuesSet={false}
+                    userObj={this.state.userObj}
+                    id="dailyProgress"
+                  />
+                </div>
+                <div
+                  style={
+                    this.state.doDisplay === "restraintReport"
+                      ? { marginBottom: "150px", border: ".5px solid #eee" }
+                      : hideStyle
+                  }
+                >
+                  <RestraintReport
+                    valuesSet={false}
+                    userObj={this.state.userObj}
+                    id="restraintReport"
+                  />
+                </div>
+                <div
+                  style={
+                    this.state.doDisplay === "Reports"
+                      ? { margin: "150px 0px" }
+                      : hideStyle
+                  }
+                >
+                  <Reports userObj={this.state.userObj} />
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* DESKTOP VIEW END */}
         </div>
       );
     } else {

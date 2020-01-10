@@ -1,0 +1,163 @@
+/* desktop */
+@media only screen and (min-width: 1226px) {
+  #slidingDiv {
+
+    position: fixed;
+    width: 15%;
+    transition: all 0.5s;
+    position: fixed;
+    margin-left:60px;
+  
+  }
+
+  #slidingNavTitle{
+      margin:20px 10px;
+      font-size:2.7em;
+  }
+
+  .navSection{
+      margin-top:50px;
+  }
+
+  .navAction{
+    padding:8px 10px;
+    background-color: rgba(245, 245, 245, 0.966);
+    margin:0px;
+    letter-spacing:1px;
+    display: flex;
+    width:100%;
+    border-radius: 9px;
+    margin-bottom: 15px;
+    border:none;
+  }
+  .navAction:hover{
+    padding:8px 10px;
+    background-color: rgba(225, 225, 225, 0.966);
+    margin:0px;
+    letter-spacing:1px;
+    display: flex;
+    width:100%;
+    border-radius: 9px;
+    margin-bottom: 15px;
+    border:none;
+  }
+
+  .navG{
+      color:maroon;
+      margin-right: 10px;
+  }
+
+  .navSectionTitle{
+      color:maroon;
+      padding:5px 10px;
+      border-bottom: .5px solid #eee;
+  }
+}
+
+/* ipad */
+@media only screen and (min-width: 768px) and (max-width: 1225px) {
+  #slidingDiv {
+
+    position: fixed;
+    width: 25%;
+    transition: all 0.5s;
+    position: fixed;
+    margin-left:20px;
+  
+  }
+
+  #slidingNavTitle{
+      margin:20px 10px;
+  }
+
+  .navSection{
+    margin-top:50px;
+}
+
+  .navAction{
+    padding:8px 10px;
+    background-color: rgba(245, 245, 245, 0.966);
+    margin:0px;
+    letter-spacing:1px;
+    display: flex;
+    width:100%;
+    border-radius: 9px;
+    margin-bottom: 10px;
+    border: none;
+  }
+  .navAction:hover{
+    padding:8px 10px;
+    background-color: rgba(225, 225, 225, 0.966);
+    margin:0px;
+    letter-spacing:1px;
+    display: flex;
+    width:100%;
+    border-radius: 9px;
+    margin-bottom: 10px;
+    border: none;
+  }
+
+  .navG{
+      color:maroon;
+      margin-right: 10px;
+  }
+
+  .navSectionTitle{
+      color:maroon;
+      padding:5px 10px;
+      border-bottom: .5px solid #eee;
+  }
+}
+
+/* mobile up right */
+@media only screen and (max-width: 767px) {
+  #slidingDiv {
+    height: 100vh;
+    background-color: rgba(245, 245, 245, 0.966);
+    position: fixed;
+    width: 60%;
+    transition: all 0.5s;
+    position: fixed;
+    left: -66%;
+    -webkit-box-shadow: 0px 2px 22px -8px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 2px 22px -8px rgba(0,0,0,0.75);
+box-shadow: 0px 2px 22px -8px rgba(0,0,0,0.75);
+  
+  }
+
+  #slidingNavTitle{
+      margin:20px 10px;
+  }
+
+  .navSection{
+      /* margin:10px; */
+  }
+
+  .navAction{
+    padding:8px 10px;
+    /* background-color: #eaeaea; */
+    margin:0px;
+    letter-spacing:1px;
+    background-color: transparent;
+    border-style: none;
+  }
+
+  .navG{
+      color:maroon;
+      margin-right: 10px;
+  }
+
+  .navSectionTitle{
+      color:maroon;
+      padding:5px 10px;
+      border-bottom: .5px solid rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* mobile sideways */
+@media only screen and (min-width: 550px) and (max-width: 766px) {
+}
+
+/* stupid iphone 5 */
+@media only screen and (max-width: 361px) {
+}

@@ -1,0 +1,65 @@
+  /* desktop */
+  @media only screen and (min-width: 1226px) {
+    #UserManagement{
+        margin-top: 40px;
+    /* width: 100%; */
+    background-color: white;
+
+    /* border:.5px solid #eee; */
+    min-height: 50vh;
+    padding: 20px 10px;
+    }
+
+    .managementElement{
+      padding: 5px 10px;
+    }
+
+    .instructionText{
+      margin:20px 10px;
+    }
+  }
+  
+  /* ipad */
+  @media only screen and (min-width: 768px) and (max-width: 1225px) {
+    #UserManagement {
+        /* margin-top: 40px; */
+        /* width: 100%; */
+        background-color: white;
+    
+        /* border:.5px solid #eee; */
+        min-height: 50vh;
+        /* padding: 20px 10px; */
+      }
+
+      .managementElement{
+        padding: 5px 10px;
+      }
+
+      .instructionText{
+        margin:20px 10px;
+      }
+  }
+  
+  /* mobile up right */
+  @media only screen and (max-width: 767px) {
+    #UserManagement {
+        /* margin-top: 40px; */
+        /* width: 100%; */
+        background-color: white;
+        padding-bottom: 60px;
+      }
+
+      .managementElement{
+        padding: 10px;
+      }
+  }
+  /* mobile sideways */
+  @media only screen and (min-width: 550px) and (max-width: 766px){
+   
+  }
+  
+  /* stupid iphone 5 */
+  @media only screen and (max-width: 361px) {
+  
+    
+  }
