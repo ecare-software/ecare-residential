@@ -27,7 +27,7 @@ class DMB extends Component {
           color: this.props.bgColor,
           fontSize: this.props.fontSz ? this.props.fontSz : ""
         }}
-        className="DMBtn btn-link"
+        className="btn DMBtn btn-link"
       >
         <span style={{paddingRight:"10px"}}>{this.props.children}</span>
         <span

@@ -162,7 +162,7 @@ class App extends Component {
         <div className="App" id="mainContainer">
           <Navbar doDisplay={this.state.doDisplay} />
         {/* DESKTOP VIEW START */}
-        <div id="desktopView">
+        <div id="desktopView" className="row">
             <div className="col-sm-3">
               <div id="navActionContainer">
                 <div

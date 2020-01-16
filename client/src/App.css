@@ -255,6 +255,7 @@ body {
     display: none !important;
   }
   #navTitleDesktop {
+    width: 100%;
     color: maroon;
     font-weight: 900;
     font-size: 1.22em;
@@ -262,7 +263,6 @@ body {
     margin-bottom: 20px;
     display: flex;
     position: fixed;
-    width: inherit;
     background-color: white;
     padding:50px 0px 8px 0px;
     border-bottom:.5px solid rgb(202, 202, 202);
