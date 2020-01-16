@@ -13,6 +13,13 @@ import MessageBoard from "./components/MessageBoard/MessageBoard";
 import Reports from "./components/Reports/ReportsContainer";
 import UserManagement from "./components/UserManagement/UserManagement";
 import SlidingNav from "./components/SlideingNav/SlidingNav";
+  //modals
+import RequestDemoModal from "./components/Modals/RequestDemoModal.js";
+import UploadFileModal from "./components/Modals/UploadFileModal";
+import PostMessageModal from "./components/Modals/PostMessageModal";
+import SendMessageModal from "./components/Modals/SendMessageModal";
+import ErrorModal from "./components/Modals/ErrorModal";
+import ManageAccountModal from "./components/Modals/ManageAccountModal";
 //styles
 import "./App.css";
 import Fade from "react-reveal/Fade";
@@ -401,6 +408,7 @@ class App extends Component {
             <Testimonial dir="right" />
           </div>
           {/* Body End */}
+          {/* modals */}
         </div>
       );
     }

@@ -139,7 +139,7 @@ class LogInContainer extends Component {
 
   render() {
       return (
-        <Fade bottom >
+
           <div
             id={this.props.id}
             style={this.props.pos}
@@ -176,7 +176,7 @@ class LogInContainer extends Component {
               </div>
             </div>
           </div>
-        </Fade>
+
       );
     
   }
