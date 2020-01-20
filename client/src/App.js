@@ -160,6 +160,20 @@ class App extends Component {
     }
   };
 
+  toggleSlidingDiv = () => {
+    // if (this.state.isOpen) {
+    //   document.getElementsByClassName("slidingDiv")[1].style.left = "-66%";
+    // } else {
+    //   document.getElementsByClassName("slidingDiv")[1].style.left = "0%";
+    // }
+    // this.setState({isOpen:!this.state.isOpen})
+    if(document.getElementsByClassName("slidingDiv")[1].style.left === "0%"){
+      document.getElementsByClassName("slidingDiv")[1].style.left = "-66%";
+    }else{
+      document.getElementsByClassName("slidingDiv")[1].style.left = "0%"
+    }
+  };
+
   toggleDisplay = display => {
     // if (document.getElementsByClassName("slidingDiv")[1].style.left === "0%") {
     //   document.getElementsByClassName("slidingDiv")[1].style.left = "-66%";
@@ -173,7 +187,7 @@ class App extends Component {
     if (this.state.loggedIn) {
       return (
         <div className="App" id="mainContainer">
-          <Navbar doDisplay={this.state.doDisplay} />
+          <Navbar toggleSlidingDiv={this.toggleSlidingDiv} doDisplay={this.state.doDisplay} />
           {/* DESKTOP VIEW START */}
           <div id="desktopView" className="row">
             <div className="col-sm-3">
@@ -182,6 +196,8 @@ class App extends Component {
                   style={this.state.doDisplay !== "Reports" ? {} : hideStyle}
                 >
                   <SlidingNav
+                    toggleDisplay={this.toggleDisplay}
+                    appendMessage={this.appendMessage}
                     toggleDisplay={this.toggleDisplay}
                     logOut={this.logOut}
                     logIn={this.toggleLogIn}
@@ -384,13 +400,16 @@ class App extends Component {
           {/* MOBILE VIEW START */}
           <div id="mobileView">
             <SlidingNav
+              toggleSlidingDiv={this.toggleSlidingDiv}
+              toggleDisplay={this.toggleDisplay}
+              appendMessage={this.appendMessage}
               toggleDisplay={this.toggleDisplay}
               logOut={this.logOut}
               logIn={this.toggleLogIn}
               userObj={this.state.userObj}
             />
             <div style={this.state.doDisplay === "Dashboard" ? {} : hideStyle}>
-              <MessageBoard messages={this.state.discussionMessages}/>
+              <MessageBoard messages={this.state.discussionMessages} />
             </div>
             <div
               style={

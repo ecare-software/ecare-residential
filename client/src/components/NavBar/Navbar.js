@@ -14,7 +14,7 @@ class Navbar extends Component {
         <div id="NavbarContainer">
 
             <div className="hideOnDesktop" style={{width:"13%"}}>
-                <UserBtn/>
+                <UserBtn toggleSlidingDiv={this.props.toggleSlidingDiv}/>
             </div>
             <div className="hideOnDesktop" id="pageTitleContainer">
                 <span className="mainFont" id="navTitle">{this.props.doDisplay}</span>

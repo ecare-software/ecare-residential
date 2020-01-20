@@ -10,23 +10,11 @@ class UserBtn extends Component {
     };
   }
 
-  toggleSlidingDiv = () => {
-    // if (this.state.isOpen) {
-    //   document.getElementsByClassName("slidingDiv")[1].style.left = "-66%";
-    // } else {
-    //   document.getElementsByClassName("slidingDiv")[1].style.left = "0%";
-    // }
-    // this.setState({isOpen:!this.state.isOpen})
-    if(document.getElementsByClassName("slidingDiv")[1].style.left === "0%"){
-      document.getElementsByClassName("slidingDiv")[1].style.left = "-66%";
-    }else{
-      document.getElementsByClassName("slidingDiv")[1].style.left = "0%"
-    }
-  };
+  
 
   render() {
     return (
-      <button onClick={this.toggleSlidingDiv} id="userBtn">
+      <button onClick={this.props.toggleSlidingDiv} id="userBtn">
         <span className="fa fa-bars">
         </span>
       </button>
