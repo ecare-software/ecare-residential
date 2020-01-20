@@ -13,7 +13,8 @@ import MessageBoard from "./components/MessageBoard/MessageBoard";
 import Reports from "./components/Reports/ReportsContainer";
 import UserManagement from "./components/UserManagement/UserManagement";
 import SlidingNav from "./components/SlideingNav/SlidingNav";
-  //modals
+import UserActions from "./components/UserActions/UserActions";
+//modals
 import RequestDemoModal from "./components/Modals/RequestDemoModal.js";
 import UploadFileModal from "./components/Modals/UploadFileModal";
 import PostMessageModal from "./components/Modals/PostMessageModal";
@@ -72,11 +73,11 @@ class App extends Component {
 
   componentDidUpdate = () => {
     if (!this.state.allUsersSet) {
-      console.log(this.state)
+      console.log(this.state);
       this.getAllUsers();
     }
 
-    if(!this.state.messagesInitLoad){
+    if (!this.state.messagesInitLoad) {
       this.loadMessage();
     }
   };
@@ -84,13 +85,16 @@ class App extends Component {
   loadMessage = () => {
     let curthis = this;
     Axios.get("/api/discussionMessages")
-    .then(function(response) {
-      curthis.setState({discussionMessages:response.data,messagesInitLoad:true});
-      console.log(curthis.state.discussionMessages);
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
+      .then(function(response) {
+        curthis.setState({
+          discussionMessages: response.data,
+          messagesInitLoad: true
+        });
+        console.log(curthis.state.discussionMessages);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   };
 
   appendMessage = message => {
@@ -108,7 +112,7 @@ class App extends Component {
       .then(function(response) {
         curthis.state.discussionMessages.unshift(newMessage);
         let discussionMessagesTmp = curthis.state.discussionMessages;
-        curthis.setState({discussionMessages:discussionMessagesTmp});
+        curthis.setState({ discussionMessages: discussionMessagesTmp });
       })
       .catch(function(error) {
         console.log(error);
@@ -134,18 +138,27 @@ class App extends Component {
   };
 
   toggleLogIn = userObj => {
-      if(this.state.loggedIn){
-        document.body.classList.remove("modal-open");
-        this.setState({ userObj: userObj,loggedIn: !this.state.loggedIn,message:"",title:"" });
-      }else{
-        if (userObj.newUser) {
-          this.setState({ userObj: userObj,loggedIn: !this.state.loggedIn,message:"You need to reset your password. Click the Manage Profile button to do so.",title:"Welcome to RCS, Heres some information" });
-          // document.getElementById("errorModalBtn").click();
-        }
+    if (this.state.loggedIn) {
+      document.body.classList.remove("modal-open");
+      this.setState({
+        userObj: userObj,
+        loggedIn: !this.state.loggedIn,
+        message: "",
+        title: ""
+      });
+    } else {
+      if (userObj.newUser) {
+        this.setState({
+          userObj: userObj,
+          loggedIn: !this.state.loggedIn,
+          message:
+            "You need to reset your password. Click the Manage Profile button to do so.",
+          title: "Welcome to RCS, Heres some information"
+        });
+        // document.getElementById("errorModalBtn").click();
       }
+    }
   };
-
-
 
   toggleDisplay = display => {
     // if (document.getElementsByClassName("slidingDiv")[1].style.left === "0%") {
@@ -161,8 +174,8 @@ class App extends Component {
       return (
         <div className="App" id="mainContainer">
           <Navbar doDisplay={this.state.doDisplay} />
-        {/* DESKTOP VIEW START */}
-        <div id="desktopView" className="row">
+          {/* DESKTOP VIEW START */}
+          <div id="desktopView" className="row">
             <div className="col-sm-3">
               <div id="navActionContainer">
                 <div
@@ -289,7 +302,11 @@ class App extends Component {
                 <div
                   style={
                     this.state.doDisplay === "User Management"
-                      ? { marginBottom: "150px", border: ".5px solid #eee",minHeight:"90vh" }
+                      ? {
+                          marginBottom: "150px",
+                          border: ".5px solid #eee",
+                          minHeight: "90vh"
+                        }
                       : hideStyle
                   }
                 >
@@ -363,6 +380,30 @@ class App extends Component {
             </div>
           </div>
           {/* DESKTOP VIEW END */}
+
+          {/* MOBILE VIEW START */}
+          <div id="mobileView">
+            <SlidingNav
+              toggleDisplay={this.toggleDisplay}
+              logOut={this.logOut}
+              logIn={this.toggleLogIn}
+              userObj={this.state.userObj}
+            />
+            <div style={this.state.doDisplay === "Dashboard" ? {} : hideStyle}>
+              <MessageBoard messages={this.state.discussionMessages}/>
+            </div>
+            <div
+              style={
+                this.state.doDisplay === "User Management"
+                  ? { marginBottom: "150px" }
+                  : hideStyle
+              }
+            >
+              <UserManagement userObj={this.state.userObj} />
+            </div>
+            <UserActions />
+          </div>
+          {/* MOBILE VIEW END */}
         </div>
       );
     } else {

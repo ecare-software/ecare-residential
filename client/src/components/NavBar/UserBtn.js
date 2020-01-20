@@ -27,7 +27,8 @@ class UserBtn extends Component {
   render() {
     return (
       <button onClick={this.toggleSlidingDiv} id="userBtn">
-        <span className="glyphicon glyphicon-menu-hamburger" />
+        <span className="fa fa-bars">
+        </span>
       </button>
     );
   }
