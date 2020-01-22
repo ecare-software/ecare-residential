@@ -31,7 +31,7 @@ class DMB extends Component {
       >
         <span style={{paddingRight:"10px"}}>{this.props.children}</span>
         <span
-          className="glyphicon glyphicon-envelope
+          className="fa fa-envalope
 "
         />
       </button>

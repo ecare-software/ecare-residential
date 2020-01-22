@@ -127,7 +127,7 @@ class CreateNewUser extends Component {
             className="defaultLabel pointer"
             onClick={this.props.toggleShow.bind({}, "Create New User")}
           >
-            Create New User <span style={{"fontSize":"15px"}} className={this.props.doShow? "glyphicon glyphicon-chevron-down":"glyphicon glyphicon-chevron-right"}></span>
+            Create New User <span style={{"fontSize":"15px"}} className={this.props.doShow? "fa fa-chevron-down":"fa fa-chevron-right"}></span>
           </h4>
 
           <div className={this.props.doShow ? "formFields" : "hide"} >

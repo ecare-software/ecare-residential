@@ -9,7 +9,7 @@ class PostFormBtn extends Component {
   render() {
     return (
       <button id="PostFormBtn">
-        <span className="glyphicon glyphicon-paste" />
+        <span className="fa fa-share-square" />
       </button>
     );
   }

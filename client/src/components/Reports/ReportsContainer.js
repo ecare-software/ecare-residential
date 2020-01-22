@@ -492,7 +492,7 @@ class ReportsContainer extends Component {
               }}
             >
               <button className="darkBtn" onClick={this.runSearchClick}>
-                <span className="glyphicon glyphicon glyphicon-play"></span> Run
+                <span className="fa fa-play"></span> Run
                 Search
               </button>
               <button

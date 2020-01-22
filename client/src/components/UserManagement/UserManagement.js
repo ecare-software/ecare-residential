@@ -27,7 +27,7 @@ class UserManagement extends Component {
   };
   render() {
     return (
-      <div style={{ margin: "50px 100px 0px 100px" }}>
+      <div style={{ margin: "50px 20px 0px 20px" }}>
         <div style={{ margin: "75px 0px" }}>
           <h2>View and manage users within your home.</h2>
         </div>

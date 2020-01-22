@@ -59,7 +59,7 @@ class SlidingNav extends Component {
             <span className="fa fa-list navG"/>View Dashboard
           </button>
           <h5 className="navSectionTitle"  style={this.props.userObj.isAdmin ? {} : hideStyle } >Administrative</h5>
-          <button style={this.props.userObj.isAdmin ? {} : hideStyle } onClick={this.props.toggleDisplay.bind({},"User Management")} className="navAction">
+          <button style={this.props.userObj.isAdmin ? {} : hideStyle } onClick={this.sideDivThenShow.bind({},"User Management")} className="navAction">
             <span className="fa fa-list navG"/>User Management
           </button>
           <h5 className="navSectionTitle">Settings</h5>

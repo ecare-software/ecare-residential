@@ -10,7 +10,7 @@ class AddPostBtn extends Component {
     return (
       <button id="addPostBtn" data-toggle="modal"
       data-target="#postMessageModal">
-        <span className="glyphicon glyphicon-pencil" />
+        <span className="fa fa-pencil" />
       </button>
     );
   }

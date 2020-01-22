@@ -13,7 +13,7 @@ class UploadFileBtn extends Component {
         data-target="#UploadFileModal"
         id="uploadFileBtn"
       >
-        <span className="glyphicon glyphicon-open" />
+        <span className="fa fa-external-link-square" />
       </button>
     );
   }

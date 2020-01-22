@@ -16,7 +16,7 @@
     background-color: rgb(255, 255, 255);
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-evenly;
     border-top:1px solid maroon;
     -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.75);

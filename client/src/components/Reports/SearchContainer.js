@@ -148,7 +148,7 @@ class SearchContainer extends Component {
                 onClick={this.callRunSearch}
                 id="searchBtn"
               >
-                <span className="glyphicon glyphicon-search"></span>
+                <span className="fa fa-search"></span>
               </button>
             </div>
           </div>

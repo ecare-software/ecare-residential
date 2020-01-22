@@ -9,7 +9,7 @@ class ReportBtn extends Component {
   render() {
     return (
       <button id="ReportBtn">
-        <span className="glyphicon glyphicon-list-alt" />
+        <span className="fa fa-list" />
       </button>
     );
   }

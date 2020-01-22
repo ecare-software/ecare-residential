@@ -79,8 +79,8 @@ alert("password reset")
               style={{ fontSize: "15px" }}
               className={
                 this.props.doShow
-                  ? "glyphicon glyphicon-chevron-down"
-                  : "glyphicon glyphicon-chevron-right"
+                  ? "fa fa-chevron-down"
+                  : "fa fa-chevron-right"
               }
             ></span>
           </h4>

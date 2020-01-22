@@ -418,7 +418,7 @@ class App extends Component {
                   : hideStyle
               }
             >
-              <UserManagement userObj={this.state.userObj} />
+              <UserManagement allUsers={this.state.allUsers} userObj={this.state.userObj} />
             </div>
             <UserActions />
           </div>
