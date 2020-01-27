@@ -148,7 +148,7 @@ class RestraintReport extends Component {
   render() {
     if (!this.props.valuesSet) {
       return (
-        <div style={{ margin: "50px 100px 0px 100px" }}>
+        <div style={{ margin: "50px 20px 0px 20px" }}>
           <div style={{ margin: "75px 0px" }}>
             <h2>Restriant Report</h2>
           </div>
@@ -631,7 +631,7 @@ class RestraintReport extends Component {
       );
     } else {
       return (
-        <div style={{ margin: "50px 100px 0px 100px" }}>
+        <div style={{ margin: "50px 20px 0px 20px" }}>
           <div style={{ margin: "75px 0px" }}></div>
           <h2>Restriant Report</h2>
           <div className="form-group logInInputField">

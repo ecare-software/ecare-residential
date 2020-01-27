@@ -420,6 +420,59 @@ class App extends Component {
             >
               <UserManagement allUsers={this.state.allUsers} userObj={this.state.userObj} />
             </div>
+            <div
+                  style={
+                    this.state.doDisplay === "TreatmentPlan72"
+                      ? { marginBottom: "150px" }
+                      : hideStyle
+                  }
+                >
+                  <TreatmentPlan72
+                    valuesSet={false}
+                    userObj={this.state.userObj}
+                    id="treatment"
+                  />
+                </div>
+                <div
+                  style={
+                    this.state.doDisplay === "IncidentReport"
+                      ? { marginBottom: "150px" }
+                      : hideStyle
+                  }
+                >
+                  <IncidentReport
+                    valuesSet={false}
+                    userObj={this.state.userObj}
+                    id="incident"
+                  />
+                </div>
+                <div
+                  style={
+                    this.state.doDisplay === "DailyProgress"
+                      ? { marginBottom: "150px" }
+                      : hideStyle
+                  }
+                >
+                  <DailyProgress
+                    valuesSet={false}
+                    userObj={this.state.userObj}
+                    id="dailyProgress"
+                  />
+                </div>
+                <div
+                  style={
+                    this.state.doDisplay === "restraintReport"
+                      ? { marginBottom: "150px" }
+                      : hideStyle
+                  }
+                >
+                  <RestraintReport
+                    valuesSet={false}
+                    userObj={this.state.userObj}
+                    id="restraintReport"
+                  />
+                </div>
+            
             <UserActions />
           </div>
           {/* MOBILE VIEW END */}

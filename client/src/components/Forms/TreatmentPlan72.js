@@ -365,7 +365,7 @@ class TreatmentPlan72 extends Component {
   render() {
     if (!this.props.valuesSet) {
       return (
-        <div style={{ margin: "50px 100px 0px 100px" }}>
+        <div style={{ margin: "50px 20px 0px 20px" }}>
           <div style={{ margin: "75px 0px" }}>
             <h2>72 Hour Treatment Plan</h2>
           </div>
@@ -1884,7 +1884,7 @@ class TreatmentPlan72 extends Component {
       );
     } else {
       return (
-        <div style={{ margin: "50px 100px 0px 100px" }}>
+        <div style={{ margin: "50px 20px 0px 20px" }}>
           <div style={{ margin: "75px 0px" }}>
             <h2>72 Hour Treatment Plan</h2>
           </div>

@@ -138,7 +138,7 @@ class IncidentReport extends Component {
   render() {
     if (!this.props.valuesSet) {
       return (
-        <div style={{ margin: "50px 100px 0px 100px" }}>
+        <div style={{ margin: "50px 20px 0px 20px" }}>
           <div style={{ margin: "75px 0px" }}>
             <h2>Incident Report</h2>
           </div>
@@ -376,7 +376,7 @@ class IncidentReport extends Component {
             {" "}
             <label className="control-label">
               If supervised seperation was used, how long was the student
-              seperated ?
+              seperated?
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -465,7 +465,7 @@ class IncidentReport extends Component {
       );
     } else {
       return (
-        <div style={{ margin: "50px 100px 0px 100px" }}>
+        <div style={{ margin: "50px 20px 0px 20px" }}>
           <div style={{ margin: "75px 0px" }}>
             <h2>Incident Report</h2>
           </div>
@@ -703,7 +703,7 @@ class IncidentReport extends Component {
             {" "}
             <label className="control-label">
               If supervised seperation was used, how long was the student
-              seperated ?
+              seperated?
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
