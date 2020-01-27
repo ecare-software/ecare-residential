@@ -180,6 +180,7 @@ class App extends Component {
     // } else {
     //   document.getElementsByClassName("slidingDiv")[1].style.left = "0%";
     // }
+    $("html, body").animate({ scrollTop: 0 }, "slow");
     this.setState({ doDisplay: display });
   };
 
