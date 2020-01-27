@@ -3,6 +3,16 @@ import FormError from "../FormMods/FormError";
 import "../../App.css";
 import Axios from "axios";
 
+/*
+  missing from form
+    "incident"
+
+  to change
+    remove time_of_incident - i change dateOfIncident to a date time picker
+
+    seperation should probably be a date
+*/
+
 class IncidentReport extends Component {
   constructor(props) {
     super(props);
@@ -134,7 +144,7 @@ class IncidentReport extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta_name</label>{" "}
+            <label className="control-label">Child's Name</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="childMeta_name"
@@ -145,7 +155,7 @@ class IncidentReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta_gender</label>{" "}
+            <label className="control-label">Child's Gender</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="childMeta_gender"
@@ -156,42 +166,42 @@ class IncidentReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta_dob</label>{" "}
+            <label className="control-label">Child's Date of Birth</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="childMeta_dob"
               className="form-control"
-              type="text"
+              type="date"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">Date of Admission</label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              id="childMeta_dateOfAdmission"
+              className="form-control"
+              type="date"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">Date of Incident</label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              id="dateOfIncident"
+              className="form-control"
+              type="datetime-local"
             />{" "}
           </div>
 
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              childMeta_dateOfAdmission
+              Name of Care Staff Involved
             </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="childMeta_dateOfAdmission"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">dateOfIncident</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="dateOfIncident"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">staff_involved_name</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="staff_involved_name"
@@ -202,7 +212,9 @@ class IncidentReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">staff_involved_gender</label>{" "}
+            <label className="control-label">
+              Gender of Care Staff Involved
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="staff_involved_gender"
@@ -213,7 +225,7 @@ class IncidentReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">time_of_incident</label>{" "}
+            <label className="control-label">Time of Incident</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="time_of_incident"
@@ -224,7 +236,7 @@ class IncidentReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">staff_witness_name</label>{" "}
+            <label className="control-label">Name of Staff Witness</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="staff_witness_name"
@@ -235,7 +247,9 @@ class IncidentReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">staff_witness_gender</label>{" "}
+            <label className="control-label">
+              Gender of Staff Witness
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="staff_witness_gender"
@@ -246,7 +260,9 @@ class IncidentReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">client_witness_name1</label>{" "}
+            <label className="control-label">
+              Name of Client Witness (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="client_witness_name1"
@@ -257,7 +273,9 @@ class IncidentReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">client_witness_gender1</label>{" "}
+            <label className="control-label">
+              Gender of Client Witness (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="client_witness_gender1"
@@ -268,29 +286,35 @@ class IncidentReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">client_witness_dob1</label>{" "}
+            <label className="control-label">
+              Client Witness Date of Birth (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="client_witness_dob1"
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">client_witness_doa1</label>{" "}
+            <label className="control-label">
+              Client Witness Date of Admission (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="client_witness_doa1"
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">client_witness_name2</label>{" "}
+            <label className="control-label">
+              Name of Client Witness (2)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="client_witness_name2"
@@ -301,7 +325,9 @@ class IncidentReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">client_witness_gender2</label>{" "}
+            <label className="control-label">
+              Gender of Client Witness (2)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="client_witness_gender2"
@@ -312,40 +338,46 @@ class IncidentReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">client_witness_dob2</label>{" "}
+            <label className="control-label">
+              Client Witness Date of Birth (2)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="client_witness_dob2"
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">client_witness_doa2</label>{" "}
+            <label className="control-label">
+              Client Witness Date of Admission (2)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="client_witness_doa2"
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">incident_explaination</label>{" "}
-            <input
+            <label className="control-label">Explain the Incident</label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               id="incident_explaination"
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">seperation</label>{" "}
+            <label className="control-label">
+              If supervised seperation was used, how long was the student
+              seperated ?
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="seperation"
@@ -356,29 +388,31 @@ class IncidentReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">result</label>{" "}
-            <input
+            <label className="control-label">Result of the incident</label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               id="result"
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">able_to_prevent</label>{" "}
-            <input
+            <label className="control-label">
+              Were you able to prevent a more serious incident ?
+            </label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               id="able_to_prevent"
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">notification_made_to</label>{" "}
+            <label className="control-label">
+              Name of individual you notified.
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="notification_made_to"
@@ -390,19 +424,19 @@ class IncidentReport extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              notification_made_date_time
+              When was the notification made ?
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="notification_made_date_time"
               className="form-control"
-              type="text"
+              type="datetime-local"
             />{" "}
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">notification_made_by</label>{" "}
+            <label className="control-label">By who ?</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="notification_made_by"
@@ -413,13 +447,10 @@ class IncidentReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">follow_up_results</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Results After Following Up</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               id="follow_up_results"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <FormError errorId={this.props.id + "-error"} />
           <div
@@ -435,15 +466,15 @@ class IncidentReport extends Component {
     } else {
       return (
         <div style={{ margin: "50px 100px 0px 100px" }}>
-          <div style={{ margin: "75px 0px" }}></div>
-          <h2>Incident Report</h2>
+          <div style={{ margin: "75px 0px" }}>
+            <h2>Incident Report</h2>
+          </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta_name</label>{" "}
+            <label className="control-label">Child's Name</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.childMeta_name}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.childMeta_name} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
@@ -451,11 +482,10 @@ class IncidentReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta_gender</label>{" "}
+            <label className="control-label">Child's Gender</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.childMeta_gender}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.childMeta_gender} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
@@ -463,11 +493,45 @@ class IncidentReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta_dob</label>{" "}
+            <label className="control-label">Child's Date of Birth</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.childMeta_dob}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.childMeta_dob} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+              type="date"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">Date of Admission</label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              value={this.props.formData.childMeta_dateOfAdmission} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+              type="date"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">Date of Incident</label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              value={this.props.formData.dateOfIncident} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+              type="datetime-local"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              Name of Care Staff Involved
+            </label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              value={this.props.formData.staff_involved_name} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
@@ -476,12 +540,11 @@ class IncidentReport extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              childMeta_dateOfAdmission
+              Gender of Care Staff Involved
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.childMeta_dateOfAdmission}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.staff_involved_gender} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
@@ -489,11 +552,10 @@ class IncidentReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">dateOfIncident</label>{" "}
+            <label className="control-label">Time of Incident</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.dateOfIncident}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.time_of_incident} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
@@ -501,215 +563,10 @@ class IncidentReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">staff_involved_name</label>{" "}
+            <label className="control-label">Name of Staff Witness</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.staff_involved_name}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">staff_involved_gender</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.staff_involved_gender}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">time_of_incident</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.time_of_incident}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">staff_witness_name</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.staff_witness_name}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">staff_witness_gender</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.staff_witness_gender}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">client_witness_name1</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.client_witness_name1}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">client_witness_gender1</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.client_witness_gender1}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">client_witness_dob1</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.client_witness_dob1}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">client_witness_doa1</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.client_witness_doa1}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">client_witness_name2</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.client_witness_name2}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">client_witness_gender2</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.client_witness_gender2}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">client_witness_dob2</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.client_witness_dob2}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">client_witness_doa2</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.client_witness_doa2}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">incident_explaination</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.incident_explaination}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">seperation</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.seperation}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">result</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.result}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">able_to_prevent</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.able_to_prevent}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">notification_made_to</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.notification_made_to}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.staff_witness_name} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
@@ -718,12 +575,11 @@ class IncidentReport extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              notification_made_date_time
+              Gender of Staff Witness
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.notification_made_date_time}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.staff_witness_gender} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
@@ -731,11 +587,12 @@ class IncidentReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">notification_made_by</label>{" "}
+            <label className="control-label">
+              Name of Client Witness (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.notification_made_by}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.client_witness_name1} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
@@ -743,19 +600,189 @@ class IncidentReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">follow_up_results</label>{" "}
+            <label className="control-label">
+              Gender of Client Witness (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.follow_up_results}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.client_witness_gender1} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              Client Witness Date of Birth (1)
+            </label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              value={this.props.formData.client_witness_dob1} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+              type="date"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              Client Witness Date of Admission (1)
+            </label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              value={this.props.formData.client_witness_doa1} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+              type="date"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              Name of Client Witness (2)
+            </label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              value={this.props.formData.client_witness_name2} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+              type="text"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              Gender of Client Witness (2)
+            </label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              value={this.props.formData.client_witness_gender2} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+              type="text"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              Client Witness Date of Birth (2)
+            </label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              value={this.props.formData.client_witness_dob2} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+              type="date"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              Client Witness Date of Admission (2)
+            </label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              value={this.props.formData.client_witness_doa2} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+              type="date"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">Explain the Incident</label>{" "}
+            <textarea
+              onChange={this.handleFieldInput}
+              value={this.props.formData.incident_explaination} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+            ></textarea>
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              If supervised seperation was used, how long was the student
+              seperated ?
+            </label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              value={this.props.formData.seperation} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+              type="text"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">Result of the incident</label>{" "}
+            <textarea
+              onChange={this.handleFieldInput}
+              value={this.props.formData.result} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+            ></textarea>
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              Were you able to prevent a more serious incident ?
+            </label>{" "}
+            <textarea
+              onChange={this.handleFieldInput}
+              value={this.props.formData.able_to_prevent} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+            ></textarea>
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              Name of individual you notified.
+            </label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              value={this.props.formData.notification_made_to} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+              type="text"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              When was the notification made ?
+            </label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              value={this.props.formData.notification_made_date_time} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+              type="datetime-local"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">By who ?</label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              value={this.props.formData.notification_made_by} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+              type="text"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">Results After Following Up</label>{" "}
+            <textarea onChange={this.handleFieldInput}
+              value={this.props.formData.follow_up_results} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"></textarea>
           </div>
           <FormError errorId={this.props.id + "-error"} />
           <div
+            className="form-group logInInputField"
             style={{ textAlign: "right" }}
-            className={this.props.userObj.isAdmin ? "form-group logInInputField" : "hideIt form-group logInInputField"}
           >
             <button className="darkBtn" onClick={this.validateForm}>
               Submit

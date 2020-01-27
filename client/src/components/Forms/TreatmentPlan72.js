@@ -2,7 +2,13 @@ import React, { Component } from "react";
 import FormError from "../FormMods/FormError";
 import "../../App.css";
 import Axios from "axios";
+/*
 
+  things to change 
+    Child's Ethnicity - make single select
+    legalStatus - needs to be drop down
+
+*/
 class TreatmentPlan72 extends Component {
   constructor(props) {
     super(props);
@@ -282,13 +288,16 @@ class TreatmentPlan72 extends Component {
 
       treatmentDirectorSignDate: "",
 
-      createdBy: (this.props.valuesSet === true) ? "" : this.props.userObj.email,
+      createdBy: this.props.valuesSet === true ? "" : this.props.userObj.email,
 
-      createdByName: (this.props.valuesSet === true) ? "" :this.props.userObj.firstName + " " + this.props.userObj.lastName,
+      createdByName:
+        this.props.valuesSet === true
+          ? ""
+          : this.props.userObj.firstName + " " + this.props.userObj.lastName,
 
       lastEditDate: new Date(),
 
-      homeId:(this.props.valuesSet === true) ? "" :this.props.userObj.homeId
+      homeId: this.props.valuesSet === true ? "" : this.props.userObj.homeId
     };
 
     this.submit = this.submit.bind(this);
@@ -318,7 +327,7 @@ class TreatmentPlan72 extends Component {
   submit = () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     console.log(JSON.stringify(currentState));
-    Axios.post("/api/treatmentPlans72",currentState);
+    Axios.post("/api/treatmentPlans72", currentState);
     // Axios({
     //   method: "post",
     //   url: "/api/treatmentPlans72",
@@ -334,7 +343,6 @@ class TreatmentPlan72 extends Component {
   };
 
   validateForm = () => {
-
     // //is empty or leading spaces
     // document.getElementById(this.props.id + "-error").style.display = "none";
     // for (var valIndex in Object.values(childMeta)) {
@@ -355,16 +363,15 @@ class TreatmentPlan72 extends Component {
   };
 
   render() {
-
-    if(!this.props.valuesSet){
+    if (!this.props.valuesSet) {
       return (
         <div style={{ margin: "50px 100px 0px 100px" }}>
-          <div style={{ margin: "75px 0px"}}>
+          <div style={{ margin: "75px 0px" }}>
             <h2>72 Hour Treatment Plan</h2>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta name</label>{" "}
+            <label className="control-label">Child's Name</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="childMeta_name"
@@ -374,7 +381,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta dob</label>{" "}
+            <label className="control-label">Child's Date of Birth</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="childMeta_dob"
@@ -384,27 +391,27 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta age</label>{" "}
+            <label className="control-label">Child's Age</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="childMeta_age"
               className="form-control"
-              type="text"
+              type="number"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta ssn</label>{" "}
+            <label className="control-label">Child's SSN</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="childMeta_ssn"
               className="form-control"
-              type="text"
+              type="number"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta gender</label>{" "}
+            <label className="control-label">Child's Gender</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="childMeta_gender"
@@ -414,7 +421,9 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta medicaidNumber</label>{" "}
+            <label className="control-label">
+              Child's Medicaid Number
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="childMeta_medicaidNumber"
@@ -424,7 +433,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta county</label>{" "}
+            <label className="control-label">Child's Birth County</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="childMeta_county"
@@ -434,7 +443,9 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta placeOfBirth</label>{" "}
+            <label className="control-label">
+              Child's Place of Birth (City, State)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="childMeta_placeOfBirth"
@@ -444,7 +455,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta ethnicity</label>{" "}
+            <label className="control-label">Child's Ethnicity</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="childMeta_ethnicity"
@@ -454,7 +465,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta levelOfCare</label>{" "}
+            <label className="control-label">Child's Level of Care</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="childMeta_levelOfCare"
@@ -464,7 +475,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta religion</label>{" "}
+            <label className="control-label">Child's Religion</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="childMeta_religion"
@@ -475,7 +486,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              childMeta managingConservator
+              Child's Managing Conservator
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -487,40 +498,41 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              childMeta dateOfAdmission
+              Child's Date of Admission
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="childMeta_dateOfAdmission"
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              projectedDateForAchievingPermanency
+              Projected Date For Achieving Permanency
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="projectedDateForAchievingPermanency"
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">legalStatus_PermancyGoal</label>{" "}
-            <input
+            <label className="control-label">
+              Legal Status / Permancy Goal
+            </label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               id="legalStatus_PermancyGoal"
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">fatherMeta name</label>{" "}
+            <label className="control-label">Father's Name</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="fatherMeta_name"
@@ -530,7 +542,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">fatherMeta address</label>{" "}
+            <label className="control-label">Father's Address</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="fatherMeta_address"
@@ -540,17 +552,17 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">fatherMeta phoneNumber</label>{" "}
+            <label className="control-label">Father's Phone Number</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="fatherMeta_phoneNumber"
               className="form-control"
-              type="text"
+              type="number"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">motherMeta name</label>{" "}
+            <label className="control-label">Mother's Name</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="motherMeta_name"
@@ -560,7 +572,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">motherMeta address</label>{" "}
+            <label className="control-label">Mother's Address</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="motherMeta_address"
@@ -570,17 +582,17 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">motherMeta phoneNumber</label>{" "}
+            <label className="control-label">Mother Phone Number</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="motherMeta_phoneNumber"
               className="form-control"
-              type="text"
+              type="number"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">legalStatus</label>{" "}
+            <label className="control-label">Legal Status</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="legalStatus"
@@ -590,7 +602,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">referringAgency_co</label>{" "}
+            <label className="control-label">Referring Agency / Co</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="referringAgency_co"
@@ -601,7 +613,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              agentOfReferringAgency_co name
+              Name of Agent of Referring Agency / Co
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -613,7 +625,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              agentOfReferringAgency_co address
+              Address of Agent of Referring Agency / Co
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -624,27 +636,35 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">reactionToPlacement</label>{" "}
-            <input
+            <label className="control-label">
+              Child's Reaction to Placement
+            </label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               id="reactionToPlacement"
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">interests</label>{" "}
-            <input
+            <label className="control-label">Child's Interests</label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               id="interests"
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
+          </div>
+          <div className="form-group logInInputField">
+            <h5>
+              Significant relationship to the child{" "}
+              <i>(siblings, others relatives, CASA workers, and attorney)</i>:
+            </h5>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta1 name</label>{" "}
+            <label className="control-label">
+              Name of Significant Relation (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="otherMeta1_name"
@@ -654,7 +674,9 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta1 relationship</label>{" "}
+            <label className="control-label">
+              Relationship of Significant Relation (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="otherMeta1_relationship"
@@ -664,7 +686,9 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta1 address</label>{" "}
+            <label className="control-label">
+              Adress of Significant Relation (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="otherMeta1_address"
@@ -674,17 +698,21 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta1 phoneNumber</label>{" "}
+            <label className="control-label">
+              Phone Number of Significant Relation (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="otherMeta1_phoneNumber"
               className="form-control"
-              type="text"
+              type="number"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta2 name</label>{" "}
+            <label className="control-label">
+              Name of Significant Relation (2)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="otherMeta2_name"
@@ -694,7 +722,9 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta2 relationship</label>{" "}
+            <label className="control-label">
+              Relationship of Significant Relation (2)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="otherMeta2_relationship"
@@ -704,7 +734,9 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta2 address</label>{" "}
+            <label className="control-label">
+              Address of Significant Relation (2)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="otherMeta2_address"
@@ -714,17 +746,21 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta2 phoneNumber</label>{" "}
+            <label className="control-label">
+              Phone Number of Significant Relation (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="otherMeta2_phoneNumber"
               className="form-control"
-              type="text"
+              type="number"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta3 name</label>{" "}
+            <label className="control-label">
+              Name of Significant Relation (3)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="otherMeta3_name"
@@ -734,7 +770,9 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta3 relationship</label>{" "}
+            <label className="control-label">
+              Relationship of Significant Relation (3)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="otherMeta3_relationship"
@@ -744,7 +782,9 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta3 address</label>{" "}
+            <label className="control-label">
+              Address of Significant Relation (3)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="otherMeta3_address"
@@ -754,17 +794,21 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta3 phoneNumber</label>{" "}
+            <label className="control-label">
+              Phone Number of Significant Relation (3)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="otherMeta3_phoneNumber"
               className="form-control"
-              type="text"
+              type="number"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta4 name</label>{" "}
+            <label className="control-label">
+              Name of Significant Relation (4)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="otherMeta4_name"
@@ -774,7 +818,9 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta4 relationship</label>{" "}
+            <label className="control-label">
+              Relationship of Significant Relation (4)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="otherMeta4_relationship"
@@ -784,7 +830,9 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta4 address</label>{" "}
+            <label className="control-label">
+              Address of Significant Relation (4)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="otherMeta4_address"
@@ -794,71 +842,71 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta4 phoneNumber</label>{" "}
+            <label className="control-label">
+              Phone Number of Significant Relation (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="otherMeta4_phoneNumber"
               className="form-control"
-              type="text"
+              type="number"
             />{" "}
+          </div>
+          <div className="form-group logInInputField">
+            <h5>MEDICAL / DENTAL / DEVELOPMENTAL</h5>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedicalInformation
+              Current Medical Information
             </label>{" "}
-            <input
+            <textarea
               onChange={this.handleFieldInput}
               id="currentMedicalInformation"
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              developmental_medicalHistory
+              Developmental / Medical History
             </label>{" "}
-            <input
+            <textarea
               onChange={this.handleFieldInput}
               id="developmental_medicalHistory"
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">drugAllergies</label>{" "}
-            <input
+            <label className="control-label">Drug Allergies</label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               id="drugAllergies"
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">food1</label>{" "}
-            <input
+            <label className="control-label">Food Allergies</label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               id="food1"
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">allergies</label>{" "}
-            <input
+            <label className="control-label">Allergies</label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               id="allergies"
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">chronicHealth</label>{" "}
+            <label className="control-label">Chronic Health</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="chronicHealth"
@@ -868,40 +916,38 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">healthStrengths</label>{" "}
-            <input
+            <label className="control-label">Health Strengths</label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               id="healthStrengths"
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">healthNeeds</label>{" "}
-            <input
+            <label className="control-label">Health Needs</label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               id="healthNeeds"
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              lastPhysicalExamination date
+              Last Physical Examination
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="lastPhysicalExamination_date"
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              lastPhysicalExamination location
+              Location of Last Physical Examination
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -913,7 +959,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              lastPhysicalExamination monitoredBy
+              Who monitored the child's last physical examination?
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -925,19 +971,19 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              lastDentalExamination date
+              Last Dental Examination
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="lastDentalExamination_date"
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              lastDentalExamination location
+              Location of the Last Dental Examination
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -949,7 +995,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              lastDentalExamination monitoredBy
+              Who monitored the child's last dental examination?
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -961,19 +1007,19 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              lastOpticalExamination date
+              Last Optical Examination
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="lastOpticalExamination_date"
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              lastOpticalExamination location
+              Location of the last optical examination
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -985,7 +1031,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              lastOpticalExamination monitoredBy
+              Who monitored the last optical examination?
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -995,9 +1041,15 @@ class TreatmentPlan72 extends Component {
             />{" "}
           </div>
           <div className="form-group logInInputField">
+            <h5>
+              CURRENT MEDICATIONS, DOSAGES AND TARGETED SYMPTOMS: NOTE: refer to
+              current Medical Logs for Possible Recent Medication Alterations:
+            </h5>
+          </div>
+          <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms1 medication
+              Medication (1)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1009,7 +1061,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms1 dosage_frequency
+              Dosage / Frequency (1)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1021,7 +1073,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms1 purpose
+              Purpose (1)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1033,7 +1085,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms1 possibleSideEffects
+              Possible side effects (1)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1045,7 +1097,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms1 monitoredBy
+              Monitored By (1)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1057,7 +1109,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms2 medication
+              Medication (2)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1069,7 +1121,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms2 dosage_frequency
+              Dosage / Frequency (2)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1081,7 +1133,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms2 purpose
+              Purpose (2)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1093,7 +1145,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms2 possibleSideEffects
+              Possible Side Effects (2)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1105,7 +1157,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms2 monitoredBy
+              Monitored By (2)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1117,7 +1169,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms3 medication
+              Medication (3)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1129,7 +1181,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms3 dosage_frequency
+              Dosage Frequency (3)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1141,7 +1193,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms3 purpose
+              Purpose (3)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1153,7 +1205,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms3 possibleSideEffects
+              Possible Side Effects (3)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1165,7 +1217,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms3 monitoredBy
+              Monitored By (3)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1177,7 +1229,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms4 medication
+              Medication (4)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1189,7 +1241,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms4 dosage_frequency
+              Dosage Frequency (4)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1201,7 +1253,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms4 purpose
+              Purpose (4)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1213,7 +1265,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms4 possibleSideEffects
+              Possible Side Effects (4)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1225,7 +1277,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms4 monitoredBy
+              Monitored By (4)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1237,7 +1289,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms5 medication
+              Medication (5)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1249,7 +1301,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms5 dosage_frequency
+              Dosage Frequency (5)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1261,7 +1313,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms5 purpose
+              Purpose (5)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1273,7 +1325,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms5 possibleSideEffects
+              Possible Side Effects (5)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1285,7 +1337,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms5 monitoredBy
+              Monitored By (5)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1296,71 +1348,59 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">behavioralStrengths</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Behavioral Strengths</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               id="behavioralStrengths"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">behavioralNeeds</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Behavioral Needs</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               id="behavioralNeeds"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              behavioralTreatmentServices
+              Behavioral Treatment Services
             </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea onChange={this.handleFieldInput}
               id="behavioralTreatmentServices"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
+
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">emotionalStrengths</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Emotional Strengths</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               id="emotionalStrengths"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">emotionalNeeds</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea onChange={this.handleFieldInput}
               id="emotionalNeeds"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
+           
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              emotionalTreatmentServices
+              Emotional Treatment Services
             </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea onChange={this.handleFieldInput}
               id="emotionalTreatmentServices"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
+          </div>
+          <div className="form-group logInInputField">
+            <h5>ISSUES OR CONCERNS THAT COULD INCREASE ESCALATING BEHAVIORS:
+</h5>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">food2</label>{" "}
+            <label className="control-label">Food</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="food2"
@@ -1370,7 +1410,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">eyeContact</label>{" "}
+            <label className="control-label">Eye Contact</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="eyeContact"
@@ -1380,7 +1420,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">physicalTouch</label>{" "}
+            <label className="control-label">Physical Touch</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="physicalTouch"
@@ -1390,7 +1430,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">personalProperty</label>{" "}
+            <label className="control-label">Personal Property</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="personalProperty"
@@ -1400,7 +1440,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">certainTopics</label>{" "}
+            <label className="control-label">Certain Topics</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="certainTopics"
@@ -1411,134 +1451,101 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              knownContraindicationsToTheUuseOfRestraint
+              Known contraindications to the use of restraint
             </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea onChange={this.handleFieldInput}
               id="knownContraindicationsToTheUuseOfRestraint"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
+
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              de_escalatingTechniquesToAvoidRestraints_ebi
+              De-escalating Techniques to avoid restraints (EBI)
             </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea onChange={this.handleFieldInput}
               id="de_escalatingTechniquesToAvoidRestraints_ebi"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">child_de_escalator</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Child's De-escalation Technique:</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               id="child_de_escalator"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">staff_de_escalator</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Staff Member's De-escalation Technique:</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               id="staff_de_escalator"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">therapist_de_escalator</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Therapist's De-escalation Technique:</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               id="therapist_de_escalator"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              childPreferred_de_escalation
+              Child's Preferred De-escalation
             </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea onChange={this.handleFieldInput}
               id="childPreferred_de_escalation"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">interventionStrategies</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Intervention Strategies</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               id="interventionStrategies"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">supervisionStrategies</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea onChange={this.handleFieldInput}
               id="supervisionStrategies"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              social_recreationalStrengths
+              Social Recreational Strengths
             </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea onChange={this.handleFieldInput}
               id="social_recreationalStrengths"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">social_recreationalNeeds</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">
+              Social Recreational Needs
+            </label>{" "}
+            <textarea onChange={this.handleFieldInput}
               id="social_recreationalNeeds"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">familyStrengths</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Family Strengths</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               id="familyStrengths"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">familyNeeds</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Family Needs</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               id="familyNeeds"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor1 name</label>{" "}
+            <label className="control-label">Name of visitor (1)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor1_name"
@@ -1548,7 +1555,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor1 relationship</label>{" "}
+            <label className="control-label">Relation of Visitor (1)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor1_relationship"
@@ -1558,7 +1565,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor1 frequency</label>{" "}
+            <label className="control-label">Frequency of visitation (1)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor1_frequency"
@@ -1568,7 +1575,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor1supervisedBy</label>{" "}
+            <label className="control-label">Who will visitor (1) be supervised by</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor1_supervisedBy"
@@ -1578,7 +1585,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor1 location</label>{" "}
+            <label className="control-label">Location of visitor (1)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor1_location"
@@ -1588,7 +1595,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor1 length</label>{" "}
+            <label className="control-label">Visitation length of vistitor (1)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor1_length"
@@ -1598,7 +1605,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor2 name</label>{" "}
+            <label className="control-label">Name of visitor (2)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor2_name"
@@ -1608,7 +1615,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor2 relationship</label>{" "}
+            <label className="control-label">Relation of Visitor (2)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor2_relationship"
@@ -1618,7 +1625,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor2 frequency</label>{" "}
+            <label className="control-label">Frequency of visitation (2)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor2_frequency"
@@ -1628,7 +1635,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor2 supervisedBy</label>{" "}
+            <label className="control-label">Who will visitor (2) be supervised by</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor2_supervisedBy"
@@ -1638,7 +1645,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor2 location</label>{" "}
+            <label className="control-label">Location of visitor (2)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor2_location"
@@ -1648,7 +1655,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor2 length</label>{" "}
+            <label className="control-label">Visitation length of vistitor (2)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor2_length"
@@ -1658,7 +1665,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor3 name</label>{" "}
+            <label className="control-label">Name of visitor (3)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor3_name"
@@ -1668,7 +1675,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor3 relationship</label>{" "}
+            <label className="control-label">Relation of Visitor (3)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor3_relationship"
@@ -1678,7 +1685,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor3 frequency</label>{" "}
+            <label className="control-label">Frequency of visitation (3)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor3_frequency"
@@ -1688,7 +1695,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor3 supervisedBy</label>{" "}
+            <label className="control-label">Who will visitor (3) be supervised by</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor3_supervisedBy"
@@ -1698,7 +1705,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor3 location</label>{" "}
+            <label className="control-label">Location of visitor (3)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor3_location"
@@ -1708,7 +1715,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor3 length</label>{" "}
+            <label className="control-label">Visitation length of vistitor (3)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor3_length"
@@ -1718,7 +1725,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor4 name</label>{" "}
+            <label className="control-label">Name of visitor (4)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor4_name"
@@ -1728,7 +1735,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor4 relationship</label>{" "}
+            <label className="control-label">Relation of Visitor (4)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor4_relationship"
@@ -1738,7 +1745,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor4 frequency</label>{" "}
+            <label className="control-label">Frequency of visitation (4)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor4_frequency"
@@ -1748,7 +1755,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor4 supervisedBy</label>{" "}
+            <label className="control-label">Who will visitor (4) be supervised by</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor4_supervisedBy"
@@ -1758,7 +1765,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor4 location</label>{" "}
+            <label className="control-label">Location of visitor (4)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor4_location"
@@ -1768,7 +1775,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor4 length</label>{" "}
+            <label className="control-label">Visitation length of vistitor (4)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="visitor4_length"
@@ -1779,68 +1786,50 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              educational_vacationalStrengths
+              Educational / Vacational Strengths
             </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea onChange={this.handleFieldInput}
               id="educational_vacationalStrengths"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              educational_vacationalNeeds
+              Educational / Vacational Needs
             </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea  onChange={this.handleFieldInput}
               id="educational_vacationalNeeds"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">transitionalLiving</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Transitional Living</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               id="transitionalLiving"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">dischargePlanning</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Discharge Planning</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               id="dischargePlanning"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">longRangeGoals</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Long Range Goals</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               id="longRangeGoals"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">shortRangeGoals</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Short Range Goals</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               id="shortRangeGoals"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
-          <div className="form-group logInInputField">
+          {/* <div className="form-group logInInputField">
             {" "}
             <label className="control-label">administorSign</label>{" "}
             <input
@@ -1881,7 +1870,7 @@ class TreatmentPlan72 extends Component {
               className="form-control"
               type="text"
             />{" "}
-          </div>
+          </div> */}
           <FormError errorId={this.props.id + "-error"} />
           <div
             className="form-group logInInputField"
@@ -1893,15 +1882,15 @@ class TreatmentPlan72 extends Component {
           </div>
         </div>
       );
-    }else{
-      return(
+    } else {
+      return (
         <div style={{ margin: "50px 100px 0px 100px" }}>
-          <div style={{ margin: "75px 0px"}}>
+          <div style={{ margin: "75px 0px" }}>
+            <h2>72 Hour Treatment Plan</h2>
           </div>
-          <h2>72 Hour Treatment Plan</h2>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta name</label>{" "}
+            <label className="control-label">Child's Name</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.childMeta_name} disabled={this.props.userObj.isAdmin ? false : true}
@@ -1911,37 +1900,37 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta dob</label>{" "}
+            <label className="control-label">Child's Date of Birth</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.childMeta_dob} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta age</label>{" "}
+            <label className="control-label">Child's Age</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.childMeta_age} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="number"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta ssn</label>{" "}
+            <label className="control-label">Child's SSN</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.childMeta_ssn} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="number"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta gender</label>{" "}
+            <label className="control-label">Child's Gender</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.childMeta_gender} disabled={this.props.userObj.isAdmin ? false : true}
@@ -1951,7 +1940,9 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta medicaidNumber</label>{" "}
+            <label className="control-label">
+              Child's Medicaid Number
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.childMeta_medicaidNumber} disabled={this.props.userObj.isAdmin ? false : true}
@@ -1961,7 +1952,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta county</label>{" "}
+            <label className="control-label">Child's Birth County</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.childMeta_county} disabled={this.props.userObj.isAdmin ? false : true}
@@ -1971,7 +1962,9 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta placeOfBirth</label>{" "}
+            <label className="control-label">
+              Child's Place of Birth (City, State)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.childMeta_placeOfBirth} disabled={this.props.userObj.isAdmin ? false : true}
@@ -1981,7 +1974,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta ethnicity</label>{" "}
+            <label className="control-label">Child's Ethnicity</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.childMeta_ethnicity} disabled={this.props.userObj.isAdmin ? false : true}
@@ -1991,7 +1984,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta levelOfCare</label>{" "}
+            <label className="control-label">Child's Level of Care</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.childMeta_levelOfCare} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2001,7 +1994,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta religion</label>{" "}
+            <label className="control-label">Child's Religion</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.childMeta_religion} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2012,7 +2005,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              childMeta managingConservator
+              Child's Managing Conservator
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2024,40 +2017,41 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              childMeta dateOfAdmission
+              Child's Date of Admission
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.childMeta_dateOfAdmission} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              projectedDateForAchievingPermanency
+              Projected Date For Achieving Permanency
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.projectedDateForAchievingPermanency} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">legalStatus_PermancyGoal</label>{" "}
-            <input
+            <label className="control-label">
+              Legal Status / Permancy Goal
+            </label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.legalStatus_PermancyGoal} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">fatherMeta name</label>{" "}
+            <label className="control-label">Father's Name</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.fatherMeta_name} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2067,7 +2061,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">fatherMeta address</label>{" "}
+            <label className="control-label">Father's Address</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.fatherMeta_address} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2077,17 +2071,17 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">fatherMeta phoneNumber</label>{" "}
+            <label className="control-label">Father's Phone Number</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.fatherMeta_phoneNumber} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="number"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">motherMeta name</label>{" "}
+            <label className="control-label">Mother's Name</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.motherMeta_name} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2097,7 +2091,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">motherMeta address</label>{" "}
+            <label className="control-label">Mother's Address</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.motherMeta_address} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2107,17 +2101,17 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">motherMeta phoneNumber</label>{" "}
+            <label className="control-label">Mother Phone Number</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.motherMeta_phoneNumber} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="number"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">legalStatus</label>{" "}
+            <label className="control-label">Legal Status</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.legalStatus} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2127,7 +2121,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">referringAgency_co</label>{" "}
+            <label className="control-label">Referring Agency / Co</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.referringAgency_co} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2138,7 +2132,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              agentOfReferringAgency_co name
+              Name of Agent of Referring Agency / Co
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2150,7 +2144,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              agentOfReferringAgency_co address
+              Address of Agent of Referring Agency / Co
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2161,27 +2155,35 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">reactionToPlacement</label>{" "}
-            <input
+            <label className="control-label">
+              Child's Reaction to Placement
+            </label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.reactionToPlacement} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">interests</label>{" "}
-            <input
+            <label className="control-label">Child's Interests</label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.interests} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
+          </div>
+          <div className="form-group logInInputField">
+            <h5>
+              Significant relationship to the child{" "}
+              <i>(siblings, others relatives, CASA workers, and attorney)</i>:
+            </h5>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta1 name</label>{" "}
+            <label className="control-label">
+              Name of Significant Relation (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.otherMeta1_name} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2191,7 +2193,9 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta1 relationship</label>{" "}
+            <label className="control-label">
+              Relationship of Significant Relation (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.otherMeta1_relationship} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2201,7 +2205,9 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta1 address</label>{" "}
+            <label className="control-label">
+              Adress of Significant Relation (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.otherMeta1_address} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2211,17 +2217,21 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta1 phoneNumber</label>{" "}
+            <label className="control-label">
+              Phone Number of Significant Relation (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.otherMeta1_phoneNumber} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="number"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta2 name</label>{" "}
+            <label className="control-label">
+              Name of Significant Relation (2)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.otherMeta2_name} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2231,7 +2241,9 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta2 relationship</label>{" "}
+            <label className="control-label">
+              Relationship of Significant Relation (2)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.otherMeta2_relationship} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2241,7 +2253,9 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta2 address</label>{" "}
+            <label className="control-label">
+              Address of Significant Relation (2)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.otherMeta2_address} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2251,17 +2265,21 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta2 phoneNumber</label>{" "}
+            <label className="control-label">
+              Phone Number of Significant Relation (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.otherMeta2_phoneNumber} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="number"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta3 name</label>{" "}
+            <label className="control-label">
+              Name of Significant Relation (3)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.otherMeta3_name} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2271,7 +2289,9 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta3 relationship</label>{" "}
+            <label className="control-label">
+              Relationship of Significant Relation (3)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.otherMeta3_relationship} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2281,7 +2301,9 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta3 address</label>{" "}
+            <label className="control-label">
+              Address of Significant Relation (3)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.otherMeta3_address} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2291,17 +2313,21 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta3 phoneNumber</label>{" "}
+            <label className="control-label">
+              Phone Number of Significant Relation (3)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.otherMeta3_phoneNumber} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="number"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta4 name</label>{" "}
+            <label className="control-label">
+              Name of Significant Relation (4)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.otherMeta4_name} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2311,7 +2337,9 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta4 relationship</label>{" "}
+            <label className="control-label">
+              Relationship of Significant Relation (4)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.otherMeta4_relationship} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2321,7 +2349,9 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta4 address</label>{" "}
+            <label className="control-label">
+              Address of Significant Relation (4)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.otherMeta4_address} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2331,71 +2361,71 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">otherMeta4 phoneNumber</label>{" "}
+            <label className="control-label">
+              Phone Number of Significant Relation (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.otherMeta4_phoneNumber} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="number"
             />{" "}
+          </div>
+          <div className="form-group logInInputField">
+            <h5>MEDICAL / DENTAL / DEVELOPMENTAL</h5>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedicalInformation
+              Current Medical Information
             </label>{" "}
-            <input
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.currentMedicalInformation} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              developmental_medicalHistory
+              Developmental / Medical History
             </label>{" "}
-            <input
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.developmental_medicalHistory} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">drugAllergies</label>{" "}
-            <input
+            <label className="control-label">Drug Allergies</label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.drugAllergies} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">food1</label>{" "}
-            <input
+            <label className="control-label">Food Allergies</label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.food1} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">allergies</label>{" "}
-            <input
+            <label className="control-label">Allergies</label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.allergies} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">chronicHealth</label>{" "}
+            <label className="control-label">Chronic Health</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.chronicHealth} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2405,40 +2435,38 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">healthStrengths</label>{" "}
-            <input
+            <label className="control-label">Health Strengths</label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.healthStrengths} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">healthNeeds</label>{" "}
-            <input
+            <label className="control-label">Health Needs</label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.healthNeeds} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              lastPhysicalExamination date
+              Last Physical Examination
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.lastPhysicalExamination_date} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              lastPhysicalExamination location
+              Location of Last Physical Examination
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2450,7 +2478,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              lastPhysicalExamination monitoredBy
+              Who monitored the child's last physical examination?
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2462,19 +2490,19 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              lastDentalExamination date
+              Last Dental Examination
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.lastDentalExamination_date} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              lastDentalExamination location
+              Location of the Last Dental Examination
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2486,7 +2514,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              lastDentalExamination monitoredBy
+              Who monitored the child's last dental examination?
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2498,19 +2526,19 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              lastOpticalExamination date
+              Last Optical Examination
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.lastOpticalExamination_date} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              lastOpticalExamination location
+              Location of the last optical examination
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2522,7 +2550,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              lastOpticalExamination monitoredBy
+              Who monitored the last optical examination?
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2532,9 +2560,15 @@ class TreatmentPlan72 extends Component {
             />{" "}
           </div>
           <div className="form-group logInInputField">
+            <h5>
+              CURRENT MEDICATIONS, DOSAGES AND TARGETED SYMPTOMS: NOTE: refer to
+              current Medical Logs for Possible Recent Medication Alterations:
+            </h5>
+          </div>
+          <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms1 medication
+              Medication (1)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2546,7 +2580,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms1 dosage_frequency
+              Dosage / Frequency (1)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2558,7 +2592,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms1 purpose
+              Purpose (1)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2570,7 +2604,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms1 possibleSideEffects
+              Possible side effects (1)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2582,7 +2616,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms1 monitoredBy
+              Monitored By (1)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2594,7 +2628,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms2 medication
+              Medication (2)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2606,7 +2640,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms2 dosage_frequency
+              Dosage / Frequency (2)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2618,7 +2652,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms2 purpose
+              Purpose (2)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2630,7 +2664,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms2 possibleSideEffects
+              Possible Side Effects (2)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2642,7 +2676,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms2 monitoredBy
+              Monitored By (2)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2654,7 +2688,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms3 medication
+              Medication (3)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2666,7 +2700,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms3 dosage_frequency
+              Dosage Frequency (3)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2678,7 +2712,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms3 purpose
+              Purpose (3)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2690,7 +2724,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms3 possibleSideEffects
+              Possible Side Effects (3)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2702,7 +2736,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms3 monitoredBy
+              Monitored By (3)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2714,7 +2748,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms4 medication
+              Medication (4)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2726,7 +2760,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms4 dosage_frequency
+              Dosage Frequency (4)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2738,7 +2772,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms4 purpose
+              Purpose (4)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2750,7 +2784,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms4 possibleSideEffects
+              Possible Side Effects (4)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2762,7 +2796,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms4 monitoredBy
+              Monitored By (4)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2774,7 +2808,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms5 medication
+              Medication (5)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2786,7 +2820,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms5 dosage_frequency
+              Dosage Frequency (5)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2798,7 +2832,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms5 purpose
+              Purpose (5)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2810,7 +2844,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms5 possibleSideEffects
+              Possible Side Effects (5)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2822,7 +2856,7 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              currentMedications_dosages_targetedSymptoms5 monitoredBy
+              Monitored By (5)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -2833,71 +2867,59 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">behavioralStrengths</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Behavioral Strengths</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.behavioralStrengths} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">behavioralNeeds</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Behavioral Needs</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.behavioralNeeds} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              behavioralTreatmentServices
+              Behavioral Treatment Services
             </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.behavioralTreatmentServices} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
+
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">emotionalStrengths</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Emotional Strengths</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.emotionalStrengths} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">emotionalNeeds</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.emotionalNeeds} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
+           
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              emotionalTreatmentServices
+              Emotional Treatment Services
             </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.emotionalTreatmentServices} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
+          </div>
+          <div className="form-group logInInputField">
+            <h5>ISSUES OR CONCERNS THAT COULD INCREASE ESCALATING BEHAVIORS:
+</h5>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">food2</label>{" "}
+            <label className="control-label">Food</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.food2} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2907,7 +2929,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">eyeContact</label>{" "}
+            <label className="control-label">Eye Contact</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.eyeContact} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2917,7 +2939,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">physicalTouch</label>{" "}
+            <label className="control-label">Physical Touch</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.physicalTouch} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2927,7 +2949,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">personalProperty</label>{" "}
+            <label className="control-label">Personal Property</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.personalProperty} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2937,7 +2959,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">certainTopics</label>{" "}
+            <label className="control-label">Certain Topics</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.certainTopics} disabled={this.props.userObj.isAdmin ? false : true}
@@ -2948,134 +2970,101 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              knownContraindicationsToTheUuseOfRestraint
+              Known contraindications to the use of restraint
             </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.knownContraindicationsToTheUuseOfRestraint} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
+
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              de_escalatingTechniquesToAvoidRestraints_ebi
+              De-escalating Techniques to avoid restraints (EBI)
             </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.de_escalatingTechniquesToAvoidRestraints_ebi} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">child_de_escalator</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Child's De-escalation Technique:</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.child_de_escalator} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">staff_de_escalator</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Staff Member's De-escalation Technique:</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.staff_de_escalator} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">therapist_de_escalator</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Therapist's De-escalation Technique:</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.therapist_de_escalator} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              childPreferred_de_escalation
+              Child's Preferred De-escalation
             </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.childPreferred_de_escalation} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">interventionStrategies</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Intervention Strategies</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.interventionStrategies} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">supervisionStrategies</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.supervisionStrategies} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              social_recreationalStrengths
+              Social Recreational Strengths
             </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.social_recreationalStrengths} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">social_recreationalNeeds</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">
+              Social Recreational Needs
+            </label>{" "}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.social_recreationalNeeds} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">familyStrengths</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Family Strengths</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.familyStrengths} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">familyNeeds</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Family Needs</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.familyNeeds} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor1 name</label>{" "}
+            <label className="control-label">Name of visitor (1)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor1_name} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3085,7 +3074,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor1 relationship</label>{" "}
+            <label className="control-label">Relation of Visitor (1)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor1_relationship} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3095,7 +3084,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor1 frequency</label>{" "}
+            <label className="control-label">Frequency of visitation (1)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor1_frequency} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3105,7 +3094,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor1supervisedBy</label>{" "}
+            <label className="control-label">Who will visitor (1) be supervised by</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor1_supervisedBy} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3115,7 +3104,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor1 location</label>{" "}
+            <label className="control-label">Location of visitor (1)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor1_location} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3125,7 +3114,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor1 length</label>{" "}
+            <label className="control-label">Visitation length of vistitor (1)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor1_length} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3135,7 +3124,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor2 name</label>{" "}
+            <label className="control-label">Name of visitor (2)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor2_name} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3145,7 +3134,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor2 relationship</label>{" "}
+            <label className="control-label">Relation of Visitor (2)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor2_relationship} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3155,7 +3144,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor2 frequency</label>{" "}
+            <label className="control-label">Frequency of visitation (2)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor2_frequency} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3165,7 +3154,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor2 supervisedBy</label>{" "}
+            <label className="control-label">Who will visitor (2) be supervised by</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor2_supervisedBy} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3175,7 +3164,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor2 location</label>{" "}
+            <label className="control-label">Location of visitor (2)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor2_location} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3185,7 +3174,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor2 length</label>{" "}
+            <label className="control-label">Visitation length of vistitor (2)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor2_length} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3195,7 +3184,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor3 name</label>{" "}
+            <label className="control-label">Name of visitor (3)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor3_name} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3205,7 +3194,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor3 relationship</label>{" "}
+            <label className="control-label">Relation of Visitor (3)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor3_relationship} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3215,7 +3204,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor3 frequency</label>{" "}
+            <label className="control-label">Frequency of visitation (3)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor3_frequency} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3225,7 +3214,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor3 supervisedBy</label>{" "}
+            <label className="control-label">Who will visitor (3) be supervised by</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor3_supervisedBy} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3235,7 +3224,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor3 location</label>{" "}
+            <label className="control-label">Location of visitor (3)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor3_location} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3245,7 +3234,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor3 length</label>{" "}
+            <label className="control-label">Visitation length of vistitor (3)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor3_length} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3255,7 +3244,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor4 name</label>{" "}
+            <label className="control-label">Name of visitor (4)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor4_name} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3265,7 +3254,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor4 relationship</label>{" "}
+            <label className="control-label">Relation of Visitor (4)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor4_relationship} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3275,7 +3264,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor4 frequency</label>{" "}
+            <label className="control-label">Frequency of visitation (4)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor4_frequency} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3285,7 +3274,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor4 supervisedBy</label>{" "}
+            <label className="control-label">Who will visitor (4) be supervised by</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor4_supervisedBy} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3295,7 +3284,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor4 location</label>{" "}
+            <label className="control-label">Location of visitor (4)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor4_location} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3305,7 +3294,7 @@ class TreatmentPlan72 extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">visitor4 length</label>{" "}
+            <label className="control-label">Visitation length of vistitor (4)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.visitor4_length} disabled={this.props.userObj.isAdmin ? false : true}
@@ -3316,68 +3305,50 @@ class TreatmentPlan72 extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              educational_vacationalStrengths
+              Educational / Vacational Strengths
             </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.educational_vacationalStrengths} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              educational_vacationalNeeds
+              Educational / Vacational Needs
             </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea  onChange={this.handleFieldInput}
               value={this.props.formData.educational_vacationalNeeds} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">transitionalLiving</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Transitional Living</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.transitionalLiving} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">dischargePlanning</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Discharge Planning</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.dischargePlanning} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">longRangeGoals</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Long Range Goals</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.longRangeGoals} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">shortRangeGoals</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Short Range Goals</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               value={this.props.formData.shortRangeGoals} disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
-          <div className="form-group logInInputField">
+          {/* <div className="form-group logInInputField">
             {" "}
             <label className="control-label">administorSign</label>{" "}
             <input
@@ -3418,11 +3389,11 @@ class TreatmentPlan72 extends Component {
               className="form-control"
               type="text"
             />{" "}
-          </div>
+          </div> */}
           <FormError errorId={this.props.id + "-error"} />
           <div
+            className="form-group logInInputField"
             style={{ textAlign: "right" }}
-            className={this.props.userObj.isAdmin ? "form-group logInInputField" : "hideIt form-group logInInputField"}
           >
             <button className="darkBtn" onClick={this.validateForm}>
               Submit

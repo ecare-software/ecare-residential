@@ -3,6 +3,12 @@ import FormError from "../FormMods/FormError";
 import "../../App.css";
 import Axios from "axios";
 
+/*
+  missing from form
+    "Restricted field Trip"
+
+*/
+
 class DailyProgressAndActivity extends Component {
   constructor(props) {
     super(props);
@@ -116,7 +122,7 @@ class DailyProgressAndActivity extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta_name</label>{" "}
+            <label className="control-label">Child's Name</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="childMeta_name"
@@ -124,9 +130,18 @@ class DailyProgressAndActivity extends Component {
               type="text"
             />{" "}
           </div>
+          <div className="form-group">
+            <h5>
+              Daily living / Development skills :{" "}
+              <i>
+                G - Good; A - Adequate; P - Poor; NS - Needs Supervision; PA -
+                Physical Assistance; NA - Not Applicable
+              </i>
+            </h5>
+          </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">personal_hygiene</label>{" "}
+            <label className="control-label">Personal Hygiene wk</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="personal_hygiene"
@@ -136,7 +151,7 @@ class DailyProgressAndActivity extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">dressing</label>{" "}
+            <label className="control-label">Dressing</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="dressing"
@@ -146,7 +161,7 @@ class DailyProgressAndActivity extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">table_mannders</label>{" "}
+            <label className="control-label">Table Mannders</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="table_mannders"
@@ -156,7 +171,7 @@ class DailyProgressAndActivity extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">clothes_maintenace</label>{" "}
+            <label className="control-label">Clothes Maintenance</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="clothes_maintenace"
@@ -166,7 +181,7 @@ class DailyProgressAndActivity extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">self_feeding</label>{" "}
+            <label className="control-label">Self Feeding</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="self_feeding"
@@ -176,7 +191,7 @@ class DailyProgressAndActivity extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">care_of_property</label>{" "}
+            <label className="control-label">Care of Property</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="care_of_property"
@@ -187,7 +202,7 @@ class DailyProgressAndActivity extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              maintenace_of_personal_space
+              Maintenance of Personal Space
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -198,7 +213,7 @@ class DailyProgressAndActivity extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">household_chorse</label>{" "}
+            <label className="control-label">Household Chores</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="household_chorse"
@@ -206,9 +221,15 @@ class DailyProgressAndActivity extends Component {
               type="text"
             />{" "}
           </div>
+          <div className="form-group">
+            <h5>
+              Techniques used to encourage positive change :{" "}
+              <i>Y - Yes (if applicable)</i>
+            </h5>
+          </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">informal_counseling</label>{" "}
+            <label className="control-label">Informal Counseling</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="informal_counseling"
@@ -218,7 +239,7 @@ class DailyProgressAndActivity extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">verbal_redirection</label>{" "}
+            <label className="control-label">Verbal Redirection</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="verbal_redirection"
@@ -228,7 +249,7 @@ class DailyProgressAndActivity extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">modeling</label>{" "}
+            <label className="control-label">Modeling</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="modeling"
@@ -238,7 +259,7 @@ class DailyProgressAndActivity extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">supervised_separation</label>{" "}
+            <label className="control-label">Supervised Separation</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="supervised_separation"
@@ -249,7 +270,7 @@ class DailyProgressAndActivity extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              provider_feedback_to_client
+              Provider Feedback to Client
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -260,7 +281,7 @@ class DailyProgressAndActivity extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">positive_reinforcement</label>{" "}
+            <label className="control-label">Positive Reinforcement</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="positive_reinforcement"
@@ -270,7 +291,7 @@ class DailyProgressAndActivity extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">other</label>{" "}
+            <label className="control-label">Other (Specify)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="other"
@@ -278,9 +299,14 @@ class DailyProgressAndActivity extends Component {
               type="text"
             />{" "}
           </div>
+          <div className="form-group">
+            <h5>
+              Consequences : <i>Y - Yes (if applicable)</i>
+            </h5>
+          </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">home_restrictions</label>{" "}
+            <label className="control-label">Home Restrictions</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="home_restrictions"
@@ -291,7 +317,7 @@ class DailyProgressAndActivity extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              restricted_leisure_activity
+              Restricted Leisure Activity
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -302,7 +328,7 @@ class DailyProgressAndActivity extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">no_allowance</label>{" "}
+            <label className="control-label">No Allowance</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="no_allowance"
@@ -312,7 +338,7 @@ class DailyProgressAndActivity extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">other2</label>{" "}
+            <label className="control-label">Other (Specify)</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="other2"
@@ -320,9 +346,14 @@ class DailyProgressAndActivity extends Component {
               type="text"
             />{" "}
           </div>
+          <div className="form-group">
+            <h5>Behavior Summary</h5>
+          </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">no_of_home_incidents</label>{" "}
+            <label className="control-label">
+              Number of Home Incidents
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="no_of_home_incidents"
@@ -333,7 +364,7 @@ class DailyProgressAndActivity extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              no_of_home_serious_incidents
+              Number of Home Serious Incidents
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -344,7 +375,9 @@ class DailyProgressAndActivity extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">no_of_home_restraints</label>{" "}
+            <label className="control-label">
+              Number of Home Restraints
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="no_of_home_restraints"
@@ -354,7 +387,9 @@ class DailyProgressAndActivity extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">no_of_school_incidents</label>{" "}
+            <label className="control-label">
+              Number of School Incidents
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="no_of_school_incidents"
@@ -365,7 +400,7 @@ class DailyProgressAndActivity extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              no_of_school_restraints
+              Number of School Restraints
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -376,7 +411,7 @@ class DailyProgressAndActivity extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">illness_injury</label>{" "}
+            <label className="control-label">Illnesses / Injuries</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="illness_injury"
@@ -386,7 +421,7 @@ class DailyProgressAndActivity extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">level_of_supervison</label>{" "}
+            <label className="control-label">Level of Supervison</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="level_of_supervison"
@@ -397,70 +432,60 @@ class DailyProgressAndActivity extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              summary_of_daily_schedule
+              Summary of Daily Schedule
             </label>{" "}
-            <input
+            <textarea
               onChange={this.handleFieldInput}
               id="summary_of_daily_schedule"
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              summary_of_behavior_at_school
+              Summary of Behavior at School
             </label>{" "}
-            <input
+            <textarea
               onChange={this.handleFieldInput}
               id="summary_of_behavior_at_school"
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              summary_of_behavior_at_home
+              Summary of Behavior at Home
             </label>{" "}
-            <input
+            <textarea
               onChange={this.handleFieldInput}
               id="summary_of_behavior_at_home"
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              therapeutic_recreational
+              Therapeutic / Recreational
             </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <textarea onChange={this.handleFieldInput}
               id="therapeutic_recreational"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control">
+            </textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">therapeutic_value</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Therapeutic Value</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               id="therapeutic_value"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control"></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">phone_calls_or_visits</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
+            <label className="control-label">Phone Calls / Visits</label>{" "}
+            <textarea onChange={this.handleFieldInput}
               id="phone_calls_or_visits"
-              className="form-control"
-              type="text"
-            />{" "}
+              className="form-control">
+            </textarea>
           </div>
           <FormError errorId={this.props.id + "-error"} />
           <div
@@ -476,148 +501,84 @@ class DailyProgressAndActivity extends Component {
     } else {
       return (
         <div style={{ margin: "50px 100px 0px 100px" }}>
-          <div style={{ margin: "75px 0px" }}></div>
-          <h2>Daily Progress and Activity</h2>
+          <div style={{ margin: "75px 0px" }}>
+            <h2>Daily Progress and Activity</h2>
+          </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta_name</label>{" "}
+            <label className="control-label">Child's Name</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.childMeta_name}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.childMeta_name} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
           </div>
-          <div className="form-group logInInputField">
-            <label className="control-label">personal_hygiene</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.personal_hygiene}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />
+          <div className="form-group">
+            <h5>
+              Daily living/development skills :{" "}
+              <i>
+                G - Good; A - Adequate; P - Poor; NS - Needs Supervision; PA -
+                Physical Assistance; NA - Not Applicable
+              </i>
+            </h5>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">dressing</label>{" "}
+            <label className="control-label">Personal Hygiene wk</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.dressing}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">table_mannders</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.table_mannders}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.personal_hygiene} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">clothes_maintenace</label>{" "}
+            <label className="control-label">Dressing</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.clothes_maintenace}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.dressing} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">self_feeding</label>{" "}
+            <label className="control-label">Table Mannders</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.self_feeding}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.table_mannders} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">care_of_property</label>{" "}
+            <label className="control-label">Clothes Maintenance</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.care_of_property}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.clothes_maintenace} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">
-              maintenace_of_personal_space
-            </label>{" "}
+            <label className="control-label">Self Feeding</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.maintenace_of_personal_space}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.self_feeding} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">household_chorse</label>{" "}
+            <label className="control-label">Care of Property</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.household_chorse}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">informal_counseling</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.informal_counseling}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">verbal_redirection</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.verbal_redirection}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">modeling</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.modeling}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">supervised_separation</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.supervised_separation}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.care_of_property} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
@@ -625,45 +586,67 @@ class DailyProgressAndActivity extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              provider_feedback_to_client
+              Maintenance of Personal Space
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.provider_feedback_to_client}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.maintenace_of_personal_space} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">positive_reinforcement</label>{" "}
+            <label className="control-label">Household Chores</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.positive_reinforcement}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.household_chorse} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+              type="text"
+            />{" "}
+          </div>
+          <div className="form-group">
+            <h5>
+              Techniques used to encourage positive change :{" "}
+              <i>Y - Yes (if applicable)</i>
+            </h5>
+          </div>
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">Informal Counseling</label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              value={this.props.formData.informal_counseling} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">other</label>{" "}
+            <label className="control-label">Verbal Redirection</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.other}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.verbal_redirection} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">home_restrictions</label>{" "}
+            <label className="control-label">Modeling</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.home_restrictions}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.modeling} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+              type="text"
+            />{" "}
+          </div>
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">Supervised Separation</label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              value={this.props.formData.supervised_separation} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
@@ -671,45 +654,46 @@ class DailyProgressAndActivity extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              restricted_leisure_activity
+              Provider Feedback to Client
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.restricted_leisure_activity}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.provider_feedback_to_client} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">no_allowance</label>{" "}
+            <label className="control-label">Positive Reinforcement</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.no_allowance}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.positive_reinforcement} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">other2</label>{" "}
+            <label className="control-label">Other (Specify)</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.other2}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.other} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
           </div>
+          <div className="form-group">
+            <h5>
+              Consequences : <i>Y - Yes (if applicable)</i>
+            </h5>
+          </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">no_of_home_incidents</label>{" "}
+            <label className="control-label">Home Restrictions</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.no_of_home_incidents}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.home_restrictions} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
@@ -717,34 +701,46 @@ class DailyProgressAndActivity extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              no_of_home_serious_incidents
+              Restricted Leisure Activity
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.no_of_home_serious_incidents}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.restricted_leisure_activity} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">no_of_home_restraints</label>{" "}
+            <label className="control-label">No Allowance</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.no_of_home_restraints}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.no_allowance} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">no_of_school_incidents</label>{" "}
+            <label className="control-label">Other (Specify)</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.no_of_school_incidents}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.other2} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+              type="text"
+            />{" "}
+          </div>
+          <div className="form-group">
+            <h5>Behavior Summary</h5>
+          </div>
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              Number of Home Incidents
+            </label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              value={this.props.formData.no_of_home_incidents} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
@@ -752,34 +748,11 @@ class DailyProgressAndActivity extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              no_of_school_restraints
+              Number of Home Serious Incidents
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.no_of_school_restraints}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">illness_injury</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.illness_injury}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">level_of_supervison</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.level_of_supervison}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.no_of_home_serious_incidents} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
@@ -787,12 +760,11 @@ class DailyProgressAndActivity extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              summary_of_daily_schedule
+              Number of Home Restraints
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.summary_of_daily_schedule}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.no_of_home_restraints} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
@@ -800,12 +772,11 @@ class DailyProgressAndActivity extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              summary_of_behavior_at_school
+              Number of School Incidents
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.summary_of_behavior_at_school}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.no_of_school_incidents} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
@@ -813,12 +784,31 @@ class DailyProgressAndActivity extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              summary_of_behavior_at_home
+              Number of School Restraints
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.summary_of_behavior_at_home}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.no_of_school_restraints} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+              type="text"
+            />{" "}
+          </div>
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">Illnesses / Injuries</label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              value={this.props.formData.illness_injury} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+              type="text"
+            />{" "}
+          </div>
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">Level of Supervison</label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              value={this.props.formData.level_of_supervison} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
             />{" "}
@@ -826,42 +816,65 @@ class DailyProgressAndActivity extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              therapeutic_recreational
+              Summary of Daily Schedule
             </label>{" "}
-            <input
+            <textarea
               onChange={this.handleFieldInput}
-              value={this.props.formData.therapeutic_recreational}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.summary_of_daily_schedule} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">therapeutic_value</label>{" "}
-            <input
+            <label className="control-label">
+              Summary of Behavior at School
+            </label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
-              value={this.props.formData.therapeutic_value}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.summary_of_behavior_at_school} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">phone_calls_or_visits</label>{" "}
-            <input
+            <label className="control-label">
+              Summary of Behavior at Home
+            </label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
-              value={this.props.formData.phone_calls_or_visits}
-              disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.summary_of_behavior_at_home} disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
+          </div>
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              Therapeutic / Recreational
+            </label>{" "}
+            <textarea onChange={this.handleFieldInput}
+              value={this.props.formData.therapeutic_recreational} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control">
+            </textarea>
+          </div>
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">Therapeutic Value</label>{" "}
+            <textarea onChange={this.handleFieldInput}
+              value={this.props.formData.therapeutic_value} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"></textarea>
+          </div>
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">Phone Calls / Visits</label>{" "}
+            <textarea onChange={this.handleFieldInput}
+              value={this.props.formData.phone_calls_or_visits} disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control">
+            </textarea>
           </div>
           <FormError errorId={this.props.id + "-error"} />
           <div
+            className="form-group logInInputField"
             style={{ textAlign: "right" }}
-            className={this.props.userObj.isAdmin ? "form-group logInInputField" : "hideIt form-group logInInputField"}
           >
             <button className="darkBtn" onClick={this.validateForm}>
               Submit
