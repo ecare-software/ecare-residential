@@ -516,11 +516,11 @@ class App extends Component {
               </div>
             </div>
           </div>
-          <div style={{ paddingBottom: "100px" }}>
+          {/* <div style={{ paddingBottom: "100px" }}>
             <Testimonial dir="right" />
             <Testimonial dir="left" />
             <Testimonial dir="right" />
-          </div>
+          </div> */}
           {/* Body End */}
           {/* modals */}
         </div>
