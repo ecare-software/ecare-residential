@@ -369,7 +369,7 @@ class RestraintReport extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              Description of behavior necessitating Restraint. Describe how
+              Description of behavior necessitating Restraint.<br/>Describe how
               client was at risk of harm to self or others. Include all
               pertinent details and behavior leading up to the incident. Be
               specific:
