@@ -154,7 +154,7 @@ class RestraintReport extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta_name</label>{" "}
+            <label className="control-label">Child's Name</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="childMeta_name"
@@ -164,7 +164,7 @@ class RestraintReport extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta_gender</label>{" "}
+            <label className="control-label">Child's Gender</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="childMeta_gender"
@@ -174,39 +174,41 @@ class RestraintReport extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta_dob</label>{" "}
+            <label className="control-label">Child's Date of Birth</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="childMeta_dob"
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              childMeta_dateOfAdmission
+              Child's Date of Admission
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="childMeta_dateOfAdmission"
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">date_of_incident</label>{" "}
+            <label className="control-label">Date of Incident</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="date_of_incident"
               className="form-control"
-              type="text"
+              type="datetime-local"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">staff_involved_name</label>{" "}
+            <label className="control-label">
+              Name of Care Staff Involved
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="staff_involved_name"
@@ -216,7 +218,9 @@ class RestraintReport extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">staff_involved_gender</label>{" "}
+            <label className="control-label">
+              Gender of Care Staff Involved
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="staff_involved_gender"
@@ -226,17 +230,17 @@ class RestraintReport extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">time_of_incident</label>{" "}
+            <label className="control-label">Time of Incident</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="time_of_incident"
               className="form-control"
-              type="text"
+              type="datetime-local"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">staff_witness_name</label>{" "}
+            <label className="control-label">Name of Staff Witness</label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="staff_witness_name"
@@ -246,7 +250,9 @@ class RestraintReport extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">staff_witness_gender</label>{" "}
+            <label className="control-label">
+              Gender of Staff Witness
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               id="staff_witness_gender"
@@ -256,79 +262,12 @@ class RestraintReport extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">staff_witness_name</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="staff_witness_name"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> staff_witness_gender</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    staff_witness_gender"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> client_witness_name1</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    client_witness_name1"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
             <label className="control-label">
-              {" "}
-              client_witness_gender1
+              Name of Client Witness (1)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
-              id="    client_witness_gender1"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> client_witness_dob1</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    client_witness_dob1"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> client_witness_doa1</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    client_witness_doa1"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> client_witness_name2</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    client_witness_name2"
+              id="client_witness_name1"
               className="form-control"
               type="text"
             />{" "}
@@ -338,44 +277,11 @@ class RestraintReport extends Component {
             {" "}
             <label className="control-label">
               {" "}
-              client_witness_gender2
+              Gender of Client Witness (1)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
-              id="    client_witness_gender2"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> client_witness_dob2</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    client_witness_dob2"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> client_witness_doa2</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    client_witness_doa2"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> risk_explaination</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    risk_explaination"
+              id="client_witness_gender1"
               className="form-control"
               type="text"
             />{" "}
@@ -384,183 +290,37 @@ class RestraintReport extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              {" "}
-              risk_alternative_strategies
+              Client Witness Date of Birth (1)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
-              id="    risk_alternative_strategies"
+              id="client_witness_dob1"
               className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> type_of_restraint</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    type_of_restraint"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> risk_stategies_used</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    risk_stategies_used"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> result_of_incident</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    result_of_incident"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> injuries</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    injuries"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> action_taken</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    action_taken"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> able_to_prevent</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    able_to_prevent"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> restraint_start_time</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    restraint_start_time"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> restraint_end_time</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    restraint_end_time"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> notification_made_to</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    notification_made_to"
-              className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
 
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              {" "}
-              notification_made_date_time
+              Client Witness Date of Admission (1)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
-              id="    notification_made_date_time"
+              id="client_witness_doa1"
               className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> interviewer</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    interviewer"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> date_of_interview</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    date_of_interview"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> client_behavior</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    client_behavior"
-              className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
 
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              {" "}
-              client_restraint_description
+              Name Client Witness (2)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
-              id="    client_restraint_description"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> client_responce</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="    client_responce"
+              id="client_witness_name2"
               className="form-control"
               type="text"
             />{" "}
@@ -570,11 +330,268 @@ class RestraintReport extends Component {
             {" "}
             <label className="control-label">
               {" "}
-              procedural_approved_reason
+              Gender of Client Witness (2)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
-              id="    procedural_approved_reason"
+              id="client_witness_gender2"
+              className="form-control"
+              type="text"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              Client Witness Date of Birth (2)
+            </label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              id="client_witness_dob2"
+              className="form-control"
+              type="date"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              Client Witness Date of Admission (1)
+            </label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              id="client_witness_doa2"
+              className="form-control"
+              type="date"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              Description of behavior necessitating Restraint. Describe how
+              client was at risk of harm to self or others. Include all
+              pertinent details and behavior leading up to the incident. Be
+              specific:
+            </label>{" "}
+            <textarea
+              onChange={this.handleFieldInput}
+              id="risk_explaination"
+              className="form-control"
+            ></textarea>
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              {" "}
+              Alternative strategies or intervention attempted prior to EPR.
+              Client response to attempted interventions. Be specific.
+            </label>{" "}
+            <textarea
+              onChange={this.handleFieldInput}
+              id="risk_alternative_strategies"
+              className="form-control"
+            ></textarea>
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              Type of Restraint. Be specific.
+            </label>{" "}
+            <textarea
+              onChange={this.handleFieldInput}
+              id="type_of_restraint"
+              className="form-control"
+            ></textarea>
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              What strategies were used during Restraint to calm client? How did
+              you explain behaviors necessary for release? How often?
+            </label>{" "}
+            <textarea
+              onChange={this.handleFieldInput}
+              id="risk_stategies_used"
+              className="form-control"
+            ></textarea>
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              Results of incident, including Restraint. Examine client for
+              injuries.
+              <br />
+              Injuries from client behavior prior to Restraint (e.g., SIB,
+              physical aggression, Etc.), how they occurred, and treatment
+              provided
+            </label>{" "}
+            <textarea
+              onChange={this.handleFieldInput}
+              id="result_of_incident"
+              className="form-control"
+            ></textarea>
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              Injuries sustained during or as result of the Restraint, How they
+              occurred, and treatment provided
+              <br />
+              Client’s response to Restraint.
+            </label>{" "}
+            <textarea
+              onChange={this.handleFieldInput}
+              id="injuries"
+              className="form-control"
+            ></textarea>
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              Action taken to help client return to normal activities following
+              release from the Restraint.
+            </label>{" "}
+            <textarea
+              onChange={this.handleFieldInput}
+              id="action_taken"
+              className="form-control"
+            ></textarea>
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              In your opinion, were you able to prevent a more serious incident?
+              Explain.
+            </label>{" "}
+            <textarea
+              onChange={this.handleFieldInput}
+              id="able_to_prevent"
+              className="form-control"
+            ></textarea>
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">Time restraint started</label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              id="restraint_start_time"
+              className="form-control"
+              type="datetime-local"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">Time restraint ended</label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              id="restraint_end_time"
+              className="form-control"
+              type="datetime-local"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              Name of individual you notified.
+            </label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              id="notification_made_to"
+              className="form-control"
+              type="text"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label"> Time of Notification</label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              id="notification_made_date_time"
+              className="form-control"
+              type="datetime-local"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">Name of Interviewer</label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              id="interviewer"
+              className="form-control"
+              type="text"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">Date of Interview</label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              id="date_of_interview"
+              className="form-control"
+              type="datetime-local"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              What was your behavior?
+            </label>{" "}
+            <textarea
+              onChange={this.handleFieldInput}
+              id="client_behavior"
+              className="form-control"
+            ></textarea>
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              {" "}
+              Describe the Restraint?
+            </label>{" "}
+            <textarea
+              onChange={this.handleFieldInput}
+              id="client_restraint_description"
+              className="form-control"
+            ></textarea>
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              How did you respond to the Restraint
+            </label>{" "}
+            <textarea
+              onChange={this.handleFieldInput}
+              id="client_responce"
+              className="form-control"
+            ></textarea>
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              {" "}
+              Restraint took place for approved reason:
+            </label>{" "}
+            <input
+              onChange={this.handleFieldInput}
+              id="procedural_approved_reason"
               className="form-control"
               type="text"
             />{" "}
@@ -584,7 +601,7 @@ class RestraintReport extends Component {
             {" "}
             <label className="control-label">
               {" "}
-              procedural_approved_standards
+              Restraint met Standards:
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -598,7 +615,7 @@ class RestraintReport extends Component {
             {" "}
             <label className="control-label">
               {" "}
-              procedural_any_injuries
+              Any injury or claim of injury:
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -610,13 +627,14 @@ class RestraintReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label"> procedural_comments</label>{" "}
-            <input
+            <label className="control-label">
+              Comments. Corrective action, including training, needed
+            </label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
-              id="    procedural_comments"
+              id="procedural_comments"
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <FormError errorId={this.props.id + "-error"} />
           <div
@@ -632,11 +650,12 @@ class RestraintReport extends Component {
     } else {
       return (
         <div style={{ margin: "50px 20px 0px 20px" }}>
-          <div style={{ margin: "75px 0px" }}></div>
-          <h2>Restriant Report</h2>
+          <div style={{ margin: "75px 0px" }}>
+            <h2>Restriant Report</h2>
+          </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta_name</label>{" "}
+            <label className="control-label">Child's Name</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.childMeta_name}
@@ -647,7 +666,7 @@ class RestraintReport extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta_gender</label>{" "}
+            <label className="control-label">Child's Gender</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.childMeta_gender}
@@ -658,42 +677,44 @@ class RestraintReport extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">childMeta_dob</label>{" "}
+            <label className="control-label">Child's Date of Birth</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.childMeta_dob}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              childMeta_dateOfAdmission
+              Child's Date of Admission
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.childMeta_dateOfAdmission}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">date_of_incident</label>{" "}
+            <label className="control-label">Date of Incident</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.date_of_incident}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="datetime-local"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">staff_involved_name</label>{" "}
+            <label className="control-label">
+              Name of Care Staff Involved
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.staff_involved_name}
@@ -704,7 +725,9 @@ class RestraintReport extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">staff_involved_gender</label>{" "}
+            <label className="control-label">
+              Gender of Care Staff Involved
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.staff_involved_gender}
@@ -715,64 +738,43 @@ class RestraintReport extends Component {
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">time_of_incident</label>{" "}
+            <label className="control-label">Time of Incident</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.time_of_incident}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="datetime-local"
             />{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">staff_witness_name</label>{" "}
+            <label className="control-label">Name of Staff Witness</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.staff_witness_name}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
               type="text"
-            />{" "}
+            />
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">staff_witness_gender</label>{" "}
+            <label className="control-label">
+              Gender of Staff Witness
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.staff_witness_gender}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+              type="text"/>{" "}
           </div>
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">staff_witness_name</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.staff_witness_name}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> staff_witness_gender</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.staff_witness_gender}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> client_witness_name1</label>{" "}
+            <label className="control-label">
+              Name of Client Witness (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.client_witness_name1}
@@ -786,7 +788,7 @@ class RestraintReport extends Component {
             {" "}
             <label className="control-label">
               {" "}
-              client_witness_gender1
+              Gender of Client Witness (1)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -799,31 +801,37 @@ class RestraintReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label"> client_witness_dob1</label>{" "}
+            <label className="control-label">
+              Client Witness Date of Birth (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.client_witness_dob1}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label"> client_witness_doa1</label>{" "}
+            <label className="control-label">
+              Client Witness Date of Admission (1)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.client_witness_doa1}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label"> client_witness_name2</label>{" "}
+            <label className="control-label">
+              Name Client Witness (2)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.client_witness_name2}
@@ -837,7 +845,7 @@ class RestraintReport extends Component {
             {" "}
             <label className="control-label">
               {" "}
-              client_witness_gender2
+              Gender of Client Witness (2)
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -850,154 +858,181 @@ class RestraintReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label"> client_witness_dob2</label>{" "}
+            <label className="control-label">
+              Client Witness Date of Birth (2)
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.client_witness_dob2}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> client_witness_doa2</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.client_witness_doa2}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label"> risk_explaination</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              value={this.props.formData.risk_explaination}
-              disabled={this.props.userObj.isAdmin ? false : true}
-              className="form-control"
-              type="text"
+              type="date"
             />{" "}
           </div>
 
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
-              {" "}
-              risk_alternative_strategies
+              Client Witness Date of Admission (1)
             </label>{" "}
             <input
+              onChange={this.handleFieldInput}
+              value={this.props.formData.client_witness_doa2}
+              disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+              type="date"
+            />{" "}
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              Description of behavior necessitating Restraint. Describe how
+              client was at risk of harm to self or others. Include all
+              pertinent details and behavior leading up to the incident. Be
+              specific:
+            </label>{" "}
+            <textarea
+              onChange={this.handleFieldInput}
+              value={this.props.formData.risk_explaination}
+              disabled={this.props.userObj.isAdmin ? false : true}
+              className="form-control"
+            ></textarea>
+          </div>
+
+          <div className="form-group logInInputField">
+            {" "}
+            <label className="control-label">
+              {" "}
+              Alternative strategies or intervention attempted prior to EPR.
+              Client response to attempted interventions. Be specific.
+            </label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.risk_alternative_strategies}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label"> type_of_restraint</label>{" "}
-            <input
+            <label className="control-label">
+              Type of Restraint. Be specific.
+            </label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.type_of_restraint}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label"> risk_stategies_used</label>{" "}
-            <input
+            <label className="control-label">
+              What strategies were used during Restraint to calm client? How did
+              you explain behaviors necessary for release? How often?
+            </label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.risk_stategies_used}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label"> result_of_incident</label>{" "}
-            <input
+            <label className="control-label">
+              Results of incident, including Restraint. Examine client for
+              injuries.
+              <br />
+              Injuries from client behavior prior to Restraint (e.g., SIB,
+              physical aggression, Etc.), how they occurred, and treatment
+              provided
+            </label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.result_of_incident}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label"> injuries</label>{" "}
-            <input
+            <label className="control-label">
+              Injuries sustained during or as result of the Restraint, How they
+              occurred, and treatment provided
+              <br />
+              Client’s response to Restraint.
+            </label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.injuries}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label"> action_taken</label>{" "}
-            <input
+            <label className="control-label">
+              Action taken to help client return to normal activities following
+              release from the Restraint.
+            </label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.action_taken}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label"> able_to_prevent</label>{" "}
-            <input
+            <label className="control-label">
+              In your opinion, were you able to prevent a more serious incident?
+              Explain.
+            </label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.able_to_prevent}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label"> restraint_start_time</label>{" "}
+            <label className="control-label">Time restraint started</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.restraint_start_time}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="datetime-local"
             />{" "}
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label"> restraint_end_time</label>{" "}
+            <label className="control-label">Time restraint ended</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.restraint_end_time}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="datetime-local"
             />{" "}
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label"> notification_made_to</label>{" "}
+            <label className="control-label">
+              Name of individual you notified.
+            </label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.notification_made_to}
@@ -1009,22 +1044,19 @@ class RestraintReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label">
-              {" "}
-              notification_made_date_time
-            </label>{" "}
+            <label className="control-label"> Time of Notification</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.notification_made_date_time}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="datetime-local"
             />{" "}
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label"> interviewer</label>{" "}
+            <label className="control-label">Name of Interviewer</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.interviewer}
@@ -1036,60 +1068,61 @@ class RestraintReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label"> date_of_interview</label>{" "}
+            <label className="control-label">Date of Interview</label>{" "}
             <input
               onChange={this.handleFieldInput}
               value={this.props.formData.date_of_interview}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
+              type="datetime-local"
             />{" "}
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label"> client_behavior</label>{" "}
-            <input
+            <label className="control-label">
+              What was your behavior?
+            </label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.client_behavior}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
 
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
               {" "}
-              client_restraint_description
+              Describe the Restraint?
             </label>{" "}
-            <input
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.client_restraint_description}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label"> client_responce</label>{" "}
-            <input
+            <label className="control-label">
+              How did you respond to the Restraint
+            </label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.client_responce}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
 
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">
               {" "}
-              procedural_approved_reason
+              Restraint took place for approved reason:
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1104,7 +1137,7 @@ class RestraintReport extends Component {
             {" "}
             <label className="control-label">
               {" "}
-              procedural_approved_standards
+              Restraint met Standards:
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1119,7 +1152,7 @@ class RestraintReport extends Component {
             {" "}
             <label className="control-label">
               {" "}
-              procedural_any_injuries
+              Any injury or claim of injury:
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
@@ -1132,20 +1165,20 @@ class RestraintReport extends Component {
 
           <div className="form-group logInInputField">
             {" "}
-            <label className="control-label"> procedural_comments</label>{" "}
-            <input
+            <label className="control-label">
+              Comments. Corrective action, including training, needed
+            </label>{" "}
+            <textarea
               onChange={this.handleFieldInput}
               value={this.props.formData.procedural_comments}
               disabled={this.props.userObj.isAdmin ? false : true}
               className="form-control"
-              type="text"
-            />{" "}
+            ></textarea>
           </div>
           <FormError errorId={this.props.id + "-error"} />
           <div
-            style={{ textAlign: "right" }}
-            className={this.props.userObj.isAdmin ? "form-group logInInputField" : "hideIt form-group logInInputField"}
-          >
+            className="form-group logInInputField"
+            style={{ textAlign: "right" }}>
             <button className="darkBtn" onClick={this.validateForm}>
               Submit
             </button>
