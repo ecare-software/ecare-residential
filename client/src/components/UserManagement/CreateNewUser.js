@@ -113,7 +113,7 @@ class CreateNewUser extends Component {
       }
     } else {
       document.getElementById(staticThis.props.id + "-error").innerText =
-        "Invalid form submittion";
+        "Invalid form submission";
       document.getElementById(staticThis.props.id + "-error").style.display =
         "block";
     }

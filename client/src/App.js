@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import Axios from "axios";
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 //components
 import Header from "./components/Header/Header";
 import LogInContiner from "./components/LogInContainer/LogInContainer";
-import Testimonial from "./components/Testimonial/Testimonial.js";
+// import Testimonial from "./components/Testimonial/Testimonial.js";
 import Navbar from "./components/NavBar/Navbar.js";
 import TreatmentPlan72 from "./components/Forms/TreatmentPlan72";
 import IncidentReport from "./components/Forms/IncidentReport";
@@ -14,6 +15,7 @@ import Reports from "./components/Reports/ReportsContainer";
 import UserManagement from "./components/UserManagement/UserManagement";
 import SlidingNav from "./components/SlideingNav/SlidingNav";
 import UserActions from "./components/UserActions/UserActions";
+import BSNavBar from "./components/NavBar/bsNavBar";
 //modals
 import RequestDemoModal from "./components/Modals/RequestDemoModal.js";
 import UploadFileModal from "./components/Modals/UploadFileModal";
@@ -187,11 +189,12 @@ class App extends Component {
   render() {
     if (this.state.loggedIn) {
       return (
-        <div className="App" id="mainContainer">
-          <Navbar toggleSlidingDiv={this.toggleSlidingDiv} doDisplay={this.state.doDisplay} />
-          {/* DESKTOP VIEW START */}
+
+        <div className="App container" id="mainContainer">
+          <BSNavBar logOut={this.logOut} toggleDisplay={this.toggleDisplay} isLoggedIn={this.state.loggedIn} userObj={this.state.userObj}></BSNavBar>
+
           <div id="desktopView" className="row">
-            <div className="col-sm-3">
+            {/* <div className="col-sm-3">
               <div id="navActionContainer">
                 <div
                   style={this.state.doDisplay !== "Reports" ? {} : hideStyle}
@@ -206,115 +209,16 @@ class App extends Component {
                   />
                 </div>
               </div>
-            </div>
+            </div> */}
             <div
-              className="col-sm-9"
-              style={{ paddingLeft: "0px", paddingRight: "0px", width: "65%" }}
+              className="col-sm-12"
+              style={{ paddingLeft: "0px", paddingRight: "0px"}}
             >
-              <div id="navTitleDesktop">
-                <div style={{ marginRight: "10px" }}>
-                  <p
-                    className="mainFont pointer"
-                    style={
-                      this.state.doDisplay !== "Dashboard"
-                        ? navNotSelected
-                        : navSelected
-                    }
-                    onClick={this.toggleDisplay.bind({}, "Dashboard")}
-                  >
-                    Dashboard
-                  </p>
-                </div>
-                <div
-                  style={
-                    this.state.userObj.isAdmin === true
-                      ? { marginRight: "10px" }
-                      : hideStyle
-                  }
-                >
-                  <p
-                    className="mainFont pointer"
-                    style={
-                      this.state.doDisplay !== "User Management"
-                        ? navNotSelected
-                        : navSelected
-                    }
-                    onClick={this.toggleDisplay.bind({}, "User Management")}
-                  >
-                    User Management
-                  </p>
-                </div>
-                <div style={{ marginRight: "10px" }}>
-                  <p
-                    className="mainFont pointer"
-                    style={
-                      this.state.doDisplay !== "TreatmentPlan72"
-                        ? navNotSelected
-                        : navSelected
-                    }
-                    onClick={this.toggleDisplay.bind({}, "TreatmentPlan72")}
-                  >
-                    72 Hour Treatment Plan
-                  </p>
-                </div>
-                <div style={{ marginRight: "10px" }}>
-                  <p
-                    className="mainFont pointer"
-                    style={
-                      this.state.doDisplay !== "IncidentReport"
-                        ? navNotSelected
-                        : navSelected
-                    }
-                    onClick={this.toggleDisplay.bind({}, "IncidentReport")}
-                  >
-                    Incident Report
-                  </p>
-                </div>
-                <div style={{ marginRight: "10px" }}>
-                  <p
-                    className="mainFont pointer"
-                    style={
-                      this.state.doDisplay !== "DailyProgress"
-                        ? navNotSelected
-                        : navSelected
-                    }
-                    onClick={this.toggleDisplay.bind({}, "DailyProgress")}
-                  >
-                    Daily Progress
-                  </p>
-                </div>
-                <div style={{ marginRight: "10px" }}>
-                  <p
-                    className="mainFont pointer"
-                    style={
-                      this.state.doDisplay !== "restraintReport"
-                        ? navNotSelected
-                        : navSelected
-                    }
-                    onClick={this.toggleDisplay.bind({}, "restraintReport")}
-                  >
-                    Restraint Report
-                  </p>
-                </div>
-                <div style={{ marginRight: "10px" }}>
-                  <p
-                    className="mainFont pointer"
-                    style={
-                      this.state.doDisplay !== "Reports"
-                        ? navNotSelected
-                        : navSelected
-                    }
-                    onClick={this.toggleDisplay.bind({}, "Reports")}
-                  >
-                    Reports
-                  </p>
-                </div>
-              </div>
-              <div style={{ padding: "0px 0px 0px 0px", margin: "93px 0px" }}>
+              <div xstyle={{ padding: "0px 0px 0px 0px", marginTop: "93px 0px" }}>
                 <div
                   style={this.state.doDisplay === "Dashboard" ? {} : hideStyle}
                 >
-                  <MessageBoard messages={this.state.discussionMessages} />
+                  <MessageBoard messages={this.state.discussionMessages} appendMessage={this.appendMessage} />
                 </div>
                 <div
                   style={
@@ -387,7 +291,7 @@ class App extends Component {
                 <div
                   style={
                     this.state.doDisplay === "Reports"
-                      ? { margin: "150px 0px" }
+                      ? { marginBottom: "150px 0px" }
                       : hideStyle
                   }
                 >
@@ -396,87 +300,6 @@ class App extends Component {
               </div>
             </div>
           </div>
-          {/* DESKTOP VIEW END */}
-
-          {/* MOBILE VIEW START */}
-          <div id="mobileView">
-            <SlidingNav
-              toggleSlidingDiv={this.toggleSlidingDiv}
-              toggleDisplay={this.toggleDisplay}
-              appendMessage={this.appendMessage}
-              toggleDisplay={this.toggleDisplay}
-              logOut={this.logOut}
-              logIn={this.toggleLogIn}
-              userObj={this.state.userObj}
-            />
-            <div style={this.state.doDisplay === "Dashboard" ? {} : hideStyle}>
-              <MessageBoard messages={this.state.discussionMessages} />
-            </div>
-            <div
-              style={
-                this.state.doDisplay === "User Management"
-                  ? { marginBottom: "150px" }
-                  : hideStyle
-              }
-            >
-              <UserManagement allUsers={this.state.allUsers} userObj={this.state.userObj} />
-            </div>
-            <div
-                  style={
-                    this.state.doDisplay === "TreatmentPlan72"
-                      ? { marginBottom: "150px" }
-                      : hideStyle
-                  }
-                >
-                  <TreatmentPlan72
-                    valuesSet={false}
-                    userObj={this.state.userObj}
-                    id="treatment"
-                  />
-                </div>
-                <div
-                  style={
-                    this.state.doDisplay === "IncidentReport"
-                      ? { marginBottom: "150px" }
-                      : hideStyle
-                  }
-                >
-                  <IncidentReport
-                    valuesSet={false}
-                    userObj={this.state.userObj}
-                    id="incident"
-                  />
-                </div>
-                <div
-                  style={
-                    this.state.doDisplay === "DailyProgress"
-                      ? { marginBottom: "150px" }
-                      : hideStyle
-                  }
-                >
-                  <DailyProgress
-                    valuesSet={false}
-                    userObj={this.state.userObj}
-                    id="dailyProgress"
-                  />
-                </div>
-                <div
-                  style={
-                    this.state.doDisplay === "restraintReport"
-                      ? { marginBottom: "150px" }
-                      : hideStyle
-                  }
-                >
-                  <RestraintReport
-                    valuesSet={false}
-                    userObj={this.state.userObj}
-                    id="restraintReport"
-                  />
-                </div>
-            
-            <UserActions />
-          </div>
-          {/* MOBILE VIEW END */}
         </div>
       );
     } else {

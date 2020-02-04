@@ -327,7 +327,9 @@ class TreatmentPlan72 extends Component {
   submit = () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     console.log(JSON.stringify(currentState));
-    Axios.post("/api/treatmentPlans72", currentState);
+    Axios.post("/api/treatmentPlans72", currentState).then((res)=>{
+      alert("Thank you for your submission")
+    });
     // Axios({
     //   method: "post",
     //   url: "/api/treatmentPlans72",

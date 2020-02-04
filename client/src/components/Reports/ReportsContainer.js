@@ -136,7 +136,7 @@ class ReportsContainer extends Component {
         // add to barChartData state
         startBarChartData.push({
           name: formData[0].formType,
-          submissions: formData.length
+          submittions: formData.length
         });
       }
       count++;

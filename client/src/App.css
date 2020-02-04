@@ -38,6 +38,10 @@ position: inherit;
   flex: 1;
 }
 
+.dropdown-toggle{
+  color:white !important;
+}
+
 .lightBtn {
   background-color: white;
   color: maroon;
@@ -163,7 +167,7 @@ body {
 /* desktop */
 @media only screen and (min-width: 1226px) {
   #desktopView{
-    padding-top: 25px;
+    margin-top: 60px;
   }
   #mobileView{
     display: none;
@@ -286,7 +290,7 @@ body {
 /* ipad */
 @media only screen and (min-width: 768px) and (max-width: 1225px) {
   #desktopView{
-    padding-top: 25px;
+    margin-top: 60px;
       }
       #navTitleDesktop {
         z-index: 50;
@@ -368,7 +372,7 @@ body {
 /* mobile up right */
 @media only screen and (max-width: 767px) {
 #desktopView{
-  display: none;
+
 }
   
   #greetingContainer {

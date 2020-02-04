@@ -110,7 +110,9 @@ class RestraintReport extends Component {
   submit = () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     console.log(JSON.stringify(currentState));
-    Axios.post("/api/restraintReport", currentState);
+    Axios.post("/api/restraintReport", currentState).then((res)=>{
+      alert("Thank you for your submission")
+    });
     // Axios({
     //   method: "post",
     //   url: "/api/treatmentPlans72",
