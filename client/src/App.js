@@ -72,7 +72,7 @@ class App extends Component {
     doDisplay: "Dashboard",
     discussionMessages: []
   };
-
+  
   componentDidUpdate = () => {
     if (!this.state.allUsersSet) {
       console.log(this.state);
@@ -177,6 +177,7 @@ class App extends Component {
   };
 
   toggleDisplay = display => {
+    window.scrollTo(0, 0);
     // if (document.getElementsByClassName("slidingDiv")[1].style.left === "0%") {
     //   document.getElementsByClassName("slidingDiv")[1].style.left = "-66%";
     // } else {

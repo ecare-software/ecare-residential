@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import FormError from "../FormMods/FormError";
+import FormAlert from "../Forms/FormAlert";
 import "../../App.css";
 import Axios from "axios";
 
@@ -78,9 +79,26 @@ class IncidentReport extends Component {
 
       lastEditDate: new Date(),
 
-      homeId: this.props.valuesSet === true ? "" : this.props.userObj.homeId
+      homeId: this.props.valuesSet === true ? "" : this.props.userObj.homeId,
+
+      formHasError: false,
+
+      formSubmitted: false,
+
+      formErrorMessage: ""
     };
   }
+
+  toggleSuccessAlert = () => {
+    this.setState({ formSubmitted: !this.state.formSubmitted });
+  };
+
+  toggleErrorAlert = () => {
+    this.setState({
+      formHasError: !this.state.formHasError,
+      formErrorMessage: ""
+    });
+  };
 
   handleFieldInput = event => {
     var stateObj = {};
@@ -101,7 +119,15 @@ class IncidentReport extends Component {
     let currentState = JSON.parse(JSON.stringify(this.state));
     console.log(JSON.stringify(currentState));
     Axios.post("/api/incidentReport", currentState).then((res)=>{
-      alert("Thank you for your submission")
+      window.scrollTo(0, 0);
+      this.toggleSuccessAlert();
+      setTimeout(this.toggleSuccessAlert, 3000);
+    })
+    .catch(e => {
+      this.setState({
+        formHasError: true,
+        formErrorMessage: "Error Submitting Incident Report"
+      });
     });
     // Axios({
     //   method: "post",
@@ -141,6 +167,19 @@ class IncidentReport extends Component {
     if (!this.props.valuesSet) {
       return (
         <div style={{ margin: "50px 20px 0px 20px" }}>
+          <FormAlert
+            doShow={this.state.formSubmitted}
+            type="success"
+            heading="Thank you for your submission!"
+          ></FormAlert>
+          <FormAlert
+            doShow={this.state.formHasError}
+            toggleErrorAlert={this.toggleErrorAlert}
+            type="danger"
+            heading="Error Submitting form"
+          >
+            <p>{this.state.formErrorMessage}</p>
+          </FormAlert>
           <div style={{ margin: "75px 0px" }}>
             <h2>Incident Report</h2>
           </div>

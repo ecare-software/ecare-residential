@@ -166,6 +166,14 @@ body {
 
 /* desktop */
 @media only screen and (min-width: 1226px) {
+  .alert{
+    position: fixed;
+    width: 900px;
+    height: auto;
+    margin: 5% auto;
+    left: 0;
+    right: 0;
+  }
   #desktopView{
     margin-top: 60px;
   }
@@ -289,6 +297,14 @@ body {
 
 /* ipad */
 @media only screen and (min-width: 768px) and (max-width: 1225px) {
+  .alert{
+    position: fixed;
+    width: 600px;
+    height: auto;
+    margin: 5% auto;
+    left: 0;
+    right: 0;
+  }
   #desktopView{
     margin-top: 60px;
       }
@@ -371,6 +387,20 @@ body {
 
 /* mobile up right */
 @media only screen and (max-width: 767px) {
+  html{
+    scroll-behavior: smooth;
+  }
+  .alert{
+    position: fixed;
+    width: 300px;
+    height: auto;
+    margin: 5% auto;
+    left: 0;
+    right: 0;
+  }
+  .alert-heading{
+    font-size:1.3em;
+  }
 #desktopView{
 
 }
@@ -427,6 +457,13 @@ body {
 
 /* mobile sideways */
 @media only screen and (min-width: 550px) and (max-width: 766px) {
+  html{
+    scroll-behavior: smooth;
+  }
+
+  .alert-heading{
+    font-size:1.3em;
+  }
   #greetingRowRightPContainer {
     margin-right: 200px;
   }
@@ -447,6 +484,9 @@ body {
 
 /* stupid iphone 5 */
 @media only screen and (max-width: 361px) {
+  html{
+    scroll-behavior: smooth;
+  }
   #homeiPhone {
     position: relative;
     left: 10px;
