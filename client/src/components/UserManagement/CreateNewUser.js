@@ -130,7 +130,7 @@ class CreateNewUser extends Component {
             Create New User <span style={{"fontSize":"15px"}} className={this.props.doShow? "fa fa-chevron-down":"fa fa-chevron-right"}></span>
           </h4>
 
-          <div className={this.props.doShow ? "formFields" : "hide"} >
+          <div className={this.props.doShow ? "formFields" : "hideIt"} >
             <div className="form-group logInInputField">
               <label className="control-label">First Name</label>
               <input

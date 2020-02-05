@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Axios from "axios";
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 //components
 import Header from "./components/Header/Header";
 import LogInContiner from "./components/LogInContainer/LogInContainer";
@@ -49,19 +49,19 @@ const navSelected = {
 
 class App extends Component {
   state = {
-    loggedIn: false,
+    loggedIn: true,
     userObj: {
-      // email: "demarcuskennedy95@gmail.com",
-      // firstName: "DeMarcus",
-      // homeId: "home-1234",
-      // isAdmin: true,
-      // jobTitle: "Admin",
-      // lastLogIn: "2019-08-26T03:22:28.424Z",
-      // lastName: "Kennedy",
-      // newUser: true,
-      // password: "xyz123",
-      // __v: 0,
-      // _id: "5d63507799ac0b1494149479"
+      email: "demarcuskennedy95@gmail.com",
+      firstName: "DeMarcus",
+      homeId: "home-1234",
+      isAdmin: true,
+      jobTitle: "Admin",
+      lastLogIn: "2019-08-26T03:22:28.424Z",
+      lastName: "Kennedy",
+      newUser: true,
+      password: "xyz123",
+      __v: 0,
+      _id: "5d63507799ac0b1494149479"
     },
     messagesInitLoad: false,
     allUsersSet: false,
@@ -72,7 +72,7 @@ class App extends Component {
     doDisplay: "Dashboard",
     discussionMessages: []
   };
-  
+
   componentDidUpdate = () => {
     if (!this.state.allUsersSet) {
       console.log(this.state);
@@ -124,7 +124,6 @@ class App extends Component {
   showErrorModal = (title, message) => {
     this.setState({ message: message });
     this.setState({ title: title });
-    // document.getElementById("errorModalBtn").click();
   };
 
   getAllUsers = () => {
@@ -157,150 +156,135 @@ class App extends Component {
             "You need to reset your password. Click the Manage Profile button to do so.",
           title: "Welcome to RCS, Heres some information"
         });
-        // document.getElementById("errorModalBtn").click();
       }
-    }
-  };
-
-  toggleSlidingDiv = () => {
-    // if (this.state.isOpen) {
-    //   document.getElementsByClassName("slidingDiv")[1].style.left = "-66%";
-    // } else {
-    //   document.getElementsByClassName("slidingDiv")[1].style.left = "0%";
-    // }
-    // this.setState({isOpen:!this.state.isOpen})
-    if(document.getElementsByClassName("slidingDiv")[1].style.left === "0%"){
-      document.getElementsByClassName("slidingDiv")[1].style.left = "-66%";
-    }else{
-      document.getElementsByClassName("slidingDiv")[1].style.left = "0%"
     }
   };
 
   toggleDisplay = display => {
     window.scrollTo(0, 0);
-    // if (document.getElementsByClassName("slidingDiv")[1].style.left === "0%") {
-    //   document.getElementsByClassName("slidingDiv")[1].style.left = "-66%";
-    // } else {
-    //   document.getElementsByClassName("slidingDiv")[1].style.left = "0%";
-    // }
-
     this.setState({ doDisplay: display });
   };
 
   render() {
     if (this.state.loggedIn) {
       return (
-
         <div className="App container" id="mainContainer">
-          <BSNavBar logOut={this.logOut} toggleDisplay={this.toggleDisplay} isLoggedIn={this.state.loggedIn} userObj={this.state.userObj}></BSNavBar>
-
-          <div id="desktopView" className="row">
-            {/* <div className="col-sm-3">
-              <div id="navActionContainer">
-                <div
-                  style={this.state.doDisplay !== "Reports" ? {} : hideStyle}
-                >
-                  <SlidingNav
-                    toggleDisplay={this.toggleDisplay}
-                    appendMessage={this.appendMessage}
-                    toggleDisplay={this.toggleDisplay}
-                    logOut={this.logOut}
-                    logIn={this.toggleLogIn}
-                    userObj={this.state.userObj}
-                  />
+          <BSNavBar
+            logOut={this.logOut}
+            toggleDisplay={this.toggleDisplay}
+            isLoggedIn={this.state.loggedIn}
+            userObj={this.state.userObj}
+          ></BSNavBar>
+          {this.state.doDisplay !== "Reports" ? (
+            <div id="desktopView" className="row">
+              <div className="col-sm-3">
+                <div id="extraInfo">
+                  <div>
+                    <h4>Hello, current user</h4>
+                  </div>
+                  <div>
+                    <p>
+                      this is some informational text about the current screen
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div> */}
-            <div
-              className="col-sm-12"
-              style={{ paddingLeft: "0px", paddingRight: "0px"}}
-            >
-              <div xstyle={{ padding: "0px 0px 0px 0px", marginTop: "93px 0px" }}>
-                <div
-                  style={this.state.doDisplay === "Dashboard" ? {} : hideStyle}
-                >
-                  <MessageBoard messages={this.state.discussionMessages} appendMessage={this.appendMessage} />
-                </div>
-                <div
-                  style={
-                    this.state.doDisplay === "User Management"
-                      ? {
-                          marginBottom: "150px",
-                          border: ".5px solid #eee",
-                          minHeight: "90vh"
-                        }
-                      : hideStyle
-                  }
-                >
-                  <UserManagement
-                    userObj={this.state.userObj}
-                    allUsers={this.state.allUsers}
-                  />
-                </div>
-                <div
-                  style={
-                    this.state.doDisplay === "TreatmentPlan72"
-                      ? { marginBottom: "150px", border: ".5px solid #eee" }
-                      : hideStyle
-                  }
-                >
-                  <TreatmentPlan72
-                    valuesSet={false}
-                    userObj={this.state.userObj}
-                    id="treatment"
-                  />
-                </div>
-                <div
-                  style={
-                    this.state.doDisplay === "IncidentReport"
-                      ? { marginBottom: "150px", border: ".5px solid #eee" }
-                      : hideStyle
-                  }
-                >
-                  <IncidentReport
-                    valuesSet={false}
-                    userObj={this.state.userObj}
-                    id="incident"
-                  />
-                </div>
-                <div
-                  style={
-                    this.state.doDisplay === "DailyProgress"
-                      ? { marginBottom: "150px", border: ".5px solid #eee" }
-                      : hideStyle
-                  }
-                >
-                  <DailyProgress
-                    valuesSet={false}
-                    userObj={this.state.userObj}
-                    id="dailyProgress"
-                  />
-                </div>
-                <div
-                  style={
-                    this.state.doDisplay === "restraintReport"
-                      ? { marginBottom: "150px", border: ".5px solid #eee" }
-                      : hideStyle
-                  }
-                >
-                  <RestraintReport
-                    valuesSet={false}
-                    userObj={this.state.userObj}
-                    id="restraintReport"
-                  />
-                </div>
-                <div
-                  style={
-                    this.state.doDisplay === "Reports"
-                      ? { marginBottom: "150px 0px" }
-                      : hideStyle
-                  }
-                >
-                  <Reports userObj={this.state.userObj} />
+              <div className="col-sm-9" id="actionSection">
+                <div>
+                  <div
+                    style={
+                      this.state.doDisplay === "Dashboard" ? {} : hideStyle
+                    }
+                  >
+                    <MessageBoard
+                      messages={this.state.discussionMessages}
+                      appendMessage={this.appendMessage}
+                    />
+                  </div>
+                  <div
+                    style={
+                      this.state.doDisplay === "User Management"
+                        ? {
+                            marginBottom: "50px",
+                            minHeight: "90vh"
+                          }
+                        : hideStyle
+                    }
+                  >
+                    <UserManagement
+                      userObj={this.state.userObj}
+                      allUsers={this.state.allUsers}
+                    />
+                  </div>
+                  <div
+                    style={
+                      this.state.doDisplay === "TreatmentPlan72"
+                        ? { marginBottom: "50px" }
+                        : hideStyle
+                    }
+                  >
+                    <TreatmentPlan72
+                      valuesSet={false}
+                      userObj={this.state.userObj}
+                      id="treatment"
+                    />
+                  </div>
+                  <div
+                    style={
+                      this.state.doDisplay === "IncidentReport"
+                        ? { marginBottom: "50px" }
+                        : hideStyle
+                    }
+                  >
+                    <IncidentReport
+                      valuesSet={false}
+                      userObj={this.state.userObj}
+                      id="incident"
+                    />
+                  </div>
+                  <div
+                    style={
+                      this.state.doDisplay === "DailyProgress"
+                        ? { marginBottom: "50px" }
+                        : hideStyle
+                    }
+                  >
+                    <DailyProgress
+                      valuesSet={false}
+                      userObj={this.state.userObj}
+                      id="dailyProgress"
+                    />
+                  </div>
+                  <div
+                    style={
+                      this.state.doDisplay === "restraintReport"
+                        ? { marginBottom: "50px" }
+                        : hideStyle
+                    }
+                  >
+                    <RestraintReport
+                      valuesSet={false}
+                      userObj={this.state.userObj}
+                      id="restraintReport"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div id="desktopView" className="row">
+              <div
+              className="col-md-12"
+                style={
+                  this.state.doDisplay === "Reports"
+                    ? { marginBottom: "150px 0px" }
+                    : hideStyle
+                }
+              >
+                <Reports userObj={this.state.userObj} />
+              </div>
+            </div>
+          )}
         </div>
       );
     } else {

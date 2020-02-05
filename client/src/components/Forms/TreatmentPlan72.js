@@ -3,6 +3,7 @@ import FormError from "../FormMods/FormError";
 import FormAlert from "../Forms/FormAlert";
 import "../../App.css";
 import Axios from "axios";
+import { Collapse } from "react-bootstrap";
 /*
 
   things to change 
@@ -363,7 +364,7 @@ class TreatmentPlan72 extends Component {
   render() {
     if (!this.props.valuesSet) {
       return (
-        <div style={{ margin: "50px 20px 0px 20px" }}>
+        <div className="formComp">
           <FormAlert
             doShow={this.state.formSubmitted}
             type="success"
@@ -377,1524 +378,1540 @@ class TreatmentPlan72 extends Component {
           >
             <p>{this.state.formErrorMessage}</p>
           </FormAlert>
-          <div style={{ margin: "75px 0px" }}>
-            <h2>72 Hour Treatment Plan</h2>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Child's Name</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="childMeta_name"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Child's Date of Birth</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="childMeta_dob"
-              className="form-control"
-              type="date"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Child's Age</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="childMeta_age"
-              className="form-control"
-              type="number"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Child's SSN</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="childMeta_ssn"
-              className="form-control"
-              type="number"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Child's Gender</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="childMeta_gender"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Child's Medicaid Number
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="childMeta_medicaidNumber"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Child's Birth County</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="childMeta_county"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Child's Place of Birth (City, State)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="childMeta_placeOfBirth"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Child's Ethnicity</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="childMeta_ethnicity"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Child's Level of Care</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="childMeta_levelOfCare"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Child's Religion</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="childMeta_religion"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Child's Managing Conservator
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="childMeta_managingConservator"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Child's Date of Admission
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="childMeta_dateOfAdmission"
-              className="form-control"
-              type="date"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Projected Date For Achieving Permanency
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="projectedDateForAchievingPermanency"
-              className="form-control"
-              type="date"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Legal Status / Permancy Goal
-            </label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="legalStatus_PermancyGoal"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Father's Name</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="fatherMeta_name"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Father's Address</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="fatherMeta_address"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Father's Phone Number</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="fatherMeta_phoneNumber"
-              className="form-control"
-              type="number"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Mother's Name</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="motherMeta_name"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Mother's Address</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="motherMeta_address"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Mother Phone Number</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="motherMeta_phoneNumber"
-              className="form-control"
-              type="number"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Legal Status</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="legalStatus"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Referring Agency / Co</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="referringAgency_co"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Name of Agent of Referring Agency / Co
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="agentOfReferringAgency_co_name"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Address of Agent of Referring Agency / Co
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="agentOfReferringAgency_co_address"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Child's Reaction to Placement
-            </label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="reactionToPlacement"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Child's Interests</label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="interests"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            <h5>
-              Significant relationship to the child{" "}
-              <i>(siblings, others relatives, CASA workers, and attorney)</i>:
-            </h5>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Name of Significant Relation (1)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="otherMeta1_name"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Relationship of Significant Relation (1)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="otherMeta1_relationship"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Adress of Significant Relation (1)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="otherMeta1_address"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Phone Number of Significant Relation (1)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="otherMeta1_phoneNumber"
-              className="form-control"
-              type="number"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Name of Significant Relation (2)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="otherMeta2_name"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Relationship of Significant Relation (2)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="otherMeta2_relationship"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Address of Significant Relation (2)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="otherMeta2_address"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Phone Number of Significant Relation (1)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="otherMeta2_phoneNumber"
-              className="form-control"
-              type="number"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Name of Significant Relation (3)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="otherMeta3_name"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Relationship of Significant Relation (3)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="otherMeta3_relationship"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Address of Significant Relation (3)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="otherMeta3_address"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Phone Number of Significant Relation (3)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="otherMeta3_phoneNumber"
-              className="form-control"
-              type="number"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Name of Significant Relation (4)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="otherMeta4_name"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Relationship of Significant Relation (4)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="otherMeta4_relationship"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Address of Significant Relation (4)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="otherMeta4_address"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Phone Number of Significant Relation (1)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="otherMeta4_phoneNumber"
-              className="form-control"
-              type="number"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            <h5>MEDICAL / DENTAL / DEVELOPMENTAL</h5>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Current Medical Information
-            </label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="currentMedicalInformation"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Developmental / Medical History
-            </label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="developmental_medicalHistory"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Drug Allergies</label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="drugAllergies"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Food Allergies</label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="food1"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Allergies</label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="allergies"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Chronic Health</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="chronicHealth"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Health Strengths</label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="healthStrengths"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Health Needs</label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="healthNeeds"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Last Physical Examination
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="lastPhysicalExamination_date"
-              className="form-control"
-              type="date"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Location of Last Physical Examination
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="lastPhysicalExamination_location"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Who monitored the child's last physical examination?
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="lastPhysicalExamination_monitoredBy"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Last Dental Examination
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="lastDentalExamination_date"
-              className="form-control"
-              type="date"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Location of the Last Dental Examination
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="lastDentalExamination_location"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Who monitored the child's last dental examination?
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="lastDentalExamination_monitoredBy"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Last Optical Examination
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="lastOpticalExamination_date"
-              className="form-control"
-              type="date"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Location of the last optical examination
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="lastOpticalExamination_location"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Who monitored the last optical examination?
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="lastOpticalExamination_monitoredBy"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            <h5>
-              CURRENT MEDICATIONS, DOSAGES AND TARGETED SYMPTOMS: NOTE: refer to
-              current Medical Logs for Possible Recent Medication Alterations:
-            </h5>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Medication (1)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms1_medication"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Dosage / Frequency (1)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms1_dosage_frequency"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Purpose (1)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms1_purpose"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Possible side effects (1)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms1_possibleSideEffects"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Monitored By (1)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms1_monitoredBy"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Medication (2)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms2_medication"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Dosage / Frequency (2)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms2_dosage_frequency"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Purpose (2)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms2_purpose"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Possible Side Effects (2)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms2_possibleSideEffects"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Monitored By (2)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms2_monitoredBy"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Medication (3)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms3_medication"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Dosage Frequency (3)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms3_dosage_frequency"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Purpose (3)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms3_purpose"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Possible Side Effects (3)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms3_possibleSideEffects"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Monitored By (3)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms3_monitoredBy"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Medication (4)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms4_medication"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Dosage Frequency (4)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms4_dosage_frequency"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Purpose (4)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms4_purpose"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Possible Side Effects (4)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms4_possibleSideEffects"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Monitored By (4)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms4_monitoredBy"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Medication (5)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms5_medication"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Dosage Frequency (5)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms5_dosage_frequency"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Purpose (5)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms5_purpose"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Possible Side Effects (5)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms5_possibleSideEffects"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Monitored By (5)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="currentMedications_dosages_targetedSymptoms5_monitoredBy"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Behavioral Strengths</label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="behavioralStrengths"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Behavioral Needs</label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="behavioralNeeds"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Behavioral Treatment Services
-            </label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="behavioralTreatmentServices"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Emotional Strengths</label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="emotionalStrengths"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">emotionalNeeds</label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="emotionalNeeds"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Emotional Treatment Services
-            </label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="emotionalTreatmentServices"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            <h5>
-              ISSUES OR CONCERNS THAT COULD INCREASE ESCALATING BEHAVIORS:
-            </h5>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Food</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="food2"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Eye Contact</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="eyeContact"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Physical Touch</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="physicalTouch"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Personal Property</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="personalProperty"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Certain Topics</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="certainTopics"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Known contraindications to the use of restraint
-            </label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="knownContraindicationsToTheUuseOfRestraint"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              De-escalating Techniques to avoid restraints (EBI)
-            </label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="de_escalatingTechniquesToAvoidRestraints_ebi"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Child's De-escalation Technique:
-            </label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="child_de_escalator"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Staff Member's De-escalation Technique:
-            </label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="staff_de_escalator"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Therapist's De-escalation Technique:
-            </label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="therapist_de_escalator"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Child's Preferred De-escalation
-            </label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="childPreferred_de_escalation"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Intervention Strategies
-            </label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="interventionStrategies"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">supervisionStrategies</label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="supervisionStrategies"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Social Recreational Strengths
-            </label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="social_recreationalStrengths"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Social Recreational Needs
-            </label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="social_recreationalNeeds"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Family Strengths</label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="familyStrengths"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Family Needs</label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="familyNeeds"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Name of visitor (1)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor1_name"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Relation of Visitor (1)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor1_relationship"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Frequency of visitation (1)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor1_frequency"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Who will visitor (1) be supervised by
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor1_supervisedBy"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Location of visitor (1)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor1_location"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Visitation length of vistitor (1)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor1_length"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Name of visitor (2)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor2_name"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Relation of Visitor (2)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor2_relationship"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Frequency of visitation (2)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor2_frequency"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Who will visitor (2) be supervised by
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor2_supervisedBy"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Location of visitor (2)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor2_location"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Visitation length of vistitor (2)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor2_length"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Name of visitor (3)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor3_name"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Relation of Visitor (3)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor3_relationship"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Frequency of visitation (3)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor3_frequency"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Who will visitor (3) be supervised by
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor3_supervisedBy"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Location of visitor (3)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor3_location"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Visitation length of vistitor (3)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor3_length"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Name of visitor (4)</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor4_name"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Relation of Visitor (4)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor4_relationship"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Frequency of visitation (4)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor4_frequency"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Who will visitor (4) be supervised by
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor4_supervisedBy"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Location of visitor (4)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor4_location"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Visitation length of vistitor (4)
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="visitor4_length"
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Educational / Vacational Strengths
-            </label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="educational_vacationalStrengths"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              Educational / Vacational Needs
-            </label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="educational_vacationalNeeds"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Transitional Living</label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="transitionalLiving"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Discharge Planning</label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="dischargePlanning"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Long Range Goals</label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="longRangeGoals"
-              className="form-control"
-            ></textarea>
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">Short Range Goals</label>{" "}
-            <textarea
-              onChange={this.handleFieldInput}
-              id="shortRangeGoals"
-              className="form-control"
-            ></textarea>
-          </div>
-          {/* <div className="form-group logInInputField">
+          <div className="formTitleDiv">
+            <h2 className="formTitle">72 Hour Treatment Plan</h2>
+          </div>
+          <div className="formFieldsMobile">
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Child's Name</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_name"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Child's Date of Birth
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_dob"
+                className="form-control"
+                type="date"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Child's Age</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_age"
+                className="form-control"
+                type="number"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Child's SSN</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_ssn"
+                className="form-control"
+                type="number"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Child's Gender</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_gender"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Child's Medicaid Number
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_medicaidNumber"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Child's Birth County</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_county"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Child's Place of Birth (City, State)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_placeOfBirth"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Child's Ethnicity</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_ethnicity"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Child's Level of Care
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_levelOfCare"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Child's Religion</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_religion"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Child's Managing Conservator
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_managingConservator"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Child's Date of Admission
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_dateOfAdmission"
+                className="form-control"
+                type="date"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Projected Date For Achieving Permanency
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="projectedDateForAchievingPermanency"
+                className="form-control"
+                type="date"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Legal Status / Permancy Goal
+              </label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="legalStatus_PermancyGoal"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Father's Name</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="fatherMeta_name"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Father's Address</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="fatherMeta_address"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Father's Phone Number
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="fatherMeta_phoneNumber"
+                className="form-control"
+                type="number"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Mother's Name</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="motherMeta_name"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Mother's Address</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="motherMeta_address"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Mother Phone Number</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="motherMeta_phoneNumber"
+                className="form-control"
+                type="number"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Legal Status</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="legalStatus"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Referring Agency / Co
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="referringAgency_co"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Name of Agent of Referring Agency / Co
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="agentOfReferringAgency_co_name"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Address of Agent of Referring Agency / Co
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="agentOfReferringAgency_co_address"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Child's Reaction to Placement
+              </label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="reactionToPlacement"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Child's Interests</label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="interests"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              <h5>
+                Significant relationship to the child{" "}
+                <i>(siblings, others relatives, CASA workers, and attorney)</i>:
+              </h5>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Name of Significant Relation (1)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="otherMeta1_name"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Relationship of Significant Relation (1)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="otherMeta1_relationship"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Adress of Significant Relation (1)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="otherMeta1_address"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Phone Number of Significant Relation (1)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="otherMeta1_phoneNumber"
+                className="form-control"
+                type="number"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Name of Significant Relation (2)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="otherMeta2_name"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Relationship of Significant Relation (2)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="otherMeta2_relationship"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Address of Significant Relation (2)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="otherMeta2_address"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Phone Number of Significant Relation (1)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="otherMeta2_phoneNumber"
+                className="form-control"
+                type="number"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Name of Significant Relation (3)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="otherMeta3_name"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Relationship of Significant Relation (3)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="otherMeta3_relationship"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Address of Significant Relation (3)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="otherMeta3_address"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Phone Number of Significant Relation (3)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="otherMeta3_phoneNumber"
+                className="form-control"
+                type="number"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Name of Significant Relation (4)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="otherMeta4_name"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Relationship of Significant Relation (4)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="otherMeta4_relationship"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Address of Significant Relation (4)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="otherMeta4_address"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Phone Number of Significant Relation (1)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="otherMeta4_phoneNumber"
+                className="form-control"
+                type="number"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              <h5>MEDICAL / DENTAL / DEVELOPMENTAL</h5>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Current Medical Information
+              </label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="currentMedicalInformation"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Developmental / Medical History
+              </label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="developmental_medicalHistory"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Drug Allergies</label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="drugAllergies"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Food Allergies</label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="food1"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Allergies</label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="allergies"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Chronic Health</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="chronicHealth"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Health Strengths</label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="healthStrengths"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Health Needs</label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="healthNeeds"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Last Physical Examination
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="lastPhysicalExamination_date"
+                className="form-control"
+                type="date"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Location of Last Physical Examination
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="lastPhysicalExamination_location"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Who monitored the child's last physical examination?
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="lastPhysicalExamination_monitoredBy"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Last Dental Examination
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="lastDentalExamination_date"
+                className="form-control"
+                type="date"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Location of the Last Dental Examination
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="lastDentalExamination_location"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Who monitored the child's last dental examination?
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="lastDentalExamination_monitoredBy"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Last Optical Examination
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="lastOpticalExamination_date"
+                className="form-control"
+                type="date"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Location of the last optical examination
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="lastOpticalExamination_location"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Who monitored the last optical examination?
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="lastOpticalExamination_monitoredBy"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              <h5>
+                CURRENT MEDICATIONS, DOSAGES AND TARGETED SYMPTOMS: NOTE: refer
+                to current Medical Logs for Possible Recent Medication
+                Alterations:
+              </h5>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Medication (1)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms1_medication"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Dosage / Frequency (1)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms1_dosage_frequency"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Purpose (1)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms1_purpose"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Possible side effects (1)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms1_possibleSideEffects"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Monitored By (1)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms1_monitoredBy"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Medication (2)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms2_medication"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Dosage / Frequency (2)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms2_dosage_frequency"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Purpose (2)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms2_purpose"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Possible Side Effects (2)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms2_possibleSideEffects"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Monitored By (2)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms2_monitoredBy"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Medication (3)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms3_medication"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Dosage Frequency (3)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms3_dosage_frequency"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Purpose (3)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms3_purpose"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Possible Side Effects (3)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms3_possibleSideEffects"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Monitored By (3)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms3_monitoredBy"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Medication (4)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms4_medication"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Dosage Frequency (4)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms4_dosage_frequency"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Purpose (4)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms4_purpose"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Possible Side Effects (4)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms4_possibleSideEffects"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Monitored By (4)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms4_monitoredBy"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Medication (5)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms5_medication"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Dosage Frequency (5)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms5_dosage_frequency"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Purpose (5)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms5_purpose"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Possible Side Effects (5)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms5_possibleSideEffects"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Monitored By (5)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="currentMedications_dosages_targetedSymptoms5_monitoredBy"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Behavioral Strengths</label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="behavioralStrengths"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Behavioral Needs</label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="behavioralNeeds"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Behavioral Treatment Services
+              </label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="behavioralTreatmentServices"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Emotional Strengths</label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="emotionalStrengths"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">emotionalNeeds</label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="emotionalNeeds"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Emotional Treatment Services
+              </label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="emotionalTreatmentServices"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              <h5>
+                ISSUES OR CONCERNS THAT COULD INCREASE ESCALATING BEHAVIORS:
+              </h5>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Food</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="food2"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Eye Contact</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="eyeContact"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Physical Touch</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="physicalTouch"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Personal Property</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="personalProperty"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Certain Topics</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="certainTopics"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Known contraindications to the use of restraint
+              </label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="knownContraindicationsToTheUuseOfRestraint"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                De-escalating Techniques to avoid restraints (EBI)
+              </label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="de_escalatingTechniquesToAvoidRestraints_ebi"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Child's De-escalation Technique:
+              </label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="child_de_escalator"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Staff Member's De-escalation Technique:
+              </label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="staff_de_escalator"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Therapist's De-escalation Technique:
+              </label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="therapist_de_escalator"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Child's Preferred De-escalation
+              </label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="childPreferred_de_escalation"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Intervention Strategies
+              </label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="interventionStrategies"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                supervisionStrategies
+              </label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="supervisionStrategies"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Social Recreational Strengths
+              </label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="social_recreationalStrengths"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Social Recreational Needs
+              </label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="social_recreationalNeeds"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Family Strengths</label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="familyStrengths"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Family Needs</label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="familyNeeds"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Name of visitor (1)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor1_name"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Relation of Visitor (1)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor1_relationship"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Frequency of visitation (1)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor1_frequency"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Who will visitor (1) be supervised by
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor1_supervisedBy"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Location of visitor (1)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor1_location"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Visitation length of vistitor (1)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor1_length"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Name of visitor (2)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor2_name"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Relation of Visitor (2)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor2_relationship"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Frequency of visitation (2)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor2_frequency"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Who will visitor (2) be supervised by
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor2_supervisedBy"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Location of visitor (2)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor2_location"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Visitation length of vistitor (2)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor2_length"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Name of visitor (3)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor3_name"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Relation of Visitor (3)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor3_relationship"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Frequency of visitation (3)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor3_frequency"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Who will visitor (3) be supervised by
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor3_supervisedBy"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Location of visitor (3)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor3_location"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Visitation length of vistitor (3)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor3_length"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Name of visitor (4)</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor4_name"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Relation of Visitor (4)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor4_relationship"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Frequency of visitation (4)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor4_frequency"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Who will visitor (4) be supervised by
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor4_supervisedBy"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Location of visitor (4)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor4_location"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Visitation length of vistitor (4)
+              </label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="visitor4_length"
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Educational / Vacational Strengths
+              </label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="educational_vacationalStrengths"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">
+                Educational / Vacational Needs
+              </label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="educational_vacationalNeeds"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Transitional Living</label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="transitionalLiving"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Discharge Planning</label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="dischargePlanning"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Long Range Goals</label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="longRangeGoals"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Short Range Goals</label>{" "}
+              <textarea
+                onChange={this.handleFieldInput}
+                id="shortRangeGoals"
+                className="form-control"
+              ></textarea>
+            </div>
+            {/* <div className="form-group logInInputField">
             {" "}
             <label className="control-label">administorSign</label>{" "}
             <input
@@ -1936,23 +1953,38 @@ class TreatmentPlan72 extends Component {
               type="text"
             />{" "}
           </div> */}
-          <FormError errorId={this.props.id + "-error"} />
-          <div
-            className="form-group logInInputField"
-            style={{ textAlign: "right" }}
-          >
-            <button className="darkBtn" onClick={this.validateForm}>
-              Submit
-            </button>
+            <FormError errorId={this.props.id + "-error"} />
+            <div
+              className="form-group logInInputField"
+              style={{ textAlign: "right" }}
+            >
+              <button className="darkBtn" onClick={this.validateForm}>
+                Submit
+              </button>
+            </div>
           </div>
         </div>
       );
     } else {
       return (
-        <div style={{ margin: "50px 20px 0px 20px" }}>
-          <div style={{ margin: "75px 0px" }}>
-            <h2>72 Hour Treatment Plan</h2>
+        <div className="formComp">
+          <FormAlert
+            doShow={this.state.formSubmitted}
+            type="success"
+            heading="Thank you for your submission!"
+          ></FormAlert>
+          <FormAlert
+            doShow={this.state.formHasError}
+            toggleErrorAlert={this.toggleErrorAlert}
+            type="danger"
+            heading="Error Submitting form"
+          >
+            <p>{this.state.formErrorMessage}</p>
+          </FormAlert>
+          <div className="formTitleDiv">
+            <h2 className="formTitle">72 Hour Treatment Plan</h2>
           </div>
+          <div className="formFieldsMobile">
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">Child's Name</label>{" "}
@@ -3734,6 +3766,7 @@ class TreatmentPlan72 extends Component {
             <button className="darkBtn" onClick={this.validateForm}>
               Submit
             </button>
+          </div>
           </div>
         </div>
       );

@@ -1,33 +1,38 @@
-.defaultLabel{
+.defaultLabel {
   color: maroon;
-    border-bottom: .5px solid #eee;
-    padding:10px 10px;
+  border-bottom: 0.5px solid #eee;
+  padding: 10px 10px;
+}
+.navbar {
+  -webkit-box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75);
 }
 
-.defaultSubLabel{
+.defaultSubLabel {
   font-weight: 900;
   /* margin2px; */
 }
-.flexNewPassword{
-  display:flex
-};
+.flexNewPassword {
+  display: flex;
+}
 
-label{
+label {
   font-weight: 400 !important;
 }
-.formFields{
-  margin:25px 10px;
+.formFields {
+  margin: 25px 10px;
   height: fit-content;
 }
 
-.formFieldsTitle{
-  margin:15px 0px;
+.formFieldsTitle {
+  margin: 15px 0px;
 }
-.pointer{
+.pointer {
   cursor: pointer;
 }
-.fa{
-position: inherit;
+.fa {
+  position: inherit;
 }
 
 .modal-header {
@@ -38,8 +43,8 @@ position: inherit;
   flex: 1;
 }
 
-.dropdown-toggle{
-  color:white !important;
+.dropdown-toggle {
+  color: white !important;
 }
 
 .lightBtn {
@@ -163,10 +168,27 @@ body {
 .App {
   overflow-x: hidden;
 }
+#extraInfo{
+position: fixed;
+width:18%;
+top:20%;
+left:15%;
+}
+
+.filterSection{
+  margin: 15px 30px 15px 65px;
+}
 
 /* desktop */
 @media only screen and (min-width: 1226px) {
-  .alert{
+  .formComp{
+    padding:0px 20px 1px 20px;
+    margin:0px 20px 0px 20px;
+    background-color: #f1f1f182;
+    border-bottom-left-radius: 9px;
+    border-bottom-right-radius: 9px;
+  }
+  .alert {
     position: fixed;
     width: 900px;
     height: auto;
@@ -174,15 +196,17 @@ body {
     left: 0;
     right: 0;
   }
-  #desktopView{
+  
+  #desktopView {
     margin-top: 60px;
   }
-  #mobileView{
+  #mobileView {
     display: none;
   }
   #mainContainer {
     /* height: 500px; */
     /* margin: 0px 250px; */
+    width:75%
   }
   .App-header {
     background-color: #282c34;
@@ -248,6 +272,17 @@ body {
     margin-right: 150px;
   }
 
+  .formTitleDiv {
+    color: maroon;
+    min-height: 60px;
+    margin-bottom: 25px;
+    padding:25px 0px 10px 0px;
+    border-bottom: .5px solid #cfcece;
+  }
+  .formTitle {
+    font-size: 1.8em;
+  }
+
   #homeiPhone {
     background: url("../src/images/iphone.jpg") no-repeat;
     background-size: contain;
@@ -262,7 +297,7 @@ body {
     width: 100%;
   }
 
-  .hideOnDesktop{
+  .hideOnDesktop {
     display: none !important;
   }
   #navTitleDesktop {
@@ -275,29 +310,52 @@ body {
     display: flex;
     position: fixed;
     background-color: white;
-    padding:50px 0px 8px 0px;
-    border-bottom:.5px solid rgb(202, 202, 202);
-    z-index:50;
-    
+    padding: 50px 0px 8px 0px;
+    border-bottom: 0.5px solid rgb(202, 202, 202);
+    z-index: 50;
   }
-  #navTitleDesktop > p{
-    margin-left:20px;
+  #navTitleDesktop > p {
+    margin-left: 20px;
   }
-  #navActionContainer{
+  #navActionContainer {
     margin-top: 35px;
     position: fixed;
   }
 
-  #navActionGreeting{
+  #navActionGreeting {
     font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
     font-size: 2em;
   }
-
 }
 
 /* ipad */
 @media only screen and (min-width: 768px) and (max-width: 1225px) {
-  .alert{
+  .formComp{
+    padding:0px 20px 1px 20px;
+    margin:0px 20px 0px 20px;
+    background-color: #f1f1f182;
+    border-bottom-left-radius: 9px;
+    border-bottom-right-radius: 9px;
+  }
+
+  #extraInfo{
+    position: fixed;
+    width:23%;
+    top:20%;
+    left:35px;
+    }
+
+  .formTitleDiv {
+    color: maroon;
+    min-height: 60px;
+    margin-bottom: 25px;
+    padding:25px 0px 10px 0px;
+    border-bottom: .5px solid #cfcece;
+  }
+  .formTitle {
+    font-size: 1.8em;
+  }
+  .alert {
     position: fixed;
     width: 600px;
     height: auto;
@@ -305,40 +363,39 @@ body {
     left: 0;
     right: 0;
   }
-  #desktopView{
+  #desktopView {
     margin-top: 60px;
-      }
-      #navTitleDesktop {
-        z-index: 50;
-        color: maroon;
-        font-weight: 900;
-        font-size: 1.2em;
-        margin-top: 20px;
-        margin-bottom: 20px;
-        display: flex;
-        position: fixed;
-        width: inherit;
-        background-color: white;
-        padding:50px 0px 8px 0px;
-        border-bottom:.5px solid rgb(202, 202, 202);
-        
-      }
-      #navTitleDesktop > p{
-        margin-left:20px;
-      }
-      #navActionContainer{
-        margin-top: 35px;
-        position: fixed;
-      }
-    
-      #navActionGreeting{
-        font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
-        font-size: 2em;
-      }
-  .hideOnDesktop{
+  }
+  #navTitleDesktop {
+    z-index: 50;
+    color: maroon;
+    font-weight: 900;
+    font-size: 1.2em;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    position: fixed;
+    width: inherit;
+    background-color: white;
+    padding: 50px 0px 8px 0px;
+    border-bottom: 0.5px solid rgb(202, 202, 202);
+  }
+  #navTitleDesktop > p {
+    margin-left: 20px;
+  }
+  #navActionContainer {
+    margin-top: 35px;
+    position: fixed;
+  }
+
+  #navActionGreeting {
+    font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+    font-size: 2em;
+  }
+  .hideOnDesktop {
     display: none !important;
   }
-  #mobileView{
+  #mobileView {
     display: none;
   }
   #greetingContainer {
@@ -387,10 +444,45 @@ body {
 
 /* mobile up right */
 @media only screen and (max-width: 767px) {
-  html{
+  .filterSection{
+    margin: 15px 0px 15px 0px;
+  }
+  .formTitleDiv {
+    -webkit-box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75);
+    color: maroon;
+    background: #f1f1f1;
+    position: fixed;
+    width: -webkit-fill-available;
+    min-height: 60px;
+    padding: 10px 0px;
+    left: 0;
+    right: 0;
+    top: -20px;
+    margin: 75px 0px;
+    z-index: 1;
+  }
+  .formComp{
+    margin:0px 20px 1px 20px;
+  }
+  #extraInfo{
+    display: none;
+  }
+  .formTitle {
+    font-size: 1.3em;
+    margin: 5px 15px;
+  }
+  .reportBtnsMobile {
+    margin-top: 150px;
+  }
+  .formFieldsMobile {
+    margin-top: 150px;
+  }
+  html {
     scroll-behavior: smooth;
   }
-  .alert{
+  .alert {
     position: fixed;
     width: 300px;
     height: auto;
@@ -398,13 +490,12 @@ body {
     left: 0;
     right: 0;
   }
-  .alert-heading{
-    font-size:1.3em;
+  .alert-heading {
+    font-size: 1.3em;
   }
-#desktopView{
+  #desktopView {
+  }
 
-}
-  
   #greetingContainer {
     padding: 0px;
     border-bottom: 15px solid maroon;
@@ -457,12 +548,12 @@ body {
 
 /* mobile sideways */
 @media only screen and (min-width: 550px) and (max-width: 766px) {
-  html{
+  html {
     scroll-behavior: smooth;
   }
 
-  .alert-heading{
-    font-size:1.3em;
+  .alert-heading {
+    font-size: 1.3em;
   }
   #greetingRowRightPContainer {
     margin-right: 200px;
@@ -484,7 +575,7 @@ body {
 
 /* stupid iphone 5 */
 @media only screen and (max-width: 361px) {
-  html{
+  html {
     scroll-behavior: smooth;
   }
   #homeiPhone {

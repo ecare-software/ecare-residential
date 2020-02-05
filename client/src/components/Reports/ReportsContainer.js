@@ -4,6 +4,7 @@ import ReportBarChart from "./ReportBarChart";
 import ReportPieChart from "./ReportPieChart";
 import SearchContainer from "./SearchContainer";
 import ShowFormContainer from "./ShowFormContainer";
+import { Collapse } from "react-bootstrap";
 import Axios from "axios";
 
 function onlyUnique(value, index, self) {
@@ -33,7 +34,8 @@ class ReportsContainer extends Component {
         "Supervisor"
       ],
       allUsers: [],
-      doReset:false
+      doReset: false,
+      doShowFilters: false
     };
   }
 
@@ -114,7 +116,7 @@ class ReportsContainer extends Component {
       pieChartData: [],
       chartsReady: false,
       searchString: "",
-      doReset:true
+      doReset: true
     });
   };
 
@@ -167,7 +169,7 @@ class ReportsContainer extends Component {
 
     Axios.all(formRequests).then(results => {
       this.setFormsData(results);
-      this.setState({doReset:false});
+      this.setState({ doReset: false });
     });
 
     return;
@@ -187,10 +189,9 @@ class ReportsContainer extends Component {
       pieChartData: [],
       chartsReady: false,
       searchString: "",
-      doReset:true
+      doReset: true,
+      doShowFilters: false
     });
-
-    
 
     var formRequests = [
       Axios.get("/api/dailyProgressAndActivity/" + this.props.userObj.homeId),
@@ -201,7 +202,7 @@ class ReportsContainer extends Component {
 
     Axios.all(formRequests).then(results => {
       this.setFormsData(results);
-      this.setState({doReset:false});
+      this.setState({ doReset: false });
     });
 
     return;
@@ -210,6 +211,7 @@ class ReportsContainer extends Component {
   };
 
   runSearchClick = () => {
+    this.setState({ doShowFilters: false });
     document.getElementById("searchBtn").click();
   };
 
@@ -443,7 +445,7 @@ class ReportsContainer extends Component {
     }
     Axios.all(formRequests).then(results => {
       this.setFormsData(results);
-      this.setState({doReset:false});
+      this.setState({ doReset: false });
     });
     // + "/"+"some"
 
@@ -473,27 +475,62 @@ class ReportsContainer extends Component {
     }
   }
 
+  toggleFilters = () => {
+    this.setState({ doShowFilters: !this.state.doShowFilters });
+  };
+
   render() {
     return (
       <div style={{ marginTop: "50px" }}>
-        <div
-          id="reportsHeaderContainer"
-          className="row"
-          style={{ marginTop: "50px", margin: "50px 0px" }}
-        >
-          <div
-            className="col-md-12"
-            style={{ display: "flex", flexDirection: "row" }}
-          >
+        {/* Title */}
+        <div className="row" style={{ margin: "0px 30px" }}>
+          <div className="formTitleDiv" style={{ width: "100%" }}>
+            <h2 className="formTitle">
+              Reports{"  "}
+              <button className="btn btn-link" onClick={this.toggleFilters}>
+                <span className="fa fa-plus"></span>{" "}
+                {this.state.doShowFilters ? "Hide Filters" : "Show Filters"}
+              </button>
+              <br/>
+              <hr/>
+              <div style={{width:"100%",display:"flex",justifyContent:"space-evenly"}}>
+              <button className="btn btn-success" onClick={this.runSearchClick}>
+                <span className="fa fa-play"></span> Run Search
+              </button>
+              <button
+                onClick={this.selectedUserFormToggle.bind(
+                  "",
+                  this.state.searchObj
+                )}
+                className="btn btn-warning"
+              >
+               <span className="fa fa-undo"></span> Return to List
+              </button>
+              </div>
+            </h2>
+          </div>
+        </div>
+        <div className="reportBtnsMobile"></div>
+        <Collapse in={this.state.doShowFilters === true} timeout={10000}>
+          <div className="row" style={{ padding: "10px 0px" }}>
+            <SearchContainer
+              allUsers={this.state.allUsers}
+              runSearch={this.runSearch}
+              formNames={this.state.formNames}
+            />
+          </div>
+        </Collapse>
+        {/* <div className="row" style={{ marginTop: "50px", margin: "50px 0px" }}>
+          <div className="col-md-12">
             <div
               id="formListBtns"
               style={{
-                margin: "20px 0px 0px 25px"
+                margin: "25px 25px",
+                display: "flex"
               }}
             >
               <button className="darkBtn" onClick={this.runSearchClick}>
-                <span className="fa fa-play"></span> Run
-                Search
+                <span className="fa fa-play"></span> Run Search
               </button>
               <button
                 onClick={this.selectedUserFormToggle.bind(
@@ -506,14 +543,9 @@ class ReportsContainer extends Component {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="row" style={{ paddingBottom: "100px" }}>
-          <SearchContainer
-            allUsers={this.state.allUsers}
-            runSearch={this.runSearch}
-            formNames={this.state.formNames}
-          />
-          <div className="col-md-12">
+          <div style={{marginTop:"25px"}} className="col-md-12">
             <div
               className={
                 Object.keys(this.state.selectedUserForm).length > 0
@@ -522,7 +554,7 @@ class ReportsContainer extends Component {
               }
             >
               <FormListContainer
-                doReset ={this.state.doReset}
+                doReset={this.state.doReset}
                 setSelectedForm={this.setSelectedForm}
                 setSelectedUser={this.setSelectedUser}
                 formObjs={this.state.forms}

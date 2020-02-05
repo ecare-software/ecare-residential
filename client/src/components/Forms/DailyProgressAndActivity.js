@@ -144,7 +144,7 @@ class DailyProgressAndActivity extends Component {
   render() {
     if (!this.props.valuesSet) {
       return (
-        <div style={{ margin: "50px 20px 0px 20px" }}>
+        <div className="formComp">
           <FormAlert
             doShow={this.state.formSubmitted}
             type="success"
@@ -158,9 +158,10 @@ class DailyProgressAndActivity extends Component {
           >
             <p>{this.state.formErrorMessage}</p>
           </FormAlert>
-          <div style={{ margin: "75px 0px" }}>
-            <h2>Daily Progress and Activity</h2>
+          <div className="formTitleDiv">
+            <h2 className="formTitle">Daily Progress and Activity</h2>
           </div>
+          <div className="formFieldsMobile">
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">Child's Name</label>{" "}
@@ -537,14 +538,29 @@ class DailyProgressAndActivity extends Component {
               Submit
             </button>
           </div>
+          </div>
         </div>
       );
     } else {
       return (
-        <div style={{ margin: "50px 20px 0px 20px" }}>
-          <div style={{ margin: "75px 0px" }}>
-            <h2>Daily Progress and Activity</h2>
+        <div className="formComp">
+          <FormAlert
+            doShow={this.state.formSubmitted}
+            type="success"
+            heading="Thank you for your submission!"
+          ></FormAlert>
+          <FormAlert
+            doShow={this.state.formHasError}
+            toggleErrorAlert={this.toggleErrorAlert}
+            type="danger"
+            heading="Error Submitting form"
+          >
+            <p>{this.state.formErrorMessage}</p>
+          </FormAlert>
+          <div className="formTitleDiv">
+            <h2 className="formTitle">Daily Progress and Activity</h2>
           </div>
+          <div className="formFieldsMobile">
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">Child's Name</label>{" "}
@@ -920,6 +936,7 @@ class DailyProgressAndActivity extends Component {
             <button className="darkBtn" onClick={this.validateForm}>
               Submit
             </button>
+          </div>
           </div>
         </div>
       );

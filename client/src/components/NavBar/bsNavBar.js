@@ -55,7 +55,10 @@ class NavBar extends React.Component {
               {/* <NavDropdown.Divider /> */}
             </NavDropdown>
             <Nav.Link eventKey="link-6" onClick={this.props.toggleDisplay.bind({},"User Management")} style={navItemStyle}>User Management</Nav.Link>
-            {/* <Nav.Link eventKey="link-7" onClick={this.props.toggleDisplay.bind({}, "Reports")} style={navItemStyle}>Reports</Nav.Link> */}
+            {(this.props.userObj.isAdmin) ? <Nav.Link eventKey="link-7" onClick={this.props.toggleDisplay.bind({}, "Reports")} style={navItemStyle}>Reports</Nav.Link>
+          :
+          <React.Fragment></React.Fragment>  
+          }
           </Nav>
           <Nav className="ml-auto">
             <React.Fragment>

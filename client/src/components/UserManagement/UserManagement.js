@@ -28,11 +28,24 @@ class UserManagement extends Component {
   render() {
     return (
       <div style={{ margin: "50px 20px 0px 20px" }}>
-        <div style={{ margin: "75px 0px" }}>
-          <h2>View and manage users within your home.</h2>
+        <div className="formTitleDiv">
+          <h2 className="formTitle">View and manage users within your home.</h2>
         </div>
-        <ManageUsers id="manageUsers" allUsers={this.props.allUsers} toggleShow={this.toggleShow} doShow={this.state.showManageUsers} userObj={this.props.userObj}  />
-        <CreateNewUser id="createUser" toggleShow={this.toggleShow} doShow={this.state.showCreateNewUser} userObj={this.props.userObj} />
+        <div className="formFieldsMobile">
+          <ManageUsers
+            id="manageUsers"
+            allUsers={this.props.allUsers}
+            toggleShow={this.toggleShow}
+            doShow={this.state.showManageUsers}
+            userObj={this.props.userObj}
+          />
+          <CreateNewUser
+            id="createUser"
+            toggleShow={this.toggleShow}
+            doShow={this.state.showCreateNewUser}
+            userObj={this.props.userObj}
+          />
+        </div>
       </div>
     );
   }

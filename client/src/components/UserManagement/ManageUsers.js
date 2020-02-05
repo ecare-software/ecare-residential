@@ -74,7 +74,7 @@ alert("password reset")
             className="defaultLabel pointer"
             onClick={this.props.toggleShow.bind({}, "Manage User")}
           >
-            Manage Users
+            Manage Users{" "}
             <span
               style={{ fontSize: "15px" }}
               className={
@@ -84,7 +84,7 @@ alert("password reset")
               }
             ></span>
           </h4>
-          <div className={this.props.doShow ? "formFields" : "hide"}>
+          <div className={this.props.doShow ? "formFields" : "hideIt"}>
             {this.props.allUsers.map((item, index) => (
               <div key={index + "-" + "user"} style={{ margin: "50px 0px" }}>
                 <table style={{ width: "100%" }}>

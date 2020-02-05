@@ -102,21 +102,11 @@ class SearchContainer extends Component {
     return (
       <div
         style={{
-          margin: "0px 0px",
-          position: "fixed",
-          left: "0px",
-          top: "65px",
-          width: "450px"
+          width: "100%"
         }}
       >
-        {/* Title */}
-        <div className="row" style={{ margin: "15px 30px 30px 30px" }}>
-          <div style={{marginLeft:"50px"}}>
-            <h2 style={{"fontSize": "2.7em"}}>Reports</h2>
-          </div>
-        </div>
         {/* search bar */}
-        <div className="row" style={{ margin: "15px 30px 15px 65px" }}>
+        <div className="row filterSection">
           <div className="col-md-12">
             <div
               className="form-group"
@@ -154,7 +144,7 @@ class SearchContainer extends Component {
           </div>
         </div>
         {/* basic filters */}
-        <div className="row" style={{ margin: "15px 30px 15px 65px" }}>
+        <div className="row filterSection">
           <div className="col-md-12">
             <h4 style={{ color: "maroon" }}>Basic Filters</h4>
             <p style={{ margin: "10px 10px 5px 5px", fontWeight: "900" }}>
@@ -232,7 +222,7 @@ class SearchContainer extends Component {
           </div>
         </div>
         {/* Child filters */}
-        <div className="row" style={{ margin: "15px 30px 15px 65px" }}>
+        <div className="row filterSection">
           <div className="col-md-12">
             <h4 style={{ color: "maroon" }}>Child Filters</h4>
             <p style={{ margin: "10px 10px 5px 5px", fontWeight: "900" }}>
