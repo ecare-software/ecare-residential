@@ -176,7 +176,7 @@ left:15%;
 }
 
 .filterSection{
-  margin: 15px 30px 15px 65px;
+  margin: 15px 65px 15px 65px;
 }
 
 /* desktop */
@@ -187,6 +187,13 @@ left:15%;
     background-color: #f1f1f182;
     border-bottom-left-radius: 9px;
     border-bottom-right-radius: 9px;
+  }
+  .formTitleDivReport{
+    color: maroon;
+    min-height: 60px;
+    margin-bottom: 25px;
+    padding:25px 0px 10px 0px;
+    border-bottom: .5px solid #cfcece;
   }
   .alert {
     position: fixed;
@@ -338,6 +345,14 @@ left:15%;
     border-bottom-right-radius: 9px;
   }
 
+  .formTitleDivReport{
+    color: maroon;
+    min-height: 60px;
+    margin-bottom: 25px;
+    padding:25px 0px 10px 0px;
+    border-bottom: .5px solid #cfcece;
+  }
+
   #extraInfo{
     position: fixed;
     width:23%;
@@ -452,7 +467,7 @@ left:15%;
     -moz-box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75);
     color: maroon;
-    background: #f1f1f1;
+    background-color: #f1f1f1;
     position: fixed;
     width: -webkit-fill-available;
     min-height: 60px;
@@ -462,6 +477,21 @@ left:15%;
     top: -20px;
     margin: 75px 0px;
     z-index: 1;
+  }
+  .formTitleDivReport{
+    color: maroon;
+    background-color: rgba(255, 255, 255, 0.733);
+    position: fixed;
+    width: -webkit-fill-available;
+    min-height: 60px;
+    padding: 20px 0px;
+    left: 0;
+    right: 0;
+    top: 100px;
+    margin: 75px 0px;
+    z-index: 0;
+    text-align: center;
+    border-bottom: .5px solid #ccc;
   }
   .formComp{
     margin:0px 20px 1px 20px;
@@ -478,6 +508,9 @@ left:15%;
   }
   .formFieldsMobile {
     margin-top: 150px;
+  }
+  .formFieldsMobileReport {
+    margin-top: 50px;
   }
   html {
     scroll-behavior: smooth;

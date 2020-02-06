@@ -487,14 +487,13 @@ class ReportsContainer extends Component {
           <div className="formTitleDiv" style={{ width: "100%" }}>
             <h2 className="formTitle">
               Reports{"  "}
-              <button className="btn btn-link" onClick={this.toggleFilters}>
-                <span className="fa fa-plus"></span>{" "}
-                {this.state.doShowFilters ? "Hide Filters" : "Show Filters"}
-              </button>
               <br/>
               <hr/>
               <div style={{width:"100%",display:"flex",justifyContent:"space-evenly"}}>
-              <button className="btn btn-success" onClick={this.runSearchClick}>
+              <button className="btn btn-link" onClick={this.toggleFilters}>
+    {this.state.doShowFilters ? <span><span className="fa fa-minus"></span>{" "}Hide Filters</span> : <span><span className="fa fa-plus"></span>{" "}Show Filters</span>}
+              </button>
+              <button className="btn btn-link" onClick={this.runSearchClick}>
                 <span className="fa fa-play"></span> Run Search
               </button>
               <button
@@ -502,9 +501,9 @@ class ReportsContainer extends Component {
                   "",
                   this.state.searchObj
                 )}
-                className="btn btn-warning"
+                className="btn btn-link"
               >
-               <span className="fa fa-undo"></span> Return to List
+               <span className="fa fa-undo"></span> Reset List
               </button>
               </div>
             </h2>

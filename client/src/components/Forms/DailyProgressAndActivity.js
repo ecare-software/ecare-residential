@@ -557,10 +557,10 @@ class DailyProgressAndActivity extends Component {
           >
             <p>{this.state.formErrorMessage}</p>
           </FormAlert>
-          <div className="formTitleDiv">
+          <div className="formTitleDivReport">
             <h2 className="formTitle">Daily Progress and Activity</h2>
           </div>
-          <div className="formFieldsMobile">
+          <div className="formFieldsMobileReport">
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">Child's Name</label>{" "}

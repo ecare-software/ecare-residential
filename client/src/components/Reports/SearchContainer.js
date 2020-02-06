@@ -314,6 +314,7 @@ class SearchContainer extends Component {
             </div>
           </div>
         </div>
+        <hr/>
       </div>
     );
   }
