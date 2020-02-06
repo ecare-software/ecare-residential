@@ -4,7 +4,7 @@ import ReportBarChart from "./ReportBarChart";
 import ReportPieChart from "./ReportPieChart";
 import SearchContainer from "./SearchContainer";
 import ShowFormContainer from "./ShowFormContainer";
-import { Collapse } from "react-bootstrap";
+import {Collapse} from "react-bootstrap";
 import Axios from "axios";
 
 function onlyUnique(value, index, self) {
@@ -177,6 +177,9 @@ class ReportsContainer extends Component {
 
   selectedUserFormToggle = searchObj => {
     if (Object.keys(searchObj).length > 0) {
+      this.setState({
+        doShowFilters: false
+      });
       this.runSearch(searchObj);
       return;
     }
@@ -487,24 +490,38 @@ class ReportsContainer extends Component {
           <div className="formTitleDiv" style={{ width: "100%" }}>
             <h2 className="formTitle">
               Reports{"  "}
-              <br/>
-              <hr/>
-              <div style={{width:"100%",display:"flex",justifyContent:"space-evenly"}}>
-              <button className="btn btn-link" onClick={this.toggleFilters}>
-    {this.state.doShowFilters ? <span><span className="fa fa-minus"></span>{" "}Hide Filters</span> : <span><span className="fa fa-plus"></span>{" "}Show Filters</span>}
-              </button>
-              <button className="btn btn-link" onClick={this.runSearchClick}>
-                <span className="fa fa-play"></span> Run Search
-              </button>
-              <button
-                onClick={this.selectedUserFormToggle.bind(
-                  "",
-                  this.state.searchObj
-                )}
-                className="btn btn-link"
+              <br />
+              <hr />
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "space-evenly"
+                }}
               >
-               <span className="fa fa-undo"></span> Reset List
-              </button>
+                <button className="btn btn-link" onClick={this.toggleFilters}>
+                  {this.state.doShowFilters ? (
+                    <span>
+                      <span className="fa fa-minus"></span> Hide Filters
+                    </span>
+                  ) : (
+                    <span>
+                      <span className="fa fa-plus"></span> Show Filters
+                    </span>
+                  )}
+                </button>
+                <button className="btn btn-link" onClick={this.runSearchClick}>
+                  <span className="fa fa-play"></span> Run Search
+                </button>
+                <button
+                  onClick={this.selectedUserFormToggle.bind(
+                    "",
+                    this.state.searchObj
+                  )}
+                  className="btn btn-link"
+                >
+                  <span className="fa fa-undo"></span> Reset List
+                </button>
               </div>
             </h2>
           </div>
@@ -519,68 +536,48 @@ class ReportsContainer extends Component {
             />
           </div>
         </Collapse>
-        {/* <div className="row" style={{ marginTop: "50px", margin: "50px 0px" }}>
-          <div className="col-md-12">
-            <div
-              id="formListBtns"
-              style={{
-                margin: "25px 25px",
-                display: "flex"
-              }}
-            >
-              <button className="darkBtn" onClick={this.runSearchClick}>
-                <span className="fa fa-play"></span> Run Search
-              </button>
-              <button
-                onClick={this.selectedUserFormToggle.bind(
-                  "",
-                  this.state.searchObj
-                )}
-                className="darkBtn"
+        {this.state.doShowFilters === false ? (
+          <div className="row" style={{ paddingBottom: "100px" }}>
+            <div style={{ marginTop: "75px" }} className="col-md-12">
+              <div
+                className={
+                  Object.keys(this.state.selectedUserForm).length > 0
+                    ? "hideIt"
+                    : ""
+                }
               >
-                Return to List
-              </button>
-            </div>
-          </div>
-        </div> */}
-        <div className="row" style={{ paddingBottom: "100px" }}>
-          <div style={{marginTop:"25px"}} className="col-md-12">
-            <div
-              className={
-                Object.keys(this.state.selectedUserForm).length > 0
-                  ? "hideIt"
-                  : ""
-              }
-            >
-              <FormListContainer
-                doReset={this.state.doReset}
-                setSelectedForm={this.setSelectedForm}
-                setSelectedUser={this.setSelectedUser}
-                formObjs={this.state.forms}
-              />
-            </div>
-            <div
-              className={
-                Object.keys(this.state.selectedUserForm).length === 0
-                  ? "hideIt"
-                  : ""
-              }
-            >
-              <div>
-                <ShowFormContainer
-                  valuesSet="true"
-                  userObj={this.props.userObj}
-                  formData={this.state.selectedUserForm}
-                  form={
-                    this.state.selectedForm.hasOwnProperty("name")
-                      ? this.state.selectedForm
-                      : { name: "hey", forms: [] }
-                  }
+                <FormListContainer
+                  doReset={this.state.doReset}
+                  setSelectedForm={this.setSelectedForm}
+                  setSelectedUser={this.setSelectedUser}
+                  formObjs={this.state.forms}
                 />
+              </div>
+              <div
+                className={
+                  Object.keys(this.state.selectedUserForm).length === 0
+                    ? "hideIt"
+                    : ""
+                }
+              >
+                <div>
+                  <ShowFormContainer
+                    valuesSet="true"
+                    userObj={this.props.userObj}
+                    formData={this.state.selectedUserForm}
+                    form={
+                      this.state.selectedForm.hasOwnProperty("name")
+                        ? this.state.selectedForm
+                        : { name: "hey", forms: [] }
+                    }
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <React.Fragment />
+        )}
       </div>
     );
   }
