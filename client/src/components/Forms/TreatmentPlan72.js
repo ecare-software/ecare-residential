@@ -365,7 +365,8 @@ class TreatmentPlan72 extends Component {
     if (!this.props.valuesSet) {
       return (
         <div className="formComp">
-          <FormAlert
+          {(this.state.formSubmitted || this.state.formHasError) ? <React.Fragment>
+            <FormAlert
             doShow={this.state.formSubmitted}
             type="success"
             heading="Thank you for your submission!"
@@ -378,6 +379,7 @@ class TreatmentPlan72 extends Component {
           >
             <p>{this.state.formErrorMessage}</p>
           </FormAlert>
+          </React.Fragment> : <React.Fragment/>}
           <div className="formTitleDiv">
             <h2 className="formTitle">72 Hour Treatment Plan</h2>
           </div>
@@ -1968,7 +1970,8 @@ class TreatmentPlan72 extends Component {
     } else {
       return (
         <div className="formComp">
-          <FormAlert
+          {(this.state.formSubmitted || this.state.formHasError) ? <React.Fragment>
+            <FormAlert
             doShow={this.state.formSubmitted}
             type="success"
             heading="Thank you for your submission!"
@@ -1981,6 +1984,7 @@ class TreatmentPlan72 extends Component {
           >
             <p>{this.state.formErrorMessage}</p>
           </FormAlert>
+          </React.Fragment> : <React.Fragment/>}
           <div className="formTitleDivReport">
             <h2 className="formTitle">72 Hour Treatment Plan</h2>
           </div>

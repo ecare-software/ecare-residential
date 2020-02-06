@@ -178,7 +178,8 @@ class RestraintReport extends Component {
     if (!this.props.valuesSet) {
       return (
         <div className="formComp">
-          <FormAlert
+          {(this.state.formSubmitted || this.state.formHasError) ? <React.Fragment>
+            <FormAlert
             doShow={this.state.formSubmitted}
             type="success"
             heading="Thank you for your submission!"
@@ -191,6 +192,7 @@ class RestraintReport extends Component {
           >
             <p>{this.state.formErrorMessage}</p>
           </FormAlert>
+          </React.Fragment> : <React.Fragment/>}
           <div className="formTitleDiv">
             <h2 className="formTitle">Restriant Report</h2>
           </div>
@@ -704,7 +706,8 @@ class RestraintReport extends Component {
     } else {
       return (
         <div className="formComp">
-          <FormAlert
+          {(this.state.formSubmitted || this.state.formHasError) ? <React.Fragment>
+            <FormAlert
             doShow={this.state.formSubmitted}
             type="success"
             heading="Thank you for your submission!"
@@ -717,6 +720,7 @@ class RestraintReport extends Component {
           >
             <p>{this.state.formErrorMessage}</p>
           </FormAlert>
+          </React.Fragment> : <React.Fragment/>}
           <div className="formTitleDivReport">
             <h2 className="formTitle">Restriant Report</h2>
           </div>

@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Header from "./components/Header/Header";
 import LogInContiner from "./components/LogInContainer/LogInContainer";
 // import Testimonial from "./components/Testimonial/Testimonial.js";
-import Navbar from "./components/NavBar/Navbar.js";
 import TreatmentPlan72 from "./components/Forms/TreatmentPlan72";
 import IncidentReport from "./components/Forms/IncidentReport";
 import RestraintReport from "./components/Forms/RestraintReport";
@@ -13,16 +12,10 @@ import DailyProgress from "./components/Forms/DailyProgressAndActivity";
 import MessageBoard from "./components/MessageBoard/MessageBoard";
 import Reports from "./components/Reports/ReportsContainer";
 import UserManagement from "./components/UserManagement/UserManagement";
-import SlidingNav from "./components/SlideingNav/SlidingNav";
-import UserActions from "./components/UserActions/UserActions";
 import BSNavBar from "./components/NavBar/bsNavBar";
+import UserActions from "./components/UserActions/UserActions";
 //modals
-import RequestDemoModal from "./components/Modals/RequestDemoModal.js";
-import UploadFileModal from "./components/Modals/UploadFileModal";
-import PostMessageModal from "./components/Modals/PostMessageModal";
-import SendMessageModal from "./components/Modals/SendMessageModal";
-import ErrorModal from "./components/Modals/ErrorModal";
-import ManageAccountModal from "./components/Modals/ManageAccountModal";
+
 //styles
 import "./App.css";
 import Fade from "react-reveal/Fade";
@@ -72,6 +65,17 @@ class App extends Component {
     doDisplay: "Dashboard",
     discussionMessages: []
   };
+
+  componentDidMount = () =>{
+    console.log("my state cookie");
+    console.log(getCookie("appState"));
+    if(getCookie("appState")!==null){
+      let fromCookieState = JSON.parse(getCookie("appState"));
+      this.setState({userObj:fromCookieState.userObj,
+        loggedIn:fromCookieState.loggedIn,
+      });
+    }
+  }
 
   componentDidUpdate = () => {
     if (!this.state.allUsersSet) {
@@ -136,6 +140,7 @@ class App extends Component {
     this.setState({ loggedIn: false });
     this.setState({ userObj: {} });
     this.setState({ doDisplay: "Dashboard" });
+    eraseCookie("appState");
   };
 
   toggleLogIn = userObj => {
@@ -147,6 +152,7 @@ class App extends Component {
         message: "",
         title: ""
       });
+      setCookie("appState",JSON.stringify(this.state),1);
     } else {
       if (userObj.newUser) {
         this.setState({
@@ -157,6 +163,7 @@ class App extends Component {
           title: "Welcome to RCS, Heres some information"
         });
       }
+      setCookie("appState",JSON.stringify(this.state),1);
     }
   };
 
@@ -191,90 +198,14 @@ class App extends Component {
               </div>
               <div className="col-sm-9" id="actionSection">
                 <div>
-                  <div
-                    style={
-                      this.state.doDisplay === "Dashboard" ? {} : hideStyle
-                    }
-                  >
-                    <MessageBoard
-                      messages={this.state.discussionMessages}
-                      appendMessage={this.appendMessage}
-                    />
-                  </div>
-                  <div
-                    style={
-                      this.state.doDisplay === "User Management"
-                        ? {
-                            marginBottom: "50px",
-                            minHeight: "90vh"
-                          }
-                        : hideStyle
-                    }
-                  >
-                    <UserManagement
-                      userObj={this.state.userObj}
-                      allUsers={this.state.allUsers}
-                    />
-                  </div>
-                  <div
-                    style={
-                      this.state.doDisplay === "TreatmentPlan72"
-                        ? { marginBottom: "50px" }
-                        : hideStyle
-                    }
-                  >
-                    <TreatmentPlan72
-                      valuesSet={false}
-                      userObj={this.state.userObj}
-                      id="treatment"
-                    />
-                  </div>
-                  <div
-                    style={
-                      this.state.doDisplay === "IncidentReport"
-                        ? { marginBottom: "50px" }
-                        : hideStyle
-                    }
-                  >
-                    <IncidentReport
-                      valuesSet={false}
-                      userObj={this.state.userObj}
-                      id="incident"
-                    />
-                  </div>
-                  <div
-                    style={
-                      this.state.doDisplay === "DailyProgress"
-                        ? { marginBottom: "50px" }
-                        : hideStyle
-                    }
-                  >
-                    <DailyProgress
-                      valuesSet={false}
-                      userObj={this.state.userObj}
-                      id="dailyProgress"
-                    />
-                  </div>
-                  <div
-                    style={
-                      this.state.doDisplay === "restraintReport"
-                        ? { marginBottom: "50px" }
-                        : hideStyle
-                    }
-                  >
-                    <RestraintReport
-                      valuesSet={false}
-                      userObj={this.state.userObj}
-                      id="restraintReport"
-                    />
-                  </div>
+                  <ToggleScreen name={this.state.doDisplay} appState={this.state}/>
                 </div>
               </div>
             </div>
           ) : (
             <div id="desktopView" className="row">
               <div
-              className="col-md-12"
+                className="col-md-12"
                 style={
                   this.state.doDisplay === "Reports"
                     ? { marginBottom: "150px 0px" }
@@ -285,6 +216,7 @@ class App extends Component {
               </div>
             </div>
           )}
+          {/* <UserActions/> */}
         </div>
       );
     } else {
@@ -335,6 +267,101 @@ class App extends Component {
       );
     }
   }
+}
+
+function ToggleScreen({ name,appState }) {
+  if (name === "Dashboard") {
+    return (
+      <div>
+        <MessageBoard
+          messages={appState.discussionMessages}
+          appendMessage={appState.appendMessage}
+        />
+      </div>
+    );
+  }
+
+  if (name === "User Management") {
+    return (
+      <div>
+        <UserManagement
+          userObj={appState.userObj}
+          allUsers={appState.allUsers}
+        />
+      </div>
+    );
+  }
+
+  if (name === "TreatmentPlan72") {
+    return (
+      <div>
+        <TreatmentPlan72
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="treatment"
+        />
+      </div>
+    );
+  }
+
+  if (name === "IncidentReport") {
+    return (
+      <div>
+        <IncidentReport
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="incident"
+        />
+      </div>
+    );
+  }
+
+  if (name === "DailyProgress") {
+    return (
+      <div>
+        <DailyProgress
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="dailyProgress"
+        />
+      </div>
+    );
+  }
+
+  if (name === "restraintReport") {
+    return (
+      <div>
+        <RestraintReport
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="restraintReport"
+        />
+      </div>
+    );
+  }
+}
+
+function setCookie(name,value,days) {
+  var expires = "";
+  if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days*24*60*60*1000));
+      expires = "; expires=" + date.toUTCString();
+  }
+  document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+function getCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0;i < ca.length;i++) {
+      var c = ca[i];
+      while (c.charAt(0)==' ') c = c.substring(1,c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+  }
+  return null;
+}
+function eraseCookie(name) {   
+  document.cookie = name+'=; Max-Age=-99999999;';  
 }
 
 export default App;

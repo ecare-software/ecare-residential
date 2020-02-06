@@ -145,7 +145,8 @@ class DailyProgressAndActivity extends Component {
     if (!this.props.valuesSet) {
       return (
         <div className="formComp">
-          <FormAlert
+          {(this.state.formSubmitted || this.state.formHasError) ? <React.Fragment>
+            <FormAlert
             doShow={this.state.formSubmitted}
             type="success"
             heading="Thank you for your submission!"
@@ -158,6 +159,7 @@ class DailyProgressAndActivity extends Component {
           >
             <p>{this.state.formErrorMessage}</p>
           </FormAlert>
+          </React.Fragment> : <React.Fragment/>}
           <div className="formTitleDiv">
             <h2 className="formTitle">Daily Progress and Activity</h2>
           </div>
@@ -544,7 +546,8 @@ class DailyProgressAndActivity extends Component {
     } else {
       return (
         <div className="formComp">
-          <FormAlert
+          {(this.state.formSubmitted || this.state.formHasError) ? <React.Fragment>
+            <FormAlert
             doShow={this.state.formSubmitted}
             type="success"
             heading="Thank you for your submission!"
@@ -557,6 +560,7 @@ class DailyProgressAndActivity extends Component {
           >
             <p>{this.state.formErrorMessage}</p>
           </FormAlert>
+          </React.Fragment> : <React.Fragment/>}
           <div className="formTitleDivReport">
             <h2 className="formTitle">Daily Progress and Activity</h2>
           </div>
