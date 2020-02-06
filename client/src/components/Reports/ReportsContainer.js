@@ -520,7 +520,7 @@ class ReportsContainer extends Component {
                   )}
                   className="btn btn-link"
                 >
-                  <span className="fa fa-undo"></span> Reset List
+                  <span className="fa fa-undo"></span> Refresh List
                 </button>
               </div>
             </h2>

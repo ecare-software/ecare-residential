@@ -23,6 +23,14 @@ const navBrandStyle = {
 const navItemStyle = {
   color: "white"
 };
+const adminReportingRoles = [
+  "Admin",
+  "Owner_-_CEO",
+  "Executive_Director",
+  "Administrator",
+  "Case_Manager",
+  "Supervisor"
+];
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -34,13 +42,19 @@ class NavBar extends React.Component {
     const { firstName } = this.props.userObj;
     return (
       <Navbar fixed="top" collapseOnSelect expand="lg" style={navBarStyle}>
-        <Navbar.Brand style={navBrandStyle} href="#home">
+        <Navbar.Brand style={navBrandStyle}>
           e-Care Residential
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
-          <Nav.Link eventKey="link-1" style={navItemStyle} onClick={this.props.toggleDisplay.bind({}, "Dashboard")}>Dashboard</Nav.Link>
+            <Nav.Link
+              eventKey="link-1"
+              style={navItemStyle}
+              onClick={this.props.toggleDisplay.bind({}, "Dashboard")}
+            >
+              Dashboard
+            </Nav.Link>
             <NavDropdown
               style={navItemStyle}
               variant="success"
@@ -48,17 +62,54 @@ class NavBar extends React.Component {
               title="Submit a Form"
               id="collasible-nav-dropdown"
             >
-              <NavDropdown.Item eventKey="link-2" onClick={this.props.toggleDisplay.bind({}, "TreatmentPlan72")}>72 Hour Treatment Plan</NavDropdown.Item>
-              <NavDropdown.Item eventKey="link-3" onClick={this.props.toggleDisplay.bind({}, "IncidentReport")}>Incident Report</NavDropdown.Item>
-              <NavDropdown.Item eventKey="link-4" onClick={this.props.toggleDisplay.bind({}, "DailyProgress")}>Daily Progress</NavDropdown.Item>
-              <NavDropdown.Item eventKey="link-5" onClick={this.props.toggleDisplay.bind({}, "restraintReport")}>Restraint Report</NavDropdown.Item>
+              {adminReportingRoles.includes(this.props.userObj.jobTitle) ? (
+                <NavDropdown.Item
+                  eventKey="link-2"
+                  onClick={this.props.toggleDisplay.bind({}, "TreatmentPlan72")}
+                >
+                  72 Hour Treatment Plan
+                </NavDropdown.Item>
+              ) : (
+                <React.Fragment />
+              )}
+              <NavDropdown.Item
+                eventKey="link-3"
+                onClick={this.props.toggleDisplay.bind({}, "IncidentReport")}
+              >
+                Incident Report
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                eventKey="link-4"
+                onClick={this.props.toggleDisplay.bind({}, "DailyProgress")}
+              >
+                Daily Progress
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                eventKey="link-5"
+                onClick={this.props.toggleDisplay.bind({}, "restraintReport")}
+              >
+                Restraint Report
+              </NavDropdown.Item>
               {/* <NavDropdown.Divider /> */}
             </NavDropdown>
-            <Nav.Link eventKey="link-6" onClick={this.props.toggleDisplay.bind({},"User Management")} style={navItemStyle}>User Management</Nav.Link>
-            {(this.props.userObj.isAdmin) ? <Nav.Link eventKey="link-7" onClick={this.props.toggleDisplay.bind({}, "Reports")} style={navItemStyle}>Reports</Nav.Link>
-          :
-          <React.Fragment></React.Fragment>  
-          }
+            <Nav.Link
+              eventKey="link-6"
+              onClick={this.props.toggleDisplay.bind({}, "User Management")}
+              style={navItemStyle}
+            >
+              User Management
+            </Nav.Link>
+            {adminReportingRoles.includes(this.props.userObj.jobTitle) ? (
+              <Nav.Link
+                eventKey="link-7"
+                onClick={this.props.toggleDisplay.bind({}, "Reports")}
+                style={navItemStyle}
+              >
+                Reports
+              </Nav.Link>
+            ) : (
+              <React.Fragment></React.Fragment>
+            )}
           </Nav>
           <Nav className="ml-auto">
             <React.Fragment>
@@ -69,9 +120,13 @@ class NavBar extends React.Component {
                 title={firstName}
                 id="collasible-nav-dropdown"
               >
-                <Nav.Link eventKey="link-8" >Manage Profile</Nav.Link>
+                <Nav.Link eventKey="link-8">Manage Profile</Nav.Link>
               </NavDropdown>
-              <Nav.Link eventKey="link-9" style={navItemStyle} onClick={this.props.logOut} >
+              <Nav.Link
+                eventKey="link-9"
+                style={navItemStyle}
+                onClick={this.props.logOut}
+              >
                 Log out
               </Nav.Link>
             </React.Fragment>
