@@ -63,12 +63,11 @@ class App extends Component {
       message: ""
     },
     doDisplay: "Dashboard",
-    discussionMessages: []
+    discussionMessages: [],
+    allUsers:[]
   };
 
   componentDidMount = () =>{
-    console.log("my state cookie");
-    console.log(getCookie("appState"));
     if(getCookie("appState")!==null){
       let fromCookieState = JSON.parse(getCookie("appState"));
       this.setState({userObj:fromCookieState.userObj,
@@ -79,7 +78,6 @@ class App extends Component {
 
   componentDidUpdate = () => {
     if (!this.state.allUsersSet) {
-      console.log(this.state);
       this.getAllUsers();
     }
 
@@ -144,6 +142,7 @@ class App extends Component {
   };
 
   toggleLogIn = userObj => {
+    window.scrollTo(0, 0);
     if (this.state.loggedIn) {
       document.body.classList.remove("modal-open");
       this.setState({
@@ -152,7 +151,6 @@ class App extends Component {
         message: "",
         title: ""
       });
-      setCookie("appState",JSON.stringify(this.state),1);
     } else {
       if (userObj.newUser) {
         this.setState({
@@ -163,8 +161,14 @@ class App extends Component {
           title: "Welcome to RCS, Heres some information"
         });
       }
-      setCookie("appState",JSON.stringify(this.state),1);
     }
+    console.log("setCookie here");
+    eraseCookie("appState");
+    console.log(this.state);
+    let cookieToSet = JSON.parse(JSON.stringify(this.state))
+    cookieToSet.discussionMessages = [];
+    cookieToSet.allUsers = [];
+    setCookie("appState",JSON.stringify(cookieToSet),1);
   };
 
   toggleDisplay = display => {
