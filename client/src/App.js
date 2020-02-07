@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import cookie from 'react-cookies';
 //components
 import Header from "./components/Header/Header";
 import LogInContiner from "./components/LogInContainer/LogInContainer";
@@ -68,8 +69,9 @@ class App extends Component {
   };
 
   componentDidMount = () =>{
-    if(getCookie("appState")!==null){
-      let fromCookieState = JSON.parse(getCookie("appState"));
+    console.log(cookie.load("appState"))
+    let fromCookieState = cookie.load("appState");
+    if(fromCookieState !== undefined){
       this.setState({userObj:fromCookieState.userObj,
         loggedIn:fromCookieState.loggedIn,
       });
@@ -138,7 +140,8 @@ class App extends Component {
     this.setState({ loggedIn: false });
     this.setState({ userObj: {} });
     this.setState({ doDisplay: "Dashboard" });
-    eraseCookie("appState");
+    cookie.remove("appState");
+    window.scrollTo(0, 0);
   };
 
   toggleLogIn = userObj => {
@@ -163,12 +166,12 @@ class App extends Component {
       }
     }
     console.log("setCookie here");
-    eraseCookie("appState");
+    cookie.remove("appState");
     console.log(this.state);
     let cookieToSet = JSON.parse(JSON.stringify(this.state))
     cookieToSet.discussionMessages = [];
     cookieToSet.allUsers = [];
-    setCookie("appState",JSON.stringify(cookieToSet),1);
+    cookie.save('appState', cookieToSet);
   };
 
   toggleDisplay = display => {
@@ -343,29 +346,6 @@ function ToggleScreen({ name,appState }) {
       </div>
     );
   }
-}
-
-function setCookie(name,value,days) {
-  var expires = "";
-  if (days) {
-      var date = new Date();
-      date.setTime(date.getTime() + (days*24*60*60*1000));
-      expires = "; expires=" + date.toUTCString();
-  }
-  document.cookie = name + "=" + (value || "")  + expires + "; path=/";
-}
-function getCookie(name) {
-  var nameEQ = name + "=";
-  var ca = document.cookie.split(';');
-  for(var i=0;i < ca.length;i++) {
-      var c = ca[i];
-      while (c.charAt(0)==' ') c = c.substring(1,c.length);
-      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-  }
-  return null;
-}
-function eraseCookie(name) {   
-  document.cookie = name+'=; Max-Age=-99999999;';  
 }
 
 export default App;
