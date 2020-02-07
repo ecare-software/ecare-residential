@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import cookie from 'react-cookies';
+import cookie from "react-cookies";
 //components
 import Header from "./components/Header/Header";
 import LogInContiner from "./components/LogInContainer/LogInContainer";
@@ -65,18 +65,19 @@ class App extends Component {
     },
     doDisplay: "Dashboard",
     discussionMessages: [],
-    allUsers:[]
+    allUsers: []
   };
 
-  componentDidMount = () =>{
-    console.log(cookie.load("appState"))
+  componentDidMount = () => {
+    console.log(cookie.load("appState"));
     let fromCookieState = cookie.load("appState");
-    if(fromCookieState !== undefined){
-      this.setState({userObj:fromCookieState.userObj,
-        loggedIn:fromCookieState.loggedIn,
+    if (fromCookieState !== undefined) {
+      this.setState({
+        userObj: fromCookieState.userObj,
+        loggedIn: fromCookieState.loggedIn
       });
     }
-  }
+  };
 
   componentDidUpdate = () => {
     if (!this.state.allUsersSet) {
@@ -146,32 +147,26 @@ class App extends Component {
 
   toggleLogIn = userObj => {
     window.scrollTo(0, 0);
-    if (this.state.loggedIn) {
-      document.body.classList.remove("modal-open");
-      this.setState({
-        userObj: userObj,
-        loggedIn: !this.state.loggedIn,
-        message: "",
-        title: ""
-      });
-    } else {
-      if (userObj.newUser) {
-        this.setState({
-          userObj: userObj,
-          loggedIn: !this.state.loggedIn,
-          message:
-            "You need to reset your password. Click the Manage Profile button to do so.",
-          title: "Welcome to RCS, Heres some information"
-        });
-      }
+    let message = "";
+    let title = "";
+    if (userObj.newUser) {
+      message =
+        "You need to reset your password. Click the Manage Profile button to do so.";
+      title = "Welcome to RCS, Heres some information";
     }
+    this.setState({
+      userObj: userObj,
+      loggedIn: true,
+      message,
+      title
+    });
     console.log("setCookie here");
     cookie.remove("appState");
     console.log(this.state);
-    let cookieToSet = JSON.parse(JSON.stringify(this.state))
+    let cookieToSet = JSON.parse(JSON.stringify(this.state));
     cookieToSet.discussionMessages = [];
     cookieToSet.allUsers = [];
-    cookie.save('appState', cookieToSet);
+    cookie.save("appState", cookieToSet);
   };
 
   toggleDisplay = display => {
@@ -205,7 +200,10 @@ class App extends Component {
               </div>
               <div className="col-sm-9" id="actionSection">
                 <div>
-                  <ToggleScreen name={this.state.doDisplay} appState={this.state}/>
+                  <ToggleScreen
+                    name={this.state.doDisplay}
+                    appState={this.state}
+                  />
                 </div>
               </div>
             </div>
@@ -276,7 +274,7 @@ class App extends Component {
   }
 }
 
-function ToggleScreen({ name,appState }) {
+function ToggleScreen({ name, appState }) {
   if (name === "Dashboard") {
     return (
       <div>

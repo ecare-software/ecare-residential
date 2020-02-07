@@ -65,7 +65,8 @@ router.post("/", (req, res) => {
     password: req.body.password,
     homeId:req.body.homeId,
     jobTitle: req.body.jobTitle,
-    isAdmin: req.body.isAdmin
+    isAdmin: req.body.isAdmin,
+    newUser:true,
   });
   newUser.save().then(user => res.json(user));
 });
