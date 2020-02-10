@@ -17,7 +17,7 @@ const navBarStyle = {
 
 const navBrandStyle = {
   color: "white",
-  fontWeight: "400"
+  fontWeight: "200"
 };
 
 const navItemStyle = {
@@ -41,7 +41,7 @@ class NavBar extends React.Component {
   render() {
     const { firstName } = this.props.userObj;
     return (
-      <Navbar fixed="top" collapseOnSelect expand="lg" style={navBarStyle}>
+      <Navbar fixed="top" variant="dark" collapseOnSelect expand="lg" style={navBarStyle}>
         <Navbar.Brand style={navBrandStyle}>
           e-Care Residential
         </Navbar.Brand>

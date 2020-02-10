@@ -10,9 +10,6 @@
     padding: 20px 10px;
     }
 
-    .managementElement{
-      padding: 5px 10px;
-    }
 
     .instructionText{
       margin:20px 10px;
@@ -31,9 +28,7 @@
         /* padding: 20px 10px; */
       }
 
-      .managementElement{
-        padding: 5px 10px;
-      }
+   
 
       .instructionText{
         margin:20px 10px;
@@ -49,9 +44,7 @@
         padding-bottom: 60px;
       }
 
-      .managementElement{
-        padding: 10px;
-      }
+    
   }
   /* mobile sideways */
   @media only screen and (min-width: 550px) and (max-width: 766px){

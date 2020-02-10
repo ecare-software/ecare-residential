@@ -8,26 +8,40 @@ class MessageBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showModal:""
+      showModal: ""
     };
   }
 
-  openModal = (modalName) =>{
-    this.setState({showModal:modalName});
-  }
+  openModal = modalName => {
+    this.setState({ showModal: modalName });
+  };
 
-  closeModals = () =>{
-    this.setState({showModal:""})
-  }
+  closeModals = () => {
+    this.setState({ showModal: "" });
+  };
 
   render() {
     if (this.props.messages) {
       return (
-        <div style={{marginTop:"60px"}}>
-          <button onClick={this.openModal.bind('','PostMessageModal')} className="btn btn-light">
-            Post Message{"  "}
-            <span className="fa fa-pencil"></span>{" "}
-          </button>
+        <div style={{ marginTop: "60px" }}>
+          <div className="messageBoardTitleDiv">
+            {/* <h2 className="formTitle">72 Hour Treatment Plan</h2> */}
+            {/* <button
+              onClick={this.openModal.bind("", "PostMessageModal")}
+              className="btn btn-light"
+            >
+              Post Message{"  "}
+              <span className="fa fa-pencil"></span>{" "}
+            </button> */}
+            <div style={{width:"100%",display:"flex",margin:"10px 0px"}}>
+              <textarea cols="1" style={{height:"40px",flex:"1",borderColor:"#eee",margin:"0px 5px",resize:"none", borderRight:"none",borderTop:"none",borderLeft:"none"}} placeholder="Whats on your mind ?"></textarea>
+              <button className="btn btn-light" style={{margin:"0px 5px",width:"75px"}}>Post</button>
+            </div>
+            <div style={{margin:"0px 5px"}}>
+            <button className='btn btn-light' style={{marginRight:"10px"}}>Upload a File</button>
+            <button className='btn btn-light' style={{marginRight:"10px"}}>Direct Message</button>
+            </div>
+          </div>
           <div id="messageBoard">
             {this.props.messages.map((item, index) => (
               <MessagePost messageObj={item}>{item.message}</MessagePost>

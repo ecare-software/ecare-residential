@@ -43,19 +43,19 @@ const navSelected = {
 
 class App extends Component {
   state = {
-    loggedIn: false,
+    loggedIn: true,
     userObj: {
-      // email: "demarcuskennedy95@gmail.com",
-      // firstName: "DeMarcus",
-      // homeId: "home-1234",
-      // isAdmin: true,
-      // jobTitle: "Admin",
-      // lastLogIn: "2019-08-26T03:22:28.424Z",
-      // lastName: "Kennedy",
-      // newUser: true,
-      // password: "xyz123",
-      // __v: 0,
-      // _id: "5d63507799ac0b1494149479"
+      email: "demarcuskennedy95@gmail.com",
+      firstName: "DeMarcus",
+      homeId: "home-1234",
+      isAdmin: true,
+      jobTitle: "Admin",
+      lastLogIn: "2019-08-26T03:22:28.424Z",
+      lastName: "Kennedy",
+      newUser: true,
+      password: "xyz123",
+      __v: 0,
+      _id: "5d63507799ac0b1494149479"
     },
     messagesInitLoad: false,
     allUsersSet: false,
@@ -187,16 +187,10 @@ class App extends Component {
           {this.state.doDisplay !== "Reports" ? (
             <div id="desktopView" className="row">
               <div className="col-sm-3">
-                <div id="extraInfo">
-                  <div>
-                    <h4>Hello, current user</h4>
-                  </div>
-                  <div>
-                    <p>
-                      this is some informational text about the current screen
-                    </p>
-                  </div>
-                </div>
+                <DisplayExtra
+                  name={this.state.doDisplay}
+                  userObj={this.state.userObj}
+                />
               </div>
               <div className="col-sm-9" id="actionSection">
                 <div>
@@ -343,6 +337,131 @@ function ToggleScreen({ name, appState }) {
         />
       </div>
     );
+  }
+}
+
+function DisplayExtra({ name, userObj }) {
+  if (name === "TreatmentPlan72") {
+    return (
+      <div id="extraInfo">
+        <div>
+          <h5 style={{ color: "maroon" }}>Treatment Plan 72</h5>
+          <p>
+            This is what the must be filled out when a child is first admitted
+            to the facility.
+          </p>
+          <p>
+            Required fields include, Child Name, Child DOA, Child Date of Birth,
+            and thing like that.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "restraintReport") {
+    return (
+      <div id="extraInfo">
+        <div>
+          <h5 style={{ color: "maroon" }}>Restraint Report</h5>
+          <p>
+            If a child had to be restrained, file this form, notationg what
+            happened to cause this action.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "DailyProgress") {
+    return (
+      <div id="extraInfo">
+        <div>
+          <h5 style={{ color: "maroon" }}>Daily Progress</h5>
+          <p>
+            This explains what the child has done today or what the child will
+            do today.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "IncidentReport") {
+    return (
+      <div id="extraInfo">
+        <div>
+          <h5 style={{ color: "maroon" }}>Incident Report</h5>
+          <p>
+            When an incident happens, this must be filled out in order to keep
+            track of what exactly happend.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "Dashboard") {
+    return (
+      <div id="extraInfo">
+        <div id="">
+          <h4 style={{fontWeight:"300" }}>{userObj.firstName + " " + userObj.lastName}</h4>
+          <h6 style={{fontWeight:"200" }}>{userObj.jobTitle}</h6>
+        </div>
+        <div style={{margin:"20px 0px"}}>
+          <h5 style={{ color: "maroon",fontWeight:"300" }}>Dashboard</h5>
+          <p>
+            <i>This is the first screen users will see when they log in. I feel
+            this is alright for now.</i>
+          </p>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            marginRight: "10px"
+          }}
+        >
+          <button style={{ textAlign: "left" }} className="btn btn-light">
+            Write Dashboard Message
+          </button>
+          <button style={{ textAlign: "left" }} className="btn btn-light">
+            Upload a File
+          </button>
+          <button style={{ textAlign: "left" }} className="btn btn-light">
+            Direct Messages
+          </button>
+          <button style={{ textAlign: "left" }} className="btn btn-light">
+            Account Settings
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "User Management") {
+    return (
+      <div id="extraInfo">
+        <div>
+          <h5 style={{ color: "maroon" }}>User Management</h5>
+          <p>
+            Allows Admin users the ability to view information about their home
+            as well create new and modify exiting staff members.
+          </p>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              marginRight: "10px"
+            }}
+          ></div>
+        </div>
+      </div>
+    );
+  } else {
+    return <React.Fragment />;
   }
 }
 

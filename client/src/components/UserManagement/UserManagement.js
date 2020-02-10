@@ -27,9 +27,9 @@ class UserManagement extends Component {
   };
   render() {
     return (
-      <div style={{ margin: "50px 20px 0px 20px" }}>
+      <div className="formCompNoBg" >
         <div className="formTitleDiv">
-          <h2 className="formTitle">View and manage users within your home.</h2>
+          <h2 className="formTitle">User Management</h2>
         </div>
         <div className="formFieldsMobile">
           <ManageUsers

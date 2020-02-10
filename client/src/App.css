@@ -1,3 +1,7 @@
+input{
+  height: 40px;
+  border-radius: 9px;
+}
 .defaultLabel {
   color: maroon;
   border-bottom: 0.5px solid #eee;
@@ -8,7 +12,6 @@
   -moz-box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75);
 }
-
 .defaultSubLabel {
   font-weight: 900;
   /* margin2px; */
@@ -171,8 +174,8 @@ body {
 #extraInfo{
 position: fixed;
 width:18%;
-top:20%;
-left:15%;
+top:15%;
+left:12%;
 }
 
 .filterSection{
@@ -188,12 +191,25 @@ left:15%;
     border-bottom-left-radius: 9px;
     border-bottom-right-radius: 9px;
   }
+  .formCompNoBg{
+    padding:0px 20px 1px 20px;
+    margin:0px 20px 0px 20px;
+    border-bottom-left-radius: 9px;
+    border-bottom-right-radius: 9px;
+  }
   .formTitleDivReport{
     color: maroon;
     min-height: 60px;
     margin-bottom: 25px;
     padding:25px 0px 10px 0px;
     border-bottom: .5px solid #cfcece;
+  }
+
+  .messageBoardTitleDiv{
+    color: maroon;
+    min-height: 60px;
+    margin-bottom: 25px;
+    padding:25px 0px 10px 0px;
   }
   .alert {
     position: fixed;
@@ -286,8 +302,15 @@ left:15%;
     padding:25px 0px 10px 0px;
     border-bottom: .5px solid #cfcece;
   }
+  .messageBoardTitleDiv{
+    color: maroon;
+    min-height: 60px;
+    margin-bottom: 25px;
+    padding:25px 0px 10px 0px;
+  }
   .formTitle {
     font-size: 1.8em;
+    text-align: center;
   }
 
   #homeiPhone {
@@ -345,12 +368,26 @@ left:15%;
     border-bottom-right-radius: 9px;
   }
 
+  .formCompNoBg{
+    padding:0px 20px 1px 20px;
+    margin:0px 20px 0px 20px;
+    border-bottom-left-radius: 9px;
+    border-bottom-right-radius: 9px;
+  }
+
   .formTitleDivReport{
     color: maroon;
     min-height: 60px;
     margin-bottom: 25px;
     padding:25px 0px 10px 0px;
     border-bottom: .5px solid #cfcece;
+  }
+
+  .messageBoardTitleDiv{
+    color: maroon;
+    min-height: 60px;
+    margin-bottom: 25px;
+    padding:25px 0px 10px 0px;
   }
 
   #extraInfo{
@@ -367,8 +404,16 @@ left:15%;
     padding:25px 0px 10px 0px;
     border-bottom: .5px solid #cfcece;
   }
+
+  .messageBoardTitleDiv{
+    color: maroon;
+    min-height: 60px;
+    margin-bottom: 25px;
+    padding:25px 0px 10px 0px;
+  }
   .formTitle {
     font-size: 1.8em;
+    text-align: center;
   }
   .alert {
     position: fixed;
@@ -478,6 +523,24 @@ left:15%;
     margin: 75px 0px;
     z-index: 1;
   }
+
+  .messageBoardTitleDiv{
+    /* -webkit-box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75); */
+    color: maroon;
+    background-color: #f1f1f1;
+    /* position: fixed; */
+    width: -webkit-fill-available;
+    min-height: 60px;
+    padding: 10px 0px;
+    /* left: 0;
+    right: 0; */
+    top: -20px;
+    margin: 75px 0px;
+    z-index: 1;
+    border-bottom: .5px solid #eee;
+  }
   .formTitleDivReport{
     color: maroon;
     background-color: rgba(255, 255, 255, 0.733);
@@ -496,12 +559,17 @@ left:15%;
   .formComp{
     margin:0px 20px 1px 20px;
   }
+
+  .formCompNoBg{
+    margin:0px 20px 1px 20px;
+  }
   #extraInfo{
     display: none;
   }
   .formTitle {
     font-size: 1.3em;
     margin: 5px 15px;
+    text-align: center;
   }
   .reportBtnsMobile {
     margin-top: 175px;
