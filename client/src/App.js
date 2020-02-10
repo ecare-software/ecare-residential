@@ -43,19 +43,19 @@ const navSelected = {
 
 class App extends Component {
   state = {
-    loggedIn: true,
+    loggedIn: false,
     userObj: {
-      email: "demarcuskennedy95@gmail.com",
-      firstName: "DeMarcus",
-      homeId: "home-1234",
-      isAdmin: true,
-      jobTitle: "Admin",
-      lastLogIn: "2019-08-26T03:22:28.424Z",
-      lastName: "Kennedy",
-      newUser: true,
-      password: "xyz123",
-      __v: 0,
-      _id: "5d63507799ac0b1494149479"
+      // email: "demarcuskennedy95@gmail.com",
+      // firstName: "DeMarcus",
+      // homeId: "home-1234",
+      // isAdmin: true,
+      // jobTitle: "Admin",
+      // lastLogIn: "2019-08-26T03:22:28.424Z",
+      // lastName: "Kennedy",
+      // newUser: true,
+      // password: "xyz123",
+      // __v: 0,
+      // _id: "5d63507799ac0b1494149479"
     },
     messagesInitLoad: false,
     allUsersSet: false,
