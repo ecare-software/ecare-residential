@@ -218,6 +218,8 @@ left:12%;
     margin: 5% auto;
     left: 0;
     right: 0;
+    max-height: 500px;
+    overflow: scroll;
   }
   
   #desktopView {
@@ -422,6 +424,8 @@ left:12%;
     margin: 5% auto;
     left: 0;
     right: 0;
+    max-height: 500px;
+    overflow: scroll;
   }
   #desktopView {
     margin-top: 60px;
@@ -591,6 +595,8 @@ left:12%;
     left: 0;
     right: 0;
     z-index: 1;
+    max-height: 500px;
+    overflow: scroll;
   }
   .alert-heading {
     font-size: 1.3em;

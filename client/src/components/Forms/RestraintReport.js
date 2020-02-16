@@ -155,21 +155,31 @@ class RestraintReport extends Component {
   };
 
   validateForm = () => {
-    // //is empty or leading spaces
-    // document.getElementById(this.props.id + "-error").style.display = "none";
-    // for (var valIndex in Object.values(childMeta)) {
-    //   if (
-    //     Object.values(childMeta)[valIndex].length === 0 ||
-    //     /^\s+/g.test(Object.values(childMeta)[valIndex])
-    //   ) {
-    //     console.log("invalid");
-    //     document.getElementById(this.props.id + "-error").innerText =
-    //       "Child Information is Required";
-    //     document.getElementById(this.props.id + "-error").style.display =
-    //       "block";
-    //     return;
-    //   }
-    // }
+    var keysToExclude = ["formHasError", "formSubmitted", "formErrorMessage"];
+
+    var isValid = true;
+    var errorFields = [];
+
+    Object.keys(this.state).forEach(key => {
+      if (!keysToExclude.includes(key)) {
+        if (
+          !this.state[key] ||
+          /^\s+$/.test(this.state[key]) ||
+          this.state[key].length < 1
+        ) {
+          errorFields.push("\n"+key);
+          isValid = false;
+        }
+      }
+    });
+
+    if (!isValid) {
+      this.setState({
+        formHasError: true,
+        formErrorMessage: `Please complete the following field(s): ${errorFields.toString().replace(/,/g,"\n")}`
+      });
+      return;
+    }
 
     this.submit();
   };

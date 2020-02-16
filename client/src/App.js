@@ -43,19 +43,19 @@ const navSelected = {
 
 class App extends Component {
   state = {
-    loggedIn: false,
+    loggedIn: true,
     userObj: {
-      // email: "demarcuskennedy95@gmail.com",
-      // firstName: "DeMarcus",
-      // homeId: "home-1234",
-      // isAdmin: true,
-      // jobTitle: "Admin",
-      // lastLogIn: "2019-08-26T03:22:28.424Z",
-      // lastName: "Kennedy",
-      // newUser: true,
-      // password: "xyz123",
-      // __v: 0,
-      // _id: "5d63507799ac0b1494149479"
+      email: "demarcuskennedy95@gmail.com",
+      firstName: "DeMarcus",
+      homeId: "home-1234",
+      isAdmin: true,
+      jobTitle: "Admin",
+      lastLogIn: "2019-08-26T03:22:28.424Z",
+      lastName: "Kennedy",
+      newUser: true,
+      password: "xyz123",
+      __v: 0,
+      _id: "5d63507799ac0b1494149479"
     },
     messagesInitLoad: false,
     allUsersSet: false,
@@ -197,6 +197,7 @@ class App extends Component {
                   <ToggleScreen
                     name={this.state.doDisplay}
                     appState={this.state}
+                    appendMessage={this.appendMessage}
                   />
                 </div>
               </div>
@@ -268,13 +269,13 @@ class App extends Component {
   }
 }
 
-function ToggleScreen({ name, appState }) {
+function ToggleScreen({ name, appState,appendMessage }) {
   if (name === "Dashboard") {
     return (
       <div>
         <MessageBoard
           messages={appState.discussionMessages}
-          appendMessage={appState.appendMessage}
+          appendMessage={appendMessage}
         />
       </div>
     );
