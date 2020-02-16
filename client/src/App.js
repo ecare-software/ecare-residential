@@ -14,7 +14,8 @@ import MessageBoard from "./components/MessageBoard/MessageBoard";
 import Reports from "./components/Reports/ReportsContainer";
 import UserManagement from "./components/UserManagement/UserManagement";
 import BSNavBar from "./components/NavBar/bsNavBar";
-import UserActions from "./components/UserActions/UserActions";
+// import UserActions from "./components/UserActions/UserActions";
+import ManageAccountContainer from "./components/ManageAccount/ManageAccountContainer";
 //modals
 
 //styles
@@ -145,6 +146,10 @@ class App extends Component {
     window.scrollTo(0, 0);
   };
 
+  scrollTop = () =>{
+    window.scrollTo(0, 0);
+  }
+
   toggleLogIn = userObj => {
     window.scrollTo(0, 0);
     let message = "";
@@ -190,6 +195,8 @@ class App extends Component {
                 <DisplayExtra
                   name={this.state.doDisplay}
                   userObj={this.state.userObj}
+                  scrollTop={this.scrollTop}
+                  toggleDisplay={this.toggleDisplay}
                 />
               </div>
               <div className="col-sm-9" id="actionSection">
@@ -339,19 +346,27 @@ function ToggleScreen({ name, appState,appendMessage }) {
       </div>
     );
   }
+
+  if (name === "Manage Account") {
+    return (
+      <div>
+        <ManageAccountContainer userObj={appState.userObj}/>
+      </div>
+    );
+  }
 }
 
-function DisplayExtra({ name, userObj }) {
+function DisplayExtra({ name, userObj,scrollTop,toggleDisplay }) {
   if (name === "TreatmentPlan72") {
     return (
       <div id="extraInfo">
-        <div>
-          <h5 style={{ color: "maroon" }}>Treatment Plan 72</h5>
-          <p>
+        <div className="extraInfoNavDiv" >
+        <h5 className="extraInfoNavTitle">Treatment Plan 72</h5>
+          <p className="extraInfoNavSubTitle">
             This is what the must be filled out when a child is first admitted
             to the facility.
           </p>
-          <p>
+          <p className="extraInfoNavSubTitle">
             Required fields include, Child Name, Child DOA, Child Date of Birth,
             and thing like that.
           </p>
@@ -363,9 +378,9 @@ function DisplayExtra({ name, userObj }) {
   if (name === "restraintReport") {
     return (
       <div id="extraInfo">
-        <div>
-          <h5 style={{ color: "maroon" }}>Restraint Report</h5>
-          <p>
+        <div className="extraInfoNavDiv" >
+        <h5 className="extraInfoNavTitle">Restraint Report</h5>
+          <p className="extraInfoNavSubTitle">
             If a child had to be restrained, file this form, notationg what
             happened to cause this action.
           </p>
@@ -377,9 +392,9 @@ function DisplayExtra({ name, userObj }) {
   if (name === "DailyProgress") {
     return (
       <div id="extraInfo">
-        <div>
-          <h5 style={{ color: "maroon" }}>Daily Progress</h5>
-          <p>
+        <div className="extraInfoNavDiv">
+          <h5 className="extraInfoNavTitle">Daily Progress</h5>
+          <p className="extraInfoNavSubTitle">
             This explains what the child has done today or what the child will
             do today.
           </p>
@@ -391,9 +406,9 @@ function DisplayExtra({ name, userObj }) {
   if (name === "IncidentReport") {
     return (
       <div id="extraInfo">
-        <div>
-          <h5 style={{ color: "maroon" }}>Incident Report</h5>
-          <p>
+        <div className="extraInfoNavDiv">
+          <h5 className="extraInfoNavTitle">Incident Report</h5>
+          <p className="extraInfoNavSubTitle">
             When an incident happens, this must be filled out in order to keep
             track of what exactly happend.
           </p>
@@ -406,34 +421,29 @@ function DisplayExtra({ name, userObj }) {
     return (
       <div id="extraInfo">
         <div id="">
-          <h4 style={{fontWeight:"300" }}>{userObj.firstName + " " + userObj.lastName}</h4>
-          <h6 style={{fontWeight:"200" }}>{userObj.jobTitle}</h6>
+          <h4 className="extraInfoMainTitle" >{userObj.firstName + " " + userObj.lastName}</h4>
+          <h6 className="extraInfoSubTitle" >{userObj.jobTitle}</h6>
         </div>
-        <div style={{margin:"20px 0px"}}>
-          <h5 style={{ color: "maroon",fontWeight:"300" }}>Dashboard</h5>
-          <p>
+        <div className="extraInfoNavDiv" >
+          <h5 className="extraInfoNavTitle">Dashboard</h5>
+          <p className="extraInfoNavSubTitle">
             <i>This is the first screen users will see when they log in. I feel
             this is alright for now.</i>
           </p>
         </div>
         <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            marginRight: "10px"
-          }}
+        className="extraInfoButtonDiv"
         >
-          <button style={{ textAlign: "left" }} className="btn btn-light">
+          <button onClick={scrollTop} className="btn btn-light extraInfoButton">
             Write Dashboard Message
           </button>
-          <button style={{ textAlign: "left" }} className="btn btn-light">
+          {/* <button  className="btn btn-light extraInfoButton">
             Upload a File
-          </button>
-          <button style={{ textAlign: "left" }} className="btn btn-light">
+          </button> */}
+          {/* <button className="btn btn-light extraInfoButton">
             Direct Messages
-          </button>
-          <button style={{ textAlign: "left" }} className="btn btn-light">
+          </button> */}
+          <button onClick={toggleDisplay.bind('',"Manage Account" )} className="btn btn-light extraInfoButton">
             Account Settings
           </button>
         </div>
@@ -441,23 +451,29 @@ function DisplayExtra({ name, userObj }) {
     );
   }
 
+  if (name === "Manage Account") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv">
+          <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>Manage User Information</h5>
+          <p className="extraInfoNavSubTitle">
+            Allows users to view account information and update their password.
+          </p>
+        </div>
+      </div>
+    );
+
+  }
+
   if (name === "User Management") {
     return (
       <div id="extraInfo">
-        <div>
-          <h5 style={{ color: "maroon" }}>User Management</h5>
-          <p>
+        <div className="extraInfoNavDiv">
+          <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>User Management</h5>
+          <p className="extraInfoNavSubTitle">
             Allows Admin users the ability to view information about their home
             as well create new and modify exiting staff members.
           </p>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              marginRight: "10px"
-            }}
-          ></div>
         </div>
       </div>
     );

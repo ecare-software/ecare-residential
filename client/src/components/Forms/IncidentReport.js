@@ -115,6 +115,62 @@ class IncidentReport extends Component {
     this.setState(stateObj);
   };
 
+  resetForm = () => {
+    this.setState({
+      childMeta_name: "",
+
+      childMeta_gender: "",
+
+      childMeta_dob: "",
+
+      childMeta_dateOfAdmission: "",
+
+      dateOfIncident: "",
+
+      staff_involved_name: "",
+
+      staff_involved_gender: "",
+
+      time_of_incident: "",
+
+      staff_witness_name: "",
+
+      staff_witness_gender: "",
+
+      client_witness_name1: "",
+
+      client_witness_gender1: "",
+
+      client_witness_dob1: "",
+
+      client_witness_doa1: "",
+
+      client_witness_name2: "",
+
+      client_witness_gender2: "",
+
+      client_witness_dob2: "",
+
+      client_witness_doa2: "",
+
+      incident_explaination: "",
+
+      seperation: "",
+
+      result: "",
+
+      able_to_prevent: "",
+
+      notification_made_to: "",
+
+      notification_made_date_time: "",
+
+      notification_made_by: "",
+
+      follow_up_results: ""
+    });
+  };
+
   submit = () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     console.log(JSON.stringify(currentState));
@@ -123,6 +179,7 @@ class IncidentReport extends Component {
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
         setTimeout(this.toggleSuccessAlert, 3000);
+        this.resetForm();
       })
       .catch(e => {
         this.setState({
@@ -157,7 +214,7 @@ class IncidentReport extends Component {
           /^\s+$/.test(this.state[key]) ||
           this.state[key].length < 1
         ) {
-          errorFields.push("\n"+key);
+          errorFields.push("\n" + key);
           isValid = false;
         }
       }
@@ -166,7 +223,9 @@ class IncidentReport extends Component {
     if (!isValid) {
       this.setState({
         formHasError: true,
-        formErrorMessage: `Please complete the following field(s): ${errorFields.toString().replace(/,/g,"\n")}`
+        formErrorMessage: `Please complete the following field(s): ${errorFields
+          .toString()
+          .replace(/,/g, "\n")}`
       });
       return;
     }
@@ -178,21 +237,25 @@ class IncidentReport extends Component {
     if (!this.props.valuesSet) {
       return (
         <div className="formComp">
-          {(this.state.formSubmitted || this.state.formHasError) ? <React.Fragment>
-            <FormAlert
-            doShow={this.state.formSubmitted}
-            type="success"
-            heading="Thank you for your submission!"
-          ></FormAlert>
-          <FormAlert
-            doShow={this.state.formHasError}
-            toggleErrorAlert={this.toggleErrorAlert}
-            type="danger"
-            heading="Error Submitting form"
-          >
-            <p>{this.state.formErrorMessage}</p>
-          </FormAlert>
-          </React.Fragment> : <React.Fragment/>}
+          {this.state.formSubmitted || this.state.formHasError ? (
+            <React.Fragment>
+              <FormAlert
+                doShow={this.state.formSubmitted}
+                type="success"
+                heading="Thank you for your submission!"
+              ></FormAlert>
+              <FormAlert
+                doShow={this.state.formHasError}
+                toggleErrorAlert={this.toggleErrorAlert}
+                type="danger"
+                heading="Error Submitting form"
+              >
+                <p>{this.state.formErrorMessage}</p>
+              </FormAlert>
+            </React.Fragment>
+          ) : (
+            <React.Fragment />
+          )}
           <div className="formTitleDiv">
             <h2 className="formTitle">Incident Report</h2>
           </div>
@@ -203,6 +266,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="childMeta_name"
+                value={this.state.childMeta_name}
                 className="form-control"
                 type="text"
               />{" "}
@@ -214,6 +278,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="childMeta_gender"
+                value={this.state.childMeta_gender}
                 className="form-control"
                 type="text"
               />{" "}
@@ -227,6 +292,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="childMeta_dob"
+                value={this.state.childMeta_dob}
                 className="form-control"
                 type="date"
               />{" "}
@@ -238,6 +304,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="childMeta_dateOfAdmission"
+                value={this.state.childMeta_dateOfAdmission}
                 className="form-control"
                 type="date"
               />{" "}
@@ -249,6 +316,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="dateOfIncident"
+                value={this.state.dateOfIncident}
                 className="form-control"
                 type="datetime-local"
               />{" "}
@@ -262,6 +330,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="staff_involved_name"
+                value={this.state.staff_involved_name}
                 className="form-control"
                 type="text"
               />{" "}
@@ -275,6 +344,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="staff_involved_gender"
+                value={this.state.staff_involved_gender}
                 className="form-control"
                 type="text"
               />{" "}
@@ -286,6 +356,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="time_of_incident"
+                value={this.state.time_of_incident}
                 className="form-control"
                 type="text"
               />{" "}
@@ -299,6 +370,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="staff_witness_name"
+                value={this.state.staff_witness_name}
                 className="form-control"
                 type="text"
               />{" "}
@@ -312,6 +384,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="staff_witness_gender"
+                value={this.state.staff_witness_gender}
                 className="form-control"
                 type="text"
               />{" "}
@@ -325,6 +398,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="client_witness_name1"
+                value={this.state.client_witness_name1}
                 className="form-control"
                 type="text"
               />{" "}
@@ -338,6 +412,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="client_witness_gender1"
+                value={this.state.client_witness_gender1}
                 className="form-control"
                 type="text"
               />{" "}
@@ -351,6 +426,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="client_witness_dob1"
+                value={this.state.client_witness_dob1}
                 className="form-control"
                 type="date"
               />{" "}
@@ -364,6 +440,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="client_witness_doa1"
+                value={this.state.client_witness_doa1}
                 className="form-control"
                 type="date"
               />{" "}
@@ -377,6 +454,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="client_witness_name2"
+                value={this.state.client_witness_name2}
                 className="form-control"
                 type="text"
               />{" "}
@@ -390,6 +468,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="client_witness_gender2"
+                value={this.state.client_witness_gender2}
                 className="form-control"
                 type="text"
               />{" "}
@@ -403,6 +482,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="client_witness_dob2"
+                value={this.state.client_witness_dob2}
                 className="form-control"
                 type="date"
               />{" "}
@@ -416,6 +496,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="client_witness_doa2"
+                value={this.state.client_witness_doa2}
                 className="form-control"
                 type="date"
               />{" "}
@@ -427,6 +508,7 @@ class IncidentReport extends Component {
               <textarea
                 onChange={this.handleFieldInput}
                 id="incident_explaination"
+                value={this.state.incident_explaination}
                 className="form-control"
               ></textarea>
             </div>
@@ -440,6 +522,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="seperation"
+                value={this.state.seperation}
                 className="form-control"
                 type="text"
               />{" "}
@@ -453,6 +536,7 @@ class IncidentReport extends Component {
               <textarea
                 onChange={this.handleFieldInput}
                 id="result"
+                value={this.state.result}
                 className="form-control"
               ></textarea>
             </div>
@@ -465,6 +549,7 @@ class IncidentReport extends Component {
               <textarea
                 onChange={this.handleFieldInput}
                 id="able_to_prevent"
+                value={this.state.able_to_prevent}
                 className="form-control"
               ></textarea>
             </div>
@@ -477,6 +562,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="notification_made_to"
+                value={this.state.notification_made_to}
                 className="form-control"
                 type="text"
               />{" "}
@@ -490,6 +576,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="notification_made_date_time"
+                value={this.state.notification_made_date_time}
                 className="form-control"
                 type="datetime-local"
               />{" "}
@@ -501,6 +588,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="notification_made_by"
+                value={this.state.notification_made_by}
                 className="form-control"
                 type="text"
               />{" "}
@@ -514,6 +602,7 @@ class IncidentReport extends Component {
               <textarea
                 onChange={this.handleFieldInput}
                 id="follow_up_results"
+                value={this.state.follow_up_results}
                 className="form-control"
               ></textarea>
             </div>
@@ -527,26 +616,31 @@ class IncidentReport extends Component {
               </button>
             </div>
           </div>
+          ;
         </div>
       );
     } else {
       return (
         <div className="formComp">
-          {(this.state.formSubmitted || this.state.formHasError) ? <React.Fragment>
-            <FormAlert
-            doShow={this.state.formSubmitted}
-            type="success"
-            heading="Thank you for your submission!"
-          ></FormAlert>
-          <FormAlert
-            doShow={this.state.formHasError}
-            toggleErrorAlert={this.toggleErrorAlert}
-            type="danger"
-            heading="Error Submitting form"
-          >
-            <p>{this.state.formErrorMessage}</p>
-          </FormAlert>
-          </React.Fragment> : <React.Fragment/>}
+          {this.state.formSubmitted || this.state.formHasError ? (
+            <React.Fragment>
+              <FormAlert
+                doShow={this.state.formSubmitted}
+                type="success"
+                heading="Thank you for your submission!"
+              ></FormAlert>
+              <FormAlert
+                doShow={this.state.formHasError}
+                toggleErrorAlert={this.toggleErrorAlert}
+                type="danger"
+                heading="Error Submitting form"
+              >
+                <p>{this.state.formErrorMessage}</p>
+              </FormAlert>
+            </React.Fragment>
+          ) : (
+            <React.Fragment />
+          )}
           <div className="formTitleDivReport">
             <h2 className="formTitle">Incident Report</h2>
           </div>

@@ -93,6 +93,44 @@ class DailyProgressAndActivity extends Component {
     this.setState(stateObj);
   };
 
+  resetForm = () => {
+    this.setState({
+      childMeta_name: "",
+      personal_hygiene: "",
+      dressing: "",
+      table_mannders: "",
+      clothes_maintenace: "",
+      self_feeding: "",
+      care_of_property: "",
+      maintenace_of_personal_space: "",
+      household_chorse: "",
+      informal_counseling: "",
+      verbal_redirection: "",
+      modeling: "",
+      supervised_separation: "",
+      provider_feedback_to_client: "",
+      positive_reinforcement: "",
+      other: "",
+      home_restrictions: "",
+      restricted_leisure_activity: "",
+      no_allowance: "",
+      other2: "",
+      no_of_home_incidents: "",
+      no_of_home_serious_incidents: "",
+      no_of_home_restraints: "",
+      no_of_school_incidents: "",
+      no_of_school_restraints: "",
+      illness_injury: "",
+      level_of_supervison: "",
+      summary_of_daily_schedule: "",
+      summary_of_behavior_at_school: "",
+      summary_of_behavior_at_home: "",
+      therapeutic_recreational: "",
+      therapeutic_value: "",
+      phone_calls_or_visits: ""
+    });
+  };
+
   submit = () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     console.log(JSON.stringify(currentState));
@@ -101,6 +139,7 @@ class DailyProgressAndActivity extends Component {
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
         setTimeout(this.toggleSuccessAlert, 3000);
+        this.resetForm();
       })
       .catch(e => {
         this.setState({
@@ -136,7 +175,7 @@ class DailyProgressAndActivity extends Component {
           /^\s+$/.test(this.state[key]) ||
           this.state[key].length < 1
         ) {
-          errorFields.push("\n"+key);
+          errorFields.push("\n" + key);
           isValid = false;
         }
       }
@@ -145,7 +184,9 @@ class DailyProgressAndActivity extends Component {
     if (!isValid) {
       this.setState({
         formHasError: true,
-        formErrorMessage: `Please complete the following field(s): ${errorFields.toString().replace(/,/g,"\n")}`
+        formErrorMessage: `Please complete the following field(s): ${errorFields
+          .toString()
+          .replace(/,/g, "\n")}`
       });
       return;
     }
@@ -186,6 +227,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="childMeta_name"
+                value={this.state.childMeta_name}
                 className="form-control"
                 type="text"
               />{" "}
@@ -205,6 +247,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="personal_hygiene"
+                value={this.state.personal_hygiene}
                 className="form-control"
                 type="text"
               />{" "}
@@ -215,6 +258,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="dressing"
+                value={this.state.dressing}
                 className="form-control"
                 type="text"
               />{" "}
@@ -225,6 +269,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="table_mannders"
+                value={this.state.table_mannders}
                 className="form-control"
                 type="text"
               />{" "}
@@ -235,6 +280,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="clothes_maintenace"
+                value={this.state.clothes_maintenace}
                 className="form-control"
                 type="text"
               />{" "}
@@ -245,6 +291,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="self_feeding"
+                value={this.state.self_feeding}
                 className="form-control"
                 type="text"
               />{" "}
@@ -255,6 +302,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="care_of_property"
+                value={this.state.care_of_property}
                 className="form-control"
                 type="text"
               />{" "}
@@ -267,6 +315,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="maintenace_of_personal_space"
+                value={this.state.maintenace_of_personal_space}
                 className="form-control"
                 type="text"
               />{" "}
@@ -277,6 +326,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="household_chorse"
+                value={this.state.household_chorse}
                 className="form-control"
                 type="text"
               />{" "}
@@ -293,6 +343,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="informal_counseling"
+                value={this.state.informal_counseling}
                 className="form-control"
                 type="text"
               />{" "}
@@ -303,6 +354,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="verbal_redirection"
+                value={this.state.verbal_redirection}
                 className="form-control"
                 type="text"
               />{" "}
@@ -313,6 +365,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="modeling"
+                value={this.state.modeling}
                 className="form-control"
                 type="text"
               />{" "}
@@ -325,6 +378,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="supervised_separation"
+                value={this.state.supervised_separation}
                 className="form-control"
                 type="text"
               />{" "}
@@ -337,6 +391,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="provider_feedback_to_client"
+                value={this.state.provider_feedback_to_client}
                 className="form-control"
                 type="text"
               />{" "}
@@ -349,6 +404,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="positive_reinforcement"
+                value={this.state.positive_reinforcement}
                 className="form-control"
                 type="text"
               />{" "}
@@ -359,6 +415,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="other"
+                value={this.state.other}
                 className="form-control"
                 type="text"
               />{" "}
@@ -374,6 +431,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="home_restrictions"
+                value={this.state.home_restrictions}
                 className="form-control"
                 type="text"
               />{" "}
@@ -386,6 +444,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="restricted_leisure_activity"
+                value={this.state.restricted_leisure_activity}
                 className="form-control"
                 type="text"
               />{" "}
@@ -396,6 +455,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="no_allowance"
+                value={this.state.no_allowance}
                 className="form-control"
                 type="text"
               />{" "}
@@ -406,6 +466,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="other2"
+                value={this.state.other2}
                 className="form-control"
                 type="text"
               />{" "}
@@ -421,6 +482,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="no_of_home_incidents"
+                value={this.state.no_of_home_incidents}
                 className="form-control"
                 type="text"
               />{" "}
@@ -433,6 +495,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="no_of_home_serious_incidents"
+                value={this.state.no_of_home_serious_incidents}
                 className="form-control"
                 type="text"
               />{" "}
@@ -445,6 +508,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="no_of_home_restraints"
+                value={this.state.no_of_home_restraints}
                 className="form-control"
                 type="text"
               />{" "}
@@ -457,6 +521,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="no_of_school_incidents"
+                value={this.state.no_of_school_incidents}
                 className="form-control"
                 type="text"
               />{" "}
@@ -469,6 +534,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="no_of_school_restraints"
+                value={this.state.no_of_school_restraints}
                 className="form-control"
                 type="text"
               />{" "}
@@ -479,6 +545,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="illness_injury"
+                value={this.state.illness_injury}
                 className="form-control"
                 type="text"
               />{" "}
@@ -489,6 +556,7 @@ class DailyProgressAndActivity extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="level_of_supervison"
+                value={this.state.level_of_supervison}
                 className="form-control"
                 type="text"
               />{" "}
@@ -501,6 +569,7 @@ class DailyProgressAndActivity extends Component {
               <textarea
                 onChange={this.handleFieldInput}
                 id="summary_of_daily_schedule"
+                value={this.state.summary_of_daily_schedule}
                 className="form-control"
               ></textarea>
             </div>
@@ -512,6 +581,7 @@ class DailyProgressAndActivity extends Component {
               <textarea
                 onChange={this.handleFieldInput}
                 id="summary_of_behavior_at_school"
+                value={this.state.summary_of_behavior_at_school}
                 className="form-control"
               ></textarea>
             </div>
@@ -523,6 +593,7 @@ class DailyProgressAndActivity extends Component {
               <textarea
                 onChange={this.handleFieldInput}
                 id="summary_of_behavior_at_home"
+                value={this.state.summary_of_behavior_at_home}
                 className="form-control"
               ></textarea>
             </div>
@@ -534,6 +605,7 @@ class DailyProgressAndActivity extends Component {
               <textarea
                 onChange={this.handleFieldInput}
                 id="therapeutic_recreational"
+                value={this.state.therapeutic_recreational}
                 className="form-control"
               ></textarea>
             </div>
@@ -543,6 +615,7 @@ class DailyProgressAndActivity extends Component {
               <textarea
                 onChange={this.handleFieldInput}
                 id="therapeutic_value"
+                value={this.state.therapeutic_value}
                 className="form-control"
               ></textarea>
             </div>
@@ -552,6 +625,7 @@ class DailyProgressAndActivity extends Component {
               <textarea
                 onChange={this.handleFieldInput}
                 id="phone_calls_or_visits"
+                value={this.state.phone_calls_or_visits}
                 className="form-control"
               ></textarea>
             </div>

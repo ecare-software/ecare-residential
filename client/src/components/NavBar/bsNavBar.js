@@ -47,7 +47,7 @@ class NavBar extends React.Component {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto">
+          <Nav defaultActiveKey="link-1" className="mr-auto">
             <Nav.Link
               eventKey="link-1"
               style={navItemStyle}
@@ -120,7 +120,7 @@ class NavBar extends React.Component {
                 title={firstName}
                 id="collasible-nav-dropdown"
               >
-                <Nav.Link eventKey="link-8">Manage Profile</Nav.Link>
+                <NavDropdown.Item onClick={this.props.toggleDisplay.bind({}, "Manage Account")}  eventKey="link-8">Manage Profile</NavDropdown.Item>
               </NavDropdown>
               <Nav.Link
                 eventKey="link-9"
