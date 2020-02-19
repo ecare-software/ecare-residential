@@ -22,7 +22,8 @@ const navBrandStyle = {
 
 const navItemStyle = {
   color: "white",
-  padding:"0px 5px"
+  paddingLeft: "5px",
+  paddingRight: "5px"
 };
 const adminReportingRoles = [
   "Admin",
