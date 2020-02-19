@@ -21,8 +21,12 @@ const User = require("../../models/User");
 // @desc    GET all items
 // @access  Public
 router.get("/:email/:password", (req, res) => {
-  User.find({ email: req.params.email, password: req.params.password })
-    .then(user => res.json(user))
+  User.findOneAndUpdate({ email: req.params.email, password: req.params.password },{
+    lastLogIn:new Date().toISOString()
+  },{new:true})
+    .then(user => {
+      res.json(user);
+    })
     .catch(err => res.status(404).json({ success: false }));
 });
 
@@ -30,26 +34,26 @@ router.get("/:email/:password", (req, res) => {
 // @desc    GET all items
 // @access  Public
 router.get("/:homeId", (req, res) => {
-
-  User.find({ homeId: req.params.homeId }).then(Users => res.json(Users))
-  .catch(err => res.status(404).json({ success: false }));
+  User.find({ homeId: req.params.homeId })
+    .then(Users => res.json(Users))
+    .catch(err => res.status(404).json({ success: false }));
 });
 
 // @route   GET api/items
 // @desc    GET all items
 // @access  Public
 router.get("/", (req, res) => {
-  User.find().then(user =>{
-    res.json(user.map( (u) => {
-
-      return {
-        firstName:u.firstName,
-        lastName:u.lastName,
-        email:u.email
-      }
-    
-    }))}
+  User.find().then(user => {
+    res.json(
+      user.map(u => {
+        return {
+          firstName: u.firstName,
+          lastName: u.lastName,
+          email: u.email
+        };
+      })
     );
+  });
 });
 
 // @route   POST api/items
@@ -63,10 +67,10 @@ router.post("/", (req, res) => {
     lastName: req.body.lastName,
     email: req.body.email,
     password: req.body.password,
-    homeId:req.body.homeId,
+    homeId: req.body.homeId,
     jobTitle: req.body.jobTitle,
     isAdmin: req.body.isAdmin,
-    newUser:true,
+    newUser: true
   });
   newUser.save().then(user => res.json(user));
 });
@@ -75,12 +79,11 @@ router.post("/", (req, res) => {
 // @desc    Create an item
 // @access  Public
 router.put("/:id", (req, res) => {
-  User.findByIdAndUpdate({_id:req.params.id}, req.body)
-    .then(function(){
-      User.findOne({_id:req.params.id}).then(user=>{
-        res.send(user)
-      })
-    })
+  User.findByIdAndUpdate({ _id: req.params.id }, req.body).then(function() {
+    User.findOne({ _id: req.params.id }).then(user => {
+      res.send(user);
+    });
+  });
 });
 
 // ('/:password/:id', function (req, res) {

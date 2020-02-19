@@ -62,13 +62,13 @@ class LogInContainer extends Component {
       })
         .then(function(response) {
           // handle success
-          if (response.data.length === 0) {
+          if (response.data === null) {
             // alert("hey");
             document.getElementById(staticThis.props.id+"-error").innerText = "Invalid email or password";
             document.getElementById(staticThis.props.id+"-error").style.display = "block";
           } else {
 
-            staticThis.props.logIn(response.data[0]);
+            staticThis.props.logIn(response.data);
           }
         })
         .catch(function(error) {
