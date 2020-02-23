@@ -14,6 +14,7 @@ import MessageBoard from "./components/MessageBoard/MessageBoard";
 import Reports from "./components/Reports/ReportsContainer";
 import UserManagement from "./components/UserManagement/UserManagement";
 import BSNavBar from "./components/NavBar/bsNavBar";
+import DirectMessageBoard from "./components/DirectMessageBoard/DirectMessageBoard";
 // import UserActions from "./components/UserActions/UserActions";
 import ManageAccountContainer from "./components/ManageAccount/ManageAccountContainer";
 //modals
@@ -44,19 +45,19 @@ const navSelected = {
 
 class App extends Component {
   state = {
-    loggedIn: false,
+    loggedIn: true,
     userObj: {
-      // email: "demarcuskennedy95@gmail.com",
-      // firstName: "DeMarcus",
-      // homeId: "home-1234",
-      // isAdmin: true,
-      // jobTitle: "Admin",
-      // lastLogIn: "2019-08-26T03:22:28.424Z",
-      // lastName: "Kennedy",
-      // newUser: true,
-      // password: "xyz123",
-      // __v: 0,
-      // _id: "5d63507799ac0b1494149479"
+      email: "demarcuskennedy95@gmail.com",
+      firstName: "DeMarcus",
+      homeId: "home-1234",
+      isAdmin: true,
+      jobTitle: "Admin",
+      lastLogIn: "2019-08-26T03:22:28.424Z",
+      lastName: "Kennedy",
+      newUser: true,
+      password: "xyz123",
+      __v: 0,
+      _id: "5d63507799ac0b1494149479"
     },
     messagesInitLoad: false,
     allUsersSet: false,
@@ -68,6 +69,10 @@ class App extends Component {
     discussionMessages: [],
     allUsers: []
   };
+
+  getMyMessages = () =>{
+    
+  }
 
   componentDidMount = () => {
     console.log(cookie.load("appState"));
@@ -146,9 +151,9 @@ class App extends Component {
     window.scrollTo(0, 0);
   };
 
-  scrollTop = () =>{
+  scrollTop = () => {
     window.scrollTo(0, 0);
-  }
+  };
 
   toggleLogIn = userObj => {
     window.scrollTo(0, 0);
@@ -276,7 +281,7 @@ class App extends Component {
   }
 }
 
-function ToggleScreen({ name, appState,appendMessage }) {
+function ToggleScreen({ name, appState, appendMessage }) {
   if (name === "Dashboard") {
     return (
       <div>
@@ -350,18 +355,29 @@ function ToggleScreen({ name, appState,appendMessage }) {
   if (name === "Manage Account") {
     return (
       <div>
-        <ManageAccountContainer userObj={appState.userObj}/>
+        <ManageAccountContainer userObj={appState.userObj} />
+      </div>
+    );
+  }
+
+  if (name === "Direct Message") {
+    return (
+      <div>
+        <DirectMessageBoard
+          userObj={appState.userObj}
+          messages={appState.discussionMessages}
+        />
       </div>
     );
   }
 }
 
-function DisplayExtra({ name, userObj,scrollTop,toggleDisplay }) {
+function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
   if (name === "TreatmentPlan72") {
     return (
       <div id="extraInfo">
-        <div className="extraInfoNavDiv" >
-        <h5 className="extraInfoNavTitle">Treatment Plan 72</h5>
+        <div className="extraInfoNavDiv">
+          <h5 className="extraInfoNavTitle">Treatment Plan 72</h5>
           <p className="extraInfoNavSubTitle">
             This is what the must be filled out when a child is first admitted
             to the facility.
@@ -378,8 +394,8 @@ function DisplayExtra({ name, userObj,scrollTop,toggleDisplay }) {
   if (name === "restraintReport") {
     return (
       <div id="extraInfo">
-        <div className="extraInfoNavDiv" >
-        <h5 className="extraInfoNavTitle">Restraint Report</h5>
+        <div className="extraInfoNavDiv">
+          <h5 className="extraInfoNavTitle">Restraint Report</h5>
           <p className="extraInfoNavSubTitle">
             If a child had to be restrained, file this form, notationg what
             happened to cause this action.
@@ -421,19 +437,21 @@ function DisplayExtra({ name, userObj,scrollTop,toggleDisplay }) {
     return (
       <div id="extraInfo">
         <div id="">
-          <h4 className="extraInfoMainTitle" >{userObj.firstName + " " + userObj.lastName}</h4>
-          <h6 className="extraInfoSubTitle" >{userObj.jobTitle}</h6>
+          <h4 className="extraInfoMainTitle">
+            {userObj.firstName + " " + userObj.lastName}
+          </h4>
+          <h6 className="extraInfoSubTitle">{userObj.jobTitle}</h6>
         </div>
-        <div className="extraInfoNavDiv" >
+        <div className="extraInfoNavDiv">
           <h5 className="extraInfoNavTitle">Dashboard</h5>
           <p className="extraInfoNavSubTitle">
-            <i>This is the first screen users will see when they log in. I feel
-            this is alright for now.</i>
+            <i>
+              This is the first screen users will see when they log in. I feel
+              this is alright for now.
+            </i>
           </p>
         </div>
-        <div
-        className="extraInfoButtonDiv"
-        >
+        <div className="extraInfoButtonDiv">
           <button onClick={scrollTop} className="btn btn-light extraInfoButton">
             Write Dashboard Message
           </button>
@@ -443,7 +461,10 @@ function DisplayExtra({ name, userObj,scrollTop,toggleDisplay }) {
           {/* <button className="btn btn-light extraInfoButton">
             Direct Messages
           </button> */}
-          <button onClick={toggleDisplay.bind('',"Manage Account" )} className="btn btn-light extraInfoButton">
+          <button
+            onClick={toggleDisplay.bind("", "Manage Account")}
+            className="btn btn-light extraInfoButton"
+          >
             Account Settings
           </button>
         </div>
@@ -455,21 +476,88 @@ function DisplayExtra({ name, userObj,scrollTop,toggleDisplay }) {
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>Manage User Information</h5>
+          <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>
+            Manage User Information
+          </h5>
           <p className="extraInfoNavSubTitle">
             Allows users to view account information and update their password.
           </p>
         </div>
       </div>
     );
+  }
 
+  if (name === "Direct Message") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv">
+          <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>
+            Direct Messages
+          </h5>
+          <p className="extraInfoNavSubTitle">This is me sending a DM</p>
+          <div>
+            <div style={{ width: "100%", display: "flex", margin: "10px 0px" }}>
+              <p
+                className="extraInfoNavSubTitle"
+                style={{
+                  width: "30px",
+                  marginTop: "2px"
+                }}
+              >
+                To:
+              </p>
+              <select
+                style={{
+                  flex: "1",
+                  height: "30px"
+                }}
+              >
+                <option disabled selected>
+                  Choose...
+                </option>
+                <option>Some person</option>
+                <option>Anotha one</option>
+              </select>
+            </div>
+            <div style={{ width: "100%", display: "flex", margin: "10px 0px" }}>
+              <textarea
+                id="messageText"
+                // xvalue={this.state.messageText}
+                // xonChange={this.handleFieldInput}
+                cols="1"
+                style={{
+                  height: "40px",
+                  flex: "1",
+                  borderColor: "#eee",
+                  margin: "0px 5px",
+                  resize: "none",
+                  borderRight: "none",
+                  borderTop: "none",
+                  borderLeft: "none"
+                }}
+                placeholder="Whats on your mind ?"
+              ></textarea>
+              <button
+                // xonClick={this.callAppendMessage}
+                className="btn btn-light"
+                style={{ margin: "0px 5px", width: "40px" }}
+              >
+                <i className="fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (name === "User Management") {
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>User Management</h5>
+          <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>
+            User Management
+          </h5>
           <p className="extraInfoNavSubTitle">
             Allows Admin users the ability to view information about their home
             as well create new and modify exiting staff members.

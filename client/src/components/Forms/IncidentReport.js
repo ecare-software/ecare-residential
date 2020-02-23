@@ -676,6 +676,7 @@ class IncidentReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
+                // value={(this.props.formData.childMeta_dob!==null) ? (new Date(this.props.formData.childMeta_dob)).toISOString().replace(/(T\d{2}:\d{2}).*/g,'') : null}
                 value={this.props.formData.childMeta_dob}
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"

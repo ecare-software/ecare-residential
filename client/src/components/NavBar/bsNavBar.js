@@ -95,7 +95,14 @@ class NavBar extends React.Component {
               {/* <NavDropdown.Divider /> */}
             </NavDropdown>
             <Nav.Link
-              eventKey="link-6"
+                eventKey="link-6"
+                onClick={this.props.toggleDisplay.bind({}, "Direct Message")}
+                style={navItemStyle}
+              >
+                Direct Message
+              </Nav.Link>
+            <Nav.Link
+              eventKey="link-7"
               onClick={this.props.toggleDisplay.bind({}, "User Management")}
               style={navItemStyle}
             >
@@ -103,7 +110,7 @@ class NavBar extends React.Component {
             </Nav.Link>
             {adminReportingRoles.includes(this.props.userObj.jobTitle) ? (
               <Nav.Link
-                eventKey="link-7"
+                eventKey="link-8"
                 onClick={this.props.toggleDisplay.bind({}, "Reports")}
                 style={navItemStyle}
               >

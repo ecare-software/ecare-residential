@@ -37,14 +37,6 @@ class MessageBoard extends Component {
       return (
         <div style={{ marginTop: "60px" }}>
           <div className="messageBoardTitleDiv">
-            {/* <h2 className="formTitle">72 Hour Treatment Plan</h2> */}
-            {/* <button
-              onClick={this.openModal.bind("", "PostMessageModal")}
-              className="btn btn-light"
-            >
-              Post Message{"  "}
-              <span className="fa fa-pencil"></span>{" "}
-            </button> */}
             <div style={{width:"100%",display:"flex",margin:"10px 0px"}}>
               <textarea id="messageText" value={this.state.messageText} onChange={this.handleFieldInput} cols="1" style={{height:"40px",flex:"1",borderColor:"#eee",margin:"0px 5px",resize:"none", borderRight:"none",borderTop:"none",borderLeft:"none"}} placeholder="Whats on your mind ?"></textarea>
               <button onClick={this.callAppendMessage} className="btn btn-light" style={{margin:"0px 5px",width:"75px"}}>Post</button>
