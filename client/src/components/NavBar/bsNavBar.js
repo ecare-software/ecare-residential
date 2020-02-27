@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-
+import LogInContiner from "../LogInContainer/LogInContainer";
+import Modal from "react-bootstrap/Modal";
 import {
   Navbar,
   Nav,
@@ -10,14 +11,30 @@ import {
   ButtonToolbar
 } from "react-bootstrap";
 
-const navBarStyle = {
-  backgroundColor: "maroon",
+const navBarStyleNotLoggedIn = {
+  backgroundColor: "transparent",
   color: "white"
 };
+
+const navBarStyleLoggedIn = {
+  backgroundColor: "maroon",
+  color: "white",
+  webkitBoxShadow: "0px 2px 7px -1px rgba(0, 0, 0, 0.75)",
+  mozBoxShadow: "0px 2px 7px -1px rgba(0, 0, 0, 0.75)",
+  boxShadow: "0px 2px 7px -1px rgba(0, 0, 0, 0.75)",
+};
+
 
 const navBrandStyle = {
   color: "white",
   fontWeight: "200"
+};
+
+const navBrandStyleNotLoggedIn = {
+  color: "white",
+  fontWeight: "300",
+  paddingLeft: "20px",
+  margin:"0px -5px"
 };
 
 const navItemStyle = {
@@ -25,6 +42,26 @@ const navItemStyle = {
   paddingLeft: "5px",
   paddingRight: "5px"
 };
+const navItemStyleBig = {
+  color: "black",
+  paddingLeft: "20px",
+  paddingRight: "20px",
+  margin:"5px 5px",
+  borderRadius:"9px",
+  fontWeight:"500",
+  border:"solid .5px white"
+};
+
+const navItemStyleBigFill = {
+  color: "black",
+  paddingLeft: "20px",
+  paddingRight: "20px",
+  margin:"5px 5px",
+  borderRadius:"9px",
+  fontWeight:"400",
+  border:"solid .5px white"
+};
+
 const adminReportingRoles = [
   "Admin",
   "Owner_-_CEO",
@@ -38,12 +75,78 @@ class NavBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.state = { showLogIn: false };
   }
+
+  openLogInModal = () => {
+    // console.log(document.getElementById("logInModal"));
+    this.setState({ showLogIn: true });
+  };
+
+  closeLogInModal = () => {
+    this.setState({ showLogIn: false });
+  };
 
   render() {
     const { firstName } = this.props.userObj;
+    if(!this.props.isLoggedIn){
+      return (
+        <React.Fragment>
+        <Modal show={this.state.showLogIn} onHide={!this.state.showLogIn}>
+          <LogInContiner
+            logIn={this.props.logIn}
+            pos={{ position: "fixed", top: "100%",top:"200px" }}
+          />
+          <button
+            className="btn btn-default"
+            style={{ position: "fixed",left:"28px",top:"201px" }}
+            variant="secondary"
+            onClick={this.closeLogInModal}
+          >
+            x
+          </button>
+        </Modal>
+        <Navbar fixed="top" variant="dark" collapseOnSelect expand="lg" style={navBarStyleNotLoggedIn}>
+          <Navbar.Brand style={navBrandStyleNotLoggedIn}>
+            e-Care Residential
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav defaultActiveKey="link-1" className="mr-auto">
+            </Nav>
+            <Nav className="ml-auto">
+              <React.Fragment>
+                <Nav.Link
+                  eventKey="link-1"
+                  style={navItemStyleBig}
+                  className="nav-link-not-logged-in"
+                  onClick={this.openLogInModal}
+                >
+                  Log In
+                </Nav.Link>
+                <Nav.Link
+                  eventKey="link-2"
+                  style={navItemStyleBig}
+                  className="nav-link-not-logged-in"
+                >
+                  Sign Up
+                </Nav.Link>
+                <Nav.Link
+                  eventKey="link-3"
+                  style={navItemStyleBigFill}
+                  className="nav-link-not-logged-in-fill"
+                >
+                  Learn More
+                </Nav.Link>
+              </React.Fragment>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+        </React.Fragment>
+      );
+    }
     return (
-      <Navbar fixed="top" variant="dark" collapseOnSelect expand="lg" style={navBarStyle}>
+      <Navbar fixed="top" variant="dark" collapseOnSelect expand="lg" style={navBarStyleLoggedIn}>
         <Navbar.Brand style={navBrandStyle}>
           e-Care Residential
         </Navbar.Brand>

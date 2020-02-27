@@ -7,6 +7,34 @@ input{
   border-bottom: 0.5px solid #eee;
   padding: 10px 10px;
 }
+.nav-link-not-logged-in.active{
+  background-color: transparent !important;
+
+}
+.modal-content{
+  border: none;
+}
+.nav-link-not-logged-in{
+  background-color: #ffffff31 !important;
+
+}
+
+.nav-link-not-logged-in:hover{
+  background-color: white !important;
+  color:maroon!important;
+}
+
+.nav-link-not-logged-in-fill{
+  background-color: maroon !important;
+  color:white !important;
+  border:solid .5px maroon!important;
+}
+
+.nav-link-not-logged-in-fill:hover{
+  color:maroon !important;
+  background-color: white !important;
+  border:solid .5px white!important;
+}
 
 .nav-link.active{
   background-color: #5e0000;
@@ -37,11 +65,7 @@ input{
 }
 
 
-.navbar {
-  -webkit-box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75);
-}
+
 .defaultSubLabel {
   font-weight: 900;
   /* margin2px; */
@@ -51,7 +75,7 @@ input{
 }
 
 label {
-  font-weight: 400 !important;
+  font-weight: 300 !important;
 }
 .formFields {
   margin: 25px 10px;

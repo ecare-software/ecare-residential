@@ -45,19 +45,19 @@ const navSelected = {
 
 class App extends Component {
   state = {
-    loggedIn: true,
+    loggedIn: false,
     userObj: {
-      email: "demarcuskennedy95@gmail.com",
-      firstName: "DeMarcus",
-      homeId: "home-1234",
-      isAdmin: true,
-      jobTitle: "Admin",
-      lastLogIn: "2019-08-26T03:22:28.424Z",
-      lastName: "Kennedy",
-      newUser: true,
-      password: "xyz123",
-      __v: 0,
-      _id: "5d63507799ac0b1494149479"
+      // email: "demarcuskennedy95@gmail.com",
+      // firstName: "DeMarcus",
+      // homeId: "home-1234",
+      // isAdmin: true,
+      // jobTitle: "Admin",
+      // lastLogIn: "2019-08-26T03:22:28.424Z",
+      // lastName: "Kennedy",
+      // newUser: true,
+      // password: "xyz123",
+      // __v: 0,
+      // _id: "5d63507799ac0b1494149479"
     },
     messagesInitLoad: false,
     allUsersSet: false,
@@ -234,8 +234,15 @@ class App extends Component {
     } else {
       return (
         <div className="App">
+          <BSNavBar
+            logOut={this.logOut}
+            logIn={this.toggleLogIn}
+            toggleDisplay={this.toggleDisplay}
+            isLoggedIn={this.state.loggedIn}
+            userObj={this.state.userObj}
+          ></BSNavBar>
           <Header logIn={this.toggleLogIn} />
-          <LogInContiner id="desktopLogin" logIn={this.toggleLogIn} />
+          {/* <LogInContiner id="desktopLogin" logIn={this.toggleLogIn} /> */}
           {/* Body Start */}
           <div className="container-fluid" id="greetingContainer">
             <div className="row" id="greetingRow">

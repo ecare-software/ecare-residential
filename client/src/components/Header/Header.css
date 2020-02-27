@@ -11,19 +11,20 @@
   /* desktop */
   @media only screen and (min-width: 1226px) {
     .headerImg {
-      background: url("./images/Caregiver-Assistance.jpg") no-repeat;
+      /* background: url("./images/Caregiver-Assistance.jpg") no-repeat; */
       background-size: cover;
   
-      height: 900px;
+      /* height: 900px; */
+      height: 100vh;
       width:100%;
     }
   
     .headerTextContainer{
       position: absolute;
-      top:200px;
-      left:48%;
+      top:30vh;
+      left:8%;
       width: 600px;
-      font-family: "Google Sans Display",Arial,Helvetica,sans-serif;
+      /* font-family: "Google Sans Display",Arial,Helvetica,sans-serif; */
     }
     .headerMainText{
       font-size: 4rem;
@@ -31,8 +32,9 @@
     }
     .headerSubText{
       margin-top:25px;
-      font-size: 3rem;
+      font-size: 1.9rem;
       line-height: 35px;
+      font-weight: 200;
     }
     #headerDemoBtn{
       position: relative;
@@ -47,7 +49,7 @@
   /* ipad */
   @media only screen and (min-width: 768px) and (max-width: 1225px) {
     .headerImg {
-      background: url("./images/Caregiver-Assistance.jpg") no-repeat;
+      /* background: url("./images/Caregiver-Assistance.jpg") no-repeat; */
       background-size: cover;
   
       height: 700px;
@@ -61,6 +63,7 @@
       /* width: 600px; */
       font-family: "Google Sans Display",Arial,Helvetica,sans-serif;
     }
+    
     .headerMainText{
       font-size: 4rem;
       width:70%;
@@ -83,7 +86,7 @@
   /* mobile up right */
   @media only screen and (max-width: 767px) {
     .headerImg {
-      background: url("./images/Caregiver-Assistance.jpg") no-repeat;
+      /* background: url("./images/Caregiver-Assistance.jpg") no-repeat; */
       background-position: -330px 0px;
       height: 500px;
       width: 101%;
