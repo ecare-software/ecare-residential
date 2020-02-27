@@ -55,7 +55,7 @@ class Header extends Component {
           <Carousel.Item>
             <img
               className="d-block w-100 headerImg"
-              src={require("../../images/child1.jpeg")}
+              src={require("../../images/child4.jpeg")}
               style={imageStyle}
               alt="First slide"
             />
@@ -68,8 +68,8 @@ class Header extends Component {
             <img
               className="d-block w-100 headerImg"
               style={imageStyle}
-              src={require("../../images/child2.jpeg")}
-              alt="Third slide"
+              src={require("../../images/child1.jpeg")}
+              alt="Two slide"
             />
 
             {/* <Carousel.Caption>
@@ -80,9 +80,24 @@ class Header extends Component {
           <Carousel.Item>
             <img
               className="d-block w-100 headerImg"
-              src={require("../../images/child3.jpeg")}
+              src={require("../../images/child2.jpeg")}
               style={imageStyle}
               alt="Third slide"
+            />
+
+            {/* <Carousel.Caption>
+              <h3>Third slide label</h3>
+              <p>
+                Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+              </p>
+            </Carousel.Caption> */}
+          </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block w-100 headerImg"
+              src={require("../../images/child3.jpeg")}
+              style={imageStyle}
+              alt="Fourth slide"
             />
 
             {/* <Carousel.Caption>
