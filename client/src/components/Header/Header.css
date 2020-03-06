@@ -5,7 +5,7 @@
   
   .headerSubText{
     color:rgb(255, 255, 255);
-    text-shadow: 0px 2px 6px #707070e7;
+    text-shadow: 0px 2px 6px #707070f5;
     letter-spacing: 2px;
   }
   /* desktop */
@@ -34,7 +34,7 @@
       margin-top:25px;
       font-size: 1.9rem;
       line-height: 35px;
-      font-weight: 200;
+      font-weight: 300;
     }
     #headerDemoBtn{
       position: relative;

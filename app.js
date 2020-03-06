@@ -15,9 +15,11 @@ const restraintReport = require("./routes/api/restraintReport");
 const dailyProgressAndActivity = require("./routes/api/dailyProgressAndActivity");
 const directMessages = require("./routes/api/directMessages");
 const discussionMessages = require("./routes/api/discussionMessages");
+const email = require("./routes/api/email");
 
 //user express
 const app = express();
+// email test
 
 //  Body Parser middleware
 app.use(bodyParser.json());
@@ -56,6 +58,7 @@ app.get("/reports",(req,res)=>{
 //   res.sendFile('index.html', {root:path.join(__dirname + "/index.html")});
 // });
 //use routes
+
 app.use('/api/users', users);
 app.use("/api/treatmentPlans72",treatmentPlans72);
 app.use("/api/incidentReport",incidentReport);
@@ -63,6 +66,7 @@ app.use("/api/restraintReport",restraintReport);
 app.use("/api/dailyProgressAndActivity",dailyProgressAndActivity);
 app.use("/api/directMessages",directMessages);
 app.use("/api/discussionMessages",discussionMessages);
+app.use("/api/email",email);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

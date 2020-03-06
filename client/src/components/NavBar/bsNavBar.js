@@ -125,13 +125,6 @@ class NavBar extends React.Component {
                   Log In
                 </Nav.Link>
                 <Nav.Link
-                  eventKey="link-2"
-                  style={navItemStyleBig}
-                  className="nav-link-not-logged-in"
-                >
-                  Sign Up
-                </Nav.Link>
-                <Nav.Link
                   eventKey="link-3"
                   style={navItemStyleBigFill}
                   className="nav-link-not-logged-in-fill"

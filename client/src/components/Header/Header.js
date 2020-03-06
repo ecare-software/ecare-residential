@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import "./Header.css";
 import "../../App.css";
+import Axios from "axios";
 import LogInContiner from "../LogInContainer/LogInContainer";
 import Carousel from "react-bootstrap/Carousel";
 import ReactDOM from "react-dom";
 import Modal from "react-bootstrap/Modal";
+import FormAlert from "../Forms/FormAlert";
 import ModalBody from "react-bootstrap/ModalBody";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import ModalTitle from "react-bootstrap/ModalTitle";
@@ -17,7 +19,7 @@ const imageStyle = {
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = { showLogIn: false };
+    this.state = { showLogIn: false, email: "", name: "",emailSent:false };
     this.scrollToMainBody = this.scrollToMainBody.bind(this);
   }
 
@@ -30,6 +32,30 @@ class Header extends Component {
 
   closeLogInModal = () => {
     this.setState({ showLogIn: false });
+  };
+
+  handleFieldInput = event => {
+    var stateObj = {};
+    stateObj[event.target.id] = event.target.value;
+    this.setState(stateObj);
+  };
+
+  sendEmail = () => {
+    var thisHook = this;
+    if (this.state.email === "") {
+      return;
+    }
+    Axios.post(`/api/email/${this.state.email}/${this.state.name}`)
+      .then(function(response) {
+        thisHook.setState({ name: "", email: "",emailSent:true });
+        setTimeout(()=>{
+          thisHook.setState({emailSent:false})}
+        ,5000);
+      })
+      .catch(function(error) {
+        alert("error sending email");
+        console.log(error);
+      });
   };
 
   render() {
@@ -51,7 +77,13 @@ class Header extends Component {
           </button>
         </Modal>
         {/* </div> */}
-        <Carousel controls={false} indicators={true} interval={5000} fade={true} pauseOnHover={false}>
+        <Carousel
+          controls={false}
+          indicators={true}
+          interval={5000}
+          fade={true}
+          pauseOnHover={false}
+        >
           <Carousel.Item>
             <img
               className="d-block w-100 headerImg"
@@ -109,27 +141,58 @@ class Header extends Component {
           </Carousel.Item>
         </Carousel>
         <div className="headerTextContainer">
+          {this.state.emailSent ? (
+            <React.Fragment>
+              <FormAlert
+                doShow={this.state.emailSent}
+                type="success"
+                heading={`Thank you, We shall email you shortly`}
+              ></FormAlert>
+            </React.Fragment>
+          ) : (
+            <React.Fragment />
+          )}
           <h1 className="headerMainText">Residential Care System</h1>
           <p className="headerSubText">
-            Health care system of today and tomorrow.
+            Health care system of today <br />
+            and tomorrow.
           </p>
-          <button
-            style={{ marginTop: "10px" }}
-            onClick={this.scrollToMainBody}
-            className="btn  lightBtn"
-          >
-            Learn More
-          </button>
-          <button
-            id="logEventInBtn"
-            style={{ marginTop: "10px" }}
-            data-toggle="modal"
-            data-target="#logInModal"
-            className="btn darkBtn"
-            onClick={this.openLogInModal}
-          >
-            Log In
-          </button>
+          <div style={{ marginRight: "200px" }}>
+            <input
+              id="name"
+              onChange={this.handleFieldInput}
+              value={this.state.name}
+              style={{ width: "100%", margin: "5px 10px", float: "right" }}
+              className="form-control"
+              placeholder="Name / Organization"
+            />
+            <input
+              id="email"
+              onChange={this.handleFieldInput}
+              value={this.state.email}
+              style={{ width: "100%", margin: "5px 10px", float: "right" }}
+              className="form-control"
+              placeholder="youremail@example.com"
+            />
+            <button
+              style={{ marginTop: "10px", float: "right", marginRight: "10px" }}
+              onClick={this.sendEmail}
+              className="btn  lightBtn"
+            >
+              Learn More
+            </button>
+
+            <button
+              id="logEventInBtn"
+              style={{ marginTop: "10px" }}
+              data-toggle="modal"
+              data-target="#logInModal"
+              className="btn darkBtn"
+              onClick={this.openLogInModal}
+            >
+              Log In
+            </button>
+          </div>
         </div>
       </div>
     );
