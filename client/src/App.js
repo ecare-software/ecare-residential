@@ -15,6 +15,12 @@ import Reports from "./components/Reports/ReportsContainer";
 import UserManagement from "./components/UserManagement/UserManagement";
 import BSNavBar from "./components/NavBar/bsNavBar";
 import DirectMessageBoard from "./components/DirectMessageBoard/DirectMessageBoard";
+import Modal from "react-bootstrap/Modal";
+import ModalBody from "react-bootstrap/ModalBody";
+import ModalHeader from "react-bootstrap/ModalHeader";
+import ModalTitle from "react-bootstrap/ModalTitle";
+import ModalFooter from "react-bootstrap/ModalFooter";
+import FormAlert from "./components/Forms/FormAlert";
 // import UserActions from "./components/UserActions/UserActions";
 import ManageAccountContainer from "./components/ManageAccount/ManageAccountContainer";
 //modals
@@ -67,12 +73,15 @@ class App extends Component {
     },
     doDisplay: "Dashboard",
     discussionMessages: [],
-    allUsers: []
+    allUsers: [],
+    showLearnMore: false,
+    name: "",
+    emailTo: "",
+    emailSent: false,
+    blockCompUpdates:false
   };
 
-  getMyMessages = () =>{
-    
-  }
+  getMyMessages = () => {};
 
   componentDidMount = () => {
     console.log(cookie.load("appState"));
@@ -86,11 +95,11 @@ class App extends Component {
   };
 
   componentDidUpdate = () => {
-    if (!this.state.allUsersSet) {
+    if (!this.state.allUsersSet && !this.state.blockCompUpdates) {
       this.getAllUsers();
     }
 
-    if (!this.state.messagesInitLoad) {
+    if (!this.state.messagesInitLoad && !this.state.blockCompUpdates) {
       this.loadMessage();
     }
   };
@@ -184,6 +193,43 @@ class App extends Component {
     this.setState({ doDisplay: display });
   };
 
+  handleFieldInput = event => {
+    var stateObj = {};
+    stateObj[event.target.id] = event.target.value;
+    this.setState(stateObj);
+  };
+
+  toggleLearnMore = () =>{
+    this.setState({showLearnMore:!this.state.showLearnMore,blockCompUpdates:!this.state.blockCompUpdates});
+  }
+
+  sendEmail = () => {
+    var thisHook = this;
+    if (this.state.emailTo === "") {
+      return;
+    }
+    thisHook.setState({blockCompUpdates:true});
+    Axios.post(`/api/email/${this.state.emailTo}/${this.state.name}`)
+      .then(function(response) {
+        thisHook.setState({
+          name: "",
+          emailTo: "",
+          emailSent: true,
+          showLearnMore: false
+        });
+        setTimeout(() => {
+          thisHook.setState({ emailSent: false});
+          setTimeout(() => {
+            thisHook.setState({blockCompUpdates:false });
+          }, 4000);
+        }, 4000);
+      })
+      .catch(function(error) {
+        alert("error sending email");
+        console.log(error);
+      });
+  };
+
   render() {
     if (this.state.loggedIn) {
       return (
@@ -242,6 +288,17 @@ class App extends Component {
             userObj={this.state.userObj}
           ></BSNavBar>
           <Header logIn={this.toggleLogIn} />
+          {this.state.emailSent ? (
+            <React.Fragment>
+              <FormAlert
+                doShow={this.state.emailSent}
+                type="success"
+                heading={`Thank you, We shall email you shortly`}
+              ></FormAlert>
+            </React.Fragment>
+          ) : (
+            <React.Fragment />
+          )}
           {/* <LogInContiner id="desktopLogin" logIn={this.toggleLogIn} /> */}
           {/* Body Start */}
           <div className="container-fluid" id="greetingContainer">
@@ -264,7 +321,7 @@ class App extends Component {
                     </p>
                   </div>
                   <div id="greetingRowRightBtnContainer">
-                    <button className="btn darkBtn">Request a Demo</button>
+                    <button onClick={this.toggleLearnMore} className="btn darkBtn">Request a Demo</button>
                   </div>
                 </div>
               </div>
@@ -275,13 +332,54 @@ class App extends Component {
               </div>
             </div>
           </div>
-          {/* <div style={{ paddingBottom: "100px" }}>
-            <Testimonial dir="right" />
-            <Testimonial dir="left" />
-            <Testimonial dir="right" />
-          </div> */}
-          {/* Body End */}
-          {/* modals */}
+          <Modal show={this.state.showLearnMore} onHide={this.toggleLearnMore}>
+            <ModalHeader
+              closeButton
+              style={{
+                backgroundColor: "maroon",
+                color: "white",
+                textAlign: "center"
+              }}
+            >
+              <h5>Learn more about our services</h5>
+            </ModalHeader>
+            <ModalBody>
+              <div className="form-group">
+                <p>
+                  Complete the form below to get a personalized email describing
+                  the services offered.
+                </p>
+                <input
+                  id="name"
+                  onChange={this.handleFieldInput}
+                  value={this.state.name}
+                  style={{ width: "100%", margin: "15px 0px" }}
+                  className="form-control"
+                  placeholder="Name / Organization"
+                />
+                <input
+                  id="emailTo"
+                  onChange={this.handleFieldInput}
+                  value={this.state.emailTo}
+                  style={{ width: "100%", margin: "15px 0px" }}
+                  className="form-control"
+                  placeholder="youremail@example.com"
+                />
+                <button
+                  style={{
+                    margin: "5px 0px",
+                    float: "right",
+                    backgroundColor: "maroon",
+                    color: "white"
+                  }}
+                  onClick={this.sendEmail}
+                  className="btn"
+                >
+                  Submit
+                </button>
+              </div>
+            </ModalBody>
+          </Modal>
         </div>
       );
     }

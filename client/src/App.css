@@ -238,6 +238,10 @@ left:12%;
 
 /* desktop */
 @media only screen and (min-width: 1226px) {
+
+  .mobileLearnMore{
+    display: none;
+  }
   .formComp{
     padding:0px 20px 1px 20px;
     margin:0px 20px 0px 20px;
@@ -416,6 +420,9 @@ left:12%;
 
 /* ipad */
 @media only screen and (min-width: 768px) and (max-width: 1225px) {
+  .mobileLearnMore{
+    display: none;
+  }
   .formComp{
     padding:0px 20px 1px 20px;
     margin:0px 20px 0px 20px;
@@ -562,6 +569,18 @@ left:12%;
 
 /* mobile up right */
 @media only screen and (max-width: 767px) {
+.logInContainer{
+  position: fixed !important;
+  top:20px !important;
+}
+.mobileAdj{
+  position: fixed !important;
+  top:20px !important;
+  left:0px!important;
+}
+  .desktopLearnMore{
+    display: none;
+  }
   .filterSection{
     margin: 15px 0px 15px 0px;
   }
@@ -644,6 +663,7 @@ left:12%;
   .alert {
     position: fixed;
     width: 300px;
+    top:40%;
     height: auto;
     margin: 5% auto;
     left: 0;
@@ -710,6 +730,9 @@ left:12%;
 
 /* mobile sideways */
 @media only screen and (min-width: 550px) and (max-width: 766px) {
+  .desktopLearnMore{
+    display: none;
+  }
   html {
     scroll-behavior: smooth;
   }
@@ -737,6 +760,9 @@ left:12%;
 
 /* stupid iphone 5 */
 @media only screen and (max-width: 361px) {
+  .desktopLearnMore{
+    display: none;
+  }
   html {
     scroll-behavior: smooth;
   }

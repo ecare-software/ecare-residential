@@ -19,7 +19,7 @@ const imageStyle = {
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = { showLogIn: false, email: "", name: "",emailSent:false };
+    this.state = { showLogIn: false, emailTo: "", name: "", emailSent: false,showLearnMore:false };
     this.scrollToMainBody = this.scrollToMainBody.bind(this);
   }
 
@@ -40,17 +40,21 @@ class Header extends Component {
     this.setState(stateObj);
   };
 
+  toggleLearnMore = () =>{
+    this.setState({showLearnMore:!this.state.showLearnMore});
+  }
+
   sendEmail = () => {
     var thisHook = this;
-    if (this.state.email === "") {
+    if (this.state.emailTo === "") {
       return;
     }
-    Axios.post(`/api/email/${this.state.email}/${this.state.name}`)
+    Axios.post(`/api/email/${this.state.emailTo}/${this.state.name}`)
       .then(function(response) {
-        thisHook.setState({ name: "", email: "",emailSent:true });
-        setTimeout(()=>{
-          thisHook.setState({emailSent:false})}
-        ,5000);
+        thisHook.setState({ name: "", emailTo: "", emailSent: true,showLearnMore:false });
+        setTimeout(() => {
+          thisHook.setState({ emailSent: false });
+        }, 4000);
       })
       .catch(function(error) {
         alert("error sending email");
@@ -62,18 +66,56 @@ class Header extends Component {
     return (
       <div>
         {/* <div className="headerImg"> */}
+        <Modal show={this.state.showLearnMore} onHide={this.toggleLearnMore}>
+          <ModalHeader closeButton style={{backgroundColor:"maroon",color:"white",textAlign:"center"}}>
+            <h5>Learn more about our services</h5>
+          </ModalHeader>
+          <ModalBody>
+            <div className="form-group">
+              <p>Complete the form below to get a personalized email describing the services offered.</p>
+              <input
+                id="name"
+                onChange={this.handleFieldInput}
+                value={this.state.name}
+                style={{ width: "100%",margin:"15px 0px" }}
+                className="form-control"
+                placeholder="Name / Organization"
+              />
+              <input
+                id="emailTo"
+                onChange={this.handleFieldInput}
+                value={this.state.emailTo}
+                style={{ width: "100%",margin:"15px 0px" }}
+                className="form-control"
+                placeholder="youremail@example.com"
+              />
+              <button
+              style={{
+                margin: "5px 0px",
+                float: "right",
+                backgroundColor: "maroon",
+                color: "white"
+              }}
+              onClick={this.sendEmail}
+              className="btn"
+            >
+              Submit
+            </button>
+            </div>
+          </ModalBody>
+        </Modal>
         <Modal show={this.state.showLogIn} onHide={!this.state.showLogIn}>
           <LogInContiner
             logIn={this.props.logIn}
-            pos={{ position: "absolute", top: "50%" }}
+            pos={{ position: "absolute", top: "20vh !important" }}
           />
           <button
-            className="btn btn-default"
+            className="btn btn-default mobileAdj"
             style={{ position: "fixed" }}
             variant="secondary"
             onClick={this.closeLogInModal}
           >
-            x
+            this isnt an ex
           </button>
         </Modal>
         {/* </div> */}
@@ -157,7 +199,7 @@ class Header extends Component {
             Health care system of today <br />
             and tomorrow.
           </p>
-          <div style={{ marginRight: "200px" }}>
+          <div className="desktopLearnMore" style={{ marginRight: "200px" }}>
             <input
               id="name"
               onChange={this.handleFieldInput}
@@ -167,9 +209,9 @@ class Header extends Component {
               placeholder="Name / Organization"
             />
             <input
-              id="email"
+              id="emailTo"
               onChange={this.handleFieldInput}
-              value={this.state.email}
+              value={this.state.emailTo}
               style={{ width: "100%", margin: "5px 10px", float: "right" }}
               className="form-control"
               placeholder="youremail@example.com"
@@ -192,6 +234,25 @@ class Header extends Component {
             >
               Log In
             </button>
+          </div>
+          <div className="mobileLearnMore" style={{ }}>
+          <button
+              style={{ marginTop: "10px",fontWeight:200 }}
+              onClick={this.toggleLearnMore}
+              className="btn  lightBtn"
+            >
+              Learn More
+            </button>
+          {/* <button
+              id="logEventInBtn"
+              style={{ marginTop: "10px" }}
+              data-toggle="modal"
+              data-target="#logInModal"
+              className="btn darkBtn"
+              onClick={this.openLogInModal}
+            >
+              Log In
+            </button> */}
           </div>
         </div>
       </div>
