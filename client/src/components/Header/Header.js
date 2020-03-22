@@ -67,7 +67,7 @@ class Header extends Component {
       <div>
         {/* <div className="headerImg"> */}
         <Modal show={this.state.showLearnMore} onHide={this.toggleLearnMore}>
-          <ModalHeader closeButton style={{backgroundColor:"maroon",color:"white",textAlign:"center"}}>
+          <ModalHeader closeButton style={{color:"maroon",textAlign:"center",borderColor:"maroon"}}>
             <h5>Learn more about our services</h5>
           </ModalHeader>
           <ModalBody>

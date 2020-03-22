@@ -136,6 +136,10 @@ class NavBar extends React.Component {
     this.setState({ showLearnMore: !this.state.showLearnMore });
   };
 
+  toggleActive = () => {
+
+  }
+
   render() {
     const { firstName } = this.props.userObj;
     if (!this.props.isLoggedIn) {
@@ -170,9 +174,9 @@ class NavBar extends React.Component {
             <ModalHeader
               closeButton
               style={{
-                backgroundColor: "maroon",
-                color: "white",
-                textAlign: "center"
+                color: "maroon",
+                textAlign: "center",
+                borderColor:"maroon"
               }}
             >
               <h5>Learn more about our services</h5>
@@ -308,13 +312,13 @@ class NavBar extends React.Component {
               </NavDropdown.Item>
               {/* <NavDropdown.Divider /> */}
             </NavDropdown>
-            <Nav.Link
+            {/* <Nav.Link
               eventKey="link-6"
               onClick={this.props.toggleDisplay.bind({}, "Direct Message")}
               style={navItemStyle}
             >
               Direct Message
-            </Nav.Link>
+            </Nav.Link> */}
             <Nav.Link
               eventKey="link-7"
               onClick={this.props.toggleDisplay.bind({}, "User Management")}
@@ -345,7 +349,7 @@ class NavBar extends React.Component {
               >
                 <NavDropdown.Item
                   onClick={this.props.toggleDisplay.bind({}, "Manage Account")}
-                  eventKey="link-8"
+                  eventKey="link-11"
                 >
                   Manage Profile
                 </NavDropdown.Item>

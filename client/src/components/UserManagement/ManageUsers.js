@@ -4,6 +4,16 @@ import Axios from "axios";
 // import FormSuccess from "../FormMods/FormSuccess";
 import "../../App.css";
 
+
+const dataRow = {
+  textAlign:"center"
+}
+
+const headerRow = {
+  textAlign:"center",
+  fontWeight:400
+}
+
 class ManageUsers extends Component {
   constructor(props) {
     super(props);
@@ -27,7 +37,7 @@ class ManageUsers extends Component {
     this.setState({ resetting: index, newPassword: "", newPassword2: "" });
   };
 
-  handleFieldInput = (event) => {
+  handleFieldInput = event => {
     var stateObj = {};
     var isReenter = event.target.id.split("-")[0];
 
@@ -38,18 +48,18 @@ class ManageUsers extends Component {
     }
 
     console.log(isReenter);
-  }
+  };
 
   saveNewPassword = id => {
     console.log(this.state);
     console.log(id);
-    if((/^\s+$/).test(this.state.newPassword)){
-      alert("Password is not valid")
+    if (/^\s+$/.test(this.state.newPassword)) {
+      alert("Password is not valid");
       return;
     }
 
-    if(this.state.newPassword!==this.state.newPassword2){
-      alert("Passwords do no match1")
+    if (this.state.newPassword !== this.state.newPassword2) {
+      alert("Passwords do no match1");
       return;
     }
 
@@ -60,10 +70,9 @@ class ManageUsers extends Component {
         password: this.state.newPassword,
         newUser: false
       }
-    })
-      .then(function(response) {
-alert("password reset")
-      })
+    }).then(function(response) {
+      alert("password reset");
+    });
   };
 
   render() {
@@ -78,9 +87,7 @@ alert("password reset")
             <span
               style={{ fontSize: "15px" }}
               className={
-                this.props.doShow
-                  ? "fa fa-chevron-down"
-                  : "fa fa-chevron-right"
+                this.props.doShow ? "fa fa-chevron-down" : "fa fa-chevron-right"
               }
             ></span>
           </h4>
@@ -90,7 +97,7 @@ alert("password reset")
                 <table style={{ width: "100%" }}>
                   <tbody>
                     <tr>
-                      <td style={{ width: "30%" }}>
+                      <td style={{ width: "50%" }}>
                         <p>
                           {item.firstName}, {item.lastName}
                         </p>
@@ -142,25 +149,36 @@ alert("password reset")
                       margin: "5px"
                     }}
                   >
-                    <button onClick={this.saveNewPassword.bind('',item._id)} className="btn btn-default">Save</button>
+                    <button
+                      onClick={this.saveNewPassword.bind("", item._id)}
+                      className="btn btn-default"
+                    >
+                      Save
+                    </button>
                   </div>
                 </div>
-                <table style={{ fontWeight: "200", margin: "10px" }}>
+                <table style={{ fontWeight: "200", margin: "10px",width:"-webkit-fill-available" }}>
                   <tbody>
-                    <tr>
-                      <td style={{ width: "40%" }}>Last Logged In</td>
+                    <tr style={headerRow}>
+                      <td>Last Logged In</td>
+                    </tr>
+                    <tr style={dataRow}>
                       <td>
-                        <span>{item.lastLogIn}</span>
+                        <span>{new Date(item.lastLogIn).toLocaleString()}</span>
                       </td>
                     </tr>
-                    <tr>
-                      <td style={{ width: "40%" }}>Role</td>
+                    <tr style={headerRow}>
+                      <td>Role</td>
+                    </tr>
+                    <tr style={dataRow}>
                       <td>
                         <span>{item.jobTitle}</span>
                       </td>
                     </tr>
-                    <tr>
-                      <td style={{ width: "40%" }}>Email</td>
+                    <tr style={headerRow}>
+                      <td>Email</td>
+                    </tr>
+                    <tr style={dataRow}>
                       <td>
                         <span>{item.email}</span>
                       </td>

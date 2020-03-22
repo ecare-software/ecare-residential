@@ -336,8 +336,8 @@ class App extends Component {
             <ModalHeader
               closeButton
               style={{
-                backgroundColor: "maroon",
-                color: "white",
+                color: "maroon",
+                borderColor:"maroon",
                 textAlign: "center"
               }}
             >
@@ -559,6 +559,9 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
         <div className="extraInfoButtonDiv">
           <button onClick={scrollTop} className="btn btn-light extraInfoButton">
             Write Dashboard Message
+          </button>
+          <button onClick={scrollTop} className="btn btn-light extraInfoButton">
+            Upload Document 
           </button>
           {/* <button  className="btn btn-light extraInfoButton">
             Upload a File
