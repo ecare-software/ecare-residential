@@ -21,6 +21,7 @@ import ModalHeader from "react-bootstrap/ModalHeader";
 import ModalTitle from "react-bootstrap/ModalTitle";
 import ModalFooter from "react-bootstrap/ModalFooter";
 import FormAlert from "./components/Forms/FormAlert";
+import Documents from "./components/Documents/Documents";
 // import UserActions from "./components/UserActions/UserActions";
 import ManageAccountContainer from "./components/ManageAccount/ManageAccountContainer";
 //modals
@@ -78,7 +79,7 @@ class App extends Component {
     name: "",
     emailTo: "",
     emailSent: false,
-    blockCompUpdates:false
+    blockCompUpdates: false
   };
 
   getMyMessages = () => {};
@@ -199,16 +200,19 @@ class App extends Component {
     this.setState(stateObj);
   };
 
-  toggleLearnMore = () =>{
-    this.setState({showLearnMore:!this.state.showLearnMore,blockCompUpdates:!this.state.blockCompUpdates});
-  }
+  toggleLearnMore = () => {
+    this.setState({
+      showLearnMore: !this.state.showLearnMore,
+      blockCompUpdates: !this.state.blockCompUpdates
+    });
+  };
 
   sendEmail = () => {
     var thisHook = this;
     if (this.state.emailTo === "") {
       return;
     }
-    thisHook.setState({blockCompUpdates:true});
+    thisHook.setState({ blockCompUpdates: true });
     Axios.post(`/api/email/${this.state.emailTo}/${this.state.name}`)
       .then(function(response) {
         thisHook.setState({
@@ -218,9 +222,9 @@ class App extends Component {
           showLearnMore: false
         });
         setTimeout(() => {
-          thisHook.setState({ emailSent: false});
+          thisHook.setState({ emailSent: false });
           setTimeout(() => {
-            thisHook.setState({blockCompUpdates:false });
+            thisHook.setState({ blockCompUpdates: false });
           }, 4000);
         }, 4000);
       })
@@ -321,7 +325,12 @@ class App extends Component {
                     </p>
                   </div>
                   <div id="greetingRowRightBtnContainer">
-                    <button onClick={this.toggleLearnMore} className="btn darkBtn">Request a Demo</button>
+                    <button
+                      onClick={this.toggleLearnMore}
+                      className="btn darkBtn"
+                    >
+                      Request a Demo
+                    </button>
                   </div>
                 </div>
               </div>
@@ -337,7 +346,7 @@ class App extends Component {
               closeButton
               style={{
                 color: "maroon",
-                borderColor:"maroon",
+                borderColor: "maroon",
                 textAlign: "center"
               }}
             >
@@ -394,6 +403,14 @@ function ToggleScreen({ name, appState, appendMessage }) {
           messages={appState.discussionMessages}
           appendMessage={appendMessage}
         />
+      </div>
+    );
+  }
+
+  if (name === "Documents") {
+    return (
+      <div>
+        <Documents />
       </div>
     );
   }
@@ -482,7 +499,7 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          <h5 className="extraInfoNavTitle">Treatment Plan 72</h5>
+          {/* <h5 className="extraInfoNavTitle">Treatment Plan 72</h5> */}
           <p className="extraInfoNavSubTitle">
             This is what the must be filled out when a child is first admitted
             to the facility.
@@ -496,11 +513,49 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
     );
   }
 
+  if (name === "Documents") {
+    return (
+      <div id="extraInfo">
+        {/* <div id="">
+          <h4 className="extraInfoMainTitle">
+            Documents
+          </h4>
+          <h6 className="extraInfoSubTitle">{userObj.jobTitle}</h6>
+        </div> */}
+        <div className="extraInfoNavDiv">
+          {/* <h5 className="extraInfoNavTitle">Documents</h5> */}
+          <p className="extraInfoNavSubTitle">
+            <i>
+              This is where you upload documents for everyone to see
+            </i>
+          </p>
+        </div>
+        <div className="extraInfoButtonDiv">
+          {/* <button onClick={scrollTop} className="btn btn-light extraInfoButton">
+            Upload Document 
+          </button> */}
+          <button className="btn btn-light extraInfoButton">
+            Upload New File
+          </button>
+          {/* <button className="btn btn-light extraInfoButton">
+            Direct Messages
+          </button> */}
+          {/* <button
+            onClick={toggleDisplay.bind("", "Manage Account")}
+            className="btn btn-light extraInfoButton"
+          >
+            Account Settings
+          </button> */}
+        </div>
+      </div>
+    );
+  }
+
   if (name === "restraintReport") {
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          <h5 className="extraInfoNavTitle">Restraint Report</h5>
+          {/* <h5 className="extraInfoNavTitle">Restraint Report</h5> */}
           <p className="extraInfoNavSubTitle">
             If a child had to be restrained, file this form, notationg what
             happened to cause this action.
@@ -514,7 +569,7 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          <h5 className="extraInfoNavTitle">Daily Progress</h5>
+          {/* <h5 className="extraInfoNavTitle">Daily Progress</h5> */}
           <p className="extraInfoNavSubTitle">
             This explains what the child has done today or what the child will
             do today.
@@ -528,7 +583,7 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          <h5 className="extraInfoNavTitle">Incident Report</h5>
+          {/* <h5 className="extraInfoNavTitle">Incident Report</h5> */}
           <p className="extraInfoNavSubTitle">
             When an incident happens, this must be filled out in order to keep
             track of what exactly happend.
@@ -548,7 +603,7 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
           <h6 className="extraInfoSubTitle">{userObj.jobTitle}</h6>
         </div>
         <div className="extraInfoNavDiv">
-          <h5 className="extraInfoNavTitle">Dashboard</h5>
+          {/* <h5 className="extraInfoNavTitle">Dashboard</h5> */}
           <p className="extraInfoNavSubTitle">
             <i>
               This is the first screen users will see when they log in. I feel
@@ -560,21 +615,21 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
           <button onClick={scrollTop} className="btn btn-light extraInfoButton">
             Write Dashboard Message
           </button>
-          <button onClick={scrollTop} className="btn btn-light extraInfoButton">
+          {/* <button onClick={scrollTop} className="btn btn-light extraInfoButton">
             Upload Document 
-          </button>
-          {/* <button  className="btn btn-light extraInfoButton">
-            Upload a File
           </button> */}
+          <button className="btn btn-light extraInfoButton">
+            Upload a File
+          </button>
           {/* <button className="btn btn-light extraInfoButton">
             Direct Messages
           </button> */}
-          <button
+          {/* <button
             onClick={toggleDisplay.bind("", "Manage Account")}
             className="btn btn-light extraInfoButton"
           >
             Account Settings
-          </button>
+          </button> */}
         </div>
       </div>
     );
@@ -584,9 +639,9 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>
+          {/* <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>
             Manage User Information
-          </h5>
+          </h5> */}
           <p className="extraInfoNavSubTitle">
             Allows users to view account information and update their password.
           </p>
@@ -599,9 +654,9 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>
+          {/* <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>
             Direct Messages
-          </h5>
+          </h5> */}
           <p className="extraInfoNavSubTitle">This is me sending a DM</p>
           <div>
             <div style={{ width: "100%", display: "flex", margin: "10px 0px" }}>
@@ -663,9 +718,9 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>
+          {/* <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>
             User Management
-          </h5>
+          </h5> */}
           <p className="extraInfoNavSubTitle">
             Allows Admin users the ability to view information about their home
             as well create new and modify exiting staff members.

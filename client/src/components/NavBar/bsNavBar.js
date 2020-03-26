@@ -275,6 +275,13 @@ class NavBar extends React.Component {
             >
               Dashboard
             </Nav.Link>
+            <Nav.Link
+              eventKey="link-88"
+              style={navItemStyle}
+              onClick={this.props.toggleDisplay.bind({}, "Documents")}
+            >
+              Documents
+            </Nav.Link>
             <NavDropdown
               style={navItemStyle}
               variant="success"

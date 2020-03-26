@@ -1,0 +1,15 @@
+.documentBtns {
+  display: none;
+}
+@media only screen and (max-width: 767px) {
+  .documentsListContainer {
+    display: block;
+    margin-top: 200px;
+  }
+  .documentBtns {
+    display: block;
+    width: "100%";
+    display: "flex";
+    /* justify-content: "space-evenly"; */
+  }
+}
