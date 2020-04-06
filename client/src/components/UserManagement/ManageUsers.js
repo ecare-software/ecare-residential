@@ -4,15 +4,9 @@ import Axios from "axios";
 // import FormSuccess from "../FormMods/FormSuccess";
 import "../../App.css";
 
-
-const dataRow = {
-  textAlign:"center"
-}
-
 const headerRow = {
-  textAlign:"center",
-  fontWeight:400
-}
+  fontWeight: 400,
+};
 
 class ManageUsers extends Component {
   constructor(props) {
@@ -20,7 +14,7 @@ class ManageUsers extends Component {
     this.state = {
       resetting: -1,
       newPassword: "",
-      newPassword2: ""
+      newPassword2: "",
     };
   }
 
@@ -28,7 +22,7 @@ class ManageUsers extends Component {
   //   console.log(this.props)
   // }
 
-  openNewPassword = index => {
+  openNewPassword = (index) => {
     let resettingCurrent = this.state.resetting;
     if (resettingCurrent === index) {
       this.setState({ resetting: -1, newPassword: "", newPassword2: "" });
@@ -37,7 +31,7 @@ class ManageUsers extends Component {
     this.setState({ resetting: index, newPassword: "", newPassword2: "" });
   };
 
-  handleFieldInput = event => {
+  handleFieldInput = (event) => {
     var stateObj = {};
     var isReenter = event.target.id.split("-")[0];
 
@@ -50,7 +44,7 @@ class ManageUsers extends Component {
     console.log(isReenter);
   };
 
-  saveNewPassword = id => {
+  saveNewPassword = (id) => {
     console.log(this.state);
     console.log(id);
     if (/^\s+$/.test(this.state.newPassword)) {
@@ -68,9 +62,9 @@ class ManageUsers extends Component {
       url: "/api/users/" + id,
       data: {
         password: this.state.newPassword,
-        newUser: false
-      }
-    }).then(function(response) {
+        newUser: false,
+      },
+    }).then(function (response) {
       alert("password reset");
     });
   };
@@ -100,14 +94,13 @@ class ManageUsers extends Component {
                       <td style={{ width: "50%" }}>
                         <p>
                           {item.firstName}, {item.lastName}
-                        </p>
-                      </td>
-                      <td>
-                        <p
-                          onClick={this.openNewPassword.bind("", index)}
-                          style={{ cursor: "pointer", color: "maroon" }}
-                        >
-                          Reset Password
+                          {" - "}
+                          <span
+                            onClick={this.openNewPassword.bind("", index)}
+                            style={{ cursor: "pointer", color: "maroon" }}
+                          >
+                            Reset Password
+                          </span>
                         </p>
                       </td>
                     </tr>
@@ -116,7 +109,7 @@ class ManageUsers extends Component {
                 <div
                   className={
                     this.state.resetting === index
-                      ? "flexNewPassword"
+                      ? "flexNewPassword row"
                       : "hideIt"
                   }
                 >
@@ -146,7 +139,7 @@ class ManageUsers extends Component {
                       display: "flex",
                       flexDirection: "column-reverse",
 
-                      margin: "5px"
+                      margin: "5px",
                     }}
                   >
                     <button
@@ -157,29 +150,31 @@ class ManageUsers extends Component {
                     </button>
                   </div>
                 </div>
-                <table style={{ fontWeight: "200", margin: "10px",width:"-webkit-fill-available" }}>
+                <table
+                  style={{
+                    fontWeight: "200",
+                    width: "-webkit-fill-available",
+                  }}
+                >
                   <tbody>
-                    <tr style={headerRow}>
-                      <td>Last Logged In</td>
-                    </tr>
-                    <tr style={dataRow}>
+                    <tr>
                       <td>
-                        <span>{new Date(item.lastLogIn).toLocaleString()}</span>
+                        <span style={headerRow}>Last Logged In</span>
+                        <span>
+                          {" "}
+                          - {new Date(item.lastLogIn).toLocaleString()}
+                        </span>
                       </td>
                     </tr>
-                    <tr style={headerRow}>
-                      <td>Role</td>
-                    </tr>
-                    <tr style={dataRow}>
+                    <tr>
                       <td>
-                        <span>{item.jobTitle}</span>
+                        <span style={headerRow}>Role</span>
+                        <span> - {item.jobTitle}</span>
                       </td>
                     </tr>
-                    <tr style={headerRow}>
-                      <td>Email</td>
-                    </tr>
-                    <tr style={dataRow}>
+                    <tr>
                       <td>
+                        <span style={headerRow}>Email</span> -{" "}
                         <span>{item.email}</span>
                       </td>
                     </tr>

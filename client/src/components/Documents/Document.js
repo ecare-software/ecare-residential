@@ -1,10 +1,10 @@
 import React from 'react';
 import ListGroup from "react-bootstrap/ListGroup";
 
-function Document(){
-
+function Document(props){
     return(<ListGroup.Item>
-        im a doc
+        {props.title}
+        <button className="btn btn-default" onClick={props.download.bind({},props.id)}>v</button>
     </ListGroup.Item>)
 }
 

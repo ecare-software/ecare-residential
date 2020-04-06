@@ -6,10 +6,20 @@ import "./Documents.css";
 class Documents extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      documents:[{
+        id:1,
+        title:"Review of Lunches",
+        uploadDate:new Date().toISOString()
+      }]
+    };
   }
 
   getDocuments = () => {};
+
+  download = (id) => {
+    alert(id)
+  };
 
   render() {
     return (
@@ -27,8 +37,9 @@ class Documents extends Component {
         </div>
         <div className="documentsListContainer">
           <ListGroup>
-            <Document />
-            <Document />
+            {this.state.documents.map((doc)=>(
+              <Document title={doc.title} id={doc.id} key={doc.id} download={this.download} />
+            ))}
           </ListGroup>
         </div>
       </div>
