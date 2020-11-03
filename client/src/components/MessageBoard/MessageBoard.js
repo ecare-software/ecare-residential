@@ -9,11 +9,11 @@ class MessageBoard extends Component {
     super(props);
     this.state = {
       showModal: "",
-      messageText:""
+      messageText: "",
     };
   }
 
-  openModal = modalName => {
+  openModal = (modalName) => {
     this.setState({ showModal: modalName });
   };
 
@@ -21,12 +21,12 @@ class MessageBoard extends Component {
     this.setState({ showModal: "" });
   };
 
-  callAppendMessage = () =>{
+  callAppendMessage = () => {
     this.props.appendMessage(this.state.messageText);
-    this.setState({messageText:""});
-  }
+    this.setState({ messageText: "" });
+  };
 
-  handleFieldInput = event => {
+  handleFieldInput = (event) => {
     var stateObj = {};
     stateObj[event.target.id] = event.target.value;
     this.setState(stateObj);
@@ -37,13 +37,45 @@ class MessageBoard extends Component {
       return (
         <div style={{ marginTop: "60px" }}>
           <div className="messageBoardTitleDiv">
-            <div style={{width:"100%",display:"flex",margin:"10px 0px"}}>
-              <textarea id="messageText" value={this.state.messageText} onChange={this.handleFieldInput} cols="1" style={{height:"40px",flex:"1",borderColor:"#eee",margin:"0px 5px",resize:"none", borderRight:"none",borderTop:"none",borderLeft:"none"}} placeholder="Whats on your mind ?"></textarea>
-              <button onClick={this.callAppendMessage} className="btn btn-light" style={{margin:"0px 5px",width:"75px"}}>Post</button>
+            <div style={{ width: "100%", display: "flex", margin: "10px 0px" }}>
+              <textarea
+                id="messageText"
+                value={this.state.messageText}
+                onChange={this.handleFieldInput}
+                cols="1"
+                style={{
+                  height: "40px",
+                  flex: "1",
+                  borderColor: "#eee",
+                  margin: "0px 5px",
+                  resize: "none",
+                  borderRight: "none",
+                  borderTop: "none",
+                  borderLeft: "none",
+                }}
+                placeholder="Whats on your mind ?"
+              ></textarea>
+              <button
+                onClick={this.callAppendMessage}
+                className="btn btn-light"
+                style={{ margin: "0px 5px", width: "75px" }}
+              >
+                Post
+              </button>
             </div>
-            <div style={{margin:"0px 5px"}}>
-            <button className='btn btn-light' style={{marginRight:"10px"}}>Upload a File</button>
-            <button className='btn btn-light' style={{marginRight:"10px"}}>Direct Message</button>
+            <div style={{ margin: "0px 5px" }}>
+              <button className="btn btn-light" style={{ marginRight: "10px" }}>
+                Upload a File
+              </button>
+              <button
+                className="btn btn-light"
+                style={{ marginRight: "10px" }}
+                onClick={() => {
+                  this.props.toggleDisplay("Direct Message");
+                }}
+              >
+                Direct Message
+              </button>
             </div>
           </div>
           <div id="messageBoard">

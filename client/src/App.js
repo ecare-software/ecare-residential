@@ -33,13 +33,13 @@ import Fade from "react-reveal/Fade";
 
 //const classes
 const hideStyle = {
-  display: "none"
+  display: "none",
 };
 
 const navNotSelected = {
   color: "#8000008a",
   padding: "0px 10px",
-  fontFamily: "'Google Sans Display', Arial, Helvetica, sans-serif"
+  fontFamily: "'Google Sans Display', Arial, Helvetica, sans-serif",
 };
 
 const navSelected = {
@@ -47,7 +47,7 @@ const navSelected = {
   color: "white",
   borderRadius: "9px",
   padding: "0px 10px",
-  fontFamily: "'Google Sans Display', Arial, Helvetica, sans-serif"
+  fontFamily: "'Google Sans Display', Arial, Helvetica, sans-serif",
 };
 
 class App extends Component {
@@ -70,7 +70,7 @@ class App extends Component {
     allUsersSet: false,
     errorModalMeta: {
       title: "",
-      message: ""
+      message: "",
     },
     doDisplay: "Dashboard",
     discussionMessages: [],
@@ -79,7 +79,7 @@ class App extends Component {
     name: "",
     emailTo: "",
     emailSent: false,
-    blockCompUpdates: false
+    blockCompUpdates: false,
   };
 
   getMyMessages = () => {};
@@ -90,7 +90,7 @@ class App extends Component {
     if (fromCookieState !== undefined) {
       this.setState({
         userObj: fromCookieState.userObj,
-        loggedIn: fromCookieState.loggedIn
+        loggedIn: fromCookieState.loggedIn,
       });
     }
   };
@@ -108,19 +108,19 @@ class App extends Component {
   loadMessage = () => {
     let curthis = this;
     Axios.get("/api/discussionMessages")
-      .then(function(response) {
+      .then(function (response) {
         curthis.setState({
           discussionMessages: response.data,
-          messagesInitLoad: true
+          messagesInitLoad: true,
         });
         console.log(curthis.state.discussionMessages);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
 
-  appendMessage = message => {
+  appendMessage = (message) => {
     let curthis = this;
     let newMessage = {
       message: message,
@@ -128,16 +128,16 @@ class App extends Component {
       middleName: this.state.userObj.middleName,
       lastName: this.state.userObj.lastName,
       id: this.state.userObj._id,
-      date: new Date().toISOString()
+      date: new Date().toISOString(),
     };
 
     Axios.post("/api/discussionMessages", newMessage)
-      .then(function(response) {
+      .then(function (response) {
         curthis.state.discussionMessages.unshift(newMessage);
         let discussionMessagesTmp = curthis.state.discussionMessages;
         curthis.setState({ discussionMessages: discussionMessagesTmp });
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
@@ -148,7 +148,7 @@ class App extends Component {
   };
 
   getAllUsers = () => {
-    Axios.get("/api/users/" + this.state.userObj.homeId).then(allUsers => {
+    Axios.get("/api/users/" + this.state.userObj.homeId).then((allUsers) => {
       this.setState({ allUsers: allUsers.data, allUsersSet: true });
     });
   };
@@ -165,7 +165,7 @@ class App extends Component {
     window.scrollTo(0, 0);
   };
 
-  toggleLogIn = userObj => {
+  toggleLogIn = (userObj) => {
     window.scrollTo(0, 0);
     let message = "";
     let title = "";
@@ -178,7 +178,7 @@ class App extends Component {
       userObj: userObj,
       loggedIn: true,
       message,
-      title
+      title,
     });
     console.log("setCookie here");
     cookie.remove("appState");
@@ -189,12 +189,12 @@ class App extends Component {
     cookie.save("appState", cookieToSet);
   };
 
-  toggleDisplay = display => {
+  toggleDisplay = (display) => {
     window.scrollTo(0, 0);
     this.setState({ doDisplay: display });
   };
 
-  handleFieldInput = event => {
+  handleFieldInput = (event) => {
     var stateObj = {};
     stateObj[event.target.id] = event.target.value;
     this.setState(stateObj);
@@ -203,7 +203,7 @@ class App extends Component {
   toggleLearnMore = () => {
     this.setState({
       showLearnMore: !this.state.showLearnMore,
-      blockCompUpdates: !this.state.blockCompUpdates
+      blockCompUpdates: !this.state.blockCompUpdates,
     });
   };
 
@@ -214,12 +214,12 @@ class App extends Component {
     }
     thisHook.setState({ blockCompUpdates: true });
     Axios.post(`/api/email/${this.state.emailTo}/${this.state.name}`)
-      .then(function(response) {
+      .then(function (response) {
         thisHook.setState({
           name: "",
           emailTo: "",
           emailSent: true,
-          showLearnMore: false
+          showLearnMore: false,
         });
         setTimeout(() => {
           thisHook.setState({ emailSent: false });
@@ -228,7 +228,7 @@ class App extends Component {
           }, 4000);
         }, 4000);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         alert("error sending email");
         console.log(error);
       });
@@ -260,6 +260,7 @@ class App extends Component {
                     name={this.state.doDisplay}
                     appState={this.state}
                     appendMessage={this.appendMessage}
+                    toggleDisplay={this.toggleDisplay}
                   />
                 </div>
               </div>
@@ -347,7 +348,7 @@ class App extends Component {
               style={{
                 color: "maroon",
                 borderColor: "maroon",
-                textAlign: "center"
+                textAlign: "center",
               }}
             >
               <h5>Learn more about our services</h5>
@@ -379,7 +380,7 @@ class App extends Component {
                     margin: "5px 0px",
                     float: "right",
                     backgroundColor: "maroon",
-                    color: "white"
+                    color: "white",
                   }}
                   onClick={this.sendEmail}
                   className="btn"
@@ -395,13 +396,14 @@ class App extends Component {
   }
 }
 
-function ToggleScreen({ name, appState, appendMessage }) {
+function ToggleScreen({ name, appState, appendMessage, toggleDisplay }) {
   if (name === "Dashboard") {
     return (
       <div>
         <MessageBoard
           messages={appState.discussionMessages}
           appendMessage={appendMessage}
+          toggleDisplay={toggleDisplay}
         />
       </div>
     );
@@ -525,9 +527,7 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
         <div className="extraInfoNavDiv">
           {/* <h5 className="extraInfoNavTitle">Documents</h5> */}
           <p className="extraInfoNavSubTitle">
-            <i>
-              This is where you upload documents for everyone to see
-            </i>
+            <i>This is where you upload documents for everyone to see</i>
           </p>
         </div>
         <div className="extraInfoButtonDiv">
@@ -664,7 +664,7 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
                 className="extraInfoNavSubTitle"
                 style={{
                   width: "30px",
-                  marginTop: "2px"
+                  marginTop: "2px",
                 }}
               >
                 To:
@@ -672,7 +672,7 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
               <select
                 style={{
                   flex: "1",
-                  height: "30px"
+                  height: "30px",
                 }}
               >
                 <option disabled selected>
@@ -696,7 +696,7 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
                   resize: "none",
                   borderRight: "none",
                   borderTop: "none",
-                  borderLeft: "none"
+                  borderLeft: "none",
                 }}
                 placeholder="Whats on your mind ?"
               ></textarea>
