@@ -12,7 +12,6 @@ class RestraintReport extends Component {
       childMeta_gender: "",
       childMeta_dob: "",
       childMeta_dateOfAdmission: "",
-      date_of_incident: "",
       staff_involved_name: "",
       staff_involved_gender: "",
       time_of_incident: "",
@@ -95,7 +94,7 @@ class RestraintReport extends Component {
 
       formSubmitted: false,
 
-      formErrorMessage: ""
+      formErrorMessage: "",
     };
   }
 
@@ -106,11 +105,11 @@ class RestraintReport extends Component {
   toggleErrorAlert = () => {
     this.setState({
       formHasError: !this.state.formHasError,
-      formErrorMessage: ""
+      formErrorMessage: "",
     });
   };
 
-  handleFieldInput = event => {
+  handleFieldInput = (event) => {
     var stateObj = {};
     if (event.target.id.indexOf(".") > -1) {
       let level1Obj = event.target.id.split(".")[0];
@@ -131,7 +130,6 @@ class RestraintReport extends Component {
       childMeta_gender: "",
       childMeta_dob: "",
       childMeta_dateOfAdmission: "",
-      date_of_incident: "",
       staff_involved_name: "",
       staff_involved_gender: "",
       time_of_incident: "",
@@ -197,7 +195,7 @@ class RestraintReport extends Component {
 
       procedural_any_injuries: "",
 
-      procedural_comments: ""
+      procedural_comments: "",
     });
   };
 
@@ -205,16 +203,16 @@ class RestraintReport extends Component {
     let currentState = JSON.parse(JSON.stringify(this.state));
     console.log(JSON.stringify(currentState));
     Axios.post("/api/restraintReport", currentState)
-      .then(res => {
+      .then((res) => {
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
         setTimeout(this.toggleSuccessAlert, 3000);
         this.resetForm();
       })
-      .catch(e => {
+      .catch((e) => {
         this.setState({
           formHasError: true,
-          formErrorMessage: "Error Submitting Restraint Report"
+          formErrorMessage: "Error Submitting Restraint Report",
         });
       });
     // Axios({
@@ -232,12 +230,19 @@ class RestraintReport extends Component {
   };
 
   validateForm = () => {
-    var keysToExclude = ["formHasError", "formSubmitted", "formErrorMessage"];
+    var keysToExclude = [
+      "formHasError",
+      "formSubmitted",
+      "formErrorMessage",
+      "client_witness_name2",
+      "client_witness_gender2",
+      "client_witness_dob2",
+    ];
 
     var isValid = true;
     var errorFields = [];
 
-    Object.keys(this.state).forEach(key => {
+    Object.keys(this.state).forEach((key) => {
       if (!keysToExclude.includes(key)) {
         if (
           !this.state[key] ||
@@ -255,7 +260,7 @@ class RestraintReport extends Component {
         formHasError: true,
         formErrorMessage: `Please complete the following field(s): ${errorFields
           .toString()
-          .replace(/,/g, "\n")}`
+          .replace(/,/g, "\n")}`,
       });
       return;
     }
@@ -340,17 +345,6 @@ class RestraintReport extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
-              <label className="control-label">Date of Incident</label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                id="date_of_incident"
-                value={this.state.date_of_incident}
-                className="form-control"
-                type="datetime-local"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
               <label className="control-label">
                 Name of Care Staff Involved
               </label>{" "}
@@ -377,7 +371,9 @@ class RestraintReport extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
-              <label className="control-label">Time of Incident</label>{" "}
+              <label className="control-label">
+                Date and time of incident
+              </label>{" "}
               <input
                 onChange={this.handleFieldInput}
                 id="time_of_incident"
@@ -911,17 +907,6 @@ class RestraintReport extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
-              <label className="control-label">Date of Incident</label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.props.formData.date_of_incident}
-                disabled={this.props.userObj.isAdmin ? false : true}
-                className="form-control"
-                type="datetime-local"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
               <label className="control-label">
                 Name of Care Staff Involved
               </label>{" "}
@@ -948,7 +933,9 @@ class RestraintReport extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
-              <label className="control-label">Time of Incident</label>{" "}
+              <label className="control-label">
+                Date and time of incident
+              </label>{" "}
               <input
                 onChange={this.handleFieldInput}
                 value={this.props.formData.time_of_incident}

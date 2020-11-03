@@ -85,7 +85,7 @@ class IncidentReport extends Component {
 
       formSubmitted: false,
 
-      formErrorMessage: ""
+      formErrorMessage: "",
     };
   }
 
@@ -96,11 +96,11 @@ class IncidentReport extends Component {
   toggleErrorAlert = () => {
     this.setState({
       formHasError: !this.state.formHasError,
-      formErrorMessage: ""
+      formErrorMessage: "",
     });
   };
 
-  handleFieldInput = event => {
+  handleFieldInput = (event) => {
     var stateObj = {};
     if (event.target.id.indexOf(".") > -1) {
       let level1Obj = event.target.id.split(".")[0];
@@ -167,7 +167,7 @@ class IncidentReport extends Component {
 
       notification_made_by: "",
 
-      follow_up_results: ""
+      follow_up_results: "",
     });
   };
 
@@ -175,16 +175,16 @@ class IncidentReport extends Component {
     let currentState = JSON.parse(JSON.stringify(this.state));
     console.log(JSON.stringify(currentState));
     Axios.post("/api/incidentReport", currentState)
-      .then(res => {
+      .then((res) => {
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
         setTimeout(this.toggleSuccessAlert, 3000);
         this.resetForm();
       })
-      .catch(e => {
+      .catch((e) => {
         this.setState({
           formHasError: true,
-          formErrorMessage: "Error Submitting Incident Report"
+          formErrorMessage: "Error Submitting Incident Report",
         });
       });
     // Axios({
@@ -202,12 +202,20 @@ class IncidentReport extends Component {
   };
 
   validateForm = () => {
-    var keysToExclude = ["formHasError", "formSubmitted", "formErrorMessage"];
+    var keysToExclude = [
+      "formHasError",
+      "formSubmitted",
+      "formErrorMessage",
+      "client_witness_gender2",
+      "client_witness_dob2",
+      "client_witness_doa2",
+      "client_witness_name2",
+    ];
 
     var isValid = true;
     var errorFields = [];
 
-    Object.keys(this.state).forEach(key => {
+    Object.keys(this.state).forEach((key) => {
       if (!keysToExclude.includes(key)) {
         if (
           !this.state[key] ||
@@ -225,7 +233,7 @@ class IncidentReport extends Component {
         formHasError: true,
         formErrorMessage: `Please complete the following field(s): ${errorFields
           .toString()
-          .replace(/,/g, "\n")}`
+          .replace(/,/g, "\n")}`,
       });
       return;
     }
@@ -318,7 +326,7 @@ class IncidentReport extends Component {
                 id="dateOfIncident"
                 value={this.state.dateOfIncident}
                 className="form-control"
-                type="datetime-local"
+                type="date"
               />{" "}
             </div>
 
@@ -578,7 +586,7 @@ class IncidentReport extends Component {
                 id="notification_made_date_time"
                 value={this.state.notification_made_date_time}
                 className="form-control"
-                type="datetime-local"
+                type="date"
               />{" "}
             </div>
 
@@ -677,7 +685,13 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 // value={(this.props.formData.childMeta_dob!==null) ? (new Date(this.props.formData.childMeta_dob)).toISOString().replace(/(T\d{2}:\d{2}).*/g,'') : null}
-                value={this.props.formData.childMeta_dob}
+                value={
+                  this.props.formData.childMeta_dob !== undefined
+                    ? new Date(this.props.formData.childMeta_dob)
+                        .toISOString()
+                        .replace(/T.*/g, "")
+                    : this.props.formData.childMeta_dob
+                }
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
@@ -689,7 +703,13 @@ class IncidentReport extends Component {
               <label className="control-label">Date of Admission</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.childMeta_dateOfAdmission}
+                value={
+                  this.props.formData.childMeta_dateOfAdmission !== undefined
+                    ? new Date(this.props.formData.childMeta_dateOfAdmission)
+                        .toISOString()
+                        .replace(/T.*/g, "")
+                    : this.props.formData.childMeta_dateOfAdmission
+                }
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
@@ -701,10 +721,16 @@ class IncidentReport extends Component {
               <label className="control-label">Date of Incident</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.dateOfIncident}
+                value={
+                  this.props.formData.dateOfIncident !== undefined
+                    ? new Date(this.props.formData.dateOfIncident)
+                        .toISOString()
+                        .replace(/T.*/g, "")
+                    : this.props.formData.dateOfIncident
+                }
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
-                type="datetime-local"
+                type="date"
               />{" "}
             </div>
 
@@ -811,7 +837,13 @@ class IncidentReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.client_witness_dob1}
+                value={
+                  this.props.formData.client_witness_dob1 !== undefined
+                    ? new Date(this.props.formData.client_witness_dob1)
+                        .toISOString()
+                        .replace(/T.*/g, "")
+                    : this.props.formData.client_witness_dob1
+                }
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
@@ -825,7 +857,13 @@ class IncidentReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.client_witness_doa1}
+                value={
+                  this.props.formData.client_witness_doa1 !== undefined
+                    ? new Date(this.props.formData.client_witness_doa1)
+                        .toISOString()
+                        .replace(/T.*/g, "")
+                    : this.props.formData.client_witness_doa1
+                }
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
@@ -867,7 +905,13 @@ class IncidentReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.client_witness_dob2}
+                value={
+                  this.props.formData.client_witness_dob2 !== undefined
+                    ? new Date(this.props.formData.client_witness_dob2)
+                        .toISOString()
+                        .replace(/T.*/g, "")
+                    : this.props.formData.client_witness_dob2
+                }
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
@@ -881,7 +925,13 @@ class IncidentReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.client_witness_doa2}
+                value={
+                  this.props.formData.client_witness_doa2 !== undefined
+                    ? new Date(this.props.formData.client_witness_doa2)
+                        .toISOString()
+                        .replace(/T.*/g, "")
+                    : this.props.formData.client_witness_doa2
+                }
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
@@ -961,10 +1011,16 @@ class IncidentReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.notification_made_date_time}
+                value={
+                  this.props.formData.notification_made_date_time !== undefined
+                    ? new Date(this.props.formData.notification_made_date_time)
+                        .toISOString()
+                        .replace(/T.*/g, "")
+                    : this.props.formData.notification_made_date_time
+                }
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
-                type="datetime-local"
+                type="date"
               />{" "}
             </div>
 

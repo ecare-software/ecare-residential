@@ -305,7 +305,7 @@ class TreatmentPlan72 extends Component {
 
       formSubmitted: false,
 
-      formErrorMessage: ""
+      formErrorMessage: "",
     };
   }
 
@@ -316,11 +316,11 @@ class TreatmentPlan72 extends Component {
   toggleErrorAlert = () => {
     this.setState({
       formHasError: !this.state.formHasError,
-      formErrorMessage: ""
+      formErrorMessage: "",
     });
   };
 
-  handleFieldInput = event => {
+  handleFieldInput = (event) => {
     var stateObj = {};
     if (event.target.id.indexOf(".") > -1) {
       let level1Obj = event.target.id.split(".")[0];
@@ -615,7 +615,7 @@ class TreatmentPlan72 extends Component {
 
       treatmentDirectorSign: "",
 
-      treatmentDirectorSignDate: ""
+      treatmentDirectorSignDate: "",
     });
   };
 
@@ -623,27 +623,85 @@ class TreatmentPlan72 extends Component {
     let currentState = JSON.parse(JSON.stringify(this.state));
     console.log(JSON.stringify(currentState));
     Axios.post("/api/treatmentPlans72", currentState)
-      .then(res => {
+      .then((res) => {
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
         setTimeout(this.toggleSuccessAlert, 3000);
         this.resetForm();
       })
-      .catch(e => {
+      .catch((e) => {
         this.setState({
           formHasError: true,
-          formErrorMessage: "Error Submitting 72 Hour Treatment Plan"
+          formErrorMessage: "Error Submitting 72 Hour Treatment Plan",
         });
       });
   };
 
   validateForm = () => {
-    var keysToExclude = ["formHasError", "formSubmitted", "formErrorMessage"];
+    var keysToExclude = [
+      "formHasError",
+      "formSubmitted",
+      "formErrorMessage",
+      "administorSign",
+      "administorSignDate",
+      "treatmentDirectorSign",
+      "treatmentDirectorSignDate",
+      "otherMeta2_name",
+      "otherMeta2_relationship",
+      "otherMeta2_address",
+      "otherMeta2_phoneNumber",
+      "otherMeta3_name",
+      "otherMeta3_relationship",
+      "otherMeta3_address",
+      "otherMeta3_phoneNumber",
+      "otherMeta4_name",
+      "otherMeta4_relationship",
+      "otherMeta4_address",
+      "otherMeta4_phoneNumber",
+      "currentMedications_dosages_targetedSymptoms2_medication",
+      "currentMedications_dosages_targetedSymptoms2_dosage_frequency",
+      "currentMedications_dosages_targetedSymptoms2_purpose",
+      "currentMedications_dosages_targetedSymptoms2_possibleSideEffects",
+      "currentMedications_dosages_targetedSymptoms2_monitoredBy",
+      "currentMedications_dosages_targetedSymptoms3_medication",
+      "currentMedications_dosages_targetedSymptoms3_dosage_frequency",
+      "currentMedications_dosages_targetedSymptoms3_purpose",
+      "currentMedications_dosages_targetedSymptoms3_possibleSideEffects",
+      "currentMedications_dosages_targetedSymptoms3_monitoredBy",
+      "currentMedications_dosages_targetedSymptoms4_medication",
+      "currentMedications_dosages_targetedSymptoms4_dosage_frequency",
+      "currentMedications_dosages_targetedSymptoms4_purpose",
+      "currentMedications_dosages_targetedSymptoms4_possibleSideEffects",
+      "currentMedications_dosages_targetedSymptoms4_monitoredBy",
+      "currentMedications_dosages_targetedSymptoms5_medication",
+      "currentMedications_dosages_targetedSymptoms5_dosage_frequency",
+      "currentMedications_dosages_targetedSymptoms5_purpose",
+      "currentMedications_dosages_targetedSymptoms5_possibleSideEffects",
+      "currentMedications_dosages_targetedSymptoms5_monitoredBy",
+      "visitor2_name",
+      "visitor2_relationship",
+      "visitor2_frequency",
+      "visitor2_supervisedBy",
+      "visitor2_location",
+      "visitor2_length",
+      "visitor3_name",
+      "visitor3_relationship",
+      "visitor3_frequency",
+      "visitor3_supervisedBy",
+      "visitor3_location",
+      "visitor3_length",
+      "visitor4_name",
+      "visitor4_relationship",
+      "visitor4_frequency",
+      "visitor4_supervisedBy",
+      "visitor4_location",
+      "visitor4_length",
+    ];
 
     var isValid = true;
     var errorFields = [];
 
-    Object.keys(this.state).forEach(key => {
+    Object.keys(this.state).forEach((key) => {
       if (!keysToExclude.includes(key)) {
         if (
           !this.state[key] ||
@@ -661,13 +719,17 @@ class TreatmentPlan72 extends Component {
         formHasError: true,
         formErrorMessage: `Please complete the following field(s): ${errorFields
           .toString()
-          .replace(/,/g, "\n")}`
+          .replace(/,/g, "\n")}`,
       });
       return;
     }
 
     this.submit();
   };
+
+  componentDidMount() {
+    console.log(this.props.valuesSet);
+  }
 
   render() {
     if (!this.props.valuesSet) {
@@ -1116,7 +1178,7 @@ class TreatmentPlan72 extends Component {
             <div className="form-group logInInputField">
               {" "}
               <label className="control-label">
-                Phone Number of Significant Relation (1)
+                Phone Number of Significant Relation (2)
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
@@ -1220,7 +1282,7 @@ class TreatmentPlan72 extends Component {
             <div className="form-group logInInputField">
               {" "}
               <label className="control-label">
-                Phone Number of Significant Relation (1)
+                Phone Number of Significant Relation (4)
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
@@ -1850,7 +1912,7 @@ class TreatmentPlan72 extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
-              <label className="control-label">emotionalNeeds</label>{" "}
+              <label className="control-label">Emotional Needs</label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
                 id="emotionalNeeds"
@@ -2017,7 +2079,7 @@ class TreatmentPlan72 extends Component {
             <div className="form-group logInInputField">
               {" "}
               <label className="control-label">
-                supervisionStrategies
+                Supervision Strategies
               </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
@@ -2536,7 +2598,13 @@ class TreatmentPlan72 extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.childMeta_dob}
+                value={
+                  this.props.formData.childMeta_dob !== undefined
+                    ? new Date(this.props.formData.childMeta_dob)
+                        .toISOString()
+                        .replace(/T.*/g, "")
+                    : this.props.formData.childMeta_dob
+                }
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
@@ -2667,7 +2735,13 @@ class TreatmentPlan72 extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.childMeta_dateOfAdmission}
+                value={
+                  this.props.formData.childMeta_dateOfAdmission !== undefined
+                    ? new Date(this.props.formData.childMeta_dateOfAdmission)
+                        .toISOString()
+                        .replace(/T.*/g, "")
+                    : this.props.formData.childMeta_dateOfAdmission
+                }
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
@@ -2680,7 +2754,16 @@ class TreatmentPlan72 extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.projectedDateForAchievingPermanency}
+                value={
+                  this.props.formData.projectedDateForAchievingPermanency !==
+                  undefined
+                    ? new Date(
+                        this.props.formData.projectedDateForAchievingPermanency
+                      )
+                        .toISOString()
+                        .replace(/T.*/g, "")
+                    : this.props.formData.projectedDateForAchievingPermanency
+                }
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
@@ -3147,7 +3230,13 @@ class TreatmentPlan72 extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.lastPhysicalExamination_date}
+                value={
+                  this.props.formData.lastPhysicalExamination_date !== undefined
+                    ? new Date(this.props.formData.lastPhysicalExamination_date)
+                        .toISOString()
+                        .replace(/T.*/g, "")
+                    : this.props.formData.lastPhysicalExamination_date
+                }
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
@@ -3186,7 +3275,13 @@ class TreatmentPlan72 extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.lastDentalExamination_date}
+                value={
+                  this.props.formData.lastDentalExamination_date !== undefined
+                    ? new Date(this.props.formData.lastDentalExamination_date)
+                        .toISOString()
+                        .replace(/T.*/g, "")
+                    : this.props.formData.lastDentalExamination_date
+                }
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
@@ -3225,7 +3320,13 @@ class TreatmentPlan72 extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.lastOpticalExamination_date}
+                value={
+                  this.props.formData.lastOpticalExamination_date !== undefined
+                    ? new Date(this.props.formData.lastOpticalExamination_date)
+                        .toISOString()
+                        .replace(/T.*/g, "")
+                    : this.props.formData.lastOpticalExamination_date
+                }
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
@@ -3672,7 +3773,7 @@ class TreatmentPlan72 extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
-              <label className="control-label">emotionalNeeds</label>{" "}
+              <label className="control-label">Emotional Needs</label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
                 value={this.props.formData.emotionalNeeds}
@@ -3844,7 +3945,7 @@ class TreatmentPlan72 extends Component {
             <div className="form-group logInInputField">
               {" "}
               <label className="control-label">
-                supervisionStrategies
+                Supervision Strategies
               </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
