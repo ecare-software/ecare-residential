@@ -64,7 +64,7 @@ class App extends Component {
       // newUser: true,
       // password: "xyz123",
       // __v: 0,
-      // _id: "5d63507799ac0b1494149479"
+      // _id: "5d63507799ac0b1494149479",
     },
     messagesInitLoad: false,
     allUsersSet: false,
@@ -74,25 +74,206 @@ class App extends Component {
     },
     doDisplay: "Dashboard",
     discussionMessages: [],
-    allUsers: [],
+    allUsers: [
+      // {
+      //   email: "demarcuskennedy95@gmail.com",
+      //   firstName: "DeMarcus",
+      //   homeId: "home-1234",
+      //   isAdmin: true,
+      //   jobTitle: "Admin",
+      //   lastLogIn: "2019-08-26T03:22:28.424Z",
+      //   lastName: "Kennedy",
+      //   newUser: true,
+      //   password: "xyz123",
+      //   __v: 0,
+      //   _id: "5d63507799ac0b1494149479",
+      // },
+    ],
     showLearnMore: false,
     name: "",
     emailTo: "",
     emailSent: false,
+    dmTo: null,
     blockCompUpdates: false,
+    toUserSelected: null,
+    dmMessage: "",
+    messages: [
+      // {
+      //   _id: "5fa4702f61d127037b7a2062",
+      //   toObj: {
+      //     lastLogIn: "2020-11-05T21:28:31.095Z",
+      //     isAdmin: true,
+      //     newUser: false,
+      //     _id: "5d63507799ac0b1494149479",
+      //     firstName: "DeMarcus",
+      //     lastName: "Kennedy",
+      //     email: "demarcuskennedy95@gmail.com",
+      //     password: "1234",
+      //     homeId: "home-1234",
+      //     jobTitle: "Admin",
+      //     __v: 0,
+      //   },
+      //   fromObj: {
+      //     lastLogIn: "2020-11-05T21:35:35.417Z",
+      //     isAdmin: false,
+      //     newUser: false,
+      //     _id: "5d728d6a430b9f8536ac3381",
+      //     firstName: "Yanira",
+      //     middleName: "1",
+      //     lastName: "Durant",
+      //     email: "ya",
+      //     password: "11",
+      //     homeId: "home-1234",
+      //     jobTitle: "Owner/CEO",
+      //     __v: 0,
+      //   },
+      //   toID: "demarcuskennedy95@gmail.com",
+      //   fromID: "ya",
+      //   message: "Hello there",
+      //   date: "2020-11-05T21:35:43.400Z",
+      //   __v: 0,
+      // },
+      // {
+      //   _id: "5fa4747d18291707ad592ad8",
+      //   toObj: {
+      //     lastLogIn: "2020-11-05T21:35:58.665Z",
+      //     isAdmin: true,
+      //     newUser: false,
+      //     _id: "5d63507799ac0b1494149479",
+      //     firstName: "DeMarcus",
+      //     lastName: "Kennedy",
+      //     email: "demarcuskennedy95@gmail.com",
+      //     password: "1234",
+      //     homeId: "home-1234",
+      //     jobTitle: "Admin",
+      //     __v: 0,
+      //   },
+      //   fromObj: {
+      //     lastLogIn: "2020-11-05T21:53:51.942Z",
+      //     isAdmin: false,
+      //     newUser: false,
+      //     _id: "5d728d6a430b9f8536ac3381",
+      //     firstName: "Yanira",
+      //     middleName: "1",
+      //     lastName: "Durant",
+      //     email: "ya",
+      //     password: "11",
+      //     homeId: "home-1234",
+      //     jobTitle: "Owner/CEO",
+      //     __v: 0,
+      //   },
+      //   toID: "demarcuskennedy95@gmail.com",
+      //   fromID: "ya",
+      //   message: "Whats good whats gooooooooood",
+      //   date: "2020-11-05T21:54:05.916Z",
+      //   __v: 0,
+      // },
+      // {
+      //   _id: "5fa4749f18291707ad592ad9",
+      //   toObj: {
+      //     lastLogIn: "2020-11-05T21:35:58.665Z",
+      //     isAdmin: true,
+      //     newUser: false,
+      //     _id: "5d63507799ac0b1494149479",
+      //     firstName: "DeMarcus",
+      //     lastName: "Kennedy",
+      //     email: "demarcuskennedy95@gmail.com",
+      //     password: "1234",
+      //     homeId: "home-1234",
+      //     jobTitle: "Admin",
+      //     __v: 0,
+      //   },
+      //   fromObj: {
+      //     lastLogIn: "2020-11-05T21:53:51.942Z",
+      //     isAdmin: false,
+      //     newUser: false,
+      //     _id: "5d728d6a430b9f8536ac3381",
+      //     firstName: "Yanira",
+      //     middleName: "1",
+      //     lastName: "Durant",
+      //     email: "ya",
+      //     password: "11",
+      //     homeId: "home-1234",
+      //     jobTitle: "Owner/CEO",
+      //     __v: 0,
+      //   },
+      //   toID: "demarcuskennedy95@gmail.com",
+      //   fromID: "ya",
+      //   message: "Another test",
+      //   date: "2020-11-05T21:54:39.807Z",
+      //   __v: 0,
+      // },
+      // {
+      //   _id: "5fa474ad18291707ad592ada",
+      //   toObj: {
+      //     lastLogIn: "2020-11-05T21:35:58.665Z",
+      //     isAdmin: true,
+      //     newUser: false,
+      //     _id: "5d63507799ac0b1494149479",
+      //     firstName: "DeMarcus",
+      //     lastName: "Kennedy",
+      //     email: "demarcuskennedy95@gmail.com",
+      //     password: "1234",
+      //     homeId: "home-1234",
+      //     jobTitle: "Admin",
+      //     __v: 0,
+      //   },
+      //   fromObj: {
+      //     lastLogIn: "2020-11-05T21:53:51.942Z",
+      //     isAdmin: false,
+      //     newUser: false,
+      //     _id: "5d728d6a430b9f8536ac3381",
+      //     firstName: "Yanira",
+      //     middleName: "1",
+      //     lastName: "Durant",
+      //     email: "ya",
+      //     password: "11",
+      //     homeId: "home-1234",
+      //     jobTitle: "Owner/CEO",
+      //     __v: 0,
+      //   },
+      //   toID: "demarcuskennedy95@gmail.com",
+      //   fromID: "ya",
+      //   message: "last test",
+      //   date: "2020-11-05T21:54:53.715Z",
+      //   __v: 0,
+      // },
+    ],
   };
 
-  getMyMessages = () => {};
+  getMyMessages = () => {
+    Axios.get("/api/directMessages/" + this.state.userObj.email).then(
+      (messages) => {
+        this.setState({ messages: messages.data });
+      }
+    );
+  };
 
-  componentDidMount = () => {
+  setDmToUser = async (id) => {
+    const selectedUser = this.state.allUsers.filter((user) => {
+      return user._id === id;
+    });
+
+    // console.log(selectedUser);
+
+    await this.setState({
+      ...this.state,
+      dmTo: selectedUser.length > 0 ? selectedUser[0] : null,
+    });
+
+    // console.log(this.state);
+  };
+
+  componentDidMount = async () => {
     console.log(cookie.load("appState"));
     let fromCookieState = cookie.load("appState");
     if (fromCookieState !== undefined) {
-      this.setState({
+      await this.setState({
         userObj: fromCookieState.userObj,
         loggedIn: fromCookieState.loggedIn,
       });
     }
+    await this.getMyMessages();
   };
 
   componentDidUpdate = () => {
@@ -113,7 +294,7 @@ class App extends Component {
           discussionMessages: response.data,
           messagesInitLoad: true,
         });
-        console.log(curthis.state.discussionMessages);
+        // console.log(curthis.state.discussionMessages);
       })
       .catch(function (error) {
         console.log(error);
@@ -165,7 +346,7 @@ class App extends Component {
     window.scrollTo(0, 0);
   };
 
-  toggleLogIn = (userObj) => {
+  toggleLogIn = async (userObj) => {
     window.scrollTo(0, 0);
     let message = "";
     let title = "";
@@ -174,15 +355,16 @@ class App extends Component {
         "You need to reset your password. Click the Manage Profile button to do so.";
       title = "Welcome to RCS, Heres some information";
     }
-    this.setState({
+    await this.setState({
       userObj: userObj,
       loggedIn: true,
       message,
       title,
     });
+    this.getMyMessages();
     console.log("setCookie here");
     cookie.remove("appState");
-    console.log(this.state);
+    // console.log(this.state);
     let cookieToSet = JSON.parse(JSON.stringify(this.state));
     cookieToSet.discussionMessages = [];
     cookieToSet.allUsers = [];
@@ -234,6 +416,36 @@ class App extends Component {
       });
   };
 
+  sendDM = async () => {
+    if (
+      this.state.dmTo !== "" ||
+      (this.state.dmTo !== null && this.state.dmMessage)
+    ) {
+      await Axios.post(`/api/directMessages`, {
+        toObj: this.state.dmTo,
+        fromObj: this.state.userObj,
+        toID: this.state.dmTo.email,
+        fromID: this.state.userObj.email,
+        message: this.state.dmMessage,
+        date: new Date(),
+      });
+
+      Axios.get("/api/directMessages/" + this.state.userObj.email).then(
+        (messages) => {
+          this.setState({
+            ...this.state,
+            dmMessage: "",
+            messages: messages.data,
+          });
+        }
+      );
+    }
+  };
+
+  setDmMessage = (message) => {
+    this.setState({ ...this.state, dmMessage: message });
+  };
+
   render() {
     if (this.state.loggedIn) {
       return (
@@ -252,6 +464,11 @@ class App extends Component {
                   userObj={this.state.userObj}
                   scrollTop={this.scrollTop}
                   toggleDisplay={this.toggleDisplay}
+                  appState={this.state}
+                  setDmToUser={this.setDmToUser}
+                  sendDM={this.sendDM}
+                  dmMessage={this.state.dmMessage}
+                  setDmMessage={this.setDmMessage}
                 />
               </div>
               <div className="col-sm-9" id="actionSection">
@@ -489,14 +706,25 @@ function ToggleScreen({ name, appState, appendMessage, toggleDisplay }) {
       <div>
         <DirectMessageBoard
           userObj={appState.userObj}
-          messages={appState.discussionMessages}
+          messages={appState.messages}
+          allUsers={appState.allUsers}
         />
       </div>
     );
   }
 }
 
-function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
+function DisplayExtra({
+  name,
+  userObj,
+  scrollTop,
+  appState,
+  setDmToUser,
+  sendDM,
+  dmMessage,
+  setDmMessage,
+  toggleDisplay,
+}) {
   if (name === "TreatmentPlan72") {
     return (
       <div id="extraInfo">
@@ -612,15 +840,27 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
           </p>
         </div>
         <div className="extraInfoButtonDiv">
-          <button onClick={scrollTop} className="btn btn-light extraInfoButton">
+          <button
+            onClick={() => {
+              document.getElementById("messageText").focus();
+              scrollTop();
+            }}
+            className="btn btn-light extraInfoButton"
+          >
             Write Dashboard Message
           </button>
-          {/* <button onClick={scrollTop} className="btn btn-light extraInfoButton">
-            Upload Document 
-          </button> */}
-          <button className="btn btn-light extraInfoButton">
-            Upload a File
+          <button
+            onClick={() => {
+              document.querySelector(".Direct-Message-nav").click();
+              toggleDisplay("Direct Message");
+            }}
+            className="btn btn-light extraInfoButton"
+          >
+            Direct Messages
           </button>
+          {/* <button className="btn btn-light extraInfoButton">
+            Upload a File
+          </button> */}
           {/* <button className="btn btn-light extraInfoButton">
             Direct Messages
           </button> */}
@@ -657,7 +897,9 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
           {/* <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>
             Direct Messages
           </h5> */}
-          <p className="extraInfoNavSubTitle">This is me sending a DM</p>
+          <p className="extraInfoNavSubTitle">
+            Select a users and type your message
+          </p>
           <div>
             <div style={{ width: "100%", display: "flex", margin: "10px 0px" }}>
               <p
@@ -674,22 +916,40 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
                   flex: "1",
                   height: "30px",
                 }}
+                onChange={(e) => {
+                  // console.log(e.target.value);
+                  setDmToUser(e.target.value);
+                }}
+                defaultValue={appState.dmTo ? appState.dmTo : null}
               >
-                <option disabled selected>
+                <option selected value={null}>
                   Choose...
                 </option>
-                <option>Some person</option>
-                <option>Anotha one</option>
+                {appState.allUsers
+                  .filter((user) => {
+                    return user._id !== userObj._id;
+                  })
+                  .map((user) => {
+                    return (
+                      <option
+                        key={user._id}
+                        value={user._id}
+                      >{`${user.firstName} ${user.lastName}`}</option>
+                    );
+                  })}
               </select>
             </div>
-            <div style={{ width: "100%", display: "flex", margin: "10px 0px" }}>
+            <div style={{ width: "100%", margin: "10px 0px" }}>
               <textarea
                 id="messageText"
-                // xvalue={this.state.messageText}
-                // xonChange={this.handleFieldInput}
+                value={dmMessage}
+                onChange={(e) => {
+                  setDmMessage(e.target.value);
+                }}
                 cols="1"
                 style={{
-                  height: "40px",
+                  height: "150px",
+                  width: "100%",
                   flex: "1",
                   borderColor: "#eee",
                   margin: "0px 5px",
@@ -698,14 +958,16 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
                   borderTop: "none",
                   borderLeft: "none",
                 }}
-                placeholder="Whats on your mind ?"
+                placeholder="Type your message here.."
               ></textarea>
               <button
-                // xonClick={this.callAppendMessage}
+                onClick={() => {
+                  sendDM();
+                }}
                 className="btn btn-light"
-                style={{ margin: "0px 5px", width: "40px" }}
+                style={{ margin: "0px 5px", width: "100%" }}
               >
-                <i className="fas fa-paper-plane"></i>
+                Send <i className="fas fa-paper-plane"></i>
               </button>
             </div>
           </div>

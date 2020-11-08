@@ -41,12 +41,12 @@ class ManageUsers extends Component {
       this.setState({ newPassword: event.target.value });
     }
 
-    console.log(isReenter);
+    // console.log(isReenter);
   };
 
   saveNewPassword = (id) => {
-    console.log(this.state);
-    console.log(id);
+    // console.log(this.state);
+    // console.log(id);
     if (/^\s+$/.test(this.state.newPassword)) {
       alert("Password is not valid");
       return;

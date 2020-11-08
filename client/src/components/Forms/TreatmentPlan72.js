@@ -621,7 +621,7 @@ class TreatmentPlan72 extends Component {
 
   submit = () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-    console.log(JSON.stringify(currentState));
+    // console.log(JSON.stringify(currentState));
     Axios.post("/api/treatmentPlans72", currentState)
       .then((res) => {
         window.scrollTo(0, 0);
@@ -728,7 +728,7 @@ class TreatmentPlan72 extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props.valuesSet);
+    // console.log(this.props.valuesSet);
   }
 
   render() {

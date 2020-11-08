@@ -10,12 +10,12 @@ class UserManagement extends Component {
     super(props);
     this.state = {
       showCreateNewUser: false,
-      showManageUsers: false
+      showManageUsers: false,
     };
   }
 
-  toggleShow = compName => {
-    console.log(compName);
+  toggleShow = (compName) => {
+    // console.log(compName);
     switch (compName) {
       case "Create New User":
         this.setState({ showCreateNewUser: !this.state.showCreateNewUser });
@@ -27,7 +27,7 @@ class UserManagement extends Component {
   };
   render() {
     return (
-      <div className="formCompNoBg" >
+      <div className="formCompNoBg">
         <div className="formTitleDiv">
           <h2 className="formTitle">User Management</h2>
         </div>

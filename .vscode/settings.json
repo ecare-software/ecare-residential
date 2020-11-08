@@ -1,8 +1,0 @@
-{
-    "appService.zipIgnorePattern": [
-        "node_modules{,/**}",
-        ".vscode{,/**}"
-    ],
-    "appService.deploySubpath": ".",
-    "appService.defaultWebAppToDeploy": "/subscriptions/689870e1-5864-48fd-873e-db77066208b2/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/ecare-residential-prod"
-}

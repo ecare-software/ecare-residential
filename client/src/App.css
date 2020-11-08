@@ -1,4 +1,4 @@
-input{
+input {
   height: 40px;
   border-radius: 9px;
 }
@@ -7,64 +7,60 @@ input{
   border-bottom: 0.5px solid #eee;
   padding: 10px 10px;
 }
-.nav-link-not-logged-in.active{
+.nav-link-not-logged-in.active {
   background-color: transparent !important;
-
 }
-.modal-content{
+.modal-content {
   border: none;
 }
-.nav-link-not-logged-in{
+.nav-link-not-logged-in {
   background-color: #ffffff31 !important;
-
 }
 
-.nav-link-not-logged-in:hover{
+.nav-link-not-logged-in:hover {
   background-color: white !important;
-  color:maroon!important;
+  color: maroon !important;
 }
 
-.nav-link-not-logged-in-fill{
+.nav-link-not-logged-in-fill {
   background-color: maroon !important;
-  color:white !important;
-  border:solid .5px maroon!important;
+  color: white !important;
+  border: solid 0.5px maroon !important;
 }
 
-.nav-link-not-logged-in-fill:hover{
-  color:maroon !important;
+.nav-link-not-logged-in-fill:hover {
+  color: maroon !important;
   background-color: white !important;
-  border:solid .5px white!important;
+  border: solid 0.5px white !important;
 }
 
-.nav-link.active{
+.nav-link.active {
   background-color: #5e0000;
   border-radius: 11px;
 }
 
-.extraInfoMainTitle{
-  font-weight:300;
+.extraInfoMainTitle {
+  font-weight: 300;
 }
-.extraInfoSubTitle{
-  font-weight:200;
+.extraInfoSubTitle {
+  font-weight: 200;
 }
-.extraInfoNavDiv{
-  margin:20px 0px;
+.extraInfoNavDiv {
+  margin: 20px 0px;
 }
-.extraInfoNavTitle{
+.extraInfoNavTitle {
   color: maroon;
-  font-weight:300;
+  font-weight: 300;
 }
-.extraInfoButtonDiv{
-  display:flex;
-  flex-direction:column;
+.extraInfoButtonDiv {
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
   margin-right: 10px;
 }
-.extraInfoButton{
+.extraInfoButton {
   text-align: left;
 }
-
-
 
 .defaultSubLabel {
   font-weight: 900;
@@ -225,49 +221,48 @@ body {
 .App {
   overflow-x: hidden;
 }
-#extraInfo{
-position: fixed;
-width:20%;
-top:15%;
-left:12%;
+#extraInfo {
+  position: fixed;
+  width: 20%;
+  top: 15%;
+  left: 12%;
 }
 
-.filterSection{
+.filterSection {
   margin: 15px 65px 15px 65px;
 }
 
 /* desktop */
 @media only screen and (min-width: 1226px) {
-
-  .mobileLearnMore{
+  .mobileLearnMore {
     display: none;
   }
-  .formComp{
-    padding:0px 20px 1px 20px;
-    margin:0px 20px 0px 20px;
+  .formComp {
+    padding: 0px 20px 1px 20px;
+    margin: 0px 20px 0px 20px;
     background-color: #f1f1f182;
     border-bottom-left-radius: 9px;
     border-bottom-right-radius: 9px;
   }
-  .formCompNoBg{
-    padding:0px 20px 1px 20px;
-    margin:0px 20px 0px 20px;
+  .formCompNoBg {
+    padding: 0px 20px 1px 20px;
+    margin: 0px 20px 0px 20px;
     border-bottom-left-radius: 9px;
     border-bottom-right-radius: 9px;
   }
-  .formTitleDivReport{
+  .formTitleDivReport {
     color: maroon;
     min-height: 60px;
     margin-bottom: 25px;
-    padding:25px 0px 10px 0px;
-    border-bottom: .5px solid #cfcece;
+    padding: 25px 0px 10px 0px;
+    border-bottom: 0.5px solid #cfcece;
   }
 
-  .messageBoardTitleDiv{
+  .messageBoardTitleDiv {
     color: maroon;
     min-height: 60px;
     margin-bottom: 25px;
-    padding:25px 0px 10px 0px;
+    padding: 25px 0px 10px 0px;
   }
   .alert {
     position: fixed;
@@ -279,7 +274,7 @@ left:12%;
     max-height: 500px;
     overflow: scroll;
   }
-  
+
   #desktopView {
     margin-top: 60px;
   }
@@ -289,7 +284,7 @@ left:12%;
   #mainContainer {
     /* height: 500px; */
     /* margin: 0px 250px; */
-    width:75%
+    width: 75%;
   }
   .App-header {
     background-color: #282c34;
@@ -359,14 +354,14 @@ left:12%;
     color: maroon;
     min-height: 60px;
     margin-bottom: 25px;
-    padding:25px 0px 10px 0px;
-    border-bottom: .5px solid #cfcece;
+    padding: 25px 0px 10px 0px;
+    border-bottom: 0.5px solid #cfcece;
   }
-  .messageBoardTitleDiv{
+  .messageBoardTitleDiv {
     color: maroon;
     min-height: 60px;
     margin-bottom: 25px;
-    padding:25px 0px 10px 0px;
+    padding: 25px 0px 10px 0px;
   }
   .formTitle {
     font-size: 1.8em;
@@ -420,59 +415,59 @@ left:12%;
 
 /* ipad */
 @media only screen and (min-width: 768px) and (max-width: 1225px) {
-  .mobileLearnMore{
+  .mobileLearnMore {
     display: none;
   }
-  .formComp{
-    padding:0px 20px 1px 20px;
-    margin:0px 20px 0px 20px;
+  .formComp {
+    padding: 0px 20px 1px 20px;
+    margin: 0px 20px 0px 20px;
     background-color: #f1f1f182;
     border-bottom-left-radius: 9px;
     border-bottom-right-radius: 9px;
   }
 
-  .formCompNoBg{
-    padding:0px 20px 1px 20px;
-    margin:0px 20px 0px 20px;
+  .formCompNoBg {
+    padding: 0px 20px 1px 20px;
+    margin: 0px 20px 0px 20px;
     border-bottom-left-radius: 9px;
     border-bottom-right-radius: 9px;
   }
 
-  .formTitleDivReport{
+  .formTitleDivReport {
     color: maroon;
     min-height: 60px;
     margin-bottom: 25px;
-    padding:25px 0px 10px 0px;
-    border-bottom: .5px solid #cfcece;
+    padding: 25px 0px 10px 0px;
+    border-bottom: 0.5px solid #cfcece;
   }
 
-  .messageBoardTitleDiv{
+  .messageBoardTitleDiv {
     color: maroon;
     min-height: 60px;
     margin-bottom: 25px;
-    padding:25px 0px 10px 0px;
+    padding: 25px 0px 10px 0px;
   }
 
-  #extraInfo{
+  #extraInfo {
     position: fixed;
-    width:23%;
-    top:20%;
-    left:35px;
-    }
+    width: 23%;
+    top: 20%;
+    left: 35px;
+  }
 
   .formTitleDiv {
     color: maroon;
     min-height: 60px;
     margin-bottom: 25px;
-    padding:25px 0px 10px 0px;
-    border-bottom: .5px solid #cfcece;
+    padding: 25px 0px 10px 0px;
+    border-bottom: 0.5px solid #cfcece;
   }
 
-  .messageBoardTitleDiv{
+  .messageBoardTitleDiv {
     color: maroon;
     min-height: 60px;
     margin-bottom: 25px;
-    padding:25px 0px 10px 0px;
+    padding: 25px 0px 10px 0px;
   }
   .formTitle {
     font-size: 1.8em;
@@ -569,19 +564,19 @@ left:12%;
 
 /* mobile up right */
 @media only screen and (max-width: 767px) {
-.logInContainer{
-  position: fixed !important;
-  top:20px !important;
-}
-.mobileAdj{
-  position: fixed !important;
-  top:20px !important;
-  left:0px!important;
-}
-  .desktopLearnMore{
+  .logInContainer {
+    position: fixed !important;
+    top: 20px !important;
+  }
+  .mobileAdj {
+    position: fixed !important;
+    top: 20px !important;
+    left: 0px !important;
+  }
+  .desktopLearnMore {
     display: none;
   }
-  .filterSection{
+  .filterSection {
     margin: 15px 0px 15px 0px;
   }
   .formTitleDiv {
@@ -601,7 +596,7 @@ left:12%;
     z-index: 1;
   }
 
-  .messageBoardTitleDiv{
+  .messageBoardTitleDiv {
     /* -webkit-box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75); */
@@ -616,9 +611,9 @@ left:12%;
     top: -20px;
     margin: 75px 0px;
     z-index: 1;
-    border-bottom: .5px solid #eee;
+    border-bottom: 0.5px solid #eee;
   }
-  .formTitleDivReport{
+  .formTitleDivReport {
     color: maroon;
     background-color: rgba(255, 255, 255, 0.733);
     position: fixed;
@@ -631,16 +626,16 @@ left:12%;
     margin: 75px 0px;
     z-index: 0;
     text-align: center;
-    border-bottom: .5px solid #ccc;
+    border-bottom: 0.5px solid #ccc;
   }
-  .formComp{
-    margin:0px 20px 1px 20px;
+  .formComp {
+    margin: 0px 20px 1px 20px;
   }
 
-  .formCompNoBg{
-    margin:0px 20px 1px 20px;
+  .formCompNoBg {
+    margin: 0px 20px 1px 20px;
   }
-  #extraInfo{
+  #extraInfo {
     display: none;
   }
   .formTitle {
@@ -663,7 +658,7 @@ left:12%;
   .alert {
     position: fixed;
     width: 300px;
-    top:40%;
+    top: 40%;
     height: auto;
     margin: 5% auto;
     left: 0;
@@ -730,7 +725,7 @@ left:12%;
 
 /* mobile sideways */
 @media only screen and (min-width: 550px) and (max-width: 766px) {
-  .desktopLearnMore{
+  .desktopLearnMore {
     display: none;
   }
   html {
@@ -760,7 +755,7 @@ left:12%;
 
 /* stupid iphone 5 */
 @media only screen and (max-width: 361px) {
-  .desktopLearnMore{
+  .desktopLearnMore {
     display: none;
   }
   html {

@@ -14,12 +14,12 @@ import {
   NavDropdown,
   MenuItem,
   Button,
-  ButtonToolbar
+  ButtonToolbar,
 } from "react-bootstrap";
 
 const navBarStyleNotLoggedIn = {
   backgroundColor: "transparent",
-  color: "white"
+  color: "white",
 };
 
 const navBarStyleLoggedIn = {
@@ -27,12 +27,12 @@ const navBarStyleLoggedIn = {
   color: "white",
   webkitBoxShadow: "0px 2px 7px -1px rgba(0, 0, 0, 0.75)",
   mozBoxShadow: "0px 2px 7px -1px rgba(0, 0, 0, 0.75)",
-  boxShadow: "0px 2px 7px -1px rgba(0, 0, 0, 0.75)"
+  boxShadow: "0px 2px 7px -1px rgba(0, 0, 0, 0.75)",
 };
 
 const navBrandStyle = {
   color: "white",
-  fontWeight: "200"
+  fontWeight: "200",
 };
 
 const navBrandStyleNotLoggedIn = {
@@ -40,13 +40,13 @@ const navBrandStyleNotLoggedIn = {
   fontWeight: "300",
   paddingLeft: "20px",
   margin: "0px -5px",
-  textShadow: "1px 1px 2px #000000"
+  textShadow: "1px 1px 2px #000000",
 };
 
 const navItemStyle = {
   color: "white",
   paddingLeft: "5px",
-  paddingRight: "5px"
+  paddingRight: "5px",
 };
 const navItemStyleBig = {
   color: "black",
@@ -55,7 +55,7 @@ const navItemStyleBig = {
   margin: "5px 5px",
   borderRadius: "9px",
   fontWeight: "500",
-  border: "solid .5px white"
+  border: "solid .5px white",
 };
 
 const navItemStyleBigFill = {
@@ -65,16 +65,16 @@ const navItemStyleBigFill = {
   margin: "5px 5px",
   borderRadius: "9px",
   fontWeight: "400",
-  border: "solid .5px white"
+  border: "solid .5px white",
 };
 
 const adminReportingRoles = [
   "Admin",
-  "Owner_-_CEO",
+  "Owner/CEO",
   "Executive_Director",
   "Administrator",
   "Case_Manager",
-  "Supervisor"
+  "Supervisor",
 ];
 
 class NavBar extends React.Component {
@@ -86,7 +86,7 @@ class NavBar extends React.Component {
       showLearnMore: false,
       emailTobs: "",
       namebs: "",
-      emailSent: false
+      emailSent: false,
     };
   }
 
@@ -103,7 +103,7 @@ class NavBar extends React.Component {
     window.scrollTo(0, 500);
   };
 
-  handleFieldInput = event => {
+  handleFieldInput = (event) => {
     var stateObj = {};
     stateObj[event.target.id] = event.target.value;
     this.setState(stateObj);
@@ -115,18 +115,18 @@ class NavBar extends React.Component {
       return;
     }
     Axios.post(`/api/email/${this.state.emailTobs}/${this.state.namebs}`)
-      .then(function(response) {
+      .then(function (response) {
         thisHook.setState({
           namebs: "",
           emailTobs: "",
           emailSent: true,
-          showLearnMore: false
+          showLearnMore: false,
         });
         setTimeout(() => {
           thisHook.setState({ emailSent: false, namebs: "", emailTobs: "" });
         }, 4000);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         alert("error sending email");
         console.log(error);
       });
@@ -136,9 +136,7 @@ class NavBar extends React.Component {
     this.setState({ showLearnMore: !this.state.showLearnMore });
   };
 
-  toggleActive = () => {
-
-  }
+  toggleActive = () => {};
 
   render() {
     const { firstName } = this.props.userObj;
@@ -170,13 +168,17 @@ class NavBar extends React.Component {
               x
             </button>
           </Modal>
-          <Modal style={{marginTop:"100px"}} show={this.state.showLearnMore} onHide={this.toggleLearnMore}>
+          <Modal
+            style={{ marginTop: "100px" }}
+            show={this.state.showLearnMore}
+            onHide={this.toggleLearnMore}
+          >
             <ModalHeader
               closeButton
               style={{
                 color: "maroon",
                 textAlign: "center",
-                borderColor:"maroon"
+                borderColor: "maroon",
               }}
             >
               <h5>Learn more about our services</h5>
@@ -208,7 +210,7 @@ class NavBar extends React.Component {
                     margin: "5px 0px",
                     float: "right",
                     backgroundColor: "maroon",
-                    color: "white"
+                    color: "white",
                   }}
                   onClick={this.sendEmail}
                   className="btn"
@@ -271,28 +273,70 @@ class NavBar extends React.Component {
             <Nav.Link
               eventKey="link-1"
               style={navItemStyle}
-              onClick={this.props.toggleDisplay.bind({}, "Dashboard")}
+              onClick={() => {
+                document
+                  .querySelector(".Submit-a-Form-nav > a")
+                  .classList.remove("active");
+                document
+                  .querySelector(".Manage-Account-nav > a")
+                  .classList.remove("active");
+                this.props.toggleDisplay("Dashboard");
+              }}
             >
               Dashboard
             </Nav.Link>
             <Nav.Link
+              eventKey="link-44"
+              id="Direct-Message-nav"
+              className="Direct-Message-nav"
+              style={navItemStyle}
+              onClick={() => {
+                document
+                  .querySelector(".Submit-a-Form-nav > a")
+                  .classList.remove("active");
+                document
+                  .querySelector(".Manage-Account-nav > a")
+                  .classList.remove("active");
+                this.props.toggleDisplay("Direct Message");
+              }}
+            >
+              Messages
+            </Nav.Link>
+            {/* <Nav.Link
               eventKey="link-88"
               style={navItemStyle}
-              onClick={this.props.toggleDisplay.bind({}, "Documents")}
+              onClick={() => {
+                document
+                  .querySelector(".Submit-a-Form-nav > a")
+                  .classList.remove("active");
+                document
+                  .querySelector(".Manage-Account-nav > a")
+                  .classList.remove("active");
+                this.props.toggleDisplay("Documents");
+              }}
             >
               Documents
-            </Nav.Link>
+            </Nav.Link> */}
             <NavDropdown
               style={navItemStyle}
               variant="success"
               color="white"
               title="Submit a Form"
               id="collasible-nav-dropdown"
+              className="Submit-a-Form-nav"
             >
               {adminReportingRoles.includes(this.props.userObj.jobTitle) ? (
                 <NavDropdown.Item
                   eventKey="link-2"
-                  onClick={this.props.toggleDisplay.bind({}, "TreatmentPlan72")}
+                  onClick={() => {
+                    document
+                      .querySelector(".Submit-a-Form-nav > a")
+                      .classList.add("active");
+                    document
+                      .querySelector(".Manage-Account-nav > a")
+                      .classList.remove("active");
+                    this.props.toggleDisplay("TreatmentPlan72");
+                  }}
                 >
                   72 Hour Treatment Plan
                 </NavDropdown.Item>
@@ -301,74 +345,119 @@ class NavBar extends React.Component {
               )}
               <NavDropdown.Item
                 eventKey="link-3"
-                onClick={this.props.toggleDisplay.bind({}, "IncidentReport")}
+                onClick={() => {
+                  document
+                    .querySelector(".Submit-a-Form-nav > a")
+                    .classList.add("active");
+                  document
+                    .querySelector(".Manage-Account-nav > a")
+                    .classList.remove("active");
+                  this.props.toggleDisplay("IncidentReport");
+                }}
               >
                 Incident Report
               </NavDropdown.Item>
               <NavDropdown.Item
                 eventKey="link-4"
-                onClick={this.props.toggleDisplay.bind({}, "DailyProgress")}
+                onClick={() => {
+                  document
+                    .querySelector(".Submit-a-Form-nav > a")
+                    .classList.add("active");
+                  document
+                    .querySelector(".Manage-Account-nav > a")
+                    .classList.remove("active");
+                  this.props.toggleDisplay("DailyProgress");
+                }}
               >
                 Daily Progress
               </NavDropdown.Item>
               <NavDropdown.Item
                 eventKey="link-5"
-                onClick={this.props.toggleDisplay.bind({}, "restraintReport")}
+                onClick={() => {
+                  document
+                    .querySelector(".Submit-a-Form-nav > a")
+                    .classList.add("active");
+                  document
+                    .querySelector(".Manage-Account-nav > a")
+                    .classList.remove("active");
+                  this.props.toggleDisplay("restraintReport");
+                }}
               >
                 Restraint Report
               </NavDropdown.Item>
               {/* <NavDropdown.Divider /> */}
             </NavDropdown>
-            {/* <Nav.Link
-              eventKey="link-6"
-              onClick={this.props.toggleDisplay.bind({}, "Direct Message")}
-              style={navItemStyle}
-            >
-              Direct Message
-            </Nav.Link> */}
-            <Nav.Link
-              eventKey="link-7"
-              onClick={this.props.toggleDisplay.bind({}, "User Management")}
-              style={navItemStyle}
-            >
-              User Management
-            </Nav.Link>
             {adminReportingRoles.includes(this.props.userObj.jobTitle) ? (
               <Nav.Link
-                eventKey="link-8"
-                onClick={this.props.toggleDisplay.bind({}, "Reports")}
+                eventKey="link-7"
+                onClick={() => {
+                  document
+                    .querySelector(".Submit-a-Form-nav > a")
+                    .classList.remove("active");
+                  document
+                    .querySelector(".Manage-Account-nav > a")
+                    .classList.remove("active");
+                  this.props.toggleDisplay("User Management");
+                }}
                 style={navItemStyle}
               >
-                Reports
+                User Management
               </Nav.Link>
-            ) : (
+            ) : null}
+            {/* {adminReportingRoles.includes(this.props.userObj.jobTitle) ? ( */}
+            <Nav.Link
+              eventKey="link-8"
+              onClick={() => {
+                document
+                  .querySelector(".Submit-a-Form-nav > a")
+                  .classList.remove("active");
+                document
+                  .querySelector(".Manage-Account-nav > a")
+                  .classList.remove("active");
+                this.props.toggleDisplay("Reports");
+              }}
+              style={navItemStyle}
+            >
+              Reports
+            </Nav.Link>
+            {/* ) : (
               <React.Fragment></React.Fragment>
-            )}
+            )} */}
           </Nav>
           <Nav className="ml-auto">
-            <React.Fragment>
-              <NavDropdown
-                style={navItemStyle}
-                variant="success"
-                color="white"
-                title={firstName}
-                id="collasible-nav-dropdown"
+            <NavDropdown
+              style={navItemStyle}
+              variant="success"
+              color="white"
+              title={firstName}
+              id="collasible-nav-dropdown2"
+              className="Manage-Account-nav"
+            >
+              <NavDropdown.Item
+                onClick={() => {
+                  document
+                    .querySelector(".Submit-a-Form-nav > a")
+                    .classList.remove("active");
+                  document
+                    .querySelector(".nav-link")
+                    .classList.remove("active");
+                  document
+                    .querySelector(".Manage-Account-nav > a")
+                    .classList.add("active");
+                  this.props.toggleDisplay("Manage Account");
+                }}
+                eventKey="link-11"
               >
-                <NavDropdown.Item
-                  onClick={this.props.toggleDisplay.bind({}, "Manage Account")}
-                  eventKey="link-11"
-                >
-                  Manage Profile
-                </NavDropdown.Item>
-              </NavDropdown>
-              <Nav.Link
-                eventKey="link-9"
-                style={navItemStyle}
-                onClick={this.props.logOut}
-              >
-                Log out
-              </Nav.Link>
-            </React.Fragment>
+                Manage Profile
+              </NavDropdown.Item>
+            </NavDropdown>
+            <Nav.Link
+              eventKey="link-9"
+              style={navItemStyle}
+              onClick={this.props.logOut}
+            >
+              Log out
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
