@@ -6,13 +6,13 @@ class RequestDemoModal extends Component {
     this.state = {
       demoMethod: "",
       webinarDate: "",
-      demoMessage: ""
+      demoMessage: "",
     };
 
     this.origenalState = {
       demoMethod: "",
       webinarDate: "",
-      demoMessage: ""
+      demoMessage: "",
     };
 
     this.toggleDemoMethod = this.toggleDemoMethod.bind(this);
@@ -22,7 +22,7 @@ class RequestDemoModal extends Component {
     this.resetState = this.resetState.bind(this);
   }
 
-  resetState(){
+  resetState() {
     this.setState(this.origenalState);
   }
 
@@ -34,12 +34,12 @@ class RequestDemoModal extends Component {
 
   toggleDemoMethod(event) {
     this.setState({
-      demoMethod: event.target.value
+      demoMethod: event.target.value,
     });
   }
   toggleWebinarDate(event) {
     this.setState({
-      webinarDate: event.target.value
+      webinarDate: event.target.value,
     });
   }
 
@@ -47,22 +47,22 @@ class RequestDemoModal extends Component {
     if (this.state.demoMethod !== "") {
       if (this.state.demoMethod === "Webinar") {
         if (this.state.webinarDate !== "") {
-          console.log(this.state);
+          // console.log(this.state);
           alert("submit");
           document.getElementById("closeRequestDemoModal").click();
           this.resetState();
         } else {
-          console.log(this.state);
+          // console.log(this.state);
           alert("you did not select a webinar date");
         }
       } else {
-        console.log(this.state);
+        // console.log(this.state);
         alert("submit");
         document.getElementById("closeRequestDemoModal").click();
         this.resetState();
       }
     } else {
-      console.log(this.state);
+      // console.log(this.state);
       alert("you did not select a demo method");
     }
   }
@@ -83,7 +83,6 @@ class RequestDemoModal extends Component {
               <h5 className="modal-title" id="requestDemoModalLabel">
                 Demo Options
               </h5>
-           
             </div>
             <div className="modal-body">
               <div className="form-group">

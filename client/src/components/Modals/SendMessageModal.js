@@ -4,26 +4,28 @@ class SendMessageModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      to:this.props.toUser,
-      message: ""
+      to: this.props.toUser,
+      message: "",
     };
 
     this.origenalState = {
-        message: ""
-      };
+      message: "",
+    };
 
     this.submitRequest = this.submitRequest.bind(this);
     this.handleFieldInput = this.handleFieldInput.bind(this);
     this.resetState = this.resetState.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     // alert(this.props.toUser)
   }
 
   resetState() {
     this.setState(this.origenalState);
-    Object.keys(this.state).forEach((k)=>document.getElementById(k).value="")
+    Object.keys(this.state).forEach(
+      (k) => (document.getElementById(k).value = "")
+    );
   }
 
   handleFieldInput(event) {
@@ -34,12 +36,12 @@ class SendMessageModal extends Component {
 
   submitRequest() {
     if (this.state.message !== "") {
-      console.log(this.state);
+      // console.log(this.state);
       alert("submit");
       document.getElementById("closeSendMessageModal").click();
       this.resetState();
     } else {
-      console.log(this.state);
+      // console.log(this.state);
       alert("you did not select a demo method");
     }
   }
@@ -54,24 +56,27 @@ class SendMessageModal extends Component {
         aria-labelledby="sendMessageModalLabel"
         aria-hidden="true"
       >
-
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="sendMessageModalLabel">
                 Send Message
               </h5>
-            
             </div>
             <div className="modal-body">
               <div>
-                <div className="form-group" style={{display:"flex"}}>
-                        <p>{this.props.toUser}</p>
-                        <label className="control-label" >To:</label>
-                        <input id="to" onChange={this.handleFieldInput} style={{paddingLeft:"10px",marginLeft:"15px"}} type="text" className="form-control"/>
-                
-                    </div>
-                    <div className="form-group">
+                <div className="form-group" style={{ display: "flex" }}>
+                  <p>{this.props.toUser}</p>
+                  <label className="control-label">To:</label>
+                  <input
+                    id="to"
+                    onChange={this.handleFieldInput}
+                    style={{ paddingLeft: "10px", marginLeft: "15px" }}
+                    type="text"
+                    className="form-control"
+                  />
+                </div>
+                <div className="form-group">
                   <div className="textArea">
                     <textarea
                       onChange={this.handleFieldInput}
@@ -79,8 +84,7 @@ class SendMessageModal extends Component {
                       className="textAreaSmall"
                     />
                   </div>
-                  </div>
-
+                </div>
               </div>
             </div>
             <div className="modal-footer">

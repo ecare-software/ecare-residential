@@ -5,11 +5,11 @@ class UploadFileModal extends Component {
     super(props);
     this.state = {
       demoMethod: "",
-      file:""
+      file: "",
     };
 
     this.origenalState = {
-      demoMethod: ""
+      demoMethod: "",
     };
 
     this.toggleDemoMethod = this.toggleDemoMethod.bind(this);
@@ -31,18 +31,18 @@ class UploadFileModal extends Component {
 
   toggleDemoMethod(event) {
     this.setState({
-      demoMethod: event.target.value
+      demoMethod: event.target.value,
     });
   }
 
   submitRequest() {
     if (this.state.demoMethod !== "") {
-      console.log(this.state);
+      // console.log(this.state);
       alert("submit");
       document.getElementById("closeUploadFileModal").click();
       this.resetState();
     } else {
-      console.log(this.state);
+      // console.log(this.state);
       alert("you did not select a demo method");
     }
   }
@@ -63,7 +63,6 @@ class UploadFileModal extends Component {
               <h5 className="modal-title" id="UploadFileModalLabel">
                 Upload File
               </h5>
-             
             </div>
             <div className="modal-body">
               <div className="form-group">
@@ -95,12 +94,19 @@ class UploadFileModal extends Component {
                       Type 2
                     </label>
                   </div>
-                  
+
                   <label>Upload File</label>
-                  <div style={{border:".5px solid #eee",borderRadius:"4px",marginLeft:"-5px",cursor:"pointer"}}>
+                  <div
+                    style={{
+                      border: ".5px solid #eee",
+                      borderRadius: "4px",
+                      marginLeft: "-5px",
+                      cursor: "pointer",
+                    }}
+                  >
                     <input
-                    id="file"
-                      style={{"width":"100%"}}
+                      id="file"
+                      style={{ width: "100%" }}
                       type="file"
                       onChange={this.handleFieldInput}
                     />

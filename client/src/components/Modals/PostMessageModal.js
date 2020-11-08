@@ -8,22 +8,22 @@ class PostMessageModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: ""
+      message: "",
     };
 
     this.origenalState = {
-      message: ""
+      message: "",
     };
   }
 
   resetState = () => {
     this.setState(this.origenalState);
     Object.keys(this.state).forEach(
-      k => (document.getElementById(k).value = "")
+      (k) => (document.getElementById(k).value = "")
     );
   };
 
-  handleFieldInput = event => {
+  handleFieldInput = (event) => {
     var stateObj = {};
     stateObj[event.target.id] = event.target.value;
     this.setState(stateObj);
@@ -35,7 +35,7 @@ class PostMessageModal extends Component {
       this.resetState();
       this.props.closeModals();
     } else {
-      console.log(this.state);
+      // console.log(this.state);
       alert("you did not select a demo method");
     }
   };

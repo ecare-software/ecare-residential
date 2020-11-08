@@ -63,7 +63,7 @@ class DailyProgressAndActivity extends Component {
 
       formSubmitted: false,
 
-      formErrorMessage: ""
+      formErrorMessage: "",
     };
   }
 
@@ -74,11 +74,11 @@ class DailyProgressAndActivity extends Component {
   toggleErrorAlert = () => {
     this.setState({
       formHasError: !this.state.formHasError,
-      formErrorMessage: ""
+      formErrorMessage: "",
     });
   };
 
-  handleFieldInput = event => {
+  handleFieldInput = (event) => {
     var stateObj = {};
     if (event.target.id.indexOf(".") > -1) {
       let level1Obj = event.target.id.split(".")[0];
@@ -127,25 +127,25 @@ class DailyProgressAndActivity extends Component {
       summary_of_behavior_at_home: "",
       therapeutic_recreational: "",
       therapeutic_value: "",
-      phone_calls_or_visits: ""
+      phone_calls_or_visits: "",
     });
   };
 
   submit = () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-    console.log(JSON.stringify(currentState));
+    // console.log(JSON.stringify(currentState));
     Axios.post("/api/dailyProgressAndActivity", currentState)
-      .then(res => {
+      .then((res) => {
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
         setTimeout(this.toggleSuccessAlert, 3000);
         this.resetForm();
       })
-      .catch(e => {
+      .catch((e) => {
         this.setState({
           formHasError: true,
           formErrorMessage:
-            "Error Submitting Daily Progress and Activity Report"
+            "Error Submitting Daily Progress and Activity Report",
         });
       });
     // Axios({
@@ -168,7 +168,7 @@ class DailyProgressAndActivity extends Component {
     var isValid = true;
     var errorFields = [];
 
-    Object.keys(this.state).forEach(key => {
+    Object.keys(this.state).forEach((key) => {
       if (!keysToExclude.includes(key)) {
         if (
           !this.state[key] ||
@@ -186,7 +186,7 @@ class DailyProgressAndActivity extends Component {
         formHasError: true,
         formErrorMessage: `Please complete the following field(s): ${errorFields
           .toString()
-          .replace(/,/g, "\n")}`
+          .replace(/,/g, "\n")}`,
       });
       return;
     }

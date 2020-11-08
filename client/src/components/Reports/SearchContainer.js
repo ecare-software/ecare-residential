@@ -13,33 +13,33 @@ class SearchContainer extends Component {
       dobAfter: "",
       doaBefore: "",
       doaAfter: "",
-      ethnicityA: []
+      ethnicityA: [],
     };
     this.ethnicities = [
       {
         name: "Black / African American",
-        value: "Black_-_African_American"
+        value: "Black_-_African_American",
       },
       {
         name: "White / Caucasian",
-        value: "White_-_Caucasian"
+        value: "White_-_Caucasian",
       },
       {
         name: "Hispanic / Latino",
-        value: "Hispanic_-_Latino"
+        value: "Hispanic_-_Latino",
       },
       {
         name: "Asian / Pacific Islander",
-        value: "Asian_-_Pacific_Islander"
+        value: "Asian_-_Pacific_Islander",
       },
       {
         name: "Other",
-        value: "Other"
-      }
+        value: "Other",
+      },
     ];
   }
 
-  toggleSubmittedBy = event => {
+  toggleSubmittedBy = (event) => {
     if (event.target.value === "Any") {
       this.setState({ submittedByA: [] });
     } else {
@@ -51,13 +51,13 @@ class SearchContainer extends Component {
     });
   };
 
-  handleFieldInput = event => {
+  handleFieldInput = (event) => {
     var stateObj = {};
     stateObj[event.target.id] = event.target.value;
     this.setState(stateObj);
   };
 
-  toggleBtnFormRunSearch = formName => {
+  toggleBtnFormRunSearch = (formName) => {
     var submittedForms = this.state.submittedForms;
     var foundIndex = submittedForms.indexOf(formName);
     if (foundIndex > -1) {
@@ -72,7 +72,7 @@ class SearchContainer extends Component {
     });
   };
 
-  toggleBtnEthnicityRunSearch = eth => {
+  toggleBtnEthnicityRunSearch = (eth) => {
     var ethnicityA = this.state.ethnicityA;
     var foundIndex = ethnicityA.indexOf(eth);
     if (foundIndex > -1) {
@@ -92,7 +92,7 @@ class SearchContainer extends Component {
     this.props.runSearch(this.state);
   };
 
-  checkForEnterKey = e => {
+  checkForEnterKey = (e) => {
     if (e.keyCode === 13) {
       this.callRunSearch();
     }
@@ -102,7 +102,7 @@ class SearchContainer extends Component {
     return (
       <div
         style={{
-          width: "100%"
+          width: "100%",
         }}
       >
         {/* search bar */}
@@ -129,7 +129,7 @@ class SearchContainer extends Component {
                   paddingLeft: "10px",
                   flex: "1",
                   marginRight: "3px",
-                  marginLeft: "0px"
+                  marginLeft: "0px",
                 }}
               />
               <button
@@ -168,29 +168,33 @@ class SearchContainer extends Component {
                 </div>
               ))}
             </div>
-            <div className="form-group" style={{ margin: "0px 5px" }}>
-              <label style={{ margin: "5px" }}>Submitted By</label>
-              <select
-                defaultValue="Any"
-                onChange={this.toggleSubmittedBy.bind("")}
-                className="form-control"
-                style={{ width: "100%" }}
-              >
-                {this.props.allUsers.length === 0
-                  ? []
-                  : this.props.allUsers.map((user, userIndex) => (
-                      <option
-                        key={"user-" + userIndex}
-                        id={"user-" + userIndex}
-                        value={user.email}
-                      >
-                        {user.firstName === "Any"
-                          ? "Any"
-                          : user.firstName + " " + user.lastName}
-                      </option>
-                    ))}
-              </select>
-            </div>
+            {this.props.doShowSubmittedBy ? (
+              <div className="form-group" style={{ margin: "0px 5px" }}>
+                <label style={{ margin: "5px" }}>Submitted By</label>
+                <select
+                  defaultValue="Any"
+                  onChange={this.toggleSubmittedBy.bind("")}
+                  className="form-control"
+                  style={{ width: "100%" }}
+                >
+                  {this.props.allUsers.length === 0
+                    ? []
+                    : this.props.allUsers.map((user, userIndex) => (
+                        <option
+                          key={"user-" + userIndex}
+                          id={"user-" + userIndex}
+                          value={user.email}
+                        >
+                          {user.firstName === "Any"
+                            ? "Any"
+                            : user.firstName + " " + user.lastName}
+                        </option>
+                      ))}
+                </select>
+              </div>
+            ) : (
+              <></>
+            )}
             <div style={{ display: "flex", margin: "0px 5px" }}>
               <div
                 className="form-group"
@@ -289,7 +293,7 @@ class SearchContainer extends Component {
                 />
               </div>
             </div>
-            <p style={{ margin: "10px 10px 5px 5px", fontWeight: "900" }}>
+            {/* <p style={{ margin: "10px 10px 5px 5px", fontWeight: "900" }}>
               Ethnicity
             </p>
             <div
@@ -311,10 +315,10 @@ class SearchContainer extends Component {
                   </label>
                 </div>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
-        <hr/>
+        <hr />
       </div>
     );
   }

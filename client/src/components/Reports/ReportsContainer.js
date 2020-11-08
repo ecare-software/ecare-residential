@@ -4,7 +4,7 @@ import ReportBarChart from "./ReportBarChart";
 import ReportPieChart from "./ReportPieChart";
 import SearchContainer from "./SearchContainer";
 import ShowFormContainer from "./ShowFormContainer";
-import {Collapse} from "react-bootstrap";
+import { Collapse } from "react-bootstrap";
 import Axios from "axios";
 
 function onlyUnique(value, index, self) {
@@ -27,55 +27,55 @@ class ReportsContainer extends Component {
       formNamesReady: false,
       adminReportingRoles: [
         "Admin",
-        "Owner_-_CEO",
+        "Owner/CEO",
         "Executive_Director",
         "Administrator",
         "Case_Manager",
-        "Supervisor"
+        "Supervisor",
       ],
       allUsers: [],
       doReset: false,
-      doShowFilters: false
+      doShowFilters: false,
     };
   }
 
-  setSelectedForm = formIndex => {
+  setSelectedForm = (formIndex) => {
     if (formIndex > -1) {
       var formSubmitters = this.state.forms[formIndex].forms
-        .map(forms => {
+        .map((forms) => {
           return forms.createdByName;
         })
         .filter(onlyUnique);
       let tempPieChartDataArray = [];
-      formSubmitters.forEach(submitter => {
+      formSubmitters.forEach((submitter) => {
         tempPieChartDataArray.push({
           name: submitter,
-          value: this.state.forms[formIndex].forms.filter(forms => {
+          value: this.state.forms[formIndex].forms.filter((forms) => {
             return forms.createdByName === submitter;
-          }).length
+          }).length,
         });
       });
       setTimeout(() => {
         this.setState({ pieChartData: tempPieChartDataArray });
         this.setState({ chartType: "Pie" });
         this.setState({ selectedForm: this.state.forms[formIndex] });
-        console.log(this.state);
+        // console.log(this.state);
       });
     } else {
       setTimeout(() => {
         this.setState({ chartType: "Bar" });
         this.setState({ selectedForm: [] });
         this.setState({ selectedUserForm: {} });
-        console.log(this.state);
+        // console.log(this.state);
       });
     }
   };
 
-  setSelectedUser = userIndex => {
+  setSelectedUser = (userIndex) => {
     if (userIndex > -1) {
       if (this.state.selectedForm.forms.length) {
         this.setState({
-          selectedUserForm: this.state.selectedForm.forms[userIndex]
+          selectedUserForm: this.state.selectedForm.forms[userIndex],
         });
       }
       this.setState({ chartsReady: false });
@@ -84,7 +84,7 @@ class ReportsContainer extends Component {
       this.setState({ chartsReady: true });
     }
     setTimeout(() => {
-      console.log(this.state);
+      // console.log(this.state);
     });
   };
 
@@ -116,38 +116,49 @@ class ReportsContainer extends Component {
       pieChartData: [],
       chartsReady: false,
       searchString: "",
-      doReset: true
+      doReset: true,
     });
   };
 
-  setFormsData = results => {
-    var data = results.map(res => res.data);
+  setFormsData = (results) => {
+    var data = results.map((res) => res.data);
+    if (!this.state.adminReportingRoles.includes(this.props.userObj.jobTitle)) {
+      data = data.reduce((acc, cur) => {
+        const formHasUserArray = cur.filter((formType) => {
+          return formType.createdBy === this.props.userObj.email;
+        });
+        if (formHasUserArray.length > 0) {
+          acc.push(formHasUserArray);
+        }
+        return acc;
+      }, []);
+    }
     var promiseCount = data.length;
     var count = 0;
     var startFormsState = this.state.forms;
     var startBarChartData = this.state.barChartData;
-    data.forEach(formData => {
+    data.forEach((formData) => {
       if (formData.length > 0) {
         //add to form state
         let nestedFormObj = {
           name: formData[0].formType,
-          forms: formData
+          forms: formData,
         };
         startFormsState.push(nestedFormObj);
 
         // add to barChartData state
         startBarChartData.push({
           name: formData[0].formType,
-          submittions: formData.length
+          submittions: formData.length,
         });
       }
       count++;
       if (count === promiseCount) {
         if (!this.state.formNamesReady) {
           this.setState({
-            formNames: startFormsState.map(forms => {
+            formNames: startFormsState.map((forms) => {
               return forms.name;
-            })
+            }),
           });
           this.setState({ formNamesReady: true });
         }
@@ -164,10 +175,11 @@ class ReportsContainer extends Component {
       Axios.get("/api/dailyProgressAndActivity/" + this.props.userObj.homeId),
       Axios.get("/api/incidentReport/" + this.props.userObj.homeId),
       Axios.get("/api/restraintReport/" + this.props.userObj.homeId),
-      Axios.get("/api/treatmentPlans72/" + this.props.userObj.homeId)
+      Axios.get("/api/treatmentPlans72/" + this.props.userObj.homeId),
     ];
 
-    Axios.all(formRequests).then(results => {
+    Axios.all(formRequests).then((results) => {
+      console.log(results);
       this.setFormsData(results);
       this.setState({ doReset: false });
     });
@@ -175,10 +187,10 @@ class ReportsContainer extends Component {
     return;
   };
 
-  selectedUserFormToggle = searchObj => {
+  selectedUserFormToggle = (searchObj) => {
     if (Object.keys(searchObj).length > 0) {
       this.setState({
-        doShowFilters: false
+        doShowFilters: false,
       });
       this.runSearch(searchObj);
       return;
@@ -193,17 +205,17 @@ class ReportsContainer extends Component {
       chartsReady: false,
       searchString: "",
       doReset: true,
-      doShowFilters: false
+      doShowFilters: false,
     });
 
     var formRequests = [
       Axios.get("/api/dailyProgressAndActivity/" + this.props.userObj.homeId),
       Axios.get("/api/incidentReport/" + this.props.userObj.homeId),
       Axios.get("/api/restraintReport/" + this.props.userObj.homeId),
-      Axios.get("/api/treatmentPlans72/" + this.props.userObj.homeId)
+      Axios.get("/api/treatmentPlans72/" + this.props.userObj.homeId),
     ];
 
-    Axios.all(formRequests).then(results => {
+    Axios.all(formRequests).then((results) => {
       this.setFormsData(results);
       this.setState({ doReset: false });
     });
@@ -218,7 +230,7 @@ class ReportsContainer extends Component {
     document.getElementById("searchBtn").click();
   };
 
-  runSearch = searchObj => {
+  runSearch = (searchObj) => {
     this.flushFormStateData();
     this.setState({ searchObj: searchObj });
     var searchString =
@@ -244,7 +256,7 @@ class ReportsContainer extends Component {
     var formRequests = [];
 
     if (searchObj.submittedForms.length > 0) {
-      searchObj.submittedForms.forEach(formName => {
+      searchObj.submittedForms.forEach((formName) => {
         if (formName === "Daily Activity") {
           formRequests.push(
             Axios.get(
@@ -446,7 +458,7 @@ class ReportsContainer extends Component {
         )
       );
     }
-    Axios.all(formRequests).then(results => {
+    Axios.all(formRequests).then((results) => {
       this.setFormsData(results);
       this.setState({ doReset: false });
     });
@@ -461,11 +473,11 @@ class ReportsContainer extends Component {
   };
 
   getAllUsers = () => {
-    Axios.get("/api/users").then(allUsers => {
+    Axios.get("/api/users").then((allUsers) => {
       allUsers.data.unshift({
         firstName: "Any",
         lastName: "Any",
-        email: "Any"
+        email: "Any",
       });
       this.setState({ allUsers: allUsers.data });
     });
@@ -496,7 +508,7 @@ class ReportsContainer extends Component {
                 style={{
                   width: "100%",
                   display: "flex",
-                  justifyContent: "space-evenly"
+                  justifyContent: "space-evenly",
                 }}
               >
                 <button className="btn btn-link" onClick={this.toggleFilters}>
@@ -533,6 +545,9 @@ class ReportsContainer extends Component {
               allUsers={this.state.allUsers}
               runSearch={this.runSearch}
               formNames={this.state.formNames}
+              doShowSubmittedBy={this.state.adminReportingRoles.includes(
+                this.props.userObj.jobTitle
+              )}
             />
           </div>
         </Collapse>

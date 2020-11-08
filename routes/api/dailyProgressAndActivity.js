@@ -48,14 +48,14 @@ router.post("/", (req, res) => {
 
     homeId: req.body.homeId,
 
-    formType: "Daily Activity"
+    formType: "Daily Activity",
   });
 
   newDailyProgressAndActivity
     .save()
-    .then(dailyProgressAndActivity => res.json(dailyProgressAndActivity))
-    .catch(e => {
-      console.log(e);
+    .then((dailyProgressAndActivity) => res.json(dailyProgressAndActivity))
+    .catch((e) => {
+      // console.log(e);
     });
 });
 
@@ -63,56 +63,83 @@ router.get("/:homeId", (req, res) => {
   DailyProgressAndActivity.find({ homeId: req.params.homeId })
     .sort({ lastEditDate: -1 })
     .exec()
-    .then(dailyProgressAndActivities => res.json(dailyProgressAndActivities))
-    .catch(err => res.status(404).json({ success: false }));
+    .then((dailyProgressAndActivities) => res.json(dailyProgressAndActivities))
+    .catch((err) => res.status(404).json({ success: false }));
 });
 
-router.get("/:homeId/:searchString"
-          +"/:lastEditDateAfter/:lastEditDateBefore"
-          +"/:childDOBAfter/:childDOBBefore"
-          +"/:childDOAAfter/:childDOABefore"
-          +"/:ethnicityA"
-          +"/:submittedByA",(req,res)=>{
-
-  var findObj = { 
-    homeId: req.params.homeId,
-  }
-  //search string
-  if(req.params.searchString!=="none"){
-    findObj.childMeta_name = { $regex: ".*"+req.params.searchString+".*",$options: 'ig' }
-  }
-
-  //submitted
-  if(req.params.lastEditDateAfter!=="none" && req.params.lastEditDateBefore!=="none"){
-    var dateAfter = new Date(req.params.lastEditDateAfter)
-    var dateBefore = new Date(req.params.lastEditDateBefore)
-    findObj["$and"] = [
-      {lastEditDate:{$gt:(new Date(dateAfter.setDate(dateAfter.getDate()+ 1))).toISOString()}},
-      {lastEditDate:{$lt:(new Date(dateBefore.setDate(dateBefore.getDate()))).toISOString()}}
-    ]
-  }else{
-    //submittedAfter
-    if(req.params.lastEditDateAfter!=="none"){
-      var date = new Date(req.params.lastEditDateAfter);
-      findObj.lastEditDate = {$gt:(new Date(date.setDate(date.getDate()+ 1))).toISOString()}
+router.get(
+  "/:homeId/:searchString" +
+    "/:lastEditDateAfter/:lastEditDateBefore" +
+    "/:childDOBAfter/:childDOBBefore" +
+    "/:childDOAAfter/:childDOABefore" +
+    "/:ethnicityA" +
+    "/:submittedByA",
+  (req, res) => {
+    var findObj = {
+      homeId: req.params.homeId,
+    };
+    //search string
+    if (req.params.searchString !== "none") {
+      findObj.childMeta_name = {
+        $regex: ".*" + req.params.searchString + ".*",
+        $options: "ig",
+      };
     }
 
-    //submittedBefore
-    if(req.params.lastEditDateBefore!=="none"){
-      var date = new Date(req.params.lastEditDateBefore);
-      findObj.lastEditDate = {$lt:(new Date(date.setDate(date.getDate()))).toISOString()}
+    //submitted
+    if (
+      req.params.lastEditDateAfter !== "none" &&
+      req.params.lastEditDateBefore !== "none"
+    ) {
+      var dateAfter = new Date(req.params.lastEditDateAfter);
+      var dateBefore = new Date(req.params.lastEditDateBefore);
+      findObj["$and"] = [
+        {
+          lastEditDate: {
+            $gt: new Date(
+              dateAfter.setDate(dateAfter.getDate() + 1)
+            ).toISOString(),
+          },
+        },
+        {
+          lastEditDate: {
+            $lt: new Date(
+              dateBefore.setDate(dateBefore.getDate())
+            ).toISOString(),
+          },
+        },
+      ];
+    } else {
+      //submittedAfter
+      if (req.params.lastEditDateAfter !== "none") {
+        var date = new Date(req.params.lastEditDateAfter);
+        findObj.lastEditDate = {
+          $gt: new Date(date.setDate(date.getDate() + 1)).toISOString(),
+        };
+      }
+
+      //submittedBefore
+      if (req.params.lastEditDateBefore !== "none") {
+        var date = new Date(req.params.lastEditDateBefore);
+        findObj.lastEditDate = {
+          $lt: new Date(date.setDate(date.getDate())).toISOString(),
+        };
+      }
     }
+
+    // submitted by
+    if (req.params.submittedByA !== "none") {
+      findObj.createdBy = req.params.submittedByA;
+    }
+
+    DailyProgressAndActivity.find(findObj)
+      .sort({ lastEditDate: -1 })
+      .exec()
+      .then((dailyProgressAndActivities) =>
+        res.json(dailyProgressAndActivities)
+      )
+      .catch((err) => res.status(404).json({ success: err }));
   }
-
-  // submitted by
-  if(req.params.submittedByA!=="none"){
-    findObj.createdBy = req.params.submittedByA
-  }
-
-  DailyProgressAndActivity.find(findObj).sort({lastEditDate:-1}).exec()
-    .then(dailyProgressAndActivities => res.json(dailyProgressAndActivities))
-    .catch(err => res.status(404).json({ success: err }));
-
-});
+);
 
 module.exports = router;
