@@ -44,7 +44,7 @@ class MessageBoard extends Component {
                 onChange={this.handleFieldInput}
                 cols="1"
                 style={{
-                  height: "40px",
+                  height: "100px",
                   flex: "1",
                   borderColor: "#eee",
                   margin: "0px 5px",

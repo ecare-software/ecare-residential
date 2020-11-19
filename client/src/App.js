@@ -335,9 +335,14 @@ class App extends Component {
   };
 
   logOut = () => {
-    this.setState({ loggedIn: false });
-    this.setState({ userObj: {} });
-    this.setState({ doDisplay: "Dashboard" });
+    this.setState({
+      ...this.state,
+      loggedIn: false,
+      userObj: {},
+      doDisplay: "Dashboard",
+      allUsersSet: false,
+      blockCompUpdates: false,
+    });
     cookie.remove("appState");
     window.scrollTo(0, 0);
   };

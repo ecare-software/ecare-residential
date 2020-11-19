@@ -71,9 +71,9 @@ const navItemStyleBigFill = {
 const adminReportingRoles = [
   "Admin",
   "Owner/CEO",
-  "Executive_Director",
+  "Executive/Director",
   "Administrator",
-  "Case_Manager",
+  "Case/Manager",
   "Supervisor",
 ];
 
