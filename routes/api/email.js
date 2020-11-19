@@ -33,7 +33,19 @@ router.post("/:email/:name", (req, res) => {
     from: "txrcs100@gmail.com", // sender address
     to: email,
     subject: `Hello ${name}, from eCare Residential`, // Subject line
-    html: `<p>Something here for ${name}</p>`, // plain text body
+    html: `<div>
+    <p>
+      Thank you for reaching out. We would like to set up time to discuss our residential care software.
+    </p>
+    <p>
+      Please use the attached Google calender link below to schedule a time for demo or simply respond to this email and 
+      we shall respond promptly.
+    </p>
+    <p>
+      Thank you, <br/>
+      eCare Residential
+    </p>
+    </div>`,
   };
   transporter.sendMail(mailOptions, function (err, info) {
     if (err) {

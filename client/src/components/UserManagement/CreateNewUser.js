@@ -174,9 +174,9 @@ class CreateNewUser extends Component {
               <option value="Owner/CEO">Owner/CEO</option>
               <option value="Executive/Director">Executive Director</option>
               <option value="Administrator">Administrator</option>
-              <option value="Case-Manager">Case Manager</option>
+              <option value="Case/Manager">Case Manager</option>
               <option value="Supervisor">Supervisor</option>
-              <option value="Direct-Care-Staff">Direct Care Staff</option>
+              <option value="Direct/Care/Staff">Direct Care Staff</option>
             </select>
           </div>
           <div className="form-group logInInputField">
