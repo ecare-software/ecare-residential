@@ -367,6 +367,7 @@ class App extends Component {
       title,
     });
     this.getMyMessages();
+    this.getAllUsers();
     console.log("setCookie here");
     cookie.remove("appState");
     // console.log(this.state);

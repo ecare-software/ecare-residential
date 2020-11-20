@@ -9,9 +9,8 @@ const DirectMessageBoard = ({ messages, userObj, allUsers }) => {
   const [messageText, setMessageText] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
 
-  useEffect(() => {
-    // console.log(messages);
-  });
+  useEffect(() => {});
+  // useEffect(())
 
   const DisplayGroupUserName = () => {
     const selectedEmail = selectedUser.user;
