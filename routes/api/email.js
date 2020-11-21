@@ -16,21 +16,20 @@ const router = express.Router();
 const nodemailer = require("nodemailer");
 
 router.post("/:email/:name", (req, res) => {
-  // nodemailer.createTestAccount((err,account)=>{
-  //     const html = `<h3>Contact Details</h3> <br> <p>${req.body.name}</p>`
-  // })
   var email = req.params.email;
   var name = req.params.name;
-  // res.json({ success: name});
+  const user = "txrcs100@gmail.com";
+  const pass = "Success19";
+
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "txrcs100@gmail.com",
-      pass: "Success19",
+      user,
+      pass,
     },
   });
   const mailOptions = {
-    from: "txrcs100@gmail.com", // sender address
+    from: user, // sender address
     to: email,
     subject: `Hello ${name}, from eCare Residential`, // Subject line
     html: `<div>
