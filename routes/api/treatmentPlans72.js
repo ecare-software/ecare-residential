@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router();
+const git = express.Router();
 
 const TreatmentPlan72 = require("../../models/TreatmentPlan72");
 
@@ -320,123 +320,185 @@ router.post("/", (req, res) => {
 
     homeId: req.body.homeId,
 
-    formType:"72 Hour Treatment Plan"
+    formType: "72 Hour Treatment Plan",
   });
 
   newTreatmentPlan72
     .save()
-    .then(treatment72 => res.json(treatment72))
-    .catch(e => {
+    .then((treatment72) => res.json(treatment72))
+    .catch((e) => {
       console.log(e);
     });
 });
 
 router.get("/:homeId", (req, res) => {
-  TreatmentPlan72.find({ homeId: req.params.homeId }).sort({lastEditDate:-1}).exec()
-    .then(TreatmentPlan72s => res.json(TreatmentPlan72s))
-    .catch(err => res.status(404).json({ success: false }));
+  TreatmentPlan72.find({ homeId: req.params.homeId })
+    .sort({ lastEditDate: -1 })
+    .exec()
+    .then((TreatmentPlan72s) => res.json(TreatmentPlan72s))
+    .catch((err) => res.status(404).json({ success: false }));
 });
 
-router.get("/:homeId/:searchString"
-          +"/:lastEditDateAfter/:lastEditDateBefore"
-          +"/:childDOBAfter/:childDOBBefore"
-          +"/:childDOAAfter/:childDOABefore"
-          +"/:ethnicityA"
-          +"/:submittedByA",(req,res)=>{
-
-  var findObj = { 
-    homeId: req.params.homeId,
-  }
-  //search string
-  if(req.params.searchString!=="none"){
-    if(isNaN(req.params.searchString)){
-      findObj.childMeta_name = { $regex: ".*"+req.params.searchString+".*",$options: 'ig' }
-    }else{
-      findObj.childMeta_medicaidNumber = req.params.searchString
-    }
-  }
-
-  //submitted
-  if(req.params.lastEditDateAfter!=="none" && req.params.lastEditDateBefore!=="none"){
-    var dateAfter = new Date(req.params.lastEditDateAfter)
-    var dateBefore = new Date(req.params.lastEditDateBefore)
-    findObj["$and"] = [
-      {lastEditDate:{$gt:(new Date(dateAfter.setDate(dateAfter.getDate()+ 1))).toISOString()}},
-      {lastEditDate:{$lt:(new Date(dateBefore.setDate(dateBefore.getDate()))).toISOString()}}
-    ]
-  }else{
-    //submittedAfter
-    if(req.params.lastEditDateAfter!=="none"){
-      var date = new Date(req.params.lastEditDateAfter);
-      findObj.lastEditDate = {$gt:(new Date(date.setDate(date.getDate()+ 1))).toISOString()}
+router.get(
+  "/:homeId/:searchString" +
+    "/:lastEditDateAfter/:lastEditDateBefore" +
+    "/:childDOBAfter/:childDOBBefore" +
+    "/:childDOAAfter/:childDOABefore" +
+    "/:ethnicityA" +
+    "/:submittedByA",
+  (req, res) => {
+    var findObj = {
+      homeId: req.params.homeId,
+    };
+    //search string
+    if (req.params.searchString !== "none") {
+      if (isNaN(req.params.searchString)) {
+        findObj.childMeta_name = {
+          $regex: ".*" + req.params.searchString + ".*",
+          $options: "ig",
+        };
+      } else {
+        findObj.childMeta_medicaidNumber = req.params.searchString;
+      }
     }
 
-    //submittedBefore
-    if(req.params.lastEditDateBefore!=="none"){
-      var date = new Date(req.params.lastEditDateBefore);
-      findObj.lastEditDate = {$lt:(new Date(date.setDate(date.getDate()))).toISOString()}
-    }
-  }
+    //submitted
+    if (
+      req.params.lastEditDateAfter !== "none" &&
+      req.params.lastEditDateBefore !== "none"
+    ) {
+      var dateAfter = new Date(req.params.lastEditDateAfter);
+      var dateBefore = new Date(req.params.lastEditDateBefore);
+      findObj["$and"] = [
+        {
+          lastEditDate: {
+            $gt: new Date(
+              dateAfter.setDate(dateAfter.getDate() + 1)
+            ).toISOString(),
+          },
+        },
+        {
+          lastEditDate: {
+            $lt: new Date(
+              dateBefore.setDate(dateBefore.getDate())
+            ).toISOString(),
+          },
+        },
+      ];
+    } else {
+      //submittedAfter
+      if (req.params.lastEditDateAfter !== "none") {
+        var date = new Date(req.params.lastEditDateAfter);
+        findObj.lastEditDate = {
+          $gt: new Date(date.setDate(date.getDate() + 1)).toISOString(),
+        };
+      }
 
-  //child date of birth
-  if(req.params.childDOBAfter!=="none" && req.params.childDOBBefore!=="none"){
-    var dobAfter = new Date(req.params.childDOBAfter)
-    var dobBefore = new Date(req.params.childDOBBefore)
-    findObj["$and"] = [
-      {childMeta_dob:{$gt:(new Date(dobAfter.setDate(dobAfter.getDate()+ 1))).toISOString()}},
-      {childMeta_dob:{$lt:(new Date(dobBefore.setDate(dobBefore.getDate()))).toISOString()}}
-    ]
-  }else{
-    //submittedAfter
-    if(req.params.childDOBAfter!=="none"){
-      var date = new Date(req.params.childDOBAfter)
-      findObj.childMeta_dob = {$gt:(new Date(date.setDate(date.getDate()+ 1))).toISOString()}
-    }
-
-    //submittedBefore
-    if(req.params.childDOBBefore!=="none"){
-      var date = new Date(req.params.childDOBBefore)
-      findObj.childMeta_dob = {$lt:(new Date(date.setDate(date.getDate()))).toISOString()}
-    }
-  }
-
-  //child date of admission
-  if(req.params.childDOAAfter!=="none" && req.params.childDOABefore!=="none"){
-    var doaAfter = new Date(req.params.childDOAAfter)
-    var doaBefore = new Date(req.params.childDOABefore)
-    findObj["$and"] = [
-      {childMeta_dateOfAdmission:{$gte:(new Date(doaAfter.setDate(doaAfter.getDate()+ 1))).toISOString()}},
-      {childMeta_dateOfAdmission:{$lte:(new Date(doaBefore.setDate(doaBefore.getDate()))).toISOString()}}
-    ]
-  }else{
-    //submittedAfter
-    if(req.params.childDOAAfter!=="none"){
-      var date = new Date(req.params.childDOAAfter)
-      findObj.childMeta_dateOfAdmission = {$gt:(new Date(date.setDate(date.getDate()+ 1))).toISOString()}
+      //submittedBefore
+      if (req.params.lastEditDateBefore !== "none") {
+        var date = new Date(req.params.lastEditDateBefore);
+        findObj.lastEditDate = {
+          $lt: new Date(date.setDate(date.getDate())).toISOString(),
+        };
+      }
     }
 
-    //submittedBefore
-    if(req.params.childDOABefore!=="none"){
-      var date = new Date(req.params.childDOABefore);
-      findObj.childMeta_dateOfAdmission = {$lt:(new Date(date.setDate(date.getDate()))).toISOString()}
+    //child date of birth
+    if (
+      req.params.childDOBAfter !== "none" &&
+      req.params.childDOBBefore !== "none"
+    ) {
+      var dobAfter = new Date(req.params.childDOBAfter);
+      var dobBefore = new Date(req.params.childDOBBefore);
+      findObj["$and"] = [
+        {
+          childMeta_dob: {
+            $gt: new Date(
+              dobAfter.setDate(dobAfter.getDate() + 1)
+            ).toISOString(),
+          },
+        },
+        {
+          childMeta_dob: {
+            $lt: new Date(dobBefore.setDate(dobBefore.getDate())).toISOString(),
+          },
+        },
+      ];
+    } else {
+      //submittedAfter
+      if (req.params.childDOBAfter !== "none") {
+        var date = new Date(req.params.childDOBAfter);
+        findObj.childMeta_dob = {
+          $gt: new Date(date.setDate(date.getDate() + 1)).toISOString(),
+        };
+      }
+
+      //submittedBefore
+      if (req.params.childDOBBefore !== "none") {
+        var date = new Date(req.params.childDOBBefore);
+        findObj.childMeta_dob = {
+          $lt: new Date(date.setDate(date.getDate())).toISOString(),
+        };
+      }
     }
+
+    //child date of admission
+    if (
+      req.params.childDOAAfter !== "none" &&
+      req.params.childDOABefore !== "none"
+    ) {
+      var doaAfter = new Date(req.params.childDOAAfter);
+      var doaBefore = new Date(req.params.childDOABefore);
+      findObj["$and"] = [
+        {
+          childMeta_dateOfAdmission: {
+            $gte: new Date(
+              doaAfter.setDate(doaAfter.getDate() + 1)
+            ).toISOString(),
+          },
+        },
+        {
+          childMeta_dateOfAdmission: {
+            $lte: new Date(
+              doaBefore.setDate(doaBefore.getDate())
+            ).toISOString(),
+          },
+        },
+      ];
+    } else {
+      //submittedAfter
+      if (req.params.childDOAAfter !== "none") {
+        var date = new Date(req.params.childDOAAfter);
+        findObj.childMeta_dateOfAdmission = {
+          $gt: new Date(date.setDate(date.getDate() + 1)).toISOString(),
+        };
+      }
+
+      //submittedBefore
+      if (req.params.childDOABefore !== "none") {
+        var date = new Date(req.params.childDOABefore);
+        findObj.childMeta_dateOfAdmission = {
+          $lt: new Date(date.setDate(date.getDate())).toISOString(),
+        };
+      }
+    }
+
+    // ethnicityA
+    if (req.params.ethnicityA !== "none") {
+      findObj.childMeta_ethnicity = req.params.ethnicityA;
+    }
+
+    // submitted by
+    if (req.params.submittedByA !== "none") {
+      findObj.createdBy = req.params.submittedByA;
+    }
+
+    TreatmentPlan72.find(findObj)
+      .sort({ lastEditDate: -1 })
+      .exec()
+      .then((TreatmentPlan72s) => res.json(TreatmentPlan72s))
+      .catch((err) => res.status(404).json({ success: err }));
   }
-
-  // ethnicityA
-  if(req.params.ethnicityA!=="none"){
-    findObj.childMeta_ethnicity = req.params.ethnicityA
-  }
-
-  // submitted by
-  if(req.params.submittedByA!=="none"){
-    findObj.createdBy = req.params.submittedByA
-  }
-
-
-  TreatmentPlan72.find(findObj).sort({lastEditDate:-1}).exec()
-    .then(TreatmentPlan72s => res.json(TreatmentPlan72s))
-    .catch(err => res.status(404).json({ success: err }));
-
-});
+);
 
 module.exports = router;
