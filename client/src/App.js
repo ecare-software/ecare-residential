@@ -51,6 +51,29 @@ const navSelected = {
   padding: "0px 10px",
   fontFamily: "'Google Sans Display', Arial, Helvetica, sans-serif",
 };
+function uploadImage(e, method) {
+  let imageObj = {};
+  if (method === "multer") {
+    let imageFormObj = new FormData();
+    imageFormObj.append("imageName", "multer-image-" + Date.now());
+    imageFormObj.append("imageData", e.target.files[0]);
+    // stores a readable instance of // the image being uploaded using multer
+    // this.setState({ multerImage: URL.createObjectURL(e.target.files[0]) });
+
+    Axios.post("api/uploadDocument/uploadmulter", imageFormObj)
+      .then((data) => {
+        if (data.data.success) {
+          alert("Image has been successfully uploaded using multer");
+          // this.setDefaultImage("multer");
+        }
+      })
+      .catch((err) => {
+        alert("Error while uploading image using multer");
+        console.log(e);
+        // this.setDefaultImage("multer");
+      });
+  }
+}
 
 class App extends Component {
   state = {
@@ -936,9 +959,16 @@ function DisplayExtra({
           >
             Direct Messages
           </button>
-          {/* <button className="btn btn-light extraInfoButton">
+          <button className="btn btn-light extraInfoButton">
             Upload a File
-          </button> */}
+            <input
+              type="file"
+              onChange={(e) => {
+                uploadImage(e, "multer");
+                console.log(e);
+              }}
+            />
+          </button>
           {/* <button className="btn btn-light extraInfoButton">
             Direct Messages
           </button> */}

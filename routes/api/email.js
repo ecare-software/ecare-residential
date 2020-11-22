@@ -34,7 +34,10 @@ router.post("/:email/:name", (req, res) => {
     subject: `Hello ${name}, from eCare Residential`, // Subject line
     html: `<div>
     <p>
-      Thank you for reaching out. We would like to set up time to discuss our residential care software.
+      Thank you for reaching out!
+    </p>
+    <p>
+      We would like to set up time to discuss our residential care software.
     </p>
     <p>
       Please use the attached Google calender link below to schedule a time for demo or simply respond to this email and 

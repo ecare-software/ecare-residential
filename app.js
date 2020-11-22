@@ -18,6 +18,7 @@ const discussionMessages = require("./routes/api/discussionMessages");
 const illnessInjury = require("./routes/api/illnessInjury");
 const admissionAssessment = require("./routes/api/admissionAssessment");
 const email = require("./routes/api/email");
+const uploadDocument = require("./routes/api/uploadDocument");
 
 //user express
 const app = express();
@@ -72,6 +73,7 @@ app.use("/api/discussionMessages", discussionMessages);
 app.use("/api/illnessInjury", illnessInjury);
 app.use("/api/admissionAssessment", admissionAssessment);
 app.use("/api/email", email);
+app.use("/api/uploadDocument", uploadDocument);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
