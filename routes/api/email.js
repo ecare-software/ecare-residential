@@ -18,8 +18,8 @@ const nodemailer = require("nodemailer");
 router.post("/:email/:name", (req, res) => {
   var email = req.params.email;
   var name = req.params.name;
-  const user = "txrcs100@gmail.com";
-  const pass = "Success19";
+  const user = "EcareResidential-Admin@ecare-residential.com";
+  const pass = "Ecare2020";
 
   let transporter = nodemailer.createTransport({
     service: "gmail",
