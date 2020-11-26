@@ -272,7 +272,9 @@ class App extends Component {
         userObj: fromCookieState.userObj,
         loggedIn: fromCookieState.loggedIn,
       });
+      this.loadMessage(fromCookieState.userObj);
     }
+    await this.getAllUsers();
     await this.getMyMessages();
   };
 
@@ -281,14 +283,19 @@ class App extends Component {
       this.getAllUsers();
     }
 
-    if (!this.state.messagesInitLoad && !this.state.blockCompUpdates) {
-      this.loadMessage();
+    if (
+      !this.state.messagesInitLoad &&
+      !this.state.blockCompUpdates &&
+      this.state.isLoggedIn
+    ) {
+      this.loadMessage(this.state.userObj);
     }
   };
 
-  loadMessage = () => {
+  loadMessage = (userObj) => {
     let curthis = this;
-    Axios.get("/api/discussionMessages")
+    console.log(userObj);
+    Axios.get(`/api/discussionMessages/${userObj.homeId}`)
       .then(function (response) {
         curthis.setState({
           discussionMessages: response.data,
@@ -309,6 +316,7 @@ class App extends Component {
       middleName: this.state.userObj.middleName,
       lastName: this.state.userObj.lastName,
       id: this.state.userObj._id,
+      homeId: this.state.userObj.homeId,
       date: new Date().toISOString(),
     };
 
@@ -367,6 +375,7 @@ class App extends Component {
       title,
     });
     this.getMyMessages();
+    this.loadMessage(userObj);
     console.log("setCookie here");
     cookie.remove("appState");
     // console.log(this.state);

@@ -22,8 +22,13 @@ class MessageBoard extends Component {
   };
 
   callAppendMessage = () => {
-    this.props.appendMessage(this.state.messageText);
-    this.setState({ messageText: "" });
+    if (
+      this.state.messageText.length > 0 &&
+      /^\s+/.test(this.state.messageText) === false
+    ) {
+      this.props.appendMessage(this.state.messageText);
+      this.setState({ messageText: "" });
+    }
   };
 
   handleFieldInput = (event) => {
@@ -46,14 +51,13 @@ class MessageBoard extends Component {
                 style={{
                   height: "100px",
                   flex: "1",
-                  borderColor: "#eee",
+                  borderColor: "#ccc",
                   margin: "0px 5px",
                   resize: "none",
-                  borderRight: "none",
-                  borderTop: "none",
-                  borderLeft: "none",
+                  borderWidth: ".5px",
+                  borderRadius: "9px",
                 }}
-                placeholder="Whats on your mind ?"
+                placeholder="Let the everyone know what's going on or simply say hello! Information here will be display for all users to see"
               ></textarea>
               <button
                 onClick={this.callAppendMessage}
@@ -79,11 +83,17 @@ class MessageBoard extends Component {
               </button>
             </div>
           </div>
-          <div id="messageBoard">
-            {this.props.messages.map((item, index) => (
-              <MessagePost messageObj={item}>{item.message}</MessagePost>
-            ))}
-          </div>
+          {this.props.messages.length === 0 ? (
+            <p className="text-center mt-5">
+              Looks like there aren't any discussion posts at the moment
+            </p>
+          ) : (
+            <div id="messageBoard">
+              {this.props.messages.map((item, index) => (
+                <MessagePost messageObj={item}>{item.message}</MessagePost>
+              ))}
+            </div>
+          )}
           {/* modals */}
           <PostMessageModal
             appendMessage={this.props.appendMessage}
