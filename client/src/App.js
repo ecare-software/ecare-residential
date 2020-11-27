@@ -242,11 +242,11 @@ class App extends Component {
   };
 
   getMyMessages = () => {
-    Axios.get("/api/directMessages/" + this.state.userObj.email).then(
-      (messages) => {
-        this.setState({ messages: messages.data });
-      }
-    );
+    Axios.get(
+      `/api/directMessages/${this.state.userObj.email}/${this.state.userObj.homeId}`
+    ).then((messages) => {
+      this.setState({ messages: messages.data });
+    });
   };
 
   setDmToUser = async (id) => {
@@ -442,17 +442,18 @@ class App extends Component {
         fromID: this.state.userObj.email,
         message: this.state.dmMessage,
         date: new Date(),
+        homeId: this.state.userObj.homeId,
       });
 
-      Axios.get("/api/directMessages/" + this.state.userObj.email).then(
-        (messages) => {
-          this.setState({
-            ...this.state,
-            dmMessage: "",
-            messages: messages.data,
-          });
-        }
-      );
+      Axios.get(
+        `/api/directMessages/${this.state.userObj.email}/${this.state.userObj.homeId}`
+      ).then((messages) => {
+        this.setState({
+          ...this.state,
+          dmMessage: "",
+          messages: messages.data,
+        });
+      });
     }
   };
 

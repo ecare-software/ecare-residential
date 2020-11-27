@@ -18,21 +18,23 @@ const DiscussionMessage = require("../../models/DiscussionMessage");
 // @access  Public
 router.get("/:homeId", (req, res) => {
   if (req.params.homeId) {
-    console.log(`Get Discussion Messages for home ${req.params.homeId}`);
+    console.log(
+      `Get Discussion Messages for home ${req.params.homeId} - start`
+    );
     DiscussionMessage.find({ homeId: req.params.homeId })
       .sort({ date: -1 })
       .then((discussionMessage) => {
         console.log(
-          `Success getting Discussion Messages for home - ${req.params.homeId}`
+          `getting Discussion Messages for home - ${req.params.homeId} - end`
         );
         res.json(discussionMessage);
       });
   } else {
-    console.log(`Geting Discussion Messages for every home `);
+    console.log(`Getting Discussion Messages for every home - start`);
     DiscussionMessage.find()
       .sort({ date: -1 })
       .then((discussionMessage) => {
-        console.log(`Geting Discussion Messages for every home `);
+        console.log(`Discussion Messages for every home - end `);
         res.json(discussionMessage);
       });
   }
@@ -57,9 +59,7 @@ router.post("/", (req, res) => {
   });
 
   newDiscussionMessage.save().then((discussionMessage) => {
-    console.log(
-      `Success posting Discussion Message for home ${req.body.homeId} - end`
-    );
+    console.log(`posting Discussion Message for home ${req.body.homeId} - end`);
     res.json(discussionMessage);
   });
 });
