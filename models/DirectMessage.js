@@ -27,6 +27,10 @@ const DirectMessageSchema = new Schema({
     type: Date,
     required: true,
   },
+  homeId: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = User = mongoose.model("directMessage", DirectMessageSchema);

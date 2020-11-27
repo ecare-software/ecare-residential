@@ -7,7 +7,10 @@ const DirectMessage = require("../../models/DirectMessage");
 // @route   GET api/items
 // @desc    GET all items
 // @access  Public
-router.get("/:email", (req, res) => {
+router.get("/:email/:homeId", (req, res) => {
+  console.log(
+    `Get Direct Messages for user ${req.params.email} at home ${req.params.homeId} - start`
+  );
   DirectMessage.find({
     $or: [
       {
@@ -17,9 +20,15 @@ router.get("/:email", (req, res) => {
         fromID: req.params.email,
       },
     ],
+    homeId: req.params.homeId,
   })
     .sort({ date: 1 })
-    .then((directMessage) => res.json(directMessage))
+    .then((directMessage) => {
+      console.log(
+        `Direct Messages for user ${req.params.email} at home ${req.params.homeId} - end`
+      );
+      res.json(directMessage);
+    })
     .catch((err) => res.status(404).json({ success: false }));
 });
 
@@ -35,6 +44,9 @@ router.get("/", (req, res) => {
 // @access  Public
 
 router.post("/", (req, res) => {
+  console.log(
+    `Posting Direct Message for user ${req.body.toID} at home ${req.body.homeId} - start`
+  );
   const newDirectMessage = new DirectMessage({
     toObj: req.body.toObj,
     fromObj: req.body.fromObj,
@@ -42,9 +54,15 @@ router.post("/", (req, res) => {
     fromID: req.body.fromID,
     message: req.body.message,
     date: req.body.date,
+    homeId: req.body.homeId,
   });
 
-  newDirectMessage.save().then((directMessage) => res.json(directMessage));
+  newDirectMessage.save().then((directMessage) => {
+    console.log(
+      `Posted Direct Message for user ${req.body.toID} at home ${req.body.homeId} - end`
+    );
+    res.json(directMessage);
+  });
 });
 
 // @route   Delete api/items
