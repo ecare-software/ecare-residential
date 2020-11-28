@@ -12,6 +12,7 @@ input {
 }
 .modal-content {
   border: none;
+  background-color: transparent;
 }
 .nav-link-not-logged-in {
   background-color: #ffffff31 !important;
@@ -137,7 +138,6 @@ label {
   font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
   padding: 10px 20px;
   transition: all 0.3s;
-  box-shadow: 0px 6px 23px 0px rgba(37, 37, 37, 0.459);
 }
 
 .darkBtn {
