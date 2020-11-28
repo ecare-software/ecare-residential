@@ -157,16 +157,9 @@ class NavBar extends React.Component {
           <Modal show={this.state.showLogIn} onHide={!this.state.showLogIn}>
             <LogInContiner
               logIn={this.props.logIn}
-              pos={{ position: "fixed", top: "100%", top: "20vh" }}
+              pos={{ position: "relati", top: "100%", top: "20vh" }}
+              close={this.closeLogInModal}
             />
-            <button
-              className="btn btn-default mobileAdj"
-              style={{ position: "fixed", left: "28px", top: "20vh" }}
-              variant="secondary"
-              onClick={this.closeLogInModal}
-            >
-              x
-            </button>
           </Modal>
           <Modal
             style={{ marginTop: "100px" }}
