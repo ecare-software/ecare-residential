@@ -5,13 +5,9 @@ import "./DirectMessageBoard.css";
 import "../../App.css";
 
 const DirectMessageBoard = ({ messages, userObj, allUsers }) => {
-  const [showModal, setShowModal] = useState(false);
-  const [messageText, setMessageText] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
 
-  useEffect(() => {
-    // console.log(messages);
-  });
+  useEffect(() => {}, []);
 
   const DisplayGroupUserName = () => {
     const selectedEmail = selectedUser.user;
