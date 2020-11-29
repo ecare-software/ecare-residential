@@ -286,7 +286,7 @@ class App extends Component {
       this.state.loggedIn &&
       (this.state.allUsersSet === false || this.state.allUsers.length === 0)
     ) {
-      console.log("getting users - component did update");
+      // console.log("getting users - component did update");
       this.getAllUsers();
     }
 
@@ -297,7 +297,7 @@ class App extends Component {
     ) {
       this.loadMessage(this.state.userObj);
     }
-    console.log("component did update");
+    // console.log("component did update");
   };
 
   loadMessage = (userObj) => {
