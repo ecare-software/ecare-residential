@@ -378,6 +378,20 @@ class NavBar extends React.Component {
               >
                 Restraint Report
               </NavDropdown.Item>
+              <NavDropdown.Item
+                eventKey="link-88"
+                onClick={() => {
+                  document
+                    .querySelector(".Submit-a-Form-nav > a")
+                    .classList.add("active");
+                  document
+                    .querySelector(".Manage-Account-nav > a")
+                    .classList.remove("active");
+                  this.props.toggleDisplay("IllnessInjury");
+                }}
+              >
+                Illness Injury
+              </NavDropdown.Item>
               {/* <NavDropdown.Divider /> */}
             </NavDropdown>
             {adminReportingRoles.includes(this.props.userObj.jobTitle) ? (
