@@ -6,6 +6,7 @@ mongoose.set("useFindAndModify", false);
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const methodOverride = require("method-override");
 
 //routes
 const users = require("./routes/api/users");
@@ -26,6 +27,15 @@ const app = express();
 
 //  Body Parser middleware
 app.use(bodyParser.json());
+app.use(methodOverride("_method"));
+
+// var conn = mongoose.createConnection(
+//   "mongodb://demarcuskennedy:demarcuskennedy@cluster0-shard-00-00-3huhr.mongodb.net:27017,cluster0-shard-00-01-3huhr.mongodb.net:27017,cluster0-shard-00-02-3huhr.mongodb.net:27017/RCS?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority"
+// );
+// conn.once("open", () => {
+//   var gfs = Grid(conn.db, mongoose.mongo);
+//   gfs.collection("uploads");
+// });
 
 // get/connet to db
 const db = require("./config/keys").mongoURI;
@@ -74,6 +84,7 @@ app.use("/api/illnessInjury", illnessInjury);
 app.use("/api/admissionAssessment", admissionAssessment);
 app.use("/api/email", email);
 app.use("/api/uploadDocument", uploadDocument);
+app.use("/uploads", express.static("uploads"));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

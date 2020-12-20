@@ -6,7 +6,19 @@ const ImageSchema = new Schema({
     type: String,
     required: true,
   },
-  imageData: {
+  homeId: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  uploadDate: {
+    type: Date,
+    required: true,
+  },
+  id: {
     type: String,
     required: true,
   },

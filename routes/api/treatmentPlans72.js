@@ -1,5 +1,5 @@
 const express = require("express");
-const git = express.Router();
+const router = express.Router();
 
 const TreatmentPlan72 = require("../../models/TreatmentPlan72");
 
