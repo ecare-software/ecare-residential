@@ -516,7 +516,10 @@ class App extends Component {
                     : hideStyle
                 }
               >
-                <Reports userObj={this.state.userObj} />
+                <Reports
+                  userObj={this.state.userObj}
+                  allUsers={this.state.allUsers}
+                />
               </div>
             </div>
           )}

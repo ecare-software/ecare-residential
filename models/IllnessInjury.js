@@ -7,9 +7,8 @@ const IllnessInjurySchema = new Schema({
     required: false,
   },
   dateTimeOccur: {
-    type: Date,
-    default: new Date(),
-    //required:true
+    type: String,
+    required: true,
   },
   createdBy: {
     type: String,
@@ -28,7 +27,7 @@ const IllnessInjurySchema = new Schema({
     required: true,
   },
   tempTaken: {
-    type: Boolean,
+    type: String,
     required: true,
   },
   tempMethodTaken: {
@@ -42,7 +41,7 @@ const IllnessInjurySchema = new Schema({
     required: true,
   },
   notifiedAt: {
-    type: Date,
+    type: String,
     required: true,
   },
   notifiedBy: {

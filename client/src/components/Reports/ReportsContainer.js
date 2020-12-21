@@ -33,9 +33,9 @@ class ReportsContainer extends Component {
         "Case/Manager",
         "Supervisor",
       ],
-      allUsers: [],
       doReset: false,
       doShowFilters: false,
+      allUsers: [],
     };
   }
 
@@ -176,6 +176,7 @@ class ReportsContainer extends Component {
       Axios.get("/api/incidentReport/" + this.props.userObj.homeId),
       Axios.get("/api/restraintReport/" + this.props.userObj.homeId),
       Axios.get("/api/treatmentPlans72/" + this.props.userObj.homeId),
+      Axios.get("/api/illnessInjury/" + this.props.userObj.homeId),
     ];
 
     Axios.all(formRequests).then((results) => {
@@ -213,6 +214,7 @@ class ReportsContainer extends Component {
       Axios.get("/api/incidentReport/" + this.props.userObj.homeId),
       Axios.get("/api/restraintReport/" + this.props.userObj.homeId),
       Axios.get("/api/treatmentPlans72/" + this.props.userObj.homeId),
+      Axios.get("/api/illnessInjury/" + this.props.userObj.homeId),
     ];
 
     Axios.all(formRequests).then((results) => {
@@ -254,6 +256,8 @@ class ReportsContainer extends Component {
         ? "none"
         : searchObj.submittedByA.join(",");
     var formRequests = [];
+
+    console.log(searchObj.submittedForms);
 
     if (searchObj.submittedForms.length > 0) {
       searchObj.submittedForms.forEach((formName) => {
@@ -342,6 +346,32 @@ class ReportsContainer extends Component {
           formRequests.push(
             Axios.get(
               "/api/treatmentPlans72/" +
+                this.props.userObj.homeId +
+                "/" +
+                searchString +
+                "/" +
+                submittedAfter +
+                "/" +
+                submittedBefore +
+                "/" +
+                dobAfter +
+                "/" +
+                dobBefore +
+                "/" +
+                doaAfter +
+                "/" +
+                doaBefore +
+                "/" +
+                ethnicityA +
+                "/" +
+                submittedByA
+            )
+          );
+        }
+        if (formName === "Illness Injury") {
+          formRequests.push(
+            Axios.get(
+              "/api/illnessInjury/" +
                 this.props.userObj.homeId +
                 "/" +
                 searchString +
@@ -455,6 +485,29 @@ class ReportsContainer extends Component {
             ethnicityA +
             "/" +
             submittedByA
+        ),
+
+        Axios.get(
+          "/api/illnessInjury/" +
+            this.props.userObj.homeId +
+            "/" +
+            searchString +
+            "/" +
+            submittedAfter +
+            "/" +
+            submittedBefore +
+            "/" +
+            dobAfter +
+            "/" +
+            dobBefore +
+            "/" +
+            doaAfter +
+            "/" +
+            doaBefore +
+            "/" +
+            ethnicityA +
+            "/" +
+            submittedByA
         )
       );
     }
@@ -472,22 +525,29 @@ class ReportsContainer extends Component {
     // })
   };
 
-  getAllUsers = () => {
-    Axios.get("/api/users").then((allUsers) => {
-      allUsers.data.unshift({
-        firstName: "Any",
-        lastName: "Any",
-        email: "Any",
-      });
-      this.setState({ allUsers: allUsers.data });
-    });
-  };
+  // getAllUsers = () => {
+  //   Axios.get(`/api/users/${this.props.userObj.homeId}`).then((allUsers) => {
+  //     allUsers.data.unshift({
+  //       firstName: "Any",
+  //       lastName: "Any",
+  //       email: "Any",
+  //     });
+  //     this.setState({ allUsers: allUsers.data });
+  //   });
+  // };
 
   componentDidMount() {
     this.getForms();
-    if (this.state.adminReportingRoles.includes(this.props.userObj.jobTitle)) {
-      this.getAllUsers();
-    }
+    let allUsers = [...this.props.allUsers];
+    allUsers.unshift({
+      firstName: "Any",
+      lastName: "Any",
+      email: "Any",
+    });
+    this.setState({ ...this.state, allUsers });
+    // if (this.state.adminReportingRoles.includes(this.props.userObj.jobTitle)) {
+    //   this.getAllUsers();
+    // }
   }
 
   toggleFilters = () => {
