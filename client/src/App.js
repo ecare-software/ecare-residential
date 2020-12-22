@@ -23,6 +23,7 @@ import ModalFooter from "react-bootstrap/ModalFooter";
 import FormAlert from "./components/Forms/FormAlert";
 import Documents from "./components/Documents/Documents";
 import IllnessInjury from "./components/Forms/IllnessInjury";
+import AdmissionAssessment from "./components/Forms/AdmissionAssessment";
 // import UserActions from "./components/UserActions/UserActions";
 import ManageAccountContainer from "./components/ManageAccount/ManageAccountContainer";
 //modals
@@ -30,7 +31,6 @@ import ManageAccountContainer from "./components/ManageAccount/ManageAccountCont
 //styles
 import "./App.css";
 import Fade from "react-reveal/Fade";
-import AdmissionAssessment from "./components/Forms/AdmissionAssessment";
 //modals
 
 //const classes
@@ -697,17 +697,6 @@ function ToggleScreen({ name, appState, appendMessage, toggleDisplay }) {
     );
   }
 
-  if (name === "DailyProgress") {
-    return (
-      <div>
-        <DailyProgress
-          valuesSet={false}
-          userObj={appState.userObj}
-          id="dailyProgress"
-        />
-      </div>
-    );
-  }
   if (name === "admissionAssessment") {
     return (
       <div>
@@ -715,6 +704,18 @@ function ToggleScreen({ name, appState, appendMessage, toggleDisplay }) {
           valuesSet={false}
           userObj={appState.userObj}
           id="admissionAssessment"
+        />
+      </div>
+    );
+  }
+
+  if (name === "DailyProgress") {
+    return (
+      <div>
+        <DailyProgress
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="dailyProgress"
         />
       </div>
     );

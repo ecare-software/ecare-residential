@@ -392,6 +392,21 @@ class NavBar extends React.Component {
               >
                 Illness Injury
               </NavDropdown.Item>
+
+              <NavDropdown.Item
+                eventKey="link-83"
+                onClick={() => {
+                  document
+                    .querySelector(".Submit-a-Form-nav > a")
+                    .classList.add("active");
+                  document
+                    .querySelector(".Manage-Account-nav > a")
+                    .classList.remove("active");
+                  this.props.toggleDisplay("admissionAssessment");
+                }}
+              >
+                Admission Assessment
+              </NavDropdown.Item>
               {/* <NavDropdown.Divider /> */}
             </NavDropdown>
             {adminReportingRoles.includes(this.props.userObj.jobTitle) ? (
