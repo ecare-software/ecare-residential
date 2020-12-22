@@ -4,6 +4,7 @@ import IncidentReport from "../Forms/IncidentReport";
 import DailyProgress from "../Forms/DailyProgressAndActivity";
 import RestraintReport from "../Forms/RestraintReport";
 import IllnessInjury from "../Forms/IllnessInjury";
+import AdmissionAssessment from "../Forms/AdmissionAssessment";
 
 class ShowFormContainer extends Component {
   constructor(props) {
@@ -38,6 +39,14 @@ class ShowFormContainer extends Component {
     } else if (this.props.form.name === "Illness Injury") {
       return (
         <IllnessInjury
+          valuesSet="true"
+          userObj={this.props.userObj}
+          formData={this.props.formData}
+        />
+      );
+    } else if (this.props.form.name === "Admission Assessment") {
+      return (
+        <AdmissionAssessment
           valuesSet="true"
           userObj={this.props.userObj}
           formData={this.props.formData}

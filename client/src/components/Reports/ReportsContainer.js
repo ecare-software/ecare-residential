@@ -177,6 +177,7 @@ class ReportsContainer extends Component {
       Axios.get("/api/restraintReport/" + this.props.userObj.homeId),
       Axios.get("/api/treatmentPlans72/" + this.props.userObj.homeId),
       Axios.get("/api/illnessInjury/" + this.props.userObj.homeId),
+      Axios.get("/api/admissionAssessment/" + this.props.userObj.homeId),
     ];
 
     Axios.all(formRequests).then((results) => {
@@ -215,6 +216,7 @@ class ReportsContainer extends Component {
       Axios.get("/api/restraintReport/" + this.props.userObj.homeId),
       Axios.get("/api/treatmentPlans72/" + this.props.userObj.homeId),
       Axios.get("/api/illnessInjury/" + this.props.userObj.homeId),
+      Axios.get("/api/admissionAssessment/" + this.props.userObj.homeId),
     ];
 
     Axios.all(formRequests).then((results) => {
@@ -394,6 +396,32 @@ class ReportsContainer extends Component {
             )
           );
         }
+        if (formName === "Admission Assessment") {
+          formRequests.push(
+            Axios.get(
+              "/api/admissionAssessment/" +
+                this.props.userObj.homeId +
+                "/" +
+                searchString +
+                "/" +
+                submittedAfter +
+                "/" +
+                submittedBefore +
+                "/" +
+                dobAfter +
+                "/" +
+                dobBefore +
+                "/" +
+                doaAfter +
+                "/" +
+                doaBefore +
+                "/" +
+                ethnicityA +
+                "/" +
+                submittedByA
+            )
+          );
+        }
       });
     } else {
       //push all
@@ -422,6 +450,28 @@ class ReportsContainer extends Component {
         ),
         Axios.get(
           "/api/incidentReport/" +
+            this.props.userObj.homeId +
+            "/" +
+            searchString +
+            "/" +
+            submittedAfter +
+            "/" +
+            submittedBefore +
+            "/" +
+            dobAfter +
+            "/" +
+            dobBefore +
+            "/" +
+            doaAfter +
+            "/" +
+            doaBefore +
+            "/" +
+            ethnicityA +
+            "/" +
+            submittedByA
+        ),
+        Axios.get(
+          "/api/admissionAssessment/" +
             this.props.userObj.homeId +
             "/" +
             searchString +

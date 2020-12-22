@@ -23,6 +23,7 @@ import ModalFooter from "react-bootstrap/ModalFooter";
 import FormAlert from "./components/Forms/FormAlert";
 import Documents from "./components/Documents/Documents";
 import IllnessInjury from "./components/Forms/IllnessInjury";
+import AdmissionAssessment from "./components/Forms/AdmissionAssessment";
 // import UserActions from "./components/UserActions/UserActions";
 import ManageAccountContainer from "./components/ManageAccount/ManageAccountContainer";
 //modals
@@ -696,6 +697,18 @@ function ToggleScreen({ name, appState, appendMessage, toggleDisplay }) {
     );
   }
 
+  if (name === "admissionAssessment") {
+    return (
+      <div>
+        <AdmissionAssessment
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="admissionAssessment"
+        />
+      </div>
+    );
+  }
+
   if (name === "DailyProgress") {
     return (
       <div>
@@ -826,6 +839,19 @@ function DisplayExtra({
           <p className="extraInfoNavSubTitle">
             If a child had to be restrained, file this form, notationg what
             happened to cause this action.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "admissionAssessment") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv">
+          {/* <h5 className="extraInfoNavTitle">Restraint Report</h5> */}
+          <p className="extraInfoNavSubTitle">
+            Diagnostic Admission Assessment
           </p>
         </div>
       </div>

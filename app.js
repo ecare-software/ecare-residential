@@ -16,6 +16,7 @@ const dailyProgressAndActivity = require("./routes/api/dailyProgressAndActivity"
 const directMessages = require("./routes/api/directMessages");
 const discussionMessages = require("./routes/api/discussionMessages");
 const illnessInjury = require("./routes/api/illnessInjury");
+const admissionAssessment = require("./routes/api/admissionAssessment");
 const email = require("./routes/api/email");
 
 //user express
@@ -69,6 +70,7 @@ app.use("/api/dailyProgressAndActivity", dailyProgressAndActivity);
 app.use("/api/directMessages", directMessages);
 app.use("/api/discussionMessages", discussionMessages);
 app.use("/api/illnessInjury", illnessInjury);
+app.use("/api/admissionAssessment", admissionAssessment);
 app.use("/api/email", email);
 
 // catch 404 and forward to error handler
