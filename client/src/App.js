@@ -30,6 +30,7 @@ import ManageAccountContainer from "./components/ManageAccount/ManageAccountCont
 //styles
 import "./App.css";
 import Fade from "react-reveal/Fade";
+import AdmissionAssessment from "./components/Forms/AdmissionAssessment";
 //modals
 
 //const classes
@@ -707,6 +708,17 @@ function ToggleScreen({ name, appState, appendMessage, toggleDisplay }) {
       </div>
     );
   }
+  if (name === "admissionAssessment") {
+    return (
+      <div>
+        <AdmissionAssessment
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="admissionAssessment"
+        />
+      </div>
+    );
+  }
 
   if (name === "IllnessInjury") {
     return (
@@ -826,6 +838,19 @@ function DisplayExtra({
           <p className="extraInfoNavSubTitle">
             If a child had to be restrained, file this form, notationg what
             happened to cause this action.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "admissionAssessment") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv">
+          {/* <h5 className="extraInfoNavTitle">Restraint Report</h5> */}
+          <p className="extraInfoNavSubTitle">
+            Diagnostic Admission Assessment
           </p>
         </div>
       </div>

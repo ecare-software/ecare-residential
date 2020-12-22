@@ -443,6 +443,28 @@ class ReportsContainer extends Component {
             submittedByA
         ),
         Axios.get(
+          "/api/admissionAssessment/" +
+            this.props.userObj.homeId +
+            "/" +
+            searchString +
+            "/" +
+            submittedAfter +
+            "/" +
+            submittedBefore +
+            "/" +
+            dobAfter +
+            "/" +
+            dobBefore +
+            "/" +
+            doaAfter +
+            "/" +
+            doaBefore +
+            "/" +
+            ethnicityA +
+            "/" +
+            submittedByA
+        ),
+        Axios.get(
           "/api/restraintReport/" +
             this.props.userObj.homeId +
             "/" +
