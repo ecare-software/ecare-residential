@@ -22,6 +22,7 @@ import ModalTitle from "react-bootstrap/ModalTitle";
 import ModalFooter from "react-bootstrap/ModalFooter";
 import FormAlert from "./components/Forms/FormAlert";
 import Documents from "./components/Documents/Documents";
+import IllnessInjury from "./components/Forms/IllnessInjury";
 // import UserActions from "./components/UserActions/UserActions";
 import ManageAccountContainer from "./components/ManageAccount/ManageAccountContainer";
 //modals
@@ -515,7 +516,10 @@ class App extends Component {
                     : hideStyle
                 }
               >
-                <Reports userObj={this.state.userObj} />
+                <Reports
+                  userObj={this.state.userObj}
+                  allUsers={this.state.allUsers}
+                />
               </div>
             </div>
           )}
@@ -704,6 +708,18 @@ function ToggleScreen({ name, appState, appendMessage, toggleDisplay }) {
     );
   }
 
+  if (name === "IllnessInjury") {
+    return (
+      <div>
+        <IllnessInjury
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="illnessInjury"
+        />
+      </div>
+    );
+  }
+
   if (name === "restraintReport") {
     return (
       <div>
@@ -824,6 +840,19 @@ function DisplayExtra({
           <p className="extraInfoNavSubTitle">
             This explains what the child has done today or what the child will
             do today.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "IllnessInjury") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv">
+          {/* <h5 className="extraInfoNavTitle">Daily Progress</h5> */}
+          <p className="extraInfoNavSubTitle">
+            Illness and Injury Report Extra info
           </p>
         </div>
       </div>

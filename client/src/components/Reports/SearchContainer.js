@@ -65,6 +65,7 @@ class SearchContainer extends Component {
     } else {
       submittedForms.push(formName);
     }
+    console.log(formName);
     this.setState({ submittedForms: submittedForms });
     setTimeout(() => {
       // console.log(this.state)
