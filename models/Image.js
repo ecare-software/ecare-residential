@@ -18,9 +18,9 @@ const ImageSchema = new Schema({
     type: Date,
     required: true,
   },
-  id: {
-    type: String,
-    required: true,
+  img: {
+    data: Buffer,
+    contentType: String,
   },
 });
 

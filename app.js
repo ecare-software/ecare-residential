@@ -29,14 +29,6 @@ const app = express();
 app.use(bodyParser.json());
 app.use(methodOverride("_method"));
 
-// var conn = mongoose.createConnection(
-//   "mongodb://demarcuskennedy:demarcuskennedy@cluster0-shard-00-00-3huhr.mongodb.net:27017,cluster0-shard-00-01-3huhr.mongodb.net:27017,cluster0-shard-00-02-3huhr.mongodb.net:27017/RCS?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority"
-// );
-// conn.once("open", () => {
-//   var gfs = Grid(conn.db, mongoose.mongo);
-//   gfs.collection("uploads");
-// });
-
 // get/connet to db
 const db = require("./config/keys").mongoURI;
 mongoose
@@ -54,25 +46,17 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public'))); //old
 
 app.use(express.static(path.join(__dirname, "client/build"))); //new
-//test
+
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
-  // res.sendFile(path.join(__dirname + "/index.html"))
 });
 app.get("/reports", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
-  // res.sendFile(path.join(__dirname + "/index.html"))
 });
 
-// app.use(express.static(path.join(__dirname, 'client/build')));
-// app.get('*', function(req, res) {
-//   res.sendFile('index.html', {root:path.join(__dirname + "/index.html")});
-// });
 //use routes
-
 app.use("/api/users", users);
 app.use("/api/treatmentPlans72", treatmentPlans72);
 app.use("/api/incidentReport", incidentReport);

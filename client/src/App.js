@@ -63,9 +63,11 @@ function uploadImage(e, method, user, fileName) {
     // this.setState({ multerImage: URL.createObjectURL(e.target.files[0]) });
 
     Axios.post(`api/uploadDocument/uploadmulter`, imageFormObj)
+      // Axios.post(`/upload`, imageFormObj)
       .then((data) => {
         if (data.data.success) {
-          alert("Image has been successfully uploaded using multer");
+          console.log(data.data);
+          // alert("Image has been successfully uploaded using multer");
           // this.setDefaultImage("multer");
         }
       })
@@ -844,7 +846,7 @@ function DisplayExtra({
           </p>
         </div>
         <div className="extraInfoButtonDiv">
-          <label
+          {/* <label
             className="btn btn-light extraInfoButton"
             htmlFor="uploadBtnLeft"
             onClick={() => {
@@ -892,21 +894,10 @@ function DisplayExtra({
                       openUpload(false);
                     }}
                   />
-                  {/* <button
-                      style={{
-                        margin: "5px 0px",
-                        float: "right",
-                        backgroundColor: "maroon",
-                        color: "white",
-                      }}
-                      className="btn"
-                    >
-                      Submit
-                    </button> */}
                 </div>
               </ModalBody>
             </div>
-          </Modal>
+          </Modal> */}
         </div>
       </div>
     );

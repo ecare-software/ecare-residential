@@ -1,62 +1,76 @@
 const express = require("express");
 const router = express.Router();
-var mongoose = require("mongoose");
 const Image = require("../../models/Image");
+
 const multer = require("multer");
-const GridFsStorage = require("multer-gridfs-storage");
-const Grid = require("gridfs-stream");
-const crypto = require("crypto");
-const path = require("path");
-const mongoURI =
-  "mongodb://demarcuskennedy:demarcuskennedy@cluster0-shard-00-00-3huhr.mongodb.net:27017,cluster0-shard-00-01-3huhr.mongodb.net:27017,cluster0-shard-00-02-3huhr.mongodb.net:27017/RCS?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority";
-const conn = mongoose.createConnection(mongoURI);
-var gfs;
-conn.once("open", () => {
-  gfs = Grid(conn.db, mongoose.mongo);
-  gfs.collection("uploads");
-});
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, "./uploads/");
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, file.originalname.replace(/\s+/g, "_"));
-//   },
-// });
-const storage = new GridFsStorage({
-  url: mongoURI,
-  file: (req, file) => {
-    return new Promise((resolve, reject) => {
-      crypto.randomBytes(16, (err, buf) => {
-        if (err) {
-          return reject(err);
-        }
-        const filename = file.originalname + buf.toString("hex");
-        const fileInfo = {
-          filename: filename,
-          bucketName: "uploads",
-        };
-        resolve(fileInfo);
-      });
-    });
+
+var storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + "-" + Date.now());
   },
 });
+var fs = require("fs");
+const path = require("path");
+var upload = multer({ storage: storage });
 
-const fileFilter = (req, file, cb) => {
-  // if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
-  cb(null, true);
-  // } else {
-  //does not store file
-  cb(null, false);
-  // }
+const MIME_TYPE_TO_EXT = [
+  {
+    mime:
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ext: ".docx",
+  },
+  {
+    mime: "application/msword",
+    ext: ".doc",
+  },
+  {
+    mime: "text/csv",
+    ext: ".csv",
+  },
+  {
+    mime: "image/jpeg",
+    ext: ".jpeg",
+  },
+  {
+    mime: "image/png",
+    ext: ".png",
+  },
+  {
+    mime: "application/pdf",
+    ext: ".pdf",
+  },
+  {
+    mime: "application/vnd.ms-powerpoint",
+    ext: ".ppt",
+  },
+  {
+    mime:
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    ext: ".pptX",
+  },
+  {
+    mime: "text/plain",
+    ext: ".txt",
+  },
+  {
+    mime: "application/vnd.ms-excel",
+    ext: ".xls",
+  },
+  {
+    mime: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ext: ".xlsx",
+  },
+];
+
+const mimeToExt = (mime) => {
+  const filteredA = MIME_TYPE_TO_EXT.filter((obj) => {
+    return obj.mime === mime;
+  });
+  return filteredA.length > 0 ? filteredA[0].ext : ".txt";
 };
-
-const upload = multer({
-  storage,
-  limits: { fileSize: 1024 * 1024 * 5 },
-  fileFilter,
-});
-
 router
   .route("/uploadmulter")
   .post(upload.single("imageData"), (req, res, next) => {
@@ -68,7 +82,12 @@ router
       homeId: req.body.homeId,
       email: req.body.email,
       uploadDate: new Date(),
-      id: req.file.id,
+      img: {
+        data: fs.readFileSync(
+          path.join(__dirname + "/../../uploads/" + req.file.filename)
+        ),
+        contentType: req.file.mimetype,
+      },
     });
     newImage
       .save()
@@ -98,9 +117,6 @@ router.get("/:homeId/:id", (req, res) => {
     }
     return res.json(file);
   });
-  // Image.find({ homeId: req.params.homeId })
-  //   .then((Images) => res.json(Images))
-  //   .catch((err) => res.status(404).json({ success: false }));
 });
 
 router.get("/", (req, res) => {
