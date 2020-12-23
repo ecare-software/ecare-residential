@@ -379,7 +379,7 @@ class NavBar extends React.Component {
                 Restraint Report
               </NavDropdown.Item>
               <NavDropdown.Item
-                eventKey="link-88"
+                eventKey="link-882"
                 onClick={() => {
                   document
                     .querySelector(".Submit-a-Form-nav > a")

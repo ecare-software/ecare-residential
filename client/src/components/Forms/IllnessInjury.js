@@ -193,7 +193,7 @@ class IllnessInjury extends Component {
             <React.Fragment />
           )}
           <div className="formTitleDiv">
-            <h2 className="formTitle">Illness Injury</h2>
+            <h2 className="formTitle">Illness and Injury Report</h2>
           </div>
           <div className="formFieldsMobile">
             <div className="form-group logInInputField">
@@ -415,7 +415,7 @@ class IllnessInjury extends Component {
             <React.Fragment />
           )}
           <div className="formTitleDivReport">
-            <h2 className="formTitle">Incident Report</h2>
+            <h2 className="formTitle">Illness and Injury Report</h2>
           </div>
           <div className="formFieldsMobileReport">
             <div className="form-group logInInputField">
