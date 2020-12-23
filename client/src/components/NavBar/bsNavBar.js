@@ -295,7 +295,7 @@ class NavBar extends React.Component {
             >
               Messages
             </Nav.Link>
-            {/* <Nav.Link
+            <Nav.Link
               eventKey="link-88"
               style={navItemStyle}
               onClick={() => {
@@ -309,7 +309,7 @@ class NavBar extends React.Component {
               }}
             >
               Documents
-            </Nav.Link> */}
+            </Nav.Link>
             <NavDropdown
               style={navItemStyle}
               variant="success"

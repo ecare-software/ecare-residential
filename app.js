@@ -6,6 +6,7 @@ mongoose.set("useFindAndModify", false);
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const methodOverride = require("method-override");
 
 //routes
 const users = require("./routes/api/users");
@@ -18,6 +19,7 @@ const discussionMessages = require("./routes/api/discussionMessages");
 const illnessInjury = require("./routes/api/illnessInjury");
 const admissionAssessment = require("./routes/api/admissionAssessment");
 const email = require("./routes/api/email");
+const uploadDocument = require("./routes/api/uploadDocument");
 
 //user express
 const app = express();
@@ -25,6 +27,7 @@ const app = express();
 
 //  Body Parser middleware
 app.use(bodyParser.json());
+app.use(methodOverride("_method"));
 
 // get/connet to db
 const db = require("./config/keys").mongoURI;
@@ -43,25 +46,17 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public'))); //old
 
 app.use(express.static(path.join(__dirname, "client/build"))); //new
-//test
+
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
-  // res.sendFile(path.join(__dirname + "/index.html"))
 });
 app.get("/reports", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
-  // res.sendFile(path.join(__dirname + "/index.html"))
 });
 
-// app.use(express.static(path.join(__dirname, 'client/build')));
-// app.get('*', function(req, res) {
-//   res.sendFile('index.html', {root:path.join(__dirname + "/index.html")});
-// });
 //use routes
-
 app.use("/api/users", users);
 app.use("/api/treatmentPlans72", treatmentPlans72);
 app.use("/api/incidentReport", incidentReport);
@@ -72,6 +67,8 @@ app.use("/api/discussionMessages", discussionMessages);
 app.use("/api/illnessInjury", illnessInjury);
 app.use("/api/admissionAssessment", admissionAssessment);
 app.use("/api/email", email);
+app.use("/api/uploadDocument", uploadDocument);
+app.use("/uploads", express.static("uploads"));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

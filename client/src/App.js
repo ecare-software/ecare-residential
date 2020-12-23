@@ -51,6 +51,33 @@ const navSelected = {
   padding: "0px 10px",
   fontFamily: "'Google Sans Display', Arial, Helvetica, sans-serif",
 };
+function uploadImage(e, method, user, fileName) {
+  let imageObj = {};
+  if (method === "multer") {
+    let imageFormObj = new FormData();
+    imageFormObj.append("imageName", fileName.replace(/\s+/g, "_"));
+    imageFormObj.append("imageData", e.target.files[0]);
+    imageFormObj.append("homeId", user.homeId);
+    imageFormObj.append("email", user.email);
+    // stores a readable instance of // the image being uploaded using multer
+    // this.setState({ multerImage: URL.createObjectURL(e.target.files[0]) });
+
+    Axios.post(`api/uploadDocument/uploadmulter`, imageFormObj)
+      // Axios.post(`/upload`, imageFormObj)
+      .then((data) => {
+        if (data.data.success) {
+          console.log(data.data);
+          // alert("Image has been successfully uploaded using multer");
+          // this.setDefaultImage("multer");
+        }
+      })
+      .catch((err) => {
+        alert("Error while uploading image using multer");
+        console.log(err);
+        // this.setDefaultImage("multer");
+      });
+  }
+}
 
 class App extends Component {
   state = {
@@ -241,6 +268,7 @@ class App extends Component {
       //   __v: 0,
       // },
     ],
+    showUploadModal: false,
   };
 
   getMyMessages = () => {
@@ -471,6 +499,9 @@ class App extends Component {
     this.setState({ ...this.state, dmMessage: message });
   };
 
+  openUpload = (val) => {
+    this.setState({ ...this.state, showUploadModal: val });
+  };
   render() {
     if (this.state.loggedIn) {
       return (
@@ -494,6 +525,8 @@ class App extends Component {
                   sendDM={this.sendDM}
                   dmMessage={this.state.dmMessage}
                   setDmMessage={this.setDmMessage}
+                  showUploadModal={this.showUploadModal}
+                  openUpload={this.openUpload}
                 />
               </div>
               <div className="col-sm-9" id="actionSection">
@@ -657,7 +690,7 @@ function ToggleScreen({ name, appState, appendMessage, toggleDisplay }) {
   if (name === "Documents") {
     return (
       <div>
-        <Documents />
+        <Documents userObj={appState.userObj} allUsers={appState.allUsers} />
       </div>
     );
   }
@@ -776,6 +809,8 @@ function DisplayExtra({
   dmMessage,
   setDmMessage,
   toggleDisplay,
+  showUploadModal,
+  openUpload,
 }) {
   if (name === "TreatmentPlan72") {
     return (
@@ -811,21 +846,58 @@ function DisplayExtra({
           </p>
         </div>
         <div className="extraInfoButtonDiv">
-          {/* <button onClick={scrollTop} className="btn btn-light extraInfoButton">
-            Upload Document 
-          </button> */}
-          <button className="btn btn-light extraInfoButton">
-            Upload New File
-          </button>
-          {/* <button className="btn btn-light extraInfoButton">
-            Direct Messages
-          </button> */}
-          {/* <button
-            onClick={toggleDisplay.bind("", "Manage Account")}
+          {/* <label
             className="btn btn-light extraInfoButton"
+            htmlFor="uploadBtnLeft"
+            onClick={() => {
+              openUpload(true);
+            }}
           >
-            Account Settings
-          </button> */}
+            Upload New Document
+          </label>
+          <Modal
+            show={appState.showUploadModal}
+            onHide={() => {
+              openUpload(false);
+            }}
+          >
+            <div style={{ backgroundColor: "white" }}>
+              <ModalHeader
+                closeButton
+                style={{
+                  color: "maroon",
+                  borderColor: "maroon",
+                  textAlign: "center",
+                }}
+              >
+                <h5>Upload New Document</h5>
+              </ModalHeader>
+              <ModalBody>
+                <div className="form-group">
+                  <label>File Name</label>
+                  <input
+                    id="fileName"
+                    style={{ width: "100%", margin: "15px 0px" }}
+                    className="form-control"
+                    placeholder="Name / Organization"
+                  />
+                  <input
+                    type="file"
+                    id="fileBtn"
+                    onChange={(e) => {
+                      uploadImage(
+                        e,
+                        "multer",
+                        userObj,
+                        document.getElementById("fileName").value
+                      );
+                      openUpload(false);
+                    }}
+                  />
+                </div>
+              </ModalBody>
+            </div>
+          </Modal> */}
         </div>
       </div>
     );
@@ -936,9 +1008,6 @@ function DisplayExtra({
           >
             Direct Messages
           </button>
-          {/* <button className="btn btn-light extraInfoButton">
-            Upload a File
-          </button> */}
           {/* <button className="btn btn-light extraInfoButton">
             Direct Messages
           </button> */}
