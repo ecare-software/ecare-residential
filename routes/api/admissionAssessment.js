@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
+ObjectID = require("mongodb").ObjectID;
 
 const AdmissionAssessment = require("../../models/AdmissionAssessment");
 
 router.post("/", (req, res) => {
-  console.log("calling post");
   const newAdmissionAssessment = new AdmissionAssessment({
     allergies: req.body.allergies,
     basicNeeds: req.body.basicNeeds,
@@ -258,5 +258,15 @@ router.get(
       .catch((err) => res.status(404).json({ success: err }));
   }
 );
+
+router.put("/:homeId/:formId/", (req, res) => {
+  IllnessInjury.findByIdAndUpdate({ _id: req.params.formId }, req.body)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+});
 
 module.exports = router;

@@ -274,4 +274,14 @@ router.get(
   }
 );
 
+router.put("/:homeId/:formId/", (req, res) => {
+  RestraintReport.findByIdAndUpdate({ _id: req.params.formId }, req.body)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+});
+
 module.exports = router;

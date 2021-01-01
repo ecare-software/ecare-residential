@@ -237,6 +237,7 @@ class RestraintReport extends Component {
       "client_witness_name2",
       "client_witness_gender2",
       "client_witness_dob2",
+      "client_witness_doa2",
     ];
 
     var isValid = true;
@@ -511,7 +512,7 @@ class RestraintReport extends Component {
             <div className="form-group logInInputField">
               {" "}
               <label className="control-label">
-                Client Witness Date of Admission (1)
+                Client Witness Date of Admission (2)
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
@@ -1073,7 +1074,7 @@ class RestraintReport extends Component {
             <div className="form-group logInInputField">
               {" "}
               <label className="control-label">
-                Client Witness Date of Admission (1)
+                Client Witness Date of Admission (2)
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}

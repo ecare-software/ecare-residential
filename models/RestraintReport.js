@@ -4,219 +4,234 @@ const Schema = mongoose.Schema;
 const RestraintReportSchema = new Schema({
   childMeta_name: {
     type: String,
-    required: false
+    required: false,
   },
   childMeta_gender: {
     type: String,
-    required: false
+    required: false,
   },
   childMeta_dob: {
     type: String,
-    required: false
+    required: false,
   },
   childMeta_dateOfAdmission: {
     type: String,
-    required: false
+    required: false,
   },
   date_of_incident: {
     type: String,
-    required: false
+    required: false,
   },
   staff_involved_name: {
     type: String,
-    required: false
+    required: false,
   },
   staff_involved_gender: {
     type: String,
-    required: false
+    required: false,
   },
   time_of_incident: {
     type: String,
-    required: false
+    required: false,
   },
   staff_witness_name: {
     type: String,
-    required: false
+    required: false,
   },
   staff_witness_gender: {
     type: String,
-    required: false
+    required: false,
   },
   staff_witness_name: {
     type: String,
-    required: false
+    required: false,
   },
 
   staff_witness_gender: {
     type: String,
-    required: false
+    required: false,
   },
 
   client_witness_name1: {
     type: String,
-    required: false
+    required: false,
   },
 
   client_witness_gender1: {
     type: String,
-    required: false
+    required: false,
   },
 
   client_witness_dob1: {
     type: String,
-    required: false
+    required: false,
   },
 
   client_witness_doa1: {
     type: String,
-    required: false
+    required: false,
   },
 
   client_witness_name2: {
     type: String,
-    required: false
+    required: false,
   },
 
   client_witness_gender2: {
     type: String,
-    required: false
+    required: false,
   },
 
   client_witness_dob2: {
     type: String,
-    required: false
+    required: false,
   },
 
   client_witness_doa2: {
     type: String,
-    required: false
+    required: false,
   },
 
   risk_explaination: {
     type: String,
-    required: false
+    required: false,
   },
 
   risk_alternative_strategies: {
     type: String,
-    required: false
+    required: false,
   },
 
   type_of_restraint: {
     type: String,
-    required: false
+    required: false,
   },
 
   risk_stategies_used: {
     type: String,
-    required: false
+    required: false,
   },
 
   result_of_incident: {
     type: String,
-    required: false
+    required: false,
   },
 
   injuries: {
     type: String,
-    required: false
+    required: false,
   },
 
   action_taken: {
     type: String,
-    required: false
+    required: false,
   },
 
   able_to_prevent: {
     type: String,
-    required: false
+    required: false,
   },
 
   restraint_start_time: {
     type: String,
-    required: false
+    required: false,
   },
 
   restraint_end_time: {
     type: String,
-    required: false
+    required: false,
   },
 
   notification_made_to: {
     type: String,
-    required: false
+    required: false,
   },
 
   notification_made_date_time: {
     type: String,
-    required: false
+    required: false,
   },
 
   interviewer: {
     type: String,
-    required: false
+    required: false,
   },
 
   date_of_interview: {
     type: String,
-    required: false
+    required: false,
   },
 
   client_behavior: {
     type: String,
-    required: false
+    required: false,
   },
 
   client_restraint_description: {
     type: String,
-    required: false
+    required: false,
   },
 
   client_responce: {
     type: String,
-    required: false
+    required: false,
   },
 
   procedural_approved_reason: {
     type: String,
-    required: false
+    required: false,
   },
 
   procedural_approved_standards: {
     type: String,
-    required: false
+    required: false,
   },
 
   procedural_any_injuries: {
     type: String,
-    required: false
+    required: false,
   },
 
   procedural_comments: {
     type: String,
-    required: false
+    required: false,
   },
 
   createdBy: {
     type: String,
-    required: false
+    required: false,
   },
   createdByName: {
     type: String,
-    required: false
+    required: false,
   },
   lastEditDate: {
     type: Date,
-    default: new Date()
+    default: new Date(),
     //required:true
   },
   homeId: {
-    type: String
+    type: String,
   },
-
+  approved: {
+    type: Boolean,
+    default: false,
+  },
   formType: {
-    type: String
-  }
+    type: String,
+  },
+  approvedBy: {
+    type: String,
+    required: false,
+  },
+  approvedByName: {
+    type: String,
+    required: false,
+  },
+  approvedByDate: {
+    type: Date,
+    //required:true
+  },
 });
 
 module.exports = RestraintReport = mongoose.model(

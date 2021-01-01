@@ -78,7 +78,11 @@ router
       `Uploading image for home ${req.body.homeId} and user ${req.body.email}`
     );
     const newImage = new Image({
-      imageName: `${req.body.imageName.replace(/\s+/g, "_")}`,
+      imageName: `${
+        req.body.imageName
+          ? req.body.imageName.replace(/\s+/g, "_")
+          : req.file.filename
+      }`,
       homeId: req.body.homeId,
       email: req.body.email,
       uploadDate: new Date(),

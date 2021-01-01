@@ -4,492 +4,508 @@ const Schema = mongoose.Schema;
 // create Schema
 const TreatmentPlan72Schema = new Schema({
   childMeta_name: {
-    type: String
+    type: String,
     //required: true
   },
   childMeta_dob: {
     type: Date,
-    default: new Date()
+    default: new Date(),
     //required:true
   },
   childMeta_age: {
-    type: Number
+    type: Number,
   },
   childMeta_ssn: {
-    type: Number
+    type: Number,
     // required: true
   },
   childMeta_gender: {
-    type: String
+    type: String,
     // required: true
   },
   childMeta_medicaidNumber: {
-    type: String
+    type: String,
     // required: true
   },
   childMeta_county: {
-    type: String
+    type: String,
   },
   childMeta_placeOfBirth: {
-    type: String
+    type: String,
   },
   childMeta_ethnicity: {
-    type: String
+    type: String,
     // required: true
   },
   childMeta_levelOfCare: {
-    type: String
+    type: String,
     // required: true
   },
   childMeta_religion: {
-    type: String
+    type: String,
   },
   childMeta_managingConservator: {
-    type: String
+    type: String,
     // required: true
   },
   childMeta_dateOfAdmission: {
-    type: Date
+    type: Date,
     // required: true
   },
   projectedDateForAchievingPermanency: {
-    type: String
+    type: String,
     //required: true
   },
   legalStatus_PermancyGoal: {
-    type: String
+    type: String,
     //required: true
   },
   fatherMeta_name: {
-    type: String
+    type: String,
     //required: true
   },
   fatherMeta_address: {
-    type: String
+    type: String,
     //required: true
   },
   fatherMeta_phoneNumber: {
-    type: String
+    type: String,
     //required: true
   },
   motherMeta_name: {
-    type: String
+    type: String,
     //required: true
   },
   motherMeta_address: {
-    type: String
+    type: String,
     //required: true
   },
   motherMeta_phoneNumber: {
-    type: String
+    type: String,
     //required: true
   },
   legalStatus: {
-    type: String
+    type: String,
     //required: true
   },
   referringAgency_co: {
-    type: String
+    type: String,
     //required: true
   },
   agentOfReferringAgency_co_name: {
-    type: String
+    type: String,
     //required: true
   },
   agentOfReferringAgency_co_address: {
-    type: String
+    type: String,
     //required: true
   },
   reactionToPlacement: {
-    type: String
+    type: String,
     //required: true
   },
   interests: {
-    type: String
+    type: String,
     //required: true
   },
   otherMeta1_name: {
-    type: String
+    type: String,
   },
   otherMeta1_relationship: {
-    type: String
+    type: String,
   },
   otherMeta1_address: {
-    type: String
+    type: String,
   },
   otherMeta1_phoneNumber: {
-    type: String
+    type: String,
   },
   otherMeta2_name: {
-    type: String
+    type: String,
   },
   otherMeta2_relationship: {
-    type: String
+    type: String,
   },
   otherMeta2_address: {
-    type: String
+    type: String,
   },
   otherMeta2_phoneNumber: {
-    type: String
+    type: String,
   },
   otherMeta3_name: {
-    type: String
+    type: String,
   },
   otherMeta3_relationship: {
-    type: String
+    type: String,
   },
   otherMeta3_address: {
-    type: String
+    type: String,
   },
   otherMeta3_phoneNumber: {
-    type: String
+    type: String,
   },
   otherMeta4_name: {
-    type: String
+    type: String,
   },
   otherMeta4_relationship: {
-    type: String
+    type: String,
   },
   otherMeta4_address: {
-    type: String
+    type: String,
   },
   otherMeta4_phoneNumber: {
-    type: String
+    type: String,
   },
   currentMedicalInformation: {
-    type: String
+    type: String,
     //required: true
   },
   developmental_medicalHistory: {
-    type: String
+    type: String,
     //required: true
   },
   drugAllergies: {
-    type: String
+    type: String,
     //required: true
   },
   food1: {
-    type: String
+    type: String,
     //required: true
   },
   allergies: {
-    type: String
+    type: String,
     //required: true
   },
   chronicHealth: {
-    type: String
+    type: String,
     //required: true
   },
   healthStrengths: {
-    type: String
+    type: String,
     //required: true
   },
   healthNeeds: {
-    type: String
+    type: String,
     //required: true
   },
 
   lastPhysicalExamination_date: {
-    type: Date
+    type: Date,
   },
   lastPhysicalExamination_location: {
-    type: String
+    type: String,
   },
   lastPhysicalExamination_monitoredBy: {
-    type: String
+    type: String,
   },
 
   lastDentalExamination_date: {
-    type: Date
+    type: Date,
   },
   lastDentalExamination_location: {
-    type: String
+    type: String,
   },
   lastDentalExamination_monitoredBy: {
-    type: String
+    type: String,
   },
   lastOpticalExamination_date: {
-    type: Date
+    type: Date,
   },
   lastOpticalExamination_location: {
-    type: String
+    type: String,
   },
   lastOpticalExamination_monitoredBy: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms1_medication: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms1_dosage_frequency: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms1_purpose: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms1_possibleSideEffects: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms1_monitoredBy: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms2_medication: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms2_dosage_frequency: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms2_purpose: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms2_possibleSideEffects: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms2_monitoredBy: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms3_medication: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms3_dosage_frequency: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms3_purpose: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms3_possibleSideEffects: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms3_monitoredBy: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms4_medication: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms4_dosage_frequency: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms4_purpose: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms4_possibleSideEffects: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms4_monitoredBy: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms5_medication: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms5_dosage_frequency: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms5_purpose: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms5_possibleSideEffects: {
-    type: String
+    type: String,
   },
   currentMedications_dosages_targetedSymptoms5_monitoredBy: {
-    type: String
+    type: String,
   },
   behavioralStrengths: {
-    type: String
+    type: String,
     //required: true
   },
   behavioralNeeds: {
-    type: String
+    type: String,
     //required: true
   },
   behavioralTreatmentServices: {
-    type: String
+    type: String,
   },
   emotionalStrengths: {
-    type: String
+    type: String,
     //required: true
   },
   emotionalNeeds: {
-    type: String
+    type: String,
     //required: true
   },
   emotionalTreatmentServices: {
-    type: String
+    type: String,
   },
   food2: {
-    type: String
+    type: String,
   },
   eyeContact: {
-    type: String
+    type: String,
   },
   physicalTouch: {
-    type: String
+    type: String,
   },
   personalProperty: {
-    type: String
+    type: String,
   },
   certainTopics: {
-    type: String
+    type: String,
   },
   knownContraindicationsToTheUuseOfRestraint: {
-    type: String
+    type: String,
   },
   de_escalatingTechniquesToAvoidRestraints_ebi: {
-    type: String
+    type: String,
   },
   child_de_escalator: {
-    type: String
+    type: String,
   },
   staff_de_escalator: {
-    type: String
+    type: String,
   },
   therapist_de_escalator: {
-    type: String
+    type: String,
   },
   childPreferred_de_escalation: {
-    type: String
+    type: String,
   },
   interventionStrategies: {
-    type: String
+    type: String,
   },
   supervisionStrategies: {
-    type: String
+    type: String,
   },
   social_recreationalStrengths: {
-    type: String
+    type: String,
   },
   social_recreationalNeeds: {
-    type: String
+    type: String,
   },
   familyStrengths: {
-    type: String
+    type: String,
   },
   familyNeeds: {
-    type: String
+    type: String,
   },
   visitor1_name: {
-    type: String
+    type: String,
   },
   visitor1_relationship: {
-    type: String
+    type: String,
   },
   visitor1_frequency: {
-    type: String
+    type: String,
   },
   visitor1_supervisedBy: {
-    type: String
+    type: String,
   },
   visitor1_location: {
-    type: String
+    type: String,
   },
   visitor1_length: {
-    type: String
+    type: String,
   },
 
   visitor2_name: {
-    type: String
+    type: String,
   },
   visitor2_relationship: {
-    type: String
+    type: String,
   },
   visitor2_frequency: {
-    type: String
+    type: String,
   },
   visitor2_supervisedBy: {
-    type: String
+    type: String,
   },
   visitor2_location: {
-    type: String
+    type: String,
   },
   visitor2_length: {
-    type: String
+    type: String,
   },
   visitor3_name: {
-    type: String
+    type: String,
   },
   visitor3_relationship: {
-    type: String
+    type: String,
   },
   visitor3_frequency: {
-    type: String
+    type: String,
   },
   visitor3_supervisedBy: {
-    type: String
+    type: String,
   },
   visitor3_location: {
-    type: String
+    type: String,
   },
   visitor3_length: {
-    type: String
+    type: String,
   },
   visitor4_name: {
-    type: String
+    type: String,
   },
   visitor4_relationship: {
-    type: String
+    type: String,
   },
   visitor4_frequency: {
-    type: String
+    type: String,
   },
   visitor4_supervisedBy: {
-    type: String
+    type: String,
   },
   visitor4_location: {
-    type: String
+    type: String,
   },
   visitor4_length: {
-    type: String
+    type: String,
   },
   educational_vacationalStrengths: {
-    type: String
+    type: String,
   },
   educational_vacationalNeeds: {
-    type: String
+    type: String,
   },
   transitionalLiving: {
-    type: String
+    type: String,
   },
   dischargePlanning: {
-    type: String
+    type: String,
   },
   longRangeGoals: {
-    type: String
+    type: String,
   },
   shortRangeGoals: {
-    type: String
+    type: String,
   },
   administorSign: {
-    type: String
+    type: String,
     //required:true
   },
   administorSignDate: {
-    type: Date
+    type: Date,
   },
   treatmentDirectorSign: {
-    type: String
+    type: String,
     //required:true
   },
   treatmentDirectorSignDate: {
-    type: Date
+    type: Date,
   },
   createdBy: {
     type: String,
-    required: false
+    required: false,
   },
   createdByName: {
     type: String,
-    required: false
+    required: false,
   },
   lastEditDate: {
     type: Date,
-    default: new Date()
+    default: new Date(),
     //required:true
   },
   homeId: {
-    type: String
+    type: String,
   },
 
   formType: {
-    type: String
-  }
+    type: String,
+  },
+  approved: {
+    type: Boolean,
+    default: false,
+  },
+  approvedBy: {
+    type: String,
+    required: false,
+  },
+  approvedByName: {
+    type: String,
+    required: false,
+  },
+  approvedByDate: {
+    type: Date,
+    //required:true
+  },
 });
 
 module.exports = TreatmentPlan72 = mongoose.model(
