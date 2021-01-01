@@ -3,127 +3,141 @@ const Schema = mongoose.Schema;
 
 const IncidentReportSchema = new Schema({
   childMeta_name: {
-    type: String
+    type: String,
     //required: true
   },
   childMeta_gender: {
-    type: String
+    type: String,
     // required: true
   },
   childMeta_dob: {
     type: Date,
-    default: new Date()
+    default: new Date(),
     //required:true
   },
   childMeta_dateOfAdmission: {
-    type: Date
+    type: Date,
     // required: true
   },
   dateOfIncident: {
-    type: Date
+    type: Date,
     // required: true
   },
   staff_involved_name: {
-    type: String
+    type: String,
     //required: true
   },
   staff_involved_gender: {
-    type: String
+    type: String,
     // required: true
   },
 
   time_of_incident: {
-    type: String
+    type: String,
     // required: true
   },
   staff_witness_name: {
-    type: String
+    type: String,
     //required: true
   },
   staff_witness_gender: {
-    type: String
+    type: String,
     // required: true
   },
   client_witness_name1: {
-    type: String
+    type: String,
     //required: true
   },
   client_witness_gender1: {
-    type: String
+    type: String,
     // required: true
   },
   client_witness_dob1: {
-    type: Date
+    type: Date,
     // required: true
   },
   client_witness_doa1: {
-    type: Date
+    type: Date,
     // required: true
   },
   client_witness_name2: {
-    type: String
+    type: String,
     //required: true
   },
   client_witness_gender2: {
-    type: String
+    type: String,
     // required: true
   },
   client_witness_dob2: {
-    type: Date
+    type: Date,
     // required: true
   },
   client_witness_doa2: {
-    type: Date
+    type: Date,
     // required: true
   },
   incident_explaination: {
-    type: String
+    type: String,
   },
   seperation: {
-    type: String
+    type: String,
   },
   result: {
-    type: String
+    type: String,
   },
   able_to_prevent: {
-    type: String
+    type: String,
   },
   follow_up_results: {
-    type: String
+    type: String,
   },
   notification_made_to: {
-    type: String
+    type: String,
   },
   notification_made_date_time: {
-    type: Date
+    type: Date,
   },
   notification_made_by: {
-    type: String
+    type: String,
   },
   createdBy: {
     type: String,
-    required: false
+    required: false,
   },
   createdByName: {
     type: String,
-    required: false
+    required: false,
   },
   lastEditDate: {
     type: Date,
-    default: new Date()
+    default: new Date(),
     //required:true
   },
   homeId: {
-    type: String
+    type: String,
   },
-
   formType: {
-    type: String
-  }
+    type: String,
+  },
+  approved: {
+    type: Boolean,
+    default: false,
+  },
+  approvedBy: {
+    type: String,
+    required: false,
+  },
+  approvedByName: {
+    type: String,
+    required: false,
+  },
+  approvedByDate: {
+    type: Date,
+    //required:true
+  },
 });
 
 module.exports = IncidentReport = mongoose.model(
-    "incidentReport",
-    IncidentReportSchema
-  );
-  
+  "incidentReport",
+  IncidentReportSchema
+);

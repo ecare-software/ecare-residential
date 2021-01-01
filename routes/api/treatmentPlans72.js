@@ -501,4 +501,14 @@ router.get(
   }
 );
 
+router.put("/:homeId/:formId/", (req, res) => {
+  TreatmentPlan72.findByIdAndUpdate({ _id: req.params.formId }, req.body)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+});
+
 module.exports = router;

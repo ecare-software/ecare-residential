@@ -695,6 +695,9 @@ class ReportsContainer extends Component {
                         ? this.state.selectedForm
                         : { name: "hey", forms: [] }
                     }
+                    isAdminRole={this.state.adminReportingRoles.includes(
+                      this.props.userObj.jobTitle
+                    )}
                   />
                 </div>
               </div>
