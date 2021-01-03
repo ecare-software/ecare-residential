@@ -178,6 +178,7 @@ class ReportsContainer extends Component {
       Axios.get("/api/treatmentPlans72/" + this.props.userObj.homeId),
       Axios.get("/api/illnessInjury/" + this.props.userObj.homeId),
       Axios.get("/api/admissionAssessment/" + this.props.userObj.homeId),
+      Axios.get("/api/bodyCheck/" + this.props.userObj.homeId),
     ];
 
     Axios.all(formRequests).then((results) => {
@@ -217,6 +218,7 @@ class ReportsContainer extends Component {
       Axios.get("/api/treatmentPlans72/" + this.props.userObj.homeId),
       Axios.get("/api/illnessInjury/" + this.props.userObj.homeId),
       Axios.get("/api/admissionAssessment/" + this.props.userObj.homeId),
+      Axios.get("/api/bodyCheck/" + this.props.userObj.homeId),
     ];
 
     Axios.all(formRequests).then((results) => {
@@ -267,6 +269,33 @@ class ReportsContainer extends Component {
           formRequests.push(
             Axios.get(
               "/api/dailyProgressAndActivity/" +
+                this.props.userObj.homeId +
+                "/" +
+                searchString +
+                "/" +
+                submittedAfter +
+                "/" +
+                submittedBefore +
+                "/" +
+                dobAfter +
+                "/" +
+                dobBefore +
+                "/" +
+                doaAfter +
+                "/" +
+                doaBefore +
+                "/" +
+                ethnicityA +
+                "/" +
+                submittedByA
+            )
+          );
+        }
+
+        if (formName === "Body Check") {
+          formRequests.push(
+            Axios.get(
+              "/api/bodyCheck/" +
                 this.props.userObj.homeId +
                 "/" +
                 searchString +
@@ -428,6 +457,28 @@ class ReportsContainer extends Component {
       formRequests.push(
         Axios.get(
           "/api/dailyProgressAndActivity/" +
+            this.props.userObj.homeId +
+            "/" +
+            searchString +
+            "/" +
+            submittedAfter +
+            "/" +
+            submittedBefore +
+            "/" +
+            dobAfter +
+            "/" +
+            dobBefore +
+            "/" +
+            doaAfter +
+            "/" +
+            doaBefore +
+            "/" +
+            ethnicityA +
+            "/" +
+            submittedByA
+        ),
+        Axios.get(
+          "/api/bodyCheck/" +
             this.props.userObj.homeId +
             "/" +
             searchString +

@@ -24,10 +24,12 @@ import FormAlert from "./components/Forms/FormAlert";
 import Documents from "./components/Documents/Documents";
 import IllnessInjury from "./components/Forms/IllnessInjury";
 import AdmissionAssessment from "./components/Forms/AdmissionAssessment";
+import BodyCheck from "./components/Forms/BodyCheck";
 // import UserActions from "./components/UserActions/UserActions";
 import ManageAccountContainer from "./components/ManageAccount/ManageAccountContainer";
 //modals
-
+import rightBody from "./images/right_body.png";
+import leftBody from "./images/left_body.png";
 //styles
 import "./App.css";
 import Fade from "react-reveal/Fade";
@@ -742,6 +744,18 @@ function ToggleScreen({ name, appState, appendMessage, toggleDisplay }) {
     );
   }
 
+  if (name === "bodyCheck") {
+    return (
+      <div>
+        <BodyCheck
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="admissionAssessment"
+        />
+      </div>
+    );
+  }
+
   if (name === "DailyProgress") {
     return (
       <div>
@@ -921,10 +935,44 @@ function DisplayExtra({
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle">Restraint Report</h5> */}
           <p className="extraInfoNavSubTitle">
             Diagnostic Admission Assessment
           </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "bodyCheck") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv">
+          <p className="extraInfoNavSubTitle">
+            Indicate on the body diagram, all marks such as old or recent scars,
+            bruises, discolorations or disfigurements and any other questionable
+            or abnormal markings.
+          </p>
+
+          <p>
+            1=Bruise 2=Abrasion 3=Scratch(es) 4=Scar 5=Scab 6=Rash 7=Cut(s)
+            8=Sore 9=Birth Mark 10=Insect Bite(s)
+          </p>
+          <div
+            style={{
+              height: "550px",
+              overflow: "scroll",
+              borderColor: "#eee",
+              borderRadius: 9,
+              borderStyle: "solid",
+            }}
+          >
+            <div className="d-flex justify-content-center">
+              <img src={leftBody} width={250} />
+            </div>
+            <div className="d-flex justify-content-center">
+              <img src={rightBody} width={250} />
+            </div>
+          </div>
         </div>
       </div>
     );
