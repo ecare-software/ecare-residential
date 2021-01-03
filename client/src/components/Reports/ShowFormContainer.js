@@ -5,8 +5,10 @@ import DailyProgress from "../Forms/DailyProgressAndActivity";
 import RestraintReport from "../Forms/RestraintReport";
 import IllnessInjury from "../Forms/IllnessInjury";
 import AdmissionAssessment from "../Forms/AdmissionAssessment";
-import { Form, Col, Row } from "react-bootstrap";
+import BodyCheck from "../Forms/BodyCheck";
+import { Form, Col } from "react-bootstrap";
 import Axios from "axios";
+
 const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   const [isApproved, setIsApproved] = useState(
     formData.approved ? formData.approved : false
@@ -157,6 +159,16 @@ class ShowFormContainer extends Component {
       );
 
       route = "admissionAssessment";
+    } else if (name === "Health Body Check") {
+      comp = (
+        <BodyCheck
+          valuesSet="true"
+          userObj={this.props.userObj}
+          formData={this.props.formData}
+        />
+      );
+
+      route = "bodyCheck";
     } else if (name === "Restraint Report") {
       comp = (
         <RestraintReport

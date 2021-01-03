@@ -18,6 +18,7 @@ const directMessages = require("./routes/api/directMessages");
 const discussionMessages = require("./routes/api/discussionMessages");
 const illnessInjury = require("./routes/api/illnessInjury");
 const admissionAssessment = require("./routes/api/admissionAssessment");
+const bodyCheck = require("./routes/api/bodyCheck");
 const email = require("./routes/api/email");
 const uploadDocument = require("./routes/api/uploadDocument");
 
@@ -66,6 +67,7 @@ app.use("/api/directMessages", directMessages);
 app.use("/api/discussionMessages", discussionMessages);
 app.use("/api/illnessInjury", illnessInjury);
 app.use("/api/admissionAssessment", admissionAssessment);
+app.use("/api/bodyCheck", bodyCheck);
 app.use("/api/email", email);
 app.use("/api/uploadDocument", uploadDocument);
 app.use("/uploads", express.static("uploads"));
