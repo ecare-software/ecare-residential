@@ -307,13 +307,17 @@ class BodyCheck extends Component {
             <div className="form-group logInInputField">
               {" "}
               <label className="control-label">Child's Gender</label>{" "}
-              <input
+              <Form.Control
+                as="select"
                 onChange={this.handleFieldInput}
-                id="childMeta_gender"
                 value={this.state.childMeta_gender}
-                className="form-control"
-                type="text"
-              />{" "}
+                id="childMeta_gender"
+              >
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
 
             <div className="form-group logInInputField">
@@ -1120,6 +1124,7 @@ class BodyCheck extends Component {
               <label className="control-label">Child's Name</label>{" "}
               <input
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 id="childMeta_name"
                 value={this.props.formData.childMeta_name}
                 className="form-control"
@@ -1130,13 +1135,18 @@ class BodyCheck extends Component {
             <div className="form-group logInInputField">
               {" "}
               <label className="control-label">Child's Gender</label>{" "}
-              <input
+              <Form.Control
+                as="select"
                 onChange={this.handleFieldInput}
-                id="childMeta_gender"
                 value={this.props.formData.childMeta_gender}
-                className="form-control"
-                type="text"
-              />{" "}
+                disabled={this.props.userObj.isAdmin ? false : true}
+                id="childMeta_gender"
+              >
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
 
             <div className="form-group logInInputField">
@@ -1146,6 +1156,7 @@ class BodyCheck extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 id="injury"
                 value={this.props.formData.injury}
                 className="form-control"
@@ -1158,6 +1169,7 @@ class BodyCheck extends Component {
               <label className="control-label">AM / PM</label>{" "}
               <input
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 id="amPm"
                 value={this.props.formData.amPm}
                 className="form-control"
@@ -1184,6 +1196,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.head}
                 id="head"
               >
@@ -1206,6 +1219,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.left_ear}
                 id="left_ear"
               >
@@ -1228,6 +1242,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.right_ear}
                 id="right_ear"
               >
@@ -1250,6 +1265,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.left_eye}
                 id="left_eye"
               >
@@ -1272,6 +1288,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.right_eye}
                 id="right_eye"
               >
@@ -1294,6 +1311,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.nose}
                 id="nose"
               >
@@ -1316,6 +1334,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.mouth}
                 id="mouth"
               >
@@ -1338,6 +1357,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.chin}
                 id="chin"
               >
@@ -1360,6 +1380,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.neck}
                 id="neck"
               >
@@ -1384,6 +1405,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.left_shoulder}
                 id="left_shoulder"
               >
@@ -1408,6 +1430,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.right_shoulder}
                 id="right_shoulder"
               >
@@ -1430,6 +1453,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.left_arm}
                 id="left_arm"
               >
@@ -1452,6 +1476,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.right_arm}
                 id="right_arm"
               >
@@ -1474,6 +1499,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.left_hand}
                 id="left_hand"
               >
@@ -1498,6 +1524,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.right_hand}
                 id="right_hand"
               >
@@ -1520,6 +1547,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.chest}
                 id="chest"
               >
@@ -1542,6 +1570,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.back}
                 id="back"
               >
@@ -1564,6 +1593,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.stomach}
                 id="stomach"
               >
@@ -1586,6 +1616,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.left_hip}
                 id="left_hip"
               >
@@ -1608,6 +1639,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.right_hip}
                 id="right_hip"
               >
@@ -1630,6 +1662,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.left_leg}
                 id="left_leg"
               >
@@ -1652,6 +1685,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.right_leg}
                 id="right_leg"
               >
@@ -1674,6 +1708,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.left_knee}
                 id="left_knee"
               >
@@ -1698,6 +1733,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.right_knee}
                 id="right_knee"
               >
@@ -1722,6 +1758,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.left_ankle}
                 id="left_ankle"
               >
@@ -1746,6 +1783,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.right_ankle}
                 id="right_ankle"
               >
@@ -1768,6 +1806,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.left_foot}
                 id="left_foot"
               >
@@ -1792,6 +1831,7 @@ class BodyCheck extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.right_foot}
                 id="right_foot"
               >
@@ -1815,6 +1855,7 @@ class BodyCheck extends Component {
               <label className="control-label">Additional Details</label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 id="details"
                 value={this.props.formData.details}
                 className="form-control"
@@ -1826,6 +1867,7 @@ class BodyCheck extends Component {
               <label className="control-label">Examiner Name</label>{" "}
               <input
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 id="examiner_name"
                 value={this.props.formData.examiner_name}
                 className="form-control"
@@ -1838,6 +1880,7 @@ class BodyCheck extends Component {
               <label className="control-label">Examiner Title</label>{" "}
               <input
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 id="examiner_title"
                 value={this.props.formData.examiner_title}
                 className="form-control"
@@ -1852,6 +1895,7 @@ class BodyCheck extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 id="examin_date"
                 value={this.props.formData.examin_date}
                 className="form-control"
@@ -1866,6 +1910,7 @@ class BodyCheck extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 id="nurse_designee_name"
                 value={this.props.formData.nurse_designee_name}
                 className="form-control"
@@ -1880,6 +1925,7 @@ class BodyCheck extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 id="nurse_designee_title"
                 value={this.props.formData.nurse_designee_title}
                 className="form-control"
@@ -1894,6 +1940,7 @@ class BodyCheck extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
+                disabled={this.props.userObj.isAdmin ? false : true}
                 id="nurse_designee_date"
                 value={this.props.formData.nurse_designee_date}
                 className="form-control"

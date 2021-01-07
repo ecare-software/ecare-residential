@@ -3,16 +3,7 @@ import FormError from "../FormMods/FormError";
 import FormAlert from "../Forms/FormAlert";
 import "../../App.css";
 import Axios from "axios";
-
-/*
-  missing from form
-    "incident"
-
-  to change
-    remove time_of_incident - i change dateOfIncident to a date time picker
-
-    seperation should probably be a date
-*/
+import { Form } from "react-bootstrap";
 
 class IncidentReport extends Component {
   constructor(props) {
@@ -283,13 +274,17 @@ class IncidentReport extends Component {
             <div className="form-group logInInputField">
               {" "}
               <label className="control-label">Child's Gender</label>{" "}
-              <input
+              <Form.Control
+                as="select"
                 onChange={this.handleFieldInput}
-                id="childMeta_gender"
                 value={this.state.childMeta_gender}
-                className="form-control"
-                type="text"
-              />{" "}
+                id="childMeta_gender"
+              >
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
 
             <div className="form-group logInInputField">
@@ -349,13 +344,17 @@ class IncidentReport extends Component {
               <label className="control-label">
                 Gender of Care Staff Involved
               </label>{" "}
-              <input
+              <Form.Control
+                as="select"
                 onChange={this.handleFieldInput}
-                id="staff_involved_gender"
                 value={this.state.staff_involved_gender}
-                className="form-control"
-                type="text"
-              />{" "}
+                id="staff_involved_gender"
+              >
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
 
             <div className="form-group logInInputField">
@@ -389,13 +388,17 @@ class IncidentReport extends Component {
               <label className="control-label">
                 Gender of Staff Witness
               </label>{" "}
-              <input
+              <Form.Control
+                as="select"
                 onChange={this.handleFieldInput}
-                id="staff_witness_gender"
                 value={this.state.staff_witness_gender}
-                className="form-control"
-                type="text"
-              />{" "}
+                id="staff_witness_gender"
+              >
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
 
             <div className="form-group logInInputField">
@@ -417,13 +420,17 @@ class IncidentReport extends Component {
               <label className="control-label">
                 Gender of Client Witness (1)
               </label>{" "}
-              <input
+              <Form.Control
+                as="select"
                 onChange={this.handleFieldInput}
-                id="client_witness_gender1"
                 value={this.state.client_witness_gender1}
-                className="form-control"
-                type="text"
-              />{" "}
+                id="client_witness_gender1"
+              >
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
 
             <div className="form-group logInInputField">
@@ -473,13 +480,17 @@ class IncidentReport extends Component {
               <label className="control-label">
                 Gender of Client Witness (2)
               </label>{" "}
-              <input
+              <Form.Control
+                as="select"
                 onChange={this.handleFieldInput}
-                id="client_witness_gender2"
                 value={this.state.client_witness_gender2}
-                className="form-control"
-                type="text"
-              />{" "}
+                id="client_witness_gender2"
+              >
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
 
             <div className="form-group logInInputField">
@@ -668,13 +679,18 @@ class IncidentReport extends Component {
             <div className="form-group logInInputField">
               {" "}
               <label className="control-label">Child's Gender</label>{" "}
-              <input
+              <Form.Control
+                as="select"
                 onChange={this.handleFieldInput}
                 value={this.props.formData.childMeta_gender}
                 disabled={this.props.userObj.isAdmin ? false : true}
-                className="form-control"
-                type="text"
-              />{" "}
+                id="childMeta_gender"
+              >
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
 
             <div className="form-group logInInputField">
@@ -753,13 +769,18 @@ class IncidentReport extends Component {
               <label className="control-label">
                 Gender of Care Staff Involved
               </label>{" "}
-              <input
+              <Form.Control
+                as="select"
                 onChange={this.handleFieldInput}
                 value={this.props.formData.staff_involved_gender}
                 disabled={this.props.userObj.isAdmin ? false : true}
-                className="form-control"
-                type="text"
-              />{" "}
+                id="staff_involved_gender"
+              >
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
 
             <div className="form-group logInInputField">
@@ -793,13 +814,18 @@ class IncidentReport extends Component {
               <label className="control-label">
                 Gender of Staff Witness
               </label>{" "}
-              <input
+              <Form.Control
+                as="select"
                 onChange={this.handleFieldInput}
                 value={this.props.formData.staff_witness_gender}
                 disabled={this.props.userObj.isAdmin ? false : true}
-                className="form-control"
-                type="text"
-              />{" "}
+                id="staff_witness_gender"
+              >
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
 
             <div className="form-group logInInputField">
@@ -821,13 +847,18 @@ class IncidentReport extends Component {
               <label className="control-label">
                 Gender of Client Witness (1)
               </label>{" "}
-              <input
+              <Form.Control
+                as="select"
                 onChange={this.handleFieldInput}
                 value={this.props.formData.client_witness_gender1}
                 disabled={this.props.userObj.isAdmin ? false : true}
-                className="form-control"
-                type="text"
-              />{" "}
+                id="client_witness_gender1"
+              >
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
 
             <div className="form-group logInInputField">
@@ -889,13 +920,18 @@ class IncidentReport extends Component {
               <label className="control-label">
                 Gender of Client Witness (2)
               </label>{" "}
-              <input
+              <Form.Control
+                as="select"
                 onChange={this.handleFieldInput}
                 value={this.props.formData.client_witness_gender2}
                 disabled={this.props.userObj.isAdmin ? false : true}
-                className="form-control"
-                type="text"
-              />{" "}
+                id="client_witness_gender2"
+              >
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
 
             <div className="form-group logInInputField">

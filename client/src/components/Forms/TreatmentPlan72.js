@@ -3,14 +3,7 @@ import FormError from "../FormMods/FormError";
 import FormAlert from "../Forms/FormAlert";
 import "../../App.css";
 import Axios from "axios";
-import { Collapse } from "react-bootstrap";
-/*
-
-  things to change 
-    Child's Ethnicity - make single select
-    legalStatus - needs to be drop down
-
-*/
+import { Form } from "react-bootstrap";
 class TreatmentPlan72 extends Component {
   constructor(props) {
     super(props);
@@ -807,13 +800,17 @@ class TreatmentPlan72 extends Component {
             <div className="form-group logInInputField">
               {" "}
               <label className="control-label">Child's Gender</label>{" "}
-              <input
+              <Form.Control
+                as="select"
                 onChange={this.handleFieldInput}
-                id="childMeta_gender"
                 value={this.state.childMeta_gender}
-                className="form-control"
-                type="text"
-              />{" "}
+                id="childMeta_gender"
+              >
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
             <div className="form-group logInInputField">
               {" "}
@@ -855,13 +852,21 @@ class TreatmentPlan72 extends Component {
             <div className="form-group logInInputField">
               {" "}
               <label className="control-label">Child's Ethnicity</label>{" "}
-              <input
+              <Form.Control
+                as="select"
                 onChange={this.handleFieldInput}
-                id="childMeta_ethnicity"
                 value={this.state.childMeta_ethnicity}
-                className="form-control"
-                type="text"
-              />{" "}
+                id="childMeta_ethnicity"
+              >
+                <option>Black</option>
+                <option>White</option>
+                <option>Hispanic</option>
+                <option>Asian</option>
+                <option>Pacific Islander</option>
+                <option>Native American</option>
+                <option>Other</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
             <div className="form-group logInInputField">
               {" "}
@@ -2635,13 +2640,18 @@ class TreatmentPlan72 extends Component {
             <div className="form-group logInInputField">
               {" "}
               <label className="control-label">Child's Gender</label>{" "}
-              <input
+              <Form.Control
+                as="select"
                 onChange={this.handleFieldInput}
                 value={this.props.formData.childMeta_gender}
                 disabled={this.props.userObj.isAdmin ? false : true}
-                className="form-control"
-                type="text"
-              />{" "}
+                id="childMeta_gender"
+              >
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
             <div className="form-group logInInputField">
               {" "}
@@ -2683,13 +2693,22 @@ class TreatmentPlan72 extends Component {
             <div className="form-group logInInputField">
               {" "}
               <label className="control-label">Child's Ethnicity</label>{" "}
-              <input
+              <Form.Control
+                as="select"
                 onChange={this.handleFieldInput}
-                value={this.props.formData.childMeta_ethnicity}
                 disabled={this.props.userObj.isAdmin ? false : true}
-                className="form-control"
-                type="text"
-              />{" "}
+                value={this.props.formData.childMeta_ethnicity}
+                id="childMeta_ethnicity"
+              >
+                <option>Black</option>
+                <option>White</option>
+                <option>Hispanic</option>
+                <option>Asian</option>
+                <option>Pacific Islander</option>
+                <option>Native American</option>
+                <option>Other</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
             <div className="form-group logInInputField">
               {" "}
