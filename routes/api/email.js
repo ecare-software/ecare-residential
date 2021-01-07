@@ -16,7 +16,7 @@ const router = express.Router();
 const nodemailer = require("nodemailer");
 
 router.post("/:email/:name", (req, res) => {
-  var email = req.params.email;
+  var email = req.params.email.toLocaleLowerCase();
   var name = req.params.name;
   const user = "EcareResidential-Admin@ecare-residential.com";
   const pass = "Ecare2020";

@@ -314,7 +314,7 @@ class NavBar extends React.Component {
               style={navItemStyle}
               variant="success"
               color="white"
-              title="Submit a Form"
+              title="Forms"
               id="collasible-nav-dropdown"
               className="Submit-a-Form-nav"
             >
