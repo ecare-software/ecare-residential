@@ -9,7 +9,9 @@ function Document({ data, isAdminRole, userObj, id, download, getUserName }) {
   );
   const [approvedByText, setApprovedByText] = useState(
     data.approved === true
-      ? `${data.approvedBy}, ${new Date(data.approvedByDate).toLocaleString()}`
+      ? `${data.approvedByName}, ${new Date(
+          data.approvedByDate
+        ).toLocaleString()}`
       : ""
   );
 
@@ -75,7 +77,7 @@ function Document({ data, isAdminRole, userObj, id, download, getUserName }) {
               <Col xs="auto">
                 <Form.Check
                   type="checkbox"
-                  id="autoSizingCheck"
+                  id={`autoSizingCheck-${id}`}
                   className="mb-2 d-flex align-items-center"
                   label={setApprovedLabel(isApproved)}
                   disabled={!isAdminRole}
