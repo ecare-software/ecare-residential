@@ -22,6 +22,22 @@ const ImageSchema = new Schema({
     data: Buffer,
     contentType: String,
   },
+  approved: {
+    type: Boolean,
+    default: false,
+  },
+  approvedBy: {
+    type: String,
+    required: false,
+  },
+  approvedByName: {
+    type: String,
+    required: false,
+  },
+  approvedByDate: {
+    type: Date,
+    //required:true
+  },
 });
 
 module.exports = Image = mongoose.model("image", ImageSchema);

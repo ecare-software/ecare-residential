@@ -135,4 +135,15 @@ router.get("/", (req, res) => {
     return res.json(files);
   });
 });
+
+router.put("/:homeId/:formId/", (req, res) => {
+  Image.findByIdAndUpdate({ _id: req.params.formId }, req.body)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+});
+
 module.exports = router;

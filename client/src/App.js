@@ -847,72 +847,12 @@ function DisplayExtra({
   if (name === "Documents") {
     return (
       <div id="extraInfo">
-        {/* <div id="">
-          <h4 className="extraInfoMainTitle">
-            Documents
-          </h4>
-          <h6 className="extraInfoSubTitle">{userObj.jobTitle}</h6>
-        </div> */}
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle">Documents</h5> */}
           <p className="extraInfoNavSubTitle">
             <i>This is where you upload documents for everyone to see</i>
           </p>
         </div>
-        <div className="extraInfoButtonDiv">
-          {/* <label
-            className="btn btn-light extraInfoButton"
-            htmlFor="uploadBtnLeft"
-            onClick={() => {
-              openUpload(true);
-            }}
-          >
-            Upload New Document
-          </label>
-          <Modal
-            show={appState.showUploadModal}
-            onHide={() => {
-              openUpload(false);
-            }}
-          >
-            <div style={{ backgroundColor: "white" }}>
-              <ModalHeader
-                closeButton
-                style={{
-                  color: "maroon",
-                  borderColor: "maroon",
-                  textAlign: "center",
-                }}
-              >
-                <h5>Upload New Document</h5>
-              </ModalHeader>
-              <ModalBody>
-                <div className="form-group">
-                  <label>File Name</label>
-                  <input
-                    id="fileName"
-                    style={{ width: "100%", margin: "15px 0px" }}
-                    className="form-control"
-                    placeholder="Name / Organization"
-                  />
-                  <input
-                    type="file"
-                    id="fileBtn"
-                    onChange={(e) => {
-                      uploadImage(
-                        e,
-                        "multer",
-                        userObj,
-                        document.getElementById("fileName").value
-                      );
-                      openUpload(false);
-                    }}
-                  />
-                </div>
-              </ModalBody>
-            </div>
-          </Modal> */}
-        </div>
+        <div className="extraInfoButtonDiv"></div>
       </div>
     );
   }
@@ -921,7 +861,6 @@ function DisplayExtra({
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle">Restraint Report</h5> */}
           <p className="extraInfoNavSubTitle">
             If a child had to be restrained, file this form, notationg what
             happened to cause this action.

@@ -13,6 +13,14 @@ class Documents extends Component {
     this.state = {
       documents: [],
       showUploadModal: false,
+      adminReportingRoles: [
+        "Admin",
+        "Owner/CEO",
+        "Executive/Director",
+        "Administrator",
+        "Case/Manager",
+        "Supervisor",
+      ],
     };
   }
 
@@ -120,7 +128,7 @@ class Documents extends Component {
           </div>
         </div>
         <div>
-          <label
+          <button
             className="btn btn-light extraInfoButton"
             htmlFor="uploadBtnLeft"
             onClick={() => {
@@ -128,7 +136,7 @@ class Documents extends Component {
             }}
           >
             Upload New Document
-          </label>
+          </button>
           <Modal
             show={this.state.showUploadModal}
             onHide={() => {
@@ -182,6 +190,10 @@ class Documents extends Component {
                   key={doc._id}
                   download={this.download}
                   getUserName={this.getUserName}
+                  isAdminRole={this.state.adminReportingRoles.includes(
+                    this.props.userObj.jobTitle
+                  )}
+                  userObj={this.props.userObj}
                 />
               ))}
           </ListGroup>
