@@ -365,7 +365,7 @@ class IncidentReport extends Component {
                 id="time_of_incident"
                 value={this.state.time_of_incident}
                 className="form-control"
-                type="text"
+                type="time"
               />{" "}
             </div>
 
@@ -791,7 +791,7 @@ class IncidentReport extends Component {
                 value={this.props.formData.time_of_incident}
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
-                type="text"
+                type="time"
               />{" "}
             </div>
 
