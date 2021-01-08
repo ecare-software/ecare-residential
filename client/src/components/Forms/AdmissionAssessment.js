@@ -548,13 +548,19 @@ class AdmissionAssessment extends Component {
           <div className="form-group logInInputField">
             {" "}
             <label className="control-label">Child's Level of Care</label>{" "}
-            <input
+            <Form.Control
+              as="select"
               onChange={this.handleFieldInput}
-              id="childMeta_levelOfCare"
               value={this.state.childMeta_levelOfCare}
-              className="form-control"
-              type="text"
-            />{" "}
+              id="childMeta_levelOfCare"
+            >
+              <option>Basic</option>
+              <option>Moderate</option>
+              <option>Specialized</option>
+              <option>Intense</option>
+              <option>Intense-plus</option>
+              <option value={""}>Choose</option>
+            </Form.Control>
           </div>
           <div className="form-group logInInputField">
             {" "}
@@ -2106,7 +2112,6 @@ class AdmissionAssessment extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
-                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.props.formData.childMeta_ethnicity}
                 disabled={this.props.userObj.isAdmin ? false : true}
                 id="childMeta_ethnicity"
@@ -2126,14 +2131,20 @@ class AdmissionAssessment extends Component {
               <label className="control-label">
                 Child's Level of Care
               </label>{" "}
-              <input
+              <Form.Control
+                as="select"
                 onChange={this.handleFieldInput}
+                value={this.props.formData.childMeta_levelOfCare}
                 disabled={this.props.userObj.isAdmin ? false : true}
                 id="childMeta_levelOfCare"
-                value={this.props.formData.childMeta_levelOfCare}
-                className="form-control"
-                type="text"
-              />{" "}
+              >
+                <option>Basic</option>
+                <option>Moderate</option>
+                <option>Specialized</option>
+                <option>Intense</option>
+                <option>Intense-plus</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
             <div className="form-group logInInputField">
               {" "}

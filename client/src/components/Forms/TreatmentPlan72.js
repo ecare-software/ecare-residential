@@ -873,13 +873,19 @@ class TreatmentPlan72 extends Component {
               <label className="control-label">
                 Child's Level of Care
               </label>{" "}
-              <input
+              <Form.Control
+                as="select"
                 onChange={this.handleFieldInput}
-                id="childMeta_levelOfCare"
                 value={this.state.childMeta_levelOfCare}
-                className="form-control"
-                type="text"
-              />{" "}
+                id="childMeta_levelOfCare"
+              >
+                <option>Basic</option>
+                <option>Moderate</option>
+                <option>Specialized</option>
+                <option>Intense</option>
+                <option>Intense-plus</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
             <div className="form-group logInInputField">
               {" "}
@@ -2715,13 +2721,20 @@ class TreatmentPlan72 extends Component {
               <label className="control-label">
                 Child's Level of Care
               </label>{" "}
-              <input
+              <Form.Control
+                as="select"
                 onChange={this.handleFieldInput}
                 value={this.props.formData.childMeta_levelOfCare}
                 disabled={this.props.userObj.isAdmin ? false : true}
-                className="form-control"
-                type="text"
-              />{" "}
+                id="childMeta_levelOfCare"
+              >
+                <option>Basic</option>
+                <option>Moderate</option>
+                <option>Specialized</option>
+                <option>Intense</option>
+                <option>Intense-plus</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
             <div className="form-group logInInputField">
               {" "}
