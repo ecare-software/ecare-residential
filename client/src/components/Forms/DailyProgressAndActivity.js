@@ -139,7 +139,9 @@ class DailyProgressAndActivity extends Component {
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
         setTimeout(this.toggleSuccessAlert, 3000);
-        this.resetForm();
+        if (!this.props.valuesSet) {
+          this.resetForm();
+        }
       })
       .catch((e) => {
         this.setState({
@@ -164,6 +166,16 @@ class DailyProgressAndActivity extends Component {
 
   validateForm = () => {
     var keysToExclude = ["formHasError", "formSubmitted", "formErrorMessage"];
+
+    //resubmit fields
+    keysToExclude = [
+      ...keysToExclude,
+      "__v",
+      "approved",
+      "approvedBy",
+      "approvedByDate",
+      "approvedByName",
+    ];
 
     var isValid = true;
     var errorFields = [];
@@ -193,6 +205,16 @@ class DailyProgressAndActivity extends Component {
 
     this.submit();
   };
+
+  setValues = () => {
+    this.setState({ ...this.state, ...this.props.formData });
+  };
+
+  componentDidMount() {
+    if (this.props.valuesSet) {
+      this.setValues();
+    }
+  }
 
   render() {
     if (!this.props.valuesSet) {
@@ -672,8 +694,8 @@ class DailyProgressAndActivity extends Component {
               <label className="control-label">Child's Name</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.childMeta_name}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.childMeta_name}
+                id="childMeta_name"
                 className="form-control"
                 type="text"
               />{" "}
@@ -692,8 +714,8 @@ class DailyProgressAndActivity extends Component {
               <label className="control-label">Personal Hygiene wk</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.personal_hygiene}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.personal_hygiene}
+                id="personal_hygiene"
                 className="form-control"
                 type="text"
               />{" "}
@@ -703,8 +725,8 @@ class DailyProgressAndActivity extends Component {
               <label className="control-label">Dressing</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.dressing}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.dressing}
+                id="dressing"
                 className="form-control"
                 type="text"
               />{" "}
@@ -714,8 +736,8 @@ class DailyProgressAndActivity extends Component {
               <label className="control-label">Table Mannders</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.table_mannders}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.table_mannders}
+                id="table_mannders"
                 className="form-control"
                 type="text"
               />{" "}
@@ -725,8 +747,8 @@ class DailyProgressAndActivity extends Component {
               <label className="control-label">Clothes Maintenance</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.clothes_maintenace}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.clothes_maintenace}
+                id="clothes_maintenace"
                 className="form-control"
                 type="text"
               />{" "}
@@ -736,8 +758,8 @@ class DailyProgressAndActivity extends Component {
               <label className="control-label">Self Feeding</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.self_feeding}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.self_feeding}
+                id="self_feeding"
                 className="form-control"
                 type="text"
               />{" "}
@@ -747,8 +769,8 @@ class DailyProgressAndActivity extends Component {
               <label className="control-label">Care of Property</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.care_of_property}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.care_of_property}
+                id="care_of_property"
                 className="form-control"
                 type="text"
               />{" "}
@@ -760,8 +782,8 @@ class DailyProgressAndActivity extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.maintenace_of_personal_space}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.maintenace_of_personal_space}
+                id="maintenace_of_personal_space"
                 className="form-control"
                 type="text"
               />{" "}
@@ -771,8 +793,8 @@ class DailyProgressAndActivity extends Component {
               <label className="control-label">Household Chores</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.household_chorse}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.household_chorse}
+                id="household_chorse"
                 className="form-control"
                 type="text"
               />{" "}
@@ -788,8 +810,8 @@ class DailyProgressAndActivity extends Component {
               <label className="control-label">Informal Counseling</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.informal_counseling}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.informal_counseling}
+                id="informal_counseling"
                 className="form-control"
                 type="text"
               />{" "}
@@ -799,8 +821,8 @@ class DailyProgressAndActivity extends Component {
               <label className="control-label">Verbal Redirection</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.verbal_redirection}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.verbal_redirection}
+                id="verbal_redirection"
                 className="form-control"
                 type="text"
               />{" "}
@@ -810,8 +832,8 @@ class DailyProgressAndActivity extends Component {
               <label className="control-label">Modeling</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.modeling}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.modeling}
+                id="modeling"
                 className="form-control"
                 type="text"
               />{" "}
@@ -823,8 +845,8 @@ class DailyProgressAndActivity extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.supervised_separation}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.supervised_separation}
+                id="supervised_separation"
                 className="form-control"
                 type="text"
               />{" "}
@@ -836,8 +858,8 @@ class DailyProgressAndActivity extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.provider_feedback_to_client}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.provider_feedback_to_client}
+                id="provider_feedback_to_client"
                 className="form-control"
                 type="text"
               />{" "}
@@ -849,8 +871,8 @@ class DailyProgressAndActivity extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.positive_reinforcement}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.positive_reinforcement}
+                id="positive_reinforcement"
                 className="form-control"
                 type="text"
               />{" "}
@@ -860,8 +882,8 @@ class DailyProgressAndActivity extends Component {
               <label className="control-label">Other (Specify)</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.other}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.other}
+                id="other"
                 className="form-control"
                 type="text"
               />{" "}
@@ -876,8 +898,8 @@ class DailyProgressAndActivity extends Component {
               <label className="control-label">Home Restrictions</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.home_restrictions}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.home_restrictions}
+                id="home_restrictions"
                 className="form-control"
                 type="text"
               />{" "}
@@ -889,8 +911,8 @@ class DailyProgressAndActivity extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.restricted_leisure_activity}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.restricted_leisure_activity}
+                id="restricted_leisure_activity"
                 className="form-control"
                 type="text"
               />{" "}
@@ -900,8 +922,8 @@ class DailyProgressAndActivity extends Component {
               <label className="control-label">No Allowance</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.no_allowance}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.no_allowance}
+                id="no_allowance"
                 className="form-control"
                 type="text"
               />{" "}
@@ -911,8 +933,8 @@ class DailyProgressAndActivity extends Component {
               <label className="control-label">Other (Specify)</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.other2}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.other2}
+                id="other2"
                 className="form-control"
                 type="text"
               />{" "}
@@ -927,8 +949,8 @@ class DailyProgressAndActivity extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.no_of_home_incidents}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.no_of_home_incidents}
+                id="no_of_home_incidents"
                 className="form-control"
                 type="text"
               />{" "}
@@ -940,8 +962,8 @@ class DailyProgressAndActivity extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.no_of_home_serious_incidents}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.no_of_home_serious_incidents}
+                id="no_of_home_serious_incidents"
                 className="form-control"
                 type="text"
               />{" "}
@@ -953,8 +975,8 @@ class DailyProgressAndActivity extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.no_of_home_restraints}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.no_of_home_restraints}
+                id="no_of_home_restraints"
                 className="form-control"
                 type="text"
               />{" "}
@@ -966,8 +988,8 @@ class DailyProgressAndActivity extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.no_of_school_incidents}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.no_of_school_incidents}
+                id="no_of_school_incidents"
                 className="form-control"
                 type="text"
               />{" "}
@@ -979,8 +1001,8 @@ class DailyProgressAndActivity extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.no_of_school_restraints}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.no_of_school_restraints}
+                id="no_of_school_restraints"
                 className="form-control"
                 type="text"
               />{" "}
@@ -990,8 +1012,8 @@ class DailyProgressAndActivity extends Component {
               <label className="control-label">Illnesses / Injuries</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.illness_injury}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.illness_injury}
+                id="illness_injury"
                 className="form-control"
                 type="text"
               />{" "}
@@ -1001,8 +1023,8 @@ class DailyProgressAndActivity extends Component {
               <label className="control-label">Level of Supervison</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.level_of_supervison}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.level_of_supervison}
+                id="level_of_supervison"
                 className="form-control"
                 type="text"
               />{" "}
@@ -1014,8 +1036,8 @@ class DailyProgressAndActivity extends Component {
               </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
-                value={this.props.formData.summary_of_daily_schedule}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.summary_of_daily_schedule}
+                id="summary_of_daily_schedule"
                 className="form-control"
               ></textarea>
             </div>
@@ -1026,8 +1048,8 @@ class DailyProgressAndActivity extends Component {
               </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
-                value={this.props.formData.summary_of_behavior_at_school}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.summary_of_behavior_at_school}
+                id="summary_of_behavior_at_school"
                 className="form-control"
               ></textarea>
             </div>
@@ -1038,8 +1060,8 @@ class DailyProgressAndActivity extends Component {
               </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
-                value={this.props.formData.summary_of_behavior_at_home}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.summary_of_behavior_at_home}
+                id="summary_of_behavior_at_home"
                 className="form-control"
               ></textarea>
             </div>
@@ -1050,8 +1072,8 @@ class DailyProgressAndActivity extends Component {
               </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
-                value={this.props.formData.therapeutic_recreational}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.therapeutic_recreational}
+                id="therapeutic_recreational"
                 className="form-control"
               ></textarea>
             </div>
@@ -1060,8 +1082,8 @@ class DailyProgressAndActivity extends Component {
               <label className="control-label">Therapeutic Value</label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
-                value={this.props.formData.therapeutic_value}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.therapeutic_value}
+                id="therapeutic_value"
                 className="form-control"
               ></textarea>
             </div>
@@ -1070,20 +1092,24 @@ class DailyProgressAndActivity extends Component {
               <label className="control-label">Phone Calls / Visits</label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
-                value={this.props.formData.phone_calls_or_visits}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.phone_calls_or_visits}
+                id="phone_calls_or_visits"
                 className="form-control"
               ></textarea>
             </div>
-            <FormError errorId={this.props.id + "-error"} />
-            <div
-              className="form-group logInInputField"
-              style={{ textAlign: "right" }}
-            >
-              <button className="darkBtn" onClick={this.validateForm}>
-                Submit
-              </button>
-            </div>
+            {!this.props.formData.approved && (
+              <>
+                <FormError errorId={this.props.id + "-error"} />
+                <div
+                  className="form-group logInInputField"
+                  style={{ textAlign: "right" }}
+                >
+                  <button className="darkBtn" onClick={this.validateForm}>
+                    Submit
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       );
