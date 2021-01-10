@@ -620,7 +620,9 @@ class TreatmentPlan72 extends Component {
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
         setTimeout(this.toggleSuccessAlert, 3000);
-        this.resetForm();
+        if (!this.props.valuesSet) {
+          this.resetForm();
+        }
       })
       .catch((e) => {
         this.setState({
@@ -689,6 +691,16 @@ class TreatmentPlan72 extends Component {
       "visitor4_supervisedBy",
       "visitor4_location",
       "visitor4_length",
+    ];
+
+    //resubmit fields
+    keysToExclude = [
+      ...keysToExclude,
+      "__v",
+      "approved",
+      "approvedBy",
+      "approvedByDate",
+      "approvedByName",
     ];
 
     var isValid = true;
@@ -2604,7 +2616,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.childMeta_name}
                 id="childMeta_name"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -2623,7 +2634,6 @@ class TreatmentPlan72 extends Component {
                         .replace(/T.*/g, "")
                     : this.state.childMeta_dob
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
               />{" "}
@@ -2635,7 +2645,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.childMeta_age}
                 id="childMeta_age"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="number"
               />{" "}
@@ -2647,7 +2656,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.childMeta_ssn}
                 id="childMeta_ssn"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="number"
               />{" "}
@@ -2659,7 +2667,6 @@ class TreatmentPlan72 extends Component {
                 as="select"
                 onChange={this.handleFieldInput}
                 value={this.state.childMeta_gender}
-                disabled={this.props.userObj.isAdmin ? false : true}
                 id="childMeta_gender"
               >
                 <option>Male</option>
@@ -2677,7 +2684,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.childMeta_medicaidNumber}
                 id="childMeta_medicaidNumber"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -2689,7 +2695,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.childMeta_county}
                 id="childMeta_county"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -2703,7 +2708,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.childMeta_placeOfBirth}
                 id="childMeta_placeOfBirth"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -2714,7 +2718,6 @@ class TreatmentPlan72 extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
-                disabled={this.props.userObj.isAdmin ? false : true}
                 value={this.state.childMeta_ethnicity}
                 id="childMeta_ethnicity"
               >
@@ -2737,7 +2740,6 @@ class TreatmentPlan72 extends Component {
                 as="select"
                 onChange={this.handleFieldInput}
                 value={this.state.childMeta_levelOfCare}
-                disabled={this.props.userObj.isAdmin ? false : true}
                 id="childMeta_levelOfCare"
               >
                 <option>Basic</option>
@@ -2755,7 +2757,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.childMeta_religion}
                 id="childMeta_religion"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -2769,7 +2770,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.childMeta_managingConservator}
                 id="childMeta_managingConservator"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -2788,7 +2788,6 @@ class TreatmentPlan72 extends Component {
                         .replace(/T.*/g, "")
                     : this.state.childMeta_dateOfAdmission
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
               />{" "}
@@ -2807,7 +2806,6 @@ class TreatmentPlan72 extends Component {
                         .replace(/T.*/g, "")
                     : this.state.projectedDateForAchievingPermanency
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
               />{" "}
@@ -2821,7 +2819,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.legalStatus_PermancyGoal}
                 id="legalStatus_PermancyGoal"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -2832,7 +2829,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.fatherMeta_name}
                 id="fatherMeta_name"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -2844,7 +2840,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.fatherMeta_address}
                 id="fatherMeta_address"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -2858,7 +2853,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.fatherMeta_phoneNumber}
                 id="fatherMeta_phoneNumber"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="number"
               />{" "}
@@ -2870,7 +2864,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.motherMeta_name}
                 id="motherMeta_name"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -2882,7 +2875,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.motherMeta_address}
                 id="motherMeta_address"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -2894,7 +2886,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.motherMeta_phoneNumber}
                 id="motherMeta_phoneNumber"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="number"
               />{" "}
@@ -2906,7 +2897,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.legalStatus}
                 id="legalStatus"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -2920,7 +2910,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.referringAgency_co}
                 id="referringAgency_co"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -2934,7 +2923,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.agentOfReferringAgency_co_name}
                 id="agentOfReferringAgency_co_name"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -2948,7 +2936,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.agentOfReferringAgency_co_address}
                 id="agentOfReferringAgency_co_address"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -2962,7 +2949,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.reactionToPlacement}
                 id="reactionToPlacement"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -2973,7 +2959,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.interests}
                 id="interests"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -2992,7 +2977,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.otherMeta1_name}
                 id="otherMeta1_name"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3006,7 +2990,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.otherMeta1_relationship}
                 id="otherMeta1_relationship"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3020,7 +3003,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.otherMeta1_address}
                 id="otherMeta1_address"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3034,7 +3016,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.otherMeta1_phoneNumber}
                 id="otherMeta1_phoneNumber"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="number"
               />{" "}
@@ -3048,7 +3029,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.otherMeta2_name}
                 id="otherMeta2_name"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3062,7 +3042,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.otherMeta2_relationship}
                 id="otherMeta2_relationship"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3076,7 +3055,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.otherMeta2_address}
                 id="otherMeta2_address"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3090,7 +3068,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.otherMeta2_phoneNumber}
                 id="otherMeta2_phoneNumber"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="number"
               />{" "}
@@ -3104,7 +3081,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.otherMeta3_name}
                 id="otherMeta3_name"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3118,7 +3094,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.otherMeta3_relationship}
                 id="otherMeta3_relationship"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3132,7 +3107,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.otherMeta3_address}
                 id="otherMeta3_address"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3146,7 +3120,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.otherMeta3_phoneNumber}
                 id="otherMeta3_phoneNumber"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="number"
               />{" "}
@@ -3160,7 +3133,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.otherMeta4_name}
                 id="otherMeta4_name"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3174,7 +3146,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.otherMeta4_relationship}
                 id="otherMeta4_relationship"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3188,7 +3159,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.otherMeta4_address}
                 id="otherMeta4_address"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3202,7 +3172,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.otherMeta4_phoneNumber}
                 id="otherMeta4_phoneNumber"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="number"
               />{" "}
@@ -3219,7 +3188,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.currentMedicalInformation}
                 id="currentMedicalInformation"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -3232,7 +3200,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.developmental_medicalHistory}
                 id="developmental_medicalHistory"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -3243,7 +3210,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.drugAllergies}
                 id="drugAllergies"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -3254,7 +3220,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.food1}
                 id="food1"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -3265,7 +3230,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.allergies}
                 id="allergies"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -3276,7 +3240,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.chronicHealth}
                 id="chronicHealth"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3288,7 +3251,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.healthStrengths}
                 id="healthStrengths"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -3299,7 +3261,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.healthNeeds}
                 id="healthNeeds"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -3317,7 +3278,6 @@ class TreatmentPlan72 extends Component {
                         .replace(/T.*/g, "")
                     : this.state.lastPhysicalExamination_date
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
               />{" "}
@@ -3331,7 +3291,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.lastPhysicalExamination_location}
                 id="lastPhysicalExamination_location"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3345,7 +3304,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.lastPhysicalExamination_monitoredBy}
                 id="lastPhysicalExamination_monitoredBy"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3364,7 +3322,6 @@ class TreatmentPlan72 extends Component {
                         .replace(/T.*/g, "")
                     : this.state.lastDentalExamination_date
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
               />{" "}
@@ -3378,7 +3335,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.lastDentalExamination_location}
                 id="lastDentalExamination_location"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3392,7 +3348,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.lastDentalExamination_monitoredBy}
                 id="lastDentalExamination_monitoredBy"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3411,7 +3366,6 @@ class TreatmentPlan72 extends Component {
                         .replace(/T.*/g, "")
                     : this.state.lastOpticalExamination_date
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
               />{" "}
@@ -3425,7 +3379,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.lastOpticalExamination_location}
                 id="lastOpticalExamination_location"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3439,7 +3392,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.lastOpticalExamination_monitoredBy}
                 id="lastOpticalExamination_monitoredBy"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3460,7 +3412,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms1_medication
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3476,7 +3427,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms1_dosage_frequency
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3490,7 +3440,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms1_purpose
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3506,7 +3455,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms1_possibleSideEffects
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3520,7 +3468,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms1_monitoredBy
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3534,7 +3481,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms2_medication
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3550,7 +3496,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms2_dosage_frequency
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3564,7 +3509,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms2_purpose
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3580,7 +3524,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms2_possibleSideEffects
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3594,7 +3537,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms2_monitoredBy
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3608,7 +3550,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms3_medication
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3622,7 +3563,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms3_dosage_frequency
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3636,7 +3576,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms3_purpose
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3652,7 +3591,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms3_possibleSideEffects
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3666,7 +3604,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms3_monitoredBy
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3680,7 +3617,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms4_medication
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3694,7 +3630,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms4_dosage_frequency
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3708,7 +3643,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms4_purpose
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3724,7 +3658,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms4_possibleSideEffects
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3738,7 +3671,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms4_monitoredBy
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3752,7 +3684,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms5_medication
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3766,7 +3697,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms5_dosage_frequency
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3780,7 +3710,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms5_purpose
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3796,7 +3725,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms5_possibleSideEffects
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3810,7 +3738,6 @@ class TreatmentPlan72 extends Component {
                   this.state
                     .currentMedications_dosages_targetedSymptoms5_monitoredBy
                 }
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3822,7 +3749,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.behavioralStrengths}
                 id="behavioralStrengths"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -3833,7 +3759,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.behavioralNeeds}
                 id="behavioralNeeds"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -3846,7 +3771,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.behavioralTreatmentServices}
                 id="behavioralTreatmentServices"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -3857,7 +3781,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.emotionalStrengths}
                 id="emotionalStrengths"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -3868,7 +3791,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.emotionalNeeds}
                 id="emotionalNeeds"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -3881,7 +3803,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.emotionalTreatmentServices}
                 id="emotionalTreatmentServices"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -3897,7 +3818,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.food2}
                 id="food2"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3909,7 +3829,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.eyeContact}
                 id="eyeContact"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3921,7 +3840,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.physicalTouch}
                 id="physicalTouch"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3933,7 +3851,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.personalProperty}
                 id="personalProperty"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3945,7 +3862,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.certainTopics}
                 id="certainTopics"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -3958,7 +3874,6 @@ class TreatmentPlan72 extends Component {
               <textarea
                 onChange={this.handleFieldInput}
                 value={this.state.knownContraindicationsToTheUuseOfRestraint}
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -3970,7 +3885,6 @@ class TreatmentPlan72 extends Component {
               <textarea
                 onChange={this.handleFieldInput}
                 value={this.state.de_escalatingTechniquesToAvoidRestraints_ebi}
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -3983,7 +3897,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.child_de_escalator}
                 id="child_de_escalator"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -3996,7 +3909,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.staff_de_escalator}
                 id="staff_de_escalator"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -4009,7 +3921,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.therapist_de_escalator}
                 id="therapist_de_escalator"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -4022,7 +3933,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.childPreferred_de_escalation}
                 id="childPreferred_de_escalation"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -4035,7 +3945,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.interventionStrategies}
                 id="interventionStrategies"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -4048,7 +3957,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.supervisionStrategies}
                 id="supervisionStrategies"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -4061,7 +3969,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.social_recreationalStrengths}
                 id="social_recreationalStrengths"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -4074,7 +3981,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.social_recreationalNeeds}
                 id="social_recreationalNeeds"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -4085,7 +3991,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.familyStrengths}
                 id="familyStrengths"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -4096,7 +4001,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.familyNeeds}
                 id="familyNeeds"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -4107,7 +4011,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor1_name}
                 id="visitor1_name"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4121,7 +4024,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor1_relationship}
                 id="visitor1_relationship"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4135,7 +4037,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor1_frequency}
                 id="visitor1_frequency"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4149,7 +4050,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor1_supervisedBy}
                 id="visitor1_supervisedBy"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4163,7 +4063,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor1_location}
                 id="visitor1_location"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4177,7 +4076,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor1_length}
                 id="visitor1_length"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4189,7 +4087,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor2_name}
                 id="visitor2_name"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4203,7 +4100,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor2_relationship}
                 id="visitor2_relationship"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4217,7 +4113,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor2_frequency}
                 id="visitor2_frequency"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4231,7 +4126,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor2_supervisedBy}
                 id="visitor2_supervisedBy"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4245,7 +4139,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor2_location}
                 id="visitor2_location"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4259,7 +4152,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor2_length}
                 id="visitor2_length"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4271,7 +4163,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor3_name}
                 id="visitor3_name"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4285,7 +4176,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor3_relationship}
                 id="visitor3_relationship"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4299,7 +4189,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor3_frequency}
                 id="visitor3_frequency"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4313,7 +4202,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor3_supervisedBy}
                 id="visitor3_supervisedBy"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4327,7 +4215,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor3_location}
                 id="visitor3_location"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4341,7 +4228,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor3_length}
                 id="visitor3_length"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4353,7 +4239,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor4_name}
                 id="visitor4_name"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4367,7 +4252,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor4_relationship}
                 id="visitor4_relationship"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4381,7 +4265,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor4_frequency}
                 id="visitor4_frequency"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4395,7 +4278,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor4_supervisedBy}
                 id="visitor4_supervisedBy"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4409,7 +4291,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor4_location}
                 id="visitor4_location"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4423,7 +4304,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.visitor4_length}
                 id="visitor4_length"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -4437,7 +4317,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.educational_vacationalStrengths}
                 id="educational_vacationalStrengths"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -4450,7 +4329,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.educational_vacationalNeeds}
                 id="educational_vacationalNeeds"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -4461,7 +4339,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.transitionalLiving}
                 id="transitionalLiving"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -4472,7 +4349,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.dischargePlanning}
                 id="dischargePlanning"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -4483,7 +4359,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.longRangeGoals}
                 id="longRangeGoals"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -4494,7 +4369,6 @@ class TreatmentPlan72 extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.shortRangeGoals}
                 id="shortRangeGoals"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -4503,7 +4377,7 @@ class TreatmentPlan72 extends Component {
             <label className="control-label">administorSign</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.administorSign} disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.administorSign} 
               className="form-control"
               type="text"
             />{" "}
@@ -4513,7 +4387,7 @@ class TreatmentPlan72 extends Component {
             <label className="control-label">administorSignDate</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.administorSignDate} disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.administorSignDate} 
               className="form-control"
               type="text"
             />{" "}
@@ -4523,7 +4397,7 @@ class TreatmentPlan72 extends Component {
             <label className="control-label">treatmentDirectorSign</label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.treatmentDirectorSign} disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.treatmentDirectorSign} 
               className="form-control"
               type="text"
             />{" "}
@@ -4535,20 +4409,24 @@ class TreatmentPlan72 extends Component {
             </label>{" "}
             <input
               onChange={this.handleFieldInput}
-              value={this.props.formData.treatmentDirectorSignDate} disabled={this.props.userObj.isAdmin ? false : true}
+              value={this.props.formData.treatmentDirectorSignDate} 
               className="form-control"
               type="text"
             />{" "}
           </div> */}
-            <FormError errorId={this.props.id + "-error"} />
-            <div
-              className="form-group logInInputField"
-              style={{ textAlign: "right" }}
-            >
-              <button className="darkBtn" onClick={this.validateForm}>
-                Submit
-              </button>
-            </div>
+            {!this.props.formData.approved && (
+              <>
+                <FormError errorId={this.props.id + "-error"} />
+                <div
+                  className="form-group logInInputField"
+                  style={{ textAlign: "right" }}
+                >
+                  <button className="darkBtn" onClick={this.validateForm}>
+                    Submit
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       );

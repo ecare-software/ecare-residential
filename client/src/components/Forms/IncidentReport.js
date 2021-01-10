@@ -170,7 +170,9 @@ class IncidentReport extends Component {
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
         setTimeout(this.toggleSuccessAlert, 3000);
-        this.resetForm();
+        if (!this.props.valuesSet) {
+          this.resetForm();
+        }
       })
       .catch((e) => {
         this.setState({
@@ -201,6 +203,16 @@ class IncidentReport extends Component {
       "client_witness_dob2",
       "client_witness_doa2",
       "client_witness_name2",
+    ];
+
+    //resubmit fields
+    keysToExclude = [
+      ...keysToExclude,
+      "__v",
+      "approved",
+      "approvedBy",
+      "approvedByDate",
+      "approvedByName",
     ];
 
     var isValid = true;
@@ -683,7 +695,6 @@ class IncidentReport extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.childMeta_name}
                 id={"childMeta_name"}
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -696,7 +707,6 @@ class IncidentReport extends Component {
                 as="select"
                 onChange={this.handleFieldInput}
                 value={this.state.childMeta_gender}
-                disabled={this.props.userObj.isAdmin ? false : true}
                 id="childMeta_gender"
               >
                 <option>Male</option>
@@ -714,7 +724,6 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 value={this.state.childMeta_dob}
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
                 id="childMeta_dob"
@@ -727,7 +736,6 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 value={this.state.childMeta_dateOfAdmission}
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
                 id="childMeta_dateOfAdmission"
@@ -740,7 +748,6 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 value={this.state.dateOfIncident}
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
                 id="dateOfIncident"
@@ -757,7 +764,6 @@ class IncidentReport extends Component {
                 value={this.state.staff_involved_name}
                 id="staff_involved_name"
                 id="staff_involved_name"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -773,7 +779,6 @@ class IncidentReport extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.staff_involved_gender}
                 id="staff_involved_gender"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 id="staff_involved_gender"
               >
                 <option>Male</option>
@@ -790,7 +795,6 @@ class IncidentReport extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.time_of_incident}
                 id="time_of_incident"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="time"
               />{" "}
@@ -805,7 +809,6 @@ class IncidentReport extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.staff_witness_name}
                 id="staff_witness_name"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -821,7 +824,6 @@ class IncidentReport extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.staff_witness_gender}
                 id="staff_witness_gender"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 id="staff_witness_gender"
               >
                 <option>Male</option>
@@ -840,7 +842,6 @@ class IncidentReport extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.client_witness_name1}
                 id="client_witness_name1"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -855,8 +856,6 @@ class IncidentReport extends Component {
                 as="select"
                 onChange={this.handleFieldInput}
                 value={this.state.client_witness_gender1}
-                id="client_witness_gender1"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 id="client_witness_gender1"
               >
                 <option>Male</option>
@@ -874,9 +873,7 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 value={this.state.client_witness_dob1}
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
-                value="client_witness_dob1"
                 type="date"
                 id="client_witness_dob1"
               />{" "}
@@ -890,7 +887,6 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 value={this.state.client_witness_doa1}
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
                 id="client_witness_doa1"
@@ -906,7 +902,6 @@ class IncidentReport extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.client_witness_name2}
                 id="client_witness_name2"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -922,7 +917,6 @@ class IncidentReport extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.client_witness_gender2}
                 id="client_witness_gender2"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 id="client_witness_gender2"
               >
                 <option>Male</option>
@@ -940,7 +934,6 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 value={this.state.client_witness_dob2}
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
                 id="client_witness_dob2"
@@ -955,7 +948,6 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 value={this.state.client_witness_doa2}
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
                 id="client_witness_doa2"
@@ -969,7 +961,6 @@ class IncidentReport extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.incident_explaination}
                 id="incident_explaination"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -984,7 +975,6 @@ class IncidentReport extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.seperation}
                 id="seperation"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -999,7 +989,6 @@ class IncidentReport extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.result}
                 id="result"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -1013,7 +1002,6 @@ class IncidentReport extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.able_to_prevent}
                 id="able_to_prevent"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
@@ -1027,7 +1015,6 @@ class IncidentReport extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.notification_made_to}
                 id="notification_made_to"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -1041,7 +1028,6 @@ class IncidentReport extends Component {
               <input
                 onChange={this.handleFieldInput}
                 value={this.state.notification_made_date_time}
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
                 id="notification_made_date_time"
@@ -1055,7 +1041,6 @@ class IncidentReport extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.notification_made_by}
                 id="notification_made_by"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
               />{" "}
@@ -1070,19 +1055,22 @@ class IncidentReport extends Component {
                 onChange={this.handleFieldInput}
                 value={this.state.follow_up_results}
                 id="follow_up_results"
-                disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
             </div>
-            <FormError errorId={this.props.id + "-error"} />
-            <div
-              className="form-group logInInputField"
-              style={{ textAlign: "right" }}
-            >
-              <button className="darkBtn" onClick={this.validateForm}>
-                Submit
-              </button>
-            </div>
+            {!this.props.formData.approved && (
+              <>
+                <FormError errorId={this.props.id + "-error"} />
+                <div
+                  className="form-group logInInputField"
+                  style={{ textAlign: "right" }}
+                >
+                  <button className="darkBtn" onClick={this.validateForm}>
+                    Submit
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       );
