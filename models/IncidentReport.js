@@ -11,16 +11,15 @@ const IncidentReportSchema = new Schema({
     // required: true
   },
   childMeta_dob: {
-    type: Date,
-    default: new Date(),
+    type: String,
     //required:true
   },
   childMeta_dateOfAdmission: {
-    type: Date,
+    type: String,
     // required: true
   },
   dateOfIncident: {
-    type: Date,
+    type: String,
     // required: true
   },
   staff_involved_name: {
@@ -53,11 +52,11 @@ const IncidentReportSchema = new Schema({
     // required: true
   },
   client_witness_dob1: {
-    type: Date,
+    type: String,
     // required: true
   },
   client_witness_doa1: {
-    type: Date,
+    type: String,
     // required: true
   },
   client_witness_name2: {
@@ -69,11 +68,11 @@ const IncidentReportSchema = new Schema({
     // required: true
   },
   client_witness_dob2: {
-    type: Date,
+    type: String,
     // required: true
   },
   client_witness_doa2: {
-    type: Date,
+    type: String,
     // required: true
   },
   incident_explaination: {
@@ -95,7 +94,7 @@ const IncidentReportSchema = new Schema({
     type: String,
   },
   notification_made_date_time: {
-    type: Date,
+    type: String,
   },
   notification_made_by: {
     type: String,

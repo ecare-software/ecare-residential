@@ -168,6 +168,16 @@ class IllnessInjury extends Component {
     this.submit();
   };
 
+  setValues = () => {
+    this.setState({ ...this.state, ...this.props.formData });
+  };
+
+  componentDidMount() {
+    if (this.props.valuesSet) {
+      this.setValues();
+    }
+  }
+
   render() {
     console.log(this.props);
     if (!this.props.valuesSet) {
@@ -424,7 +434,7 @@ class IllnessInjury extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="childMeta_name"
-                value={this.props.formData.childMeta_name}
+                value={this.state.childMeta_name}
                 className="form-control"
                 type="text"
                 disabled={this.props.userObj.isAdmin ? false : true}
@@ -439,7 +449,7 @@ class IllnessInjury extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="dateTimeOccur"
-                value={this.props.formData.dateTimeOccur}
+                value={this.state.dateTimeOccur}
                 className="form-control"
                 type="datetime-local"
                 disabled={this.props.userObj.isAdmin ? false : true}
@@ -454,7 +464,7 @@ class IllnessInjury extends Component {
               <textarea
                 onChange={this.handleFieldInput}
                 id="illnessInjury"
-                value={this.props.formData.illnessInjury}
+                value={this.state.illnessInjury}
                 className="form-control"
                 disabled={this.props.userObj.isAdmin ? false : true}
               ></textarea>
@@ -468,7 +478,7 @@ class IllnessInjury extends Component {
               <textarea
                 onChange={this.handleFieldInput}
                 id="initialResponse"
-                value={this.props.formData.initialResponse}
+                value={this.state.initialResponse}
                 className="form-control"
                 disabled={this.props.userObj.isAdmin ? false : true}
               ></textarea>
@@ -480,7 +490,7 @@ class IllnessInjury extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="tempTaken"
-                value={this.props.formData.tempTaken}
+                value={this.state.tempTaken}
                 className="form-control"
                 type="text"
                 disabled={this.props.userObj.isAdmin ? false : true}
@@ -493,7 +503,7 @@ class IllnessInjury extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="tempMethodTaken"
-                value={this.props.formData.tempMethodTaken}
+                value={this.state.tempMethodTaken}
                 className="form-control"
                 type="text"
                 disabled={this.props.userObj.isAdmin ? false : true}
@@ -506,7 +516,7 @@ class IllnessInjury extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="tempInitialReading"
-                value={this.props.formData.tempInitialReading}
+                value={this.state.tempInitialReading}
                 className="form-control"
                 type="text"
                 disabled={this.props.userObj.isAdmin ? false : true}
@@ -521,7 +531,7 @@ class IllnessInjury extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="supervisorNotified"
-                value={this.props.formData.supervisorNotified}
+                value={this.state.supervisorNotified}
                 className="form-control"
                 type="text"
                 disabled={this.props.userObj.isAdmin ? false : true}
@@ -536,7 +546,7 @@ class IllnessInjury extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="notifiedAt"
-                value={this.props.formData.notifiedAt}
+                value={this.state.notifiedAt}
                 className="form-control"
                 type="datetime-local"
                 disabled={this.props.userObj.isAdmin ? false : true}
@@ -551,7 +561,7 @@ class IllnessInjury extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="notifiedBy"
-                value={this.props.formData.notifiedBy}
+                value={this.state.notifiedBy}
                 className="form-control"
                 type="text"
                 disabled={this.props.userObj.isAdmin ? false : true}
@@ -566,7 +576,7 @@ class IllnessInjury extends Component {
               <input
                 onChange={this.handleFieldInput}
                 id="adminFollowUp"
-                value={this.props.formData.adminFollowUp}
+                value={this.state.adminFollowUp}
                 className="form-control"
                 type="text"
                 disabled={this.props.userObj.isAdmin ? false : true}
@@ -581,7 +591,7 @@ class IllnessInjury extends Component {
               <textarea
                 onChange={this.handleFieldInput}
                 id="lastMedicationGiven"
-                value={this.props.formData.lastMedicationGiven}
+                value={this.state.lastMedicationGiven}
                 className="form-control"
                 disabled={this.props.userObj.isAdmin ? false : true}
               ></textarea>
@@ -595,7 +605,7 @@ class IllnessInjury extends Component {
               <textarea
                 onChange={this.handleFieldInput}
                 id="otherActionsTreatment"
-                value={this.props.formData.otherActionsTreatment}
+                value={this.state.otherActionsTreatment}
                 className="form-control"
                 disabled={this.props.userObj.isAdmin ? false : true}
               ></textarea>
@@ -609,7 +619,7 @@ class IllnessInjury extends Component {
               <textarea
                 onChange={this.handleFieldInput}
                 id="treatmentAuthBy"
-                value={this.props.formData.treatmentAuthBy}
+                value={this.state.treatmentAuthBy}
                 className="form-control"
                 disabled={this.props.userObj.isAdmin ? false : true}
               ></textarea>

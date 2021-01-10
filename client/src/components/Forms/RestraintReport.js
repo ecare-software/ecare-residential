@@ -270,6 +270,16 @@ class RestraintReport extends Component {
     this.submit();
   };
 
+  setValues = () => {
+    this.setState({ ...this.state, ...this.props.formData });
+  };
+
+  componentDidMount() {
+    if (this.props.valuesSet) {
+      this.setValues();
+    }
+  }
+
   render() {
     if (!this.props.valuesSet) {
       return (
@@ -884,7 +894,8 @@ class RestraintReport extends Component {
               <label className="control-label">Child's Name</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.childMeta_name}
+                value={this.state.childMeta_name}
+                id="childMeta_name"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
@@ -896,7 +907,7 @@ class RestraintReport extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
-                value={this.props.formData.childMeta_gender}
+                value={this.state.childMeta_gender}
                 disabled={this.props.userObj.isAdmin ? false : true}
                 id="childMeta_gender"
               >
@@ -913,7 +924,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.childMeta_dob}
+                value={this.state.childMeta_dob}
+                id="childMeta_dob"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
@@ -926,7 +938,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.childMeta_dateOfAdmission}
+                value={this.state.childMeta_dateOfAdmission}
+                id="childMeta_dateOfAdmission"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
@@ -939,7 +952,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.staff_involved_name}
+                value={this.state.staff_involved_name}
+                id="staff_involved_name"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
@@ -953,9 +967,9 @@ class RestraintReport extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
-                value={this.props.formData.staff_involved_gender}
-                disabled={this.props.userObj.isAdmin ? false : true}
+                value={this.state.staff_involved_gender}
                 id="staff_involved_gender"
+                disabled={this.props.userObj.isAdmin ? false : true}
               >
                 <option>Male</option>
                 <option>Female</option>
@@ -970,7 +984,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.time_of_incident}
+                value={this.state.time_of_incident}
+                id="time_of_incident"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="datetime-local"
@@ -983,7 +998,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.staff_witness_name}
+                value={this.state.staff_witness_name}
+                id="staff_witness_name"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
@@ -997,7 +1013,7 @@ class RestraintReport extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
-                value={this.props.formData.staff_witness_gender}
+                value={this.state.staff_witness_gender}
                 disabled={this.props.userObj.isAdmin ? false : true}
                 id="staff_witness_gender"
               >
@@ -1014,7 +1030,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.client_witness_name1}
+                value={this.state.client_witness_name1}
+                id="client_witness_name1"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
@@ -1030,7 +1047,7 @@ class RestraintReport extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
-                value={this.props.formData.client_witness_gender1}
+                value={this.state.client_witness_gender1}
                 disabled={this.props.userObj.isAdmin ? false : true}
                 id="client_witness_gender1"
               >
@@ -1048,7 +1065,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.client_witness_dob1}
+                value={this.state.client_witness_dob1}
+                id="client_witness_dob1"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
@@ -1062,7 +1080,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.client_witness_doa1}
+                value={this.state.client_witness_doa1}
+                id="client_witness_doa1"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
@@ -1076,7 +1095,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.client_witness_name2}
+                value={this.state.client_witness_name2}
+                id="client_witness_name2"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
@@ -1092,7 +1112,7 @@ class RestraintReport extends Component {
               <Form.Control
                 as="select"
                 onChange={this.handleFieldInput}
-                value={this.props.formData.client_witness_gender2}
+                value={this.state.client_witness_gender2}
                 disabled={this.props.userObj.isAdmin ? false : true}
                 id="client_witness_gender2"
               >
@@ -1110,7 +1130,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.client_witness_dob2}
+                value={this.state.client_witness_dob2}
+                id="client_witness_dob2"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
@@ -1124,7 +1145,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.client_witness_doa2}
+                value={this.state.client_witness_doa2}
+                id="client_witness_doa2"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="date"
@@ -1141,7 +1163,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
-                value={this.props.formData.risk_explaination}
+                value={this.state.risk_explaination}
+                id="risk_explaination"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
@@ -1156,7 +1179,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
-                value={this.props.formData.risk_alternative_strategies}
+                value={this.state.risk_alternative_strategies}
+                id="risk_alternative_strategies"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
@@ -1169,7 +1193,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
-                value={this.props.formData.type_of_restraint}
+                value={this.state.type_of_restraint}
+                id="type_of_restraint"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
@@ -1183,7 +1208,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
-                value={this.props.formData.risk_stategies_used}
+                value={this.state.risk_stategies_used}
+                id="risk_stategies_used"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
@@ -1201,7 +1227,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
-                value={this.props.formData.result_of_incident}
+                value={this.state.result_of_incident}
+                id="result_of_incident"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
@@ -1217,7 +1244,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
-                value={this.props.formData.injuries}
+                value={this.state.injuries}
+                id="injuries"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
@@ -1231,7 +1259,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
-                value={this.props.formData.action_taken}
+                value={this.state.action_taken}
+                id="action_taken"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
@@ -1245,7 +1274,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
-                value={this.props.formData.able_to_prevent}
+                value={this.state.able_to_prevent}
+                id="able_to_prevent"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
@@ -1258,7 +1288,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.restraint_start_time}
+                value={this.state.restraint_start_time}
+                id="restraint_start_time"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="datetime-local"
@@ -1270,7 +1301,8 @@ class RestraintReport extends Component {
               <label className="control-label">Time restraint ended</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.restraint_end_time}
+                value={this.state.restraint_end_time}
+                id="restraint_end_time"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="datetime-local"
@@ -1284,7 +1316,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.notification_made_to}
+                value={this.state.notification_made_to}
+                id="notification_made_to"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
@@ -1299,7 +1332,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.notification_made_date_time}
+                value={this.state.notification_made_date_time}
+                id="notification_made_date_time"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="datetime-local"
@@ -1311,7 +1345,8 @@ class RestraintReport extends Component {
               <label className="control-label">Name of Interviewer</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.interviewer}
+                value={this.state.interviewer}
+                id="interviewer"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
@@ -1323,7 +1358,8 @@ class RestraintReport extends Component {
               <label className="control-label">Date of Interview</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.date_of_interview}
+                value={this.state.date_of_interview}
+                id="date_of_interview"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="datetime-local"
@@ -1337,7 +1373,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
-                value={this.props.formData.client_behavior}
+                value={this.state.client_behavior}
+                id="client_behavior"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
@@ -1351,7 +1388,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
-                value={this.props.formData.client_restraint_description}
+                value={this.state.client_restraint_description}
+                id="client_restraint_description"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
@@ -1364,7 +1402,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
-                value={this.props.formData.client_responce}
+                value={this.state.client_responce}
+                id="client_responce"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
@@ -1378,7 +1417,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.procedural_approved_reason}
+                value={this.state.procedural_approved_reason}
+                id="procedural_approved_reason"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
@@ -1393,7 +1433,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.procedural_approved_standards}
+                value={this.state.procedural_approved_standards}
+                id="procedural_approved_standards"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
@@ -1408,7 +1449,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                value={this.props.formData.procedural_any_injuries}
+                value={this.state.procedural_any_injuries}
+                id="procedural_any_injuries"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
                 type="text"
@@ -1422,7 +1464,8 @@ class RestraintReport extends Component {
               </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
-                value={this.props.formData.procedural_comments}
+                value={this.state.procedural_comments}
+                id="procedural_comments"
                 disabled={this.props.userObj.isAdmin ? false : true}
                 className="form-control"
               ></textarea>
