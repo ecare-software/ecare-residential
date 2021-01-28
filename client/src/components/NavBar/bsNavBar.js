@@ -271,6 +271,9 @@ class NavBar extends React.Component {
                   .querySelector(".Submit-a-Form-nav > a")
                   .classList.remove("active");
                 document
+                  .querySelector(".Training-nav > a")
+                  .classList.remove("active");
+                document
                   .querySelector(".Manage-Account-nav > a")
                   .classList.remove("active");
                 this.props.toggleDisplay("Dashboard");
@@ -288,6 +291,9 @@ class NavBar extends React.Component {
                   .querySelector(".Submit-a-Form-nav > a")
                   .classList.remove("active");
                 document
+                  .querySelector(".Training-nav > a")
+                  .classList.remove("active");
+                document
                   .querySelector(".Manage-Account-nav > a")
                   .classList.remove("active");
                 this.props.toggleDisplay("Direct Message");
@@ -301,6 +307,9 @@ class NavBar extends React.Component {
               onClick={() => {
                 document
                   .querySelector(".Submit-a-Form-nav > a")
+                  .classList.remove("active");
+                document
+                  .querySelector(".Training-nav > a")
                   .classList.remove("active");
                 document
                   .querySelector(".Manage-Account-nav > a")
@@ -328,6 +337,9 @@ class NavBar extends React.Component {
                     document
                       .querySelector(".Manage-Account-nav > a")
                       .classList.remove("active");
+                    document
+                      .querySelector(".Training-nav > a")
+                      .classList.remove("active");
                     this.props.toggleDisplay("TreatmentPlan72");
                   }}
                 >
@@ -345,6 +357,9 @@ class NavBar extends React.Component {
                   document
                     .querySelector(".Manage-Account-nav > a")
                     .classList.remove("active");
+                  document
+                    .querySelector(".Training-nav > a")
+                    .classList.remove("active");
                   this.props.toggleDisplay("IncidentReport");
                 }}
               >
@@ -358,6 +373,9 @@ class NavBar extends React.Component {
                     .classList.add("active");
                   document
                     .querySelector(".Manage-Account-nav > a")
+                    .classList.remove("active");
+                  document
+                    .querySelector(".Training-nav > a")
                     .classList.remove("active");
                   this.props.toggleDisplay("DailyProgress");
                 }}
@@ -373,6 +391,9 @@ class NavBar extends React.Component {
                   document
                     .querySelector(".Manage-Account-nav > a")
                     .classList.remove("active");
+                  document
+                    .querySelector(".Training-nav > a")
+                    .classList.remove("active");
                   this.props.toggleDisplay("bodyCheck");
                 }}
               >
@@ -387,6 +408,9 @@ class NavBar extends React.Component {
                   document
                     .querySelector(".Manage-Account-nav > a")
                     .classList.remove("active");
+                  document
+                    .querySelector(".Training-nav > a")
+                    .classList.remove("active");
                   this.props.toggleDisplay("restraintReport");
                 }}
               >
@@ -400,6 +424,9 @@ class NavBar extends React.Component {
                     .classList.add("active");
                   document
                     .querySelector(".Manage-Account-nav > a")
+                    .classList.remove("active");
+                  document
+                    .querySelector(".Training-nav > a")
                     .classList.remove("active");
                   this.props.toggleDisplay("IllnessInjury");
                 }}
@@ -416,6 +443,9 @@ class NavBar extends React.Component {
                   document
                     .querySelector(".Manage-Account-nav > a")
                     .classList.remove("active");
+                  document
+                    .querySelector(".Training-nav > a")
+                    .classList.remove("active");
                   this.props.toggleDisplay("admissionAssessment");
                 }}
               >
@@ -423,6 +453,33 @@ class NavBar extends React.Component {
               </NavDropdown.Item>
               {/* <NavDropdown.Divider /> */}
             </NavDropdown>
+            <NavDropdown
+              style={navItemStyle}
+              variant="success"
+              color="white"
+              title="Training"
+              id="collasible-nav-dropdown"
+              className="Training-nav"
+            >
+              <NavDropdown.Item
+                eventKey="link-777"
+                onClick={() => {
+                  document
+                    .querySelector(".Training-nav > a")
+                    .classList.add("active");
+                  document
+                    .querySelector(".Submit-a-Form-nav > a")
+                    .classList.remove("active");
+                  document
+                    .querySelector(".Manage-Account-nav > a")
+                    .classList.remove("active");
+                  this.props.toggleDisplay("Orientation Training");
+                }}
+              >
+                Orientation Training
+              </NavDropdown.Item>
+            </NavDropdown>
+
             {adminReportingRoles.includes(this.props.userObj.jobTitle) ? (
               <Nav.Link
                 eventKey="link-7"
@@ -431,7 +488,13 @@ class NavBar extends React.Component {
                     .querySelector(".Submit-a-Form-nav > a")
                     .classList.remove("active");
                   document
+                    .querySelector(".Training-nav > a")
+                    .classList.remove("active");
+                  document
                     .querySelector(".Manage-Account-nav > a")
+                    .classList.remove("active");
+                  document
+                    .querySelector(".Training-nav > a")
                     .classList.remove("active");
                   this.props.toggleDisplay("User Management");
                 }}
@@ -446,6 +509,9 @@ class NavBar extends React.Component {
               onClick={() => {
                 document
                   .querySelector(".Submit-a-Form-nav > a")
+                  .classList.remove("active");
+                document
+                  .querySelector(".Training-nav > a")
                   .classList.remove("active");
                 document
                   .querySelector(".Manage-Account-nav > a")
@@ -473,6 +539,9 @@ class NavBar extends React.Component {
                 onClick={() => {
                   document
                     .querySelector(".Submit-a-Form-nav > a")
+                    .classList.remove("active");
+                  document
+                    .querySelector(".Training-nav > a")
                     .classList.remove("active");
                   document
                     .querySelector(".nav-link")
