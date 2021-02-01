@@ -624,29 +624,44 @@ export class FromReports extends Component {
                   justifyContent: "space-evenly",
                 }}
               >
-                <button className="btn btn-link" onClick={this.toggleFilters}>
-                  {this.state.doShowFilters ? (
-                    <span>
-                      <span className="fa fa-minus"></span> Hide Filters
-                    </span>
-                  ) : (
-                    <span>
-                      <span className="fa fa-plus"></span> Show Filters
-                    </span>
-                  )}
-                </button>
-                <button className="btn btn-link" onClick={this.runSearchClick}>
-                  <span className="fa fa-play"></span> Run Search
-                </button>
                 <button
-                  onClick={this.selectedUserFormToggle.bind(
-                    "",
-                    this.state.searchObj
-                  )}
+                  onClick={this.props.resetReports}
                   className="btn btn-link"
                 >
-                  <span className="fa fa-undo"></span> Refresh List
+                  <span className="fa fa-undo"></span> Show all Reports
                 </button>
+                {Reflect.ownKeys(this.state.selectedUserForm).length === 0 && (
+                  <button className="btn btn-link" onClick={this.toggleFilters}>
+                    {this.state.doShowFilters ? (
+                      <span>
+                        <span className="fa fa-minus"></span> Hide Filters
+                      </span>
+                    ) : (
+                      <span>
+                        <span className="fa fa-plus"></span> Show Filters
+                      </span>
+                    )}
+                  </button>
+                )}
+                {this.state.doShowFilters && (
+                  <button
+                    className="btn btn-link"
+                    onClick={this.runSearchClick}
+                  >
+                    <span className="fa fa-play"></span> Run Search
+                  </button>
+                )}
+                {Reflect.ownKeys(this.state.selectedUserForm).length > 0 && (
+                  <button
+                    onClick={this.selectedUserFormToggle.bind(
+                      "",
+                      this.state.searchObj
+                    )}
+                    className="btn btn-link"
+                  >
+                    <span className="fa fa-undo"></span> Show All Form Reports
+                  </button>
+                )}
               </div>
             </h2>
           </div>

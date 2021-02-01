@@ -43,6 +43,26 @@ const OrientationTrainingSchema = new Schema({
   homeId: {
     type: String,
   },
+
+  approved: {
+    type: Boolean,
+    default: false,
+  },
+
+  approvedBy: {
+    type: String,
+    required: false,
+  },
+
+  approvedByName: {
+    type: String,
+    required: false,
+  },
+
+  approvedByDate: {
+    type: Date,
+    //required:true
+  },
 });
 
 module.exports = orientationTraining = mongoose.model(

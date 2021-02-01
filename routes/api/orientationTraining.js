@@ -57,80 +57,34 @@ router.get("/:homeId/:email", (req, res) => {
     .catch((err) => res.status(404).json({ success: false }));
 });
 
-router.get(
-  "/:homeId/:searchString" +
-    "/:lastEditDateAfter/:lastEditDateBefore" +
-    "/:childDOBAfter/:childDOBBefore" +
-    "/:childDOAAfter/:childDOABefore" +
-    "/:ethnicityA" +
-    "/:submittedByA",
-  (req, res) => {
-    var findObj = {
-      homeId: req.params.homeId,
-    };
-    //search string
-    if (req.params.searchString !== "none") {
-      findObj.childMeta_name = {
-        $regex: ".*" + req.params.searchString + ".*",
-        $options: "ig",
-      };
-    }
+router.get("/:homeId" + "/:submittedByA" + "/:lastEditDate", (req, res) => {
+  var findObj = {
+    homeId: req.params.homeId,
+  };
 
-    //submitted
-    if (
-      req.params.lastEditDateAfter !== "none" &&
-      req.params.lastEditDateBefore !== "none"
-    ) {
-      var dateAfter = new Date(req.params.lastEditDateAfter);
-      var dateBefore = new Date(req.params.lastEditDateBefore);
-      findObj["$and"] = [
-        {
-          lastEditDate: {
-            $gt: new Date(
-              dateAfter.setDate(dateAfter.getDate() + 1)
-            ).toISOString(),
-          },
-        },
-        {
-          lastEditDate: {
-            $lt: new Date(
-              dateBefore.setDate(dateBefore.getDate())
-            ).toISOString(),
-          },
-        },
-      ];
-    } else {
-      //submittedAfter
-      if (req.params.lastEditDateAfter !== "none") {
-        var date = new Date(req.params.lastEditDateAfter);
-        findObj.lastEditDate = {
-          $gt: new Date(date.setDate(date.getDate() + 1)).toISOString(),
-        };
-      }
-
-      //submittedBefore
-      if (req.params.lastEditDateBefore !== "none") {
-        var date = new Date(req.params.lastEditDateBefore);
-        findObj.lastEditDate = {
-          $lt: new Date(date.setDate(date.getDate())).toISOString(),
-        };
-      }
-    }
-
-    // submitted by
-    if (req.params.submittedByA !== "none") {
-      findObj.createdBy = req.params.submittedByA;
-    }
-
-    OrientationTraining.find(findObj)
-      .sort({ lastEditDate: -1 })
-      .exec()
-      .then((orientationTraining) => res.json(orientationTraining))
-      .catch((err) => res.status(404).json({ success: err }));
+  // submitted by
+  if (req.params.submittedByA !== "none") {
+    findObj.createdBy = req.params.submittedByA;
   }
-);
+
+  OrientationTraining.find(findObj)
+    .sort({ lastEditDate: -1 })
+    .exec()
+    .then((orientationTraining) => res.json(orientationTraining))
+    .catch((err) => res.status(404).json({ success: err }));
+});
 
 router.put("/:formId", (req, res) => {
+  OrientationTraining.findByIdAndUpdate({ _id: req.params.formId }, req.body)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+});
+
+router.put("/:homeId/:formId/", (req, res) => {
   OrientationTraining.findByIdAndUpdate({ _id: req.params.formId }, req.body)
     .then((data) => {
       res.json(data);

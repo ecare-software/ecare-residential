@@ -13,6 +13,7 @@ const SmallColRight = styled.div`
   width: 200px;
   display: flex;
   align-items: center;
+  text-align: center;
 `;
 
 const SmallColRightTitle = styled.div`
@@ -102,11 +103,15 @@ class BodyCheck extends Component {
 
   getSubmission = async () => {
     try {
-      let { data } = await Axios.get(
-        `/api/orientationTraining/${this.props.userObj.homeId}/${this.props.userObj.email}`
-      );
-      if (data.length !== 0) {
-        this.setState({ ...data[0], doUpdate: true });
+      if (this.props.valuesSet) {
+        this.setValues();
+      } else {
+        let { data } = await Axios.get(
+          `/api/orientationTraining/${this.props.userObj.homeId}/${this.props.userObj.email}`
+        );
+        if (data.length !== 0) {
+          this.setState({ ...data[0], doUpdate: true });
+        }
       }
     } catch (e) {
       alert(e);
@@ -148,21 +153,26 @@ class BodyCheck extends Component {
                   <p>{`Completed ${new Date(
                     this.state.T1
                   ).toLocaleString()}`}</p>
-                  <a
-                    href="javascript:void(0)"
-                    onClick={() => {
-                      this.clearFieldInput("T1");
-                    }}
-                  >
-                    Clear Completion
-                  </a>
+                  {!this.props.valuesSet && (
+                    <a
+                      href="javascript:void(0)"
+                      onClick={() => {
+                        this.clearFieldInput("T1");
+                      }}
+                    >
+                      Clear Completion
+                    </a>
+                  )}
                 </div>
               ) : (
                 <Form.Check
                   type="checkbox"
                   id="T1"
+                  disabled={this.props.valuesSet}
                   className="mb-2 d-flex align-items-center"
-                  label={"Mark as completed"}
+                  label={
+                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
+                  }
                   onClick={this.handleFieldInput}
                 />
               )}
@@ -188,21 +198,26 @@ class BodyCheck extends Component {
                   <p>{`Completed ${new Date(
                     this.state.T2
                   ).toLocaleString()}`}</p>
-                  <a
-                    href="javascript:void(0)"
-                    onClick={() => {
-                      this.clearFieldInput("T2");
-                    }}
-                  >
-                    Clear Completion
-                  </a>
+                  {!this.props.valuesSet && (
+                    <a
+                      href="javascript:void(0)"
+                      onClick={() => {
+                        this.clearFieldInput("T2");
+                      }}
+                    >
+                      Clear Completion
+                    </a>
+                  )}
                 </div>
               ) : (
                 <Form.Check
                   type="checkbox"
                   id="T2"
+                  disabled={this.props.valuesSet}
                   className="mb-2 d-flex align-items-center"
-                  label={"Mark as completed"}
+                  label={
+                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
+                  }
                   onClick={this.handleFieldInput}
                 />
               )}
@@ -221,21 +236,26 @@ class BodyCheck extends Component {
                   <p>{`Completed ${new Date(
                     this.state.T3
                   ).toLocaleString()}`}</p>
-                  <a
-                    href="javascript:void(0)"
-                    onClick={() => {
-                      this.clearFieldInput("T3");
-                    }}
-                  >
-                    Clear Completion
-                  </a>
+                  {!this.props.valuesSet && (
+                    <a
+                      href="javascript:void(0)"
+                      onClick={() => {
+                        this.clearFieldInput("T3");
+                      }}
+                    >
+                      Clear Completion
+                    </a>
+                  )}
                 </div>
               ) : (
                 <Form.Check
                   type="checkbox"
                   id="T3"
+                  disabled={this.props.valuesSet}
                   className="mb-2 d-flex align-items-center"
-                  label={"Mark as completed"}
+                  label={
+                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
+                  }
                   onClick={this.handleFieldInput}
                 />
               )}
@@ -254,21 +274,26 @@ class BodyCheck extends Component {
                   <p>{`Completed ${new Date(
                     this.state.T4
                   ).toLocaleString()}`}</p>
-                  <a
-                    href="javascript:void(0)"
-                    onClick={() => {
-                      this.clearFieldInput("T4");
-                    }}
-                  >
-                    Clear Completion
-                  </a>
+                  {!this.props.valuesSet && (
+                    <a
+                      href="javascript:void(0)"
+                      onClick={() => {
+                        this.clearFieldInput("T4");
+                      }}
+                    >
+                      Clear Completion
+                    </a>
+                  )}
                 </div>
               ) : (
                 <Form.Check
                   type="checkbox"
                   id="T4"
+                  disabled={this.props.valuesSet}
                   className="mb-2 d-flex align-items-center"
-                  label={"Mark as completed"}
+                  label={
+                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
+                  }
                   onClick={this.handleFieldInput}
                 />
               )}
@@ -285,21 +310,26 @@ class BodyCheck extends Component {
                   <p>{`Completed ${new Date(
                     this.state.T5
                   ).toLocaleString()}`}</p>
-                  <a
-                    href="javascript:void(0)"
-                    onClick={() => {
-                      this.clearFieldInput("T5");
-                    }}
-                  >
-                    Clear Completion
-                  </a>
+                  {!this.props.valuesSet && (
+                    <a
+                      href="javascript:void(0)"
+                      onClick={() => {
+                        this.clearFieldInput("T5");
+                      }}
+                    >
+                      Clear Completion
+                    </a>
+                  )}
                 </div>
               ) : (
                 <Form.Check
                   type="checkbox"
                   id="T5"
+                  disabled={this.props.valuesSet}
                   className="mb-2 d-flex align-items-center"
-                  label={"Mark as completed"}
+                  label={
+                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
+                  }
                   onClick={this.handleFieldInput}
                 />
               )}
@@ -318,21 +348,26 @@ class BodyCheck extends Component {
                   <p>{`Completed ${new Date(
                     this.state.T6
                   ).toLocaleString()}`}</p>
-                  <a
-                    href="javascript:void(0)"
-                    onClick={() => {
-                      this.clearFieldInput("T6");
-                    }}
-                  >
-                    Clear Completion
-                  </a>
+                  {!this.props.valuesSet && (
+                    <a
+                      href="javascript:void(0)"
+                      onClick={() => {
+                        this.clearFieldInput("T6");
+                      }}
+                    >
+                      Clear Completion
+                    </a>
+                  )}
                 </div>
               ) : (
                 <Form.Check
                   type="checkbox"
                   id="T6"
+                  disabled={this.props.valuesSet}
                   className="mb-2 d-flex align-items-center"
-                  label={"Mark as completed"}
+                  label={
+                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
+                  }
                   onClick={this.handleFieldInput}
                 />
               )}
@@ -351,21 +386,26 @@ class BodyCheck extends Component {
                   <p>{`Completed ${new Date(
                     this.state.T7
                   ).toLocaleString()}`}</p>
-                  <a
-                    href="javascript:void(0)"
-                    onClick={() => {
-                      this.clearFieldInput("T7");
-                    }}
-                  >
-                    Clear Completion
-                  </a>
+                  {!this.props.valuesSet && (
+                    <a
+                      href="javascript:void(0)"
+                      onClick={() => {
+                        this.clearFieldInput("T7");
+                      }}
+                    >
+                      Clear Completion
+                    </a>
+                  )}
                 </div>
               ) : (
                 <Form.Check
                   type="checkbox"
                   id="T7"
+                  disabled={this.props.valuesSet}
                   className="mb-2 d-flex align-items-center"
-                  label={"Mark as completed"}
+                  label={
+                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
+                  }
                   onClick={this.handleFieldInput}
                 />
               )}

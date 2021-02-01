@@ -5,6 +5,7 @@ import DailyProgress from "../Forms/DailyProgressAndActivity";
 import RestraintReport from "../Forms/RestraintReport";
 import IllnessInjury from "../Forms/IllnessInjury";
 import AdmissionAssessment from "../Forms/AdmissionAssessment";
+import OrientationTraining from "../Forms/OrientationTraining";
 import BodyCheck from "../Forms/BodyCheck";
 import { Form, Col } from "react-bootstrap";
 import Axios from "axios";
@@ -34,7 +35,6 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   };
 
   const updateFormApproval = async () => {
-    console.log(formData._id);
     let isApprovedPostData = !isApproved;
     await setIsApproved(isApprovedPostData);
     try {
@@ -178,6 +178,15 @@ class ShowFormContainer extends Component {
         />
       );
       route = "restraintReport";
+    } else if (name === "Orientation Training") {
+      comp = (
+        <OrientationTraining
+          valuesSet="true"
+          userObj={this.props.userObj}
+          formData={this.props.formData}
+        />
+      );
+      route = "orientationTraining";
     } else {
       comp = (
         <div>
