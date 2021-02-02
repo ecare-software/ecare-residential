@@ -140,6 +140,7 @@ export class TrainingReports extends Component {
 
     var formRequests = [
       Axios.get("/api/orientationTraining/" + this.props.userObj.homeId),
+      Axios.get("/api/preServiceTraining/" + this.props.userObj.homeId),
     ];
 
     Axios.all(formRequests).then((results) => {
@@ -173,6 +174,7 @@ export class TrainingReports extends Component {
 
     var formRequests = [
       Axios.get("/api/orientationTraining/" + this.props.userObj.homeId),
+      Axios.get("/api/preServiceTraining/" + this.props.userObj.homeId),
     ];
 
     Axios.all(formRequests).then((results) => {
@@ -217,12 +219,32 @@ export class TrainingReports extends Component {
             )
           );
         }
+        if (formName === "Pre Service Training") {
+          formRequests.push(
+            Axios.get(
+              "/api/preServiceTraining/" +
+                this.props.userObj.homeId +
+                "/" +
+                submittedByA +
+                "/" +
+                lastEditDate
+            )
+          );
+        }
       });
     } else {
       //push all
       formRequests.push(
         Axios.get(
           "/api/orientationTraining/" +
+            this.props.userObj.homeId +
+            "/" +
+            submittedByA +
+            "/" +
+            lastEditDate
+        ),
+        Axios.get(
+          "/api/preServiceTraining/" +
             this.props.userObj.homeId +
             "/" +
             submittedByA +

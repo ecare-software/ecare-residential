@@ -21,7 +21,7 @@ const SmallColRightTitle = styled.div`
   text-align: center;
 `;
 
-class OrientationTraining extends Component {
+class PreServiceTraining extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,6 +38,16 @@ class OrientationTraining extends Component {
       T6: "",
 
       T7: "",
+
+      T8: "",
+
+      T9: "",
+
+      T10: "",
+
+      T11: "",
+
+      T12: "",
 
       createdBy: this.props.valuesSet === true ? "" : this.props.userObj.email,
 
@@ -72,7 +82,7 @@ class OrientationTraining extends Component {
   submit = () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     if (this.state.doUpdate) {
-      Axios.put(`/api/orientationTraining/${this.state._id}`, currentState)
+      Axios.put(`/api/preServiceTraining/${this.state._id}`, currentState)
         .then((res) => {
           console.log("training updated");
         })
@@ -83,7 +93,7 @@ class OrientationTraining extends Component {
           });
         });
     } else {
-      Axios.post("/api/orientationTraining", currentState)
+      Axios.post("/api/preServiceTraining", currentState)
         .then((res) => {
           let { data } = res;
           this.setState({ ...data, doUpdate: true });
@@ -107,7 +117,7 @@ class OrientationTraining extends Component {
         this.setValues();
       } else {
         let { data } = await Axios.get(
-          `/api/orientationTraining/${this.props.userObj.homeId}/${this.props.userObj.email}`
+          `/api/preServiceTraining/${this.props.userObj.homeId}/${this.props.userObj.email}`
         );
         if (data.length !== 0) {
           this.setState({ ...data[0], doUpdate: true });
@@ -126,7 +136,7 @@ class OrientationTraining extends Component {
     return (
       <div className="formComp">
         <div className="formTitleDiv">
-          <h2 className="formTitle">New Employee Orientation Training</h2>
+          <h2 className="formTitle">New Employee Pre-Service Training</h2>
         </div>
         <div className="formFieldsMobile">
           <div className="form-group logInInputField d-flex border-bottom">
@@ -141,10 +151,10 @@ class OrientationTraining extends Component {
             </SmallColRightTitle>
           </div>
           <div className="form-group logInInputField d-flex">
-            <SmallCol className="control-label">1</SmallCol>
+            <SmallCol className="control-label">2</SmallCol>
             <div className="col">
               <label className="control-label">
-                New Pathways Mission, Philosophy, and Vision
+                Trauma Informed Care Training for Caregivers
               </label>
             </div>
             <SmallColRight>
@@ -179,18 +189,9 @@ class OrientationTraining extends Component {
             </SmallColRight>
           </div>
           <div className="form-group logInInputField d-flex">
-            <SmallCol className="control-label">2</SmallCol>
+            <SmallCol className="control-label">6</SmallCol>
             <div className="col">
-              <label className="control-label">New Pathways Employee</label>
-              <ul>
-                <li>Personnel Policies</li>
-                <li>Personnel Benefits</li>
-                <li>Harassment</li>
-                <li>
-                  Preventing Sexual Misconduct and Inappropriate Relationships
-                </li>
-                <li>Introduction to Key Personnel and Leaders</li>
-              </ul>
+              <label className="control-label">Trauma Informed Care</label>
             </div>
             <SmallColRight>
               {this.state.T2 ? (
@@ -224,10 +225,10 @@ class OrientationTraining extends Component {
             </SmallColRight>
           </div>
           <div className="form-group logInInputField d-flex">
-            <SmallCol className="control-label">1</SmallCol>
+            <SmallCol className="control-label">2</SmallCol>
             <div className="col">
               <label className="control-label">
-                New Pathways History, Program Components and Services
+                Administration of Psychotropic Medication
               </label>
             </div>
             <SmallColRight>
@@ -262,10 +263,10 @@ class OrientationTraining extends Component {
             </SmallColRight>
           </div>
           <div className="form-group logInInputField d-flex">
-            <SmallCol className="control-label">1</SmallCol>
+            <SmallCol className="control-label">2</SmallCol>
             <div className="col">
               <label className="control-label">
-                Supervision Strategies and Boundaries
+                Psychotropic Medication &amp; Communicable Diseases
               </label>
             </div>
             <SmallColRight>
@@ -300,9 +301,9 @@ class OrientationTraining extends Component {
             </SmallColRight>
           </div>
           <div className="form-group logInInputField d-flex">
-            <SmallCol className="control-label">1</SmallCol>
+            <SmallCol className="control-label">2</SmallCol>
             <div className="col">
-              <label className="control-label">Job Descriptions</label>
+              <label className="control-label">Minimum Standards</label>
             </div>
             <SmallColRight>
               {this.state.T5 ? (
@@ -336,10 +337,10 @@ class OrientationTraining extends Component {
             </SmallColRight>
           </div>
           <div className="form-group logInInputField d-flex">
-            <SmallCol className="control-label">1</SmallCol>
+            <SmallCol className="control-label">2</SmallCol>
             <div className="col">
               <label className="control-label">
-                Contract or Agreement Overview
+                Characteristics and Needs of Children
               </label>
             </div>
             <SmallColRight>
@@ -374,10 +375,11 @@ class OrientationTraining extends Component {
             </SmallColRight>
           </div>
           <div className="form-group logInInputField d-flex">
-            <SmallCol className="control-label">1</SmallCol>
+            <SmallCol className="control-label">16</SmallCol>
             <div className="col">
               <label className="control-label">
-                Fire Extinguisher Training and First Aid Equipment
+                Crisis Prevention Intervention-The Nonviolent Crisis
+                Intervention method of Behavioral Management and Intervention
               </label>
             </div>
             <SmallColRight>
@@ -411,9 +413,193 @@ class OrientationTraining extends Component {
               )}
             </SmallColRight>
           </div>
+          <div className="form-group logInInputField d-flex">
+            <SmallCol className="control-label">2</SmallCol>
+            <div className="col">
+              <label className="control-label">Normalcy</label>
+            </div>
+            <SmallColRight>
+              {this.state.T8 ? (
+                <div>
+                  <p>{`Completed ${new Date(
+                    this.state.T8
+                  ).toLocaleString()}`}</p>
+                  {!this.props.valuesSet && (
+                    <a
+                      href="javascript:void(0)"
+                      onClick={() => {
+                        this.clearFieldInput("T8");
+                      }}
+                    >
+                      Clear Completion
+                    </a>
+                  )}
+                </div>
+              ) : (
+                <Form.Check
+                  type="checkbox"
+                  id="T8"
+                  disabled={this.props.valuesSet}
+                  className="mb-2 d-flex align-items-center"
+                  label={
+                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
+                  }
+                  onClick={this.handleFieldInput}
+                />
+              )}
+            </SmallColRight>
+          </div>
+          <div className="form-group logInInputField d-flex">
+            <SmallCol className="control-label">1</SmallCol>
+            <div className="col">
+              <label className="control-label">
+                Reporting Suspected Abuse or Neglect of a Child
+              </label>
+            </div>
+            <SmallColRight>
+              {this.state.T9 ? (
+                <div>
+                  <p>{`Completed ${new Date(
+                    this.state.T9
+                  ).toLocaleString()}`}</p>
+                  {!this.props.valuesSet && (
+                    <a
+                      href="javascript:void(0)"
+                      onClick={() => {
+                        this.clearFieldInput("T9");
+                      }}
+                    >
+                      Clear Completion
+                    </a>
+                  )}
+                </div>
+              ) : (
+                <Form.Check
+                  type="checkbox"
+                  id="T9"
+                  disabled={this.props.valuesSet}
+                  className="mb-2 d-flex align-items-center"
+                  label={
+                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
+                  }
+                  onClick={this.handleFieldInput}
+                />
+              )}
+            </SmallColRight>
+          </div>
+          <div className="form-group logInInputField d-flex">
+            <SmallCol className="control-label">2</SmallCol>
+            <div className="col">
+              <label className="control-label">
+                Recognizing and reporting Child Sexual Abuse
+              </label>
+            </div>
+            <SmallColRight>
+              {this.state.T10 ? (
+                <div>
+                  <p>{`Completed ${new Date(
+                    this.state.T10
+                  ).toLocaleString()}`}</p>
+                  {!this.props.valuesSet && (
+                    <a
+                      href="javascript:void(0)"
+                      onClick={() => {
+                        this.clearFieldInput("T10");
+                      }}
+                    >
+                      Clear Completion
+                    </a>
+                  )}
+                </div>
+              ) : (
+                <Form.Check
+                  type="checkbox"
+                  id="T10"
+                  disabled={this.props.valuesSet}
+                  className="mb-2 d-flex align-items-center"
+                  label={
+                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
+                  }
+                  onClick={this.handleFieldInput}
+                />
+              )}
+            </SmallColRight>
+          </div>
+          <div className="form-group logInInputField d-flex">
+            <SmallCol className="control-label">2</SmallCol>
+            <div className="col">
+              <label className="control-label">Transportation</label>
+            </div>
+            <SmallColRight>
+              {this.state.T11 ? (
+                <div>
+                  <p>{`Completed ${new Date(
+                    this.state.T11
+                  ).toLocaleString()}`}</p>
+                  {!this.props.valuesSet && (
+                    <a
+                      href="javascript:void(0)"
+                      onClick={() => {
+                        this.clearFieldInput("T11");
+                      }}
+                    >
+                      Clear Completion
+                    </a>
+                  )}
+                </div>
+              ) : (
+                <Form.Check
+                  type="checkbox"
+                  id="T11"
+                  disabled={this.props.valuesSet}
+                  className="mb-2 d-flex align-items-center"
+                  label={
+                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
+                  }
+                  onClick={this.handleFieldInput}
+                />
+              )}
+            </SmallColRight>
+          </div>
+          <div className="form-group logInInputField d-flex">
+            <SmallCol className="control-label">1</SmallCol>
+            <div className="col">
+              <label className="control-label">Emergency Procedures</label>
+            </div>
+            <SmallColRight>
+              {this.state.T12 ? (
+                <div>
+                  <p>{`Completed ${new Date(
+                    this.state.T12
+                  ).toLocaleString()}`}</p>
+                  {!this.props.valuesSet && (
+                    <a
+                      href="javascript:void(0)"
+                      onClick={() => {
+                        this.clearFieldInput("T12");
+                      }}
+                    >
+                      Clear Completion
+                    </a>
+                  )}
+                </div>
+              ) : (
+                <Form.Check
+                  type="checkbox"
+                  id="T12"
+                  disabled={this.props.valuesSet}
+                  className="mb-2 d-flex align-items-center"
+                  label={
+                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
+                  }
+                  onClick={this.handleFieldInput}
+                />
+              )}
+            </SmallColRight>
+          </div>
           <div className="form-group logInInputField d-flex border-top">
             <SmallCol className="control-label">
-              <label>8</label>
+              <label>40</label>
             </SmallCol>
             <div className="col text-center">
               <label className="control-label">Total Hours</label>
@@ -426,4 +612,4 @@ class OrientationTraining extends Component {
   }
 }
 
-export default OrientationTraining;
+export default PreServiceTraining;

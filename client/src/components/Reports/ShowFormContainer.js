@@ -6,6 +6,7 @@ import RestraintReport from "../Forms/RestraintReport";
 import IllnessInjury from "../Forms/IllnessInjury";
 import AdmissionAssessment from "../Forms/AdmissionAssessment";
 import OrientationTraining from "../Forms/OrientationTraining";
+import PreServiceTraining from "../Forms/PreServiceTraining";
 import BodyCheck from "../Forms/BodyCheck";
 import { Form, Col } from "react-bootstrap";
 import Axios from "axios";
@@ -187,6 +188,15 @@ class ShowFormContainer extends Component {
         />
       );
       route = "orientationTraining";
+    } else if (name === "Pre Service Training") {
+      comp = (
+        <PreServiceTraining
+          valuesSet="true"
+          userObj={this.props.userObj}
+          formData={this.props.formData}
+        />
+      );
+      route = "preServiceTraining";
     } else {
       comp = (
         <div>
