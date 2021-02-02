@@ -25,6 +25,8 @@ import Documents from "./components/Documents/Documents";
 import IllnessInjury from "./components/Forms/IllnessInjury";
 import AdmissionAssessment from "./components/Forms/AdmissionAssessment";
 import BodyCheck from "./components/Forms/BodyCheck";
+import OrientationTraining from "./components/Forms/OrientationTraining";
+import PreServiceTraining from "./components/Forms/PreServiceTraining";
 // import UserActions from "./components/UserActions/UserActions";
 import ManageAccountContainer from "./components/ManageAccount/ManageAccountContainer";
 //modals
@@ -689,6 +691,28 @@ function ToggleScreen({ name, appState, appendMessage, toggleDisplay }) {
     );
   }
 
+  if (name === "Orientation Training") {
+    return (
+      <div>
+        <OrientationTraining
+          userObj={appState.userObj}
+          allUsers={appState.allUsers}
+        />
+      </div>
+    );
+  }
+
+  if (name === "Pre Service Training") {
+    return (
+      <div>
+        <PreServiceTraining
+          userObj={appState.userObj}
+          allUsers={appState.allUsers}
+        />
+      </div>
+    );
+  }
+
   if (name === "Documents") {
     return (
       <div>
@@ -838,6 +862,38 @@ function DisplayExtra({
           <p className="extraInfoNavSubTitle">
             Required fields include, Child Name, Child DOA, Child Date of Birth,
             and thing like that.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "Orientation Training") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv">
+          {/* <h5 className="extraInfoNavTitle">Treatment Plan 72</h5> */}
+          <p className="extraInfoNavSubTitle">
+            New Employee Orientation training is an eight-hour (8) program
+            provided to each new employee within the first fourteen days of
+            hiring. The program includes, but is not limited to, the following
+            employee and agency information.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "Pre Service Training") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv">
+          {/* <h5 className="extraInfoNavTitle">Treatment Plan 72</h5> */}
+          <p className="extraInfoNavSubTitle">
+            Pre-service training is a forty (40) hour course offered by New
+            Pathways training staff at the facility within the first fourteen
+            days of hiring. The program includes all the necessary topics to
+            receive sole supervision status.
           </p>
         </div>
       </div>

@@ -8,8 +8,7 @@ const TreatmentPlan72Schema = new Schema({
     //required: true
   },
   childMeta_dob: {
-    type: Date,
-    default: new Date(),
+    type: String,
     //required:true
   },
   childMeta_age: {
@@ -48,8 +47,8 @@ const TreatmentPlan72Schema = new Schema({
     type: String,
     // required: true
   },
-  childMeta_dateOfAdmission: {
-    type: Date,
+  childMeta_StringOfAdmission: {
+    type: String,
     // required: true
   },
   projectedDateForAchievingPermanency: {
@@ -190,7 +189,7 @@ const TreatmentPlan72Schema = new Schema({
   },
 
   lastPhysicalExamination_date: {
-    type: Date,
+    type: String,
   },
   lastPhysicalExamination_location: {
     type: String,
@@ -200,7 +199,7 @@ const TreatmentPlan72Schema = new Schema({
   },
 
   lastDentalExamination_date: {
-    type: Date,
+    type: String,
   },
   lastDentalExamination_location: {
     type: String,
@@ -209,7 +208,7 @@ const TreatmentPlan72Schema = new Schema({
     type: String,
   },
   lastOpticalExamination_date: {
-    type: Date,
+    type: String,
   },
   lastOpticalExamination_location: {
     type: String,
@@ -461,14 +460,14 @@ const TreatmentPlan72Schema = new Schema({
     //required:true
   },
   administorSignDate: {
-    type: Date,
+    type: String,
   },
   treatmentDirectorSign: {
     type: String,
     //required:true
   },
   treatmentDirectorSignDate: {
-    type: Date,
+    type: String,
   },
   createdBy: {
     type: String,

@@ -28,7 +28,7 @@ const BodyCheckSchema = new Schema({
     required: false,
   },
   examin_date: {
-    type: Date,
+    type: String,
   },
   nurse_designee_name: {
     type: String,
@@ -39,7 +39,7 @@ const BodyCheckSchema = new Schema({
     required: false,
   },
   nurse_designee_date: {
-    type: Date,
+    type: String,
   },
 
   head: {
