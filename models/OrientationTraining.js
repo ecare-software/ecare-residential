@@ -63,6 +63,11 @@ const OrientationTrainingSchema = new Schema({
     type: Date,
     //required:true
   },
+  createDate: {
+    type: Date,
+    default: new Date(),
+    //required:true
+  },
 });
 
 module.exports = orientationTraining = mongoose.model(

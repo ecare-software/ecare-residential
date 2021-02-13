@@ -21,6 +21,7 @@ const admissionAssessment = require("./routes/api/admissionAssessment");
 const bodyCheck = require("./routes/api/bodyCheck");
 const orientationTraining = require("./routes/api/orientationTraining");
 const preServiceTraining = require("./routes/api/preServiceTraining");
+const client = require("./routes/api/client");
 const email = require("./routes/api/email");
 const uploadDocument = require("./routes/api/uploadDocument");
 
@@ -72,6 +73,7 @@ app.use("/api/admissionAssessment", admissionAssessment);
 app.use("/api/bodyCheck", bodyCheck);
 app.use("/api/orientationTraining", orientationTraining);
 app.use("/api/preServiceTraining", preServiceTraining);
+app.use("/api/client", client);
 app.use("/api/email", email);
 app.use("/api/uploadDocument", uploadDocument);
 app.use("/uploads", express.static("uploads"));

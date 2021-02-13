@@ -31,6 +31,11 @@ const DirectMessageSchema = new Schema({
     type: String,
     required: true,
   },
+  createDate: {
+    type: Date,
+    default: new Date(),
+    //required:true
+  },
 });
 
 module.exports = User = mongoose.model("directMessage", DirectMessageSchema);

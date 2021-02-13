@@ -48,6 +48,8 @@ router.post("/", (req, res) => {
 
     lastEditDate: new Date().toISOString(),
 
+    createDate: new Date().toISOString(),
+
     homeId: req.body.homeId,
 
     formType: "Health Body Check",

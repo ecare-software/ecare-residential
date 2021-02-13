@@ -396,6 +396,11 @@ const AdmissionAssessmentSchema = new Schema({
     type: Date,
     //required:true
   },
+  createDate: {
+    type: Date,
+    default: new Date(),
+    //required:true
+  },
 });
 
 module.exports = AdmissionAssessment = mongoose.model(

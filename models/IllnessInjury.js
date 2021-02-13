@@ -90,6 +90,11 @@ const IllnessInjurySchema = new Schema({
     type: Date,
     //required:true
   },
+  createDate: {
+    type: Date,
+    default: new Date(),
+    //required:true
+  },
 });
 
 module.exports = IllnessInjury = mongoose.model(

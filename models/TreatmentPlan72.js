@@ -505,6 +505,11 @@ const TreatmentPlan72Schema = new Schema({
     type: Date,
     //required:true
   },
+  createDate: {
+    type: Date,
+    default: new Date(),
+    //required:true
+  },
 });
 
 module.exports = TreatmentPlan72 = mongoose.model(

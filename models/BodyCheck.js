@@ -163,6 +163,11 @@ const BodyCheckSchema = new Schema({
     type: Date,
     //required:true
   },
+  createDate: {
+    type: Date,
+    default: new Date(),
+    //required:true
+  },
 });
 
 module.exports = BodyCheck = mongoose.model("bodyCheck", BodyCheckSchema);
