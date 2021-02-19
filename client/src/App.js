@@ -18,8 +18,7 @@ import DirectMessageBoard from "./components/DirectMessageBoard/DirectMessageBoa
 import Modal from "react-bootstrap/Modal";
 import ModalBody from "react-bootstrap/ModalBody";
 import ModalHeader from "react-bootstrap/ModalHeader";
-import ModalTitle from "react-bootstrap/ModalTitle";
-import ModalFooter from "react-bootstrap/ModalFooter";
+import Clients from "./components/Clients/Clients";
 import FormAlert from "./components/Forms/FormAlert";
 import Documents from "./components/Documents/Documents";
 import IllnessInjury from "./components/Forms/IllnessInjury";
@@ -273,6 +272,7 @@ class App extends Component {
       // },
     ],
     showUploadModal: false,
+    showClients: true,
   };
 
   getMyMessages = () => {
@@ -506,6 +506,10 @@ class App extends Component {
   openUpload = (val) => {
     this.setState({ ...this.state, showUploadModal: val });
   };
+
+  doToggleClientDisplay = (val) => {
+    this.setState({ ...this.state, showClients: val });
+  };
   render() {
     if (this.state.loggedIn) {
       return (
@@ -531,6 +535,8 @@ class App extends Component {
                   setDmMessage={this.setDmMessage}
                   showUploadModal={this.showUploadModal}
                   openUpload={this.openUpload}
+                  doToggleClientDisplay={this.doToggleClientDisplay}
+                  showClients={this.state.showClients}
                 />
               </div>
               <div className="col-sm-9" id="actionSection">
@@ -540,6 +546,8 @@ class App extends Component {
                     appState={this.state}
                     appendMessage={this.appendMessage}
                     toggleDisplay={this.toggleDisplay}
+                    showClients={this.state.showClients}
+                    doToggleClientDisplay={this.doToggleClientDisplay}
                   />
                 </div>
               </div>
@@ -678,7 +686,14 @@ class App extends Component {
   }
 }
 
-function ToggleScreen({ name, appState, appendMessage, toggleDisplay }) {
+function ToggleScreen({
+  name,
+  appState,
+  appendMessage,
+  toggleDisplay,
+  showClients,
+  doToggleClientDisplay,
+}) {
   if (name === "Dashboard") {
     return (
       <div>
@@ -824,6 +839,18 @@ function ToggleScreen({ name, appState, appendMessage, toggleDisplay }) {
     );
   }
 
+  if (name === "Clients") {
+    return (
+      <div>
+        <Clients
+          doToggleClientDisplay={doToggleClientDisplay}
+          showClientForm={showClients}
+          userObj={appState.userObj}
+        />
+      </div>
+    );
+  }
+
   if (name === "Direct Message") {
     return (
       <div>
@@ -849,6 +876,8 @@ function DisplayExtra({
   toggleDisplay,
   showUploadModal,
   openUpload,
+  doToggleClientDisplay,
+  showClients,
 }) {
   if (name === "TreatmentPlan72") {
     return (
@@ -1075,6 +1104,39 @@ function DisplayExtra({
           <p className="extraInfoNavSubTitle">
             Allows users to view account information and update their password.
           </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "Clients") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv">
+          {/* <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>
+            Manage User Information
+          </h5> */}
+        </div>
+        <div className="extraInfoButtonDiv">
+          {showClients ? (
+            <button
+              onClick={() => {
+                doToggleClientDisplay(false);
+              }}
+              className="btn btn-light extraInfoButton"
+            >
+              Add New Client
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                doToggleClientDisplay(true);
+              }}
+              className="btn btn-light extraInfoButton"
+            >
+              Show All Clients
+            </button>
+          )}
         </div>
       </div>
     );

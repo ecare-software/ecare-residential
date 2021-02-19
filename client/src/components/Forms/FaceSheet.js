@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import FormError from "../FormMods/FormError";
 import FormAlert from "../Forms/FormAlert";
+import { Form, Col } from "react-bootstrap";
 import "../../App.css";
 import Axios from "axios";
 
@@ -115,21 +116,37 @@ class FaceSheet extends Component {
   submit = () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     console.log(JSON.stringify(currentState));
-    Axios.post("/api/client", currentState)
-      .then((res) => {
-        window.scrollTo(0, 0);
-        this.toggleSuccessAlert();
-        setTimeout(this.toggleSuccessAlert, 3000);
-        if (!this.props.valuesSet) {
-          this.resetForm();
-        }
-      })
-      .catch((e) => {
-        this.setState({
-          formHasError: true,
-          formErrorMessage: "Error Submitting Face Sheet",
+    if (this.props.valuesSet) {
+      Axios.put(
+        `/api/client/${this.state.homeId}/${this.state._id}`,
+        this.state
+      )
+        .then((res) => {
+          window.scrollTo(0, 0);
+          this.toggleSuccessAlert();
+          setTimeout(this.toggleSuccessAlert, 3000);
+        })
+        .catch((e) => {
+          this.setState({
+            formHasError: true,
+            formErrorMessage: "Error Submitting Face Sheet",
+          });
         });
-      });
+    } else {
+      Axios.post("/api/client", currentState)
+        .then((res) => {
+          window.scrollTo(0, 0);
+          this.toggleSuccessAlert();
+          setTimeout(this.toggleSuccessAlert, 3000);
+          this.resetForm();
+        })
+        .catch((e) => {
+          this.setState({
+            formHasError: true,
+            formErrorMessage: "Error Submitting Face Sheet",
+          });
+        });
+    }
   };
 
   validateForm = () => {
@@ -155,6 +172,7 @@ class FaceSheet extends Component {
       "drugAllergies",
       "allergies",
       "chronicHealthConditions",
+      "childMeta_religion",
     ];
 
     //resubmit fields
