@@ -21,7 +21,7 @@ const ClientSchema = new Schema({
   childMeta_ethnicity: {
     type: String,
   },
-  childMeta_doa: {
+  childMeta_dateOfAdmission: {
     type: String,
   },
   childMeta_medicaidNumber: {

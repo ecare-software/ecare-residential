@@ -15,7 +15,7 @@ class FaceSheet extends Component {
       childMeta_age: "",
       childMeta_religion: "",
       childMeta_ethnicity: "",
-      childMeta_doa: "",
+      childMeta_dateOfAdmission: "",
       childMeta_medicaidNumber: "",
       childMeta_cpsNumber: "",
       childMeta_ssn: "",
@@ -89,7 +89,7 @@ class FaceSheet extends Component {
       childMeta_age: "",
       childMeta_religion: "",
       childMeta_ethnicity: "",
-      childMeta_doa: "",
+      childMeta_dateOfAdmission: "",
       childMeta_medicaidNumber: "",
       childMeta_cpsNumber: "",
       childMeta_ssn: "",
@@ -334,8 +334,8 @@ class FaceSheet extends Component {
               <label className="control-label">Date of Admission</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                id="childMeta_doa"
-                value={this.state.childMeta_doa}
+                id="childMeta_dateOfAdmission"
+                value={this.state.childMeta_dateOfAdmission}
                 className="form-control"
                 type="date"
               />{" "}
@@ -698,8 +698,8 @@ class FaceSheet extends Component {
               <label className="control-label">Date of Admission</label>{" "}
               <input
                 onChange={this.handleFieldInput}
-                id="childMeta_doa"
-                value={this.state.childMeta_doa}
+                id="childMeta_dateOfAdmission"
+                value={this.state.childMeta_dateOfAdmission}
                 className="form-control"
                 type="date"
               />{" "}

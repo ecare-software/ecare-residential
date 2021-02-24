@@ -11,7 +11,7 @@ router.post("/", (req, res) => {
     childMeta_age: req.body.childMeta_age,
     childMeta_religion: req.body.childMeta_religion,
     childMeta_ethnicity: req.body.childMeta_ethnicity,
-    childMeta_doa: req.body.childMeta_doa,
+    childMeta_dateOfAdmission: req.body.childMeta_dateOfAdmission,
     childMeta_medicaidNumber: req.body.childMeta_medicaidNumber,
     childMeta_cpsNumber: req.body.childMeta_cpsNumber,
     childMeta_ssn: req.body.childMeta_ssn,

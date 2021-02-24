@@ -2,6 +2,17 @@ input {
   height: 40px;
   border-radius: 9px;
 }
+.formLoadingDiv {
+  text-align: center;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.formSpinner {
+  display: block;
+  margin-left: 10px;
+}
 .defaultLabel {
   color: maroon;
   border-bottom: 0.5px solid #eee;
@@ -637,6 +648,7 @@ body {
   }
   #extraInfo {
     display: none;
+    transition: all 2s;
   }
   .formTitle {
     font-size: 1.8em;

@@ -99,7 +99,9 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
                 <label>{client.childMeta_name}</label>
               </Col>
               <Col>
-                <label className="control-label">{client.childMeta_doa}</label>
+                <label className="control-label">
+                  {client.childMeta_dateOfAdmission}
+                </label>
               </Col>
             </div>
           ))}
