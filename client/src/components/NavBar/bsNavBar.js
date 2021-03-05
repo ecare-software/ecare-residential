@@ -591,7 +591,7 @@ class NavBar extends React.Component {
                   }}
                   eventKey="link-1881"
                 >
-                  Clients
+                  Manage Clients
                 </NavDropdown.Item>
               )}
             </NavDropdown>
