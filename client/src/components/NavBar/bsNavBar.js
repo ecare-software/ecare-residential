@@ -589,7 +589,7 @@ class NavBar extends React.Component {
                       .classList.add("active");
                     this.props.toggleDisplay("Clients");
                   }}
-                  eventKey="link-1881"
+                  eventKey="link-1882"
                 >
                   Manage Clients
                 </NavDropdown.Item>
