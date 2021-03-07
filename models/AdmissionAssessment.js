@@ -371,7 +371,6 @@ const AdmissionAssessmentSchema = new Schema({
   lastEditDate: {
     type: Date,
     default: new Date(),
-    //required:true
   },
   homeId: {
     type: String,
@@ -394,12 +393,13 @@ const AdmissionAssessmentSchema = new Schema({
   },
   approvedByDate: {
     type: Date,
-    //required:true
   },
   createDate: {
     type: Date,
     default: new Date(),
-    //required:true
+  },
+  clientId: {
+    type: String,
   },
 });
 

@@ -4,76 +4,58 @@ const Schema = mongoose.Schema;
 const IncidentReportSchema = new Schema({
   childMeta_name: {
     type: String,
-    //required: true
   },
   childMeta_gender: {
     type: String,
-    // required: true
   },
   childMeta_dob: {
     type: String,
-    //required:true
   },
   childMeta_dateOfAdmission: {
     type: String,
-    // required: true
   },
   dateOfIncident: {
     type: String,
-    // required: true
   },
   staff_involved_name: {
     type: String,
-    //required: true
   },
   staff_involved_gender: {
     type: String,
-    // required: true
   },
 
   time_of_incident: {
     type: String,
-    // required: true
   },
   staff_witness_name: {
     type: String,
-    //required: true
   },
   staff_witness_gender: {
     type: String,
-    // required: true
   },
   client_witness_name1: {
     type: String,
-    //required: true
   },
   client_witness_gender1: {
     type: String,
-    // required: true
   },
   client_witness_dob1: {
     type: String,
-    // required: true
   },
   client_witness_doa1: {
     type: String,
-    // required: true
   },
   client_witness_name2: {
     type: String,
-    //required: true
   },
   client_witness_gender2: {
     type: String,
-    // required: true
   },
   client_witness_dob2: {
     type: String,
-    // required: true
   },
   client_witness_doa2: {
     type: String,
-    // required: true
   },
   incident_explaination: {
     type: String,
@@ -132,12 +114,13 @@ const IncidentReportSchema = new Schema({
   },
   approvedByDate: {
     type: Date,
-    //required:true
   },
   createDate: {
     type: Date,
     default: new Date(),
-    //required:true
+  },
+  clientId: {
+    type: String,
   },
 });
 

@@ -5,26 +5,21 @@ const Schema = mongoose.Schema;
 const TreatmentPlan72Schema = new Schema({
   childMeta_name: {
     type: String,
-    //required: true
   },
   childMeta_dob: {
     type: String,
-    //required:true
   },
   childMeta_age: {
     type: Number,
   },
   childMeta_ssn: {
     type: Number,
-    // required: true
   },
   childMeta_gender: {
     type: String,
-    // required: true
   },
   childMeta_medicaidNumber: {
     type: String,
-    // required: true
   },
   childMeta_county: {
     type: String,
@@ -34,78 +29,60 @@ const TreatmentPlan72Schema = new Schema({
   },
   childMeta_ethnicity: {
     type: String,
-    // required: true
   },
   childMeta_levelOfCare: {
     type: String,
-    // required: true
   },
   childMeta_religion: {
     type: String,
   },
   childMeta_managingConservator: {
     type: String,
-    // required: true
   },
   childMeta_StringOfAdmission: {
     type: String,
-    // required: true
   },
   projectedDateForAchievingPermanency: {
     type: String,
-    //required: true
   },
   legalStatus_PermancyGoal: {
     type: String,
-    //required: true
   },
   fatherMeta_name: {
     type: String,
-    //required: true
   },
   fatherMeta_address: {
     type: String,
-    //required: true
   },
   fatherMeta_phoneNumber: {
     type: String,
-    //required: true
   },
   motherMeta_name: {
     type: String,
-    //required: true
   },
   motherMeta_address: {
     type: String,
-    //required: true
   },
   motherMeta_phoneNumber: {
     type: String,
-    //required: true
   },
   legalStatus: {
     type: String,
-    //required: true
   },
   referringAgency_co: {
     type: String,
-    //required: true
   },
   agentOfReferringAgency_co_name: {
     type: String,
-    //required: true
   },
   agentOfReferringAgency_co_address: {
     type: String,
-    //required: true
   },
   reactionToPlacement: {
     type: String,
-    //required: true
   },
   interests: {
     type: String,
-    //required: true
   },
   otherMeta1_name: {
     type: String,
@@ -157,35 +134,27 @@ const TreatmentPlan72Schema = new Schema({
   },
   currentMedicalInformation: {
     type: String,
-    //required: true
   },
   developmental_medicalHistory: {
     type: String,
-    //required: true
   },
   drugAllergies: {
     type: String,
-    //required: true
   },
   food1: {
     type: String,
-    //required: true
   },
   allergies: {
     type: String,
-    //required: true
   },
   chronicHealth: {
     type: String,
-    //required: true
   },
   healthStrengths: {
     type: String,
-    //required: true
   },
   healthNeeds: {
     type: String,
-    //required: true
   },
 
   lastPhysicalExamination_date: {
@@ -293,22 +262,18 @@ const TreatmentPlan72Schema = new Schema({
   },
   behavioralStrengths: {
     type: String,
-    //required: true
   },
   behavioralNeeds: {
     type: String,
-    //required: true
   },
   behavioralTreatmentServices: {
     type: String,
   },
   emotionalStrengths: {
     type: String,
-    //required: true
   },
   emotionalNeeds: {
     type: String,
-    //required: true
   },
   emotionalTreatmentServices: {
     type: String,
@@ -457,14 +422,12 @@ const TreatmentPlan72Schema = new Schema({
   },
   administorSign: {
     type: String,
-    //required:true
   },
   administorSignDate: {
     type: String,
   },
   treatmentDirectorSign: {
     type: String,
-    //required:true
   },
   treatmentDirectorSignDate: {
     type: String,
@@ -480,7 +443,6 @@ const TreatmentPlan72Schema = new Schema({
   lastEditDate: {
     type: Date,
     default: new Date(),
-    //required:true
   },
   homeId: {
     type: String,
@@ -503,12 +465,13 @@ const TreatmentPlan72Schema = new Schema({
   },
   approvedByDate: {
     type: Date,
-    //required:true
   },
   createDate: {
     type: Date,
     default: new Date(),
-    //required:true
+  },
+  clientId: {
+    type: String,
   },
 });
 
