@@ -80,17 +80,6 @@ router.put("/:id", (req, res) => {
   });
 });
 
-// ('/:password/:id', function (req, res) {
-//   User.update(
-//     {password: req.body.password},
-//     {where: req.body.id}
-//   )
-//   .then(function(rowsUpdated) {
-//     res.json(rowsUpdated)
-//   })
-//   .catch(err=>console.log)
-//  })
-
 // @route   Delete api/items
 // @desc    Delete an item
 // @access  Public

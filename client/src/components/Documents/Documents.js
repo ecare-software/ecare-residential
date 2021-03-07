@@ -42,25 +42,20 @@ class Documents extends Component {
       imageFormObj.append("imageData", e.target.files[0]);
       imageFormObj.append("homeId", user.homeId);
       imageFormObj.append("email", user.email);
-      // stores a readable instance of // the image being uploaded using multer
-      // this.setState({ multerImage: URL.createObjectURL(e.target.files[0]) });
 
       Axios.post(`api/uploadDocument/uploadmulter`, imageFormObj)
-        // Axios.post(`/upload`, imageFormObj)
+
         .then((data) => {
           if (data.data.success) {
             console.log(data.data);
             this.setState({ ...this.state, showUploadModal: false });
             this.getDocuments();
-            // alert("Image has been successfully uploaded using multer");
-            // this.setDefaultImage("multer");
           }
         })
         .catch((err) => {
           alert("Error while uploading image using multer");
           console.log(err);
           this.setState({ ...this.state, showUploadModal: false });
-          // this.setDefaultImage("multer");
         });
     }
   };
@@ -104,7 +99,6 @@ class Documents extends Component {
     link.setAttribute("download", selectedFile[0].imageName);
     document.body.appendChild(link);
     link.click();
-    // alert(id);
   };
 
   render() {

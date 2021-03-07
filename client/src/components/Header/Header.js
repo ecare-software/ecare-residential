@@ -4,13 +4,10 @@ import "../../App.css";
 import Axios from "axios";
 import LogInContiner from "../LogInContainer/LogInContainer";
 import Carousel from "react-bootstrap/Carousel";
-import ReactDOM from "react-dom";
 import Modal from "react-bootstrap/Modal";
 import FormAlert from "../Forms/FormAlert";
 import ModalBody from "react-bootstrap/ModalBody";
 import ModalHeader from "react-bootstrap/ModalHeader";
-import ModalTitle from "react-bootstrap/ModalTitle";
-import ModalFooter from "react-bootstrap/ModalFooter";
 
 const imageStyle = {
   // height: "80vh"
@@ -19,14 +16,19 @@ const imageStyle = {
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = { showLogIn: false, emailTo: "", name: "", emailSent: false,showLearnMore:false };
+    this.state = {
+      showLogIn: false,
+      emailTo: "",
+      name: "",
+      emailSent: false,
+      showLearnMore: false,
+    };
     this.scrollToMainBody = this.scrollToMainBody.bind(this);
   }
 
   scrollToMainBody() {}
 
   openLogInModal = () => {
-    // console.log(document.getElementById("logInModal"));
     this.setState({ showLogIn: true });
   };
 
@@ -34,15 +36,15 @@ class Header extends Component {
     this.setState({ showLogIn: false });
   };
 
-  handleFieldInput = event => {
+  handleFieldInput = (event) => {
     var stateObj = {};
     stateObj[event.target.id] = event.target.value;
     this.setState(stateObj);
   };
 
-  toggleLearnMore = () =>{
-    this.setState({showLearnMore:!this.state.showLearnMore});
-  }
+  toggleLearnMore = () => {
+    this.setState({ showLearnMore: !this.state.showLearnMore });
+  };
 
   sendEmail = () => {
     var thisHook = this;
@@ -50,13 +52,18 @@ class Header extends Component {
       return;
     }
     Axios.post(`/api/email/${this.state.emailTo}/${this.state.name}`)
-      .then(function(response) {
-        thisHook.setState({ name: "", emailTo: "", emailSent: true,showLearnMore:false });
+      .then(function (response) {
+        thisHook.setState({
+          name: "",
+          emailTo: "",
+          emailSent: true,
+          showLearnMore: false,
+        });
         setTimeout(() => {
           thisHook.setState({ emailSent: false });
         }, 4000);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         alert("error sending email");
         console.log(error);
       });
@@ -65,19 +72,28 @@ class Header extends Component {
   render() {
     return (
       <div>
-        {/* <div className="headerImg"> */}
         <Modal show={this.state.showLearnMore} onHide={this.toggleLearnMore}>
-          <ModalHeader closeButton style={{color:"maroon",textAlign:"center",borderColor:"maroon"}}>
+          <ModalHeader
+            closeButton
+            style={{
+              color: "maroon",
+              textAlign: "center",
+              borderColor: "maroon",
+            }}
+          >
             <h5>Learn more about our services</h5>
           </ModalHeader>
           <ModalBody>
             <div className="form-group">
-              <p>Complete the form below to get a personalized email describing the services offered.</p>
+              <p>
+                Complete the form below to get a personalized email describing
+                the services offered.
+              </p>
               <input
                 id="name"
                 onChange={this.handleFieldInput}
                 value={this.state.name}
-                style={{ width: "100%",margin:"15px 0px" }}
+                style={{ width: "100%", margin: "15px 0px" }}
                 className="form-control"
                 placeholder="Name / Organization"
               />
@@ -85,22 +101,22 @@ class Header extends Component {
                 id="emailTo"
                 onChange={this.handleFieldInput}
                 value={this.state.emailTo}
-                style={{ width: "100%",margin:"15px 0px" }}
+                style={{ width: "100%", margin: "15px 0px" }}
                 className="form-control"
                 placeholder="youremail@example.com"
               />
               <button
-              style={{
-                margin: "5px 0px",
-                float: "right",
-                backgroundColor: "maroon",
-                color: "white"
-              }}
-              onClick={this.sendEmail}
-              className="btn"
-            >
-              Submit
-            </button>
+                style={{
+                  margin: "5px 0px",
+                  float: "right",
+                  backgroundColor: "maroon",
+                  color: "white",
+                }}
+                onClick={this.sendEmail}
+                className="btn"
+              >
+                Submit
+              </button>
             </div>
           </ModalBody>
         </Modal>
@@ -118,7 +134,7 @@ class Header extends Component {
             this isnt an ex
           </button>
         </Modal>
-        {/* </div> */}
+
         <Carousel
           controls={false}
           indicators={true}
@@ -133,10 +149,6 @@ class Header extends Component {
               style={imageStyle}
               alt="First slide"
             />
-            {/* <Carousel.Caption>
-              <h3>First slide label</h3>
-              <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            </Carousel.Caption> */}
           </Carousel.Item>
           <Carousel.Item>
             <img
@@ -145,11 +157,6 @@ class Header extends Component {
               src={require("../../images/child1.jpeg")}
               alt="Two slide"
             />
-
-            {/* <Carousel.Caption>
-              <h3>Second slide label</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </Carousel.Caption> */}
           </Carousel.Item>
           <Carousel.Item>
             <img
@@ -158,13 +165,6 @@ class Header extends Component {
               style={imageStyle}
               alt="Third slide"
             />
-
-            {/* <Carousel.Caption>
-              <h3>Third slide label</h3>
-              <p>
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-              </p>
-            </Carousel.Caption> */}
           </Carousel.Item>
           <Carousel.Item>
             <img
@@ -173,13 +173,6 @@ class Header extends Component {
               style={imageStyle}
               alt="Fourth slide"
             />
-
-            {/* <Carousel.Caption>
-              <h3>Third slide label</h3>
-              <p>
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-              </p>
-            </Carousel.Caption> */}
           </Carousel.Item>
         </Carousel>
         <div className="headerTextContainer">
@@ -235,24 +228,14 @@ class Header extends Component {
               Log In
             </button>
           </div>
-          <div className="mobileLearnMore" style={{ }}>
-          <button
-              style={{ marginTop: "10px",fontWeight:200 }}
+          <div className="mobileLearnMore" style={{}}>
+            <button
+              style={{ marginTop: "10px", fontWeight: 200 }}
               onClick={this.toggleLearnMore}
               className="btn  lightBtn"
             >
               Learn More
             </button>
-          {/* <button
-              id="logEventInBtn"
-              style={{ marginTop: "10px" }}
-              data-toggle="modal"
-              data-target="#logInModal"
-              className="btn darkBtn"
-              onClick={this.openLogInModal}
-            >
-              Log In
-            </button> */}
           </div>
         </div>
       </div>

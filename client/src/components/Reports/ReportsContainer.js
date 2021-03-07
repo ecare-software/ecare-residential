@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import ReportBarChart from "./ReportBarChart";
-import ReportPieChart from "./ReportPieChart";
-import Axios from "axios";
+
 import { FromReports } from "./FormReports";
 import { TrainingReports } from "./TrainingReports";
 

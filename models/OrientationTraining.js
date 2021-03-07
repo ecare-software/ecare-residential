@@ -23,7 +23,6 @@ const OrientationTrainingSchema = new Schema({
   T7: {
     type: String,
   },
-
   createdBy: {
     type: String,
     required: false,
@@ -32,7 +31,6 @@ const OrientationTrainingSchema = new Schema({
     type: String,
     required: false,
   },
-
   lastEditDate: {
     type: Date,
     default: new Date(),
@@ -43,30 +41,27 @@ const OrientationTrainingSchema = new Schema({
   homeId: {
     type: String,
   },
-
   approved: {
     type: Boolean,
     default: false,
   },
-
   approvedBy: {
     type: String,
     required: false,
   },
-
   approvedByName: {
     type: String,
     required: false,
   },
-
   approvedByDate: {
     type: Date,
-    //required:true
   },
   createDate: {
     type: Date,
     default: new Date(),
-    //required:true
+  },
+  clientId: {
+    type: String,
   },
 });
 

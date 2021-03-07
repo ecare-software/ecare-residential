@@ -145,7 +145,6 @@ const DailyProgressAndActivitySchema = new Schema({
   lastEditDate: {
     type: Date,
     default: new Date(),
-    //required:true
   },
   homeId: {
     type: String,
@@ -168,12 +167,13 @@ const DailyProgressAndActivitySchema = new Schema({
   },
   approvedByDate: {
     type: Date,
-    //required:true
   },
   createDate: {
     type: Date,
     default: new Date(),
-    //required:true
+  },
+  clientId: {
+    type: String,
   },
 });
 

@@ -83,6 +83,7 @@ class IncidentReport extends Component {
       loadingClients: true,
 
       clients: [],
+      clientId: "",
     };
   }
 
@@ -165,39 +166,46 @@ class IncidentReport extends Component {
       notification_made_by: "",
 
       follow_up_results: "",
+      clientId: "",
     });
   };
 
-  submit = () => {
+  submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-    console.log(JSON.stringify(currentState));
-    Axios.post("/api/incidentReport", currentState)
-      .then((res) => {
+    if (this.props.valuesSet) {
+      try {
+        await Axios.put(
+          `/api/incidentReport/${this.state.homeId}/${this.props.formData._id}`,
+          {
+            ...this.state,
+          }
+        );
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
         setTimeout(this.toggleSuccessAlert, 3000);
-        if (!this.props.valuesSet) {
-          this.resetForm();
-        }
-      })
-      .catch((e) => {
+      } catch (e) {
         this.setState({
           formHasError: true,
           formErrorMessage: "Error Submitting Incident Report",
         });
-      });
-    // Axios({
-    //   method: "post",
-    //   url: "/api/treatmentPlans72",
-    //   body: "",
-    //   headers: { test: "test" }
-    // })
-    //   .then(response => {
-    //     console.log(response);
-    //   })
-    //   .catch(e => {
-    //     console.log(e);
-    //   });
+      }
+    } else {
+      Axios.post("/api/incidentReport", currentState)
+        .then((res) => {
+          window.scrollTo(0, 0);
+          this.toggleSuccessAlert();
+          setTimeout(this.toggleSuccessAlert, 3000);
+          if (!this.props.valuesSet) {
+            this.resetForm();
+          }
+        })
+        .catch((e) => {
+          this.setState({
+            formHasError: true,
+            formErrorMessage: "Error Submitting Incident Report",
+          });
+        });
+    }
   };
 
   validateForm = () => {
@@ -219,6 +227,7 @@ class IncidentReport extends Component {
       "approvedBy",
       "approvedByDate",
       "approvedByName",
+      "clientId",
     ];
 
     var isValid = true;
@@ -252,7 +261,6 @@ class IncidentReport extends Component {
 
   setValues = async () => {
     await this.setState({ ...this.state, ...this.props.formData });
-    console.log(this.state.childMeta_dob);
   };
 
   getClients = async () => {
@@ -267,7 +275,6 @@ class IncidentReport extends Component {
           loadingClients: !this.state.loadingClients,
         });
       }, 2000);
-      console.log(clients);
     } catch (e) {
       console.log(e);
       alert("Error loading clients");
@@ -294,8 +301,7 @@ class IncidentReport extends Component {
           clonedState.childMeta_placeOfBirth = `${client[key]} `;
         }
       });
-      await this.setState({ ...clonedState });
-      console.log(this.state);
+      await this.setState({ ...clonedState, clientId: client._id });
     }
   };
 

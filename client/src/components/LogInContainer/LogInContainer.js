@@ -60,7 +60,6 @@ class LogInContainer extends Component {
         .then(function (response) {
           // handle success
           if (response.data === null) {
-            // alert("hey");
             document.getElementById(staticThis.props.id + "-error").innerText =
               "Invalid email or password";
             document.getElementById(

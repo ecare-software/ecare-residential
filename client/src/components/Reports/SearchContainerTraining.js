@@ -46,7 +46,6 @@ class SearchContainerTraining extends Component {
       this.setState({ submittedByA: [event.target.value] });
     }
     setTimeout(() => {
-      // console.log(this.state)
       this.callRunSearch(this.state);
     });
   };
@@ -68,7 +67,6 @@ class SearchContainerTraining extends Component {
     console.log(formName);
     this.setState({ submittedForms: submittedForms });
     setTimeout(() => {
-      // console.log(this.state)
       this.callRunSearch(this.state);
     });
   };
@@ -82,9 +80,7 @@ class SearchContainerTraining extends Component {
       ethnicityA.push(eth);
     }
     this.setState({ ethnicityA: ethnicityA });
-    // this.callRunSearch();
     setTimeout(() => {
-      // console.log(this.state)
       this.callRunSearch(this.state);
     });
   };

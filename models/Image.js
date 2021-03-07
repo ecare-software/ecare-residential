@@ -36,12 +36,10 @@ const ImageSchema = new Schema({
   },
   approvedByDate: {
     type: Date,
-    //required:true
   },
   createDate: {
     type: Date,
     default: new Date(),
-    //required:true
   },
 });
 

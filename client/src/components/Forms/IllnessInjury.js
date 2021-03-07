@@ -46,6 +46,7 @@ class IllnessInjury extends Component {
       loadingClients: true,
 
       clients: [],
+      clientId: "",
     };
   }
 
@@ -90,39 +91,47 @@ class IllnessInjury extends Component {
       lastMedicationGiven: "",
       otherActionsTreatment: "",
       treatmentAuthBy: "",
+      clientId: "",
     });
   };
 
-  submit = () => {
+  submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-    console.log(JSON.stringify(currentState));
-    Axios.post("/api/illnessInjury", currentState)
-      .then((res) => {
+
+    if (this.props.valuesSet) {
+      try {
+        await Axios.put(
+          `/api/illnessInjury/${this.state.homeId}/${this.props.formData._id}`,
+          {
+            ...this.state,
+          }
+        );
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
         setTimeout(this.toggleSuccessAlert, 3000);
-        if (!this.props.valuesSet) {
-          this.resetForm();
-        }
-      })
-      .catch((e) => {
+      } catch (e) {
         this.setState({
           formHasError: true,
           formErrorMessage: "Error Submitting Illness Injury",
         });
-      });
-    // Axios({
-    //   method: "post",
-    //   url: "/api/treatmentPlans72",
-    //   body: "",
-    //   headers: { test: "test" }
-    // })
-    //   .then(response => {
-    //     console.log(response);
-    //   })
-    //   .catch(e => {
-    //     console.log(e);
-    //   });
+      }
+    } else {
+      Axios.post("/api/illnessInjury", currentState)
+        .then((res) => {
+          window.scrollTo(0, 0);
+          this.toggleSuccessAlert();
+          setTimeout(this.toggleSuccessAlert, 3000);
+          if (!this.props.valuesSet) {
+            this.resetForm();
+          }
+        })
+        .catch((e) => {
+          this.setState({
+            formHasError: true,
+            formErrorMessage: "Error Submitting Illness Injury",
+          });
+        });
+    }
   };
 
   validateForm = () => {
@@ -146,6 +155,7 @@ class IllnessInjury extends Component {
       "approvedBy",
       "approvedByDate",
       "approvedByName",
+      "clientId",
     ];
 
     var isValid = true;
@@ -220,8 +230,7 @@ class IllnessInjury extends Component {
           clonedState.childMeta_placeOfBirth = `${client[key]} `;
         }
       });
-      await this.setState({ ...clonedState });
-      console.log(this.state);
+      await this.setState({ ...clonedState, clientId: client._id });
     }
   };
 

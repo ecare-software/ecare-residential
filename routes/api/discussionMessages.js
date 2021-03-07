@@ -4,18 +4,6 @@ const router = express.Router();
 // direct message model
 const DiscussionMessage = require("../../models/DiscussionMessage");
 
-// @route   GET api/items
-// @desc    GET all items
-// @access  Public
-// router.get("/:id", (req, res) => {
-//   DiscussionMessage.findById(req.params.id)
-//     .then(discussionMessage => res.json(discussionMessage))
-//     .catch(err => res.status(404).json({ success: false }));
-// });
-
-// @route   GET api/items
-// @desc    GET all items
-// @access  Public
 router.get("/:homeId", (req, res) => {
   if (req.params.homeId) {
     console.log(

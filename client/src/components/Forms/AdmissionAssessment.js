@@ -145,6 +145,7 @@ class AdmissionAssessment extends Component {
       loadingClients: true,
 
       clients: [],
+      clientId: "",
     };
   }
 
@@ -290,27 +291,47 @@ class AdmissionAssessment extends Component {
       basicNeeds: "",
       shortTermGoals: "",
       longTermGoals: "",
+      clientId: "",
     });
   };
 
-  submit = () => {
+  submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-    // console.log(JSON.stringify(currentState));
-    Axios.post("/api/admissionAssessment", currentState)
-      .then((res) => {
+
+    if (this.props.valuesSet) {
+      try {
+        await Axios.put(
+          `/api/admissionAssessment/${this.state.homeId}/${this.props.formData._id}`,
+          {
+            ...this.state,
+          }
+        );
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
         setTimeout(this.toggleSuccessAlert, 3000);
-        if (!this.props.valuesSet) {
-          this.resetForm();
-        }
-      })
-      .catch((e) => {
+      } catch (e) {
         this.setState({
           formHasError: true,
           formErrorMessage: "Error Submitting Admission Assessment",
         });
-      });
+      }
+    } else {
+      Axios.post("/api/admissionAssessment", currentState)
+        .then((res) => {
+          window.scrollTo(0, 0);
+          this.toggleSuccessAlert();
+          setTimeout(this.toggleSuccessAlert, 3000);
+          if (!this.props.valuesSet) {
+            this.resetForm();
+          }
+        })
+        .catch((e) => {
+          this.setState({
+            formHasError: true,
+            formErrorMessage: "Error Submitting Admission Assessment",
+          });
+        });
+    }
   };
 
   validateForm = () => {
@@ -382,6 +403,7 @@ class AdmissionAssessment extends Component {
       "approvedBy",
       "approvedByDate",
       "approvedByName",
+      "clientId",
     ];
 
     var isValid = true;
@@ -399,7 +421,16 @@ class AdmissionAssessment extends Component {
         }
       }
     });
-    console.log(errorFields);
+
+    if (!isValid) {
+      this.setState({
+        formHasError: true,
+        formErrorMessage: `Please complete the following field(s): ${errorFields
+          .toString()
+          .replace(/,/g, "\n")}`,
+      });
+      return;
+    }
 
     this.submit();
   };
@@ -420,7 +451,6 @@ class AdmissionAssessment extends Component {
           loadingClients: !this.state.loadingClients,
         });
       }, 2000);
-      console.log(clients);
     } catch (e) {
       console.log(e);
       alert("Error loading clients");
@@ -447,8 +477,7 @@ class AdmissionAssessment extends Component {
           clonedState.childMeta_placeOfBirth = `${client[key]} `;
         }
       });
-      await this.setState({ ...clonedState });
-      console.log(this.state);
+      await this.setState({ ...clonedState, clientId: client._id });
     }
   };
 

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
 const selectedUserNameClass = {
-  // backgroundColor: "rgb(128, 0, 0)",
   color: "maroon",
   padding: "10px",
   borderRadius: "9px",

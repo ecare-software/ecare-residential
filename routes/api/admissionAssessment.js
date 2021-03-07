@@ -176,7 +176,7 @@ router.post("/", (req, res) => {
     .save()
     .then((admissionAssessment) => res.json(admissionAssessment))
     .catch((e) => {
-      // console.log(e);
+      e;
     });
 });
 

@@ -15,7 +15,6 @@ class UserManagement extends Component {
   }
 
   toggleShow = (compName) => {
-    // console.log(compName);
     switch (compName) {
       case "Create New User":
         this.setState({ showCreateNewUser: !this.state.showCreateNewUser });

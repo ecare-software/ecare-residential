@@ -46,7 +46,7 @@ router.post("/", (req, res) => {
     .save()
     .then((client) => res.json(client))
     .catch((e) => {
-      // console.log(e);
+      e;
     });
 });
 

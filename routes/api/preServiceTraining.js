@@ -46,7 +46,7 @@ router.post("/", (req, res) => {
     .save()
     .then((preServiceTraining) => res.json(preServiceTraining))
     .catch((e) => {
-      // console.log(e);
+      e;
     });
 });
 

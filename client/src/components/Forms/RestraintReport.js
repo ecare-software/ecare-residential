@@ -102,6 +102,7 @@ class RestraintReport extends Component {
       loadingClients: true,
 
       clients: [],
+      clientId: "",
     };
   }
 
@@ -203,39 +204,46 @@ class RestraintReport extends Component {
       procedural_any_injuries: "",
 
       procedural_comments: "",
+      clientId: "",
     });
   };
 
-  submit = () => {
+  submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-    console.log(JSON.stringify(currentState));
-    Axios.post("/api/restraintReport", currentState)
-      .then((res) => {
+    if (this.props.valuesSet) {
+      try {
+        await Axios.put(
+          `/api/restraintReport/${this.state.homeId}/${this.props.formData._id}`,
+          {
+            ...this.state,
+          }
+        );
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
         setTimeout(this.toggleSuccessAlert, 3000);
-        if (!this.props.valuesSet) {
-          this.resetForm();
-        }
-      })
-      .catch((e) => {
+      } catch (e) {
         this.setState({
           formHasError: true,
           formErrorMessage: "Error Submitting Restraint Report",
         });
-      });
-    // Axios({
-    //   method: "post",
-    //   url: "/api/treatmentPlans72",
-    //   body: "",
-    //   headers: { test: "test" }
-    // })
-    //   .then(response => {
-    //     console.log(response);
-    //   })
-    //   .catch(e => {
-    //     console.log(e);
-    //   });
+      }
+    } else {
+      Axios.post("/api/restraintReport", currentState)
+        .then((res) => {
+          window.scrollTo(0, 0);
+          this.toggleSuccessAlert();
+          setTimeout(this.toggleSuccessAlert, 3000);
+          if (!this.props.valuesSet) {
+            this.resetForm();
+          }
+        })
+        .catch((e) => {
+          this.setState({
+            formHasError: true,
+            formErrorMessage: "Error Submitting Restraint Report",
+          });
+        });
+    }
   };
 
   validateForm = () => {
@@ -257,6 +265,7 @@ class RestraintReport extends Component {
       "approvedBy",
       "approvedByDate",
       "approvedByName",
+      "clientId",
     ];
 
     var isValid = true;
@@ -304,7 +313,6 @@ class RestraintReport extends Component {
           loadingClients: !this.state.loadingClients,
         });
       }, 2000);
-      console.log(clients);
     } catch (e) {
       console.log(e);
       alert("Error loading clients");
@@ -331,8 +339,7 @@ class RestraintReport extends Component {
           clonedState.childMeta_placeOfBirth = `${client[key]} `;
         }
       });
-      await this.setState({ ...clonedState });
-      console.log(this.state);
+      await this.setState({ ...clonedState, clientId: client._id });
     }
   };
 

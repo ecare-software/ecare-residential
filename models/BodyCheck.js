@@ -8,7 +8,6 @@ const BodyCheckSchema = new Schema({
   },
   childMeta_gender: {
     type: String,
-    // required: true
   },
   injury: {
     type: String,
@@ -161,12 +160,13 @@ const BodyCheckSchema = new Schema({
   },
   approvedByDate: {
     type: Date,
-    //required:true
   },
   createDate: {
     type: Date,
     default: new Date(),
-    //required:true
+  },
+  clientId: {
+    type: String,
   },
 });
 

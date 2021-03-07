@@ -47,22 +47,18 @@ class RequestDemoModal extends Component {
     if (this.state.demoMethod !== "") {
       if (this.state.demoMethod === "Webinar") {
         if (this.state.webinarDate !== "") {
-          // console.log(this.state);
           alert("submit");
           document.getElementById("closeRequestDemoModal").click();
           this.resetState();
         } else {
-          // console.log(this.state);
           alert("you did not select a webinar date");
         }
       } else {
-        // console.log(this.state);
         alert("submit");
         document.getElementById("closeRequestDemoModal").click();
         this.resetState();
       }
     } else {
-      // console.log(this.state);
       alert("you did not select a demo method");
     }
   }

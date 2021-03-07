@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Axios from "axios";
-// import FormError from "../FormMods/FormError";
-// import FormSuccess from "../FormMods/FormSuccess";
+
 import "../../App.css";
 
 const headerRow = {
@@ -18,10 +17,6 @@ class ManageUsers extends Component {
     };
   }
 
-  // componentWillReceiveProps = () =>{
-  //   console.log(this.props)
-  // }
-
   openNewPassword = (index) => {
     let resettingCurrent = this.state.resetting;
     if (resettingCurrent === index) {
@@ -32,7 +27,6 @@ class ManageUsers extends Component {
   };
 
   handleFieldInput = (event) => {
-    var stateObj = {};
     var isReenter = event.target.id.split("-")[0];
 
     if (isReenter === "reenterpassword") {
@@ -40,13 +34,9 @@ class ManageUsers extends Component {
     } else {
       this.setState({ newPassword: event.target.value });
     }
-
-    // console.log(isReenter);
   };
 
   saveNewPassword = (id) => {
-    // console.log(this.state);
-    // console.log(id);
     if (/^\s+$/.test(this.state.newPassword)) {
       alert("Password is not valid");
       return;

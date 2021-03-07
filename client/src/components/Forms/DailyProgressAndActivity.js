@@ -71,6 +71,7 @@ class DailyProgressAndActivity extends Component {
       loadingClients: true,
 
       clients: [],
+      clientId: "",
     };
   }
 
@@ -135,40 +136,49 @@ class DailyProgressAndActivity extends Component {
       therapeutic_recreational: "",
       therapeutic_value: "",
       phone_calls_or_visits: "",
+      clientId: "",
     });
   };
 
-  submit = () => {
+  submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-    // console.log(JSON.stringify(currentState));
-    Axios.post("/api/dailyProgressAndActivity", currentState)
-      .then((res) => {
+
+    if (this.props.valuesSet) {
+      try {
+        await Axios.put(
+          `/api/dailyProgressAndActivity/${this.state.homeId}/${this.props.formData._id}`,
+          {
+            ...this.state,
+          }
+        );
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
         setTimeout(this.toggleSuccessAlert, 3000);
-        if (!this.props.valuesSet) {
-          this.resetForm();
-        }
-      })
-      .catch((e) => {
+      } catch (e) {
         this.setState({
           formHasError: true,
           formErrorMessage:
             "Error Submitting Daily Progress and Activity Report",
         });
-      });
-    // Axios({
-    //   method: "post",
-    //   url: "/api/treatmentPlans72",
-    //   body: "",
-    //   headers: { test: "test" }
-    // })
-    //   .then(response => {
-    //     console.log(response);
-    //   })
-    //   .catch(e => {
-    //     console.log(e);
-    //   });
+      }
+    } else {
+      Axios.post("/api/dailyProgressAndActivity", currentState)
+        .then((res) => {
+          window.scrollTo(0, 0);
+          this.toggleSuccessAlert();
+          setTimeout(this.toggleSuccessAlert, 3000);
+          if (!this.props.valuesSet) {
+            this.resetForm();
+          }
+        })
+        .catch((e) => {
+          this.setState({
+            formHasError: true,
+            formErrorMessage:
+              "Error Submitting Daily Progress and Activity Report",
+          });
+        });
+    }
   };
 
   validateForm = () => {
@@ -182,6 +192,7 @@ class DailyProgressAndActivity extends Component {
       "approvedBy",
       "approvedByDate",
       "approvedByName",
+      "clientId",
     ];
 
     var isValid = true;
@@ -256,8 +267,7 @@ class DailyProgressAndActivity extends Component {
           clonedState.childMeta_placeOfBirth = `${client[key]} `;
         }
       });
-      await this.setState({ ...clonedState });
-      console.log(this.state);
+      await this.setState({ ...clonedState, clientId: client._id });
     }
   };
 

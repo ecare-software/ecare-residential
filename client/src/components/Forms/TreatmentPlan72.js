@@ -306,6 +306,7 @@ class TreatmentPlan72 extends Component {
       loadingClients: true,
 
       clients: [],
+      clientId: "",
     };
   }
 
@@ -329,11 +330,6 @@ class TreatmentPlan72 extends Component {
       let nestedProperty = { ...this.state[level1Obj] };
       nestedProperty[level2Obj] = event.target.value;
       stateObj[level1Obj] = nestedProperty;
-      // let objCopy = JSON.parse(JSON.stringify(this.state[level1Obj]));
-      // console.log(objCopy);
-      // objCopy[level2Obj] = event.target.value;
-      // console.log(objCopy);
-      // this.setState(objCopy);
     } else {
       stateObj[event.target.id] = event.target.value;
     }
@@ -616,27 +612,48 @@ class TreatmentPlan72 extends Component {
       treatmentDirectorSign: "",
 
       treatmentDirectorSignDate: "",
+
+      clientId: "",
     });
   };
 
-  submit = () => {
+  submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-    // console.log(JSON.stringify(currentState));
-    Axios.post("/api/treatmentPlans72", currentState)
-      .then((res) => {
+
+    if (this.props.valuesSet) {
+      try {
+        await Axios.put(
+          `/api/treatmentPlans72/${this.state.homeId}/${this.props.formData._id}`,
+          {
+            ...this.state,
+          }
+        );
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
         setTimeout(this.toggleSuccessAlert, 3000);
-        if (!this.props.valuesSet) {
-          this.resetForm();
-        }
-      })
-      .catch((e) => {
+      } catch (e) {
         this.setState({
           formHasError: true,
           formErrorMessage: "Error Submitting 72 Hour Treatment Plan",
         });
-      });
+      }
+    } else {
+      Axios.post("/api/treatmentPlans72", currentState)
+        .then((res) => {
+          window.scrollTo(0, 0);
+          this.toggleSuccessAlert();
+          setTimeout(this.toggleSuccessAlert, 3000);
+          if (!this.props.valuesSet) {
+            this.resetForm();
+          }
+        })
+        .catch((e) => {
+          this.setState({
+            formHasError: true,
+            formErrorMessage: "Error Submitting 72 Hour Treatment Plan",
+          });
+        });
+    }
   };
 
   validateForm = () => {
@@ -708,6 +725,7 @@ class TreatmentPlan72 extends Component {
       "approvedBy",
       "approvedByDate",
       "approvedByName",
+      "clientId",
     ];
 
     var isValid = true;
@@ -755,7 +773,6 @@ class TreatmentPlan72 extends Component {
           loadingClients: !this.state.loadingClients,
         });
       }, 2000);
-      console.log(clients);
     } catch (e) {
       console.log(e);
       alert("Error loading clients");
@@ -782,8 +799,7 @@ class TreatmentPlan72 extends Component {
           clonedState.childMeta_placeOfBirth = `${client[key]} `;
         }
       });
-      await this.setState({ ...clonedState });
-      console.log(this.state);
+      await this.setState({ ...clonedState, clientId: client._id });
     }
   };
 
