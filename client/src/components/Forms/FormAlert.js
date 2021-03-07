@@ -50,8 +50,6 @@ class FormAlert extends Component {
           </Fade>
         );
     }
-    // if (this.props.doShow) {
-    //   if (this.props.type === "success") {
     return (
       <Fade in={this.props.doShow === true}>
         <div>
@@ -74,18 +72,6 @@ class FormAlert extends Component {
       </Fade>
     );
   }
-  //   if (this.props.type === "error") {
-  //     return (
-  //       <Alert className="alert" variant="danger">
-  //         <Alert.Heading>Hey, nice to see you</Alert.Heading>
-  //         {this.props.children}
-  //       </Alert>
-  //     );
-  //   }
-  // } else {
-  //   return <React.Fragment />;
-  // }
-  //   }
 }
 
 export default FormAlert;

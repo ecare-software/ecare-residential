@@ -59,7 +59,7 @@ router.post("/", (req, res) => {
     .save()
     .then((bodyCheck) => res.json(bodyCheck))
     .catch((e) => {
-      // console.log(e);
+      e;
     });
 });
 

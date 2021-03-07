@@ -19,7 +19,6 @@ class ManageAccountModal extends Component {
     var staticThis = this;
     delete currentState.password2;
 
-    // return;
     Axios({
       method: "put",
       url: "/api/users/" + this.props.userObj._id,
@@ -29,7 +28,6 @@ class ManageAccountModal extends Component {
       },
     })
       .then(function (response) {
-        // console.log(response);
         document.getElementById(staticThis.props.id + "-success").innerText =
           "Password Updated";
         document.getElementById(

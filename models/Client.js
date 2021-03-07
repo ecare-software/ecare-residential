@@ -93,12 +93,10 @@ const ClientSchema = new Schema({
   lastEditDate: {
     type: Date,
     default: new Date(),
-    //required:true
   },
   createDate: {
     type: Date,
     default: new Date(),
-    //required:true
   },
   homeId: {
     type: String,

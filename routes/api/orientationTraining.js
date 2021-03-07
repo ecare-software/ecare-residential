@@ -36,7 +36,7 @@ router.post("/", (req, res) => {
     .save()
     .then((orientationTraining) => res.json(orientationTraining))
     .catch((e) => {
-      // console.log(e);
+      e;
     });
 });
 

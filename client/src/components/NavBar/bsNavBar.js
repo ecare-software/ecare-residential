@@ -91,7 +91,6 @@ class NavBar extends React.Component {
   }
 
   openLogInModal = () => {
-    // console.log(document.getElementById("logInModal"));
     this.setState({ showLogIn: true });
   };
 

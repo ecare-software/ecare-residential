@@ -43,8 +43,6 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
     setShowClients(showClientForm);
     if (showClientForm && !isInit) {
       getAllClients.run([userObj.homeId]);
-      //   setIsClientSelected(false);
-      //   setSelectedClient(null);
     }
     setIsInit(false);
   }, [showClientForm]);

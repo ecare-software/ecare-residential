@@ -46,7 +46,6 @@ const UserSchema = new Schema({
   createDate: {
     type: Date,
     default: new Date(),
-    //required:true
   },
 });
 

@@ -8,7 +8,6 @@ const BodyCheckSchema = new Schema({
   },
   childMeta_gender: {
     type: String,
-    // required: true
   },
   injury: {
     type: String,

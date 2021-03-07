@@ -5,7 +5,6 @@ import cookie from "react-cookies";
 //components
 import Header from "./components/Header/Header";
 import LogInContiner from "./components/LogInContainer/LogInContainer";
-// import Testimonial from "./components/Testimonial/Testimonial.js";
 import TreatmentPlan72 from "./components/Forms/TreatmentPlan72";
 import IncidentReport from "./components/Forms/IncidentReport";
 import RestraintReport from "./components/Forms/RestraintReport";
@@ -26,61 +25,15 @@ import AdmissionAssessment from "./components/Forms/AdmissionAssessment";
 import BodyCheck from "./components/Forms/BodyCheck";
 import OrientationTraining from "./components/Forms/OrientationTraining";
 import PreServiceTraining from "./components/Forms/PreServiceTraining";
-// import UserActions from "./components/UserActions/UserActions";
 import ManageAccountContainer from "./components/ManageAccount/ManageAccountContainer";
-//modals
 import rightBody from "./images/right_body.png";
 import leftBody from "./images/left_body.png";
-//styles
 import "./App.css";
 import Fade from "react-reveal/Fade";
-//modals
 
-//const classes
 const hideStyle = {
   display: "none",
 };
-
-const navNotSelected = {
-  color: "#8000008a",
-  padding: "0px 10px",
-  fontFamily: "'Google Sans Display', Arial, Helvetica, sans-serif",
-};
-
-const navSelected = {
-  backgroundColor: "rgb(128, 0, 0)",
-  color: "white",
-  borderRadius: "9px",
-  padding: "0px 10px",
-  fontFamily: "'Google Sans Display', Arial, Helvetica, sans-serif",
-};
-function uploadImage(e, method, user, fileName) {
-  let imageObj = {};
-  if (method === "multer") {
-    let imageFormObj = new FormData();
-    imageFormObj.append("imageName", fileName.replace(/\s+/g, "_"));
-    imageFormObj.append("imageData", e.target.files[0]);
-    imageFormObj.append("homeId", user.homeId);
-    imageFormObj.append("email", user.email);
-    // stores a readable instance of // the image being uploaded using multer
-    // this.setState({ multerImage: URL.createObjectURL(e.target.files[0]) });
-
-    Axios.post(`api/uploadDocument/uploadmulter`, imageFormObj)
-      // Axios.post(`/upload`, imageFormObj)
-      .then((data) => {
-        if (data.data.success) {
-          console.log(data.data);
-          // alert("Image has been successfully uploaded using multer");
-          // this.setDefaultImage("multer");
-        }
-      })
-      .catch((err) => {
-        alert("Error while uploading image using multer");
-        console.log(err);
-        // this.setDefaultImage("multer");
-      });
-  }
-}
 
 class App extends Component {
   state = {
@@ -288,14 +241,10 @@ class App extends Component {
       return user._id === id;
     });
 
-    // console.log(selectedUser);
-
     await this.setState({
       ...this.state,
       dmTo: selectedUser.length > 0 ? selectedUser[0] : null,
     });
-
-    // console.log(this.state);
   };
 
   componentDidMount = async () => {
@@ -320,7 +269,6 @@ class App extends Component {
       this.state.loggedIn &&
       (this.state.allUsersSet === false || this.state.allUsers.length === 0)
     ) {
-      // console.log("getting users - component did update");
       this.getAllUsers();
     }
 
@@ -331,7 +279,6 @@ class App extends Component {
     ) {
       this.loadMessage(this.state.userObj);
     }
-    // console.log("component did update");
   };
 
   loadMessage = (userObj) => {
@@ -343,7 +290,6 @@ class App extends Component {
           discussionMessages: response.data,
           messagesInitLoad: true,
         });
-        // console.log(curthis.state.discussionMessages);
       })
       .catch(function (error) {
         console.log(error);
@@ -420,7 +366,6 @@ class App extends Component {
     this.loadMessage(userObj);
     console.log("setCookie here");
     cookie.remove("appState");
-    // console.log(this.state);
     let cookieToSet = JSON.parse(JSON.stringify(this.state));
     cookieToSet.discussionMessages = [];
     cookieToSet.allUsers = [];
@@ -1169,7 +1114,6 @@ function DisplayExtra({
                   height: "30px",
                 }}
                 onChange={(e) => {
-                  // console.log(e.target.value);
                   setDmToUser(e.target.value);
                 }}
                 defaultValue={appState.dmTo ? appState.dmTo : null}

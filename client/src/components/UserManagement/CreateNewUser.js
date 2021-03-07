@@ -36,7 +36,6 @@ class CreateNewUser extends Component {
   submit = (isNew) => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     var staticThis = this;
-    // console.log(currentState);
     Axios({
       method: "post",
       url: "/api/users/",
@@ -65,8 +64,6 @@ class CreateNewUser extends Component {
     var validForm = true;
     let staticThis = this;
     let simpleState = JSON.parse(JSON.stringify(this.state));
-
-    // console.log(simpleState);
 
     document.getElementById(staticThis.props.id + "-error").style.display =
       "none";
@@ -106,8 +103,6 @@ class CreateNewUser extends Component {
           })
           .catch(function (error) {
             // handle error
-            // document.getElementById("error").innerText = "catch";
-            // document.getElementById("error").style.display = "block";
             staticThis.submit(true);
           });
       }

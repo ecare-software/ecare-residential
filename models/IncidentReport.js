@@ -92,7 +92,6 @@ const IncidentReportSchema = new Schema({
   lastEditDate: {
     type: Date,
     default: new Date(),
-    //required:true
   },
   homeId: {
     type: String,

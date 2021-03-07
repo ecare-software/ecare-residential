@@ -48,13 +48,11 @@ export class FromReports extends Component {
         .filter(onlyUnique);
       setTimeout(() => {
         this.setState({ selectedForm: this.state.forms[formIndex] });
-        // console.log(this.state);
       });
     } else {
       setTimeout(() => {
         this.setState({ selectedForm: [] });
         this.setState({ selectedUserForm: {} });
-        // console.log(this.state);
       });
     }
   };
@@ -71,9 +69,7 @@ export class FromReports extends Component {
       this.setState({ selectedUserForm: {} });
       this.setState({ chartsReady: true });
     }
-    setTimeout(() => {
-      // console.log(this.state);
-    });
+    setTimeout(() => {});
   };
 
   flushFormStateData = () => {
@@ -194,8 +190,6 @@ export class FromReports extends Component {
     });
 
     return;
-    // this.getForms();
-    // this.setState({ selectedUserForm: {} });
   };
 
   runSearchClick = () => {
@@ -583,14 +577,6 @@ export class FromReports extends Component {
       this.setFormsData(results);
       this.setState({ doReset: false });
     });
-    // + "/"+"some"
-
-    // .then(response => {
-    //   console.log(response);
-    // })
-    // .catch(e => {
-    //   console.log(e);
-    // })
   };
 
   componentDidMount() {

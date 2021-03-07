@@ -33,7 +33,6 @@ const DiscussionMessageSchema = new Schema({
   createDate: {
     type: Date,
     default: new Date(),
-    //required:true
   },
 });
 

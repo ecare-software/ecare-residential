@@ -57,7 +57,7 @@ router.post("/", (req, res) => {
     .save()
     .then((dailyProgressAndActivity) => res.json(dailyProgressAndActivity))
     .catch((e) => {
-      // console.log(e);
+      e;
     });
 });
 

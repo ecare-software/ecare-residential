@@ -17,10 +17,6 @@ class SendMessageModal extends Component {
     this.resetState = this.resetState.bind(this);
   }
 
-  componentDidMount() {
-    // alert(this.props.toUser)
-  }
-
   resetState() {
     this.setState(this.origenalState);
     Object.keys(this.state).forEach(
@@ -36,12 +32,10 @@ class SendMessageModal extends Component {
 
   submitRequest() {
     if (this.state.message !== "") {
-      // console.log(this.state);
       alert("submit");
       document.getElementById("closeSendMessageModal").click();
       this.resetState();
     } else {
-      // console.log(this.state);
       alert("you did not select a demo method");
     }
   }

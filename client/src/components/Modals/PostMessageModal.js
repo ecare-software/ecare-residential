@@ -35,7 +35,6 @@ class PostMessageModal extends Component {
       this.resetState();
       this.props.closeModals();
     } else {
-      // console.log(this.state);
       alert("you did not select a demo method");
     }
   };

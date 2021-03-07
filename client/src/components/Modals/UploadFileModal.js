@@ -20,7 +20,6 @@ class UploadFileModal extends Component {
 
   resetState() {
     this.setState(this.origenalState);
-    // Object.keys(this.state).forEach((k)=>console.log(document.getElementById(k)))
   }
 
   handleFieldInput(event) {
@@ -37,12 +36,10 @@ class UploadFileModal extends Component {
 
   submitRequest() {
     if (this.state.demoMethod !== "") {
-      // console.log(this.state);
       alert("submit");
       document.getElementById("closeUploadFileModal").click();
       this.resetState();
     } else {
-      // console.log(this.state);
       alert("you did not select a demo method");
     }
   }
