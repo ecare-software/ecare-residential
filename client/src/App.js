@@ -553,7 +553,7 @@ class App extends Component {
 
                   <div id="greetingRowRightPContainer">
                     <p id="greetingRowRightP">
-                      E-Care Residential aims to provide a simple, functional
+                      e-Care Residential aims to provide a simple, functional
                       software solution for both large and small scale behavior
                       residential care facilities. We are a young software
                       development company with experience in the fields of
