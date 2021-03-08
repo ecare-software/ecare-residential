@@ -19,7 +19,7 @@ jobs:
     - name: Set up Node.js version
       uses: actions/setup-node@v1
       with:
-        node-version: '10.x'
+        node-version: '12.x'
 
     - name: npm install, build, and test
       run: |
@@ -32,5 +32,5 @@ jobs:
       with:
         app-name: 'ecare-residential-prod'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_07761b5f4f954e2cba7e8082faa62446 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_06466173df884b4f831c8b9fdc64adca }}
         package: .
