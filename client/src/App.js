@@ -553,11 +553,12 @@ class App extends Component {
 
                   <div id="greetingRowRightPContainer">
                     <p id="greetingRowRightP">
-                      Health care, health-care, or healthcare is the maintenance
-                      or improvement of health via the prevention, diagnosis,
-                      and treatment of disease, illness, injury, and other
-                      physical and mental impairments in people. Health care is
-                      delivered by health professionals in allied health fields.
+                      E-Care Residential aims to provide a simple, functional
+                      software solution for both large and small scale behavior
+                      residential care facilities. We are a young software
+                      development company with experience in the fields of
+                      software development and childcare. We offer a simple,
+                      easy to use documenting and messaging software suite.
                     </p>
                   </div>
                   <div id="greetingRowRightBtnContainer">
