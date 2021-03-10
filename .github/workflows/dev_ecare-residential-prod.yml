@@ -28,6 +28,7 @@ jobs:
         npm run test --if-present
         cd client 
         npm install 
+        CI=false
         npm run build
 
     - name: 'Deploy to Azure Web App'
