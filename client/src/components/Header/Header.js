@@ -79,11 +79,12 @@ class Header extends Component {
               color: "maroon",
               textAlign: "center",
               borderColor: "maroon",
+              backgroundColor: "white",
             }}
           >
             <h5>Learn more about our services</h5>
           </ModalHeader>
-          <ModalBody>
+          <ModalBody style={{ backgroundColor: "white" }}>
             <div className="form-group">
               <p>
                 Complete the form below to get a personalized email describing
@@ -193,7 +194,7 @@ class Header extends Component {
             and tomorrow.
           </p>
           <div className="desktopLearnMore" style={{ marginRight: "200px" }}>
-            <input
+            {/* <input
               id="name"
               onChange={this.handleFieldInput}
               value={this.state.name}
@@ -208,10 +209,10 @@ class Header extends Component {
               style={{ width: "100%", margin: "5px 10px", float: "right" }}
               className="form-control"
               placeholder="youremail@example.com"
-            />
+            /> */}
             <button
               style={{ marginTop: "10px", float: "right", marginRight: "10px" }}
-              onClick={this.sendEmail}
+              onClick={this.toggleLearnMore}
               className="btn  lightBtn"
             >
               Learn More

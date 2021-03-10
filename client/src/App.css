@@ -25,6 +25,11 @@ input {
   border: none;
   background-color: transparent;
 }
+
+.modal-content.demo {
+  border: none;
+  background-color: #f5f5f5 !important;
+}
 .nav-link-not-logged-in {
   background-color: #ffffff31 !important;
 }
