@@ -191,7 +191,7 @@ class Header extends Component {
           <h1 className="headerMainText">Residential Care System</h1>
           <p className="headerSubText">
             Health care system of today <br />
-            and tomorrow
+            and tomorrow!
           </p>
           <div className="desktopLearnMore" style={{ marginRight: "200px" }}>
             {/* <input
