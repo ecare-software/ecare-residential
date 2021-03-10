@@ -170,7 +170,7 @@ class NavBar extends React.Component {
               <div className="form-group">
                 <p>
                   Complete the form below to get a personalized email describing
-                  the services offered......
+                  the services offered.
                 </p>
                 <input
                   id="namebs"
