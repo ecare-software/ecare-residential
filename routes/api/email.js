@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const nodemailer = require("nodemailer");
 
-router.post("/:email/:name", (req, res) => {
+router.post("/:email/:name/:organization", (req, res) => {
   var email = req.params.email.toLocaleLowerCase();
   var name = req.params.name;
+  var organization = req.params.organization;
   const user = "EcareResidential-Admin@ecare-residential.com";
   const pass = "Ecare2020";
 
@@ -24,7 +25,11 @@ router.post("/:email/:name", (req, res) => {
       Thank you for reaching out!
     </p>
     <p>
-      We would like to set up time to discuss our residential care software.
+      We would like to set up time to discuss our residential care software. ${
+        organization !== "null"
+          ? `We believe that we could help you and ${organization}`
+          : ""
+      }
     </p>
     <p>
       Please use the attached Google calender link below to schedule a time for demo or simply respond to this email and 
