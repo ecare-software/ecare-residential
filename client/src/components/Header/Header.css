@@ -4,8 +4,8 @@
 }
 
 .headerSubText {
-  color: rgb(255, 255, 255);
-  text-shadow: 0px 2px 6px #707070f5;
+  color: maroon;
+  /* text-shadow: 0px 2px 6px #9f9f9ff5; */
   letter-spacing: 2px;
 }
 .headerTextContainer {
@@ -24,8 +24,8 @@
 
   .headerTextContainer {
     position: absolute;
-    top: 30vh;
-    left: 8%;
+    top: 40vh;
+    left: 15%;
     width: 600px;
     /* font-family: "Google Sans Display",Arial,Helvetica,sans-serif; */
   }
@@ -38,7 +38,7 @@
     font-size: 1.5rem;
     line-height: 35px;
     font-weight: 300;
-    text-shadow: 0px 2px 6px #000000;
+    text-shadow: 0px 2px 2px #1c1c1c;
   }
 
   #headerDemoBtn {
@@ -75,9 +75,9 @@
   }
   .headerSubText {
     margin-top: 25px;
-    font-size: 3rem;
+    font-size: 1.8rem;
     line-height: 35px;
-    text-shadow: 0px 2px 6px #000000;
+    text-shadow: 0px 2px 2px #1c1c1c;
   }
   #headerDemoBtn {
     position: relative;
@@ -134,7 +134,8 @@
     margin-top: 25px;
     font-size: 1.5em;
     line-height: 35px;
-    text-shadow: 0px 2px 6px #000000;
+    text-shadow: 0px 2px 2px #1c1c1c;
+    color: #1111;
   }
   #headerDemoBtn {
     position: relative;

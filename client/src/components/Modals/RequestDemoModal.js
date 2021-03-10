@@ -74,7 +74,7 @@ class RequestDemoModal extends Component {
         aria-hidden="true"
       >
         <div className="modal-dialog" role="document">
-          <div className="modal-content">
+          <div className="modal-content demo">
             <div className="modal-header">
               <h5 className="modal-title" id="requestDemoModalLabel">
                 Demo Options

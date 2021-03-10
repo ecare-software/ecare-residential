@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Axios from "axios";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import cookie from "react-cookies";
 //components
 import Header from "./components/Header/Header";
@@ -539,8 +538,6 @@ class App extends Component {
           ) : (
             <React.Fragment />
           )}
-          {/* <LogInContiner id="desktopLogin" logIn={this.toggleLogIn} /> */}
-          {/* Body Start */}
           <div className="container-fluid" id="greetingContainer">
             <div className="row" id="greetingRow">
               <div className="col-sm-7" id="greetingColRight">
@@ -585,11 +582,12 @@ class App extends Component {
                 color: "maroon",
                 borderColor: "maroon",
                 textAlign: "center",
+                backgroundColor: "white",
               }}
             >
               <h5>Learn more about our services</h5>
             </ModalHeader>
-            <ModalBody>
+            <ModalBody style={{ backgroundColor: "white" }}>
               <div className="form-group">
                 <p>
                   Complete the form below to get a personalized email describing
@@ -829,7 +827,6 @@ function DisplayExtra({
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle">Treatment Plan 72</h5> */}
           <p className="extraInfoNavSubTitle">
             This is what the must be filled out when a child is first admitted
             to the facility.
@@ -847,7 +844,6 @@ function DisplayExtra({
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle">Treatment Plan 72</h5> */}
           <p className="extraInfoNavSubTitle">
             New Employee Orientation training is an eight-hour (8) program
             provided to each new employee within the first fourteen days of
@@ -863,7 +859,6 @@ function DisplayExtra({
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle">Treatment Plan 72</h5> */}
           <p className="extraInfoNavSubTitle">
             Pre-service training is a forty (40) hour course offered by New
             Pathways training staff at the facility within the first fourteen
@@ -952,7 +947,6 @@ function DisplayExtra({
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle">Daily Progress</h5> */}
           <p className="extraInfoNavSubTitle">
             This explains what the child has done today or what the child will
             do today.
@@ -966,7 +960,6 @@ function DisplayExtra({
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle">Daily Progress</h5> */}
           <p className="extraInfoNavSubTitle">
             Illness and Injury Report Extra info
           </p>
@@ -979,7 +972,6 @@ function DisplayExtra({
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle">Incident Report</h5> */}
           <p className="extraInfoNavSubTitle">
             When an incident happens, this must be filled out in order to keep
             track of what exactly happend.
@@ -999,7 +991,6 @@ function DisplayExtra({
           <h6 className="extraInfoSubTitle">{userObj.jobTitle}</h6>
         </div>
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle">Dashboard</h5> */}
           <p className="extraInfoNavSubTitle">
             <i>
               This is the first screen users will see when they log in. I feel
@@ -1026,15 +1017,6 @@ function DisplayExtra({
           >
             Direct Messages
           </button>
-          {/* <button className="btn btn-light extraInfoButton">
-            Direct Messages
-          </button> */}
-          {/* <button
-            onClick={toggleDisplay.bind("", "Manage Account")}
-            className="btn btn-light extraInfoButton"
-          >
-            Account Settings
-          </button> */}
         </div>
       </div>
     );
@@ -1044,9 +1026,6 @@ function DisplayExtra({
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>
-            Manage User Information
-          </h5> */}
           <p className="extraInfoNavSubTitle">
             Allows users to view account information and update their password.
           </p>
@@ -1058,11 +1037,7 @@ function DisplayExtra({
   if (name === "Clients") {
     return (
       <div id="extraInfo">
-        <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>
-            Manage User Information
-          </h5> */}
-        </div>
+        <div className="extraInfoNavDiv"></div>
         <div className="extraInfoButtonDiv">
           {showClients ? (
             <button
@@ -1092,9 +1067,6 @@ function DisplayExtra({
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>
-            Direct Messages
-          </h5> */}
           <p className="extraInfoNavSubTitle">
             Select a users and type your message
           </p>
@@ -1177,9 +1149,6 @@ function DisplayExtra({
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>
-            User Management
-          </h5> */}
           <p className="extraInfoNavSubTitle">
             Allows Admin users the ability to view information about their home
             as well create new and modify exiting staff members.

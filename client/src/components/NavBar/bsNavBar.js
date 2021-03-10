@@ -4,8 +4,6 @@ import Modal from "react-bootstrap/Modal";
 import FormAlert from "../Forms/FormAlert";
 import ModalBody from "react-bootstrap/ModalBody";
 import ModalHeader from "react-bootstrap/ModalHeader";
-import ModalTitle from "react-bootstrap/ModalTitle";
-import ModalFooter from "react-bootstrap/ModalFooter";
 import Axios from "axios";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 
@@ -163,15 +161,16 @@ class NavBar extends React.Component {
                 color: "maroon",
                 textAlign: "center",
                 borderColor: "maroon",
+                backgroundColor: "white",
               }}
             >
               <h5>Learn more about our services</h5>
             </ModalHeader>
-            <ModalBody>
+            <ModalBody style={{ backgroundColor: "white" }}>
               <div className="form-group">
                 <p>
                   Complete the form below to get a personalized email describing
-                  the services offered.
+                  the services offered......
                 </p>
                 <input
                   id="namebs"
