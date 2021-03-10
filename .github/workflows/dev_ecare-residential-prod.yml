@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - dev
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -31,5 +32,5 @@ jobs:
       with:
         app-name: 'ecare-residential-prod'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_8dc25cba01814d1c85efd53f20a30cfe }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_f6ebab2aa9434797a7cde997260d5fde }}
         package: .
