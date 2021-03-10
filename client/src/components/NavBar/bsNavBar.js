@@ -76,6 +76,7 @@ class NavBar extends React.Component {
       showLearnMore: false,
       emailTobs: "",
       namebs: "",
+      organizationbs: "",
       emailSent: false,
     };
   }
@@ -103,16 +104,21 @@ class NavBar extends React.Component {
     if (this.state.emailTobs === "") {
       return;
     }
-    Axios.post(`/api/email/${this.state.emailTobs}/${this.state.namebs}`)
+    Axios.post(
+      `/api/email/${this.state.emailTobs}/${this.state.namebs}/${
+        this.state.organizationbs ? this.state.organizationbs : "null"
+      }`
+    )
       .then(function (response) {
         thisHook.setState({
           namebs: "",
           emailTobs: "",
+          organizationbs: "",
           emailSent: true,
           showLearnMore: false,
         });
         setTimeout(() => {
-          thisHook.setState({ emailSent: false, namebs: "", emailTobs: "" });
+          thisHook.setState({ emailSent: false });
         }, 4000);
       })
       .catch(function (error) {
@@ -178,7 +184,15 @@ class NavBar extends React.Component {
                   value={this.state.name}
                   style={{ width: "100%", margin: "15px 0px" }}
                   className="form-control"
-                  placeholder="Name / Organization"
+                  placeholder="Name"
+                />
+                <input
+                  id="organizationbs"
+                  onChange={this.handleFieldInput}
+                  value={this.state.organizationbs}
+                  style={{ width: "100%", margin: "15px 0px" }}
+                  className="form-control"
+                  placeholder="Organization"
                 />
                 <input
                   id="emailTobs"

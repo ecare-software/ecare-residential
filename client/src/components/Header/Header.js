@@ -20,6 +20,7 @@ class Header extends Component {
       showLogIn: false,
       emailTo: "",
       name: "",
+      organization: "",
       emailSent: false,
       showLearnMore: false,
     };
@@ -51,10 +52,15 @@ class Header extends Component {
     if (this.state.emailTo === "") {
       return;
     }
-    Axios.post(`/api/email/${this.state.emailTo}/${this.state.name}`)
+    Axios.post(
+      `/api/email/${this.state.emailTo}/${this.state.name}/${
+        this.state.organization ? this.state.organization : "null"
+      }`
+    )
       .then(function (response) {
         thisHook.setState({
           name: "",
+          organization: "",
           emailTo: "",
           emailSent: true,
           showLearnMore: false,
@@ -96,7 +102,15 @@ class Header extends Component {
                 value={this.state.name}
                 style={{ width: "100%", margin: "15px 0px" }}
                 className="form-control"
-                placeholder="Name / Organization"
+                placeholder="Name"
+              />
+              <input
+                id="organization"
+                onChange={this.handleFieldInput}
+                value={this.state.organization}
+                style={{ width: "100%", margin: "15px 0px" }}
+                className="form-control"
+                placeholder="Organization"
               />
               <input
                 id="emailTo"
