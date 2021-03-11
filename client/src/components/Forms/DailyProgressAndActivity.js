@@ -193,6 +193,7 @@ class DailyProgressAndActivity extends Component {
       "approvedByDate",
       "approvedByName",
       "clientId",
+      "loadingClients",
     ];
 
     var isValid = true;
@@ -263,9 +264,9 @@ class DailyProgressAndActivity extends Component {
         if (clonedState.hasOwnProperty(key)) {
           clonedState[key] = client[key];
         }
-        if (key.includes("childMeta_placeOfBirth")) {
-          clonedState.childMeta_placeOfBirth = `${client[key]} `;
-        }
+        // if (key.includes("childMeta_placeOfBirth")) {
+        //   clonedState.childMeta_placeOfBirth = `${client[key]} `;
+        // }
       });
       await this.setState({ ...clonedState, clientId: client._id });
     }

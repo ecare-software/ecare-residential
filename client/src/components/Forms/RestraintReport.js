@@ -255,6 +255,7 @@ class RestraintReport extends Component {
       "client_witness_gender2",
       "client_witness_dob2",
       "client_witness_doa2",
+      "loadingClients",
     ];
 
     //resubmit fields
@@ -335,9 +336,9 @@ class RestraintReport extends Component {
         if (clonedState.hasOwnProperty(key)) {
           clonedState[key] = client[key];
         }
-        if (key.includes("childMeta_placeOfBirth")) {
-          clonedState.childMeta_placeOfBirth = `${client[key]} `;
-        }
+        // if (key.includes("childMeta_placeOfBirth")) {
+        //   clonedState.childMeta_placeOfBirth = `${client[key]} `;
+        // }
       });
       await this.setState({ ...clonedState, clientId: client._id });
     }

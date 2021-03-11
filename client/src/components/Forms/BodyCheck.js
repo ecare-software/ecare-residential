@@ -262,6 +262,7 @@ class BodyCheck extends Component {
       "left_foot",
       "right_foot",
       "details",
+      "loadingClients",
     ];
 
     //resubmit fields
@@ -340,9 +341,9 @@ class BodyCheck extends Component {
         if (clonedState.hasOwnProperty(key)) {
           clonedState[key] = client[key];
         }
-        if (key.includes("childMeta_placeOfBirth")) {
-          clonedState.childMeta_placeOfBirth = `${client[key]} `;
-        }
+        // if (key.includes("childMeta_placeOfBirth")) {
+        //   clonedState.childMeta_placeOfBirth = `${client[key]} `;
+        // }
       });
       await this.setState({ ...clonedState, clientId: client._id });
     }

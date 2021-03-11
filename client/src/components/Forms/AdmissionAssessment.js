@@ -393,6 +393,7 @@ class AdmissionAssessment extends Component {
       "visitor4_supervisedBy",
       "visitor4_location",
       "visitor4_length",
+      "loadingClients",
     ];
 
     //resubmit fields
@@ -473,9 +474,9 @@ class AdmissionAssessment extends Component {
         if (clonedState.hasOwnProperty(key)) {
           clonedState[key] = client[key];
         }
-        if (key.includes("childMeta_placeOfBirth")) {
-          clonedState.childMeta_placeOfBirth = `${client[key]} `;
-        }
+        // if (key.includes("childMeta_placeOfBirth")) {
+        //   clonedState.childMeta_placeOfBirth = `${client[key]} `;
+        // }
       });
       await this.setState({ ...clonedState, clientId: client._id });
     }

@@ -145,6 +145,7 @@ class IllnessInjury extends Component {
       "lastMedicationGiven",
       "otherActionsTreatment",
       "treatmentAuthBy",
+      "loadingClients",
     ];
 
     //resubmit fields
@@ -226,9 +227,9 @@ class IllnessInjury extends Component {
         if (clonedState.hasOwnProperty(key)) {
           clonedState[key] = client[key];
         }
-        if (key.includes("childMeta_placeOfBirth")) {
-          clonedState.childMeta_placeOfBirth = `${client[key]} `;
-        }
+        // if (key.includes("childMeta_placeOfBirth")) {
+        //   clonedState.childMeta_placeOfBirth = `${client[key]} `;
+        // }
       });
       await this.setState({ ...clonedState, clientId: client._id });
     }
