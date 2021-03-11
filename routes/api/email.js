@@ -22,7 +22,7 @@ router.post("/:email/:name/:organization", (req, res) => {
     subject: `Hello ${name}, from eCare Residential`, // Subject line
     html: `<div>
     <p>
-      Thank you for reaching out!
+      Thank you for reaching out.
     </p>
     <p>
       We would like to set up time to discuss our residential care software. ${
@@ -32,9 +32,15 @@ router.post("/:email/:name/:organization", (req, res) => {
       }
     </p>
     <p>
-      Please use the attached Google calender link below to schedule a time for demo or simply respond to this email and 
+      Please use Google calender link <a href="https://calendar.google.com/calendar/u/0/selfsched?sstoken=UU5xNUFsRWU0U3JUfGRlZmF1bHR8YTZiM2YwNWIxMjBjYWFkNzVkMzZhNTkyOTVhOGVkYmI"
+      target="_blank"
+      style="color:blue"
+      >
+  here
+      </a> to schedule a time for demo or simply respond to this email and 
       we shall respond promptly.
     </p>
+    
     <p>
       Thank you, <br/>
       eCare Residential
