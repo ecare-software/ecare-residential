@@ -385,7 +385,7 @@ body {
   }
 
   #homeiPhone {
-    background: url("../src/images/iphone.jpg") no-repeat;
+    background: url("../src/images/iphone.gif") no-repeat;
     background-size: contain;
     height: 600px;
     width: 500px;
@@ -570,7 +570,7 @@ body {
 
   #homeiPhone {
     margin-top: 80px;
-    background: url("../src/images/iphone.jpg") no-repeat;
+    background: url("../src/images/iphone.gif") no-repeat;
     background-size: contain;
     height: 400px;
     width: 300px;
@@ -729,7 +729,7 @@ body {
   }
   #homeiPhone {
     margin-top: -90px;
-    background: url("../src/images/iphone.jpg") no-repeat;
+    background: url("../src/images/iphone.gif") no-repeat;
     background-size: contain;
     height: 200px;
     width: 100px;
@@ -763,7 +763,7 @@ body {
     position: relative;
     top: -250px;
     left: -10%;
-    background: url("../src/images/iphone.jpg") no-repeat;
+    background: url("../src/images/iphone.gif") no-repeat;
     background-size: contain;
     height: 200px;
     width: 100px;
@@ -781,7 +781,7 @@ body {
   #homeiPhone {
     position: relative;
     left: 10px;
-    background: url("../src/images/iphone.jpg") no-repeat;
+    background: url("../src/images/iphone.gif") no-repeat;
     background-size: contain;
     height: 200px;
     width: 100px;
