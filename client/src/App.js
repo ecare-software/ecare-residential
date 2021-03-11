@@ -224,6 +224,7 @@ class App extends Component {
       //   __v: 0,
       // },
     ],
+    discussionMessagesLoading: false,
     showUploadModal: false,
     showClients: true,
   };
@@ -248,7 +249,6 @@ class App extends Component {
   };
 
   componentDidMount = async () => {
-    console.log(cookie.load("appState"));
     let fromCookieState = cookie.load("appState");
     if (fromCookieState !== undefined) {
       await this.setState({
@@ -264,7 +264,6 @@ class App extends Component {
   };
 
   componentDidUpdate = () => {
-    console.log(this.state);
     if (
       this.state.loggedIn &&
       (this.state.allUsersSet === false || this.state.allUsers.length === 0)
@@ -282,17 +281,25 @@ class App extends Component {
   };
 
   loadMessage = (userObj) => {
-    let curthis = this;
-    console.log(userObj);
+    this.setState({
+      ...this.state,
+      discussionMessagesLoading: !this.state.discussionMessagesLoading,
+    });
     Axios.get(`/api/discussionMessages/${userObj.homeId}`)
-      .then(function (response) {
-        curthis.setState({
-          discussionMessages: response.data,
-          messagesInitLoad: true,
-        });
+      .then((response) => {
+        setTimeout(() => {
+          this.setState({
+            discussionMessages: response.data,
+            messagesInitLoad: true,
+            discussionMessagesLoading: !this.state.discussionMessagesLoading,
+          });
+        }, 1000);
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch((error) => {
+        this.setState({
+          discussionMessagesLoading: !this.state.discussionMessagesLoading,
+        });
+        alert.log(error);
       });
   };
 
@@ -498,6 +505,9 @@ class App extends Component {
                     toggleDisplay={this.toggleDisplay}
                     showClients={this.state.showClients}
                     doToggleClientDisplay={this.doToggleClientDisplay}
+                    discussionMessagesLoading={
+                      this.state.discussionMessagesLoading
+                    }
                   />
                 </div>
               </div>
@@ -651,11 +661,13 @@ function ToggleScreen({
   toggleDisplay,
   showClients,
   doToggleClientDisplay,
+  discussionMessagesLoading,
 }) {
   if (name === "Dashboard") {
     return (
       <div>
         <MessageBoard
+          discussionMessagesLoading={discussionMessagesLoading}
           messages={appState.discussionMessages}
           appendMessage={appendMessage}
           toggleDisplay={toggleDisplay}
