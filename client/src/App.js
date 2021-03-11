@@ -299,7 +299,7 @@ class App extends Component {
         this.setState({
           discussionMessagesLoading: !this.state.discussionMessagesLoading,
         });
-        alert.log(error);
+        alert(error);
       });
   };
 

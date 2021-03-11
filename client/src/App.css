@@ -9,6 +9,10 @@ input {
   flex-direction: column;
   justify-content: center;
 }
+.btn-light {
+  background-color: #5f000026;
+  border-color: black;
+}
 .formSpinner {
   display: block;
   margin-left: 10px;
