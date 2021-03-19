@@ -29,6 +29,7 @@ import rightBody from "./images/right_body.png";
 import leftBody from "./images/left_body.png";
 import "./App.css";
 import Fade from "react-reveal/Fade";
+import ManageTraining from "./components/ManageTraining/ManageTraining";
 
 const hideStyle = {
   display: "none",
@@ -227,6 +228,7 @@ class App extends Component {
     discussionMessagesLoading: false,
     showUploadModal: false,
     showClients: true,
+    showTrainings: true,
   };
 
   getMyMessages = () => {
@@ -467,6 +469,11 @@ class App extends Component {
   doToggleClientDisplay = (val) => {
     this.setState({ ...this.state, showClients: val });
   };
+
+  doToggleTrainingDisplay = (val) => {
+    this.setState({ ...this.state, showTrainings: val });
+  };
+
   render() {
     if (this.state.loggedIn) {
       return (
@@ -493,7 +500,9 @@ class App extends Component {
                   showUploadModal={this.showUploadModal}
                   openUpload={this.openUpload}
                   doToggleClientDisplay={this.doToggleClientDisplay}
+                  doToggleTrainingDisplay={this.doToggleTrainingDisplay}
                   showClients={this.state.showClients}
+                  showTrainings={this.state.showTrainings}
                 />
               </div>
               <div className="col-sm-9" id="actionSection">
@@ -504,7 +513,9 @@ class App extends Component {
                     appendMessage={this.appendMessage}
                     toggleDisplay={this.toggleDisplay}
                     showClients={this.state.showClients}
+                    showTrainings={this.state.showTrainings}
                     doToggleClientDisplay={this.doToggleClientDisplay}
+                    doToggleTrainingDisplay={this.doToggleTrainingDisplay}
                     discussionMessagesLoading={
                       this.state.discussionMessagesLoading
                     }
@@ -660,7 +671,9 @@ function ToggleScreen({
   appendMessage,
   toggleDisplay,
   showClients,
+  showTrainings,
   doToggleClientDisplay,
+  doToggleTrainingDisplay,
   discussionMessagesLoading,
 }) {
   if (name === "Dashboard") {
@@ -712,6 +725,18 @@ function ToggleScreen({
         <UserManagement
           userObj={appState.userObj}
           allUsers={appState.allUsers}
+        />
+      </div>
+    );
+  }
+
+  if (name === "manTraining") {
+    return (
+      <div>
+        <ManageTraining
+          doToggleTrainingDisplay={doToggleTrainingDisplay}
+          showTrainingsForm={showTrainings}
+          userObj={appState.userObj}
         />
       </div>
     );
@@ -847,7 +872,9 @@ function DisplayExtra({
   showUploadModal,
   openUpload,
   doToggleClientDisplay,
+  doToggleTrainingDisplay,
   showClients,
+  showTrainings,
 }) {
   if (name === "TreatmentPlan72") {
     return (
@@ -1082,6 +1109,36 @@ function DisplayExtra({
               className="btn btn-light extraInfoButton"
             >
               Show All Clients
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "manTraining") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv"></div>
+        <div className="extraInfoButtonDiv">
+          {showTrainings ? (
+            // <button
+            //   onClick={() => {
+            //     doToggleTrainingDisplay(false);
+            //   }}
+            //   className="btn btn-light extraInfoButton"
+            // >
+            //   Edit Trainings
+            // </button>
+            <p>Please select a training to begin editing.</p>
+          ) : (
+            <button
+              onClick={() => {
+                doToggleTrainingDisplay(true);
+              }}
+              className="btn btn-light extraInfoButton"
+            >
+              Show All Trainings
             </button>
           )}
         </div>
