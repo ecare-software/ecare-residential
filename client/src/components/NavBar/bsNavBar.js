@@ -598,6 +598,28 @@ class NavBar extends React.Component {
                   Manage Clients
                 </NavDropdown.Item>
               )}
+              {adminReportingRoles.includes(this.props.userObj.jobTitle) && (
+                <NavDropdown.Item
+                  onClick={() => {
+                    document
+                      .querySelector(".Submit-a-Form-nav > a")
+                      .classList.remove("active");
+                    document
+                      .querySelector(".Training-nav > a")
+                      .classList.remove("active");
+                    document
+                      .querySelector(".nav-link")
+                      .classList.remove("active");
+                    document
+                      .querySelector(".Manage-Account-nav > a")
+                      .classList.add("active");
+                    this.props.toggleDisplay("manTraining");
+                  }}
+                  eventKey="link-1885"
+                >
+                  Training Management
+                </NavDropdown.Item>
+              )}
             </NavDropdown>
             <Nav.Link
               eventKey="link-9"
