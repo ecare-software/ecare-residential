@@ -410,28 +410,28 @@ class AdmissionAssessment extends Component {
     var isValid = true;
     var errorFields = [];
 
-    Object.keys(this.state).forEach((key) => {
-      if (!keysToExclude.includes(key)) {
-        if (
-          !this.state[key] ||
-          /^\s+$/.test(this.state[key]) ||
-          this.state[key].length < 1
-        ) {
-          errorFields.push("\n" + key);
-          isValid = false;
-        }
-      }
-    });
+    // Object.keys(this.state).forEach((key) => {
+    //   if (!keysToExclude.includes(key)) {
+    //     if (
+    //       !this.state[key] ||
+    //       /^\s+$/.test(this.state[key]) ||
+    //       this.state[key].length < 1
+    //     ) {
+    //       errorFields.push("\n" + key);
+    //       isValid = false;
+    //     }
+    //   }
+    // });
 
-    if (!isValid) {
-      this.setState({
-        formHasError: true,
-        formErrorMessage: `Please complete the following field(s): ${errorFields
-          .toString()
-          .replace(/,/g, "\n")}`,
-      });
-      return;
-    }
+    // if (!isValid) {
+    //   this.setState({
+    //     formHasError: true,
+    //     formErrorMessage: `Please complete the following field(s): ${errorFields
+    //       .toString()
+    //       .replace(/,/g, "\n")}`,
+    //   });
+    //   return;
+    // }
 
     this.submit();
   };
