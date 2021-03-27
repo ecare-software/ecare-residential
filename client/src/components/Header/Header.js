@@ -173,22 +173,6 @@ class Header extends Component {
               alt="Two slide"
             />
           </Carousel.Item>
-          <Carousel.Item>
-            <img
-              className="d-block w-100 headerImg"
-              src={require("../../images/child2.jpeg")}
-              style={imageStyle}
-              alt="Third slide"
-            />
-          </Carousel.Item>
-          <Carousel.Item>
-            <img
-              className="d-block w-100 headerImg"
-              src={require("../../images/child3.jpeg")}
-              style={imageStyle}
-              alt="Fourth slide"
-            />
-          </Carousel.Item>
         </Carousel>
         <div className="headerTextContainer">
           {this.state.emailSent ? (
