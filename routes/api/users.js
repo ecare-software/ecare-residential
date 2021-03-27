@@ -7,6 +7,17 @@ const User = require("../../models/User");
 // @route   GET api/items
 // @desc    GET all items
 // @access  Public
+router.get("/user/:id", (req, res) => {
+  User.findOne({ _id: req.params.id })
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((err) => res.status(404).json({ success: false }));
+});
+
+// @route   GET api/items
+// @desc    GET all items
+// @access  Public
 router.get("/:email/:password", (req, res) => {
   User.findOneAndUpdate(
     {
@@ -33,9 +44,6 @@ router.get("/:homeId", (req, res) => {
     .catch((err) => res.status(404).json({ success: false }));
 });
 
-// @route   GET api/items
-// @desc    GET all items
-// @access  Public
 router.get("/", (req, res) => {
   User.find().then((user) => {
     res.json(
@@ -87,6 +95,14 @@ router.delete("/:id", (req, res) => {
   User.findById(req.params.id)
     .then((user) => user.remove().then(() => res.json({ success: true })))
     .catch((err) => res.status(404).json({ success: false }));
+});
+
+router.put("/sig/:id", (req, res) => {
+  User.findByIdAndUpdate({ _id: req.params.id }, req.body).then(function () {
+    User.findOne({ _id: req.params.id }).then((user) => {
+      res.send(user);
+    });
+  });
 });
 
 module.exports = router;
