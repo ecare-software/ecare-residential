@@ -164,7 +164,7 @@ class OrientationTraining extends Component {
       this.setState({ ...this.state, modal: data[0] });
       const rows = getEditRowsModal(data[0]);
       const hours = getHours(rows);
-      this.setState({ ...this.state, modal: data[0], hours });
+      this.setState({ ...this.state, modal: data[0], hours, isLoading: false });
     } catch (e) {
       alert("Error");
       console.log(e);
