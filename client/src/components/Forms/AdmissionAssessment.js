@@ -6,6 +6,9 @@ import Axios from "axios";
 import { Form } from "react-bootstrap";
 import ClipLoader from "react-spinners/ClipLoader";
 import ClientOption from "../../utils/ClientOption.util";
+import SignatureCanvas from "react-signature-canvas";
+import { GetUserSig } from "../../utils/GetUserSig";
+
 class AdmissionAssessment extends Component {
   constructor(props) {
     super(props);
@@ -143,6 +146,8 @@ class AdmissionAssessment extends Component {
       formErrorMessage: "",
 
       loadingClients: true,
+
+      loadingSig: true,
 
       clients: [],
       clientId: "",
@@ -436,8 +441,20 @@ class AdmissionAssessment extends Component {
     this.submit();
   };
 
-  setValues = () => {
-    this.setState({ ...this.state, ...this.props.formData });
+  setSignature = (userObj) => {
+    if (userObj.signature && userObj.signature.length) {
+      this.sigCanvas.fromData(userObj.signature);
+    }
+  };
+
+  setValues = async () => {
+    const { data: createdUserData } = await GetUserSig(
+      this.props.formData.createdBy,
+      this.props.userObj.homeId
+    );
+    this.setSignature(createdUserData);
+    this.sigCanvas.off();
+    this.setState({ ...this.state, ...this.props.formData, loadingSig: false });
   };
 
   getClients = async () => {
@@ -2139,7 +2156,7 @@ class AdmissionAssessment extends Component {
             <React.Fragment />
           )}
           <div className="formTitleDivReport">
-            <h2 className="formTitle">Diagnostic Admission Assessment</h2>
+            <h2 className="formTitle"> Admission Assessment</h2>
           </div>
           <div className="formFieldsMobileReport">
             <div className="form-group logInInputField">
@@ -3654,6 +3671,31 @@ class AdmissionAssessment extends Component {
                 value={this.state.longTermGoals}
                 className="form-control"
               ></textarea>
+            </div>
+            <label className="control-label">Signature</label>{" "}
+            <div className="sigSection">
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </div>
             {!this.props.formData.approved && (
               <>
