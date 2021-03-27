@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import Axios from "axios";
-import cookie from "react-cookies";
+import Cookies from "universal-cookie";
 //components
 import Header from "./components/Header/Header";
-import LogInContiner from "./components/LogInContainer/LogInContainer";
 import TreatmentPlan72 from "./components/Forms/TreatmentPlan72";
 import IncidentReport from "./components/Forms/IncidentReport";
 import RestraintReport from "./components/Forms/RestraintReport";
@@ -34,6 +33,8 @@ import ManageTraining from "./components/ManageTraining/ManageTraining";
 const hideStyle = {
   display: "none",
 };
+
+const cookies = new Cookies();
 
 class App extends Component {
   state = {
@@ -251,17 +252,26 @@ class App extends Component {
   };
 
   componentDidMount = async () => {
-    let fromCookieState = cookie.load("appState");
-    if (fromCookieState !== undefined) {
-      await this.setState({
-        userObj: fromCookieState.userObj,
-        loggedIn: fromCookieState.loggedIn,
-      });
-      this.loadMessage(fromCookieState.userObj);
-    }
-    if (this.state.loggedIn) {
-      await this.getAllUsers();
-      await this.getMyMessages();
+    let userObj = cookies.get("userObj");
+    let loggedIn = cookies.get("loggedIn");
+    if (userObj && loggedIn) {
+      try {
+        await this.setState({
+          userObj: userObj,
+          loggedIn: loggedIn,
+        });
+
+        this.loadMessage(userObj);
+        await this.getAllUsers();
+        await this.getMyMessages();
+      } catch (e) {
+        console.log(e);
+        await this.setState({
+          userObj: {},
+          loggedIn: false,
+        });
+        return;
+      }
     }
   };
 
@@ -348,7 +358,8 @@ class App extends Component {
       allUsersSet: false,
       blockCompUpdates: false,
     });
-    cookie.remove("appState");
+    cookies.remove("loggedIn", { path: "/" });
+    cookies.remove("userObj", { path: "/" });
     window.scrollTo(0, 0);
   };
 
@@ -374,11 +385,35 @@ class App extends Component {
     this.getMyMessages();
     this.loadMessage(userObj);
     console.log("setCookie here");
-    cookie.remove("appState");
-    let cookieToSet = JSON.parse(JSON.stringify(this.state));
-    cookieToSet.discussionMessages = [];
-    cookieToSet.allUsers = [];
-    cookie.save("appState", cookieToSet);
+    let cookieToSet = { ...this.state };
+    delete cookieToSet.discussionMessages;
+    delete cookieToSet.allUsers;
+    // delete cookieToSet.loggedIn;
+    // delete cookieToSet.userObj;
+    delete cookieToSet.messagesInitLoad;
+    delete cookieToSet.allUsersSet;
+    delete cookieToSet.errorModalMeta;
+    delete cookieToSet.doDisplay;
+    delete cookieToSet.discussionMessages;
+    delete cookieToSet.allUsers;
+    delete cookieToSet.showLearnMore;
+    delete cookieToSet.name;
+    delete cookieToSet.organization;
+    delete cookieToSet.emailTo;
+    delete cookieToSet.emailSent;
+    delete cookieToSet.dmTo;
+    delete cookieToSet.blockCompUpdates;
+    delete cookieToSet.toUserSelected;
+    delete cookieToSet.dmMessage;
+    delete cookieToSet.messages;
+    delete cookieToSet.discussionMessagesLoading;
+    delete cookieToSet.showUploadModal;
+    delete cookieToSet.showClients;
+    delete cookieToSet.showTrainings;
+
+    delete cookieToSet.userObj.signature; // messes up cookie storage
+    await cookies.set("userObj", JSON.stringify(cookieToSet.userObj));
+    await cookies.set("loggedIn", cookieToSet.loggedIn);
   };
 
   toggleDisplay = (display) => {

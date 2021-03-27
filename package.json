@@ -6,7 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "constantinople": "^3.1.1",
     "cookie-parser": "~1.4.4",
     "core-js": "^3.9.1",
@@ -15,10 +15,15 @@
     "gridfs-stream": "^1.1.1",
     "http-errors": "~1.6.3",
     "method-override": "^3.0.0",
-    "mongoose": "^5.8.3",
+    "mongoose": "^5.12.2",
     "morgan": "~1.9.1",
     "multer": "^1.4.2",
     "multer-gridfs-storage": "^4.2.0",
-    "nodemailer": "^6.4.16"
+    "nodemailer": "^6.4.16",
+    "prop-types": "^15.7.2",
+    "react": "^0.14.10",
+    "react-dom": "^0.14.10",
+    "react-signature-canvas": "^1.0.3",
+    "universal-cookie": "^4.0.4"
   }
 }
