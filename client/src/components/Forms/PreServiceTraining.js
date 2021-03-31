@@ -23,7 +23,6 @@ const SmallColRightTitle = styled.div`
 `;
 
 const fetchTrainingModal = async (homeId) => {
-  //orientationTraining
   return await Axios.get(`api/preServiceTrainingMod/${homeId}`);
 };
 
