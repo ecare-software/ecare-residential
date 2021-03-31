@@ -3,6 +3,7 @@ import "../../App.css";
 import Axios from "axios";
 import { Form } from "react-bootstrap";
 import styled from "styled-components";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const SmallCol = styled.div`
   width: 100px;
@@ -20,6 +21,54 @@ const SmallColRightTitle = styled.div`
   width: 200px;
   text-align: center;
 `;
+
+const fetchTrainingModal = async (homeId) => {
+  return await Axios.get(`api/preServiceTrainingMod/${homeId}`);
+};
+
+const getHours = (rows) => {
+  return Reflect.ownKeys(rows).reduce((acc, cur) => {
+    try {
+      acc = acc + parseInt(rows[cur].hours);
+    } catch (e) {
+      console.log("error row is not populated");
+      acc = acc + 0;
+    }
+    return acc;
+  }, 0);
+};
+
+const getEditRowsModal = (obj) => {
+  const reducedObj = { ...obj };
+  delete reducedObj.createdBy;
+  delete reducedObj.createdByName;
+  delete reducedObj.lastEditDate;
+  delete reducedObj.formType;
+  delete reducedObj.homeId;
+  delete reducedObj.createDate;
+  delete reducedObj._id;
+
+  return Reflect.ownKeys(reducedObj).reduce((acc, cur) => {
+    const idx = cur.match(/\d+/g)[0];
+    if (!acc.hasOwnProperty(`T${idx}`)) {
+      acc[`T${idx}`] = {
+        title: "",
+        hours: "",
+        presenter: "",
+      };
+    }
+
+    if (cur.includes("Presenter")) {
+      acc[`T${idx}`].presenter = reducedObj[cur];
+    } else if (cur.includes("Title")) {
+      acc[`T${idx}`].title = reducedObj[cur];
+    } else {
+      acc[`T${idx}`].hours = reducedObj[cur];
+    }
+
+    return acc;
+  }, {});
+};
 
 class PreServiceTraining extends Component {
   constructor(props) {
@@ -61,6 +110,12 @@ class PreServiceTraining extends Component {
       homeId: this.props.valuesSet === true ? "" : this.props.userObj.homeId,
 
       doUpdate: false,
+
+      modal: null,
+
+      hours: 0,
+
+      isLoading: true,
     };
   }
 
@@ -111,8 +166,24 @@ class PreServiceTraining extends Component {
     this.setState({ ...this.state, ...this.props.formData });
   };
 
+  getModal = async () => {
+    try {
+      this.setState({ ...this.state, isLoading: true });
+      const { data } = await fetchTrainingModal(this.props.userObj.homeId);
+      this.setState({ ...this.state, modal: data[0] });
+      const rows = getEditRowsModal(data[0]);
+      const hours = getHours(rows);
+      this.setState({ ...this.state, modal: data[0], hours, isLoading: false });
+    } catch (e) {
+      alert("Error");
+      console.log(e);
+      this.setState({ ...this.state, isLoading: false });
+    }
+  };
+
   getSubmission = async () => {
     try {
+      await this.getModal();
       if (this.props.valuesSet) {
         this.setValues();
       } else {
@@ -122,6 +193,7 @@ class PreServiceTraining extends Component {
         if (data.length !== 0) {
           this.setState({ ...data[0], doUpdate: true });
         }
+        this.setState({ ...this.state, isLoading: false });
       }
     } catch (e) {
       alert(e);
@@ -138,475 +210,606 @@ class PreServiceTraining extends Component {
         <div className="formTitleDiv">
           <h2 className="formTitle">New Employee Pre-Service Training</h2>
         </div>
-        <div className="formFieldsMobile">
-          <div className="form-group logInInputField d-flex border-bottom">
-            <SmallCol className="control-label">
-              <label>Hours</label>
-            </SmallCol>
-            <div className="col text-center">
-              <label className="control-label">Training Topics</label>
+        {this.state.isLoading ? (
+          <div className="formLoadingDiv">
+            <div>
+              <ClipLoader className="formSpinner" size={50} color={"#ffc107"} />
             </div>
-            <SmallColRightTitle>
-              <label>Completion</label>
-            </SmallColRightTitle>
+
+            <p>Loading...</p>
           </div>
-          <div className="form-group logInInputField d-flex">
-            <SmallCol className="control-label">2</SmallCol>
-            <div className="col">
-              <label className="control-label">
-                Trauma Informed Care Training for Caregivers
-              </label>
+        ) : (
+          <div className="formFieldsMobile">
+            <div className="form-group logInInputField d-flex border-bottom">
+              <SmallCol className="control-label">
+                <label>Hours</label>
+              </SmallCol>
+              <div className="col text-center">
+                <label className="control-label">Training Topics</label>
+              </div>
+              <div className="col text-center">
+                <label className="control-label">Presenter</label>
+              </div>
+              <SmallColRightTitle>
+                <label>Completion</label>
+              </SmallColRightTitle>
             </div>
-            <SmallColRight>
-              {this.state.T1 ? (
-                <div>
-                  <p>{`Completed ${new Date(
-                    this.state.T1
-                  ).toLocaleString()}`}</p>
-                  {!this.props.valuesSet && (
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => {
-                        this.clearFieldInput("T1");
-                      }}
-                    >
-                      Clear Completion
-                    </a>
-                  )}
-                </div>
-              ) : (
-                <Form.Check
-                  type="checkbox"
-                  id="T1"
-                  disabled={this.props.valuesSet}
-                  className="mb-2 d-flex align-items-center"
-                  label={
-                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
-                  }
-                  onClick={this.handleFieldInput}
-                />
-              )}
-            </SmallColRight>
-          </div>
-          <div className="form-group logInInputField d-flex">
-            <SmallCol className="control-label">6</SmallCol>
-            <div className="col">
-              <label className="control-label">Trauma Informed Care</label>
+            <div className="form-group logInInputField d-flex">
+              <SmallCol className="control-label">
+                {this.state.modal.T1Hours}
+              </SmallCol>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T1Title}
+                </label>
+              </div>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T1Presenter}
+                </label>
+              </div>
+              <SmallColRight>
+                {this.state.T1 ? (
+                  <div>
+                    <p>{`Completed ${new Date(
+                      this.state.T1
+                    ).toLocaleString()}`}</p>
+                    {!this.props.valuesSet && (
+                      <a
+                        href="javascript:void(0)"
+                        onClick={() => {
+                          this.clearFieldInput("T1");
+                        }}
+                      >
+                        Clear Completion
+                      </a>
+                    )}
+                  </div>
+                ) : (
+                  <Form.Check
+                    type="checkbox"
+                    id="T1"
+                    disabled={this.props.valuesSet}
+                    className="mb-2 d-flex align-items-center"
+                    label={
+                      this.props.valuesSet
+                        ? "Not Completed"
+                        : "Mark as completed"
+                    }
+                    onClick={this.handleFieldInput}
+                  />
+                )}
+              </SmallColRight>
             </div>
-            <SmallColRight>
-              {this.state.T2 ? (
-                <div>
-                  <p>{`Completed ${new Date(
-                    this.state.T2
-                  ).toLocaleString()}`}</p>
-                  {!this.props.valuesSet && (
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => {
-                        this.clearFieldInput("T2");
-                      }}
-                    >
-                      Clear Completion
-                    </a>
-                  )}
-                </div>
-              ) : (
-                <Form.Check
-                  type="checkbox"
-                  id="T2"
-                  disabled={this.props.valuesSet}
-                  className="mb-2 d-flex align-items-center"
-                  label={
-                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
-                  }
-                  onClick={this.handleFieldInput}
-                />
-              )}
-            </SmallColRight>
-          </div>
-          <div className="form-group logInInputField d-flex">
-            <SmallCol className="control-label">2</SmallCol>
-            <div className="col">
-              <label className="control-label">
-                Administration of Psychotropic Medication
-              </label>
+            <div className="form-group logInInputField d-flex">
+              <SmallCol className="control-label">
+                {this.state.modal.T2Hours}
+              </SmallCol>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T2Title}
+                </label>
+              </div>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T2Presenter}
+                </label>
+              </div>
+              <SmallColRight>
+                {this.state.T2 ? (
+                  <div>
+                    <p>{`Completed ${new Date(
+                      this.state.T2
+                    ).toLocaleString()}`}</p>
+                    {!this.props.valuesSet && (
+                      <a
+                        href="javascript:void(0)"
+                        onClick={() => {
+                          this.clearFieldInput("T2");
+                        }}
+                      >
+                        Clear Completion
+                      </a>
+                    )}
+                  </div>
+                ) : (
+                  <Form.Check
+                    type="checkbox"
+                    id="T2"
+                    disabled={this.props.valuesSet}
+                    className="mb-2 d-flex align-items-center"
+                    label={
+                      this.props.valuesSet
+                        ? "Not Completed"
+                        : "Mark as completed"
+                    }
+                    onClick={this.handleFieldInput}
+                  />
+                )}
+              </SmallColRight>
             </div>
-            <SmallColRight>
-              {this.state.T3 ? (
-                <div>
-                  <p>{`Completed ${new Date(
-                    this.state.T3
-                  ).toLocaleString()}`}</p>
-                  {!this.props.valuesSet && (
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => {
-                        this.clearFieldInput("T3");
-                      }}
-                    >
-                      Clear Completion
-                    </a>
-                  )}
-                </div>
-              ) : (
-                <Form.Check
-                  type="checkbox"
-                  id="T3"
-                  disabled={this.props.valuesSet}
-                  className="mb-2 d-flex align-items-center"
-                  label={
-                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
-                  }
-                  onClick={this.handleFieldInput}
-                />
-              )}
-            </SmallColRight>
-          </div>
-          <div className="form-group logInInputField d-flex">
-            <SmallCol className="control-label">2</SmallCol>
-            <div className="col">
-              <label className="control-label">
-                Psychotropic Medication &amp; Communicable Diseases
-              </label>
+            <div className="form-group logInInputField d-flex">
+              <SmallCol className="control-label">
+                {this.state.modal.T3Hours}
+              </SmallCol>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T3Title}
+                </label>
+              </div>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T3Presenter}
+                </label>
+              </div>
+              <SmallColRight>
+                {this.state.T3 ? (
+                  <div>
+                    <p>{`Completed ${new Date(
+                      this.state.T3
+                    ).toLocaleString()}`}</p>
+                    {!this.props.valuesSet && (
+                      <a
+                        href="javascript:void(0)"
+                        onClick={() => {
+                          this.clearFieldInput("T3");
+                        }}
+                      >
+                        Clear Completion
+                      </a>
+                    )}
+                  </div>
+                ) : (
+                  <Form.Check
+                    type="checkbox"
+                    id="T3"
+                    disabled={this.props.valuesSet}
+                    className="mb-2 d-flex align-items-center"
+                    label={
+                      this.props.valuesSet
+                        ? "Not Completed"
+                        : "Mark as completed"
+                    }
+                    onClick={this.handleFieldInput}
+                  />
+                )}
+              </SmallColRight>
             </div>
-            <SmallColRight>
-              {this.state.T4 ? (
-                <div>
-                  <p>{`Completed ${new Date(
-                    this.state.T4
-                  ).toLocaleString()}`}</p>
-                  {!this.props.valuesSet && (
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => {
-                        this.clearFieldInput("T4");
-                      }}
-                    >
-                      Clear Completion
-                    </a>
-                  )}
-                </div>
-              ) : (
-                <Form.Check
-                  type="checkbox"
-                  id="T4"
-                  disabled={this.props.valuesSet}
-                  className="mb-2 d-flex align-items-center"
-                  label={
-                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
-                  }
-                  onClick={this.handleFieldInput}
-                />
-              )}
-            </SmallColRight>
-          </div>
-          <div className="form-group logInInputField d-flex">
-            <SmallCol className="control-label">2</SmallCol>
-            <div className="col">
-              <label className="control-label">Minimum Standards</label>
+            <div className="form-group logInInputField d-flex">
+              <SmallCol className="control-label">
+                {this.state.modal.T4Hours}
+              </SmallCol>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T4Title}
+                </label>
+              </div>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T4Presenter}
+                </label>
+              </div>
+              <SmallColRight>
+                {this.state.T4 ? (
+                  <div>
+                    <p>{`Completed ${new Date(
+                      this.state.T4
+                    ).toLocaleString()}`}</p>
+                    {!this.props.valuesSet && (
+                      <a
+                        href="javascript:void(0)"
+                        onClick={() => {
+                          this.clearFieldInput("T4");
+                        }}
+                      >
+                        Clear Completion
+                      </a>
+                    )}
+                  </div>
+                ) : (
+                  <Form.Check
+                    type="checkbox"
+                    id="T4"
+                    disabled={this.props.valuesSet}
+                    className="mb-2 d-flex align-items-center"
+                    label={
+                      this.props.valuesSet
+                        ? "Not Completed"
+                        : "Mark as completed"
+                    }
+                    onClick={this.handleFieldInput}
+                  />
+                )}
+              </SmallColRight>
             </div>
-            <SmallColRight>
-              {this.state.T5 ? (
-                <div>
-                  <p>{`Completed ${new Date(
-                    this.state.T5
-                  ).toLocaleString()}`}</p>
-                  {!this.props.valuesSet && (
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => {
-                        this.clearFieldInput("T5");
-                      }}
-                    >
-                      Clear Completion
-                    </a>
-                  )}
-                </div>
-              ) : (
-                <Form.Check
-                  type="checkbox"
-                  id="T5"
-                  disabled={this.props.valuesSet}
-                  className="mb-2 d-flex align-items-center"
-                  label={
-                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
-                  }
-                  onClick={this.handleFieldInput}
-                />
-              )}
-            </SmallColRight>
-          </div>
-          <div className="form-group logInInputField d-flex">
-            <SmallCol className="control-label">2</SmallCol>
-            <div className="col">
-              <label className="control-label">
-                Characteristics and Needs of Children
-              </label>
+            <div className="form-group logInInputField d-flex">
+              <SmallCol className="control-label">
+                {this.state.modal.T5Hours}
+              </SmallCol>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T5Title}
+                </label>
+              </div>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T5Presenter}
+                </label>
+              </div>
+              <SmallColRight>
+                {this.state.T5 ? (
+                  <div>
+                    <p>{`Completed ${new Date(
+                      this.state.T5
+                    ).toLocaleString()}`}</p>
+                    {!this.props.valuesSet && (
+                      <a
+                        href="javascript:void(0)"
+                        onClick={() => {
+                          this.clearFieldInput("T5");
+                        }}
+                      >
+                        Clear Completion
+                      </a>
+                    )}
+                  </div>
+                ) : (
+                  <Form.Check
+                    type="checkbox"
+                    id="T5"
+                    disabled={this.props.valuesSet}
+                    className="mb-2 d-flex align-items-center"
+                    label={
+                      this.props.valuesSet
+                        ? "Not Completed"
+                        : "Mark as completed"
+                    }
+                    onClick={this.handleFieldInput}
+                  />
+                )}
+              </SmallColRight>
             </div>
-            <SmallColRight>
-              {this.state.T6 ? (
-                <div>
-                  <p>{`Completed ${new Date(
-                    this.state.T6
-                  ).toLocaleString()}`}</p>
-                  {!this.props.valuesSet && (
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => {
-                        this.clearFieldInput("T6");
-                      }}
-                    >
-                      Clear Completion
-                    </a>
-                  )}
-                </div>
-              ) : (
-                <Form.Check
-                  type="checkbox"
-                  id="T6"
-                  disabled={this.props.valuesSet}
-                  className="mb-2 d-flex align-items-center"
-                  label={
-                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
-                  }
-                  onClick={this.handleFieldInput}
-                />
-              )}
-            </SmallColRight>
-          </div>
-          <div className="form-group logInInputField d-flex">
-            <SmallCol className="control-label">16</SmallCol>
-            <div className="col">
-              <label className="control-label">
-                Crisis Prevention Intervention-The Nonviolent Crisis
-                Intervention method of Behavioral Management and Intervention
-              </label>
+            <div className="form-group logInInputField d-flex">
+              <SmallCol className="control-label">
+                {this.state.modal.T6Hours}
+              </SmallCol>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T6Title}
+                </label>
+              </div>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T6Presenter}
+                </label>
+              </div>
+              <SmallColRight>
+                {this.state.T6 ? (
+                  <div>
+                    <p>{`Completed ${new Date(
+                      this.state.T6
+                    ).toLocaleString()}`}</p>
+                    {!this.props.valuesSet && (
+                      <a
+                        href="javascript:void(0)"
+                        onClick={() => {
+                          this.clearFieldInput("T6");
+                        }}
+                      >
+                        Clear Completion
+                      </a>
+                    )}
+                  </div>
+                ) : (
+                  <Form.Check
+                    type="checkbox"
+                    id="T6"
+                    disabled={this.props.valuesSet}
+                    className="mb-2 d-flex align-items-center"
+                    label={
+                      this.props.valuesSet
+                        ? "Not Completed"
+                        : "Mark as completed"
+                    }
+                    onClick={this.handleFieldInput}
+                  />
+                )}
+              </SmallColRight>
             </div>
-            <SmallColRight>
-              {this.state.T7 ? (
-                <div>
-                  <p>{`Completed ${new Date(
-                    this.state.T7
-                  ).toLocaleString()}`}</p>
-                  {!this.props.valuesSet && (
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => {
-                        this.clearFieldInput("T7");
-                      }}
-                    >
-                      Clear Completion
-                    </a>
-                  )}
-                </div>
-              ) : (
-                <Form.Check
-                  type="checkbox"
-                  id="T7"
-                  disabled={this.props.valuesSet}
-                  className="mb-2 d-flex align-items-center"
-                  label={
-                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
-                  }
-                  onClick={this.handleFieldInput}
-                />
-              )}
-            </SmallColRight>
-          </div>
-          <div className="form-group logInInputField d-flex">
-            <SmallCol className="control-label">2</SmallCol>
-            <div className="col">
-              <label className="control-label">Normalcy</label>
+            <div className="form-group logInInputField d-flex">
+              <SmallCol className="control-label">
+                {this.state.modal.T7Hours}
+              </SmallCol>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T7Title}
+                </label>
+              </div>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T7Presenter}
+                </label>
+              </div>
+              <SmallColRight>
+                {this.state.T7 ? (
+                  <div>
+                    <p>{`Completed ${new Date(
+                      this.state.T7
+                    ).toLocaleString()}`}</p>
+                    {!this.props.valuesSet && (
+                      <a
+                        href="javascript:void(0)"
+                        onClick={() => {
+                          this.clearFieldInput("T7");
+                        }}
+                      >
+                        Clear Completion
+                      </a>
+                    )}
+                  </div>
+                ) : (
+                  <Form.Check
+                    type="checkbox"
+                    id="T7"
+                    disabled={this.props.valuesSet}
+                    className="mb-2 d-flex align-items-center"
+                    label={
+                      this.props.valuesSet
+                        ? "Not Completed"
+                        : "Mark as completed"
+                    }
+                    onClick={this.handleFieldInput}
+                  />
+                )}
+              </SmallColRight>
             </div>
-            <SmallColRight>
-              {this.state.T8 ? (
-                <div>
-                  <p>{`Completed ${new Date(
-                    this.state.T8
-                  ).toLocaleString()}`}</p>
-                  {!this.props.valuesSet && (
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => {
-                        this.clearFieldInput("T8");
-                      }}
-                    >
-                      Clear Completion
-                    </a>
-                  )}
-                </div>
-              ) : (
-                <Form.Check
-                  type="checkbox"
-                  id="T8"
-                  disabled={this.props.valuesSet}
-                  className="mb-2 d-flex align-items-center"
-                  label={
-                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
-                  }
-                  onClick={this.handleFieldInput}
-                />
-              )}
-            </SmallColRight>
-          </div>
-          <div className="form-group logInInputField d-flex">
-            <SmallCol className="control-label">1</SmallCol>
-            <div className="col">
-              <label className="control-label">
-                Reporting Suspected Abuse or Neglect of a Child
-              </label>
+
+            <div className="form-group logInInputField d-flex">
+              <SmallCol className="control-label">
+                {this.state.modal.T8Hours}
+              </SmallCol>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T8Title}
+                </label>
+              </div>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T8Presenter}
+                </label>
+              </div>
+              <SmallColRight>
+                {this.state.T8 ? (
+                  <div>
+                    <p>{`Completed ${new Date(
+                      this.state.T8
+                    ).toLocaleString()}`}</p>
+                    {!this.props.valuesSet && (
+                      <a
+                        href="javascript:void(0)"
+                        onClick={() => {
+                          this.clearFieldInput("T9");
+                        }}
+                      >
+                        Clear Completion
+                      </a>
+                    )}
+                  </div>
+                ) : (
+                  <Form.Check
+                    type="checkbox"
+                    id="T3"
+                    disabled={this.props.valuesSet}
+                    className="mb-2 d-flex align-items-center"
+                    label={
+                      this.props.valuesSet
+                        ? "Not Completed"
+                        : "Mark as completed"
+                    }
+                    onClick={this.handleFieldInput}
+                  />
+                )}
+              </SmallColRight>
             </div>
-            <SmallColRight>
-              {this.state.T9 ? (
-                <div>
-                  <p>{`Completed ${new Date(
-                    this.state.T9
-                  ).toLocaleString()}`}</p>
-                  {!this.props.valuesSet && (
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => {
-                        this.clearFieldInput("T9");
-                      }}
-                    >
-                      Clear Completion
-                    </a>
-                  )}
-                </div>
-              ) : (
-                <Form.Check
-                  type="checkbox"
-                  id="T9"
-                  disabled={this.props.valuesSet}
-                  className="mb-2 d-flex align-items-center"
-                  label={
-                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
-                  }
-                  onClick={this.handleFieldInput}
-                />
-              )}
-            </SmallColRight>
-          </div>
-          <div className="form-group logInInputField d-flex">
-            <SmallCol className="control-label">2</SmallCol>
-            <div className="col">
-              <label className="control-label">
-                Recognizing and reporting Child Sexual Abuse
-              </label>
+            <div className="form-group logInInputField d-flex">
+              <SmallCol className="control-label">
+                {this.state.modal.T9Hours}
+              </SmallCol>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T9Title}
+                </label>
+              </div>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T9Presenter}
+                </label>
+              </div>
+              <SmallColRight>
+                {this.state.T9 ? (
+                  <div>
+                    <p>{`Completed ${new Date(
+                      this.state.T9
+                    ).toLocaleString()}`}</p>
+                    {!this.props.valuesSet && (
+                      <a
+                        href="javascript:void(0)"
+                        onClick={() => {
+                          this.clearFieldInput("T9");
+                        }}
+                      >
+                        Clear Completion
+                      </a>
+                    )}
+                  </div>
+                ) : (
+                  <Form.Check
+                    type="checkbox"
+                    id="T4"
+                    disabled={this.props.valuesSet}
+                    className="mb-2 d-flex align-items-center"
+                    label={
+                      this.props.valuesSet
+                        ? "Not Completed"
+                        : "Mark as completed"
+                    }
+                    onClick={this.handleFieldInput}
+                  />
+                )}
+              </SmallColRight>
             </div>
-            <SmallColRight>
-              {this.state.T10 ? (
-                <div>
-                  <p>{`Completed ${new Date(
-                    this.state.T10
-                  ).toLocaleString()}`}</p>
-                  {!this.props.valuesSet && (
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => {
-                        this.clearFieldInput("T10");
-                      }}
-                    >
-                      Clear Completion
-                    </a>
-                  )}
-                </div>
-              ) : (
-                <Form.Check
-                  type="checkbox"
-                  id="T10"
-                  disabled={this.props.valuesSet}
-                  className="mb-2 d-flex align-items-center"
-                  label={
-                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
-                  }
-                  onClick={this.handleFieldInput}
-                />
-              )}
-            </SmallColRight>
-          </div>
-          <div className="form-group logInInputField d-flex">
-            <SmallCol className="control-label">2</SmallCol>
-            <div className="col">
-              <label className="control-label">Transportation</label>
+            <div className="form-group logInInputField d-flex">
+              <SmallCol className="control-label">
+                {this.state.modal.T10Hours}
+              </SmallCol>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T10Title}
+                </label>
+              </div>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T10Presenter}
+                </label>
+              </div>
+              <SmallColRight>
+                {this.state.T10 ? (
+                  <div>
+                    <p>{`Completed ${new Date(
+                      this.state.T10
+                    ).toLocaleString()}`}</p>
+                    {!this.props.valuesSet && (
+                      <a
+                        href="javascript:void(0)"
+                        onClick={() => {
+                          this.clearFieldInput("T10");
+                        }}
+                      >
+                        Clear Completion
+                      </a>
+                    )}
+                  </div>
+                ) : (
+                  <Form.Check
+                    type="checkbox"
+                    id="T5"
+                    disabled={this.props.valuesSet}
+                    className="mb-2 d-flex align-items-center"
+                    label={
+                      this.props.valuesSet
+                        ? "Not Completed"
+                        : "Mark as completed"
+                    }
+                    onClick={this.handleFieldInput}
+                  />
+                )}
+              </SmallColRight>
             </div>
-            <SmallColRight>
-              {this.state.T11 ? (
-                <div>
-                  <p>{`Completed ${new Date(
-                    this.state.T11
-                  ).toLocaleString()}`}</p>
-                  {!this.props.valuesSet && (
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => {
-                        this.clearFieldInput("T11");
-                      }}
-                    >
-                      Clear Completion
-                    </a>
-                  )}
-                </div>
-              ) : (
-                <Form.Check
-                  type="checkbox"
-                  id="T11"
-                  disabled={this.props.valuesSet}
-                  className="mb-2 d-flex align-items-center"
-                  label={
-                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
-                  }
-                  onClick={this.handleFieldInput}
-                />
-              )}
-            </SmallColRight>
-          </div>
-          <div className="form-group logInInputField d-flex">
-            <SmallCol className="control-label">1</SmallCol>
-            <div className="col">
-              <label className="control-label">Emergency Procedures</label>
+            <div className="form-group logInInputField d-flex">
+              <SmallCol className="control-label">
+                {this.state.modal.T11Hours}
+              </SmallCol>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T11Title}
+                </label>
+              </div>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T11Presenter}
+                </label>
+              </div>
+              <SmallColRight>
+                {this.state.T11 ? (
+                  <div>
+                    <p>{`Completed ${new Date(
+                      this.state.T11
+                    ).toLocaleString()}`}</p>
+                    {!this.props.valuesSet && (
+                      <a
+                        href="javascript:void(0)"
+                        onClick={() => {
+                          this.clearFieldInput("T11");
+                        }}
+                      >
+                        Clear Completion
+                      </a>
+                    )}
+                  </div>
+                ) : (
+                  <Form.Check
+                    type="checkbox"
+                    id="T6"
+                    disabled={this.props.valuesSet}
+                    className="mb-2 d-flex align-items-center"
+                    label={
+                      this.props.valuesSet
+                        ? "Not Completed"
+                        : "Mark as completed"
+                    }
+                    onClick={this.handleFieldInput}
+                  />
+                )}
+              </SmallColRight>
             </div>
-            <SmallColRight>
-              {this.state.T12 ? (
-                <div>
-                  <p>{`Completed ${new Date(
-                    this.state.T12
-                  ).toLocaleString()}`}</p>
-                  {!this.props.valuesSet && (
-                    <a
-                      href="javascript:void(0)"
-                      onClick={() => {
-                        this.clearFieldInput("T12");
-                      }}
-                    >
-                      Clear Completion
-                    </a>
-                  )}
-                </div>
-              ) : (
-                <Form.Check
-                  type="checkbox"
-                  id="T12"
-                  disabled={this.props.valuesSet}
-                  className="mb-2 d-flex align-items-center"
-                  label={
-                    this.props.valuesSet ? "Not Completed" : "Mark as completed"
-                  }
-                  onClick={this.handleFieldInput}
-                />
-              )}
-            </SmallColRight>
-          </div>
-          <div className="form-group logInInputField d-flex border-top">
-            <SmallCol className="control-label">
-              <label>40</label>
-            </SmallCol>
-            <div className="col text-center">
-              <label className="control-label">Total Hours</label>
+            <div className="form-group logInInputField d-flex">
+              <SmallCol className="control-label">
+                {this.state.modal.T12Hours}
+              </SmallCol>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T12Title}
+                </label>
+              </div>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal.T12Presenter}
+                </label>
+              </div>
+              <SmallColRight>
+                {this.state.T12 ? (
+                  <div>
+                    <p>{`Completed ${new Date(
+                      this.state.T12
+                    ).toLocaleString()}`}</p>
+                    {!this.props.valuesSet && (
+                      <a
+                        href="javascript:void(0)"
+                        onClick={() => {
+                          this.clearFieldInput("T12");
+                        }}
+                      >
+                        Clear Completion
+                      </a>
+                    )}
+                  </div>
+                ) : (
+                  <Form.Check
+                    type="checkbox"
+                    id="T7"
+                    disabled={this.props.valuesSet}
+                    className="mb-2 d-flex align-items-center"
+                    label={
+                      this.props.valuesSet
+                        ? "Not Completed"
+                        : "Mark as completed"
+                    }
+                    onClick={this.handleFieldInput}
+                  />
+                )}
+              </SmallColRight>
             </div>
-            <SmallCol />
+            <div className="form-group logInInputField d-flex border-top">
+              <SmallCol className="control-label">
+                <label>{this.state.hours}</label>
+              </SmallCol>
+              <div className="col text-center">
+                <label className="control-label">Total Hours</label>
+              </div>
+              <SmallCol />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }

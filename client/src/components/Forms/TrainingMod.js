@@ -25,8 +25,9 @@ const SmallColRightTitle = styled.div`
 const postTraining = async (formId, data, formType) => {
   let subString;
   switch (formType) {
-    case "Orientation Training":
-      subString = `orientationTrainingMod`;
+    case "Pre Service Training":
+      subString = `preServiceTrainingMod`;
+      break;
     default:
       subString = `orientationTrainingMod`;
   }
@@ -44,9 +45,10 @@ const getEditRowsModal = (obj) => {
   delete reducedObj.homeId;
   delete reducedObj.createDate;
   delete reducedObj._id;
+  delete reducedObj.approved;
 
   return Reflect.ownKeys(reducedObj).reduce((acc, cur) => {
-    const idx = cur.match(/\d/g)[0];
+    const idx = cur.match(/\d+/g)[0];
     if (!acc.hasOwnProperty(`T${idx}`)) {
       acc[`T${idx}`] = {
         title: "",
@@ -95,7 +97,7 @@ const TrainingMod = ({ data, doToggleTrainingDisplay }) => {
   const handleFieldInput = (e) => {
     const acc = { ...rows };
     const { id, value } = e.target;
-    const keyId = id.match(/\d/g)[0];
+    const keyId = id.match(/\d+/g)[0];
     if (id.includes("Presenter")) {
       acc[`T${keyId}`].presenter = value;
     } else if (id.includes("Title")) {
@@ -111,7 +113,7 @@ const TrainingMod = ({ data, doToggleTrainingDisplay }) => {
     try {
       isSetSaving(true);
       const flatValues = Reflect.ownKeys(rows).reduce((acc1, cur1) => {
-        const idx = cur1.match(/\d/g)[0];
+        const idx = cur1.match(/\d+/g)[0];
 
         Reflect.ownKeys(rows[cur1]).forEach((cur) => {
           if (cur.includes("presenter")) {
