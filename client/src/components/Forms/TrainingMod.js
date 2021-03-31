@@ -25,8 +25,9 @@ const SmallColRightTitle = styled.div`
 const postTraining = async (formId, data, formType) => {
   let subString;
   switch (formType) {
-    case "Orientation Training":
-      subString = `orientationTrainingMod`;
+    case "Pre Service Training":
+      subString = `preServiceTrainingMod`;
+      break;
     default:
       subString = `orientationTrainingMod`;
   }

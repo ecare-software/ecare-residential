@@ -131,24 +131,6 @@ const PreServiceTrainingModSchema = new Schema({
     type: String,
   },
 
-  approved: {
-    type: Boolean,
-    default: false,
-  },
-
-  approvedBy: {
-    type: String,
-    required: false,
-  },
-
-  approvedByName: {
-    type: String,
-    required: false,
-  },
-
-  approvedByDate: {
-    type: Date,
-  },
   createDate: {
     type: Date,
     default: new Date(),
