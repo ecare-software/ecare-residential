@@ -25,14 +25,33 @@ const SmallColRightTitle = styled.div`
   text-align: center;
 `;
 
-const fetchAllTrainingsInit = async ({ homeId }) => {
+const fetchTrainingMods = async (homeId) => {
+  let promises = [];
+
   //orientationTraining
-  return await Axios.get(`/api/orientationTrainingMod/${homeId}`);
+  promises.push(Axios.get(`/api/orientationTrainingMod/${homeId}`));
+  //preserviceTraining
+  promises.push(Axios.get(`/api/preServiceTrainingMod/${homeId}`));
+
+  const data = await Promise.allSettled(promises);
+
+  const settledModels = data
+    .filter((promObj) => {
+      return promObj.status === "fulfilled";
+    })
+    .map((promObj) => {
+      return promObj.value.data[0];
+    });
+
+  return settledModels;
+};
+
+const fetchAllTrainingsInit = async ({ homeId }) => {
+  return await fetchTrainingMods(homeId);
 };
 
 const fetchAllTrainings = async ([homeId]) => {
-  //orientationTraining
-  return await Axios.get(`/api/orientationTrainingMod/${homeId}`);
+  return await fetchTrainingMods(homeId);
 };
 
 const ManageTraining = ({
@@ -58,7 +77,7 @@ const ManageTraining = ({
     homeId: userObj.homeId,
     deferFn: fetchAllTrainings,
     onResolve: (data) => {
-      setTrainings(data.data);
+      setTrainings(data);
     },
   });
 
