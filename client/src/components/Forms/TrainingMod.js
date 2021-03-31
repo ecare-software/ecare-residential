@@ -48,7 +48,6 @@ const getEditRowsModal = (obj) => {
   delete reducedObj.approved;
 
   return Reflect.ownKeys(reducedObj).reduce((acc, cur) => {
-    console.log(cur);
     const idx = cur.match(/\d+/g)[0];
     if (!acc.hasOwnProperty(`T${idx}`)) {
       acc[`T${idx}`] = {
