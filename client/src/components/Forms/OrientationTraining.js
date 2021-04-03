@@ -555,7 +555,11 @@ class OrientationTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex border-top">
               <SmallCol className="control-label">
-                <label>{this.state.hours}</label>
+                <label>
+                  {this.state.hours === "NaN" || isNaN(this.state.hours)
+                    ? "∞"
+                    : this.state.hours}
+                </label>
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">Total Hours</label>

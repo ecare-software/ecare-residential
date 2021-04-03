@@ -333,6 +333,27 @@ class NavBar extends React.Component {
             >
               {adminReportingRoles.includes(this.props.userObj.jobTitle) ? (
                 <NavDropdown.Item
+                  eventKey="link-83"
+                  onClick={() => {
+                    document
+                      .querySelector(".Submit-a-Form-nav > a")
+                      .classList.add("active");
+                    document
+                      .querySelector(".Manage-Account-nav > a")
+                      .classList.remove("active");
+                    document
+                      .querySelector(".Training-nav > a")
+                      .classList.remove("active");
+                    this.props.toggleDisplay("admissionAssessment");
+                  }}
+                >
+                  Admission Assessment
+                </NavDropdown.Item>
+              ) : (
+                <React.Fragment />
+              )}
+              {adminReportingRoles.includes(this.props.userObj.jobTitle) ? (
+                <NavDropdown.Item
                   eventKey="link-2"
                   onClick={() => {
                     document
@@ -437,24 +458,6 @@ class NavBar extends React.Component {
               >
                 Illness Injury
               </NavDropdown.Item>
-
-              <NavDropdown.Item
-                eventKey="link-83"
-                onClick={() => {
-                  document
-                    .querySelector(".Submit-a-Form-nav > a")
-                    .classList.add("active");
-                  document
-                    .querySelector(".Manage-Account-nav > a")
-                    .classList.remove("active");
-                  document
-                    .querySelector(".Training-nav > a")
-                    .classList.remove("active");
-                  this.props.toggleDisplay("admissionAssessment");
-                }}
-              >
-                Admission Assessment
-              </NavDropdown.Item>
               {/* <NavDropdown.Divider /> */}
             </NavDropdown>
             <NavDropdown
@@ -480,7 +483,24 @@ class NavBar extends React.Component {
                   this.props.toggleDisplay("Orientation Training");
                 }}
               >
-                Orientation Training
+                Orientation
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                eventKey="link-2747"
+                onClick={() => {
+                  document
+                    .querySelector(".Training-nav > a")
+                    .classList.add("active");
+                  document
+                    .querySelector(".Submit-a-Form-nav > a")
+                    .classList.remove("active");
+                  document
+                    .querySelector(".Manage-Account-nav > a")
+                    .classList.remove("active");
+                  this.props.toggleDisplay("First aid CPR Training");
+                }}
+              >
+                First aid / CPR
               </NavDropdown.Item>
               <NavDropdown.Item
                 eventKey="link-787"
@@ -497,7 +517,7 @@ class NavBar extends React.Component {
                   this.props.toggleDisplay("Pre Service Training");
                 }}
               >
-                Pre-Service Training
+                Pre-Service
               </NavDropdown.Item>
             </NavDropdown>
 

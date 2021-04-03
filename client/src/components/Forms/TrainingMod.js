@@ -28,6 +28,9 @@ const postTraining = async (formId, data, formType) => {
     case "Pre Service Training":
       subString = `preServiceTrainingMod`;
       break;
+    case "First aid CPR Training":
+      subString = `firstAidCprTrainingMod`;
+      break;
     default:
       subString = `orientationTrainingMod`;
   }
@@ -72,7 +75,11 @@ const getEditRowsModal = (obj) => {
 const getHours = (rows) => {
   return Reflect.ownKeys(rows).reduce((acc, cur) => {
     try {
-      acc = acc + parseInt(rows[cur].hours);
+      if (isNaN(rows[cur].hours)) {
+        acc = acc + 0;
+      } else {
+        acc = acc + parseInt(rows[cur].hours);
+      }
     } catch (e) {
       console.log("error row is not populated");
       acc = acc + 0;
@@ -104,7 +111,6 @@ const TrainingMod = ({ data, doToggleTrainingDisplay }) => {
       acc[`T${keyId}`].title = value;
     } else {
       acc[`T${keyId}`].hours = value;
-      //   setHours(acc);
     }
     setRows(acc);
   };
@@ -187,7 +193,7 @@ const TrainingMod = ({ data, doToggleTrainingDisplay }) => {
         ))}
         <div className="form-group logInInputField d-flex">
           <SmallCol className="control-label">
-            <label>{hours}</label>
+            <label>{hours === "NaN" || isNaN(hours) ? "∞" : hours}</label>
           </SmallCol>
           <div className="col text-center">
             <label className="control-label">Total Hours</label>
