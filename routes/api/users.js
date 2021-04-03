@@ -15,6 +15,15 @@ router.get("/user/:id", (req, res) => {
     .catch((err) => res.status(404).json({ success: false }));
 });
 
+router.get("/user/:email/:homeId", (req, res) => {
+  const { email, homeId } = req.params;
+  User.findOne({ email, homeId })
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((err) => res.status(404).json({ success: false }));
+});
+
 // @route   GET api/items
 // @desc    GET all items
 // @access  Public

@@ -260,51 +260,53 @@ class ManageAccountContainer extends Component {
                   <FormSuccess
                     successId={this.props.id + "-sig-success"}
                   ></FormSuccess>
-                  <div
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas = ref;
+                  <div className="sigSection">
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
                       }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 600,
-                        height: 200,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
-                  <div
-                    className="form-group logInInputField"
-                    style={{
-                      display: "flex",
-                      flexDirection: "row-reverse",
-                      marginTop: 50,
-                    }}
-                  >
-                    <button
-                      onClick={this.validateSig}
-                      className="btn btn-light extraInfoButton"
                     >
-                      Update
-                    </button>
-                    <button
-                      style={{ marginRight: 20 }}
-                      onClick={() => {
-                        this.sigCanvas.clear();
+                      <SignatureCanvas
+                        ref={(ref) => {
+                          this.sigCanvas = ref;
+                        }}
+                        style={{ border: "solid" }}
+                        penColor="black"
+                        clearOnResize={false}
+                        canvasProps={{
+                          width: 600,
+                          height: 200,
+                          className: "sigCanvas",
+                        }}
+                        backgroundColor="#eeee"
+                      />
+                    </div>
+                    <div
+                      className="form-group logInInputField"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row-reverse",
+                        marginTop: 50,
                       }}
-                      className="btn "
                     >
-                      Clear
-                    </button>
+                      <button
+                        onClick={this.validateSig}
+                        className="btn btn-light extraInfoButton"
+                      >
+                        Update
+                      </button>
+                      <button
+                        style={{ marginRight: 20 }}
+                        onClick={() => {
+                          this.sigCanvas.clear();
+                        }}
+                        className="btn "
+                      >
+                        Clear
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

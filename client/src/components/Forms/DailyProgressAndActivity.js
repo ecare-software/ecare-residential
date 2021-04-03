@@ -6,7 +6,8 @@ import Axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Form } from "react-bootstrap";
 import ClientOption from "../../utils/ClientOption.util";
-
+import SignatureCanvas from "react-signature-canvas";
+import { GetUserSig } from "../../utils/GetUserSig";
 /*
   missing from form
     "Restricted field Trip"
@@ -69,6 +70,8 @@ class DailyProgressAndActivity extends Component {
       formErrorMessage: "",
 
       loadingClients: true,
+
+      loadingSig: true,
 
       clients: [],
       clientId: "",
@@ -225,8 +228,25 @@ class DailyProgressAndActivity extends Component {
     this.submit();
   };
 
-  setValues = () => {
-    this.setState({ ...this.state, ...this.props.formData });
+  setSignature = (userObj) => {
+    if (userObj.signature && userObj.signature.length) {
+      this.sigCanvas.fromData(userObj.signature);
+    }
+  };
+
+  setValues = async () => {
+    const { data: createdUserData } = await GetUserSig(
+      this.props.formData.createdBy,
+      this.props.userObj.homeId
+    );
+    this.setSignature(createdUserData);
+    this.sigCanvas.off();
+    this.setState({
+      ...this.state,
+      ...this.props.formData,
+      loadingSig: false,
+      loadingClients: false,
+    });
   };
 
   getClients = async () => {
@@ -775,414 +795,474 @@ class DailyProgressAndActivity extends Component {
           <div className="formTitleDivReport">
             <h2 className="formTitle">Daily Progress and Activity</h2>
           </div>
+
           <div className="formFieldsMobileReport">
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">Child's Name</label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.childMeta_name}
-                id="childMeta_name"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group">
-              <h5>
-                Daily living/development skills :{" "}
-                <i>
-                  G - Good; A - Adequate; P - Poor; NS - Needs Supervision; PA -
-                  Physical Assistance; NA - Not Applicable
-                </i>
-              </h5>
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">Personal Hygiene wk</label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.personal_hygiene}
-                id="personal_hygiene"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">Dressing</label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.dressing}
-                id="dressing"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">Table Mannders</label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.table_mannders}
-                id="table_mannders"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">Clothes Maintenance</label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.clothes_maintenace}
-                id="clothes_maintenace"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">Self Feeding</label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.self_feeding}
-                id="self_feeding"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">Care of Property</label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.care_of_property}
-                id="care_of_property"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">
-                Maintenance of Personal Space
-              </label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.maintenace_of_personal_space}
-                id="maintenace_of_personal_space"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">Household Chores</label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.household_chorse}
-                id="household_chorse"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group">
-              <h5>
-                Techniques used to encourage positive change :{" "}
-                <i>Y - Yes (if applicable)</i>
-              </h5>
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">Informal Counseling</label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.informal_counseling}
-                id="informal_counseling"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">Verbal Redirection</label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.verbal_redirection}
-                id="verbal_redirection"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">Modeling</label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.modeling}
-                id="modeling"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">
-                Supervised Separation
-              </label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.supervised_separation}
-                id="supervised_separation"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">
-                Provider Feedback to Client
-              </label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.provider_feedback_to_client}
-                id="provider_feedback_to_client"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">
-                Positive Reinforcement
-              </label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.positive_reinforcement}
-                id="positive_reinforcement"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">Other (Specify)</label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.other}
-                id="other"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group">
-              <h5>
-                Consequences : <i>Y - Yes (if applicable)</i>
-              </h5>
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">Home Restrictions</label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.home_restrictions}
-                id="home_restrictions"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">
-                Restricted Leisure Activity
-              </label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.restricted_leisure_activity}
-                id="restricted_leisure_activity"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">No Allowance</label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.no_allowance}
-                id="no_allowance"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">Other (Specify)</label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.other2}
-                id="other2"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group">
-              <h5>Behavior Summary</h5>
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">
-                Number of Home Incidents
-              </label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.no_of_home_incidents}
-                id="no_of_home_incidents"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">
-                Number of Home Serious Incidents
-              </label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.no_of_home_serious_incidents}
-                id="no_of_home_serious_incidents"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">
-                Number of Home Restraints
-              </label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.no_of_home_restraints}
-                id="no_of_home_restraints"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">
-                Number of School Incidents
-              </label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.no_of_school_incidents}
-                id="no_of_school_incidents"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">
-                Number of School Restraints
-              </label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.no_of_school_restraints}
-                id="no_of_school_restraints"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">Illnesses / Injuries</label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.illness_injury}
-                id="illness_injury"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">Level of Supervison</label>{" "}
-              <input
-                onChange={this.handleFieldInput}
-                value={this.state.level_of_supervison}
-                id="level_of_supervison"
-                className="form-control"
-                type="text"
-              />{" "}
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">
-                Summary of Daily Schedule
-              </label>{" "}
-              <textarea
-                onChange={this.handleFieldInput}
-                value={this.state.summary_of_daily_schedule}
-                id="summary_of_daily_schedule"
-                className="form-control"
-              ></textarea>
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">
-                Summary of Behavior at School
-              </label>{" "}
-              <textarea
-                onChange={this.handleFieldInput}
-                value={this.state.summary_of_behavior_at_school}
-                id="summary_of_behavior_at_school"
-                className="form-control"
-              ></textarea>
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">
-                Summary of Behavior at Home
-              </label>{" "}
-              <textarea
-                onChange={this.handleFieldInput}
-                value={this.state.summary_of_behavior_at_home}
-                id="summary_of_behavior_at_home"
-                className="form-control"
-              ></textarea>
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">
-                Therapeutic / Recreational
-              </label>{" "}
-              <textarea
-                onChange={this.handleFieldInput}
-                value={this.state.therapeutic_recreational}
-                id="therapeutic_recreational"
-                className="form-control"
-              ></textarea>
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">Therapeutic Value</label>{" "}
-              <textarea
-                onChange={this.handleFieldInput}
-                value={this.state.therapeutic_value}
-                id="therapeutic_value"
-                className="form-control"
-              ></textarea>
-            </div>
-            <div className="form-group logInInputField">
-              {" "}
-              <label className="control-label">Phone Calls / Visits</label>{" "}
-              <textarea
-                onChange={this.handleFieldInput}
-                value={this.state.phone_calls_or_visits}
-                id="phone_calls_or_visits"
-                className="form-control"
-              ></textarea>
+            {this.state.loadingClients ? (
+              <div className="formLoadingDiv">
+                <div>
+                  <ClipLoader
+                    className="formSpinner"
+                    size={50}
+                    color={"#ffc107"}
+                  />
+                </div>
+
+                <p>Loading...</p>
+              </div>
+            ) : (
+              <div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">Child's Name</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.childMeta_name}
+                    id="childMeta_name"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group">
+                  <h5>
+                    Daily living/development skills :{" "}
+                    <i>
+                      G - Good; A - Adequate; P - Poor; NS - Needs Supervision;
+                      PA - Physical Assistance; NA - Not Applicable
+                    </i>
+                  </h5>
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Personal Hygiene wk
+                  </label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.personal_hygiene}
+                    id="personal_hygiene"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">Dressing</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.dressing}
+                    id="dressing"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">Table Mannders</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.table_mannders}
+                    id="table_mannders"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Clothes Maintenance
+                  </label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.clothes_maintenace}
+                    id="clothes_maintenace"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">Self Feeding</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.self_feeding}
+                    id="self_feeding"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">Care of Property</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.care_of_property}
+                    id="care_of_property"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Maintenance of Personal Space
+                  </label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.maintenace_of_personal_space}
+                    id="maintenace_of_personal_space"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">Household Chores</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.household_chorse}
+                    id="household_chorse"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group">
+                  <h5>
+                    Techniques used to encourage positive change :{" "}
+                    <i>Y - Yes (if applicable)</i>
+                  </h5>
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Informal Counseling
+                  </label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.informal_counseling}
+                    id="informal_counseling"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Verbal Redirection
+                  </label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.verbal_redirection}
+                    id="verbal_redirection"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">Modeling</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.modeling}
+                    id="modeling"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Supervised Separation
+                  </label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.supervised_separation}
+                    id="supervised_separation"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Provider Feedback to Client
+                  </label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.provider_feedback_to_client}
+                    id="provider_feedback_to_client"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Positive Reinforcement
+                  </label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.positive_reinforcement}
+                    id="positive_reinforcement"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">Other (Specify)</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.other}
+                    id="other"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group">
+                  <h5>
+                    Consequences : <i>Y - Yes (if applicable)</i>
+                  </h5>
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Home Restrictions
+                  </label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.home_restrictions}
+                    id="home_restrictions"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Restricted Leisure Activity
+                  </label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.restricted_leisure_activity}
+                    id="restricted_leisure_activity"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">No Allowance</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.no_allowance}
+                    id="no_allowance"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">Other (Specify)</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.other2}
+                    id="other2"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group">
+                  <h5>Behavior Summary</h5>
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Number of Home Incidents
+                  </label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.no_of_home_incidents}
+                    id="no_of_home_incidents"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Number of Home Serious Incidents
+                  </label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.no_of_home_serious_incidents}
+                    id="no_of_home_serious_incidents"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Number of Home Restraints
+                  </label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.no_of_home_restraints}
+                    id="no_of_home_restraints"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Number of School Incidents
+                  </label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.no_of_school_incidents}
+                    id="no_of_school_incidents"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Number of School Restraints
+                  </label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.no_of_school_restraints}
+                    id="no_of_school_restraints"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Illnesses / Injuries
+                  </label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.illness_injury}
+                    id="illness_injury"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Level of Supervison
+                  </label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    value={this.state.level_of_supervison}
+                    id="level_of_supervison"
+                    className="form-control"
+                    type="text"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Summary of Daily Schedule
+                  </label>{" "}
+                  <textarea
+                    onChange={this.handleFieldInput}
+                    value={this.state.summary_of_daily_schedule}
+                    id="summary_of_daily_schedule"
+                    className="form-control"
+                  ></textarea>
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Summary of Behavior at School
+                  </label>{" "}
+                  <textarea
+                    onChange={this.handleFieldInput}
+                    value={this.state.summary_of_behavior_at_school}
+                    id="summary_of_behavior_at_school"
+                    className="form-control"
+                  ></textarea>
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Summary of Behavior at Home
+                  </label>{" "}
+                  <textarea
+                    onChange={this.handleFieldInput}
+                    value={this.state.summary_of_behavior_at_home}
+                    id="summary_of_behavior_at_home"
+                    className="form-control"
+                  ></textarea>
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Therapeutic / Recreational
+                  </label>{" "}
+                  <textarea
+                    onChange={this.handleFieldInput}
+                    value={this.state.therapeutic_recreational}
+                    id="therapeutic_recreational"
+                    className="form-control"
+                  ></textarea>
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Therapeutic Value
+                  </label>{" "}
+                  <textarea
+                    onChange={this.handleFieldInput}
+                    value={this.state.therapeutic_value}
+                    id="therapeutic_value"
+                    className="form-control"
+                  ></textarea>
+                </div>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Phone Calls / Visits
+                  </label>{" "}
+                  <textarea
+                    onChange={this.handleFieldInput}
+                    value={this.state.phone_calls_or_visits}
+                    id="phone_calls_or_visits"
+                    className="form-control"
+                  ></textarea>
+                </div>
+              </div>
+            )}
+            <label className="control-label">Signature</label>{" "}
+            <div className="sigSection">
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </div>
             {!this.props.formData.approved && (
               <>
