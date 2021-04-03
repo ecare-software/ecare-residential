@@ -5,6 +5,7 @@ import Cookies from "universal-cookie";
 import Header from "./components/Header/Header";
 import TreatmentPlan72 from "./components/Forms/TreatmentPlan72";
 import IncidentReport from "./components/Forms/IncidentReport";
+import SeriousIncidentReport from "./components/Forms/SeriousIncidentReport";
 import RestraintReport from "./components/Forms/RestraintReport";
 import DailyProgress from "./components/Forms/DailyProgressAndActivity";
 import AnnualTraining from "./components/Forms/AnnualTraining";
@@ -814,6 +815,18 @@ function ToggleScreen({
     );
   }
 
+  if (name === "SeriousIncidentReport") {
+    return (
+      <div>
+        <SeriousIncidentReport
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="incident"
+        />
+      </div>
+    );
+  }
+
   if (name === "admissionAssessment") {
     return (
       <div>
@@ -1110,6 +1123,19 @@ function DisplayExtra({
           <p className="extraInfoNavSubTitle">
             When an incident happens, this must be filled out in order to keep
             track of what exactly happend.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "SeriousIncidentReport") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv">
+          <p className="extraInfoNavSubTitle">
+            When a serious incident happens, this must be filled out in order to
+            keep track of what exactly happend.
           </p>
         </div>
       </div>

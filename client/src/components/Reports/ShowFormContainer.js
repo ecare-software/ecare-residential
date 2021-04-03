@@ -1,6 +1,7 @@
 import React, { Component, useState, useEffect } from "react";
 import TreatmentPlan72 from "../Forms/TreatmentPlan72";
 import IncidentReport from "../Forms/IncidentReport";
+import SeriousIncidentReport from "../Forms/SeriousIncidentReport";
 import DailyProgress from "../Forms/DailyProgressAndActivity";
 import RestraintReport from "../Forms/RestraintReport";
 import IllnessInjury from "../Forms/IllnessInjury";
@@ -131,6 +132,15 @@ class ShowFormContainer extends Component {
         />
       );
       route = "incidentReport";
+    } else if (name === "Serious Incident Report") {
+      comp = (
+        <SeriousIncidentReport
+          valuesSet="true"
+          userObj={this.props.userObj}
+          formData={this.props.formData}
+        />
+      );
+      route = "seriousIncidentReport";
     } else if (name === "Daily Activity") {
       comp = (
         <DailyProgress
