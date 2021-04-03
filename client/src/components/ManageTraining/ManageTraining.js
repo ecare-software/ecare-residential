@@ -29,6 +29,7 @@ const formModsApis = [
   "orientationTrainingMod",
   "preServiceTrainingMod",
   "firstAidCprTrainingMod",
+  "annualTrainingMod",
 ];
 
 const fetchTrainingMods = async (homeId) => {

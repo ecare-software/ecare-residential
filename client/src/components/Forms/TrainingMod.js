@@ -31,6 +31,9 @@ const postTraining = async (formId, data, formType) => {
     case "First aid CPR Training":
       subString = `firstAidCprTrainingMod`;
       break;
+    case "Annual Training":
+      subString = `annualTrainingMod`;
+      break;
     default:
       subString = `orientationTrainingMod`;
   }
@@ -78,7 +81,7 @@ const getHours = (rows) => {
       if (isNaN(rows[cur].hours)) {
         acc = acc + 0;
       } else {
-        acc = acc + parseInt(rows[cur].hours);
+        acc = acc + parseFloat(rows[cur].hours);
       }
     } catch (e) {
       console.log("error row is not populated");
