@@ -25,13 +25,18 @@ const SmallColRightTitle = styled.div`
   text-align: center;
 `;
 
+const formModsApis = [
+  "orientationTrainingMod",
+  "preServiceTrainingMod",
+  "firstAidCprTrainingMod",
+];
+
 const fetchTrainingMods = async (homeId) => {
   let promises = [];
 
-  //orientationTraining
-  promises.push(Axios.get(`/api/orientationTrainingMod/${homeId}`));
-  //preserviceTraining
-  promises.push(Axios.get(`/api/preServiceTrainingMod/${homeId}`));
+  formModsApis.forEach((pathname) => {
+    promises.push(Axios.get(`/api/${pathname}/${homeId}`));
+  });
 
   const data = await Promise.allSettled(promises);
 
@@ -136,12 +141,6 @@ const ManageTraining = ({
             doToggleTrainingDisplay={doToggleTrainingDisplay}
             data={selectedTraining}
           />
-          {/* <FaceSheet
-            valuesSet={isTrainingselected}
-            userObj={userObj}
-            id="facesheet"
-            formData={selectedTrainings}
-          /> */}
         </IfFulfilled>
       </div>
     );

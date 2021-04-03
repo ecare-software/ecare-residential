@@ -23,6 +23,7 @@ import AdmissionAssessment from "./components/Forms/AdmissionAssessment";
 import BodyCheck from "./components/Forms/BodyCheck";
 import OrientationTraining from "./components/Forms/OrientationTraining";
 import PreServiceTraining from "./components/Forms/PreServiceTraining";
+import FirstAidCprTraining from "./components/Forms/FirstAidCprTraining";
 import ManageAccountContainer from "./components/ManageAccount/ManageAccountContainer";
 import rightBody from "./images/right_body.png";
 import leftBody from "./images/left_body.png";
@@ -746,6 +747,17 @@ function ToggleScreen({
     );
   }
 
+  if (name === "First aid CPR Training") {
+    return (
+      <div>
+        <FirstAidCprTraining
+          userObj={appState.userObj}
+          allUsers={appState.allUsers}
+        />
+      </div>
+    );
+  }
+
   if (name === "Documents") {
     return (
       <div>
@@ -958,6 +970,20 @@ function DisplayExtra({
     );
   }
 
+  if (name === "First aid CPR Training") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv">
+          <p className="extraInfoNavSubTitle">
+            First Aid and CPR training is a course offered by a CPR/First Aid
+            certified instructor or at the American Red Cross within the first
+            ninety days of hiring.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   if (name === "Documents") {
     return (
       <div id="extraInfo">
@@ -988,9 +1014,7 @@ function DisplayExtra({
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          <p className="extraInfoNavSubTitle">
-            Diagnostic Admission Assessment
-          </p>
+          <p className="extraInfoNavSubTitle">Admission Assessment</p>
         </div>
       </div>
     );

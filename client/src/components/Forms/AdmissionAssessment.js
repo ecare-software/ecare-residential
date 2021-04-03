@@ -506,7 +506,7 @@ class AdmissionAssessment extends Component {
             <React.Fragment />
           )}
           <div className="formTitleDiv">
-            <h2 className="formTitle">Diagnostic Admission Assessment</h2>
+            <h2 className="formTitle">Admission Assessment</h2>
           </div>
           {this.state.loadingClients ? (
             <div className="formLoadingDiv">
