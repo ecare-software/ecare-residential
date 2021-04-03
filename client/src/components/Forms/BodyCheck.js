@@ -418,7 +418,7 @@ class BodyCheck extends Component {
                   defaultValue={null}
                   onChange={this.handleClientSelect}
                 >
-                  {[...this.state.clients, null].map(
+                  {[null, ...this.state.clients].map(
                     (client) => (
                       <ClientOption data={client} />
                     ),

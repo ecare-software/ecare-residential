@@ -137,6 +137,7 @@ export class FromReports extends Component {
     var formRequests = [
       Axios.get("/api/dailyProgressAndActivity/" + this.props.userObj.homeId),
       Axios.get("/api/incidentReport/" + this.props.userObj.homeId),
+      Axios.get("/api/seriousIncidentReport/" + this.props.userObj.homeId),
       Axios.get("/api/restraintReport/" + this.props.userObj.homeId),
       Axios.get("/api/treatmentPlans72/" + this.props.userObj.homeId),
       Axios.get("/api/illnessInjury/" + this.props.userObj.homeId),
@@ -177,6 +178,7 @@ export class FromReports extends Component {
     var formRequests = [
       Axios.get("/api/dailyProgressAndActivity/" + this.props.userObj.homeId),
       Axios.get("/api/incidentReport/" + this.props.userObj.homeId),
+      Axios.get("/api/seriousIncidentReport/" + this.props.userObj.homeId),
       Axios.get("/api/restraintReport/" + this.props.userObj.homeId),
       Axios.get("/api/treatmentPlans72/" + this.props.userObj.homeId),
       Axios.get("/api/illnessInjury/" + this.props.userObj.homeId),
@@ -284,6 +286,33 @@ export class FromReports extends Component {
           formRequests.push(
             Axios.get(
               "/api/incidentReport/" +
+                this.props.userObj.homeId +
+                "/" +
+                searchString +
+                "/" +
+                submittedAfter +
+                "/" +
+                submittedBefore +
+                "/" +
+                dobAfter +
+                "/" +
+                dobBefore +
+                "/" +
+                doaAfter +
+                "/" +
+                doaBefore +
+                "/" +
+                ethnicityA +
+                "/" +
+                submittedByA
+            )
+          );
+        }
+
+        if (formName === "Serious Incident Report") {
+          formRequests.push(
+            Axios.get(
+              "/api/seriousIncidentReport/" +
                 this.props.userObj.homeId +
                 "/" +
                 searchString +
@@ -462,6 +491,28 @@ export class FromReports extends Component {
         ),
         Axios.get(
           "/api/incidentReport/" +
+            this.props.userObj.homeId +
+            "/" +
+            searchString +
+            "/" +
+            submittedAfter +
+            "/" +
+            submittedBefore +
+            "/" +
+            dobAfter +
+            "/" +
+            dobBefore +
+            "/" +
+            doaAfter +
+            "/" +
+            doaBefore +
+            "/" +
+            ethnicityA +
+            "/" +
+            submittedByA
+        ),
+        Axios.get(
+          "/api/seriousIncidentReport/" +
             this.props.userObj.homeId +
             "/" +
             searchString +

@@ -12,6 +12,7 @@ const methodOverride = require("method-override");
 const users = require("./routes/api/users");
 const treatmentPlans72 = require("./routes/api/treatmentPlans72");
 const incidentReport = require("./routes/api/incidentReport");
+const seriousIncidentReport = require("./routes/api/seriousIncidentReport");
 const restraintReport = require("./routes/api/restraintReport");
 const dailyProgressAndActivity = require("./routes/api/dailyProgressAndActivity");
 const directMessages = require("./routes/api/directMessages");
@@ -70,6 +71,7 @@ app.get("/reports", (req, res) => {
 app.use("/api/users", users);
 app.use("/api/treatmentPlans72", treatmentPlans72);
 app.use("/api/incidentReport", incidentReport);
+app.use("/api/seriousIncidentReport", seriousIncidentReport);
 app.use("/api/restraintReport", restraintReport);
 app.use("/api/dailyProgressAndActivity", dailyProgressAndActivity);
 app.use("/api/directMessages", directMessages);
