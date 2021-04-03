@@ -383,7 +383,7 @@ class DailyProgressAndActivity extends Component {
               </div>
               <div className="form-group logInInputField">
                 {" "}
-                <label className="control-label">Table Mannders</label>{" "}
+                <label className="control-label">Table Manners</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
                   id="table_mannders"
@@ -857,7 +857,7 @@ class DailyProgressAndActivity extends Component {
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
-                  <label className="control-label">Table Mannders</label>{" "}
+                  <label className="control-label">Table Manners</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
                     value={this.state.table_mannders}
