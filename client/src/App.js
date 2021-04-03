@@ -7,6 +7,7 @@ import TreatmentPlan72 from "./components/Forms/TreatmentPlan72";
 import IncidentReport from "./components/Forms/IncidentReport";
 import RestraintReport from "./components/Forms/RestraintReport";
 import DailyProgress from "./components/Forms/DailyProgressAndActivity";
+import AnnualTraining from "./components/Forms/AnnualTraining";
 import MessageBoard from "./components/MessageBoard/MessageBoard";
 import Reports from "./components/Reports/ReportsContainer";
 import UserManagement from "./components/UserManagement/UserManagement";
@@ -825,6 +826,18 @@ function ToggleScreen({
     );
   }
 
+  if (name === "Annual Training") {
+    return (
+      <div>
+        <AnnualTraining
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="admissionAssessment"
+        />
+      </div>
+    );
+  }
+
   if (name === "bodyCheck") {
     return (
       <div>
@@ -1015,6 +1028,16 @@ function DisplayExtra({
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
           <p className="extraInfoNavSubTitle">Admission Assessment</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "Annual Training") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv">
+          <p className="extraInfoNavSubTitle">Annual Training</p>
         </div>
       </div>
     );

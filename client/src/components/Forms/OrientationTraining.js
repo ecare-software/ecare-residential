@@ -29,7 +29,7 @@ const fetchTrainingModal = async (homeId) => {
 const getHours = (rows) => {
   return Reflect.ownKeys(rows).reduce((acc, cur) => {
     try {
-      acc = acc + parseInt(rows[cur].hours);
+      acc = acc + parseFloat(rows[cur].hours);
     } catch (e) {
       console.log("error row is not populated");
       acc = acc + 0;
@@ -49,7 +49,7 @@ const getEditRowsModal = (obj) => {
   delete reducedObj._id;
 
   return Reflect.ownKeys(reducedObj).reduce((acc, cur) => {
-    const idx = cur.match(/\d/g)[0];
+    const idx = cur.match(/\d+/g)[0];
     if (!acc.hasOwnProperty(`T${idx}`)) {
       acc[`T${idx}`] = {
         title: "",

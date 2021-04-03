@@ -29,7 +29,7 @@ const fetchTrainingModal = async (homeId) => {
 const getHours = (rows) => {
   return Reflect.ownKeys(rows).reduce((acc, cur) => {
     try {
-      acc = acc + parseInt(rows[cur].hours);
+      acc = acc + parseFloat(rows[cur].hours);
     } catch (e) {
       console.log("error row is not populated");
       acc = acc + 0;
