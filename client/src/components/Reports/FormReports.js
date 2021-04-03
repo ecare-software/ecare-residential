@@ -9,6 +9,54 @@ function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
 }
 
+const getFilterText = (searchObj) => {
+  console.log(searchObj);
+  const filterA = Reflect.ownKeys(searchObj).reduce((acc, key) => {
+    if (searchObj[key] && searchObj[key].length > 0) {
+      switch (key) {
+        case "doaAfter":
+          acc.unshift(`Date of admission After ${searchObj[key]}`);
+          return acc;
+        case "doaBefore":
+          searchObj["doaAfter"]
+            ? acc.unshift(` and Before ${searchObj[key]}`)
+            : acc.unshift(`Date of admission Before ${searchObj[key]}`);
+          return acc;
+        case "dobAfter":
+          acc.unshift(`Date of birth After ${searchObj[key]}`);
+          return acc;
+        case "dobBefore":
+          searchObj["dobAfter"]
+            ? acc.unshift(` and Before ${searchObj[key]}`)
+            : acc.unshift(`Date of birth Before ${searchObj[key]}`);
+          return;
+        case "ethnicityA":
+          acc.unshift(`Ethnicity - ${searchObj[key].join(", ")}`);
+          return acc;
+        case "submittedAfter":
+          acc.unshift(`Submitted After - ${searchObj[key]}`);
+          return acc;
+        case "submittedBefore":
+          searchObj["submittedAfter"]
+            ? acc.unshift(` and Before ${searchObj[key]}`)
+            : acc.unshift(`Submitted Before ${searchObj[key]}`);
+          return acc;
+        case "submittedByA":
+          acc.unshift(`Submitted By - ${searchObj[key].join(", ")}`);
+          return acc;
+        case "submittedForms":
+          acc.unshift(`Forms - ${searchObj[key].join(", ")}`);
+          return acc;
+        default:
+          return acc;
+      }
+    } else {
+      return acc;
+    }
+  }, []);
+  return filterA.length > 0 ? filterA : ["No filters selected"];
+};
+
 export class FromReports extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +68,7 @@ export class FromReports extends Component {
       barChartData: [],
       pieChartData: [],
       chartsReady: false,
-      searchObj: "",
+      searchObj: {},
       formNames: [],
       formNamesReady: false,
       adminReportingRoles: [
@@ -146,7 +194,6 @@ export class FromReports extends Component {
     ];
 
     Axios.all(formRequests).then((results) => {
-      console.log(results);
       this.setFormsData(results);
       this.setState({ doReset: false });
     });
@@ -223,8 +270,6 @@ export class FromReports extends Component {
         ? "none"
         : searchObj.submittedByA.join(",");
     var formRequests = [];
-
-    console.log(searchObj.submittedForms);
 
     if (searchObj.submittedForms.length > 0) {
       searchObj.submittedForms.forEach((formName) => {
@@ -661,21 +706,23 @@ export class FromReports extends Component {
                   justifyContent: "space-evenly",
                 }}
               >
-                <button
-                  onClick={this.props.resetReports}
-                  className="btn btn-link"
-                >
-                  <span className="fa fa-undo"></span> Show all Reports
-                </button>
+                {Reflect.ownKeys(this.state.selectedUserForm).length === 0 && (
+                  <button
+                    onClick={this.props.resetReports}
+                    className="btn btn-link"
+                  >
+                    <span className="fa fa-backspace"></span> Show all Reports
+                  </button>
+                )}
                 {Reflect.ownKeys(this.state.selectedUserForm).length === 0 && (
                   <button className="btn btn-link" onClick={this.toggleFilters}>
                     {this.state.doShowFilters ? (
                       <span>
-                        <span className="fa fa-minus"></span> Hide Filters
+                        <span className="fa fa-undo"></span> Hide Filters
                       </span>
                     ) : (
                       <span>
-                        <span className="fa fa-plus"></span> Show Filters
+                        <span className="fa fa-filter"></span> Show Filters
                       </span>
                     )}
                   </button>
@@ -696,7 +743,7 @@ export class FromReports extends Component {
                     )}
                     className="btn btn-link"
                   >
-                    <span className="fa fa-undo"></span> Show All Form Reports
+                    <span className="fa fa-backspace"></span> Back
                   </button>
                 )}
               </div>
@@ -716,9 +763,25 @@ export class FromReports extends Component {
             />
           </div>
         </Collapse>
+        {this.state.doShowFilters === false && (
+          <div className="row" style={{ padding: "10px 50px" }}>
+            <div className="col-md-12">
+              <p className="mainFont MessagePostUser">
+                <span className="fa fa-filter"></span> Filters
+              </p>
+            </div>
+            <div className="col-md-12">
+              {getFilterText(this.state.searchObj).map((filter) => (
+                <p>
+                  <i>{filter}</i>
+                </p>
+              ))}
+            </div>
+          </div>
+        )}
         {this.state.doShowFilters === false ? (
           <div className="row" style={{ paddingBottom: "100px" }}>
-            <div style={{ marginTop: "75px" }} className="col-md-12">
+            <div style={{ marginTop: "20px" }} className="col-md-12">
               <div
                 className={
                   Object.keys(this.state.selectedUserForm).length > 0

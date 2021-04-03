@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./ReportsContainer.css";
 
 import { FromReports } from "./FormReports";
 import { TrainingReports } from "./TrainingReports";
@@ -42,7 +43,7 @@ class ReportsContainer extends Component {
                   }}
                 >
                   <button
-                    className="btn btn-link font-weight-bold"
+                    className="btn btn-light extraInfoButton"
                     onClick={() => {
                       this.showFormReports();
                     }}
@@ -60,7 +61,7 @@ class ReportsContainer extends Component {
                   }}
                 >
                   <button
-                    className="btn btn-link font-weight-bold"
+                    className="btn btn-light extraInfoButton"
                     onClick={() => {
                       this.showTrainingReports();
                     }}
