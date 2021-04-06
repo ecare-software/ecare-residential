@@ -7,6 +7,15 @@ import { TrainingReports } from "./TrainingReports";
 function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
 }
+const adminReportingRoles = [
+  "Admin",
+  "Owner/CEO",
+  "Executive/Director",
+  "Administrator",
+  "Case/Manager",
+  "Supervisor",
+];
+
 class ReportsContainer extends Component {
   constructor(props) {
     super(props);
@@ -52,24 +61,26 @@ class ReportsContainer extends Component {
                   </button>
                 </div>
               </h2>
-              <h2 className="formTitle">
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "space-evenly",
-                  }}
-                >
-                  <button
-                    className="btn btn-light extraInfoButton"
-                    onClick={() => {
-                      this.showTrainingReports();
+              {adminReportingRoles.includes(this.props.userObj.jobTitle) && (
+                <h2 className="formTitle">
+                  <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "space-evenly",
                     }}
                   >
-                    Internal Trainings
-                  </button>
-                </div>
-              </h2>
+                    <button
+                      className="btn btn-light extraInfoButton"
+                      onClick={() => {
+                        this.showTrainingReports();
+                      }}
+                    >
+                      Internal Trainings
+                    </button>
+                  </div>
+                </h2>
+              )}
             </div>
           </div>
           <div className="reportBtnsMobile"></div>
