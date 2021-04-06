@@ -6,6 +6,7 @@ import Axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import ModalBody from "react-bootstrap/ModalBody";
 import ModalHeader from "react-bootstrap/ModalHeader";
+import ClipLoader from "react-spinners/ClipLoader";
 
 class Documents extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class Documents extends Component {
         "Case/Manager",
         "Supervisor",
       ],
+      loading: true,
     };
   }
 
@@ -35,7 +37,6 @@ class Documents extends Component {
   };
 
   uploadImage = (e, method, user, fileName) => {
-    let imageObj = {};
     if (method === "multer") {
       let imageFormObj = new FormData();
       imageFormObj.append("imageName", fileName.replace(/\s+/g, "_"));
@@ -47,7 +48,6 @@ class Documents extends Component {
 
         .then((data) => {
           if (data.data.success) {
-            console.log(data.data);
             this.setState({ ...this.state, showUploadModal: false });
             this.getDocuments();
           }
@@ -65,8 +65,11 @@ class Documents extends Component {
       const imagesReq = await Axios.get(
         `/api/uploadDocument/${this.props.userObj.homeId}`
       );
-      console.log(imagesReq.data);
-      this.setState({ ...this.state, documents: imagesReq.data });
+      this.setState({
+        ...this.state,
+        loading: false,
+        documents: imagesReq.data,
+      });
     } catch (e) {
       alert("Error fetching images");
     }
@@ -89,7 +92,6 @@ class Documents extends Component {
       }
       return window.btoa(binary);
     }
-    console.log(selectedFile[0]);
     const base64Flag = `data:${selectedFile[0].img.contentType};base64,`;
     const url =
       base64Flag + _arrayBufferToBase64(selectedFile[0].img.data.data);
@@ -174,24 +176,35 @@ class Documents extends Component {
             </div>
           </Modal>
         </div>
-        <div className="documentsListContainer">
-          <ListGroup>
-            {this.state.documents &&
-              this.state.documents.map((doc) => (
-                <Document
-                  data={doc}
-                  id={doc._id}
-                  key={doc._id}
-                  download={this.download}
-                  getUserName={this.getUserName}
-                  isAdminRole={this.state.adminReportingRoles.includes(
-                    this.props.userObj.jobTitle
-                  )}
-                  userObj={this.props.userObj}
-                />
-              ))}
-          </ListGroup>
-        </div>
+
+        {this.state.loading ? (
+          <div className="formLoadingDiv">
+            <div>
+              <ClipLoader className="formSpinner" size={50} color={"#ffc107"} />
+            </div>
+
+            <p>Loading...</p>
+          </div>
+        ) : (
+          <div className="documentsListContainer">
+            <ListGroup>
+              {this.state.documents &&
+                this.state.documents.map((doc) => (
+                  <Document
+                    data={doc}
+                    id={doc._id}
+                    key={doc._id}
+                    download={this.download}
+                    getUserName={this.getUserName}
+                    isAdminRole={this.state.adminReportingRoles.includes(
+                      this.props.userObj.jobTitle
+                    )}
+                    userObj={this.props.userObj}
+                  />
+                ))}
+            </ListGroup>
+          </div>
+        )}
       </div>
     );
   }
