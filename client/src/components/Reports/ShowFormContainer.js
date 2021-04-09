@@ -29,7 +29,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
       return `Approved by ${approvedByText}`;
     } else {
       if (isAdminRole) {
-        return "Approve form submission";
+        return "Needs Approval";
       } else {
         return "Form not yet approved";
       }
@@ -81,6 +81,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
               <Form.Check
                 type="checkbox"
                 id="autoSizingCheck"
+                style={{ color: isApproved ? "green" : "red" }}
                 className="mb-2 d-flex align-items-center"
                 label={setApprovedLabel(isApproved)}
                 disabled={!isAdminRole}
