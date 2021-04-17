@@ -4,15 +4,18 @@ import FormListContainer from "../Forms/FormListContainer";
 import SearchContainer from "./SearchContainer";
 import ShowFormContainer from "./ShowFormContainer";
 import { Collapse } from "react-bootstrap";
+import ClipLoader from "react-spinners/ClipLoader";
 
 function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
 }
 
 const getFilterText = (searchObj) => {
-  console.log(searchObj);
   const filterA = Reflect.ownKeys(searchObj).reduce((acc, key) => {
-    if (searchObj[key] && searchObj[key].length > 0) {
+    if (
+      (searchObj[key] && searchObj[key].length > 0) ||
+      typeof searchObj[key] === "boolean"
+    ) {
       switch (key) {
         case "doaAfter":
           acc.unshift(`Date of admission After ${searchObj[key]}`);
@@ -39,13 +42,23 @@ const getFilterText = (searchObj) => {
         case "submittedBefore":
           searchObj["submittedAfter"]
             ? acc.unshift(` and Before ${searchObj[key]}`)
-            : acc.unshift(`Submitted Before ${searchObj[key]}`);
+            : acc.unshift(`Submitted Before - ${searchObj[key]}`);
           return acc;
         case "submittedByA":
           acc.unshift(`Submitted By - ${searchObj[key].join(", ")}`);
           return acc;
         case "submittedForms":
           acc.unshift(`Forms - ${searchObj[key].join(", ")}`);
+          return acc;
+        case "searchString":
+          acc.unshift(`Client Name - ${searchObj[key]}`);
+          return acc;
+        case "approved":
+          searchObj[key] !== "null"
+            ? searchObj[key] === true || searchObj[key] === "true"
+              ? acc.unshift(`Approved Forms`)
+              : acc.unshift(`Not Approved Forms`)
+            : acc.unshift(`Both Approved and Non-Approved Forms`);
           return acc;
         default:
           return acc;
@@ -68,7 +81,19 @@ export class FromReports extends Component {
       barChartData: [],
       pieChartData: [],
       chartsReady: false,
-      searchObj: {},
+      searchObj: {
+        approved: true,
+        searchString: "",
+        submittedAfter: "",
+        submittedBefore: "",
+        dobAfter: "",
+        dobBefore: "",
+        doaAfter: "",
+        doaBefore: "",
+        ethnicityA: [],
+        submittedByA: [],
+        submittedForms: [],
+      },
       formNames: [],
       formNamesReady: false,
       adminReportingRoles: [
@@ -84,12 +109,13 @@ export class FromReports extends Component {
       allUsers: [],
       showForms: false,
       showTrainings: false,
+      isLoading: true,
     };
   }
 
   setSelectedForm = (formIndex) => {
     if (formIndex > -1) {
-      var formSubmitters = this.state.forms[formIndex].forms
+      this.state.forms[formIndex].forms
         .map((forms) => {
           return forms.createdByName;
         })
@@ -103,6 +129,13 @@ export class FromReports extends Component {
         this.setState({ selectedUserForm: {} });
       });
     }
+  };
+
+  toggleApprovedFilter = () => {
+    const { approved } = this.state.searchObj;
+    this.setState({
+      searchObj: { ...this.state.searchObj, approved: !approved },
+    });
   };
 
   setSelectedUser = (userIndex) => {
@@ -176,6 +209,7 @@ export class FromReports extends Component {
         this.setState({ forms: startFormsState });
         this.setState({ barChartData: startBarChartData });
         this.setState({ chartsReady: true });
+        this.setState({ isLoading: false });
       }
     });
   };
@@ -183,14 +217,46 @@ export class FromReports extends Component {
   getForms = () => {
     this.flushFormStateData();
     var formRequests = [
-      Axios.get("/api/dailyProgressAndActivity/" + this.props.userObj.homeId),
-      Axios.get("/api/incidentReport/" + this.props.userObj.homeId),
-      Axios.get("/api/seriousIncidentReport/" + this.props.userObj.homeId),
-      Axios.get("/api/restraintReport/" + this.props.userObj.homeId),
-      Axios.get("/api/treatmentPlans72/" + this.props.userObj.homeId),
-      Axios.get("/api/illnessInjury/" + this.props.userObj.homeId),
-      Axios.get("/api/admissionAssessment/" + this.props.userObj.homeId),
-      Axios.get("/api/bodyCheck/" + this.props.userObj.homeId),
+      Axios.get(
+        "/api/dailyProgressAndActivity/" +
+          this.props.userObj.homeId +
+          "/none/none/none/none/none/none/none/none/none/true"
+      ),
+      Axios.get(
+        "/api/incidentReport/" +
+          this.props.userObj.homeId +
+          "/none/none/none/none/none/none/none/none/none/true"
+      ),
+      Axios.get(
+        "/api/seriousIncidentReport/" +
+          this.props.userObj.homeId +
+          "/none/none/none/none/none/none/none/none/none/true"
+      ),
+      Axios.get(
+        "/api/restraintReport/" +
+          this.props.userObj.homeId +
+          "/none/none/none/none/none/none/none/none/none/true"
+      ),
+      Axios.get(
+        "/api/treatmentPlans72/" +
+          this.props.userObj.homeId +
+          "/none/none/none/none/none/none/none/none/none/true"
+      ),
+      Axios.get(
+        "/api/illnessInjury/" +
+          this.props.userObj.homeId +
+          "/none/none/none/none/none/none/none/none/none/true"
+      ),
+      Axios.get(
+        "/api/admissionAssessment/" +
+          this.props.userObj.homeId +
+          "/none/none/none/none/none/none/none/none/none/true"
+      ),
+      Axios.get(
+        "/api/bodyCheck/" +
+          this.props.userObj.homeId +
+          "/none/none/none/none/none/none/none/none/none/true"
+      ),
     ];
 
     Axios.all(formRequests).then((results) => {
@@ -204,7 +270,9 @@ export class FromReports extends Component {
   selectedUserFormToggle = (searchObj) => {
     if (Object.keys(searchObj).length > 0) {
       this.setState({
+        ...this.state,
         doShowFilters: false,
+        isLoading: true,
       });
       this.runSearch(searchObj);
       return;
@@ -220,17 +288,50 @@ export class FromReports extends Component {
       searchString: "",
       doReset: true,
       doShowFilters: false,
+      isLoading: true,
     });
 
     var formRequests = [
-      Axios.get("/api/dailyProgressAndActivity/" + this.props.userObj.homeId),
-      Axios.get("/api/incidentReport/" + this.props.userObj.homeId),
-      Axios.get("/api/seriousIncidentReport/" + this.props.userObj.homeId),
-      Axios.get("/api/restraintReport/" + this.props.userObj.homeId),
-      Axios.get("/api/treatmentPlans72/" + this.props.userObj.homeId),
-      Axios.get("/api/illnessInjury/" + this.props.userObj.homeId),
-      Axios.get("/api/admissionAssessment/" + this.props.userObj.homeId),
-      Axios.get("/api/bodyCheck/" + this.props.userObj.homeId),
+      Axios.get(
+        "/api/dailyProgressAndActivity/" +
+          this.props.userObj.homeId +
+          "/none/none/none/none/none/none/none/none/none/true"
+      ),
+      Axios.get(
+        "/api/incidentReport/" +
+          this.props.userObj.homeId +
+          "/none/none/none/none/none/none/none/none/none/true"
+      ),
+      Axios.get(
+        "/api/seriousIncidentReport/" +
+          this.props.userObj.homeId +
+          "/none/none/none/none/none/none/none/none/none/true"
+      ),
+      Axios.get(
+        "/api/restraintReport/" +
+          this.props.userObj.homeId +
+          "/none/none/none/none/none/none/none/none/none/true"
+      ),
+      Axios.get(
+        "/api/treatmentPlans72/" +
+          this.props.userObj.homeId +
+          "/none/none/none/none/none/none/none/none/none/true"
+      ),
+      Axios.get(
+        "/api/illnessInjury/" +
+          this.props.userObj.homeId +
+          "/none/none/none/none/none/none/none/none/none/true"
+      ),
+      Axios.get(
+        "/api/admissionAssessment/" +
+          this.props.userObj.homeId +
+          "/none/none/none/none/none/none/none/none/none/true"
+      ),
+      Axios.get(
+        "/api/bodyCheck/" +
+          this.props.userObj.homeId +
+          "/none/none/none/none/none/none/none/none/none/true"
+      ),
     ];
 
     Axios.all(formRequests).then((results) => {
@@ -249,6 +350,8 @@ export class FromReports extends Component {
   runSearch = (searchObj) => {
     this.flushFormStateData();
     this.setState({ searchObj: searchObj });
+
+    var approved = searchObj.approved;
     var searchString =
       searchObj.searchString.length === 0 || /^\s+/.test(searchObj.searchString)
         ? "none"
@@ -295,12 +398,14 @@ export class FromReports extends Component {
                 "/" +
                 ethnicityA +
                 "/" +
-                submittedByA
+                submittedByA +
+                "/" +
+                approved
             )
           );
         }
 
-        if (formName === "Body Check") {
+        if (formName === "Health Body Check") {
           formRequests.push(
             Axios.get(
               "/api/bodyCheck/" +
@@ -322,7 +427,9 @@ export class FromReports extends Component {
                 "/" +
                 ethnicityA +
                 "/" +
-                submittedByA
+                submittedByA +
+                "/" +
+                approved
             )
           );
         }
@@ -349,7 +456,9 @@ export class FromReports extends Component {
                 "/" +
                 ethnicityA +
                 "/" +
-                submittedByA
+                submittedByA +
+                "/" +
+                approved
             )
           );
         }
@@ -376,7 +485,9 @@ export class FromReports extends Component {
                 "/" +
                 ethnicityA +
                 "/" +
-                submittedByA
+                submittedByA +
+                "/" +
+                approved
             )
           );
         }
@@ -403,7 +514,9 @@ export class FromReports extends Component {
                 "/" +
                 ethnicityA +
                 "/" +
-                submittedByA
+                submittedByA +
+                "/" +
+                approved
             )
           );
         }
@@ -430,7 +543,9 @@ export class FromReports extends Component {
                 "/" +
                 ethnicityA +
                 "/" +
-                submittedByA
+                submittedByA +
+                "/" +
+                approved
             )
           );
         }
@@ -456,7 +571,9 @@ export class FromReports extends Component {
                 "/" +
                 ethnicityA +
                 "/" +
-                submittedByA
+                submittedByA +
+                "/" +
+                approved
             )
           );
         }
@@ -482,7 +599,9 @@ export class FromReports extends Component {
                 "/" +
                 ethnicityA +
                 "/" +
-                submittedByA
+                submittedByA +
+                "/" +
+                approved
             )
           );
         }
@@ -510,7 +629,9 @@ export class FromReports extends Component {
             "/" +
             ethnicityA +
             "/" +
-            submittedByA
+            submittedByA +
+            "/" +
+            approved
         ),
         Axios.get(
           "/api/bodyCheck/" +
@@ -532,7 +653,9 @@ export class FromReports extends Component {
             "/" +
             ethnicityA +
             "/" +
-            submittedByA
+            submittedByA +
+            "/" +
+            approved
         ),
         Axios.get(
           "/api/incidentReport/" +
@@ -554,7 +677,9 @@ export class FromReports extends Component {
             "/" +
             ethnicityA +
             "/" +
-            submittedByA
+            submittedByA +
+            "/" +
+            approved
         ),
         Axios.get(
           "/api/seriousIncidentReport/" +
@@ -576,7 +701,9 @@ export class FromReports extends Component {
             "/" +
             ethnicityA +
             "/" +
-            submittedByA
+            submittedByA +
+            "/" +
+            approved
         ),
         Axios.get(
           "/api/admissionAssessment/" +
@@ -598,7 +725,9 @@ export class FromReports extends Component {
             "/" +
             ethnicityA +
             "/" +
-            submittedByA
+            submittedByA +
+            "/" +
+            approved
         ),
         Axios.get(
           "/api/restraintReport/" +
@@ -620,7 +749,9 @@ export class FromReports extends Component {
             "/" +
             ethnicityA +
             "/" +
-            submittedByA
+            submittedByA +
+            "/" +
+            approved
         ),
         Axios.get(
           "/api/treatmentPlans72/" +
@@ -642,7 +773,9 @@ export class FromReports extends Component {
             "/" +
             ethnicityA +
             "/" +
-            submittedByA
+            submittedByA +
+            "/" +
+            approved
         ),
 
         Axios.get(
@@ -665,7 +798,9 @@ export class FromReports extends Component {
             "/" +
             ethnicityA +
             "/" +
-            submittedByA
+            submittedByA +
+            "/" +
+            approved
         )
       );
     }
@@ -760,6 +895,7 @@ export class FromReports extends Component {
               doShowSubmittedBy={this.state.adminReportingRoles.includes(
                 this.props.userObj.jobTitle
               )}
+              userObj={this.props.userObj}
             />
           </div>
         </Collapse>
@@ -779,7 +915,15 @@ export class FromReports extends Component {
             </div>
           </div>
         )}
-        {this.state.doShowFilters === false ? (
+        {this.state.isLoading ? (
+          <div className="formLoadingDiv">
+            <div>
+              <ClipLoader className="formSpinner" size={50} color={"#ffc107"} />
+            </div>
+
+            <p>Loading...</p>
+          </div>
+        ) : this.state.doShowFilters === false ? (
           <div className="row" style={{ paddingBottom: "100px" }}>
             <div style={{ marginTop: "20px" }} className="col-md-12">
               <div

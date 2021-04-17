@@ -56,7 +56,8 @@ router.get(
     "/:childDOBAfter/:childDOBBefore" +
     "/:childDOAAfter/:childDOABefore" +
     "/:ethnicityA" +
-    "/:submittedByA",
+    "/:submittedByA" +
+    "/:approved",
   (req, res) => {
     var findObj = {
       homeId: req.params.homeId,
@@ -113,6 +114,10 @@ router.get(
     // submitted by
     if (req.params.submittedByA !== "none") {
       findObj.createdBy = req.params.submittedByA;
+    }
+
+    if (req.params.approved !== "null") {
+      findObj.approved = req.params.approved;
     }
 
     IllnessInjury.find(findObj)
