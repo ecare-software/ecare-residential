@@ -39,22 +39,19 @@ const hideStyle = {
 
 const cookies = new Cookies();
 
+const adminReportingRoles = [
+  "Admin",
+  "Owner/CEO",
+  "Executive/Director",
+  "Administrator",
+  "Case/Manager",
+  "Supervisor",
+];
+
 class App extends Component {
   state = {
     loggedIn: false,
-    userObj: {
-      // email: "demarcuskennedy95@gmail.com",
-      // firstName: "DeMarcus",
-      // homeId: "home-1234",
-      // isAdmin: true,
-      // jobTitle: "Admin",
-      // lastLogIn: "2019-08-26T03:22:28.424Z",
-      // lastName: "Kennedy",
-      // newUser: true,
-      // password: "xyz123",
-      // __v: 0,
-      // _id: "5d63507799ac0b1494149479",
-    },
+    userObj: {},
     messagesInitLoad: false,
     allUsersSet: false,
     errorModalMeta: {
@@ -63,21 +60,7 @@ class App extends Component {
     },
     doDisplay: "Dashboard",
     discussionMessages: [],
-    allUsers: [
-      // {
-      //   email: "demarcuskennedy95@gmail.com",
-      //   firstName: "DeMarcus",
-      //   homeId: "home-1234",
-      //   isAdmin: true,
-      //   jobTitle: "Admin",
-      //   lastLogIn: "2019-08-26T03:22:28.424Z",
-      //   lastName: "Kennedy",
-      //   newUser: true,
-      //   password: "xyz123",
-      //   __v: 0,
-      //   _id: "5d63507799ac0b1494149479",
-      // },
-    ],
+    allUsers: [],
     showLearnMore: false,
     name: "",
     organization: "",
@@ -87,148 +70,7 @@ class App extends Component {
     blockCompUpdates: false,
     toUserSelected: null,
     dmMessage: "",
-    messages: [
-      // {
-      //   _id: "5fa4702f61d127037b7a2062",
-      //   toObj: {
-      //     lastLogIn: "2020-11-05T21:28:31.095Z",
-      //     isAdmin: true,
-      //     newUser: false,
-      //     _id: "5d63507799ac0b1494149479",
-      //     firstName: "DeMarcus",
-      //     lastName: "Kennedy",
-      //     email: "demarcuskennedy95@gmail.com",
-      //     password: "1234",
-      //     homeId: "home-1234",
-      //     jobTitle: "Admin",
-      //     __v: 0,
-      //   },
-      //   fromObj: {
-      //     lastLogIn: "2020-11-05T21:35:35.417Z",
-      //     isAdmin: false,
-      //     newUser: false,
-      //     _id: "5d728d6a430b9f8536ac3381",
-      //     firstName: "Yanira",
-      //     middleName: "1",
-      //     lastName: "Durant",
-      //     email: "ya",
-      //     password: "11",
-      //     homeId: "home-1234",
-      //     jobTitle: "Owner/CEO",
-      //     __v: 0,
-      //   },
-      //   toID: "demarcuskennedy95@gmail.com",
-      //   fromID: "ya",
-      //   message: "Hello there",
-      //   date: "2020-11-05T21:35:43.400Z",
-      //   __v: 0,
-      // },
-      // {
-      //   _id: "5fa4747d18291707ad592ad8",
-      //   toObj: {
-      //     lastLogIn: "2020-11-05T21:35:58.665Z",
-      //     isAdmin: true,
-      //     newUser: false,
-      //     _id: "5d63507799ac0b1494149479",
-      //     firstName: "DeMarcus",
-      //     lastName: "Kennedy",
-      //     email: "demarcuskennedy95@gmail.com",
-      //     password: "1234",
-      //     homeId: "home-1234",
-      //     jobTitle: "Admin",
-      //     __v: 0,
-      //   },
-      //   fromObj: {
-      //     lastLogIn: "2020-11-05T21:53:51.942Z",
-      //     isAdmin: false,
-      //     newUser: false,
-      //     _id: "5d728d6a430b9f8536ac3381",
-      //     firstName: "Yanira",
-      //     middleName: "1",
-      //     lastName: "Durant",
-      //     email: "ya",
-      //     password: "11",
-      //     homeId: "home-1234",
-      //     jobTitle: "Owner/CEO",
-      //     __v: 0,
-      //   },
-      //   toID: "demarcuskennedy95@gmail.com",
-      //   fromID: "ya",
-      //   message: "Whats good whats gooooooooood",
-      //   date: "2020-11-05T21:54:05.916Z",
-      //   __v: 0,
-      // },
-      // {
-      //   _id: "5fa4749f18291707ad592ad9",
-      //   toObj: {
-      //     lastLogIn: "2020-11-05T21:35:58.665Z",
-      //     isAdmin: true,
-      //     newUser: false,
-      //     _id: "5d63507799ac0b1494149479",
-      //     firstName: "DeMarcus",
-      //     lastName: "Kennedy",
-      //     email: "demarcuskennedy95@gmail.com",
-      //     password: "1234",
-      //     homeId: "home-1234",
-      //     jobTitle: "Admin",
-      //     __v: 0,
-      //   },
-      //   fromObj: {
-      //     lastLogIn: "2020-11-05T21:53:51.942Z",
-      //     isAdmin: false,
-      //     newUser: false,
-      //     _id: "5d728d6a430b9f8536ac3381",
-      //     firstName: "Yanira",
-      //     middleName: "1",
-      //     lastName: "Durant",
-      //     email: "ya",
-      //     password: "11",
-      //     homeId: "home-1234",
-      //     jobTitle: "Owner/CEO",
-      //     __v: 0,
-      //   },
-      //   toID: "demarcuskennedy95@gmail.com",
-      //   fromID: "ya",
-      //   message: "Another test",
-      //   date: "2020-11-05T21:54:39.807Z",
-      //   __v: 0,
-      // },
-      // {
-      //   _id: "5fa474ad18291707ad592ada",
-      //   toObj: {
-      //     lastLogIn: "2020-11-05T21:35:58.665Z",
-      //     isAdmin: true,
-      //     newUser: false,
-      //     _id: "5d63507799ac0b1494149479",
-      //     firstName: "DeMarcus",
-      //     lastName: "Kennedy",
-      //     email: "demarcuskennedy95@gmail.com",
-      //     password: "1234",
-      //     homeId: "home-1234",
-      //     jobTitle: "Admin",
-      //     __v: 0,
-      //   },
-      //   fromObj: {
-      //     lastLogIn: "2020-11-05T21:53:51.942Z",
-      //     isAdmin: false,
-      //     newUser: false,
-      //     _id: "5d728d6a430b9f8536ac3381",
-      //     firstName: "Yanira",
-      //     middleName: "1",
-      //     lastName: "Durant",
-      //     email: "ya",
-      //     password: "11",
-      //     homeId: "home-1234",
-      //     jobTitle: "Owner/CEO",
-      //     __v: 0,
-      //   },
-      //   toID: "demarcuskennedy95@gmail.com",
-      //   fromID: "ya",
-      //   message: "last test",
-      //   date: "2020-11-05T21:54:53.715Z",
-      //   __v: 0,
-      // },
-    ],
+    messages: [],
     discussionMessagesLoading: false,
     showUploadModal: false,
     showClients: true,
@@ -578,7 +420,16 @@ class App extends Component {
               </div>
             </div>
           )}
-          {/* <UserActions/> */}
+          <div style={{ position: "fixed", left: "90vw", top: "85vh" }}>
+            <button
+              className="btn btn-light extraInfoButton"
+              onClick={() => {
+                if (window.scrollY) window.scrollTo(0, 0);
+              }}
+            >
+              <i className="fa fa-arrow-up"></i>
+            </button>
+          </div>
         </div>
       );
     } else {
@@ -722,6 +573,7 @@ function ToggleScreen({
           messages={appState.discussionMessages}
           appendMessage={appendMessage}
           toggleDisplay={toggleDisplay}
+          userObj={appState.userObj}
         />
       </div>
     );
@@ -1160,15 +1012,17 @@ function DisplayExtra({
           </p>
         </div>
         <div className="extraInfoButtonDiv">
-          <button
-            onClick={() => {
-              document.getElementById("messageText").focus();
-              scrollTop();
-            }}
-            className="btn btn-light extraInfoButton"
-          >
-            Write Dashboard Message
-          </button>
+          {adminReportingRoles.includes(userObj.jobTitle) && (
+            <button
+              onClick={() => {
+                document.getElementById("messageText").focus();
+                scrollTop();
+              }}
+              className="btn btn-light extraInfoButton"
+            >
+              Write Dashboard Message
+            </button>
+          )}
           <button
             onClick={() => {
               document.querySelector(".Direct-Message-nav").click();

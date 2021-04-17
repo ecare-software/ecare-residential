@@ -252,6 +252,10 @@ body {
   margin: 15px 65px 15px 65px;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* desktop */
 @media only screen and (min-width: 1226px) {
   .mobileLearnMore {

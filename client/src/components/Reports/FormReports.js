@@ -161,6 +161,8 @@ export class FromReports extends Component {
       chartsReady: false,
       searchString: "",
       doReset: true,
+      isLoading: true,
+      doShowFilters: false,
     });
   };
 
@@ -343,7 +345,6 @@ export class FromReports extends Component {
   };
 
   runSearchClick = () => {
-    this.setState({ doShowFilters: false });
     document.getElementById("searchBtn").click();
   };
 
@@ -923,7 +924,7 @@ export class FromReports extends Component {
 
             <p>Loading...</p>
           </div>
-        ) : this.state.doShowFilters === false ? (
+        ) : this.state.doShowFilters === false && !this.state.isLoading ? (
           <div className="row" style={{ paddingBottom: "100px" }}>
             <div style={{ marginTop: "20px" }} className="col-md-12">
               <div
@@ -966,7 +967,13 @@ export class FromReports extends Component {
             </div>
           </div>
         ) : (
-          <React.Fragment />
+          <div className="formLoadingDiv">
+            <div>
+              <ClipLoader className="formSpinner" size={50} color={"#ffc107"} />
+            </div>
+
+            <p>Loading...</p>
+          </div>
         )}
       </div>
     );
