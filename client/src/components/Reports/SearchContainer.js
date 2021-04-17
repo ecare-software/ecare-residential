@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import ClientOption from "../../utils/ClientOption.util";
+import Axios from "axios";
+import { Form } from "react-bootstrap";
 
 class SearchContainer extends Component {
   constructor(props) {
@@ -14,6 +17,9 @@ class SearchContainer extends Component {
       doaBefore: "",
       doaAfter: "",
       ethnicityA: [],
+      approved: true,
+      clients: [],
+      loadingClients: true,
     };
     this.ethnicities = [
       {
@@ -39,15 +45,50 @@ class SearchContainer extends Component {
     ];
   }
 
-  toggleSubmittedBy = (event) => {
-    if (event.target.value === "Any") {
-      this.setState({ submittedByA: [] });
-    } else {
-      this.setState({ submittedByA: [event.target.value] });
+  getClients = async () => {
+    try {
+      let { data: clients } = await Axios.get(
+        `/api/client/${this.props.userObj.homeId}`
+      );
+      setTimeout(() => {
+        this.setState({
+          ...this.state,
+          clients,
+          loadingClients: !this.state.loadingClients,
+        });
+      }, 2000);
+    } catch (e) {
+      console.log(e);
+      alert("Error loading clients");
     }
-    setTimeout(() => {
-      this.callRunSearch(this.state);
-    });
+  };
+
+  handleClientSelect = async (event) => {
+    try {
+      await this.setState({
+        ...this.state,
+        searchString: JSON.parse(event.target.value).childMeta_name,
+      });
+    } catch (e) {
+      await this.setState({
+        ...this.state,
+        searchString: "",
+      });
+    }
+  };
+
+  toggleSubmittedBy = async (event) => {
+    if (event.target.value === "Any") {
+      await this.setState({ submittedByA: [] });
+    } else {
+      await this.setState({ submittedByA: [event.target.value] });
+    }
+
+    this.callRunSearch(this.state);
+  };
+
+  toggleApproval = (event) => {
+    this.setState({ approved: event.target.value });
   };
 
   handleFieldInput = (event) => {
@@ -95,6 +136,10 @@ class SearchContainer extends Component {
     }
   };
 
+  componentDidMount() {
+    this.getClients();
+  }
+
   render() {
     return (
       <div
@@ -109,29 +154,29 @@ class SearchContainer extends Component {
               className="form-group"
               style={{ height: "50px", display: "flex" }}
             >
-              <input
-                type="text"
-                className=""
-                placeholder="Child Name, Medicaid Number........"
-                onChange={this.handleFieldInput}
-                onKeyDown={this.checkForEnterKey}
-                id="searchString"
-                style={{
-                  height: "50px",
-                  fontSize: "18px",
-                  color: "black",
-                  border: "none",
-                  border: ".5px solid #ccc",
-                  borderRadius: "9px",
-                  paddingLeft: "10px",
-                  flex: "1",
-                  marginRight: "3px",
-                  marginLeft: "0px",
-                }}
-              />
+              <div
+                className="form-group logInInputField"
+                style={{ width: "100%" }}
+              >
+                {" "}
+                <label className="control-label">Child's Name</label>{" "}
+                <Form.Control
+                  as="select"
+                  defaultValue={null}
+                  onChange={this.handleClientSelect}
+                  style={{ width: "100%" }}
+                >
+                  {[null, ...this.state.clients].map(
+                    (client) => (
+                      <ClientOption data={client} nullName="All" />
+                    ),
+                    []
+                  )}
+                </Form.Control>
+              </div>
               <button
                 className="btn btn-link"
-                style={{ width: "40px", boxShadow: "none" }}
+                style={{ width: "40px", boxShadow: "none", marginTop: 30 }}
                 onClick={this.callRunSearch}
                 id="searchBtn"
               >
@@ -144,6 +189,20 @@ class SearchContainer extends Component {
         <div className="row filterSection">
           <div className="col-md-12">
             <h4 style={{ color: "maroon" }}>Basic Filters</h4>
+            <div className="form-group" style={{ margin: "0px 5px" }}>
+              <label style={{ margin: "5px" }}>Approval</label>
+              <select
+                defaultValue="Any"
+                onChange={this.toggleApproval.bind("")}
+                className="form-control"
+                style={{ width: "100%" }}
+                defaultValue={this.state.approved}
+              >
+                <option value={true}>Approved</option>
+                <option value={false}>Needs Approval</option>
+                <option value={"null"}>All</option>
+              </select>
+            </div>
             <p style={{ margin: "10px 10px 5px 5px", fontWeight: "900" }}>
               {" "}
               Forms
