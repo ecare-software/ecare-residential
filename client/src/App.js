@@ -1020,7 +1020,7 @@ function DisplayExtra({
                 document.getElementById("messageText").focus();
                 scrollTop();
               }}
-              className="btn btn-light extraInfoButton"
+              className="btn btn-light extraInfoButton m-1"
             >
               <i className="fa fa-pencil"></i> New Dashboard Message
             </button>
@@ -1030,7 +1030,7 @@ function DisplayExtra({
               scrollTop();
               loadMessage(userObj);
             }}
-            className="btn btn-light extraInfoButton"
+            className="btn btn-light extraInfoButton m-1"
           >
             <i className="fa fa-refresh"></i> Refresh Dashboard
           </button>
