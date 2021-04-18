@@ -8,6 +8,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import ClientOption from "../../utils/ClientOption.util";
 import SignatureCanvas from "react-signature-canvas";
 import { GetUserSig } from "../../utils/GetUserSig";
+import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
 
 class IncidentReport extends Component {
   constructor(props) {
@@ -186,7 +187,6 @@ class IncidentReport extends Component {
         );
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
-        setTimeout(this.toggleSuccessAlert, 3000);
       } catch (e) {
         this.setState({
           formHasError: true,
@@ -333,11 +333,7 @@ class IncidentReport extends Component {
         <div className="formComp">
           {this.state.formSubmitted || this.state.formHasError ? (
             <React.Fragment>
-              <FormAlert
-                doShow={this.state.formSubmitted}
-                type="success"
-                heading="Thank you for your submission!"
-              ></FormAlert>
+              {this.state.formSubmitted && <FormSuccessAlert />}
               <FormAlert
                 doShow={this.state.formHasError}
                 toggleErrorAlert={this.toggleErrorAlert}

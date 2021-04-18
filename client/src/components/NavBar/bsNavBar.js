@@ -269,6 +269,7 @@ class NavBar extends React.Component {
           <Nav defaultActiveKey="link-1" className="mr-auto">
             <Nav.Link
               eventKey="link-1"
+              id="DashboardTab"
               style={navItemStyle}
               onClick={() => {
                 document
@@ -583,6 +584,7 @@ class NavBar extends React.Component {
             {/* {adminReportingRoles.includes(this.props.userObj.jobTitle) ? ( */}
             <Nav.Link
               eventKey="link-8"
+              id="ReportsTab"
               onClick={() => {
                 document
                   .querySelector(".Submit-a-Form-nav > a")
