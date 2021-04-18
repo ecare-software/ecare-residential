@@ -229,7 +229,7 @@ class App extends Component {
     });
     this.getMyMessages();
     this.loadMessage(userObj);
-    console.log("setCookie here");
+    // console.log("setCookie here");
     let cookieToSet = { ...this.state };
     delete cookieToSet.discussionMessages;
     delete cookieToSet.allUsers;
@@ -383,6 +383,7 @@ class App extends Component {
                   doToggleTrainingDisplay={this.doToggleTrainingDisplay}
                   showClients={this.state.showClients}
                   showTrainings={this.state.showTrainings}
+                  loadMessage={this.loadMessage}
                 />
               </div>
               <div className="col-sm-9" id="actionSection">
@@ -800,6 +801,7 @@ function DisplayExtra({
   doToggleTrainingDisplay,
   showClients,
   showTrainings,
+  loadMessage,
 }) {
   if (name === "TreatmentPlan72") {
     return (
@@ -1020,17 +1022,17 @@ function DisplayExtra({
               }}
               className="btn btn-light extraInfoButton"
             >
-              Write Dashboard Message
+              <i className="fa fa-pencil"></i> New Dashboard Message
             </button>
           )}
           <button
             onClick={() => {
-              document.querySelector(".Direct-Message-nav").click();
-              toggleDisplay("Direct Message");
+              scrollTop();
+              loadMessage(userObj);
             }}
             className="btn btn-light extraInfoButton"
           >
-            Direct Messages
+            <i className="fa fa-refresh"></i> Refresh Dashboard
           </button>
         </div>
       </div>
