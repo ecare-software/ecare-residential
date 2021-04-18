@@ -6,6 +6,7 @@ import ModalBody from "react-bootstrap/ModalBody";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import Axios from "axios";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { isAdminUser } from "../../utils/AdminReportingRoles";
 
 const navBarStyleNotLoggedIn = {
   backgroundColor: "transparent",
@@ -57,15 +58,6 @@ const navItemStyleBigFill = {
   fontWeight: "400",
   border: "solid .5px white",
 };
-
-const adminReportingRoles = [
-  "Admin",
-  "Owner/CEO",
-  "Executive/Director",
-  "Administrator",
-  "Case/Manager",
-  "Supervisor",
-];
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -332,7 +324,7 @@ class NavBar extends React.Component {
               id="collasible-nav-dropdown"
               className="Submit-a-Form-nav"
             >
-              {adminReportingRoles.includes(this.props.userObj.jobTitle) ? (
+              {isAdminUser(this.props.userObj) ? (
                 <NavDropdown.Item
                   eventKey="link-83"
                   onClick={() => {
@@ -353,7 +345,7 @@ class NavBar extends React.Component {
               ) : (
                 <React.Fragment />
               )}
-              {adminReportingRoles.includes(this.props.userObj.jobTitle) ? (
+              {isAdminUser(this.props.userObj) ? (
                 <NavDropdown.Item
                   eventKey="link-2"
                   onClick={() => {
@@ -558,7 +550,7 @@ class NavBar extends React.Component {
               </NavDropdown.Item>
             </NavDropdown>
 
-            {adminReportingRoles.includes(this.props.userObj.jobTitle) ? (
+            {isAdminUser(this.props.userObj) ? (
               <Nav.Link
                 eventKey="link-7"
                 onClick={() => {
@@ -581,7 +573,6 @@ class NavBar extends React.Component {
                 User Management
               </Nav.Link>
             ) : null}
-            {/* {adminReportingRoles.includes(this.props.userObj.jobTitle) ? ( */}
             <Nav.Link
               eventKey="link-8"
               id="ReportsTab"
@@ -634,7 +625,7 @@ class NavBar extends React.Component {
               >
                 Manage Profile
               </NavDropdown.Item>
-              {adminReportingRoles.includes(this.props.userObj.jobTitle) && (
+              {isAdminUser(this.props.userObj) && (
                 <NavDropdown.Item
                   onClick={() => {
                     document
@@ -656,7 +647,7 @@ class NavBar extends React.Component {
                   Manage Clients
                 </NavDropdown.Item>
               )}
-              {adminReportingRoles.includes(this.props.userObj.jobTitle) && (
+              {isAdminUser(this.props.userObj) && (
                 <NavDropdown.Item
                   onClick={() => {
                     document

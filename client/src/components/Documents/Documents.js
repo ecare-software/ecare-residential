@@ -7,6 +7,7 @@ import Modal from "react-bootstrap/Modal";
 import ModalBody from "react-bootstrap/ModalBody";
 import ModalHeader from "react-bootstrap/ModalHeader";
 import ClipLoader from "react-spinners/ClipLoader";
+import { isAdminUser } from "../../utils/AdminReportingRoles";
 
 class Documents extends Component {
   constructor(props) {
@@ -14,14 +15,6 @@ class Documents extends Component {
     this.state = {
       documents: [],
       showUploadModal: false,
-      adminReportingRoles: [
-        "Admin",
-        "Owner/CEO",
-        "Executive/Director",
-        "Administrator",
-        "Case/Manager",
-        "Supervisor",
-      ],
       loading: true,
     };
   }
@@ -196,9 +189,7 @@ class Documents extends Component {
                     key={doc._id}
                     download={this.download}
                     getUserName={this.getUserName}
-                    isAdminRole={this.state.adminReportingRoles.includes(
-                      this.props.userObj.jobTitle
-                    )}
+                    isAdminRole={isAdminUser(this.props.userObj)}
                     userObj={this.props.userObj}
                   />
                 ))}
