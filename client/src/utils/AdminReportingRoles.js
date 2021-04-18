@@ -1,8 +1,8 @@
 export const AdminReportingRoles = [
-  // "Admin",
+  "Admin",
   "Owner/CEO",
   "Executive/Director",
-  // "Administrator",
+  "Administrator",
   "Case/Manager",
   "Supervisor",
 ];
