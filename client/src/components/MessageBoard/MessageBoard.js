@@ -1,32 +1,42 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import MessagePost from "./MessagePost";
 import PostMessageModal from "../Modals/PostMessageModal";
 import "./MessageBoard.css";
 import "../../App.css";
 import ClipLoader from "react-spinners/ClipLoader";
+import { isAdminUser } from "../../utils/AdminReportingRoles";
 
-const ContentAfterLoad = ({ messages, isLoading }) => {
-  return messages.length === 0 ? (
+const ContentAfterLoad = ({ messages, isLoading, removeMessage, userObj }) => {
+  const [currentMessages, setCurrentMessage] = useState(messages);
+
+  const doRemoveMessage = async (id) => {
+    const messages = await removeMessage(id);
+    setCurrentMessage(messages);
+  };
+
+  useEffect(() => {
+    setCurrentMessage(messages);
+  }, [messages]);
+
+  return currentMessages.length === 0 ? (
     <p className="text-center mt-5">
       {!isLoading &&
         "Looks like there aren't any discussion posts at the moment"}
     </p>
   ) : (
     <div id="messageBoard">
-      {messages.map((item, index) => (
-        <MessagePost messageObj={item}>{item.message}</MessagePost>
+      {currentMessages.map((item, index) => (
+        <MessagePost
+          userObj={userObj}
+          messageObj={item}
+          doRemoveMessage={doRemoveMessage}
+        >
+          {item.message}
+        </MessagePost>
       ))}
     </div>
   );
 };
-const adminReportingRoles = [
-  "Admin",
-  "Owner/CEO",
-  "Executive/Director",
-  "Administrator",
-  "Case/Manager",
-  "Supervisor",
-];
 
 class MessageBoard extends Component {
   constructor(props) {
@@ -73,7 +83,7 @@ class MessageBoard extends Component {
               justifyContent: "center",
             }}
           >
-            {adminReportingRoles.includes(this.props.userObj.jobTitle) ? (
+            {isAdminUser(this.props.userObj) ? (
               <>
                 <textarea
                   id="messageText"
@@ -100,7 +110,7 @@ class MessageBoard extends Component {
                 </button>
               </>
             ) : (
-              <h2 className="formTitle text-center">Dashboard Messages</h2>
+              <h2 className="formTitle text-center">Dashboard Announcements</h2>
             )}
           </div>
         </div>
@@ -112,8 +122,10 @@ class MessageBoard extends Component {
           </>
         )}
         <ContentAfterLoad
+          removeMessage={this.props.removeMessage}
           messages={this.props.messages}
           isLoading={this.props.discussionMessagesLoading}
+          userObj={this.props.userObj}
         />
         <PostMessageModal
           appendMessage={this.props.appendMessage}

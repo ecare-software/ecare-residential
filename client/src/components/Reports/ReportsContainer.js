@@ -1,20 +1,8 @@
 import React, { Component } from "react";
 import "./ReportsContainer.css";
-
+import { isAdminUser } from "../../utils/AdminReportingRoles";
 import { FromReports } from "./FormReports";
 import { TrainingReports } from "./TrainingReports";
-
-function onlyUnique(value, index, self) {
-  return self.indexOf(value) === index;
-}
-const adminReportingRoles = [
-  "Admin",
-  "Owner/CEO",
-  "Executive/Director",
-  "Administrator",
-  "Case/Manager",
-  "Supervisor",
-];
 
 class ReportsContainer extends Component {
   constructor(props) {
@@ -61,7 +49,7 @@ class ReportsContainer extends Component {
                   </button>
                 </div>
               </h2>
-              {adminReportingRoles.includes(this.props.userObj.jobTitle) && (
+              {isAdminUser(this.props.userObj) && (
                 <h2 className="formTitle">
                   <div
                     style={{

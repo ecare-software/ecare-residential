@@ -32,21 +32,13 @@ import leftBody from "./images/left_body.png";
 import "./App.css";
 import Fade from "react-reveal/Fade";
 import ManageTraining from "./components/ManageTraining/ManageTraining";
+import { isAdminUser } from "./utils/AdminReportingRoles";
 
 const hideStyle = {
   display: "none",
 };
 
 const cookies = new Cookies();
-
-const adminReportingRoles = [
-  "Admin",
-  "Owner/CEO",
-  "Executive/Director",
-  "Administrator",
-  "Case/Manager",
-  "Supervisor",
-];
 
 class App extends Component {
   state = {
@@ -181,6 +173,14 @@ class App extends Component {
       .catch(function (error) {
         console.log(error);
       });
+  };
+
+  removeMessage = (id) => {
+    let messages = this.state.discussionMessages.filter((messageObj) => {
+      return messageObj._id !== id;
+    });
+
+    return messages;
   };
 
   showErrorModal = (title, message) => {
@@ -400,6 +400,7 @@ class App extends Component {
                     discussionMessagesLoading={
                       this.state.discussionMessagesLoading
                     }
+                    removeMessage={this.removeMessage}
                   />
                 </div>
               </div>
@@ -565,6 +566,7 @@ function ToggleScreen({
   doToggleClientDisplay,
   doToggleTrainingDisplay,
   discussionMessagesLoading,
+  removeMessage,
 }) {
   if (name === "Dashboard") {
     return (
@@ -575,6 +577,7 @@ function ToggleScreen({
           appendMessage={appendMessage}
           toggleDisplay={toggleDisplay}
           userObj={appState.userObj}
+          removeMessage={removeMessage}
         />
       </div>
     );
@@ -1014,7 +1017,7 @@ function DisplayExtra({
           </p>
         </div>
         <div className="extraInfoButtonDiv">
-          {adminReportingRoles.includes(userObj.jobTitle) && (
+          {isAdminUser(userObj) && (
             <button
               onClick={() => {
                 document.getElementById("messageText").focus();

@@ -5,6 +5,7 @@ import SearchContainer from "./SearchContainer";
 import ShowFormContainer from "./ShowFormContainer";
 import { Collapse } from "react-bootstrap";
 import ClipLoader from "react-spinners/ClipLoader";
+import { isAdminUser } from "../../utils/AdminReportingRoles";
 
 function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
@@ -96,14 +97,6 @@ export class FromReports extends Component {
       },
       formNames: [],
       formNamesReady: false,
-      adminReportingRoles: [
-        "Admin",
-        "Owner/CEO",
-        "Executive/Director",
-        "Administrator",
-        "Case/Manager",
-        "Supervisor",
-      ],
       doReset: false,
       doShowFilters: false,
       allUsers: [],
@@ -168,7 +161,7 @@ export class FromReports extends Component {
 
   setFormsData = (results) => {
     var data = results.map((res) => res.data);
-    if (!this.state.adminReportingRoles.includes(this.props.userObj.jobTitle)) {
+    if (!isAdminUser(this.props.userObj)) {
       data = data.reduce((acc, cur) => {
         const formHasUserArray = cur.filter((formType) => {
           return formType.createdBy === this.props.userObj.email;
@@ -893,9 +886,7 @@ export class FromReports extends Component {
               allUsers={this.state.allUsers}
               runSearch={this.runSearch}
               formNames={this.state.formNames}
-              doShowSubmittedBy={this.state.adminReportingRoles.includes(
-                this.props.userObj.jobTitle
-              )}
+              doShowSubmittedBy={isAdminUser(this.props.userObj)}
               userObj={this.props.userObj}
             />
           </div>
@@ -958,9 +949,7 @@ export class FromReports extends Component {
                         ? this.state.selectedForm
                         : { name: "hey", forms: [] }
                     }
-                    isAdminRole={this.state.adminReportingRoles.includes(
-                      this.props.userObj.jobTitle
-                    )}
+                    isAdminRole={isAdminUser(this.props.userObj)}
                   />
                 </div>
               </div>
