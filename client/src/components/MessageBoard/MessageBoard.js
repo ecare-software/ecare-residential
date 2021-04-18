@@ -5,10 +5,11 @@ import "./MessageBoard.css";
 import "../../App.css";
 import ClipLoader from "react-spinners/ClipLoader";
 
-const ContentAfterLoad = ({ messages }) => {
+const ContentAfterLoad = ({ messages, isLoading }) => {
   return messages.length === 0 ? (
     <p className="text-center mt-5">
-      Looks like there aren't any discussion posts at the moment
+      {!isLoading &&
+        "Looks like there aren't any discussion posts at the moment"}
     </p>
   ) : (
     <div id="messageBoard">
@@ -103,13 +104,17 @@ class MessageBoard extends Component {
             )}
           </div>
         </div>
-        {this.props.discussionMessagesLoading ? (
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <ClipLoader className="formSpinner" size={50} color={"#ffc107"} />
-          </div>
-        ) : (
-          <ContentAfterLoad messages={this.props.messages} />
+        {this.props.discussionMessagesLoading && (
+          <>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <ClipLoader className="formSpinner" size={50} color={"#ffc107"} />
+            </div>
+          </>
         )}
+        <ContentAfterLoad
+          messages={this.props.messages}
+          isLoading={this.props.discussionMessagesLoading}
+        />
         <PostMessageModal
           appendMessage={this.props.appendMessage}
           closeModals={this.closeModals}
