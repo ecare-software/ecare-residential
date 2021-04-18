@@ -161,7 +161,7 @@ export class FromReports extends Component {
 
   setFormsData = (results) => {
     var data = results.map((res) => res.data);
-    if (!isAdminUser(this.props.userObj.)) {
+    if (!isAdminUser(this.props.userObj)) {
       data = data.reduce((acc, cur) => {
         const formHasUserArray = cur.filter((formType) => {
           return formType.createdBy === this.props.userObj.email;
@@ -949,9 +949,7 @@ export class FromReports extends Component {
                         ? this.state.selectedForm
                         : { name: "hey", forms: [] }
                     }
-                    isAdminRole={isAdminUser(
-                      this.props.userObj
-                    )}
+                    isAdminRole={isAdminUser(this.props.userObj)}
                   />
                 </div>
               </div>

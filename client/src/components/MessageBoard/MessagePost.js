@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./MessageBoard.css";
 import "../../App.css";
 import { DoDeleteRecord } from "../../utils/DoDeleteRecord";
+import { isAdminUser } from "../../utils/AdminReportingRoles";
 
 class MessagePost extends Component {
   constructor(props) {
@@ -21,19 +22,21 @@ class MessagePost extends Component {
             <span className="mainFont MessagePostUser">
               {this.props.messageObj.firstName} {this.props.messageObj.lastName}
             </span>
-            <button
-              style={{ marginLeft: "auto" }}
-              className="btn btn-light"
-              onClick={() => {
-                DoDeleteRecord(
-                  "Are you sure you want to delete this message? This cannot be undone.",
-                  `/api/discussionMessages/${this.props.messageObj._id}`,
-                  this.deleteMessge
-                );
-              }}
-            >
-              <i className="fa fa-trash"></i>
-            </button>
+            {isAdminUser(this.props.userObj) && (
+              <button
+                style={{ marginLeft: "auto" }}
+                className="btn btn-light"
+                onClick={() => {
+                  DoDeleteRecord(
+                    "Are you sure you want to delete this message? This cannot be undone.",
+                    `/api/discussionMessages/${this.props.messageObj._id}`,
+                    this.deleteMessge
+                  );
+                }}
+              >
+                <i className="fa fa-trash"></i>
+              </button>
+            )}
           </div>
           <i className="MessagePostTime">
             {new Date(this.props.messageObj.date).toLocaleString()}

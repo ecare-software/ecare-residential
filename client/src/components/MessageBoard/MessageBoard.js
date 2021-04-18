@@ -6,7 +6,7 @@ import "../../App.css";
 import ClipLoader from "react-spinners/ClipLoader";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 
-const ContentAfterLoad = ({ messages, isLoading, removeMessage }) => {
+const ContentAfterLoad = ({ messages, isLoading, removeMessage, userObj }) => {
   const [currentMessages, setCurrentMessage] = useState(messages);
 
   const doRemoveMessage = async (id) => {
@@ -26,7 +26,11 @@ const ContentAfterLoad = ({ messages, isLoading, removeMessage }) => {
   ) : (
     <div id="messageBoard">
       {currentMessages.map((item, index) => (
-        <MessagePost messageObj={item} doRemoveMessage={doRemoveMessage}>
+        <MessagePost
+          userObj={userObj}
+          messageObj={item}
+          doRemoveMessage={doRemoveMessage}
+        >
           {item.message}
         </MessagePost>
       ))}
@@ -106,7 +110,7 @@ class MessageBoard extends Component {
                 </button>
               </>
             ) : (
-              <h2 className="formTitle text-center">Dashboard Messages</h2>
+              <h2 className="formTitle text-center">Dashboard Announcements</h2>
             )}
           </div>
         </div>
@@ -121,6 +125,7 @@ class MessageBoard extends Component {
           removeMessage={this.props.removeMessage}
           messages={this.props.messages}
           isLoading={this.props.discussionMessagesLoading}
+          userObj={this.props.userObj}
         />
         <PostMessageModal
           appendMessage={this.props.appendMessage}
