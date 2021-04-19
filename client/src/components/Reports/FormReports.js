@@ -83,7 +83,7 @@ export class FromReports extends Component {
       pieChartData: [],
       chartsReady: false,
       searchObj: {
-        approved: true,
+        approved: false,
         searchString: "",
         submittedAfter: "",
         submittedBefore: "",

@@ -236,7 +236,6 @@ class RestraintReport extends Component {
         .then((res) => {
           window.scrollTo(0, 0);
           this.toggleSuccessAlert();
-          setTimeout(this.toggleSuccessAlert, 3000);
           if (!this.props.valuesSet) {
             this.resetForm();
           }
