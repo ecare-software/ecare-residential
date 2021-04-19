@@ -215,42 +215,42 @@ export class FromReports extends Component {
       Axios.get(
         "/api/dailyProgressAndActivity/" +
           this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/true"
+          "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/incidentReport/" +
           this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/true"
+          "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/seriousIncidentReport/" +
           this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/true"
+          "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/restraintReport/" +
           this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/true"
+          "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/treatmentPlans72/" +
           this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/true"
+          "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/illnessInjury/" +
           this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/true"
+          "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/admissionAssessment/" +
           this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/true"
+          "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/bodyCheck/" +
           this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/true"
+          "/none/none/none/none/none/none/none/none/none/false"
       ),
     ];
 
@@ -290,42 +290,42 @@ export class FromReports extends Component {
       Axios.get(
         "/api/dailyProgressAndActivity/" +
           this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/true"
+          "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/incidentReport/" +
           this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/true"
+          "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/seriousIncidentReport/" +
           this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/true"
+          "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/restraintReport/" +
           this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/true"
+          "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/treatmentPlans72/" +
           this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/true"
+          "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/illnessInjury/" +
           this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/true"
+          "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/admissionAssessment/" +
           this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/true"
+          "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/bodyCheck/" +
           this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/true"
+          "/none/none/none/none/none/none/none/none/none/false"
       ),
     ];
 
