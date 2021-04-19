@@ -1006,7 +1006,9 @@ function DisplayExtra({
           <h4 className="extraInfoMainTitle">
             {userObj.firstName + " " + userObj.lastName}
           </h4>
-          <h6 className="extraInfoSubTitle">{userObj.jobTitle}</h6>
+          <h6 className="extraInfoSubTitle">
+            {userObj.jobTitle.replace(/\//gm, " ")}
+          </h6>
         </div>
         <div className="extraInfoNavDiv">
           <p className="extraInfoNavSubTitle">

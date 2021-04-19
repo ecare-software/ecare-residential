@@ -24,7 +24,7 @@ export const FormSuccessAlert = () => (
         textAlign: "center",
       }}
     >
-      Form Subbmitted
+      Form Submitted
     </h1>
     <div
       style={{

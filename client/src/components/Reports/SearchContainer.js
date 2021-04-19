@@ -17,7 +17,7 @@ class SearchContainer extends Component {
       doaBefore: "",
       doaAfter: "",
       ethnicityA: [],
-      approved: true,
+      approved: false,
       clients: [],
       loadingClients: true,
     };
