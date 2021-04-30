@@ -99,7 +99,7 @@ class MessageBoard extends Component {
                     borderWidth: ".5px",
                     borderRadius: "9px",
                   }}
-                  placeholder="Let the everyone know what's going on or simply say hello! Information here will be display for all users to see"
+                  placeholder="Let everyone know what's going on or simply say hello! Information here will be display for all users to see."
                 ></textarea>
                 <button
                   onClick={this.callAppendMessage}

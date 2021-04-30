@@ -29,11 +29,17 @@ class Documents extends Component {
       : "";
   };
 
-  uploadImage = (e, method, user, fileName) => {
+  uploadImage = (method, user) => {
     if (method === "multer") {
       let imageFormObj = new FormData();
-      imageFormObj.append("imageName", fileName.replace(/\s+/g, "_"));
-      imageFormObj.append("imageData", e.target.files[0]);
+      imageFormObj.append(
+        "imageName",
+        document.getElementById("fileName").value.replace(/\s+/g, "_")
+      );
+      imageFormObj.append(
+        "imageData",
+        document.getElementById("fileInput").files[0]
+      );
       imageFormObj.append("homeId", user.homeId);
       imageFormObj.append("email", user.email);
 
@@ -152,18 +158,18 @@ class Documents extends Component {
                     className="form-control"
                     placeholder="Name / Organization"
                   />
-                  <input
-                    type="file"
-                    id="fileBtn"
-                    onChange={(e) => {
-                      this.uploadImage(
-                        e,
-                        "multer",
-                        this.props.userObj,
-                        document.getElementById("fileName").value
-                      );
+                  <input type="file" id="fileInput" />
+                  <br />
+                  <button
+                    className="btn btn-light"
+                    onClick={(e) => {
+                      if (document.getElementById("fileInput").files.length) {
+                        this.uploadImage("multer", this.props.userObj);
+                      }
                     }}
-                  />
+                  >
+                    Upload
+                  </button>
                 </div>
               </ModalBody>
             </div>

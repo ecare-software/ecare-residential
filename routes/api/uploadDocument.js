@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Image = require("../../models/Image");
+const fs = require("fs");
 
 const multer = require("multer");
 
@@ -12,7 +13,6 @@ var storage = multer.diskStorage({
     cb(null, file.fieldname + "-" + Date.now());
   },
 });
-var fs = require("fs");
 const path = require("path");
 var upload = multer({ storage: storage });
 
@@ -65,12 +65,6 @@ const MIME_TYPE_TO_EXT = [
   },
 ];
 
-const mimeToExt = (mime) => {
-  const filteredA = MIME_TYPE_TO_EXT.filter((obj) => {
-    return obj.mime === mime;
-  });
-  return filteredA.length > 0 ? filteredA[0].ext : ".txt";
-};
 router
   .route("/uploadmulter")
   .post(upload.single("imageData"), (req, res, next) => {
@@ -95,8 +89,8 @@ router
     });
     newImage
       .save()
-      .then((result) => {
-        console.log(result);
+      .then(async (result) => {
+        await fs.unlinkSync(__dirname + "/../../uploads/" + req.file.filename);
         res.status(200).json({
           success: true,
           document: result,
