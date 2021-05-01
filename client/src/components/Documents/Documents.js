@@ -102,6 +102,16 @@ class Documents extends Component {
     link.click();
   };
 
+  doDelete = (id) => {
+    let updatedDocs = this.state.documents.filter((docObj) => {
+      return docObj._id !== id;
+    });
+    this.setState({
+      ...this.state,
+      documents: updatedDocs,
+    });
+  };
+
   render() {
     return (
       <div>
@@ -194,6 +204,7 @@ class Documents extends Component {
                     id={doc._id}
                     key={doc._id}
                     download={this.download}
+                    doDelete={this.doDelete}
                     getUserName={this.getUserName}
                     isAdminRole={isAdminUser(this.props.userObj)}
                     userObj={this.props.userObj}

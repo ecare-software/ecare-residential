@@ -140,4 +140,13 @@ router.put("/:homeId/:formId/", (req, res) => {
     });
 });
 
+// @route   Delete api/items
+// @desc    Delete an item
+// @access  Public
+router.delete("/:id", (req, res) => {
+  Image.findById(req.params.id)
+    .then((user) => user.remove().then(() => res.json({ success: true })))
+    .catch((err) => res.status(404).json({ success: false }));
+});
+
 module.exports = router;
