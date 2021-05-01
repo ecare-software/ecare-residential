@@ -4,8 +4,13 @@ import DirectMessageGroup from "./DirectMessageGroup";
 import "./DirectMessageBoard.css";
 import "../../App.css";
 
-const DirectMessageBoard = ({ messages, userObj, allUsers }) => {
+const DirectMessageBoard = ({ messagesInit, userObj, allUsers }) => {
   const [selectedUser, setSelectedUser] = useState(null);
+  const [messages, setMessages] = useState(messagesInit);
+
+  useEffect(() => {
+    setMessages(messagesInit);
+  }, messagesInit);
 
   const DisplayGroupUserName = () => {
     const selectedEmail = selectedUser.user;
@@ -17,6 +22,20 @@ const DirectMessageBoard = ({ messages, userObj, allUsers }) => {
       : "";
   };
 
+  const doDelete = (id) => {
+    let updatedMessages = messages.filter((messageObj) => {
+      return messageObj._id !== id;
+    });
+    setMessages(updatedMessages);
+    const selectedUserMessages = updatedMessages.filter((message) => {
+      return (
+        message.fromID === selectedUser.user ||
+        message.toID === selectedUser.user
+      );
+    });
+
+    if (selectedUserMessages.length === 0) setSelectedUser(null);
+  };
   const FromUsersList = () => {
     const fromObj = messages.reduce((acc, cur) => {
       if (cur.fromID !== userObj.email) {
@@ -88,6 +107,7 @@ const DirectMessageBoard = ({ messages, userObj, allUsers }) => {
           </div>
           <h5 className="MessagePostUser">
             <span
+              className="btn btn-light"
               onClick={() => {
                 setSelectedUser(null);
               }}
@@ -106,20 +126,23 @@ const DirectMessageBoard = ({ messages, userObj, allUsers }) => {
                 overflowX: "hidden",
               }}
             >
-              {messages.length > 0
-                ? messages
-                    .filter((message) => {
-                      return (
-                        message.fromID === selectedUser.user ||
-                        message.toID === selectedUser.user
-                      );
-                    })
-                    .map((item, index) => (
-                      <DirectMessage messageObj={item} key={index}>
-                        {item.message}
-                      </DirectMessage>
-                    ))
-                : null}
+              {messages.length > 0 &&
+                messages
+                  .filter((message) => {
+                    return (
+                      message.fromID === selectedUser.user ||
+                      message.toID === selectedUser.user
+                    );
+                  })
+                  .map((item, index) => (
+                    <DirectMessage
+                      doDelete={doDelete}
+                      messageObj={item}
+                      key={index}
+                    >
+                      {item.message}
+                    </DirectMessage>
+                  ))}
             </div>
           </div>
         </div>
