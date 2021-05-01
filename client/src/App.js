@@ -229,12 +229,9 @@ class App extends Component {
     });
     this.getMyMessages();
     this.loadMessage(userObj);
-    // console.log("setCookie here");
     let cookieToSet = { ...this.state };
     delete cookieToSet.discussionMessages;
     delete cookieToSet.allUsers;
-    // delete cookieToSet.loggedIn;
-    // delete cookieToSet.userObj;
     delete cookieToSet.messagesInitLoad;
     delete cookieToSet.allUsersSet;
     delete cookieToSet.errorModalMeta;
@@ -316,25 +313,30 @@ class App extends Component {
       this.state.dmTo !== "" ||
       (this.state.dmTo !== null && this.state.dmMessage)
     ) {
-      await Axios.post(`/api/directMessages`, {
-        toObj: this.state.dmTo,
-        fromObj: this.state.userObj,
-        toID: this.state.dmTo.email,
-        fromID: this.state.userObj.email,
-        message: this.state.dmMessage,
-        date: new Date(),
-        homeId: this.state.userObj.homeId,
-      });
+      try {
+        await Axios.post(`/api/directMessages`, {
+          toObj: this.state.dmTo,
+          fromObj: this.state.userObj,
+          toID: this.state.dmTo.email,
+          fromID: this.state.userObj.email,
+          message: this.state.dmMessage,
+          date: new Date(),
+          homeId: this.state.userObj.homeId,
+        });
 
-      Axios.get(
-        `/api/directMessages/${this.state.userObj.email}/${this.state.userObj.homeId}`
-      ).then((messages) => {
+        const { data } = await Axios.get(
+          `/api/directMessages/${this.state.userObj.email}/${this.state.userObj.homeId}`
+        );
+
         this.setState({
           ...this.state,
           dmMessage: "",
-          messages: messages.data,
+          messages: data,
         });
-      });
+      } catch (e) {
+        alert("Error sending message");
+        console.log(e);
+      }
     }
   };
 
@@ -780,7 +782,7 @@ function ToggleScreen({
       <div>
         <DirectMessageBoard
           userObj={appState.userObj}
-          messages={appState.messages}
+          messagesInit={appState.messages}
           allUsers={appState.allUsers}
         />
       </div>
@@ -797,9 +799,6 @@ function DisplayExtra({
   sendDM,
   dmMessage,
   setDmMessage,
-  toggleDisplay,
-  showUploadModal,
-  openUpload,
   doToggleClientDisplay,
   doToggleTrainingDisplay,
   showClients,
@@ -1091,14 +1090,6 @@ function DisplayExtra({
         <div className="extraInfoNavDiv"></div>
         <div className="extraInfoButtonDiv">
           {showTrainings ? (
-            // <button
-            //   onClick={() => {
-            //     doToggleTrainingDisplay(false);
-            //   }}
-            //   className="btn btn-light extraInfoButton"
-            // >
-            //   Edit Trainings
-            // </button>
             <p>Please select a training to begin editing.</p>
           ) : (
             <button
@@ -1183,7 +1174,7 @@ function DisplayExtra({
               ></textarea>
               <button
                 onClick={() => {
-                  sendDM();
+                  if (appState.dmMessage.length > 0 && appState.dmTo) sendDM();
                 }}
                 className="btn btn-light"
                 style={{ margin: "0px 5px", width: "100%" }}
