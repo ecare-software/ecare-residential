@@ -2,7 +2,17 @@ import React, { useState, useEffect } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import { Form, Col } from "react-bootstrap";
 import Axios from "axios";
-function Document({ data, isAdminRole, userObj, id, download, getUserName }) {
+import { DoDeleteRecord } from "../../utils/DoDeleteRecord";
+
+function Document({
+  data,
+  isAdminRole,
+  userObj,
+  id,
+  download,
+  getUserName,
+  doDelete,
+}) {
   const [imageSrc, setImageSrc] = useState(null);
   const [isApproved, setIsApproved] = useState(
     data.approved ? data.approved : false
@@ -89,8 +99,22 @@ function Document({ data, isAdminRole, userObj, id, download, getUserName }) {
           </div>
         </div>
         <div className="col-md-2 d-flex align-items-center">
-          <button className="btn btn-light" onClick={download.bind({}, id)}>
-            download
+          <button className="btn btn-light m-1" onClick={download.bind({}, id)}>
+            <i className="fa fa-download"></i>
+          </button>
+          <button
+            className="btn btn-light m-1"
+            onClick={() => {
+              DoDeleteRecord(
+                "Are you sure you want to delete this message? This cannot be undone.",
+                `/api/uploadDocument/${data._id}`,
+                () => {
+                  doDelete(data._id);
+                }
+              );
+            }}
+          >
+            <i className="fa fa-trash"></i>
           </button>
         </div>
       </div>
