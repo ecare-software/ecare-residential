@@ -495,7 +495,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -520,7 +520,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -545,7 +545,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -570,7 +570,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -595,7 +595,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -618,7 +618,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -641,7 +641,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -664,7 +664,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -687,7 +687,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -712,7 +712,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -737,7 +737,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -762,7 +762,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -787,7 +787,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -812,7 +812,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -837,7 +837,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -860,7 +860,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -883,7 +883,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -906,7 +906,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -931,7 +931,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -956,7 +956,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -981,7 +981,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -1006,7 +1006,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -1031,7 +1031,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -1056,7 +1056,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -1081,7 +1081,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -1106,7 +1106,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -1131,7 +1131,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
               <div className="form-group logInInputField">
@@ -1156,7 +1156,7 @@ class BodyCheck extends Component {
                   <option>10</option>
                   <option>11</option>
                   <option>Other</option>
-                  <option value={-1}>Choose if applicable</option>
+                  <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
 
@@ -1386,7 +1386,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1411,7 +1411,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1436,7 +1436,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1461,7 +1461,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1486,7 +1486,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1509,7 +1509,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1532,7 +1532,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1555,7 +1555,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1578,7 +1578,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1603,7 +1603,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1628,7 +1628,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1653,7 +1653,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1678,7 +1678,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1703,7 +1703,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1728,7 +1728,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1751,7 +1751,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1774,7 +1774,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1799,7 +1799,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1824,7 +1824,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1849,7 +1849,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1874,7 +1874,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1899,7 +1899,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1924,7 +1924,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1949,7 +1949,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1974,7 +1974,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -1999,7 +1999,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -2024,7 +2024,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">
@@ -2049,7 +2049,7 @@ class BodyCheck extends Component {
                     <option>10</option>
                     <option>11</option>
                     <option>Other</option>
-                    <option value={-1}>Choose if applicable</option>
+                    <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
                 <div className="form-group logInInputField">

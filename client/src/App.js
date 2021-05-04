@@ -183,6 +183,10 @@ class App extends Component {
     return messages;
   };
 
+  setDMs = (messages) => {
+    this.setState({ ...this.state, messages });
+  };
+
   showErrorModal = (title, message) => {
     this.setState({ message: message });
     this.setState({ title: title });
@@ -403,6 +407,7 @@ class App extends Component {
                       this.state.discussionMessagesLoading
                     }
                     removeMessage={this.removeMessage}
+                    setDMs={this.setDMs}
                   />
                 </div>
               </div>
@@ -569,6 +574,7 @@ function ToggleScreen({
   doToggleTrainingDisplay,
   discussionMessagesLoading,
   removeMessage,
+  setDMs,
 }) {
   if (name === "Dashboard") {
     return (
@@ -784,6 +790,7 @@ function ToggleScreen({
           userObj={appState.userObj}
           messagesInit={appState.messages}
           allUsers={appState.allUsers}
+          setDMs={setDMs}
         />
       </div>
     );

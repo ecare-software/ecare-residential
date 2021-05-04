@@ -4,7 +4,7 @@ import DirectMessageGroup from "./DirectMessageGroup";
 import "./DirectMessageBoard.css";
 import "../../App.css";
 
-const DirectMessageBoard = ({ messagesInit, userObj, allUsers }) => {
+const DirectMessageBoard = ({ messagesInit, userObj, allUsers, setDMs }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState(messagesInit);
 
@@ -27,6 +27,7 @@ const DirectMessageBoard = ({ messagesInit, userObj, allUsers }) => {
       return messageObj._id !== id;
     });
     setMessages(updatedMessages);
+    setDMs(updatedMessages);
     const selectedUserMessages = updatedMessages.filter((message) => {
       return (
         message.fromID === selectedUser.user ||
