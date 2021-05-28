@@ -267,7 +267,7 @@ router.get(
 );
 
 router.put("/:homeId/:formId/", (req, res) => {
-  IllnessInjury.findByIdAndUpdate({ _id: req.params.formId }, req.body)
+  AdmissionAssessment.findByIdAndUpdate({ _id: req.params.formId }, req.body)
     .then((data) => {
       res.json(data);
     })

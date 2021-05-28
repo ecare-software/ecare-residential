@@ -9,6 +9,7 @@ import ClientOption from "../../utils/ClientOption.util";
 import SignatureCanvas from "react-signature-canvas";
 import { GetUserSig } from "../../utils/GetUserSig";
 import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
+import { isAdminUser } from "../../utils/AdminReportingRoles";
 /*
   missing from form
     "Restricted field Trip"
@@ -147,6 +148,10 @@ class DailyProgressAndActivity extends Component {
   submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
 
+    currentState.createdBy = this.props.userObj.email;
+    currentState.createdByName =
+      this.props.userObj.firstName + " " + this.props.userObj.lastName;
+
     if (this.props.valuesSet) {
       try {
         await Axios.put(
@@ -214,7 +219,7 @@ class DailyProgressAndActivity extends Component {
       }
     });
 
-    if (!isValid) {
+    if (!isValid || !isAdminUser(this.props.userObj)) {
       this.setState({
         formHasError: true,
         formErrorMessage: `Please complete the following field(s): ${errorFields
@@ -770,11 +775,7 @@ class DailyProgressAndActivity extends Component {
         <div className="formComp">
           {this.state.formSubmitted || this.state.formHasError ? (
             <React.Fragment>
-              <FormAlert
-                doShow={this.state.formSubmitted}
-                type="success"
-                heading="Thank you for your submission!"
-              ></FormAlert>
+              {this.state.formSubmitted && <FormSuccessAlert />}
               <FormAlert
                 doShow={this.state.formHasError}
                 toggleErrorAlert={this.toggleErrorAlert}

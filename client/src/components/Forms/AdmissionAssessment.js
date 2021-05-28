@@ -9,6 +9,7 @@ import ClientOption from "../../utils/ClientOption.util";
 import SignatureCanvas from "react-signature-canvas";
 import { GetUserSig } from "../../utils/GetUserSig";
 import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
+import { isAdminUser } from "../../utils/AdminReportingRoles";
 
 class AdmissionAssessment extends Component {
   constructor(props) {
@@ -303,6 +304,10 @@ class AdmissionAssessment extends Component {
 
   submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
+
+    currentState.createdBy = this.props.userObj.email;
+    currentState.createdByName =
+      this.props.userObj.firstName + " " + this.props.userObj.lastName;
 
     if (this.props.valuesSet) {
       try {
@@ -2139,11 +2144,7 @@ class AdmissionAssessment extends Component {
         <div className="formComp">
           {this.state.formSubmitted || this.state.formHasError ? (
             <React.Fragment>
-              <FormAlert
-                doShow={this.state.formSubmitted}
-                type="success"
-                heading="Thank you for your submission!"
-              ></FormAlert>
+              {this.state.formSubmitted && <FormSuccessAlert />}
               <FormAlert
                 doShow={this.state.formHasError}
                 toggleErrorAlert={this.toggleErrorAlert}
