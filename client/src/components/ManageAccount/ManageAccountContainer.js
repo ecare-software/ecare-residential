@@ -89,13 +89,15 @@ class ManageAccountContainer extends Component {
 
   submitSig = async () => {
     try {
-      await Axios({
+      const { data: newUserData } = await Axios({
         method: "put",
         url: "/api/users/sig/" + this.props.userObj._id,
         data: {
           signature: this.sigCanvas.toData(),
         },
       });
+
+      this.props.updateUserData(newUserData);
 
       document.getElementById(this.props.id + "-sig-success").innerText =
         "Signature Updated";

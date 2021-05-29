@@ -305,10 +305,6 @@ class AdmissionAssessment extends Component {
   submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
 
-    currentState.createdBy = this.props.userObj.email;
-    currentState.createdByName =
-      this.props.userObj.firstName + " " + this.props.userObj.lastName;
-
     if (this.props.valuesSet) {
       try {
         await Axios.put(
@@ -329,9 +325,14 @@ class AdmissionAssessment extends Component {
         });
       }
     } else {
+      currentState.createdBy = this.props.userObj.email;
+      currentState.createdByName =
+        this.props.userObj.firstName + " " + this.props.userObj.lastName;
+
       Axios.post("/api/admissionAssessment", currentState)
         .then((res) => {
           window.scrollTo(0, 0);
+          this.toggleSuccessAlert();
           if (!this.props.valuesSet) {
             this.resetForm();
           }
@@ -346,6 +347,17 @@ class AdmissionAssessment extends Component {
   };
 
   validateForm = () => {
+    if (
+      !this.props.userObj.signature ||
+      this.props.userObj.signature.length < 1
+    ) {
+      this.setState({
+        formHasError: true,
+        formErrorMessage: `User signiture required to submit a form. Create a new signiture under 'Manage Profile'.`,
+      });
+      return;
+    }
+
     var keysToExclude = [
       "formHasError",
       "formSubmitted",
@@ -2085,49 +2097,6 @@ class AdmissionAssessment extends Component {
                   className="form-control"
                 ></textarea>
               </div>
-
-              {/* <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">administorSign</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="administorSign" value={this.state.administorSign}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">administorSignDate</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="administorSignDate" value={this.state.administorSignDate}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">treatmentDirectorSign</label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="treatmentDirectorSign" value={this.state.treatmentDirectorSign}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div>
-          <div className="form-group logInInputField">
-            {" "}
-            <label className="control-label">
-              treatmentDirectorSignDate
-            </label>{" "}
-            <input
-              onChange={this.handleFieldInput}
-              id="treatmentDirectorSignDate" value={this.state.treatmentDirectorSignDate}
-              className="form-control"
-              type="text"
-            />{" "}
-          </div> */}
               <FormError errorId={this.props.id + "-error"} />
               <div
                 className="form-group logInInputField"

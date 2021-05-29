@@ -179,9 +179,6 @@ class SeriousIncidentReport extends Component {
 
   submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-    currentState.createdBy = this.props.userObj.email;
-    currentState.createdByName =
-      this.props.userObj.firstName + " " + this.props.userObj.lastName;
 
     if (this.props.valuesSet) {
       try {
@@ -203,7 +200,10 @@ class SeriousIncidentReport extends Component {
         });
       }
     } else {
-      console.log(currentState);
+      currentState.createdBy = this.props.userObj.email;
+      currentState.createdByName =
+        this.props.userObj.firstName + " " + this.props.userObj.lastName;
+
       Axios.post("/api/seriousIncidentReport", currentState)
         .then((res) => {
           window.scrollTo(0, 0);
@@ -222,6 +222,17 @@ class SeriousIncidentReport extends Component {
   };
 
   validateForm = () => {
+    if (
+      !this.props.userObj.signature ||
+      this.props.userObj.signature.length < 1
+    ) {
+      this.setState({
+        formHasError: true,
+        formErrorMessage: `User signiture required to submit a form. Create a new signiture under 'Manage Profile'.`,
+      });
+      return;
+    }
+
     var keysToExclude = [
       "formHasError",
       "formSubmitted",
@@ -260,7 +271,7 @@ class SeriousIncidentReport extends Component {
       }
     });
 
-    if (!isValid || !isAdminUser(this.props.userObj)) {
+    if (!isValid && !isAdminUser(this.props.userObj)) {
       this.setState({
         formHasError: true,
         formErrorMessage: `Please complete the following field(s): ${errorFields
