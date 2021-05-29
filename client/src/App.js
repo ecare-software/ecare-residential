@@ -94,11 +94,17 @@ class App extends Component {
     if (userObj && loggedIn) {
       try {
         await this.setState({
-          userObj: userObj,
+          userObj,
           loggedIn: loggedIn,
         });
-
-        this.loadMessage(userObj);
+        const { data: updatedUserData } = await Axios({
+          method: "get",
+          url: "/api/users/" + userObj.email + "/" + userObj.password,
+        });
+        await this.setState({
+          userObj: updatedUserData,
+        });
+        this.loadMessage(updatedUserData);
         await this.getAllUsers();
         await this.getMyMessages();
       } catch (e) {
@@ -360,6 +366,10 @@ class App extends Component {
     this.setState({ ...this.state, showTrainings: val });
   };
 
+  updateUserData = (newUserData) => {
+    this.setState({ ...this.state, userObj: newUserData });
+  };
+
   render() {
     if (this.state.loggedIn) {
       return (
@@ -408,6 +418,7 @@ class App extends Component {
                     }
                     removeMessage={this.removeMessage}
                     setDMs={this.setDMs}
+                    updateUserData={this.updateUserData}
                   />
                 </div>
               </div>
@@ -575,6 +586,7 @@ function ToggleScreen({
   discussionMessagesLoading,
   removeMessage,
   setDMs,
+  updateUserData,
 }) {
   if (name === "Dashboard") {
     return (
@@ -766,7 +778,10 @@ function ToggleScreen({
   if (name === "Manage Account") {
     return (
       <div>
-        <ManageAccountContainer userObj={appState.userObj} />
+        <ManageAccountContainer
+          userObj={appState.userObj}
+          updateUserData={updateUserData}
+        />
       </div>
     );
   }
@@ -1025,17 +1040,6 @@ function DisplayExtra({
           </p>
         </div>
         <div className="extraInfoButtonDiv">
-          {isAdminUser(userObj) && (
-            <button
-              onClick={() => {
-                document.getElementById("messageText").focus();
-                scrollTop();
-              }}
-              className="btn btn-light extraInfoButton m-1"
-            >
-              <i className="fa fa-pencil"></i> New Dashboard Message
-            </button>
-          )}
           <button
             onClick={() => {
               scrollTop();

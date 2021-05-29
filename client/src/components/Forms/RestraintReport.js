@@ -218,10 +218,6 @@ class RestraintReport extends Component {
   submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
 
-    currentState.createdBy = this.props.userObj.email;
-    currentState.createdByName =
-      this.props.userObj.firstName + " " + this.props.userObj.lastName;
-
     if (this.props.valuesSet) {
       try {
         await Axios.put(
@@ -242,6 +238,10 @@ class RestraintReport extends Component {
         });
       }
     } else {
+      currentState.createdBy = this.props.userObj.email;
+      currentState.createdByName =
+        this.props.userObj.firstName + " " + this.props.userObj.lastName;
+
       Axios.post("/api/restraintReport", currentState)
         .then((res) => {
           window.scrollTo(0, 0);
@@ -260,6 +260,17 @@ class RestraintReport extends Component {
   };
 
   validateForm = () => {
+    if (
+      !this.props.userObj.signature ||
+      this.props.userObj.signature.length < 1
+    ) {
+      this.setState({
+        formHasError: true,
+        formErrorMessage: `User signiture required to submit a form. Create a new signiture under 'Manage Profile'.`,
+      });
+      return;
+    }
+
     var keysToExclude = [
       "formHasError",
       "formSubmitted",
@@ -298,7 +309,7 @@ class RestraintReport extends Component {
       }
     });
 
-    if (!isValid || !isAdminUser(this.props.userObj)) {
+    if (!isValid && !isAdminUser(this.props.userObj)) {
       this.setState({
         formHasError: true,
         formErrorMessage: `Please complete the following field(s): ${errorFields
