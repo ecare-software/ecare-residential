@@ -9,7 +9,7 @@ import ClientOption from "../../utils/ClientOption.util";
 import SignatureCanvas from "react-signature-canvas";
 import { GetUserSig } from "../../utils/GetUserSig";
 import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
-import { isAdminUser } from "../../utils/AdminReportingRoles";
+import { FormSavedAlert } from "../../utils/FormSavedAlert";
 
 class AdmissionAssessment extends Component {
   constructor(props) {
@@ -319,6 +319,9 @@ class AdmissionAssessment extends Component {
         );
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
+        setTimeout(() => {
+          this.toggleSuccessAlert();
+        }, 2000);
       } catch (e) {
         this.setState({
           formHasError: true,
@@ -329,7 +332,6 @@ class AdmissionAssessment extends Component {
       Axios.post("/api/admissionAssessment", currentState)
         .then((res) => {
           window.scrollTo(0, 0);
-          this.toggleSuccessAlert();
           if (!this.props.valuesSet) {
             this.resetForm();
           }
@@ -2144,7 +2146,7 @@ class AdmissionAssessment extends Component {
         <div className="formComp">
           {this.state.formSubmitted || this.state.formHasError ? (
             <React.Fragment>
-              {this.state.formSubmitted && <FormSuccessAlert />}
+              {this.state.formSubmitted && <FormSavedAlert />}
               <FormAlert
                 doShow={this.state.formHasError}
                 toggleErrorAlert={this.toggleErrorAlert}

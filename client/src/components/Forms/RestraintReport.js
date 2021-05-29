@@ -9,6 +9,7 @@ import ClientOption from "../../utils/ClientOption.util";
 import SignatureCanvas from "react-signature-canvas";
 import { GetUserSig } from "../../utils/GetUserSig";
 import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
+import { FormSavedAlert } from "../../utils/FormSavedAlert";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 
 class RestraintReport extends Component {
@@ -231,6 +232,9 @@ class RestraintReport extends Component {
         );
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
+        setTimeout(() => {
+          this.toggleSuccessAlert();
+        }, 2000);
       } catch (e) {
         this.setState({
           formHasError: true,
@@ -977,7 +981,7 @@ class RestraintReport extends Component {
         <div className="formComp">
           {this.state.formSubmitted || this.state.formHasError ? (
             <React.Fragment>
-              {this.state.formSubmitted && <FormSuccessAlert />}
+              {this.state.formSubmitted && <FormSavedAlert />}
               <FormAlert
                 doShow={this.state.formHasError}
                 toggleErrorAlert={this.toggleErrorAlert}

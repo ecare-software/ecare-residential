@@ -97,8 +97,6 @@ router.post("/", (req, res) => {
     food1: req.body.food1,
     food2: req.body.food2,
     formErrorMessage: req.body.formErrorMessage,
-    formHasError: req.body.formHasError,
-    formSubmitted: req.body.formSubmitted,
     healthIssues: req.body.healthIssues,
     homeId: req.body.homeId,
     interventionStrategies: req.body.interventionStrategies,

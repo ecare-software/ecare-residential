@@ -197,12 +197,6 @@ const AdmissionAssessmentSchema = new Schema({
   formErrorMessage: {
     type: String,
   },
-  formHasError: {
-    type: String,
-  },
-  formSubmitted: {
-    type: String,
-  },
   healthIssues: {
     type: String,
   },
