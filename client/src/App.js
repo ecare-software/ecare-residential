@@ -264,8 +264,13 @@ class App extends Component {
     delete cookieToSet.showTrainings;
 
     delete cookieToSet.userObj.signature; // messes up cookie storage
-    await cookies.set("userObj", JSON.stringify(cookieToSet.userObj));
-    await cookies.set("loggedIn", cookieToSet.loggedIn);
+    const current = new Date();
+    const nextYear = new Date();
+    nextYear.setFullYear(current.getFullYear() + 1);
+    await cookies.set("userObj", JSON.stringify(cookieToSet.userObj), {
+      expires: nextYear,
+    });
+    await cookies.set("loggedIn", cookieToSet.loggedIn, { expires: nextYear });
   };
 
   toggleDisplay = (display) => {
