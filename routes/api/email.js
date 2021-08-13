@@ -6,8 +6,8 @@ router.post("/:email/:name/:organization", (req, res) => {
   var email = req.params.email.toLocaleLowerCase();
   var name = req.params.name;
   var organization = req.params.organization;
-  const user = "EcareResidential-Admin@ecare-residential.com";
-  const pass = "Ecare2020";
+  const user = "admin.support@ecare-software.com";
+  const pass = "eCare2020?";
 
   let transporter = nodemailer.createTransport({
     service: "gmail",
