@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import Cookies from "universal-cookie";
+import { FormCountContext } from "./context/index";
 //components
 import Header from "./components/Header/Header";
 import TreatmentPlan72 from "./components/Forms/TreatmentPlan72";
@@ -41,6 +42,25 @@ const hideStyle = {
 const cookies = new Cookies();
 
 class App extends Component {
+  doFetchFormApprovalCount = async () => {
+    try {
+      const { data } = await Axios.get(
+        `/api/forms/count/false/${this.props.userObj.homeId}`
+      );
+
+      const { count: nonApprovedFormCount } = data;
+
+      this.setState({
+        ...this.state,
+        nonApprovedFormCount,
+        nonApprovedFormCountSet: true,
+      });
+      console.log(data);
+    } catch (e) {
+      console.log(`Error fetching form count - ${e}`);
+    }
+  };
+
   state = {
     loggedIn: false,
     userObj: {},
@@ -67,6 +87,10 @@ class App extends Component {
     showUploadModal: false,
     showClients: true,
     showTrainings: true,
+    formCountState: {
+      count: -1,
+      updateCount: this.doFetchFormApprovalCount,
+    },
   };
 
   getMyMessages = () => {
@@ -119,6 +143,7 @@ class App extends Component {
   };
 
   componentDidUpdate = () => {
+    console.log("test");
     if (
       this.state.loggedIn &&
       (this.state.allUsersSet === false || this.state.allUsers.length === 0)
@@ -378,84 +403,86 @@ class App extends Component {
   render() {
     if (this.state.loggedIn) {
       return (
-        <div className="App container" id="mainContainer">
-          <BSNavBar
-            logOut={this.logOut}
-            toggleDisplay={this.toggleDisplay}
-            isLoggedIn={this.state.loggedIn}
-            userObj={this.state.userObj}
-          ></BSNavBar>
-          {this.state.doDisplay !== "Reports" ? (
-            <div id="desktopView" className="row">
-              <div className="col-sm-3">
-                <DisplayExtra
-                  name={this.state.doDisplay}
-                  userObj={this.state.userObj}
-                  scrollTop={this.scrollTop}
-                  toggleDisplay={this.toggleDisplay}
-                  appState={this.state}
-                  setDmToUser={this.setDmToUser}
-                  sendDM={this.sendDM}
-                  dmMessage={this.state.dmMessage}
-                  setDmMessage={this.setDmMessage}
-                  showUploadModal={this.showUploadModal}
-                  openUpload={this.openUpload}
-                  doToggleClientDisplay={this.doToggleClientDisplay}
-                  doToggleTrainingDisplay={this.doToggleTrainingDisplay}
-                  showClients={this.state.showClients}
-                  showTrainings={this.state.showTrainings}
-                  loadMessage={this.loadMessage}
-                />
-              </div>
-              <div className="col-sm-9" id="actionSection">
-                <div>
-                  <ToggleScreen
+        <FormCountContext.Provider value={this.state.formCountState}>
+          <div className="App container" id="mainContainer">
+            <BSNavBar
+              logOut={this.logOut}
+              toggleDisplay={this.toggleDisplay}
+              isLoggedIn={this.state.loggedIn}
+              userObj={this.state.userObj}
+            ></BSNavBar>
+            {this.state.doDisplay !== "Reports" ? (
+              <div id="desktopView" className="row">
+                <div className="col-sm-3">
+                  <DisplayExtra
                     name={this.state.doDisplay}
-                    appState={this.state}
-                    appendMessage={this.appendMessage}
+                    userObj={this.state.userObj}
+                    scrollTop={this.scrollTop}
                     toggleDisplay={this.toggleDisplay}
-                    showClients={this.state.showClients}
-                    showTrainings={this.state.showTrainings}
+                    appState={this.state}
+                    setDmToUser={this.setDmToUser}
+                    sendDM={this.sendDM}
+                    dmMessage={this.state.dmMessage}
+                    setDmMessage={this.setDmMessage}
+                    showUploadModal={this.showUploadModal}
+                    openUpload={this.openUpload}
                     doToggleClientDisplay={this.doToggleClientDisplay}
                     doToggleTrainingDisplay={this.doToggleTrainingDisplay}
-                    discussionMessagesLoading={
-                      this.state.discussionMessagesLoading
-                    }
-                    removeMessage={this.removeMessage}
-                    setDMs={this.setDMs}
-                    updateUserData={this.updateUserData}
+                    showClients={this.state.showClients}
+                    showTrainings={this.state.showTrainings}
+                    loadMessage={this.loadMessage}
+                  />
+                </div>
+                <div className="col-sm-9" id="actionSection">
+                  <div>
+                    <ToggleScreen
+                      name={this.state.doDisplay}
+                      appState={this.state}
+                      appendMessage={this.appendMessage}
+                      toggleDisplay={this.toggleDisplay}
+                      showClients={this.state.showClients}
+                      showTrainings={this.state.showTrainings}
+                      doToggleClientDisplay={this.doToggleClientDisplay}
+                      doToggleTrainingDisplay={this.doToggleTrainingDisplay}
+                      discussionMessagesLoading={
+                        this.state.discussionMessagesLoading
+                      }
+                      removeMessage={this.removeMessage}
+                      setDMs={this.setDMs}
+                      updateUserData={this.updateUserData}
+                    />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div id="desktopView" className="row">
+                <div
+                  className="col-md-12"
+                  style={
+                    this.state.doDisplay === "Reports"
+                      ? { marginBottom: "150px 0px" }
+                      : hideStyle
+                  }
+                >
+                  <Reports
+                    userObj={this.state.userObj}
+                    allUsers={this.state.allUsers}
                   />
                 </div>
               </div>
-            </div>
-          ) : (
-            <div id="desktopView" className="row">
-              <div
-                className="col-md-12"
-                style={
-                  this.state.doDisplay === "Reports"
-                    ? { marginBottom: "150px 0px" }
-                    : hideStyle
-                }
+            )}
+            <div style={{ position: "fixed", left: "90vw", top: "85vh" }}>
+              <button
+                className="btn btn-light extraInfoButton"
+                onClick={() => {
+                  if (window.scrollY) window.scrollTo(0, 0);
+                }}
               >
-                <Reports
-                  userObj={this.state.userObj}
-                  allUsers={this.state.allUsers}
-                />
-              </div>
+                <i className="fa fa-arrow-up"></i>
+              </button>
             </div>
-          )}
-          <div style={{ position: "fixed", left: "90vw", top: "85vh" }}>
-            <button
-              className="btn btn-light extraInfoButton"
-              onClick={() => {
-                if (window.scrollY) window.scrollTo(0, 0);
-              }}
-            >
-              <i className="fa fa-arrow-up"></i>
-            </button>
           </div>
-        </div>
+        </FormCountContext.Provider>
       );
     } else {
       return (

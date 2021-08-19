@@ -39,6 +39,8 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   const updateFormApproval = async () => {
     let isApprovedPostData = !isApproved;
     await setIsApproved(isApprovedPostData);
+    alert();
+    return;
     try {
       await Axios.put(`/api/${route}/${formData.homeId}/${formData._id}`, {
         approved: isApprovedPostData,

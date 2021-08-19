@@ -31,6 +31,7 @@ const annualTrainingMod = require("./routes/api/AnnualTrainingMod");
 const client = require("./routes/api/client");
 const email = require("./routes/api/email");
 const uploadDocument = require("./routes/api/uploadDocument");
+const allForms = require("./routes/api/allFormRoutes");
 
 //user express
 const app = express();
@@ -91,6 +92,7 @@ app.use("/api/client", client);
 app.use("/api/email", email);
 app.use("/api/uploadDocument", uploadDocument);
 app.use("/uploads", express.static("uploads"));
+app.use("/api/forms", allForms);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
