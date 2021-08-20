@@ -509,7 +509,8 @@ router.get(
 );
 
 router.put("/:homeId/:formId/", (req, res) => {
-  TreatmentPlan72.findByIdAndUpdate({ _id: req.params.formId }, req.body)
+  const updatedLastEditDate = {...req.body, lastEditDate: new Date()}
+  TreatmentPlan72.findByIdAndUpdate({ _id: req.params.formId }, updatedLastEditDate)
     .then((data) => {
       res.json(data);
     })

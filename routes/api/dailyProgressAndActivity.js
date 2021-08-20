@@ -150,9 +150,10 @@ router.get(
 );
 
 router.put("/:homeId/:formId/", (req, res) => {
+  const updatedLastEditDate = {...req.body, lastEditDate: new Date()}
   DailyProgressAndActivity.findByIdAndUpdate(
     { _id: req.params.formId },
-    req.body
+    updatedLastEditDate
   )
     .then((data) => {
       res.json(data);

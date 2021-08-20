@@ -150,7 +150,8 @@ router.get(
 );
 
 router.put("/:homeId/:formId/", (req, res) => {
-  BodyCheck.findByIdAndUpdate({ _id: req.params.formId }, req.body)
+  const updatedLastEditDate = {...req.body, lastEditDate: new Date()}
+  BodyCheck.findByIdAndUpdate({ _id: req.params.formId }, updatedLastEditDate)
     .then((data) => {
       res.json(data);
     })
