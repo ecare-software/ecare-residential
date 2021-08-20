@@ -75,7 +75,8 @@ router.put("/:formId", (req, res) => {
 });
 
 router.put("/:homeId/:formId/", (req, res) => {
-  FirstAidCprTraining.findByIdAndUpdate({ _id: req.params.formId }, req.body)
+  const updatedLastEditDate = {...req.body, lastEditDate: new Date()}
+  FirstAidCprTraining.findByIdAndUpdate({ _id: req.params.formId }, updatedLastEditDate)
     .then((data) => {
       res.json(data);
     })

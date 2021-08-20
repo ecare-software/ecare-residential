@@ -259,7 +259,7 @@ class IncidentReport extends Component {
     var isValid = true;
     var errorFields = [];
 
-    Object.keys(this.state).forEach((key) => {
+    /*Object.keys(this.state).forEach((key) => {
       if (!keysToExclude.includes(key)) {
         if (
           !this.state[key] ||
@@ -270,7 +270,7 @@ class IncidentReport extends Component {
           isValid = false;
         }
       }
-    });
+    });*/
 
     if (!isValid && !isAdminUser(this.props.userObj)) {
       this.setState({

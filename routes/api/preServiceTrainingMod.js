@@ -146,7 +146,8 @@ router.put("/:formId", (req, res) => {
 });
 
 router.put("/:homeId/:formId/", (req, res) => {
-  PreServiceTrainingMod.findByIdAndUpdate({ _id: req.params.formId }, req.body)
+  const updatedLastEditDate = {...req.body, lastEditDate: new Date()}
+  PreServiceTrainingMod.findByIdAndUpdate({ _id: req.params.formId }, updatedLastEditDate)
     .then((data) => {
       res.json(data);
     })

@@ -188,7 +188,7 @@ class FaceSheet extends Component {
     var isValid = true;
     var errorFields = [];
 
-    Object.keys(this.state).forEach((key) => {
+    /*Object.keys(this.state).forEach((key) => {
       if (!keysToExclude.includes(key)) {
         if (
           !this.state[key] ||
@@ -200,6 +200,7 @@ class FaceSheet extends Component {
         }
       }
     });
+*/
 
     if (!isValid) {
       this.setState({

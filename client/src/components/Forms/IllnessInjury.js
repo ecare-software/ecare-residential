@@ -185,7 +185,7 @@ class IllnessInjury extends Component {
     var isValid = true;
     var errorFields = [];
 
-    Object.keys(this.state).forEach((key) => {
+    /*Object.keys(this.state).forEach((key) => {
       if (!keysToExclude.includes(key)) {
         if (
           !this.state[key] ||
@@ -197,6 +197,7 @@ class IllnessInjury extends Component {
         }
       }
     });
+*/
 
     if (!isValid && !isAdminUser(this.props.userObj)) {
       this.setState({
