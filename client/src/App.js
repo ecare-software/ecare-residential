@@ -296,7 +296,10 @@ class App extends Component {
     });
     this.getMyMessages();
     this.loadMessage(userObj);
-    this.doFetchFormApprovalCount();
+    if (isAdminUser(userObj)) {
+      this.doFetchFormApprovalCount();
+    }
+
     let cookieToSet = { ...this.state };
     delete cookieToSet.discussionMessages;
     delete cookieToSet.allUsers;
