@@ -11,7 +11,6 @@ function onlyUnique(value, index, self) {
 }
 
 const getFilterText = (searchObj) => {
-  console.log(searchObj);
   const filterA = Reflect.ownKeys(searchObj).reduce((acc, key) => {
     if (searchObj[key] && searchObj[key].length > 0) {
       switch (key) {

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import LogInContiner from "../LogInContainer/LogInContainer";
 import Modal from "react-bootstrap/Modal";
 import FormAlert from "../Forms/FormAlert";
@@ -7,6 +7,7 @@ import ModalHeader from "react-bootstrap/ModalHeader";
 import Axios from "axios";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
+import { FormCountContext } from "../../context";
 
 const navBarStyleNotLoggedIn = {
   backgroundColor: "transparent",
@@ -16,8 +17,8 @@ const navBarStyleNotLoggedIn = {
 const navBarStyleLoggedIn = {
   backgroundColor: "maroon",
   color: "white",
-  webkitBoxShadow: "0px 2px 7px -1px rgba(0, 0, 0, 0.75)",
-  mozBoxShadow: "0px 2px 7px -1px rgba(0, 0, 0, 0.75)",
+  webkitboxshadow: "0px 2px 7px -1px rgba(0, 0, 0, 0.75)",
+  MozBoxShadow: "0px 2px 7px -1px rgba(0, 0, 0, 0.75)",
   boxShadow: "0px 2px 7px -1px rgba(0, 0, 0, 0.75)",
 };
 
@@ -126,6 +127,7 @@ class NavBar extends React.Component {
   toggleActive = () => {};
 
   render() {
+    let formContext = this.context;
     const { firstName } = this.props.userObj;
     if (!this.props.isLoggedIn) {
       return (
@@ -141,7 +143,7 @@ class NavBar extends React.Component {
           ) : (
             <React.Fragment />
           )}
-          <Modal show={this.state.showLogIn} onHide={!this.state.showLogIn}>
+          <Modal show={this.state.showLogIn}>
             <LogInContiner
               logIn={this.props.logIn}
               pos={{ position: "relati", top: "100%", top: "20vh" }}
@@ -248,385 +250,337 @@ class NavBar extends React.Component {
       );
     }
     return (
-      <Navbar
-        fixed="top"
-        variant="dark"
-        collapseOnSelect
-        expand="lg"
-        style={navBarStyleLoggedIn}
-      >
-        <Navbar.Brand style={navBrandStyle}>e-Care Residential</Navbar.Brand>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav defaultActiveKey="link-1" className="mr-auto">
-            <Nav.Link
-              eventKey="link-1"
-              id="DashboardTab"
-              style={navItemStyle}
-              onClick={() => {
-                document
-                  .querySelector(".Submit-a-Form-nav > a")
-                  .classList.remove("active");
-                document
-                  .querySelector(".Training-nav > a")
-                  .classList.remove("active");
-                document
-                  .querySelector(".Manage-Account-nav > a")
-                  .classList.remove("active");
-                this.props.toggleDisplay("Dashboard");
-              }}
-            >
-              Dashboard
-            </Nav.Link>
-            <Nav.Link
-              eventKey="link-44"
-              id="Direct-Message-nav"
-              className="Direct-Message-nav"
-              style={navItemStyle}
-              onClick={() => {
-                document
-                  .querySelector(".Submit-a-Form-nav > a")
-                  .classList.remove("active");
-                document
-                  .querySelector(".Training-nav > a")
-                  .classList.remove("active");
-                document
-                  .querySelector(".Manage-Account-nav > a")
-                  .classList.remove("active");
-                this.props.toggleDisplay("Direct Message");
-              }}
-            >
-              Messages
-            </Nav.Link>
-            <Nav.Link
-              eventKey="link-88"
-              style={navItemStyle}
-              onClick={() => {
-                document
-                  .querySelector(".Submit-a-Form-nav > a")
-                  .classList.remove("active");
-                document
-                  .querySelector(".Training-nav > a")
-                  .classList.remove("active");
-                document
-                  .querySelector(".Manage-Account-nav > a")
-                  .classList.remove("active");
-                this.props.toggleDisplay("Documents");
-              }}
-            >
-              Documents
-            </Nav.Link>
-            <NavDropdown
-              style={navItemStyle}
-              variant="success"
-              color="white"
-              title="Forms"
-              id="collasible-nav-dropdown"
-              className="Submit-a-Form-nav"
-            >
-              {isAdminUser(this.props.userObj) ? (
-                <NavDropdown.Item
-                  eventKey="link-83"
+      <FormCountContext.Consumer>
+        {({ formConext, handleChange }) => (
+          <Navbar
+            fixed="top"
+            variant="dark"
+            collapseOnSelect
+            expand="lg"
+            style={navBarStyleLoggedIn}
+          >
+            <Navbar.Brand style={navBrandStyle}>
+              e-Care Residential
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav defaultActiveKey="link-1" className="mr-auto">
+                <Nav.Link
+                  eventKey="link-1"
+                  id="DashboardTab"
+                  style={navItemStyle}
                   onClick={() => {
                     document
                       .querySelector(".Submit-a-Form-nav > a")
-                      .classList.add("active");
-                    document
-                      .querySelector(".Manage-Account-nav > a")
                       .classList.remove("active");
                     document
                       .querySelector(".Training-nav > a")
                       .classList.remove("active");
-                    this.props.toggleDisplay("admissionAssessment");
+                    document
+                      .querySelector(".Manage-Account-nav > a")
+                      .classList.remove("active");
+                    this.props.toggleDisplay("Dashboard");
                   }}
                 >
-                  Admission Assessment
-                </NavDropdown.Item>
-              ) : (
-                <React.Fragment />
-              )}
-              {isAdminUser(this.props.userObj) ? (
-                <NavDropdown.Item
-                  eventKey="link-2"
+                  Dashboard
+                </Nav.Link>
+                <Nav.Link
+                  eventKey="link-44"
+                  id="Direct-Message-nav"
+                  className="Direct-Message-nav"
+                  style={navItemStyle}
                   onClick={() => {
                     document
                       .querySelector(".Submit-a-Form-nav > a")
-                      .classList.add("active");
-                    document
-                      .querySelector(".Manage-Account-nav > a")
                       .classList.remove("active");
                     document
                       .querySelector(".Training-nav > a")
                       .classList.remove("active");
-                    this.props.toggleDisplay("TreatmentPlan72");
+                    document
+                      .querySelector(".Manage-Account-nav > a")
+                      .classList.remove("active");
+                    this.props.toggleDisplay("Direct Message");
                   }}
                 >
-                  72 Hour Treatment Plan
-                </NavDropdown.Item>
-              ) : (
-                <React.Fragment />
-              )}
-              <NavDropdown.Item
-                eventKey="link-3"
-                onClick={() => {
-                  document
-                    .querySelector(".Submit-a-Form-nav > a")
-                    .classList.add("active");
-                  document
-                    .querySelector(".Manage-Account-nav > a")
-                    .classList.remove("active");
-                  document
-                    .querySelector(".Training-nav > a")
-                    .classList.remove("active");
-                  this.props.toggleDisplay("IncidentReport");
-                }}
-              >
-                Incident Report
-              </NavDropdown.Item>
+                  Messages
+                </Nav.Link>
+                <Nav.Link
+                  eventKey="link-88"
+                  style={navItemStyle}
+                  onClick={() => {
+                    document
+                      .querySelector(".Submit-a-Form-nav > a")
+                      .classList.remove("active");
+                    document
+                      .querySelector(".Training-nav > a")
+                      .classList.remove("active");
+                    document
+                      .querySelector(".Manage-Account-nav > a")
+                      .classList.remove("active");
+                    this.props.toggleDisplay("Documents");
+                  }}
+                >
+                  Documents
+                </Nav.Link>
+                <NavDropdown
+                  style={navItemStyle}
+                  variant="success"
+                  color="white"
+                  title="Forms"
+                  id="collasible-nav-dropdown"
+                  className="Submit-a-Form-nav"
+                >
+                  {isAdminUser(this.props.userObj) ? (
+                    <NavDropdown.Item
+                      eventKey="link-83"
+                      onClick={() => {
+                        document
+                          .querySelector(".Submit-a-Form-nav > a")
+                          .classList.add("active");
+                        document
+                          .querySelector(".Manage-Account-nav > a")
+                          .classList.remove("active");
+                        document
+                          .querySelector(".Training-nav > a")
+                          .classList.remove("active");
+                        this.props.toggleDisplay("admissionAssessment");
+                      }}
+                    >
+                      Admission Assessment
+                    </NavDropdown.Item>
+                  ) : (
+                    <React.Fragment />
+                  )}
+                  {isAdminUser(this.props.userObj) ? (
+                    <NavDropdown.Item
+                      eventKey="link-2"
+                      onClick={() => {
+                        document
+                          .querySelector(".Submit-a-Form-nav > a")
+                          .classList.add("active");
+                        document
+                          .querySelector(".Manage-Account-nav > a")
+                          .classList.remove("active");
+                        document
+                          .querySelector(".Training-nav > a")
+                          .classList.remove("active");
+                        this.props.toggleDisplay("TreatmentPlan72");
+                      }}
+                    >
+                      72 Hour Treatment Plan
+                    </NavDropdown.Item>
+                  ) : (
+                    <React.Fragment />
+                  )}
+                  <NavDropdown.Item
+                    eventKey="link-3"
+                    onClick={() => {
+                      document
+                        .querySelector(".Submit-a-Form-nav > a")
+                        .classList.add("active");
+                      document
+                        .querySelector(".Manage-Account-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Training-nav > a")
+                        .classList.remove("active");
+                      this.props.toggleDisplay("IncidentReport");
+                    }}
+                  >
+                    Incident Report
+                  </NavDropdown.Item>
 
-              <NavDropdown.Item
-                eventKey="link-3433"
-                onClick={() => {
-                  document
-                    .querySelector(".Submit-a-Form-nav > a")
-                    .classList.add("active");
-                  document
-                    .querySelector(".Manage-Account-nav > a")
-                    .classList.remove("active");
-                  document
-                    .querySelector(".Training-nav > a")
-                    .classList.remove("active");
-                  this.props.toggleDisplay("SeriousIncidentReport");
-                }}
-              >
-                Serious Incident Report
-              </NavDropdown.Item>
+                  <NavDropdown.Item
+                    eventKey="link-3433"
+                    onClick={() => {
+                      document
+                        .querySelector(".Submit-a-Form-nav > a")
+                        .classList.add("active");
+                      document
+                        .querySelector(".Manage-Account-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Training-nav > a")
+                        .classList.remove("active");
+                      this.props.toggleDisplay("SeriousIncidentReport");
+                    }}
+                  >
+                    Serious Incident Report
+                  </NavDropdown.Item>
 
-              <NavDropdown.Item
-                eventKey="link-4"
-                onClick={() => {
-                  document
-                    .querySelector(".Submit-a-Form-nav > a")
-                    .classList.add("active");
-                  document
-                    .querySelector(".Manage-Account-nav > a")
-                    .classList.remove("active");
-                  document
-                    .querySelector(".Training-nav > a")
-                    .classList.remove("active");
-                  this.props.toggleDisplay("DailyProgress");
-                }}
-              >
-                Daily Progress
-              </NavDropdown.Item>
-              <NavDropdown.Item
-                eventKey="link-24"
-                onClick={() => {
-                  document
-                    .querySelector(".Submit-a-Form-nav > a")
-                    .classList.add("active");
-                  document
-                    .querySelector(".Manage-Account-nav > a")
-                    .classList.remove("active");
-                  document
-                    .querySelector(".Training-nav > a")
-                    .classList.remove("active");
-                  this.props.toggleDisplay("bodyCheck");
-                }}
-              >
-                Health Body Check
-              </NavDropdown.Item>
-              <NavDropdown.Item
-                eventKey="link-5"
-                onClick={() => {
-                  document
-                    .querySelector(".Submit-a-Form-nav > a")
-                    .classList.add("active");
-                  document
-                    .querySelector(".Manage-Account-nav > a")
-                    .classList.remove("active");
-                  document
-                    .querySelector(".Training-nav > a")
-                    .classList.remove("active");
-                  this.props.toggleDisplay("restraintReport");
-                }}
-              >
-                Restraint Report
-              </NavDropdown.Item>
-              <NavDropdown.Item
-                eventKey="link-882"
-                onClick={() => {
-                  document
-                    .querySelector(".Submit-a-Form-nav > a")
-                    .classList.add("active");
-                  document
-                    .querySelector(".Manage-Account-nav > a")
-                    .classList.remove("active");
-                  document
-                    .querySelector(".Training-nav > a")
-                    .classList.remove("active");
-                  this.props.toggleDisplay("IllnessInjury");
-                }}
-              >
-                Illness Injury
-              </NavDropdown.Item>
-              {/* <NavDropdown.Divider /> */}
-            </NavDropdown>
-            <NavDropdown
-              style={navItemStyle}
-              variant="success"
-              color="white"
-              title="Training"
-              id="collasible-nav-dropdown"
-              className="Training-nav"
-            >
-              <NavDropdown.Item
-                eventKey="link-7375"
-                onClick={() => {
-                  document
-                    .querySelector(".Training-nav > a")
-                    .classList.add("active");
-                  document
-                    .querySelector(".Submit-a-Form-nav > a")
-                    .classList.remove("active");
-                  document
-                    .querySelector(".Manage-Account-nav > a")
-                    .classList.remove("active");
-                  this.props.toggleDisplay("Annual Training");
-                }}
-              >
-                Annual Ongoing
-              </NavDropdown.Item>
-              <NavDropdown.Item
-                eventKey="link-777"
-                onClick={() => {
-                  document
-                    .querySelector(".Training-nav > a")
-                    .classList.add("active");
-                  document
-                    .querySelector(".Submit-a-Form-nav > a")
-                    .classList.remove("active");
-                  document
-                    .querySelector(".Manage-Account-nav > a")
-                    .classList.remove("active");
-                  this.props.toggleDisplay("Orientation Training");
-                }}
-              >
-                Orientation
-              </NavDropdown.Item>
-              <NavDropdown.Item
-                eventKey="link-2747"
-                onClick={() => {
-                  document
-                    .querySelector(".Training-nav > a")
-                    .classList.add("active");
-                  document
-                    .querySelector(".Submit-a-Form-nav > a")
-                    .classList.remove("active");
-                  document
-                    .querySelector(".Manage-Account-nav > a")
-                    .classList.remove("active");
-                  this.props.toggleDisplay("First aid CPR Training");
-                }}
-              >
-                First aid / CPR
-              </NavDropdown.Item>
-              <NavDropdown.Item
-                eventKey="link-787"
-                onClick={() => {
-                  document
-                    .querySelector(".Training-nav > a")
-                    .classList.add("active");
-                  document
-                    .querySelector(".Submit-a-Form-nav > a")
-                    .classList.remove("active");
-                  document
-                    .querySelector(".Manage-Account-nav > a")
-                    .classList.remove("active");
-                  this.props.toggleDisplay("Pre Service Training");
-                }}
-              >
-                Pre-Service
-              </NavDropdown.Item>
-            </NavDropdown>
+                  <NavDropdown.Item
+                    eventKey="link-4"
+                    onClick={() => {
+                      document
+                        .querySelector(".Submit-a-Form-nav > a")
+                        .classList.add("active");
+                      document
+                        .querySelector(".Manage-Account-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Training-nav > a")
+                        .classList.remove("active");
+                      this.props.toggleDisplay("DailyProgress");
+                    }}
+                  >
+                    Daily Progress
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    eventKey="link-24"
+                    onClick={() => {
+                      document
+                        .querySelector(".Submit-a-Form-nav > a")
+                        .classList.add("active");
+                      document
+                        .querySelector(".Manage-Account-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Training-nav > a")
+                        .classList.remove("active");
+                      this.props.toggleDisplay("bodyCheck");
+                    }}
+                  >
+                    Health Body Check
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    eventKey="link-5"
+                    onClick={() => {
+                      document
+                        .querySelector(".Submit-a-Form-nav > a")
+                        .classList.add("active");
+                      document
+                        .querySelector(".Manage-Account-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Training-nav > a")
+                        .classList.remove("active");
+                      this.props.toggleDisplay("restraintReport");
+                    }}
+                  >
+                    Restraint Report
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    eventKey="link-882"
+                    onClick={() => {
+                      document
+                        .querySelector(".Submit-a-Form-nav > a")
+                        .classList.add("active");
+                      document
+                        .querySelector(".Manage-Account-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Training-nav > a")
+                        .classList.remove("active");
+                      this.props.toggleDisplay("IllnessInjury");
+                    }}
+                  >
+                    Illness Injury
+                  </NavDropdown.Item>
+                </NavDropdown>
+                <NavDropdown
+                  style={navItemStyle}
+                  variant="success"
+                  color="white"
+                  title="Training"
+                  id="collasible-nav-dropdown"
+                  className="Training-nav"
+                >
+                  <NavDropdown.Item
+                    eventKey="link-7375"
+                    onClick={() => {
+                      document
+                        .querySelector(".Training-nav > a")
+                        .classList.add("active");
+                      document
+                        .querySelector(".Submit-a-Form-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Manage-Account-nav > a")
+                        .classList.remove("active");
+                      this.props.toggleDisplay("Annual Training");
+                    }}
+                  >
+                    Annual Ongoing
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    eventKey="link-777"
+                    onClick={() => {
+                      document
+                        .querySelector(".Training-nav > a")
+                        .classList.add("active");
+                      document
+                        .querySelector(".Submit-a-Form-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Manage-Account-nav > a")
+                        .classList.remove("active");
+                      this.props.toggleDisplay("Orientation Training");
+                    }}
+                  >
+                    Orientation
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    eventKey="link-2747"
+                    onClick={() => {
+                      document
+                        .querySelector(".Training-nav > a")
+                        .classList.add("active");
+                      document
+                        .querySelector(".Submit-a-Form-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Manage-Account-nav > a")
+                        .classList.remove("active");
+                      this.props.toggleDisplay("First aid CPR Training");
+                    }}
+                  >
+                    First aid / CPR
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    eventKey="link-787"
+                    onClick={() => {
+                      document
+                        .querySelector(".Training-nav > a")
+                        .classList.add("active");
+                      document
+                        .querySelector(".Submit-a-Form-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Manage-Account-nav > a")
+                        .classList.remove("active");
+                      this.props.toggleDisplay("Pre Service Training");
+                    }}
+                  >
+                    Pre-Service
+                  </NavDropdown.Item>
+                </NavDropdown>
 
-            {isAdminUser(this.props.userObj) ? (
-              <Nav.Link
-                eventKey="link-7"
-                onClick={() => {
-                  document
-                    .querySelector(".Submit-a-Form-nav > a")
-                    .classList.remove("active");
-                  document
-                    .querySelector(".Training-nav > a")
-                    .classList.remove("active");
-                  document
-                    .querySelector(".Manage-Account-nav > a")
-                    .classList.remove("active");
-                  document
-                    .querySelector(".Training-nav > a")
-                    .classList.remove("active");
-                  this.props.toggleDisplay("User Management");
-                }}
-                style={navItemStyle}
-              >
-                User Management
-              </Nav.Link>
-            ) : null}
-            <Nav.Link
-              eventKey="link-8"
-              id="ReportsTab"
-              onClick={() => {
-                document
-                  .querySelector(".Submit-a-Form-nav > a")
-                  .classList.remove("active");
-                document
-                  .querySelector(".Training-nav > a")
-                  .classList.remove("active");
-                document
-                  .querySelector(".Manage-Account-nav > a")
-                  .classList.remove("active");
-                this.props.toggleDisplay("Reports");
-              }}
-              style={navItemStyle}
-            >
-              Reports
-            </Nav.Link>
-            {/* ) : (
-              <React.Fragment></React.Fragment>
-            )} */}
-          </Nav>
-          <Nav className="ml-auto">
-            <NavDropdown
-              style={navItemStyle}
-              variant="success"
-              color="white"
-              title={firstName}
-              id="collasible-nav-dropdown2"
-              className="Manage-Account-nav"
-            >
-              <NavDropdown.Item
-                onClick={() => {
-                  document
-                    .querySelector(".Submit-a-Form-nav > a")
-                    .classList.remove("active");
-                  document
-                    .querySelector(".Training-nav > a")
-                    .classList.remove("active");
-                  document
-                    .querySelector(".nav-link")
-                    .classList.remove("active");
-                  document
-                    .querySelector(".Manage-Account-nav > a")
-                    .classList.add("active");
-                  this.props.toggleDisplay("Manage Account");
-                }}
-                eventKey="link-11"
-              >
-                Manage Profile
-              </NavDropdown.Item>
-              {isAdminUser(this.props.userObj) && (
-                <NavDropdown.Item
+                {isAdminUser(this.props.userObj) ? (
+                  <Nav.Link
+                    eventKey="link-7"
+                    onClick={() => {
+                      document
+                        .querySelector(".Submit-a-Form-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Training-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Manage-Account-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Training-nav > a")
+                        .classList.remove("active");
+                      this.props.toggleDisplay("User Management");
+                    }}
+                    style={navItemStyle}
+                  >
+                    User Management
+                  </Nav.Link>
+                ) : null}
+                <Nav.Link
+                  eventKey="link-8"
+                  id="ReportsTab"
                   onClick={() => {
                     document
                       .querySelector(".Submit-a-Form-nav > a")
@@ -635,53 +589,118 @@ class NavBar extends React.Component {
                       .querySelector(".Training-nav > a")
                       .classList.remove("active");
                     document
-                      .querySelector(".nav-link")
-                      .classList.remove("active");
-                    document
                       .querySelector(".Manage-Account-nav > a")
-                      .classList.add("active");
-                    this.props.toggleDisplay("Clients");
+                      .classList.remove("active");
+                    this.props.toggleDisplay("Reports");
                   }}
-                  eventKey="link-1882"
+                  style={navItemStyle}
                 >
-                  Manage Clients
-                </NavDropdown.Item>
-              )}
-              {isAdminUser(this.props.userObj) && (
-                <NavDropdown.Item
-                  onClick={() => {
-                    document
-                      .querySelector(".Submit-a-Form-nav > a")
-                      .classList.remove("active");
-                    document
-                      .querySelector(".Training-nav > a")
-                      .classList.remove("active");
-                    document
-                      .querySelector(".nav-link")
-                      .classList.remove("active");
-                    document
-                      .querySelector(".Manage-Account-nav > a")
-                      .classList.add("active");
-                    this.props.toggleDisplay("manTraining");
-                  }}
-                  eventKey="link-1885"
+                  Reports{" "}
+                  {this.props.appState.nonApprovedFormCountSet && (
+                    <span
+                      style={{
+                        backgroundColor: "white",
+                        borderRadius: "9px",
+                        color: "#5e0000",
+                        padding: "5px 10px",
+                        margin: "0px 5px",
+                      }}
+                    >
+                      {formContext.count}
+                    </span>
+                  )}
+                </Nav.Link>
+              </Nav>
+              <Nav className="ml-auto">
+                <NavDropdown
+                  style={navItemStyle}
+                  variant="success"
+                  color="white"
+                  title={firstName}
+                  id="collasible-nav-dropdown2"
+                  className="Manage-Account-nav"
                 >
-                  Training Management
-                </NavDropdown.Item>
-              )}
-            </NavDropdown>
-            <Nav.Link
-              eventKey="link-9"
-              style={navItemStyle}
-              onClick={this.props.logOut}
-            >
-              Log out
-            </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+                  <NavDropdown.Item
+                    onClick={() => {
+                      document
+                        .querySelector(".Submit-a-Form-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Training-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".nav-link")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Manage-Account-nav > a")
+                        .classList.add("active");
+                      this.props.toggleDisplay("Manage Account");
+                    }}
+                    eventKey="link-11"
+                  >
+                    Manage Profile
+                  </NavDropdown.Item>
+                  {isAdminUser(this.props.userObj) && (
+                    <NavDropdown.Item
+                      onClick={() => {
+                        document
+                          .querySelector(".Submit-a-Form-nav > a")
+                          .classList.remove("active");
+                        document
+                          .querySelector(".Training-nav > a")
+                          .classList.remove("active");
+                        document
+                          .querySelector(".nav-link")
+                          .classList.remove("active");
+                        document
+                          .querySelector(".Manage-Account-nav > a")
+                          .classList.add("active");
+                        this.props.toggleDisplay("Clients");
+                      }}
+                      eventKey="link-1882"
+                    >
+                      Manage Clients
+                    </NavDropdown.Item>
+                  )}
+                  {isAdminUser(this.props.userObj) && (
+                    <NavDropdown.Item
+                      onClick={() => {
+                        document
+                          .querySelector(".Submit-a-Form-nav > a")
+                          .classList.remove("active");
+                        document
+                          .querySelector(".Training-nav > a")
+                          .classList.remove("active");
+                        document
+                          .querySelector(".nav-link")
+                          .classList.remove("active");
+                        document
+                          .querySelector(".Manage-Account-nav > a")
+                          .classList.add("active");
+                        this.props.toggleDisplay("manTraining");
+                      }}
+                      eventKey="link-1885"
+                    >
+                      Training Management
+                    </NavDropdown.Item>
+                  )}
+                </NavDropdown>
+                <Nav.Link
+                  eventKey="link-9"
+                  style={navItemStyle}
+                  onClick={this.props.logOut}
+                >
+                  Log out
+                </Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
+        )}
+      </FormCountContext.Consumer>
     );
   }
 }
+
+NavBar.contextType = FormCountContext;
 
 export default NavBar;

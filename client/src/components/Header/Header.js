@@ -135,7 +135,7 @@ class Header extends Component {
             </div>
           </ModalBody>
         </Modal>
-        <Modal show={this.state.showLogIn} onHide={!this.state.showLogIn}>
+        <Modal show={this.state.showLogIn}>
           <LogInContiner
             logIn={this.props.logIn}
             pos={{ position: "absolute", top: "20vh !important" }}
@@ -155,7 +155,7 @@ class Header extends Component {
           indicators={true}
           interval={5000}
           fade={true}
-          pauseOnHover={false}
+          pauseonhover={"false"}
         >
           <Carousel.Item>
             <img

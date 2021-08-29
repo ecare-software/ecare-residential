@@ -214,16 +214,16 @@ class FirstAidCprTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T1Hours}
+                {this.state.modal?.T1Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T1Title}
+                  {this.state.modal?.T1Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T1Presenter}
+                  {this.state.modal?.T1Presenter}
                 </label>
               </div>
               <SmallColRight>
