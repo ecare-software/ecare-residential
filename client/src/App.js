@@ -42,25 +42,6 @@ const hideStyle = {
 const cookies = new Cookies();
 
 class App extends Component {
-  doFetchFormApprovalCount = async () => {
-    try {
-      const { data } = await Axios.get(
-        `/api/forms/count/false/${this.props.userObj.homeId}`
-      );
-
-      const { count: nonApprovedFormCount } = data;
-
-      this.setState({
-        ...this.state,
-        nonApprovedFormCount,
-        nonApprovedFormCountSet: true,
-      });
-      console.log(data);
-    } catch (e) {
-      console.log(`Error fetching form count - ${e}`);
-    }
-  };
-
   state = {
     loggedIn: false,
     userObj: {},
@@ -87,10 +68,56 @@ class App extends Component {
     showUploadModal: false,
     showClients: true,
     showTrainings: true,
+    nonApprovedFormCountSet: false,
     formCountState: {
       count: -1,
       updateCount: this.doFetchFormApprovalCount,
     },
+    flip: false,
+  };
+
+  doFetchFormApprovalCount = async () => {
+    try {
+      this.setState({
+        ...this.state,
+        formCountState: {
+          ...this.state.formCountState,
+          count: -1,
+        },
+        nonApprovedFormCountSet: false,
+      });
+      const { data } = await Axios.get(
+        `/api/forms/count/false/${this.state.userObj.homeId}`
+      );
+
+      const { count: nonApprovedFormCount } = data;
+
+      this.setState({
+        ...this.state,
+        nonApprovedFormCountSet: true,
+        formCountState: {
+          ...this.state.formCountState,
+          count: nonApprovedFormCount,
+          updateCount: async () => {
+            const { data } = await Axios.get(
+              `/api/forms/count/false/${this.state.userObj.homeId}`
+            );
+            const { count: nonApprovedFormCount } = data;
+            this.setState({
+              ...this.state,
+              nonApprovedFormCountSet: true,
+              flip: !this.state.flip,
+              formCountState: {
+                ...this.state.formCountState,
+                count: nonApprovedFormCount,
+              },
+            });
+          },
+        },
+      });
+    } catch (e) {
+      console.log(`Error fetching form count - ${e}`);
+    }
   };
 
   getMyMessages = () => {
@@ -128,6 +155,11 @@ class App extends Component {
         await this.setState({
           userObj: updatedUserData,
         });
+
+        if (isAdminUser(this.state.userObj)) {
+          await this.doFetchFormApprovalCount();
+        }
+
         this.loadMessage(updatedUserData);
         await this.getAllUsers();
         await this.getMyMessages();
@@ -143,7 +175,6 @@ class App extends Component {
   };
 
   componentDidUpdate = () => {
-    console.log("test");
     if (
       this.state.loggedIn &&
       (this.state.allUsersSet === false || this.state.allUsers.length === 0)
@@ -237,6 +268,7 @@ class App extends Component {
       doDisplay: "Dashboard",
       allUsersSet: false,
       blockCompUpdates: false,
+      nonApprovedFormCountSet: false,
     });
     cookies.remove("loggedIn", { path: "/" });
     cookies.remove("userObj", { path: "/" });
@@ -264,6 +296,7 @@ class App extends Component {
     });
     this.getMyMessages();
     this.loadMessage(userObj);
+    this.doFetchFormApprovalCount();
     let cookieToSet = { ...this.state };
     delete cookieToSet.discussionMessages;
     delete cookieToSet.allUsers;
@@ -410,6 +443,7 @@ class App extends Component {
               toggleDisplay={this.toggleDisplay}
               isLoggedIn={this.state.loggedIn}
               userObj={this.state.userObj}
+              appState={this.state}
             ></BSNavBar>
             {this.state.doDisplay !== "Reports" ? (
               <div id="desktopView" className="row">

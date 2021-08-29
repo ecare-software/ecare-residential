@@ -41,7 +41,7 @@ class PostMessageModal extends Component {
 
   render() {
     return (
-      <Modal show={this.props.doShow} onHide={!this.props.doShow}>
+      <Modal show={this.props.doShow}>
         <ModalHeader>
           <h5 className="modal-title" id="postMessageModalLabel">
             Messages are seen by everyone within the application ?

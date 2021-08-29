@@ -125,6 +125,8 @@ class AnnualTraining extends Component {
       hours: 0,
 
       isLoading: true,
+
+      noModal: false,
     };
   }
 
@@ -179,14 +181,24 @@ class AnnualTraining extends Component {
     try {
       this.setState({ ...this.state, isLoading: true });
       const { data } = await fetchTrainingModal(this.props.userObj.homeId);
-      this.setState({ ...this.state, modal: data[0] });
-      const rows = getEditRowsModal(data[0]);
-      const hours = getHours(rows);
-      this.setState({ ...this.state, modal: data[0], hours, isLoading: false });
+      console.log(data);
+      if (data.length === 0) {
+        this.setState({ ...this.state, noModal: true });
+      } else {
+        this.setState({ ...this.state, modal: data[0] });
+        const rows = getEditRowsModal(data[0]);
+        const hours = getHours(rows);
+        this.setState({
+          ...this.state,
+          modal: data[0],
+          hours,
+          isLoading: false,
+        });
+      }
     } catch (e) {
+      this.setState({ ...this.state, isLoading: false, error: true });
       alert("Error");
       console.log(e);
-      this.setState({ ...this.state, isLoading: false });
     }
   };
 
@@ -245,16 +257,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T1Hours}
+                {this.state.modal?.T1Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T1Title}
+                  {this.state.modal?.T1Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T1Presenter}
+                  {this.state.modal?.T1Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -292,16 +304,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T2Hours}
+                {this.state.modal?.T2Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T2Title}
+                  {this.state.modal?.T2Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T2Presenter}
+                  {this.state.modal?.T2Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -339,16 +351,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T3Hours}
+                {this.state.modal?.T3Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T3Title}
+                  {this.state.modal?.T3Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T3Presenter}
+                  {this.state.modal?.T3Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -386,16 +398,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T4Hours}
+                {this.state.modal?.T4Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T4Title}
+                  {this.state.modal?.T4Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T4Presenter}
+                  {this.state.modal?.T4Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -433,16 +445,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T5Hours}
+                {this.state.modal?.T5Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T5Title}
+                  {this.state.modal?.T5Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T5Presenter}
+                  {this.state.modal?.T5Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -480,16 +492,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T6Hours}
+                {this.state.modal?.T6Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T6Title}
+                  {this.state.modal?.T6Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T6Presenter}
+                  {this.state.modal?.T6Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -527,16 +539,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T7Hours}
+                {this.state.modal?.T7Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T7Title}
+                  {this.state.modal?.T7Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T7Presenter}
+                  {this.state.modal?.T7Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -574,16 +586,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T8Hours}
+                {this.state.modal?.T8Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T8Title}
+                  {this.state.modal?.T8Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T8Presenter}
+                  {this.state.modal?.T8Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -621,16 +633,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T9Hours}
+                {this.state.modal?.T9Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T9Title}
+                  {this.state.modal?.T9Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T9Presenter}
+                  {this.state.modal?.T9Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -668,16 +680,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T10Hours}
+                {this.state.modal?.T10Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T10Title}
+                  {this.state.modal?.T10Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T10Presenter}
+                  {this.state.modal?.T10Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -715,16 +727,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T11Hours}
+                {this.state.modal?.T11Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T11Title}
+                  {this.state.modal?.T11Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T11Presenter}
+                  {this.state.modal?.T11Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -762,16 +774,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T12Hours}
+                {this.state.modal?.T12Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T12Title}
+                  {this.state.modal?.T12Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T12Presenter}
+                  {this.state.modal?.T12Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -809,16 +821,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T13Hours}
+                {this.state.modal?.T13Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T13Title}
+                  {this.state.modal?.T13Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T13Presenter}
+                  {this.state.modal?.T13Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -856,16 +868,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T14Hours}
+                {this.state.modal?.T14Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T14Title}
+                  {this.state.modal?.T14Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T14Presenter}
+                  {this.state.modal?.T14Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -903,16 +915,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T15Hours}
+                {this.state.modal?.T15Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T15Title}
+                  {this.state.modal?.T15Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T15Presenter}
+                  {this.state.modal?.T15Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -950,16 +962,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T16Hours}
+                {this.state.modal?.T16Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T16Title}
+                  {this.state.modal?.T16Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T16Presenter}
+                  {this.state.modal?.T16Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -997,16 +1009,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T17Hours}
+                {this.state.modal?.T17Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T17Title}
+                  {this.state.modal?.T17Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T17Presenter}
+                  {this.state.modal?.T17Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -1044,16 +1056,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T18Hours}
+                {this.state.modal?.T18Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T18Title}
+                  {this.state.modal?.T18Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T18Presenter}
+                  {this.state.modal?.T18Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -1091,16 +1103,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T19Hours}
+                {this.state.modal?.T19Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T19Title}
+                  {this.state.modal?.T19Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T19Presenter}
+                  {this.state.modal?.T19Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -1138,16 +1150,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T20Hours}
+                {this.state.modal?.T20Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T20Title}
+                  {this.state.modal?.T20Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T20Presenter}
+                  {this.state.modal?.T20Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -1185,16 +1197,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T21Hours}
+                {this.state.modal?.T21Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T21Title}
+                  {this.state.modal?.T21Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T21Presenter}
+                  {this.state.modal?.T21Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -1232,16 +1244,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T22Hours}
+                {this.state.modal?.T22Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T22Title}
+                  {this.state.modal?.T22Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T22Presenter}
+                  {this.state.modal?.T22Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -1279,16 +1291,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T23Hours}
+                {this.state.modal?.T23Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T23Title}
+                  {this.state.modal?.T23Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T23Presenter}
+                  {this.state.modal?.T23Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -1326,16 +1338,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T24Hours}
+                {this.state.modal?.T24Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T24Title}
+                  {this.state.modal?.T24Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T24Presenter}
+                  {this.state.modal?.T24Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -1373,16 +1385,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T25Hours}
+                {this.state.modal?.T25Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T25Title}
+                  {this.state.modal?.T25Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T25Presenter}
+                  {this.state.modal?.T25Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -1420,16 +1432,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T26Hours}
+                {this.state.modal?.T26Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T26Title}
+                  {this.state.modal?.T26Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T26Presenter}
+                  {this.state.modal?.T26Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -1467,16 +1479,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T27Hours}
+                {this.state.modal?.T27Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T27Title}
+                  {this.state.modal?.T27Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T27Presenter}
+                  {this.state.modal?.T27Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -1514,16 +1526,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T28Hours}
+                {this.state.modal?.T28Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T28Title}
+                  {this.state.modal?.T28Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T28Presenter}
+                  {this.state.modal?.T28Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -1561,16 +1573,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T29Hours}
+                {this.state.modal?.T29Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T29Title}
+                  {this.state.modal?.T29Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T29Presenter}
+                  {this.state.modal?.T29Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -1608,16 +1620,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T30Hours}
+                {this.state.modal?.T30Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T30Title}
+                  {this.state.modal?.T30Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T30Presenter}
+                  {this.state.modal?.T30Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -1655,16 +1667,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T31Hours}
+                {this.state.modal?.T31Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T31Title}
+                  {this.state.modal?.T31Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T31Presenter}
+                  {this.state.modal?.T31Presenter}
                 </label>
               </div>
               <SmallColRight>
@@ -1702,16 +1714,16 @@ class AnnualTraining extends Component {
             </div>
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
-                {this.state.modal.T32Hours}
+                {this.state.modal?.T32Hours}
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T32Title}
+                  {this.state.modal?.T32Title}
                 </label>
               </div>
               <div className="col text-center">
                 <label className="control-label">
-                  {this.state.modal.T32Presenter}
+                  {this.state.modal?.T32Presenter}
                 </label>
               </div>
               <SmallColRight>

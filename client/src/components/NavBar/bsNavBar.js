@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import LogInContiner from "../LogInContainer/LogInContainer";
 import Modal from "react-bootstrap/Modal";
 import FormAlert from "../Forms/FormAlert";
@@ -17,8 +17,8 @@ const navBarStyleNotLoggedIn = {
 const navBarStyleLoggedIn = {
   backgroundColor: "maroon",
   color: "white",
-  webkitBoxShadow: "0px 2px 7px -1px rgba(0, 0, 0, 0.75)",
-  mozBoxShadow: "0px 2px 7px -1px rgba(0, 0, 0, 0.75)",
+  webkitboxshadow: "0px 2px 7px -1px rgba(0, 0, 0, 0.75)",
+  MozBoxShadow: "0px 2px 7px -1px rgba(0, 0, 0, 0.75)",
   boxShadow: "0px 2px 7px -1px rgba(0, 0, 0, 0.75)",
 };
 
@@ -71,8 +71,6 @@ class NavBar extends React.Component {
       namebs: "",
       organizationbs: "",
       emailSent: false,
-      nonApprovedFormCount: 0,
-      nonApprovedFormCountSet: false,
     };
   }
 
@@ -129,6 +127,7 @@ class NavBar extends React.Component {
   toggleActive = () => {};
 
   render() {
+    let formContext = this.context;
     const { firstName } = this.props.userObj;
     if (!this.props.isLoggedIn) {
       return (
@@ -144,7 +143,7 @@ class NavBar extends React.Component {
           ) : (
             <React.Fragment />
           )}
-          <Modal show={this.state.showLogIn} onHide={!this.state.showLogIn}>
+          <Modal show={this.state.showLogIn}>
             <LogInContiner
               logIn={this.props.logIn}
               pos={{ position: "relati", top: "100%", top: "20vh" }}
@@ -252,7 +251,7 @@ class NavBar extends React.Component {
     }
     return (
       <FormCountContext.Consumer>
-        {({ handleChange }) => (
+        {({ formConext, handleChange }) => (
           <Navbar
             fixed="top"
             variant="dark"
@@ -477,7 +476,6 @@ class NavBar extends React.Component {
                   >
                     Illness Injury
                   </NavDropdown.Item>
-                  {/* <NavDropdown.Divider /> */}
                 </NavDropdown>
                 <NavDropdown
                   style={navItemStyle}
@@ -598,7 +596,7 @@ class NavBar extends React.Component {
                   style={navItemStyle}
                 >
                   Reports{" "}
-                  {this.state.nonApprovedFormCountSet && (
+                  {this.props.appState.nonApprovedFormCountSet && (
                     <span
                       style={{
                         backgroundColor: "white",
@@ -608,13 +606,10 @@ class NavBar extends React.Component {
                         margin: "0px 5px",
                       }}
                     >
-                      {this.state.nonApprovedFormCount}
+                      {formContext.count}
                     </span>
                   )}
                 </Nav.Link>
-                {/* ) : (
-              <React.Fragment></React.Fragment>
-            )} */}
               </Nav>
               <Nav className="ml-auto">
                 <NavDropdown
@@ -705,5 +700,7 @@ class NavBar extends React.Component {
     );
   }
 }
+
+NavBar.contextType = FormCountContext;
 
 export default NavBar;

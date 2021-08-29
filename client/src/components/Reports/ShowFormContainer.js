@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { Component, useState, useContext } from "react";
 import TreatmentPlan72 from "../Forms/TreatmentPlan72";
 import IncidentReport from "../Forms/IncidentReport";
 import SeriousIncidentReport from "../Forms/SeriousIncidentReport";
@@ -11,11 +11,13 @@ import PreServiceTraining from "../Forms/PreServiceTraining";
 import BodyCheck from "../Forms/BodyCheck";
 import { Form, Col } from "react-bootstrap";
 import Axios from "axios";
+import { FormCountContext } from "../../context";
 
 const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   const [isApproved, setIsApproved] = useState(
     formData.approved ? formData.approved : false
   );
+  const formContext = useContext(FormCountContext);
 
   const [approvedByText, setApprovedByText] = useState(
     formData.approved === true
@@ -39,8 +41,6 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   const updateFormApproval = async () => {
     let isApprovedPostData = !isApproved;
     await setIsApproved(isApprovedPostData);
-    alert();
-    return;
     try {
       await Axios.put(`/api/${route}/${formData.homeId}/${formData._id}`, {
         approved: isApprovedPostData,
@@ -58,6 +58,12 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
       alert("Error update form state");
       setApprovedByText("");
       setIsApproved(!isApproved);
+    }
+
+    try {
+      await formContext.updateCount();
+    } catch (e) {
+      console.log(`error updating form approval count - ${e}`);
     }
   };
 

@@ -114,7 +114,6 @@ router.get("/count/:status/:homeId", async (req, res) => {
     acc = acc + formTypePromise.length;
     return acc;
   }, 0);
-  console.log(completedPromisses);
   res.json({
     approved,
     count,
