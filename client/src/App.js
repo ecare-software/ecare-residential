@@ -436,7 +436,14 @@ class App extends Component {
     this.setState({ ...this.state, userObj: newUserData });
   };
 
+  setBackButtonBlock = () => {
+    window.onbeforeunload = function () {
+      return "Your work will be lost.";
+    };
+  };
+
   render() {
+    this.setBackButtonBlock();
     if (this.state.loggedIn) {
       return (
         <FormCountContext.Provider value={this.state.formCountState}>
