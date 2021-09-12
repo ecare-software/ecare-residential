@@ -259,10 +259,10 @@ class RestraintReport extends Component {
     }
   };
 
-  validateForm = () => {
+  validateForm = (save) => {
     if (
-      !this.props.userObj.signature ||
-      this.props.userObj.signature.length < 1
+      !save &&
+      (!this.props.userObj.signature || this.props.userObj.signature.length < 1)
     ) {
       this.setState({
         formHasError: true,
@@ -978,9 +978,23 @@ class RestraintReport extends Component {
               <FormError errorId={this.props.id + "-error"} />
               <div
                 className="form-group logInInputField"
-                style={{ textAlign: "right" }}
+                style={{ display: "flex", justifyContent: "space-between" }}
               >
-                <button className="darkBtn" onClick={this.validateForm}>
+                <button
+                  className="lightBtn"
+                  onClick={() => {
+                    this.validateForm(true);
+                  }}
+                >
+                  Save
+                </button>
+
+                <button
+                  className="darkBtn"
+                  onClick={() => {
+                    this.validateForm(false);
+                  }}
+                >
                   Submit
                 </button>
               </div>
@@ -1580,9 +1594,23 @@ class RestraintReport extends Component {
                 <FormError errorId={this.props.id + "-error"} />
                 <div
                   className="form-group logInInputField"
-                  style={{ textAlign: "right" }}
+                  style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <button className="darkBtn" onClick={this.validateForm}>
+                  <button
+                    className="lightBtn"
+                    onClick={() => {
+                      this.validateForm(true);
+                    }}
+                  >
+                    Save
+                  </button>
+
+                  <button
+                    className="darkBtn"
+                    onClick={() => {
+                      this.validateForm(false);
+                    }}
+                  >
                     Submit
                   </button>
                 </div>
