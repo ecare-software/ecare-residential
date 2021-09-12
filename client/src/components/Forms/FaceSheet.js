@@ -81,6 +81,92 @@ class FaceSheet extends Component {
     }
     this.setState(stateObj);
   };
+
+  isNumericInput = (event) => {
+    const key = event.keyCode;
+    return (
+      (key >= 48 && key <= 57) || // Allow number line
+      (key >= 96 && key <= 105) // Allow number pad
+    );
+  };
+
+  isModifierKey = (event) => {
+    const key = event.keyCode;
+    return (
+      event.shiftKey === true ||
+      key === 35 ||
+      key === 36 || // Allow Shift, Home, End
+      key === 8 ||
+      key === 9 ||
+      key === 13 ||
+      key === 46 || // Allow Backspace, Tab, Enter, Delete
+      (key > 36 && key < 41) || // Allow left, up, right, down
+      // Allow Ctrl/Command + A,C,V,X,Z
+      ((event.ctrlKey === true || event.metaKey === true) &&
+        (key === 65 || key === 67 || key === 86 || key === 88 || key === 90))
+    );
+  };
+
+  enforceFormat = (event) => {
+    // Input must be of a valid number format or a modifier key, and not longer than ten digits
+    if (!this.isNumericInput(event) && !this.isModifierKey(event)) {
+      event.preventDefault();
+    }
+  };
+
+  formatToPhone = (key, event) => {
+    if (this.isModifierKey(event)) {
+      return;
+    }
+
+    const input = event.target.value.replace(/\D/g, "").substring(0, 10); // First ten digits of input only
+    const areaCode = input.substring(0, 3);
+    const middle = input.substring(3, 6);
+    const last = input.substring(6, 10);
+    let value = "";
+
+    if (input.length > 6) {
+      // event.target.
+      value = `(${areaCode}) ${middle} - ${last}`;
+    } else if (input.length > 3) {
+      // event.target.
+      value = `(${areaCode}) ${middle}`;
+    } else if (input.length > 0) {
+      // event.target.
+      value = `(${areaCode}`;
+    }
+
+    const stateClone = { ...this.state };
+    stateClone[key] = value;
+    this.setState({
+      ...stateClone,
+    });
+  };
+
+  formatToPhoneDefault = (key, value) => {
+    const input = value.replace(/\D/g, "").substring(0, 10); // First ten digits of input only
+    const areaCode = input.substring(0, 3);
+    const middle = input.substring(3, 6);
+    const last = input.substring(6, 10);
+
+    if (input.length > 6) {
+      // event.target.
+      value = `(${areaCode}) ${middle} - ${last}`;
+    } else if (input.length > 3) {
+      // event.target.
+      value = `(${areaCode}) ${middle}`;
+    } else if (input.length > 0) {
+      // event.target.
+      value = `(${areaCode}`;
+    }
+
+    const stateClone = { ...this.state };
+    stateClone[key] = value;
+    this.setState({
+      ...stateClone,
+    });
+  };
+
   resetForm = () => {
     this.setState({
       childMeta_name: "",
@@ -115,7 +201,6 @@ class FaceSheet extends Component {
 
   submit = () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-    console.log(JSON.stringify(currentState));
     if (this.props.valuesSet) {
       Axios.put(
         `/api/client/${this.state.homeId}/${this.state._id}`,
@@ -137,8 +222,8 @@ class FaceSheet extends Component {
         .then((res) => {
           window.scrollTo(0, 0);
           this.toggleSuccessAlert();
-          setTimeout(this.toggleSuccessAlert, 3000);
           this.resetForm();
+          setTimeout(this.toggleSuccessAlert, 3000);
         })
         .catch((e) => {
           this.setState({
@@ -215,8 +300,12 @@ class FaceSheet extends Component {
     this.submit();
   };
 
-  setValues = () => {
-    this.setState({ ...this.state, ...this.props.formData });
+  setValues = async () => {
+    await this.setState({ ...this.state, ...this.props.formData });
+    this.formatToPhoneDefault(
+      "childMeta_caseWorkerPONumber",
+      this.props.formData.childMeta_caseWorkerPONumber
+    );
   };
 
   componentDidMount() {
@@ -391,8 +480,11 @@ class FaceSheet extends Component {
                 Case Worker / PO Phone Number
               </label>{" "}
               <input
-                onChange={this.handleFieldInput}
+                onKeyDown={this.enforceFormat}
                 id="childMeta_caseWorkerPONumber"
+                onChange={(e) => {
+                  this.formatToPhone("childMeta_caseWorkerPONumber", e);
+                }}
                 value={this.state.childMeta_caseWorkerPONumber}
                 className="form-control"
                 type="text"
@@ -755,8 +847,9 @@ class FaceSheet extends Component {
                 Case Worker / PO Phone Number
               </label>{" "}
               <input
-                onChange={this.handleFieldInput}
+                onKeyDown={this.enforceFormat}
                 id="childMeta_caseWorkerPONumber"
+                onChange={this.formatToPhone}
                 value={this.state.childMeta_caseWorkerPONumber}
                 className="form-control"
                 type="text"
