@@ -110,7 +110,10 @@ class BodyCheck extends Component {
   }
 
   toggleSuccessAlert = () => {
-    this.setState({ formSubmitted: !this.state.formSubmitted });
+    this.setState({
+      formSubmitted: !this.state.formSubmitted,
+      loadingClients: false,
+    });
   };
 
   toggleErrorAlert = () => {
@@ -199,7 +202,6 @@ class BodyCheck extends Component {
 
   submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-
     if (this.props.valuesSet) {
       try {
         await Axios.put(
@@ -217,6 +219,7 @@ class BodyCheck extends Component {
         this.setState({
           formHasError: true,
           formErrorMessage: "Error Submitting Health Body Check Form",
+          loadingClients: false,
         });
       }
     } else {
@@ -236,21 +239,35 @@ class BodyCheck extends Component {
           this.setState({
             formHasError: true,
             formErrorMessage: "Error Submitting Health Body Check Form",
+            loadingClients: false,
           });
         });
     }
   };
 
-  validateForm = (save) => {
-    if (
-      !save &&
-      (!this.props.userObj.signature || this.props.userObj.signature.length < 1)
-    ) {
-      this.setState({
-        formHasError: true,
-        formErrorMessage: `User signiture required to submit a form. Create a new signiture under 'Manage Profile'.`,
-      });
-      return;
+  validateForm = async (save) => {
+    this.setState({
+      ...this.state,
+      loadingClients: true,
+    });
+    if (!save) {
+      const { data: createdUserData } = await GetUserSig(
+        this.props.userObj.email,
+        this.props.userObj.homeId
+      );
+
+      if (
+        !createdUserData.signature ||
+        Array.isArray(createdUserData.signature) === false ||
+        !createdUserData.signature.length > 0
+      ) {
+        this.setState({
+          formHasError: true,
+          formErrorMessage: `User signiture required to submit a form. Create a new signiture under 'Manage Profile'.`,
+          loadingClients: false,
+        });
+        return;
+      }
     }
 
     var keysToExclude = [

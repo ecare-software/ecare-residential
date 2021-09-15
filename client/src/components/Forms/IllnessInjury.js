@@ -58,7 +58,10 @@ class IllnessInjury extends Component {
   }
 
   toggleSuccessAlert = () => {
-    this.setState({ formSubmitted: !this.state.formSubmitted });
+    this.setState({
+      formSubmitted: !this.state.formSubmitted,
+      loadingClients: false,
+    });
   };
 
   toggleErrorAlert = () => {
@@ -104,7 +107,6 @@ class IllnessInjury extends Component {
 
   submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-
     if (this.props.valuesSet) {
       try {
         await Axios.put(
@@ -122,6 +124,7 @@ class IllnessInjury extends Component {
         this.setState({
           formHasError: true,
           formErrorMessage: "Error Submitting Illness Injury",
+          loadingClients: false,
         });
       }
     } else {
@@ -141,21 +144,35 @@ class IllnessInjury extends Component {
           this.setState({
             formHasError: true,
             formErrorMessage: "Error Submitting Illness Injury",
+            loadingClients: false,
           });
         });
     }
   };
 
-  validateForm = (save) => {
-    if (
-      !save &&
-      (!this.props.userObj.signature || this.props.userObj.signature.length < 1)
-    ) {
-      this.setState({
-        formHasError: true,
-        formErrorMessage: `User signiture required to submit a form. Create a new signiture under 'Manage Profile'.`,
-      });
-      return;
+  validateForm = async (save) => {
+    this.setState({
+      ...this.state,
+      loadingClients: true,
+    });
+    if (!save) {
+      const { data: createdUserData } = await GetUserSig(
+        this.props.userObj.email,
+        this.props.userObj.homeId
+      );
+
+      if (
+        !createdUserData.signature ||
+        Array.isArray(createdUserData.signature) === false ||
+        !createdUserData.signature.length > 0
+      ) {
+        this.setState({
+          formHasError: true,
+          formErrorMessage: `User signiture required to submit a form. Create a new signiture under 'Manage Profile'.`,
+          loadingClients: false,
+        });
+        return;
+      }
     }
 
     var keysToExclude = [
