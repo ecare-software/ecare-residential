@@ -388,6 +388,9 @@ const AdmissionAssessmentSchema = new Schema({
   approvedByDate: {
     type: Date,
   },
+  approvedSig: {
+    type: Array,
+  },
   createDate: {
     type: Date,
     default: new Date(),

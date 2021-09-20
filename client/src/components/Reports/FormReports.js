@@ -195,9 +195,16 @@ export class FromReports extends Component {
       if (count === promiseCount) {
         if (!this.state.formNamesReady) {
           this.setState({
-            formNames: startFormsState.map((forms) => {
-              return forms.name;
-            }),
+            formNames: [
+              "Admission Assessment",
+              "Health Body Check",
+              "Daily Activity",
+              "Illness Injury",
+              "Restraint Report",
+              "Incident Report",
+              "Serious Incident Report",
+              "72 Hour Treatment Plan",
+            ],
           });
           this.setState({ formNamesReady: true });
         }

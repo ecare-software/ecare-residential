@@ -161,6 +161,29 @@ const BodyCheckSchema = new Schema({
   approvedByDate: {
     type: Date,
   },
+  approvedSig: {
+    type: Array,
+  },
+
+  approvedNurse: {
+    type: Boolean,
+    default: false,
+  },
+  approvedByNurse: {
+    type: String,
+    required: false,
+  },
+  approvedByNameNurse: {
+    type: String,
+    required: false,
+  },
+  approvedByDateNurse: {
+    type: Date,
+  },
+  approvedNurseSig: {
+    type: Array,
+  },
+
   createDate: {
     type: Date,
     default: new Date(),
