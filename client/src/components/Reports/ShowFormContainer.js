@@ -14,6 +14,7 @@ import Axios from "axios";
 import { FormCountContext } from "../../context";
 import { GetUserSig } from "../../utils/GetUserSig";
 import SignatureCanvas from "react-signature-canvas";
+import { FetchHomeData } from "../../utils/FetchHomeData";
 
 const needsNurseSig = ["Health Body Check"];
 
@@ -49,6 +50,21 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   const [sigCanvasAdmin, setSigCanvasAdmin] = useState(null);
 
   const [sigCanvasNurse, setSigCanvasNurse] = useState(null);
+
+  const [homeData, setHomeData] = useState("");
+
+  const doGetHomeInfo = async () => {
+    try {
+      const { data } = await FetchHomeData(formData.homeId);
+      await setHomeData(data[0]);
+    } catch (e) {
+      console.log("Error fetching home info");
+    }
+  };
+
+  const doPrint = async () => {
+    window.print();
+  };
 
   const setApprovedLabel = (approved, label) => {
     if (approved) {
@@ -89,6 +105,10 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
       }
     }
   }, [isApproved, isApprovedByNurse, sigCanvasNurse, sigCanvasAdmin]);
+
+  useEffect(() => {
+    if (formData.homeId) doGetHomeInfo();
+  }, []);
 
   const doSetSigs = (type, sig) => {
     if (type === "nurse") {
@@ -324,12 +344,15 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
       <div>
         <button
           onClick={() => {
-            window.print();
+            doPrint();
           }}
           className="btn btn-light"
         >
           Print <i className="fas fa-print"></i>
         </button>
+        <h3 className="text-center">
+          {homeData && `Home Name - ${homeData.name}`}
+        </h3>
       </div>
     </div>
   );

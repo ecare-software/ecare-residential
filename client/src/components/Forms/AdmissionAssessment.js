@@ -10,6 +10,7 @@ import SignatureCanvas from "react-signature-canvas";
 import { GetUserSig } from "../../utils/GetUserSig";
 import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
 import { FormSavedAlert } from "../../utils/FormSavedAlert";
+import TextareaAutosize from "react-textarea-autosize";
 
 class AdmissionAssessment extends Component {
   constructor(props) {
@@ -775,12 +776,12 @@ class AdmissionAssessment extends Component {
                 <label className="control-label">
                   Legal Status / Permancy Goal
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="legalStatus_PermancyGoal"
                   value={this.state.legalStatus_PermancyGoal}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
@@ -1116,86 +1117,86 @@ class AdmissionAssessment extends Component {
                 <label className="control-label">
                   Known contraindications to the use of restraint
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="knownContraindicationsToTheUuseOfRestraint"
                   value={this.state.knownContraindicationsToTheUuseOfRestraint}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   De-escalating Techniques to avoid restraints (EBI)
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="de_escalatingTechniquesToAvoidRestraints_ebi"
                   value={
                     this.state.de_escalatingTechniquesToAvoidRestraints_ebi
                   }
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Child's De-escalation Technique:
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="child_de_escalator"
                   value={this.state.child_de_escalator}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Staff Member's De-escalation Technique:
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="staff_de_escalator"
                   value={this.state.staff_de_escalator}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Therapist's De-escalation Technique:
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="therapist_de_escalator"
                   value={this.state.therapist_de_escalator}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Child's Preferred De-escalation
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="childPreferred_de_escalation"
                   value={this.state.childPreferred_de_escalation}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Intervention Strategies
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="interventionStrategies"
                   value={this.state.interventionStrategies}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 <h5>
@@ -1209,36 +1210,36 @@ class AdmissionAssessment extends Component {
                   Managing conservator/family members (as appropriate)
                   expectation of placement
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="managingConservator_text"
                   value={this.state.managingConservator_text}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Child’s understanding and expectations of placement
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="understanding_expectations"
                   value={this.state.understanding_expectations}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Previous Placements
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="previousPlacements"
                   value={this.state.previousPlacements}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
@@ -1247,12 +1248,12 @@ class AdmissionAssessment extends Component {
                   child’s medical, social psychological and educational history
                   and needs (include date of discussion.){" "}
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="summary_of_discussion"
                   value={this.state.summary_of_discussion}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 <h5>
@@ -1270,12 +1271,12 @@ class AdmissionAssessment extends Component {
                 <label className="control-label">
                   Child’s Behavioral History
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="behavioralHistory"
                   value={this.state.behavioralHistory}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
@@ -1284,12 +1285,12 @@ class AdmissionAssessment extends Component {
                   the Juvenile Justice System, list incidents, status, Probation
                   Department, and contact person
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="juvenileHistory"
                   value={this.state.juvenileHistory}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
@@ -1309,36 +1310,36 @@ class AdmissionAssessment extends Component {
                 <label className="control-label">
                   CURRENT MENTAL HEALTH/SUBSTANCE ABUSE STATUS
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="substanceAbuseStatus"
                   value={this.state.substanceAbuseStatus}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Child’s Recreational History (skills/interest):{" "}
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="recHistory"
                   value={this.state.recHistory}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Child’s Developmental/Medical History
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="developmental_medicalHistory"
                   value={this.state.developmental_medicalHistory}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
@@ -1924,58 +1925,58 @@ class AdmissionAssessment extends Component {
                 <label className="control-label">
                   Child’s Educational History
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="educationHistory"
                   value={this.state.educationHistory}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   LAST SCHOOL ATTENDED
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="lastSchoolAttended"
                   value={this.state.lastSchoolAttended}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Last Progress Report
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="progressReportInfo"
                   value={this.state.progressReportInfo}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Child’s educational level and any pertinent school problems
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="educationalLevel"
                   value={this.state.educationalLevel}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Examiner</label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="examiner"
                   value={this.state.examiner}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
@@ -1991,44 +1992,44 @@ class AdmissionAssessment extends Component {
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Diagnosis</label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="diagnosis"
                   value={this.state.diagnosis}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Stressors</label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="stressors"
                   value={this.state.stressors}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Health Issues</label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="healthIssues"
                   value={this.state.healthIssues}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Supervision Strategies
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="supervisionStrategies"
                   value={this.state.supervisionStrategies}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
@@ -2036,24 +2037,24 @@ class AdmissionAssessment extends Component {
                   Efforts made to obtain information that was unavailable at the
                   time of admission
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="effortsToObtainInfo"
                   value={this.state.effortsToObtainInfo}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Rationale for appropriate admission
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="rationl_admission"
                   value={this.state.rationl_admission}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
@@ -2061,58 +2062,58 @@ class AdmissionAssessment extends Component {
                   Parent/guardian’s expectation for placement and family
                   involvement
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="parent_gaurdian_expectation"
                   value={this.state.parent_gaurdian_expectation}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   OBJECTIVE OF PLACEMENT
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="objective"
                   value={this.state.objective}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">BASIC NEEDS</label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="basicNeeds"
                   value={this.state.basicNeeds}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Short-term Goals of Placement
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="shortTermGoals"
                   value={this.state.shortTermGoals}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Long-term Goals of Placement
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="longTermGoals"
                   value={this.state.longTermGoals}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <FormError errorId={this.props.id + "-error"} />
               <div
@@ -2373,12 +2374,12 @@ class AdmissionAssessment extends Component {
                   <label className="control-label">
                     Legal Status / Permancy Goal
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="legalStatus_PermancyGoal"
                     value={this.state.legalStatus_PermancyGoal}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -2717,88 +2718,88 @@ class AdmissionAssessment extends Component {
                   <label className="control-label">
                     Known contraindications to the use of restraint
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="knownContraindicationsToTheUuseOfRestraint"
                     value={
                       this.state.knownContraindicationsToTheUuseOfRestraint
                     }
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     De-escalating Techniques to avoid restraints (EBI)
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="de_escalatingTechniquesToAvoidRestraints_ebi"
                     value={
                       this.state.de_escalatingTechniquesToAvoidRestraints_ebi
                     }
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Child's De-escalation Technique:
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="child_de_escalator"
                     value={this.state.child_de_escalator}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Staff Member's De-escalation Technique:
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="staff_de_escalator"
                     value={this.state.staff_de_escalator}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Therapist's De-escalation Technique:
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="therapist_de_escalator"
                     value={this.state.therapist_de_escalator}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Child's Preferred De-escalation
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="childPreferred_de_escalation"
                     value={this.state.childPreferred_de_escalation}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Intervention Strategies
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="interventionStrategies"
                     value={this.state.interventionStrategies}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   <h5>
@@ -2812,36 +2813,36 @@ class AdmissionAssessment extends Component {
                     Managing conservator/family members (as appropriate)
                     expectation of placement
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="managingConservator_text"
                     value={this.state.managingConservator_text}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Child’s understanding and expectations of placement
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="understanding_expectations"
                     value={this.state.understanding_expectations}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Previous Placements
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="previousPlacements"
                     value={this.state.previousPlacements}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -2850,12 +2851,12 @@ class AdmissionAssessment extends Component {
                     child’s medical, social psychological and educational
                     history and needs (include date of discussion.){" "}
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="summary_of_discussion"
                     value={this.state.summary_of_discussion}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   <h5>
@@ -2873,12 +2874,12 @@ class AdmissionAssessment extends Component {
                   <label className="control-label">
                     Child’s Behavioral History
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="behavioralHistory"
                     value={this.state.behavioralHistory}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -2887,12 +2888,12 @@ class AdmissionAssessment extends Component {
                     in the Juvenile Justice System, list incidents, status,
                     Probation Department, and contact person
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="juvenileHistory"
                     value={this.state.juvenileHistory}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -2912,36 +2913,36 @@ class AdmissionAssessment extends Component {
                   <label className="control-label">
                     CURRENT MENTAL HEALTH/SUBSTANCE ABUSE STATUS
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="substanceAbuseStatus"
                     value={this.state.substanceAbuseStatus}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Child’s Recreational History (skills/interest):{" "}
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="recHistory"
                     value={this.state.recHistory}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Child’s Developmental/Medical History
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="developmental_medicalHistory"
                     value={this.state.developmental_medicalHistory}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -3527,58 +3528,58 @@ class AdmissionAssessment extends Component {
                   <label className="control-label">
                     Child’s Educational History
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="educationHistory"
                     value={this.state.educationHistory}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     LAST SCHOOL ATTENDED
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="lastSchoolAttended"
                     value={this.state.lastSchoolAttended}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Last Progress Report
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="progressReportInfo"
                     value={this.state.progressReportInfo}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Child’s educational level and any pertinent school problems
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="educationalLevel"
                     value={this.state.educationalLevel}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">Examiner</label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="examiner"
                     value={this.state.examiner}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -3596,44 +3597,44 @@ class AdmissionAssessment extends Component {
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">Diagnosis</label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="diagnosis"
                     value={this.state.diagnosis}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">Stressors</label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="stressors"
                     value={this.state.stressors}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">Health Issues</label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="healthIssues"
                     value={this.state.healthIssues}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Supervision Strategies
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="supervisionStrategies"
                     value={this.state.supervisionStrategies}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -3641,24 +3642,24 @@ class AdmissionAssessment extends Component {
                     Efforts made to obtain information that was unavailable at
                     the time of admission
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="effortsToObtainInfo"
                     value={this.state.effortsToObtainInfo}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Rationale for appropriate admission
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="rationl_admission"
                     value={this.state.rationl_admission}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -3666,46 +3667,46 @@ class AdmissionAssessment extends Component {
                     Parent/guardian’s expectation for placement and family
                     involvement
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="parent_gaurdian_expectation"
                     value={this.state.parent_gaurdian_expectation}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     OBJECTIVE OF PLACEMENT
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="objective"
                     value={this.state.objective}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">BASIC NEEDS</label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="basicNeeds"
                     value={this.state.basicNeeds}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Short-term Goals of Placement
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="shortTermGoals"
                     value={this.state.shortTermGoals}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
               </div>
             )}
@@ -3714,12 +3715,12 @@ class AdmissionAssessment extends Component {
               <label className="control-label">
                 Long-term Goals of Placement
               </label>{" "}
-              <textarea
+              <TextareaAutosize
                 onChange={this.handleFieldInput}
                 id="longTermGoals"
                 value={this.state.longTermGoals}
                 className="form-control"
-              ></textarea>
+              ></TextareaAutosize>
             </div>
             <label className="control-label">Signature</label>{" "}
             <div className="sigSection">

@@ -11,6 +11,7 @@ import { GetUserSig } from "../../utils/GetUserSig";
 import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
 import { FormSavedAlert } from "../../utils/FormSavedAlert";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
+import TextareaAutosize from "react-textarea-autosize";
 
 class TreatmentPlan72 extends Component {
   constructor(props) {
@@ -1099,12 +1100,12 @@ class TreatmentPlan72 extends Component {
                   <label className="control-label">
                     Legal Status / Permancy Goal
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="legalStatus_PermancyGoal"
                     value={this.state.legalStatus_PermancyGoal}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -1231,24 +1232,24 @@ class TreatmentPlan72 extends Component {
                   <label className="control-label">
                     Child's Reaction to Placement
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="reactionToPlacement"
                     value={this.state.reactionToPlacement}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Child's Interests
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="interests"
                     value={this.state.interests}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   <h5>
@@ -1475,54 +1476,54 @@ class TreatmentPlan72 extends Component {
                   <label className="control-label">
                     Current Medical Information
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="currentMedicalInformation"
                     value={this.state.currentMedicalInformation}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Developmental / Medical History
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="developmental_medicalHistory"
                     value={this.state.developmental_medicalHistory}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">Drug Allergies</label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="drugAllergies"
                     value={this.state.drugAllergies}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">Food Allergies</label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="food1"
                     value={this.state.food1}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">Allergies</label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="allergies"
                     value={this.state.allergies}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -1538,22 +1539,22 @@ class TreatmentPlan72 extends Component {
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">Health Strengths</label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="healthStrengths"
                     value={this.state.healthStrengths}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">Health Needs</label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="healthNeeds"
                     value={this.state.healthNeeds}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -2054,68 +2055,68 @@ class TreatmentPlan72 extends Component {
                   <label className="control-label">
                     Behavioral Strengths
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="behavioralStrengths"
                     value={this.state.behavioralStrengths}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">Behavioral Needs</label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="behavioralNeeds"
                     value={this.state.behavioralNeeds}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Behavioral Treatment Services
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="behavioralTreatmentServices"
                     value={this.state.behavioralTreatmentServices}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Emotional Strengths
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="emotionalStrengths"
                     value={this.state.emotionalStrengths}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">Emotional Needs</label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="emotionalNeeds"
                     value={this.state.emotionalNeeds}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Emotional Treatment Services
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="emotionalTreatmentServices"
                     value={this.state.emotionalTreatmentServices}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   <h5>
@@ -2184,144 +2185,144 @@ class TreatmentPlan72 extends Component {
                   <label className="control-label">
                     Known contraindications to the use of restraint
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="knownContraindicationsToTheUuseOfRestraint"
                     value={
                       this.state.knownContraindicationsToTheUuseOfRestraint
                     }
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     De-escalating Techniques to avoid restraints (EBI)
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="de_escalatingTechniquesToAvoidRestraints_ebi"
                     value={
                       this.state.de_escalatingTechniquesToAvoidRestraints_ebi
                     }
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Child's De-escalation Technique:
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="child_de_escalator"
                     value={this.state.child_de_escalator}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Staff Member's De-escalation Technique:
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="staff_de_escalator"
                     value={this.state.staff_de_escalator}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Therapist's De-escalation Technique:
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="therapist_de_escalator"
                     value={this.state.therapist_de_escalator}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Child's Preferred De-escalation
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="childPreferred_de_escalation"
                     value={this.state.childPreferred_de_escalation}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Intervention Strategies
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="interventionStrategies"
                     value={this.state.interventionStrategies}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Supervision Strategies
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="supervisionStrategies"
                     value={this.state.supervisionStrategies}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Social Recreational Strengths
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="social_recreationalStrengths"
                     value={this.state.social_recreationalStrengths}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Social Recreational Needs
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="social_recreationalNeeds"
                     value={this.state.social_recreationalNeeds}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">Family Strengths</label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="familyStrengths"
                     value={this.state.familyStrengths}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">Family Needs</label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="familyNeeds"
                     value={this.state.familyNeeds}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -2640,70 +2641,70 @@ class TreatmentPlan72 extends Component {
                   <label className="control-label">
                     Educational / Vacational Strengths
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="educational_vacationalStrengths"
                     value={this.state.educational_vacationalStrengths}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Educational / Vacational Needs
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="educational_vacationalNeeds"
                     value={this.state.educational_vacationalNeeds}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Transitional Living
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="transitionalLiving"
                     value={this.state.transitionalLiving}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Discharge Planning
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="dischargePlanning"
                     value={this.state.dischargePlanning}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">Long Range Goals</label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="longRangeGoals"
                     value={this.state.longRangeGoals}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Short Range Goals
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="shortRangeGoals"
                     value={this.state.shortRangeGoals}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <FormError errorId={this.props.id + "-error"} />
                 <div
@@ -2976,12 +2977,12 @@ class TreatmentPlan72 extends Component {
                 <label className="control-label">
                   Legal Status / Permancy Goal
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.legalStatus_PermancyGoal}
                   id="legalStatus_PermancyGoal"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
@@ -3108,22 +3109,22 @@ class TreatmentPlan72 extends Component {
                 <label className="control-label">
                   Child's Reaction to Placement
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.reactionToPlacement}
                   id="reactionToPlacement"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Child's Interests</label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.interests}
                   id="interests"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 <h5>
@@ -3350,54 +3351,54 @@ class TreatmentPlan72 extends Component {
                 <label className="control-label">
                   Current Medical Information
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.currentMedicalInformation}
                   id="currentMedicalInformation"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Developmental / Medical History
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.developmental_medicalHistory}
                   id="developmental_medicalHistory"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Drug Allergies</label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.drugAllergies}
                   id="drugAllergies"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Food Allergies</label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.food1}
                   id="food1"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Allergies</label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.allergies}
                   id="allergies"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
@@ -3413,22 +3414,22 @@ class TreatmentPlan72 extends Component {
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Health Strengths</label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.healthStrengths}
                   id="healthStrengths"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Health Needs</label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.healthNeeds}
                   id="healthNeeds"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
@@ -3919,68 +3920,68 @@ class TreatmentPlan72 extends Component {
                 <label className="control-label">
                   Behavioral Strengths
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.behavioralStrengths}
                   id="behavioralStrengths"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Behavioral Needs</label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.behavioralNeeds}
                   id="behavioralNeeds"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Behavioral Treatment Services
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.behavioralTreatmentServices}
                   id="behavioralTreatmentServices"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Emotional Strengths
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.emotionalStrengths}
                   id="emotionalStrengths"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Emotional Needs</label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.emotionalNeeds}
                   id="emotionalNeeds"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Emotional Treatment Services
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.emotionalTreatmentServices}
                   id="emotionalTreatmentServices"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 <h5>
@@ -4047,140 +4048,140 @@ class TreatmentPlan72 extends Component {
                 <label className="control-label">
                   Known contraindications to the use of restraint
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.knownContraindicationsToTheUuseOfRestraint}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   De-escalating Techniques to avoid restraints (EBI)
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={
                     this.state.de_escalatingTechniquesToAvoidRestraints_ebi
                   }
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Child's De-escalation Technique:
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.child_de_escalator}
                   id="child_de_escalator"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Staff Member's De-escalation Technique:
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.staff_de_escalator}
                   id="staff_de_escalator"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Therapist's De-escalation Technique:
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.therapist_de_escalator}
                   id="therapist_de_escalator"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Child's Preferred De-escalation
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.childPreferred_de_escalation}
                   id="childPreferred_de_escalation"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Intervention Strategies
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.interventionStrategies}
                   id="interventionStrategies"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Supervision Strategies
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.supervisionStrategies}
                   id="supervisionStrategies"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Social Recreational Strengths
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.social_recreationalStrengths}
                   id="social_recreationalStrengths"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Social Recreational Needs
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.social_recreationalNeeds}
                   id="social_recreationalNeeds"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Family Strengths</label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.familyStrengths}
                   id="familyStrengths"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Family Needs</label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.familyNeeds}
                   id="familyNeeds"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
@@ -4499,66 +4500,66 @@ class TreatmentPlan72 extends Component {
                 <label className="control-label">
                   Educational / Vacational Strengths
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.educational_vacationalStrengths}
                   id="educational_vacationalStrengths"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Educational / Vacational Needs
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.educational_vacationalNeeds}
                   id="educational_vacationalNeeds"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Transitional Living
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.transitionalLiving}
                   id="transitionalLiving"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Discharge Planning</label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.dischargePlanning}
                   id="dischargePlanning"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Long Range Goals</label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.longRangeGoals}
                   id="longRangeGoals"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Short Range Goals</label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   value={this.state.shortRangeGoals}
                   id="shortRangeGoals"
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
             </div>
           )}

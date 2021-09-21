@@ -11,6 +11,7 @@ import { GetUserSig } from "../../utils/GetUserSig";
 import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
 import { FormSavedAlert } from "../../utils/FormSavedAlert";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
+import TextareaAutosize from "react-textarea-autosize";
 /*
   missing from form
     "incident"
@@ -1201,12 +1202,12 @@ class BodyCheck extends Component {
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Additional Details</label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="details"
                   value={this.state.details}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <div className="form-group logInInputField">
@@ -2105,12 +2106,12 @@ class BodyCheck extends Component {
                   <label className="control-label">
                     Additional Details
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="details"
                     value={this.state.details}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}

@@ -11,6 +11,7 @@ import { GetUserSig } from "../../utils/GetUserSig";
 import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
 import { FormSavedAlert } from "../../utils/FormSavedAlert";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
+import TextareaAutosize from "react-textarea-autosize";
 
 class RestraintReport extends Component {
   constructor(props) {
@@ -700,12 +701,12 @@ class RestraintReport extends Component {
                   Include all pertinent details and behavior leading up to the
                   incident. Be specific:
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="risk_explaination"
                   value={this.state.risk_explaination}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <div className="form-group logInInputField">
@@ -715,12 +716,12 @@ class RestraintReport extends Component {
                   Alternative strategies or intervention attempted prior to EPR.
                   Client response to attempted interventions. Be specific.
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="risk_alternative_strategies"
                   value={this.state.risk_alternative_strategies}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <div className="form-group logInInputField">
@@ -728,12 +729,12 @@ class RestraintReport extends Component {
                 <label className="control-label">
                   Type of Restraint. Be specific.
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="type_of_restraint"
                   value={this.state.type_of_restraint}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <div className="form-group logInInputField">
@@ -742,12 +743,12 @@ class RestraintReport extends Component {
                   What strategies were used during Restraint to calm client? How
                   did you explain behaviors necessary for release? How often?
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="risk_stategies_used"
                   value={this.state.risk_stategies_used}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <div className="form-group logInInputField">
@@ -760,12 +761,12 @@ class RestraintReport extends Component {
                   physical aggression, Etc.), how they occurred, and treatment
                   provided
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="result_of_incident"
                   value={this.state.result_of_incident}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <div className="form-group logInInputField">
@@ -776,12 +777,12 @@ class RestraintReport extends Component {
                   <br />
                   Client’s response to Restraint.
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="injuries"
                   value={this.state.injuries}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <div className="form-group logInInputField">
@@ -790,12 +791,12 @@ class RestraintReport extends Component {
                   Action taken to help client return to normal activities
                   following release from the Restraint.
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="action_taken"
                   value={this.state.action_taken}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <div className="form-group logInInputField">
@@ -804,12 +805,12 @@ class RestraintReport extends Component {
                   In your opinion, were you able to prevent a more serious
                   incident? Explain.
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="able_to_prevent"
                   value={this.state.able_to_prevent}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <div className="form-group logInInputField">
@@ -900,12 +901,12 @@ class RestraintReport extends Component {
                 <label className="control-label">
                   What was your behavior?
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="client_behavior"
                   value={this.state.client_behavior}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <div className="form-group logInInputField">
@@ -914,12 +915,12 @@ class RestraintReport extends Component {
                   {" "}
                   Describe the Restraint?
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="client_restraint_description"
                   value={this.state.client_restraint_description}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <div className="form-group logInInputField">
@@ -927,12 +928,12 @@ class RestraintReport extends Component {
                 <label className="control-label">
                   How did you respond to the Restraint
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="client_responce"
                   value={this.state.client_responce}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <div className="form-group logInInputField">
@@ -985,12 +986,12 @@ class RestraintReport extends Component {
                 <label className="control-label">
                   Comments. Corrective action, including training, needed
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="procedural_comments"
                   value={this.state.procedural_comments}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <FormError errorId={this.props.id + "-error"} />
               <div
@@ -1303,12 +1304,12 @@ class RestraintReport extends Component {
                     all pertinent details and behavior leading up to the
                     incident. Be specific:
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.risk_explaination}
                     id="risk_explaination"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -1318,24 +1319,24 @@ class RestraintReport extends Component {
                     EPR. Client response to attempted interventions. Be
                     specific.
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.risk_alternative_strategies}
                     id="risk_alternative_strategies"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Type of Restraint. Be specific.
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.type_of_restraint}
                     id="type_of_restraint"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -1344,12 +1345,12 @@ class RestraintReport extends Component {
                     How did you explain behaviors necessary for release? How
                     often?
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.risk_stategies_used}
                     id="risk_stategies_used"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -1361,12 +1362,12 @@ class RestraintReport extends Component {
                     physical aggression, Etc.), how they occurred, and treatment
                     provided
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.result_of_incident}
                     id="result_of_incident"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -1376,12 +1377,12 @@ class RestraintReport extends Component {
                     <br />
                     Client’s response to Restraint.
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.injuries}
                     id="injuries"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -1389,12 +1390,12 @@ class RestraintReport extends Component {
                     Action taken to help client return to normal activities
                     following release from the Restraint.
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.action_taken}
                     id="action_taken"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -1402,12 +1403,12 @@ class RestraintReport extends Component {
                     In your opinion, were you able to prevent a more serious
                     incident? Explain.
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.able_to_prevent}
                     id="able_to_prevent"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -1493,12 +1494,12 @@ class RestraintReport extends Component {
                   <label className="control-label">
                     What was your behavior?
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.client_behavior}
                     id="client_behavior"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -1506,24 +1507,24 @@ class RestraintReport extends Component {
                     {" "}
                     Describe the Restraint?
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.client_restraint_description}
                     id="client_restraint_description"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     How did you respond to the Restraint
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.client_responce}
                     id="client_responce"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -1572,12 +1573,12 @@ class RestraintReport extends Component {
                   <label className="control-label">
                     Comments. Corrective action, including training, needed
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.procedural_comments}
                     id="procedural_comments"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
               </div>
             )}

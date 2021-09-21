@@ -11,6 +11,7 @@ import { GetUserSig } from "../../utils/GetUserSig";
 import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
 import { FormSavedAlert } from "../../utils/FormSavedAlert";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
+import TextareaAutosize from "react-textarea-autosize";
 
 class IllnessInjury extends Component {
   constructor(props) {
@@ -365,12 +366,12 @@ class IllnessInjury extends Component {
                 <label className="control-label">
                   Nature of illness and/or injury
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="illnessInjury"
                   value={this.state.illnessInjury}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <div className="form-group logInInputField">
@@ -378,12 +379,12 @@ class IllnessInjury extends Component {
                 <label className="control-label">
                   Initial response action taken
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="initialResponse"
                   value={this.state.initialResponse}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <div className="form-group logInInputField">
@@ -483,12 +484,12 @@ class IllnessInjury extends Component {
                 <label className="control-label">
                   Last medication and time given to prior onset
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="lastMedicationGiven"
                   value={this.state.lastMedicationGiven}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <div className="form-group logInInputField">
@@ -496,12 +497,12 @@ class IllnessInjury extends Component {
                 <label className="control-label">
                   Other actions or treatment taken
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="otherActionsTreatment"
                   value={this.state.otherActionsTreatment}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <div className="form-group logInInputField">
@@ -509,12 +510,12 @@ class IllnessInjury extends Component {
                 <label className="control-label">
                   Treatment (including medications) authorized by
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="treatmentAuthBy"
                   value={this.state.treatmentAuthBy}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <FormError errorId={this.props.id + "-error"} />
@@ -610,24 +611,24 @@ class IllnessInjury extends Component {
                   <label className="control-label">
                     Nature of illness and/or injury
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="illnessInjury"
                     value={this.state.illnessInjury}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Initial response action taken
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="initialResponse"
                     value={this.state.initialResponse}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -721,36 +722,36 @@ class IllnessInjury extends Component {
                   <label className="control-label">
                     Last medication and time given to prior onset
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="lastMedicationGiven"
                     value={this.state.lastMedicationGiven}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Other actions or treatment taken
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="otherActionsTreatment"
                     value={this.state.otherActionsTreatment}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Treatment (including medications) authorized by
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     id="treatmentAuthBy"
                     value={this.state.treatmentAuthBy}
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
               </div>
             )}

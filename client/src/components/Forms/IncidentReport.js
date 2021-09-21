@@ -11,6 +11,7 @@ import { GetUserSig } from "../../utils/GetUserSig";
 import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
 import { FormSavedAlert } from "../../utils/FormSavedAlert";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
+import TextareaAutosize from "react-textarea-autosize";
 
 class IncidentReport extends Component {
   constructor(props) {
@@ -672,12 +673,12 @@ class IncidentReport extends Component {
                 <label className="control-label">
                   Explain the Incident
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="incident_explaination"
                   value={this.state.incident_explaination}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <div className="form-group logInInputField">
@@ -700,12 +701,12 @@ class IncidentReport extends Component {
                 <label className="control-label">
                   Result of the incident
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="result"
                   value={this.state.result}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <div className="form-group logInInputField">
@@ -713,12 +714,12 @@ class IncidentReport extends Component {
                 <label className="control-label">
                   Were you able to prevent a more serious incident ?
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="able_to_prevent"
                   value={this.state.able_to_prevent}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <div className="form-group logInInputField">
@@ -766,12 +767,12 @@ class IncidentReport extends Component {
                 <label className="control-label">
                   Results After Following Up
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="follow_up_results"
                   value={this.state.follow_up_results}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <FormError errorId={this.props.id + "-error"} />
               <div
@@ -1092,12 +1093,12 @@ class IncidentReport extends Component {
                   <label className="control-label">
                     Explain the Incident
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.incident_explaination}
                     id="incident_explaination"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -1118,24 +1119,24 @@ class IncidentReport extends Component {
                   <label className="control-label">
                     Result of the incident
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.result}
                     id="result"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Were you able to prevent a more serious incident ?
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.able_to_prevent}
                     id="able_to_prevent"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
@@ -1179,12 +1180,12 @@ class IncidentReport extends Component {
                   <label className="control-label">
                     Results After Following Up
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.follow_up_results}
                     id="follow_up_results"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
               </div>
             )}

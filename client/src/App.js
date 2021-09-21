@@ -214,8 +214,7 @@ class App extends Component {
       });
   };
 
-  appendMessage = (message) => {
-    let curthis = this;
+  appendMessage = async (message) => {
     let newMessage = {
       message: message,
       firstName: this.state.userObj.firstName,
@@ -225,16 +224,13 @@ class App extends Component {
       homeId: this.state.userObj.homeId,
       date: new Date().toISOString(),
     };
-
-    Axios.post("/api/discussionMessages", newMessage)
-      .then(function (response) {
-        curthis.state.discussionMessages.unshift(newMessage);
-        let discussionMessagesTmp = curthis.state.discussionMessages;
-        curthis.setState({ discussionMessages: discussionMessagesTmp });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    try {
+      await Axios.post("/api/discussionMessages", newMessage);
+      this.loadMessage(this.state.userObj);
+    } catch (e) {
+      alert("Error loading messages");
+      console.log(e);
+    }
   };
 
   removeMessage = (id) => {

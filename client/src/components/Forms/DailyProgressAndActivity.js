@@ -11,6 +11,7 @@ import { GetUserSig } from "../../utils/GetUserSig";
 import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
 import { FormSavedAlert } from "../../utils/FormSavedAlert";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
+import TextareaAutosize from "react-textarea-autosize";
 /*
   missing from form
     "Restricted field Trip"
@@ -725,70 +726,70 @@ class DailyProgressAndActivity extends Component {
                 <label className="control-label">
                   Summary of Daily Schedule
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="summary_of_daily_schedule"
                   value={this.state.summary_of_daily_schedule}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Summary of Behavior at School
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="summary_of_behavior_at_school"
                   value={this.state.summary_of_behavior_at_school}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Summary of Behavior at Home
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="summary_of_behavior_at_home"
                   value={this.state.summary_of_behavior_at_home}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Therapeutic / Recreational
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="therapeutic_recreational"
                   value={this.state.therapeutic_recreational}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Therapeutic Value</label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="therapeutic_value"
                   value={this.state.therapeutic_value}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
                   Phone Calls / Visits
                 </label>{" "}
-                <textarea
+                <TextareaAutosize
                   onChange={this.handleFieldInput}
                   id="phone_calls_or_visits"
                   value={this.state.phone_calls_or_visits}
                   className="form-control"
-                ></textarea>
+                ></TextareaAutosize>
               </div>
               <FormError errorId={this.props.id + "-error"} />
               <div
@@ -1213,72 +1214,72 @@ class DailyProgressAndActivity extends Component {
                   <label className="control-label">
                     Summary of Daily Schedule
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.summary_of_daily_schedule}
                     id="summary_of_daily_schedule"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Summary of Behavior at School
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.summary_of_behavior_at_school}
                     id="summary_of_behavior_at_school"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Summary of Behavior at Home
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.summary_of_behavior_at_home}
                     id="summary_of_behavior_at_home"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Therapeutic / Recreational
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.therapeutic_recreational}
                     id="therapeutic_recreational"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Therapeutic Value
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.therapeutic_value}
                     id="therapeutic_value"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
                     Phone Calls / Visits
                   </label>{" "}
-                  <textarea
+                  <TextareaAutosize
                     onChange={this.handleFieldInput}
                     value={this.state.phone_calls_or_visits}
                     id="phone_calls_or_visits"
                     className="form-control"
-                  ></textarea>
+                  ></TextareaAutosize>
                 </div>
               </div>
             )}
