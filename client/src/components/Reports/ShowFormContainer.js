@@ -350,9 +350,21 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
         >
           Print <i className="fas fa-print"></i>
         </button>
-        <h3 className="text-center">
-          {homeData && `Home Name - ${homeData.name}`}
-        </h3>
+        {homeData && (
+          <div>
+            <h3 className="text-center">
+              {homeData.name && `RTC - ${homeData.name}`}
+            </h3>
+            {homeData.address && (
+              <h4 className="text-center">
+                {`${homeData.address?.street}, ${homeData.address?.city}, ${homeData.address?.state} ${homeData.address?.zip}`}
+              </h4>
+            )}
+            <h4 className="text-center">
+              {homeData.phone && `${homeData.phone}`}
+            </h4>
+          </div>
+        )}
       </div>
     </div>
   );
