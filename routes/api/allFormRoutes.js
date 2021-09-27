@@ -10,6 +10,35 @@ const RestraintReport = require("../../models/RestraintReport");
 const SeriousIncidentReport = require("../../models/SeriousIncidentReport");
 const TreatmentPlan72 = require("../../models/TreatmentPlan72");
 
+const getApprovalFilter = (status) => {
+  if (status == "true") {
+    return {
+      $and: [
+        {
+          approved: true,
+          approved_alt1: true,
+        },
+      ],
+    };
+  } else {
+    return {
+      $or: [
+        {
+          approved: false,
+          approved_alt1: true,
+        },
+        {
+          approved: true,
+          approved_alt1: false,
+        },
+        {
+          approved: false,
+          approved_alt1: false,
+        },
+      ],
+    };
+  }
+};
 router.get("/count/:status/:homeId", async (req, res) => {
   const approved =
     (req.params.status && req.params.status == "true") ||
@@ -68,7 +97,7 @@ router.get("/count/:status/:homeId", async (req, res) => {
     formPromises.push(
       IncidentReport.find({
         homeId: req.params.homeId,
-        approved,
+        ...getApprovalFilter(approved),
       })
     );
   } catch (e) {
@@ -90,7 +119,7 @@ router.get("/count/:status/:homeId", async (req, res) => {
     formPromises.push(
       SeriousIncidentReport.find({
         homeId: req.params.homeId,
-        approved,
+        ...getApprovalFilter(approved),
       })
     );
   } catch (e) {
