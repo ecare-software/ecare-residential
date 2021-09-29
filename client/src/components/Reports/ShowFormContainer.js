@@ -42,27 +42,15 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   const formContext = useContext(FormCountContext);
 
   const [approvedByText, setApprovedByText] = useState(
-    formData.approved === true
-      ? `${formData.approvedByName}, ${new Date(
-          formData.approvedByDate
-        ).toLocaleString()}`
-      : ""
+    formData.approved === true ? `${formData.approvedByName}` : ""
   );
 
   const [approvedByNurseText, setApprovedByNurseText] = useState(
-    formData.approvedNurse === true
-      ? `${formData.approvedByNameNurse}, ${new Date(
-          formData.approvedByDateNurse
-        ).toLocaleString()}`
-      : ""
+    formData.approvedNurse === true ? `${formData.approvedByNameNurse}` : ""
   );
 
   const [approvedByAlt1Text, setApprovedByAlt1Text] = useState(
-    formData.approved_alt1 === true
-      ? `${formData.approvedByName_alt1}, ${new Date(
-          formData.approvedByDate_alt1
-        ).toLocaleString()}`
-      : ""
+    formData.approved_alt1 === true ? `${formData.approvedByName_alt1}` : ""
   );
 
   const [sigCanvasAdmin, setSigCanvasAdmin] = useState(null);
@@ -277,25 +265,13 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
         postData
       );
       if (type === "nurse") {
-        setApprovedByNurseText(
-          `${userObj.firstName} ${
-            userObj.lastName
-          } ${new Date().toLocaleString()}`
-        );
+        setApprovedByNurseText(`${userObj.firstName} ${userObj.lastName} `);
         doSetSigs(type, postData.approvedNurseSig);
       } else if (type === "alt1") {
-        setApprovedByAlt1Text(
-          `${userObj.firstName} ${
-            userObj.lastName
-          } ${new Date().toLocaleString()}`
-        );
+        setApprovedByAlt1Text(`${userObj.firstName} ${userObj.lastName} `);
         doSetSigs(type, postData.approvedSig_alt1);
       } else {
-        setApprovedByText(
-          `${userObj.firstName} ${
-            userObj.lastName
-          } ${new Date().toLocaleString()}`
-        );
+        setApprovedByText(`${userObj.firstName} ${userObj.lastName}`);
         doSetSigs(type, postData.approvedSig);
       }
     } catch (e) {
