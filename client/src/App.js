@@ -520,7 +520,10 @@ class App extends Component {
                 </div>
               </div>
             )}
-            <div style={{ position: "fixed", left: "90vw", top: "85vh" }}>
+            <div
+              className="hide-on-print"
+              style={{ position: "fixed", left: "90vw", top: "85vh" }}
+            >
               <button
                 className="btn btn-light extraInfoButton"
                 onClick={() => {

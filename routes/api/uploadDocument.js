@@ -18,8 +18,7 @@ var upload = multer({ storage: storage });
 
 const MIME_TYPE_TO_EXT = [
   {
-    mime:
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    mime: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     ext: ".docx",
   },
   {
@@ -47,8 +46,7 @@ const MIME_TYPE_TO_EXT = [
     ext: ".ppt",
   },
   {
-    mime:
-      "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    mime: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
     ext: ".pptX",
   },
   {
@@ -119,8 +117,6 @@ router.get("/:homeId/:id", (req, res) => {
 
 router.get("/", (req, res) => {
   gfs.files.find().toArray((err, files) => {
-    //check if files
-    console.log(files);
     if (!files || files.length === 0) {
       return res.status(401).json({
         err: "No files exist",

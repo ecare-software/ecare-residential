@@ -1,3 +1,15 @@
+@media print {
+  .hide-on-print {
+    display: none !important;
+  }
+  .hide-on-non-print {
+    display: block !important;
+  }
+}
+.hide-on-non-print {
+  display: none;
+}
+
 input {
   height: 40px;
   border-radius: 9px;
