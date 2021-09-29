@@ -428,7 +428,16 @@ class App extends Component {
     this.setState({ ...this.state, showTrainings: val });
   };
 
-  updateUserData = (newUserData) => {
+  updateUserData = async (newUserData, updateSig = false) => {
+    if (!updateSig) {
+      delete newUserData.signature; // messes up cookie storage
+      const current = new Date();
+      const nextYear = new Date();
+      nextYear.setFullYear(current.getFullYear() + 1);
+      await cookies.set("userObj", JSON.stringify(newUserData), {
+        expires: nextYear,
+      });
+    }
     this.setState({ ...this.state, userObj: newUserData });
   };
 

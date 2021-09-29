@@ -233,7 +233,35 @@ router.get(
     }
 
     if (req.params.approved !== "null") {
-      findObj.approved = req.params.approved;
+      if (req.params.approved == "true") {
+        findObj = {
+          ...findObj,
+          $and: [
+            {
+              approved: true,
+              approved_alt1: true,
+            },
+          ],
+        };
+      } else {
+        findObj = {
+          ...findObj,
+          $or: [
+            {
+              approved: false,
+              approved_alt1: true,
+            },
+            {
+              approved: true,
+              approved_alt1: false,
+            },
+            {
+              approved: false,
+              approved_alt1: false,
+            },
+          ],
+        };
+      }
     }
 
     SeriousIncidentReport.find(findObj)
@@ -245,8 +273,11 @@ router.get(
 );
 
 router.put("/:homeId/:formId/", (req, res) => {
-  const updatedLastEditDate = {...req.body, lastEditDate: new Date()}
-  SeriousIncidentReport.findByIdAndUpdate({ _id: req.params.formId }, updatedLastEditDate)
+  const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
+  SeriousIncidentReport.findByIdAndUpdate(
+    { _id: req.params.formId },
+    updatedLastEditDate
+  )
     .then((data) => {
       res.json(data);
     })

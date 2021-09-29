@@ -6,6 +6,8 @@ import FormSuccess from "../FormMods/FormSuccess";
 import Axios from "axios";
 import SignatureCanvas from "react-signature-canvas";
 import ClipLoader from "react-spinners/ClipLoader";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 class ManageAccountContainer extends Component {
   constructor(props) {
@@ -17,38 +19,36 @@ class ManageAccountContainer extends Component {
     };
   }
 
-  submit = () => {
+  submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     var staticThis = this;
     delete currentState.password2;
+    try {
+      const { data } = await Axios({
+        method: "put",
+        url: "/api/users/" + this.props.userObj._id,
+        data: {
+          password: this.state.password,
+          newUser: false,
+        },
+      });
 
-    Axios({
-      method: "put",
-      url: "/api/users/" + this.props.userObj._id,
-      data: {
-        password: this.state.password,
-        newUser: false,
-      },
-    })
-      .then(function (response) {
-        console.log(response);
-        document.getElementById(staticThis.props.id + "-success").innerText =
-          "Password Updated";
+      await this.props.updateUserData(data);
+      document.getElementById(staticThis.props.id + "-success").innerText =
+        "Password Updated";
+      document.getElementById(staticThis.props.id + "-success").style.display =
+        "block";
+      document.getElementById("password").value = "";
+      document.getElementById("password2").value = "";
+      setTimeout(function () {
         document.getElementById(
           staticThis.props.id + "-success"
-        ).style.display = "block";
-        document.getElementById("password").value = "";
-        document.getElementById("password2").value = "";
-        setTimeout(function () {
-          document.getElementById(
-            staticThis.props.id + "-success"
-          ).style.display = "none";
-        }, 3000);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      });
+        ).style.display = "none";
+      }, 3000);
+    } catch (e) {
+      alert("An error has occured");
+      console.log(e);
+    }
   };
 
   handleFieldInput = (event) => {
@@ -63,10 +63,11 @@ class ManageAccountContainer extends Component {
     let simpleState = JSON.parse(JSON.stringify(this.state));
     document.getElementById(staticThis.props.id + "-error").style.display =
       "none";
+    delete simpleState.isLoading;
+
     Object.keys(simpleState).forEach(function (k) {
       let value = simpleState[k];
       if (value === "" || value.includes(" ")) {
-        console.log(k);
         validForm = false;
       }
     });
@@ -97,7 +98,7 @@ class ManageAccountContainer extends Component {
         },
       });
 
-      this.props.updateUserData(newUserData);
+      await this.props.updateUserData(newUserData, true);
 
       document.getElementById(this.props.id + "-sig-success").innerText =
         "Signature Updated";

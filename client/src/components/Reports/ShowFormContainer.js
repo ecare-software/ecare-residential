@@ -16,7 +16,13 @@ import { GetUserSig } from "../../utils/GetUserSig";
 import SignatureCanvas from "react-signature-canvas";
 import { FetchHomeData } from "../../utils/FetchHomeData";
 
-const needsNurseSig = ["Health Body Check"];
+const needsNurseSig = [
+  "Health Body Check",
+  "Serious Incident Report",
+  "Incident Report",
+];
+
+const needsAlt1Sig = ["Serious Incident Report", "Incident Report"];
 
 const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   const [isApproved, setIsApproved] = useState(
@@ -27,6 +33,10 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
 
   const [isApprovedByNurse, setIsApprovedByNurse] = useState(
     formData.approvedNurse ? formData.approvedNurse : false
+  );
+
+  const [isApprovedByAlt1, setIsApprovedByAlt1] = useState(
+    formData.approved_alt1 ? formData.approved_alt1 : false
   );
 
   const formContext = useContext(FormCountContext);
@@ -47,9 +57,19 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
       : ""
   );
 
+  const [approvedByAlt1Text, setApprovedByAlt1Text] = useState(
+    formData.approved_alt1 === true
+      ? `${formData.approvedByName_alt1}, ${new Date(
+          formData.approvedByDate_alt1
+        ).toLocaleString()}`
+      : ""
+  );
+
   const [sigCanvasAdmin, setSigCanvasAdmin] = useState(null);
 
   const [sigCanvasNurse, setSigCanvasNurse] = useState(null);
+
+  const [sigCanvasAdminAlt1, setSigCanvasAdminAlt1] = useState(null);
 
   const [homeData, setHomeData] = useState("");
 
@@ -78,6 +98,18 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
     }
   };
 
+  const setApprovedLabelAlt = (approved, label) => {
+    if (approved) {
+      return `Approved by ${label} ${approvedByAlt1Text}`;
+    } else {
+      if (isAdminRole) {
+        return `Needs ${label} Approval`;
+      } else {
+        return `Form not yet approved by ${label}`;
+      }
+    }
+  };
+
   const setApprovedLabelNurse = (approved, label) => {
     if (approved) {
       return `Approved by ${label} ${approvedByNurseText}`;
@@ -95,7 +127,30 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
       doSetSigsInit();
     }
 
-    if (needsNurseSig.includes(formData.formType)) {
+    if (
+      needsNurseSig.includes(formData.formType) ||
+      needsAlt1Sig.includes(formData.formType)
+    ) {
+      if (
+        needsAlt1Sig.includes(formData.formType) &&
+        !needsNurseSig.includes(formData.formType)
+      ) {
+        if (sigCanvasNurse && sigCanvasAdminAlt1) {
+          setSigInit(true);
+        }
+      } else if (
+        !needsAlt1Sig.includes(formData.formType) &&
+        needsNurseSig.includes(formData.formType)
+      ) {
+        if (sigCanvasNurse && sigCanvasAdmin) {
+          setSigInit(true);
+        }
+      } else {
+        if (sigCanvasNurse && sigCanvasAdmin && sigCanvasAdminAlt1) {
+          setSigInit(true);
+        }
+      }
+    } else if (needsAlt1Sig.includes(formData.formType)) {
       if (sigCanvasNurse && sigCanvasAdmin) {
         setSigInit(true);
       }
@@ -113,6 +168,8 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   const doSetSigs = (type, sig) => {
     if (type === "nurse") {
       sigCanvasNurse.fromData(sig);
+    } else if (type === "alt1") {
+      sigCanvasAdminAlt1.fromData(sig);
     } else {
       sigCanvasAdmin.fromData(sig);
     }
@@ -121,6 +178,9 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   const doSetSigsInit = () => {
     if (formData.approvedNurseSig && sigCanvasNurse) {
       sigCanvasNurse.fromData(formData.approvedNurseSig);
+    }
+    if (formData.approved_alt1 && sigCanvasAdminAlt1) {
+      sigCanvasAdminAlt1.fromData(formData.approvedSig_alt1);
     }
     if (formData.approvedSig && sigCanvasAdmin) {
       sigCanvasAdmin.fromData(formData.approvedSig);
@@ -132,6 +192,8 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
     let signiture = null;
     if (type === "nurse") {
       doFetchSig = !isApprovedByNurse === true;
+    } else if (type === "alt1") {
+      doFetchSig = !isApprovedByAlt1 === true;
     } else {
       doFetchSig = !isApproved === true;
     }
@@ -167,11 +229,24 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
       return {
         success: true,
         body: {
-          approvedNurse: !isApprovedByNurse,
+          approvedNurse: copy,
           approvedByNurse: userObj.email,
           approvedByNameNurse: `${userObj.firstName} ${userObj.lastName}`,
           approvedByDateNurse: new Date(),
           approvedNurseSig: copy ? signiture : [],
+        },
+      };
+    } else if (type === "alt1") {
+      const copy = !isApprovedByAlt1;
+      await setIsApprovedByAlt1(!isApprovedByAlt1);
+      return {
+        success: true,
+        body: {
+          approved_alt1: copy,
+          approvedBy_alt1: userObj.email,
+          approvedByName_alt1: `${userObj.firstName} ${userObj.lastName}`,
+          approvedByDate_alt1: new Date(),
+          approvedSig_alt1: copy ? signiture : [],
         },
       };
     } else {
@@ -180,7 +255,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
       return {
         success: true,
         body: {
-          approved: !isApproved,
+          approved: copy,
           approvedBy: userObj.email,
           approvedByName: `${userObj.firstName} ${userObj.lastName}`,
           approvedByDate: new Date(),
@@ -208,6 +283,13 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
           } ${new Date().toLocaleString()}`
         );
         doSetSigs(type, postData.approvedNurseSig);
+      } else if (type === "alt1") {
+        setApprovedByAlt1Text(
+          `${userObj.firstName} ${
+            userObj.lastName
+          } ${new Date().toLocaleString()}`
+        );
+        doSetSigs(type, postData.approvedSig_alt1);
       } else {
         setApprovedByText(
           `${userObj.firstName} ${
@@ -255,7 +337,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
                 id="baseBtn"
                 style={{ color: isApproved ? "green" : "red" }}
                 className="mb-2 d-flex align-items-center"
-                label={setApprovedLabel(isApproved, "Admin")}
+                label={setApprovedLabel(isApproved, "Admin 1")}
                 disabled={!isAdminRole}
                 checked={isApproved}
                 onClick={() => {
@@ -331,6 +413,52 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
                         width: 600,
                         height: 200,
                         className: "setSigCanvasNurse",
+                      }}
+                      backgroundColor="#eeee"
+                    />
+                  </div>
+                </Col>
+              </Form.Row>
+            </>
+          )}
+          {needsAlt1Sig.includes(formData.formType) && (
+            <>
+              <Form.Row>
+                <Col xs="auto">
+                  <Form.Check
+                    type="checkbox"
+                    id="alt1Btn"
+                    style={{ color: isApprovedByAlt1 ? "green" : "red" }}
+                    className="mb-2 d-flex align-items-center"
+                    label={setApprovedLabelAlt(isApprovedByAlt1, "Admin 2")}
+                    disabled={!isAdminRole}
+                    checked={isApprovedByAlt1}
+                    onClick={() => {
+                      updateFormApproval("alt1");
+                    }}
+                  />
+                </Col>
+              </Form.Row>
+              <Form.Row>
+                <Col xs="auto">
+                  <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <SignatureCanvas
+                      ref={(ref) => {
+                        setSigCanvasAdminAlt1(ref);
+                      }}
+                      style={{ border: "solid" }}
+                      penColor="black"
+                      clearOnResize={false}
+                      canvasProps={{
+                        width: 600,
+                        height: 200,
+                        className: "setSigCanvasAlt1",
                       }}
                       backgroundColor="#eeee"
                     />
