@@ -183,7 +183,6 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
       sigCanvasAdminAlt1.fromData(formData.approvedSig_alt1);
     }
     if (formData.approvedSig && sigCanvasAdmin) {
-      console.log(formData.approvedSig);
       sigCanvasAdmin.fromData(formData.approvedSig);
     }
   };
