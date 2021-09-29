@@ -42,27 +42,15 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   const formContext = useContext(FormCountContext);
 
   const [approvedByText, setApprovedByText] = useState(
-    formData.approved === true
-      ? `${formData.approvedByName}, ${new Date(
-          formData.approvedByDate
-        ).toLocaleString()}`
-      : ""
+    formData.approved === true ? `${formData.approvedByName}` : ""
   );
 
   const [approvedByNurseText, setApprovedByNurseText] = useState(
-    formData.approvedNurse === true
-      ? `${formData.approvedByNameNurse}, ${new Date(
-          formData.approvedByDateNurse
-        ).toLocaleString()}`
-      : ""
+    formData.approvedNurse === true ? `${formData.approvedByNameNurse}` : ""
   );
 
   const [approvedByAlt1Text, setApprovedByAlt1Text] = useState(
-    formData.approved_alt1 === true
-      ? `${formData.approvedByName_alt1}, ${new Date(
-          formData.approvedByDate_alt1
-        ).toLocaleString()}`
-      : ""
+    formData.approved_alt1 === true ? `${formData.approvedByName_alt1}` : ""
   );
 
   const [sigCanvasAdmin, setSigCanvasAdmin] = useState(null);
