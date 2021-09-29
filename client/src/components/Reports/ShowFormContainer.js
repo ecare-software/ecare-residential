@@ -164,14 +164,23 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   };
 
   const doSetSigsInit = () => {
-    if (formData.approvedNurseSig && sigCanvasNurse) {
-      sigCanvasNurse.fromData(formData.approvedNurseSig);
+    if (sigCanvasNurse) {
+      sigCanvasNurse.off();
+      if (formData.approvedNurseSig) {
+        sigCanvasNurse.fromData(formData.approvedNurseSig);
+      }
     }
-    if (formData.approved_alt1 && sigCanvasAdminAlt1) {
-      sigCanvasAdminAlt1.fromData(formData.approvedSig_alt1);
+    if (sigCanvasAdminAlt1) {
+      sigCanvasAdminAlt1.off();
+      if (formData.approved_alt1) {
+        sigCanvasAdminAlt1.fromData(formData.approvedSig_alt1);
+      }
     }
-    if (formData.approvedSig && sigCanvasAdmin) {
-      sigCanvasAdmin.fromData(formData.approvedSig);
+    if (sigCanvasAdmin) {
+      sigCanvasAdmin.off();
+      if (formData.approvedSig) {
+        sigCanvasAdmin.fromData(formData.approvedSig);
+      }
     }
   };
 
@@ -291,11 +300,12 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
 
   return (
     <div style={{ margin: "0px 20px 40px 20px" }}>
-      <div>
-        <h6 className="font-italic font-weight-light">{formData._id}</h6>
+      <div className="d-flex align-items-center hide-on-print">
+        <h6 style={{ fontWeight: 400, marginRight: 5 }}>Form Id</h6>{" "}
+        <h6 style={{ fontWeight: 300 }}>{formData._id}</h6>
       </div>
-      <div className="d-flex align-items-center">
-        <h6 style={{ fontWeight: 400, marginRight: 5 }}>Last updated</h6>{" "}
+      <div className="d-flex align-items-center hide-on-print">
+        <h6 style={{ fontWeight: 400, marginRight: 5 }}>Last Updated</h6>{" "}
         <h6 style={{ fontWeight: 300 }}>
           {` ${formData.createdByName}, ${
             formData.lastEditDate
@@ -303,6 +313,57 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
               : ""
           }`}
         </h6>
+      </div>
+      <div className="d-flex align-items-center">
+        <h6 style={{ fontWeight: 400, marginRight: 5 }}>Create Updated</h6>{" "}
+        <h6 style={{ fontWeight: 300 }}>
+          {` ${formData.createdByName}, ${
+            formData.lastEditDate
+              ? new Date(formData.createDate).toLocaleString()
+              : ""
+          }`}
+        </h6>
+      </div>
+      <div className="hide-on-non-print" style={{ width: "500px" }}>
+        <h6 style={{ fontWeight: 400, marginRight: 5 }}>
+          Date Printed{" "}
+          <span style={{ fontWeight: 300 }}>
+            {new Date().toLocaleString().split(",")[0]}
+          </span>
+        </h6>{" "}
+      </div>
+      <div className="hide-on-non-print">
+        <h6 style={{ fontWeight: 400, marginRight: 5 }}>
+          Printed By{" "}
+          <span style={{ fontWeight: 300 }}>
+            {`${userObj.firstName} ${userObj.lastName}`}
+          </span>
+        </h6>{" "}
+      </div>
+      <div>
+        <button
+          onClick={() => {
+            doPrint();
+          }}
+          className="btn btn-light hide-on-print"
+        >
+          Print <i className="fas fa-print"></i>
+        </button>
+        {homeData && (
+          <div>
+            <h3 className="text-center">
+              {homeData.name && `RTC - ${homeData.name}`}
+            </h3>
+            {homeData.address && (
+              <h4 className="text-center">
+                {`${homeData.address?.street}, ${homeData.address?.city}, ${homeData.address?.state} ${homeData.address?.zip}`}
+              </h4>
+            )}
+            <h4 className="text-center">
+              {homeData.phone && `${homeData.phone}`}
+            </h4>
+          </div>
+        )}
       </div>
       <div>
         <div>
@@ -444,31 +505,6 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
             </>
           )}
         </div>
-      </div>
-      <div>
-        <button
-          onClick={() => {
-            doPrint();
-          }}
-          className="btn btn-light"
-        >
-          Print <i className="fas fa-print"></i>
-        </button>
-        {homeData && (
-          <div>
-            <h3 className="text-center">
-              {homeData.name && `RTC - ${homeData.name}`}
-            </h3>
-            {homeData.address && (
-              <h4 className="text-center">
-                {`${homeData.address?.street}, ${homeData.address?.city}, ${homeData.address?.state} ${homeData.address?.zip}`}
-              </h4>
-            )}
-            <h4 className="text-center">
-              {homeData.phone && `${homeData.phone}`}
-            </h4>
-          </div>
-        )}
       </div>
     </div>
   );

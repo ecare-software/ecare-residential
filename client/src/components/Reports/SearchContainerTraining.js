@@ -64,7 +64,6 @@ class SearchContainerTraining extends Component {
     } else {
       submittedForms.push(formName);
     }
-    console.log(formName);
     this.setState({ submittedForms: submittedForms });
     setTimeout(() => {
       this.callRunSearch(this.state);

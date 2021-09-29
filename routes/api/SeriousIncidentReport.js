@@ -4,7 +4,6 @@ const router = express.Router();
 const SeriousIncidentReport = require("../../models/SeriousIncidentReport");
 
 router.post("/", (req, res) => {
-  console.log(req.body.createdByName);
   const newSeriousIncidentReport = new SeriousIncidentReport({
     childMeta_name: req.body.childMeta_name,
 

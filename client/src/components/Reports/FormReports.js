@@ -829,7 +829,7 @@ export class FromReports extends Component {
   render() {
     return (
       <div style={{ marginTop: "50px" }}>
-        <div className="row" style={{ margin: "0px 30px" }}>
+        <div className="row hide-on-print" style={{ margin: "0px 30px" }}>
           <div className="formTitleDiv" style={{ width: "100%" }}>
             <h2 className="formTitle">
               Form Reports{"  "}
@@ -899,7 +899,7 @@ export class FromReports extends Component {
           </div>
         </Collapse>
         {this.state.doShowFilters === false && (
-          <div className="row" style={{ padding: "10px 50px" }}>
+          <div className="row hide-on-print" style={{ padding: "10px 50px" }}>
             <div className="col-md-12">
               <p className="mainFont MessagePostUser">
                 <span className="fa fa-filter"></span> Filters
