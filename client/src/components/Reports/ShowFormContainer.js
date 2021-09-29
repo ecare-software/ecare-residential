@@ -265,25 +265,13 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
         postData
       );
       if (type === "nurse") {
-        setApprovedByNurseText(
-          `${userObj.firstName} ${
-            userObj.lastName
-          } ${new Date().toLocaleString()}`
-        );
+        setApprovedByNurseText(`${userObj.firstName} ${userObj.lastName} `);
         doSetSigs(type, postData.approvedNurseSig);
       } else if (type === "alt1") {
-        setApprovedByAlt1Text(
-          `${userObj.firstName} ${
-            userObj.lastName
-          } ${new Date().toLocaleString()}`
-        );
+        setApprovedByAlt1Text(`${userObj.firstName} ${userObj.lastName} `);
         doSetSigs(type, postData.approvedSig_alt1);
       } else {
-        setApprovedByText(
-          `${userObj.firstName} ${
-            userObj.lastName
-          } ${new Date().toLocaleString()}`
-        );
+        setApprovedByText(`${userObj.firstName} ${userObj.lastName}`);
         doSetSigs(type, postData.approvedSig);
       }
     } catch (e) {
