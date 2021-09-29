@@ -75,6 +75,8 @@ class DailyProgressAndActivity extends Component {
 
       loadingClients: true,
 
+      createDate: null,
+
       loadingSig: true,
 
       clients: [],
@@ -147,6 +149,7 @@ class DailyProgressAndActivity extends Component {
       therapeutic_value: "",
       phone_calls_or_visits: "",
       clientId: "",
+      createDate: null,
     });
   };
 
@@ -791,6 +794,19 @@ class DailyProgressAndActivity extends Component {
                   className="form-control"
                 ></TextareaAutosize>
               </div>
+              {isAdminUser(this.props.userObj) && (
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">Created Date</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    id="createDate"
+                    value={this.state.createDate}
+                    className="form-control"
+                    type="date"
+                  />{" "}
+                </div>
+              )}
               <FormError errorId={this.props.id + "-error"} />
               <div
                 className="form-group logInInputField"
@@ -1281,6 +1297,23 @@ class DailyProgressAndActivity extends Component {
                     className="form-control"
                   ></TextareaAutosize>
                 </div>
+                {isAdminUser(this.props.userObj) && (
+                  <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">Created Date</label>{" "}
+                    <input
+                      onChange={this.handleFieldInput}
+                      id="createDate"
+                      value={
+                        new Date(this.state.createDate)
+                          .toISOString()
+                          .split("T")[0]
+                      }
+                      className="form-control"
+                      type="date"
+                    />{" "}
+                  </div>
+                )}
               </div>
             )}
             <label className="control-label">Signature</label>{" "}
