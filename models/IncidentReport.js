@@ -118,25 +118,6 @@ const IncidentReportSchema = new Schema({
     type: Array,
   },
 
-  approved_alt1: {
-    type: Boolean,
-    default: false,
-  },
-  approvedBy_alt1: {
-    type: String,
-    required: false,
-  },
-  approvedByName_alt1: {
-    type: String,
-    required: false,
-  },
-  approvedByDate_alt1: {
-    type: Date,
-  },
-  approvedSig_alt1: {
-    type: Array,
-  },
-
   createDate: {
     type: Date,
     default: new Date(),

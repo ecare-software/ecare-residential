@@ -232,35 +232,7 @@ router.get(
     }
 
     if (req.params.approved !== "null") {
-      if (req.params.approved == "true") {
-        findObj = {
-          ...findObj,
-          $and: [
-            {
-              approved: true,
-              approved_alt1: true,
-            },
-          ],
-        };
-      } else {
-        findObj = {
-          ...findObj,
-          $or: [
-            {
-              approved: false,
-              approved_alt1: true,
-            },
-            {
-              approved: true,
-              approved_alt1: false,
-            },
-            {
-              approved: false,
-              approved_alt1: false,
-            },
-          ],
-        };
-      }
+      findObj.approved = req.params.approved;
     }
 
     IncidentReport.find(findObj)

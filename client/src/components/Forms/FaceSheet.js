@@ -115,7 +115,6 @@ class FaceSheet extends Component {
 
   submit = () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-    console.log(JSON.stringify(currentState));
     if (this.props.valuesSet) {
       Axios.put(
         `/api/client/${this.state.homeId}/${this.state._id}`,
