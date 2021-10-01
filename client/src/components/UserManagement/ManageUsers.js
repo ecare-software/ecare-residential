@@ -26,6 +26,11 @@ class ManageUsers extends Component {
     this.setState({ resetting: index, newPassword: "", newPassword2: "" });
   };
 
+  toggleCreatedPassword = async () => {
+    await this.setState({ newPassword: "", newPassword2: "" });
+    await this.setState({ resetting: -1 });
+  };
+
   handleFieldInput = (event) => {
     var isReenter = event.target.id.split("-")[0];
 
@@ -36,7 +41,7 @@ class ManageUsers extends Component {
     }
   };
 
-  saveNewPassword = (id) => {
+  saveNewPassword = async (id, index) => {
     if (/^\s+$/.test(this.state.newPassword)) {
       alert("Password is not valid");
       return;
@@ -46,17 +51,25 @@ class ManageUsers extends Component {
       alert("Passwords do no match1");
       return;
     }
-
-    Axios({
-      method: "put",
-      url: "/api/users/" + id,
-      data: {
-        password: this.state.newPassword,
-        newUser: false,
-      },
-    }).then(function (response) {
-      alert("password reset");
-    });
+    try {
+      const { data } = await Axios({
+        method: "put",
+        url: "/api/users/" + id,
+        data: {
+          password: this.state.newPassword,
+          newUser: false,
+        },
+      });
+      if (id === this.props.userObj._id) {
+        console.log("is logged in user");
+        await this.props.updateUserData(data);
+      }
+      alert("password has been reset");
+      this.toggleCreatedPassword();
+    } catch (e) {
+      alert("Error updating password");
+      console.log(e);
+    }
   };
 
   render() {
@@ -133,7 +146,7 @@ class ManageUsers extends Component {
                     }}
                   >
                     <button
-                      onClick={this.saveNewPassword.bind("", item._id)}
+                      onClick={this.saveNewPassword.bind("", item._id, index)}
                       className="btn btn-default"
                     >
                       Save

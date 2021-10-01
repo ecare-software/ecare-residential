@@ -734,6 +734,7 @@ function ToggleScreen({
         <UserManagement
           userObj={appState.userObj}
           allUsers={appState.allUsers}
+          updateUserData={updateUserData}
         />
       </div>
     );

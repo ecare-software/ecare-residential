@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "../../App.css";
-import Axios from "axios";
 import "./UserManagement.css";
 import CreateNewUser from "./CreateNewUser";
 import ManageUsers from "./ManageUsers";
@@ -37,6 +36,7 @@ class UserManagement extends Component {
             toggleShow={this.toggleShow}
             doShow={this.state.showManageUsers}
             userObj={this.props.userObj}
+            updateUserData={this.props.updateUserData}
           />
           <CreateNewUser
             id="createUser"
