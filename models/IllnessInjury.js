@@ -8,7 +8,7 @@ const IllnessInjurySchema = new Schema({
   },
   dateTimeOccur: {
     type: String,
-    required: true,
+    required: false,
   },
   createdBy: {
     type: String,
@@ -20,15 +20,15 @@ const IllnessInjurySchema = new Schema({
   },
   illnessInjury: {
     type: String,
-    required: true,
+    required: false,
   },
   initialResponse: {
     type: String,
-    required: true,
+    required: false,
   },
   tempTaken: {
     type: String,
-    required: true,
+    required: false,
   },
   tempMethodTaken: {
     type: String,
@@ -38,15 +38,15 @@ const IllnessInjurySchema = new Schema({
   },
   supervisorNotified: {
     type: String,
-    required: true,
+    required: false,
   },
   notifiedAt: {
     type: String,
-    required: true,
+    required: false,
   },
   notifiedBy: {
     type: String,
-    required: true,
+    required: false,
   },
   adminFollowUp: {
     type: String,
@@ -88,10 +88,55 @@ const IllnessInjurySchema = new Schema({
   },
   approvedByDate: {
     type: Date,
+    required: false,
   },
   approvedSig: {
     type: Array,
+    required: false,
   },
+
+  approved_alt1: {
+    type: Boolean,
+    default: false,
+  },
+  approvedBy_alt1: {
+    type: String,
+    required: false,
+  },
+  approvedByName_alt1: {
+    type: String,
+    required: false,
+  },
+  approvedByDate_alt1: {
+    type: Date,
+    required: false,
+  },
+  approvedSig_alt1: {
+    type: Array,
+    required: false,
+  },
+
+  approvedNurse: {
+    type: Boolean,
+    default: false,
+  },
+  approvedByNurse: {
+    type: String,
+    required: false,
+  },
+  approvedByNameNurse: {
+    type: String,
+    required: false,
+  },
+  approvedByDateNurse: {
+    type: Date,
+    required: false,
+  },
+  approvedNurseSig: {
+    type: Array,
+    required: false,
+  },
+
   createDate: {
     type: Date,
     default: new Date(),

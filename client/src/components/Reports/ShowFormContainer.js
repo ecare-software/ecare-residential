@@ -16,13 +16,9 @@ import { GetUserSig } from "../../utils/GetUserSig";
 import SignatureCanvas from "react-signature-canvas";
 import { FetchHomeData } from "../../utils/FetchHomeData";
 
-const needsNurseSig = [
-  "Health Body Check",
-  "Serious Incident Report",
-  "Incident Report",
-];
+const needsNurseSig = ["Health Body Check", "Illness Injury"];
 
-const needsAlt1Sig = ["Serious Incident Report", "Incident Report"];
+const needsAlt1Sig = ["Illness Injury"];
 
 const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   const [isApproved, setIsApproved] = useState(

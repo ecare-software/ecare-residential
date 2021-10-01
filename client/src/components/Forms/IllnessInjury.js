@@ -108,6 +108,7 @@ class IllnessInjury extends Component {
 
   submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
+    delete currentState.clients;
     if (this.props.valuesSet) {
       try {
         await Axios.put(
@@ -132,6 +133,7 @@ class IllnessInjury extends Component {
       currentState.createdBy = this.props.userObj.email;
       currentState.createdByName =
         this.props.userObj.firstName + " " + this.props.userObj.lastName;
+      console.log(currentState);
 
       Axios.post("/api/illnessInjury", currentState)
         .then((res) => {
