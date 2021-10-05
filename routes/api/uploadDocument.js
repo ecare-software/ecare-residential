@@ -127,7 +127,7 @@ router.get("/", (req, res) => {
 });
 
 router.put("/:homeId/:formId/", (req, res) => {
-  Image.findByIdAndUpdate({ _id: req.params.formId }, req.body)
+  Image.updateOne({ _id: req.params.formId }, req.body)
     .then((data) => {
       res.json(data);
     })

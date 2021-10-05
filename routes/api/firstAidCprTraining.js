@@ -30,7 +30,7 @@ router.post("/", (req, res) => {
 
 router.get("/:homeId", (req, res) => {
   FirstAidCprTraining.find({ homeId: req.params.homeId })
-    .sort({ lastEditDate: -1 })
+    .sort({ createDate: -1 })
     .exec()
     .then((firstAidCprTraining) => res.json(firstAidCprTraining))
     .catch((err) => res.status(404).json({ success: false }));
@@ -41,7 +41,7 @@ router.get("/:homeId/:email", (req, res) => {
     homeId: req.params.homeId,
     createdBy: req.params.email,
   })
-    .sort({ lastEditDate: -1 })
+    .sort({ createDate: -1 })
     .exec()
     .then((firstAidCprTraining) => res.json(firstAidCprTraining))
     .catch((err) => res.status(404).json({ success: false }));
@@ -58,14 +58,14 @@ router.get("/:homeId" + "/:submittedByA" + "/:lastEditDate", (req, res) => {
   }
 
   FirstAidCprTraining.find(findObj)
-    .sort({ lastEditDate: -1 })
+    .sort({ createDate: -1 })
     .exec()
     .then((firstAidCprTraining) => res.json(firstAidCprTraining))
     .catch((err) => res.status(404).json({ success: err }));
 });
 
 router.put("/:formId", (req, res) => {
-  FirstAidCprTraining.findByIdAndUpdate({ _id: req.params.formId }, req.body)
+  FirstAidCprTraining.updateOne({ _id: req.params.formId }, req.body)
     .then((data) => {
       res.json(data);
     })
@@ -75,8 +75,8 @@ router.put("/:formId", (req, res) => {
 });
 
 router.put("/:homeId/:formId/", (req, res) => {
-  const updatedLastEditDate = {...req.body, lastEditDate: new Date()}
-  FirstAidCprTraining.findByIdAndUpdate({ _id: req.params.formId }, updatedLastEditDate)
+  const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
+  FirstAidCprTraining.updateOne({ _id: req.params.formId }, updatedLastEditDate)
     .then((data) => {
       res.json(data);
     })

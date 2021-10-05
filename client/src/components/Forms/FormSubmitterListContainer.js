@@ -55,7 +55,7 @@ class FormSubmitterListContainer extends Component {
               }
               key={formIndex}
             >
-              {new Date(form.lastEditDate).toLocaleString()} -{" "}
+              {new Date(form.createDate).toLocaleString()} -{" "}
               {form.createdByName}
             </li>
           ))

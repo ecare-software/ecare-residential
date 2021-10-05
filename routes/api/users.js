@@ -90,7 +90,7 @@ router.post("/", (req, res) => {
 // @desc    Create an item
 // @access  Public
 router.put("/:id", (req, res) => {
-  User.findByIdAndUpdate({ _id: req.params.id }, req.body).then(function () {
+  User.updateOne({ _id: req.params.id }, req.body).then(function () {
     User.findOne({ _id: req.params.id }).then((user) => {
       res.send(user);
     });
@@ -107,7 +107,7 @@ router.delete("/:id", (req, res) => {
 });
 
 router.put("/sig/:id", (req, res) => {
-  User.findByIdAndUpdate({ _id: req.params.id }, req.body).then(function () {
+  User.updateOne({ _id: req.params.id }, req.body).then(function () {
     User.findOne({ _id: req.params.id }).then((user) => {
       res.send(user);
     });

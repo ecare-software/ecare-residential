@@ -118,7 +118,7 @@ router.post("/", (req, res) => {
 
 router.get("/:homeId", (req, res) => {
   RestraintReport.find({ homeId: req.params.homeId })
-    .sort({ lastEditDate: -1 })
+    .sort({ createDate: -1 })
     .exec()
     .then((RestraintReports) => res.json(RestraintReports))
     .catch((err) => res.status(404).json({ success: false }));
@@ -153,17 +153,13 @@ router.get(
       var dateBefore = new Date(req.params.lastEditDateBefore);
       findObj["$and"] = [
         {
-          lastEditDate: {
-            $gt: new Date(
-              dateAfter.setDate(dateAfter.getDate() + 1)
-            ).toISOString(),
+          createDate: {
+            $gt: new Date(dateAfter.setDate(dateAfter.getDate() + 1)),
           },
         },
         {
-          lastEditDate: {
-            $lt: new Date(
-              dateBefore.setDate(dateBefore.getDate())
-            ).toISOString(),
+          createDate: {
+            $lt: new Date(dateBefore.setDate(dateBefore.getDate())),
           },
         },
       ];
@@ -171,16 +167,16 @@ router.get(
       //submittedAfter
       if (req.params.lastEditDateAfter !== "none") {
         var date = new Date(req.params.lastEditDateAfter);
-        findObj.lastEditDate = {
-          $gt: new Date(date.setDate(date.getDate() + 1)).toISOString(),
+        findObj.createDate = {
+          $gt: new Date(date.setDate(date.getDate() + 1)),
         };
       }
 
       //submittedBefore
       if (req.params.lastEditDateBefore !== "none") {
         var date = new Date(req.params.lastEditDateBefore);
-        findObj.lastEditDate = {
-          $lt: new Date(date.setDate(date.getDate())).toISOString(),
+        findObj.createDate = {
+          $lt: new Date(date.setDate(date.getDate())),
         };
       }
     }
@@ -211,7 +207,7 @@ router.get(
       if (req.params.childDOBAfter !== "none") {
         var date = new Date(req.params.childDOBAfter);
         findObj.childMeta_dob = {
-          $gt: new Date(date.setDate(date.getDate() + 1)).toISOString(),
+          $gt: new Date(date.setDate(date.getDate() + 1)),
         };
       }
 
@@ -219,7 +215,7 @@ router.get(
       if (req.params.childDOBBefore !== "none") {
         var date = new Date(req.params.childDOBBefore);
         findObj.childMeta_dob = {
-          $lt: new Date(date.setDate(date.getDate())).toISOString(),
+          $lt: new Date(date.setDate(date.getDate())),
         };
       }
     }
@@ -252,7 +248,7 @@ router.get(
       if (req.params.childDOAAfter !== "none") {
         var date = new Date(req.params.childDOAAfter);
         findObj.childMeta_dateOfAdmission = {
-          $gt: new Date(date.setDate(date.getDate() + 1)).toISOString(),
+          $gt: new Date(date.setDate(date.getDate() + 1)),
         };
       }
 
@@ -260,7 +256,7 @@ router.get(
       if (req.params.childDOABefore !== "none") {
         var date = new Date(req.params.childDOABefore);
         findObj.childMeta_dateOfAdmission = {
-          $lt: new Date(date.setDate(date.getDate())).toISOString(),
+          $lt: new Date(date.setDate(date.getDate())),
         };
       }
     }
@@ -274,7 +270,7 @@ router.get(
     }
 
     RestraintReport.find(findObj)
-      .sort({ lastEditDate: -1 })
+      .sort({ createDate: -1 })
       .exec()
       .then((restraintReports) => res.json(restraintReports))
       .catch((err) => res.status(404).json({ success: err }));
@@ -282,8 +278,8 @@ router.get(
 );
 
 router.put("/:homeId/:formId/", (req, res) => {
-  const updatedLastEditDate = {...req.body, lastEditDate: new Date()}
-  RestraintReport.findByIdAndUpdate({ _id: req.params.formId },updatedLastEditDate)
+  const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
+  RestraintReport.updateOne({ _id: req.params.formId }, updatedLastEditDate)
     .then((data) => {
       res.json(data);
     })

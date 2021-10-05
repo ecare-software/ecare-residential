@@ -68,8 +68,8 @@ router.get("/:homeId", (req, res) => {
 
 // Update a client by ID
 router.put("/:homeId/:id/", (req, res) => {
-  const updatedLastEditDate = {...req.body, lastEditDate: new Date()}
-  Client.findByIdAndUpdate({ _id: req.params.id }, updatedLastEditDate)
+  const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
+  Client.updateOne({ _id: req.params.id }, updatedLastEditDate)
     .then((data) => {
       res.json(data);
     })

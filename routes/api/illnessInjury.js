@@ -44,7 +44,7 @@ router.post("/", (req, res) => {
 
 router.get("/:homeId", (req, res) => {
   IllnessInjury.find({ homeId: req.params.homeId })
-    .sort({ lastEditDate: -1 })
+    .sort({ createDate: -1 })
     .exec()
     .then((illnessInjury) => res.json(illnessInjury))
     .catch((err) => res.status(404).json({ success: false }));
@@ -79,17 +79,13 @@ router.get(
       var dateBefore = new Date(req.params.lastEditDateBefore);
       findObj["$and"] = [
         {
-          lastEditDate: {
-            $gt: new Date(
-              dateAfter.setDate(dateAfter.getDate() + 1)
-            ).toISOString(),
+          createDate: {
+            $gt: new Date(dateAfter.setDate(dateAfter.getDate() + 1)),
           },
         },
         {
-          lastEditDate: {
-            $lt: new Date(
-              dateBefore.setDate(dateBefore.getDate())
-            ).toISOString(),
+          createDate: {
+            $lt: new Date(dateBefore.setDate(dateBefore.getDate())),
           },
         },
       ];
@@ -97,16 +93,16 @@ router.get(
       //submittedAfter
       if (req.params.lastEditDateAfter !== "none") {
         var date = new Date(req.params.lastEditDateAfter);
-        findObj.lastEditDate = {
-          $gt: new Date(date.setDate(date.getDate() + 1)).toISOString(),
+        findObj.createDate = {
+          $gt: new Date(date.setDate(date.getDate() + 1)),
         };
       }
 
       //submittedBefore
       if (req.params.lastEditDateBefore !== "none") {
         var date = new Date(req.params.lastEditDateBefore);
-        findObj.lastEditDate = {
-          $lt: new Date(date.setDate(date.getDate())).toISOString(),
+        findObj.createDate = {
+          $lt: new Date(date.setDate(date.getDate())),
         };
       }
     }
@@ -149,7 +145,7 @@ router.get(
     }
 
     IllnessInjury.find(findObj)
-      .sort({ lastEditDate: -1 })
+      .sort({ createDate: -1 })
       .exec()
       .then((illnessInjury) => res.json(illnessInjury))
       .catch((err) => res.status(404).json({ success: err }));
@@ -158,10 +154,7 @@ router.get(
 
 router.put("/:homeId/:formId/", (req, res) => {
   const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
-  IllnessInjury.findByIdAndUpdate(
-    { _id: req.params.formId },
-    updatedLastEditDate
-  )
+  IllnessInjury.updateOne({ _id: req.params.formId }, updatedLastEditDate)
     .then((data) => {
       res.json(data);
     })

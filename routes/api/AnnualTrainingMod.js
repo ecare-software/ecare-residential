@@ -125,7 +125,7 @@ router.post("/", (req, res) => {
 
 router.get("/:homeId", (req, res) => {
   AnnualTrainingMod.find({ homeId: req.params.homeId })
-    .sort({ lastEditDate: -1 })
+    .sort({ createDate: -1 })
     .exec()
     .then((annualTrainingMod) => res.json(annualTrainingMod))
     .catch((err) => res.status(404).json({ success: false }));
@@ -136,7 +136,7 @@ router.get("/:homeId/:email", (req, res) => {
     homeId: req.params.homeId,
     createdBy: req.params.email,
   })
-    .sort({ lastEditDate: -1 })
+    .sort({ createDate: -1 })
     .exec()
     .then((annualTrainingMod) => res.json(annualTrainingMod))
     .catch((err) => res.status(404).json({ success: false }));
@@ -153,14 +153,14 @@ router.get("/:homeId" + "/:submittedByA" + "/:lastEditDate", (req, res) => {
   }
 
   AnnualTrainingMod.find(findObj)
-    .sort({ lastEditDate: -1 })
+    .sort({ createDate: -1 })
     .exec()
     .then((annualTrainingMod) => res.json(annualTrainingMod))
     .catch((err) => res.status(404).json({ success: err }));
 });
 
 router.put("/:formId", (req, res) => {
-  AnnualTrainingMod.findByIdAndUpdate({ _id: req.params.formId }, req.body)
+  AnnualTrainingMod.updateOne({ _id: req.params.formId }, req.body)
     .then((data) => {
       res.json(data);
     })
@@ -170,8 +170,8 @@ router.put("/:formId", (req, res) => {
 });
 
 router.put("/:homeId/:formId/", (req, res) => {
-  const updatedLastEditDate = {...req.body, lastEditDate: new Date()}
-  AnnualTrainingMod.findByIdAndUpdate({ _id: req.params.formId },updatedLastEditDate)
+  const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
+  AnnualTrainingMod.updateOne({ _id: req.params.formId }, updatedLastEditDate)
     .then((data) => {
       res.json(data);
     })
