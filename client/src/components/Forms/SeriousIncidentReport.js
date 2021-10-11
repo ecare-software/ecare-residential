@@ -191,6 +191,7 @@ class SeriousIncidentReport extends Component {
             ...this.state,
           }
         );
+        this.props.doUpdateFormDates();
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
         setTimeout(() => {
@@ -744,7 +745,7 @@ class SeriousIncidentReport extends Component {
                   id="notification_made_date_time"
                   value={this.state.notification_made_date_time}
                   className="form-control"
-                  type="date"
+                  type="datetime-local"
                 />{" "}
               </div>
 
@@ -1158,7 +1159,7 @@ class SeriousIncidentReport extends Component {
                     onChange={this.handleFieldInput}
                     value={this.state.notification_made_date_time}
                     className="form-control"
-                    type="date"
+                    type="datetime-local"
                     id="notification_made_date_time"
                   />{" "}
                 </div>

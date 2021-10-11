@@ -5,6 +5,12 @@
   .hide-on-non-print {
     display: block !important;
   }
+  .logInInputField {
+    break-inside: avoid;
+  }
+}
+@page {
+  margin: 10%;
 }
 .hide-on-non-print {
   display: none;

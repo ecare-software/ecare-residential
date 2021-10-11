@@ -155,6 +155,17 @@ class DailyProgressAndActivity extends Component {
 
   submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
+    if (!currentState.createDate) {
+      currentState.createDate = new Date().toISOString();
+    } else {
+      try {
+        const patchedDate = new Date(currentState.createDate).toISOString();
+        currentState.createDate = patchedDate;
+      } catch (e) {
+        currentState.createDate = new Date().toISOString();
+      }
+    }
+
     if (this.props.valuesSet) {
       try {
         await Axios.put(
@@ -163,6 +174,7 @@ class DailyProgressAndActivity extends Component {
             ...this.state,
           }
         );
+        this.props.doUpdateFormDates(currentState.createDate);
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
         setTimeout(() => {

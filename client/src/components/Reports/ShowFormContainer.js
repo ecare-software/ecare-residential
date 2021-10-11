@@ -305,7 +305,11 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
         <h6 style={{ fontWeight: 300 }}>
           {` ${formData.createdByName}, ${
             formData.lastEditDate
-              ? new Date(formData.lastEditDate).toLocaleString()
+              ? `${
+                  new Date(formData.lastEditDate).getUTCMonth() + 1
+                }/${new Date(formData.lastEditDate).getUTCDate()}/${new Date(
+                  formData.lastEditDate
+                ).getFullYear()}`
               : ""
           }`}
         </h6>
@@ -315,7 +319,9 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
         <h6 style={{ fontWeight: 300 }}>
           {` ${formData.createdByName}, ${
             formData.lastEditDate
-              ? new Date(formData.createDate).toLocaleString()
+              ? `${new Date(formData.createDate).getUTCMonth() + 1}/${new Date(
+                  formData.createDate
+                ).getUTCDate()}/${new Date(formData.createDate).getFullYear()}`
               : ""
           }`}
         </h6>
@@ -505,22 +511,46 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
     </div>
   );
 };
-class ShowFormContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
+  const [updatedFormData, setFormData] = useState({});
 
-  displayComponent = (name) => {
+  useEffect(() => {
+    if (
+      Reflect.ownKeys(formData).length > 0 &&
+      Reflect.ownKeys(updatedFormData).length === 0
+    ) {
+      setFormData(formData);
+    }
+  });
+
+  const doUpdateFormDates = async (createDate) => {
+    const update = {
+      ...updatedFormData,
+      lastEditDate: new Date(),
+    };
+
+    if (createDate) {
+      update.createDate = createDate;
+    }
+    await setFormData({
+      ...updatedFormData,
+      ...update,
+    });
+
+    formData = updatedFormData;
+  };
+
+  let route = "";
+  const displayComponent = (name) => {
     let comp = {};
-    let route = "";
 
     if (name === "72 Hour Treatment Plan") {
       comp = (
         <TreatmentPlan72
           valuesSet="true"
-          userObj={this.props.userObj}
-          formData={this.props.formData}
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
         />
       );
       route = "treatmentPlans72";
@@ -528,8 +558,9 @@ class ShowFormContainer extends Component {
       comp = (
         <IncidentReport
           valuesSet="true"
-          userObj={this.props.userObj}
-          formData={this.props.formData}
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
         />
       );
       route = "incidentReport";
@@ -537,8 +568,9 @@ class ShowFormContainer extends Component {
       comp = (
         <SeriousIncidentReport
           valuesSet="true"
-          userObj={this.props.userObj}
-          formData={this.props.formData}
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
         />
       );
       route = "seriousIncidentReport";
@@ -546,8 +578,9 @@ class ShowFormContainer extends Component {
       comp = (
         <DailyProgress
           valuesSet="true"
-          userObj={this.props.userObj}
-          formData={this.props.formData}
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
         />
       );
       route = "dailyProgressAndActivity";
@@ -555,8 +588,9 @@ class ShowFormContainer extends Component {
       comp = (
         <IllnessInjury
           valuesSet="true"
-          userObj={this.props.userObj}
-          formData={this.props.formData}
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
         />
       );
 
@@ -565,8 +599,9 @@ class ShowFormContainer extends Component {
       comp = (
         <AdmissionAssessment
           valuesSet="true"
-          userObj={this.props.userObj}
-          formData={this.props.formData}
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
         />
       );
 
@@ -575,8 +610,9 @@ class ShowFormContainer extends Component {
       comp = (
         <BodyCheck
           valuesSet="true"
-          userObj={this.props.userObj}
-          formData={this.props.formData}
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
         />
       );
 
@@ -585,8 +621,9 @@ class ShowFormContainer extends Component {
       comp = (
         <RestraintReport
           valuesSet="true"
-          userObj={this.props.userObj}
-          formData={this.props.formData}
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
         />
       );
       route = "restraintReport";
@@ -594,8 +631,9 @@ class ShowFormContainer extends Component {
       comp = (
         <OrientationTraining
           valuesSet="true"
-          userObj={this.props.userObj}
-          formData={this.props.formData}
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
         />
       );
       route = "orientationTraining";
@@ -603,8 +641,9 @@ class ShowFormContainer extends Component {
       comp = (
         <PreServiceTraining
           valuesSet="true"
-          userObj={this.props.userObj}
-          formData={this.props.formData}
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
         />
       );
       route = "preServiceTraining";
@@ -615,23 +654,21 @@ class ShowFormContainer extends Component {
         </div>
       );
     }
-    return Reflect.ownKeys(this.props.formData).length > 0 ? (
-      <>
-        <MetaDetails
-          formData={this.props.formData}
-          isAdminRole={this.props.isAdminRole}
-          route={route}
-          userObj={this.props.userObj}
-        />
-        {comp}
-      </>
-    ) : (
-      <></>
-    );
+    return Reflect.ownKeys(updatedFormData).length > 0 ? <>{comp}</> : <></>;
   };
 
-  render() {
-    return this.displayComponent(this.props.form.name);
-  }
-}
+  return (
+    <>
+      {Reflect.ownKeys(updatedFormData).length > 0 && (
+        <MetaDetails
+          formData={updatedFormData}
+          isAdminRole={isAdminRole}
+          route={route}
+          userObj={userObj}
+        />
+      )}
+      {displayComponent(form.name)}
+    </>
+  );
+};
 export default ShowFormContainer;

@@ -229,6 +229,7 @@ class RestraintReport extends Component {
             ...this.state,
           }
         );
+        this.props.doUpdateFormDates();
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
         setTimeout(() => {
