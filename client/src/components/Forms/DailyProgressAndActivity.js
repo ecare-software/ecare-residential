@@ -159,8 +159,6 @@ class DailyProgressAndActivity extends Component {
       if (currentState.createDate) {
         const patchedDate = new Date(currentState.createDate).toISOString();
         currentState.createDate = patchedDate;
-      } else {
-        currentState.createDate = null;
       }
       try {
         await Axios.put(
@@ -184,10 +182,6 @@ class DailyProgressAndActivity extends Component {
         });
       }
     } else {
-      if (!currentState.createDate) {
-        currentState.createDate = new Date().toISOString();
-      }
-
       currentState.createdBy = this.props.userObj.email;
       currentState.createdByName =
         this.props.userObj.firstName + " " + this.props.userObj.lastName;
@@ -332,12 +326,9 @@ class DailyProgressAndActivity extends Component {
       const client = JSON.parse(event.target.value);
       const clonedState = { ...this.state };
       Object.keys(client).forEach((key) => {
-        if (clonedState.hasOwnProperty(key)) {
+        if (clonedState.hasOwnProperty(key) && key !== "createDate") {
           clonedState[key] = client[key];
         }
-        // if (key.includes("childMeta_placeOfBirth")) {
-        //   clonedState.childMeta_placeOfBirth = `${client[key]} `;
-        // }
       });
       await this.setState({ ...clonedState, clientId: client._id });
     }
