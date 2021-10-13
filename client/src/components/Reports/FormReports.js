@@ -172,6 +172,10 @@ export class FromReports extends Component {
         return acc;
       }, []);
     }
+
+    if (data.length === 0) {
+      this.setState({ isLoading: false });
+    }
     var promiseCount = data.length;
     var count = 0;
     var startFormsState = this.state.forms;
@@ -932,12 +936,18 @@ export class FromReports extends Component {
                     : ""
                 }
               >
-                <FormListContainer
-                  doReset={this.state.doReset}
-                  setSelectedForm={this.setSelectedForm}
-                  setSelectedUser={this.setSelectedUser}
-                  formObjs={this.state.forms}
-                />
+                {this.state.forms.length > 0 ? (
+                  <FormListContainer
+                    doReset={this.state.doReset}
+                    setSelectedForm={this.setSelectedForm}
+                    setSelectedUser={this.setSelectedUser}
+                    formObjs={this.state.forms}
+                  />
+                ) : (
+                  <p style={{ textAlign: "center" }}>
+                    You have not submitted a form just yet
+                  </p>
+                )}
               </div>
               <div
                 className={

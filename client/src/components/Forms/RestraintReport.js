@@ -282,6 +282,7 @@ class RestraintReport extends Component {
         !createdUserData.signature.length > 0
       ) {
         this.setState({
+          ...this.state,
           formHasError: true,
           formErrorMessage: `User signiture required to submit a form. Create a new signiture under 'Manage Profile'.`,
           loadingClients: false,
