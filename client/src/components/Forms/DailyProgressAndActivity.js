@@ -155,18 +155,13 @@ class DailyProgressAndActivity extends Component {
 
   submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-    if (!currentState.createDate) {
-      currentState.createDate = new Date().toISOString();
-    } else {
-      try {
+    if (this.props.valuesSet) {
+      if (currentState.createDate) {
         const patchedDate = new Date(currentState.createDate).toISOString();
         currentState.createDate = patchedDate;
-      } catch (e) {
-        currentState.createDate = new Date().toISOString();
+      } else {
+        currentState.createDate = null;
       }
-    }
-
-    if (this.props.valuesSet) {
       try {
         await Axios.put(
           `/api/dailyProgressAndActivity/${this.state.homeId}/${this.props.formData._id}`,
@@ -189,6 +184,10 @@ class DailyProgressAndActivity extends Component {
         });
       }
     } else {
+      if (!currentState.createDate) {
+        currentState.createDate = new Date().toISOString();
+      }
+
       currentState.createdBy = this.props.userObj.email;
       currentState.createdByName =
         this.props.userObj.firstName + " " + this.props.userObj.lastName;
@@ -314,7 +313,6 @@ class DailyProgressAndActivity extends Component {
           loadingClients: !this.state.loadingClients,
         });
       }, 2000);
-      console.log(clients);
     } catch (e) {
       console.log(e);
       alert("Error loading clients");

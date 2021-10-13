@@ -263,7 +263,6 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
     if (!success) {
       return;
     }
-
     try {
       await Axios.put(
         `/api/${route}/${formData.homeId}/${formData._id}`,
@@ -514,14 +513,43 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
 const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
   const [updatedFormData, setFormData] = useState({});
 
+  const [route, setRoute] = useState("");
+
   useEffect(() => {
     if (
       Reflect.ownKeys(formData).length > 0 &&
       Reflect.ownKeys(updatedFormData).length === 0
     ) {
+      doSetRoute(form.name);
       setFormData(formData);
     }
   });
+
+  const doSetRoute = (name) => {
+    let droute = "";
+    if (name === "72 Hour Treatment Plan") {
+      droute = "treatmentPlans72";
+    } else if (name === "Incident Report") {
+      droute = "incidentReport";
+    } else if (name === "Serious Incident Report") {
+      droute = "seriousIncidentReport";
+    } else if (name === "Daily Activity") {
+      droute = "dailyProgressAndActivity";
+    } else if (name === "Illness Injury") {
+      droute = "illnessInjury";
+    } else if (name === "Admission Assessment") {
+      droute = "admissionAssessment";
+    } else if (name === "Health Body Check") {
+      droute = "bodyCheck";
+    } else if (name === "Restraint Report") {
+      droute = "restraintReport";
+    } else if (name === "Orientation Training") {
+      droute = "orientationTraining";
+    } else if (name === "Pre Service Training") {
+      droute = "preServiceTraining";
+    }
+    setRoute(droute);
+  };
 
   const doUpdateFormDates = async (createDate) => {
     const update = {
@@ -540,7 +568,6 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     formData = updatedFormData;
   };
 
-  let route = "";
   const displayComponent = (name) => {
     let comp = {};
 
@@ -553,7 +580,6 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
           doUpdateFormDates={doUpdateFormDates}
         />
       );
-      route = "treatmentPlans72";
     } else if (name === "Incident Report") {
       comp = (
         <IncidentReport
@@ -563,7 +589,6 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
           doUpdateFormDates={doUpdateFormDates}
         />
       );
-      route = "incidentReport";
     } else if (name === "Serious Incident Report") {
       comp = (
         <SeriousIncidentReport
@@ -573,7 +598,6 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
           doUpdateFormDates={doUpdateFormDates}
         />
       );
-      route = "seriousIncidentReport";
     } else if (name === "Daily Activity") {
       comp = (
         <DailyProgress
@@ -583,7 +607,6 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
           doUpdateFormDates={doUpdateFormDates}
         />
       );
-      route = "dailyProgressAndActivity";
     } else if (name === "Illness Injury") {
       comp = (
         <IllnessInjury
@@ -593,8 +616,6 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
           doUpdateFormDates={doUpdateFormDates}
         />
       );
-
-      route = "illnessInjury";
     } else if (name === "Admission Assessment") {
       comp = (
         <AdmissionAssessment
@@ -604,8 +625,6 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
           doUpdateFormDates={doUpdateFormDates}
         />
       );
-
-      route = "admissionAssessment";
     } else if (name === "Health Body Check") {
       comp = (
         <BodyCheck
@@ -615,8 +634,6 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
           doUpdateFormDates={doUpdateFormDates}
         />
       );
-
-      route = "bodyCheck";
     } else if (name === "Restraint Report") {
       comp = (
         <RestraintReport
@@ -626,7 +643,6 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
           doUpdateFormDates={doUpdateFormDates}
         />
       );
-      route = "restraintReport";
     } else if (name === "Orientation Training") {
       comp = (
         <OrientationTraining
@@ -636,7 +652,6 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
           doUpdateFormDates={doUpdateFormDates}
         />
       );
-      route = "orientationTraining";
     } else if (name === "Pre Service Training") {
       comp = (
         <PreServiceTraining
@@ -646,7 +661,6 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
           doUpdateFormDates={doUpdateFormDates}
         />
       );
-      route = "preServiceTraining";
     } else {
       comp = (
         <div>
