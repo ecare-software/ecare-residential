@@ -94,12 +94,12 @@
   .headerImg {
     /* background: url("./images/Caregiver-Assistance.jpg") no-repeat; */
     background-position: -330px 0px;
-    height: 500px;
+    height: 400px;
     width: 101%;
   }
   .headerTextContainer {
     position: absolute;
-    top: 250px;
+    top: 150px;
     margin: 0px 30px;
     margin-right: 50%;
     font-family: "Google Sans Display", Arial, Helvetica, sans-serif;

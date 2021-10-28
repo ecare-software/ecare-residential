@@ -155,7 +155,7 @@ class Header extends Component {
           indicators={true}
           interval={5000}
           fade={true}
-          pauseonhover={"false"}
+          pauseonhover={false}
         >
           <Carousel.Item>
             <img
