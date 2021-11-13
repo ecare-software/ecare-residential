@@ -78,4 +78,14 @@ router.put("/:homeId/:id/", (req, res) => {
     });
 });
 
+router.delete("/:homeId/:id/", (req, res) => {
+  Client.deleteOne({ _id: req.params.id })
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+});
+
 module.exports = router;

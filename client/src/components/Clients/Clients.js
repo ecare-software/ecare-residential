@@ -1,31 +1,17 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useAsync, IfRejected, IfPending, IfFulfilled } from "react-async";
 import "../../App.css";
 import "../LogInContainer/LogInContainer.css";
 import Axios from "axios";
 import FaceSheet from "../Forms/FaceSheet";
-import styled from "styled-components";
 import { Col } from "react-bootstrap";
-
-const SmallCol = styled.div`
-  width: 100px;
-  text-align: center;
-`;
-
-const SmallColRight = styled.div`
-  width: 200px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-`;
-
-const SmallColRightTitle = styled.div`
-  width: 200px;
-  text-align: center;
-`;
 
 const fetchAllClientsInit = async ({ homeId }) => {
   return await Axios.get(`/api/client/${homeId}`);
+};
+
+const doDeleteClient = async ([homeId, clientId]) => {
+  return await Axios.delete(`/api/client/${homeId}/${clientId}`);
 };
 
 const fetchAllClients = async ([homeId]) => {
@@ -56,10 +42,24 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
     },
   });
 
+  const deleteClient = useAsync({
+    deferFn: doDeleteClient,
+    onResolve: (data) => {
+      getAllClients.run([userObj.homeId]);
+    },
+  });
+
   const setClient = (value) => {
     setIsClientSelected(true);
     setSelectedClient(value);
     doToggleClientDisplay(false);
+  };
+
+  const deleteClientCall = async (value) => {
+    if (window.confirm("Are you sure you want to delete this client?")) {
+      await deleteClient.run(userObj.homeId, value._id);
+      doToggleClientDisplay(true);
+    }
   };
 
   if (showClients) {
@@ -83,7 +83,7 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
           </div>
           {clients.map((client) => (
             <div className="form-group logInInputField d-flex mt-3">
-              <Col className="control-label">
+              <Col className="control-label d-flex">
                 <button
                   className="btn btn-light extraInfoButton"
                   onClick={() => {
@@ -91,6 +91,22 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
                   }}
                 >
                   Edit
+                </button>
+                <button
+                  className="btn btn-link extraInfoButton"
+                  onClick={() => {
+                    deleteClientCall(client);
+                  }}
+                >
+                  <span
+                    style={{
+                      textDecoration: "none",
+                      color: "#444",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Delete
+                  </span>
                 </button>
               </Col>
               <Col className="control-label">
