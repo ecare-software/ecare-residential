@@ -1,23 +1,49 @@
 import React, { Component } from "react";
 import "./MessageBoard.css";
-import DMBtn from "../NavBar/DMBtn";
 import "../../App.css";
-
+import { DoDeleteRecord } from "../../utils/DoDeleteRecord";
+import { isAdminUser } from "../../utils/AdminReportingRoles";
 
 class MessagePost extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
+
+  deleteMessge = () => {
+    this.props.doRemoveMessage(this.props.messageObj._id);
+  };
+
   render() {
     return (
       <div className="MessagePost">
         <div className="MessagePostMeta">
-          <span className="mainFont MessagePostUser">{this.props.messageObj.firstName} {this.props.messageObj.lastName}</span>
-          <i className="MessagePostTime">{new Date(this.props.messageObj.date).toLocaleString()}<DMBtn toUser={this.props.messageObj.user} bgColor="maroon" fontSz="1em">send message</DMBtn></i>
+          <div style={{ display: "flex" }}>
+            <span className="mainFont MessagePostUser">
+              {this.props.messageObj.firstName} {this.props.messageObj.lastName}
+            </span>
+            {isAdminUser(this.props.userObj) && (
+              <button
+                style={{ marginLeft: "auto" }}
+                className="btn btn-light"
+                onClick={() => {
+                  DoDeleteRecord(
+                    "Are you sure you want to delete this message? This cannot be undone.",
+                    `/api/discussionMessages/${this.props.messageObj._id}`,
+                    this.deleteMessge
+                  );
+                }}
+              >
+                <i className="fa fa-trash"></i>
+              </button>
+            )}
+          </div>
+          <i className="MessagePostTime">
+            {new Date(this.props.messageObj.date).toLocaleString()}
+          </i>
         </div>
         <div className="MessagePostTextDiv">
-            <p>{this.props.children}</p>
+          <p>{this.props.children}</p>
         </div>
       </div>
     );

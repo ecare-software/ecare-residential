@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import Axios from "axios";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import cookie from "react-cookies";
+import Cookies from "universal-cookie";
+import { FormCountContext } from "./context/index";
 //components
 import Header from "./components/Header/Header";
-import LogInContiner from "./components/LogInContainer/LogInContainer";
-// import Testimonial from "./components/Testimonial/Testimonial.js";
 import TreatmentPlan72 from "./components/Forms/TreatmentPlan72";
 import IncidentReport from "./components/Forms/IncidentReport";
+import SeriousIncidentReport from "./components/Forms/SeriousIncidentReport";
 import RestraintReport from "./components/Forms/RestraintReport";
 import DailyProgress from "./components/Forms/DailyProgressAndActivity";
+import AnnualTraining from "./components/Forms/AnnualTraining";
 import MessageBoard from "./components/MessageBoard/MessageBoard";
 import Reports from "./components/Reports/ReportsContainer";
 import UserManagement from "./components/UserManagement/UserManagement";
@@ -18,128 +18,231 @@ import DirectMessageBoard from "./components/DirectMessageBoard/DirectMessageBoa
 import Modal from "react-bootstrap/Modal";
 import ModalBody from "react-bootstrap/ModalBody";
 import ModalHeader from "react-bootstrap/ModalHeader";
-import ModalTitle from "react-bootstrap/ModalTitle";
-import ModalFooter from "react-bootstrap/ModalFooter";
+import Clients from "./components/Clients/Clients";
 import FormAlert from "./components/Forms/FormAlert";
 import Documents from "./components/Documents/Documents";
-// import UserActions from "./components/UserActions/UserActions";
+import IllnessInjury from "./components/Forms/IllnessInjury";
+import AdmissionAssessment from "./components/Forms/AdmissionAssessment";
+import BodyCheck from "./components/Forms/BodyCheck";
+import OrientationTraining from "./components/Forms/OrientationTraining";
+import PreServiceTraining from "./components/Forms/PreServiceTraining";
+import FirstAidCprTraining from "./components/Forms/FirstAidCprTraining";
 import ManageAccountContainer from "./components/ManageAccount/ManageAccountContainer";
-//modals
-
-//styles
+import rightBody from "./images/right_body.png";
+import leftBody from "./images/left_body.png";
 import "./App.css";
 import Fade from "react-reveal/Fade";
-//modals
+import ManageTraining from "./components/ManageTraining/ManageTraining";
+import { isAdminUser } from "./utils/AdminReportingRoles";
 
-//const classes
 const hideStyle = {
-  display: "none"
+  display: "none",
 };
 
-const navNotSelected = {
-  color: "#8000008a",
-  padding: "0px 10px",
-  fontFamily: "'Google Sans Display', Arial, Helvetica, sans-serif"
-};
-
-const navSelected = {
-  backgroundColor: "rgb(128, 0, 0)",
-  color: "white",
-  borderRadius: "9px",
-  padding: "0px 10px",
-  fontFamily: "'Google Sans Display', Arial, Helvetica, sans-serif"
-};
+const cookies = new Cookies();
 
 class App extends Component {
   state = {
     loggedIn: false,
-    userObj: {
-      // email: "demarcuskennedy95@gmail.com",
-      // firstName: "DeMarcus",
-      // homeId: "home-1234",
-      // isAdmin: true,
-      // jobTitle: "Admin",
-      // lastLogIn: "2019-08-26T03:22:28.424Z",
-      // lastName: "Kennedy",
-      // newUser: true,
-      // password: "xyz123",
-      // __v: 0,
-      // _id: "5d63507799ac0b1494149479"
-    },
+    userObj: {},
     messagesInitLoad: false,
     allUsersSet: false,
     errorModalMeta: {
       title: "",
-      message: ""
+      message: "",
     },
     doDisplay: "Dashboard",
     discussionMessages: [],
     allUsers: [],
     showLearnMore: false,
     name: "",
+    organization: "",
     emailTo: "",
     emailSent: false,
-    blockCompUpdates: false
+    dmTo: null,
+    blockCompUpdates: false,
+    toUserSelected: null,
+    dmMessage: "",
+    messages: [],
+    discussionMessagesLoading: false,
+    showUploadModal: false,
+    showClients: true,
+    showTrainings: true,
+    nonApprovedFormCountSet: false,
+    formCountState: {
+      count: -1,
+      updateCount: this.doFetchFormApprovalCount,
+    },
+    flip: false,
   };
 
-  getMyMessages = () => {};
-
-  componentDidMount = () => {
-    console.log(cookie.load("appState"));
-    let fromCookieState = cookie.load("appState");
-    if (fromCookieState !== undefined) {
+  doFetchFormApprovalCount = async () => {
+    try {
       this.setState({
-        userObj: fromCookieState.userObj,
-        loggedIn: fromCookieState.loggedIn
+        ...this.state,
+        formCountState: {
+          ...this.state.formCountState,
+          count: -1,
+        },
+        nonApprovedFormCountSet: false,
       });
+      const { data } = await Axios.get(
+        `/api/forms/count/false/${this.state.userObj.homeId}`
+      );
+
+      const { count: nonApprovedFormCount } = data;
+
+      this.setState({
+        ...this.state,
+        nonApprovedFormCountSet: true,
+        formCountState: {
+          ...this.state.formCountState,
+          count: nonApprovedFormCount,
+          updateCount: async () => {
+            const { data } = await Axios.get(
+              `/api/forms/count/false/${this.state.userObj.homeId}`
+            );
+            const { count: nonApprovedFormCount } = data;
+            this.setState({
+              ...this.state,
+              nonApprovedFormCountSet: true,
+              flip: !this.state.flip,
+              formCountState: {
+                ...this.state.formCountState,
+                count: nonApprovedFormCount,
+              },
+            });
+          },
+        },
+      });
+    } catch (e) {
+      console.log(`Error fetching form count - ${e}`);
+    }
+  };
+
+  getMyMessages = () => {
+    Axios.get(
+      `/api/directMessages/${this.state.userObj.email}/${this.state.userObj.homeId}`
+    ).then((messages) => {
+      this.setState({ messages: messages.data });
+    });
+  };
+
+  setDmToUser = async (id) => {
+    const selectedUser = this.state.allUsers.filter((user) => {
+      return user._id === id;
+    });
+
+    await this.setState({
+      ...this.state,
+      dmTo: selectedUser.length > 0 ? selectedUser[0] : null,
+    });
+  };
+
+  componentDidMount = async () => {
+    let userObj = cookies.get("userObj");
+    let loggedIn = cookies.get("loggedIn");
+    if (userObj && loggedIn) {
+      try {
+        await this.setState({
+          userObj,
+          loggedIn: loggedIn,
+        });
+        const { data: updatedUserData } = await Axios({
+          method: "get",
+          url: "/api/users/" + userObj.email + "/" + userObj.password,
+        });
+        await this.setState({
+          userObj: updatedUserData,
+        });
+
+        if (isAdminUser(this.state.userObj)) {
+          await this.doFetchFormApprovalCount();
+        }
+
+        this.loadMessage(updatedUserData);
+        await this.getAllUsers();
+        await this.getMyMessages();
+      } catch (e) {
+        console.log(e);
+        await this.setState({
+          userObj: {},
+          loggedIn: false,
+        });
+        return;
+      }
     }
   };
 
   componentDidUpdate = () => {
-    if (!this.state.allUsersSet && !this.state.blockCompUpdates) {
+    if (
+      this.state.loggedIn &&
+      (this.state.allUsersSet === false || this.state.allUsers.length === 0)
+    ) {
       this.getAllUsers();
     }
 
-    if (!this.state.messagesInitLoad && !this.state.blockCompUpdates) {
-      this.loadMessage();
+    if (
+      !this.state.messagesInitLoad &&
+      !this.state.blockCompUpdates &&
+      this.state.isLoggedIn
+    ) {
+      this.loadMessage(this.state.userObj);
     }
   };
 
-  loadMessage = () => {
-    let curthis = this;
-    Axios.get("/api/discussionMessages")
-      .then(function(response) {
-        curthis.setState({
-          discussionMessages: response.data,
-          messagesInitLoad: true
-        });
-        console.log(curthis.state.discussionMessages);
+  loadMessage = (userObj) => {
+    this.setState({
+      ...this.state,
+      discussionMessagesLoading: !this.state.discussionMessagesLoading,
+    });
+    Axios.get(`/api/discussionMessages/${userObj.homeId}`)
+      .then((response) => {
+        setTimeout(() => {
+          this.setState({
+            discussionMessages: response.data,
+            messagesInitLoad: true,
+            discussionMessagesLoading: !this.state.discussionMessagesLoading,
+          });
+        }, 1000);
       })
-      .catch(function(error) {
-        console.log(error);
+      .catch((error) => {
+        this.setState({
+          discussionMessagesLoading: !this.state.discussionMessagesLoading,
+        });
+        alert(error);
       });
   };
 
-  appendMessage = message => {
-    let curthis = this;
+  appendMessage = async (message) => {
     let newMessage = {
       message: message,
       firstName: this.state.userObj.firstName,
       middleName: this.state.userObj.middleName,
       lastName: this.state.userObj.lastName,
       id: this.state.userObj._id,
-      date: new Date().toISOString()
+      homeId: this.state.userObj.homeId,
+      date: new Date().toISOString(),
     };
+    try {
+      await Axios.post("/api/discussionMessages", newMessage);
+      this.loadMessage(this.state.userObj);
+    } catch (e) {
+      alert("Error loading messages");
+      console.log(e);
+    }
+  };
 
-    Axios.post("/api/discussionMessages", newMessage)
-      .then(function(response) {
-        curthis.state.discussionMessages.unshift(newMessage);
-        let discussionMessagesTmp = curthis.state.discussionMessages;
-        curthis.setState({ discussionMessages: discussionMessagesTmp });
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+  removeMessage = (id) => {
+    let messages = this.state.discussionMessages.filter((messageObj) => {
+      return messageObj._id !== id;
+    });
+
+    return messages;
+  };
+
+  setDMs = (messages) => {
+    this.setState({ ...this.state, messages });
   };
 
   showErrorModal = (title, message) => {
@@ -148,16 +251,23 @@ class App extends Component {
   };
 
   getAllUsers = () => {
-    Axios.get("/api/users/" + this.state.userObj.homeId).then(allUsers => {
+    Axios.get("/api/users/" + this.state.userObj.homeId).then((allUsers) => {
       this.setState({ allUsers: allUsers.data, allUsersSet: true });
     });
   };
 
   logOut = () => {
-    this.setState({ loggedIn: false });
-    this.setState({ userObj: {} });
-    this.setState({ doDisplay: "Dashboard" });
-    cookie.remove("appState");
+    this.setState({
+      ...this.state,
+      loggedIn: false,
+      userObj: {},
+      doDisplay: "Dashboard",
+      allUsersSet: false,
+      blockCompUpdates: false,
+      nonApprovedFormCountSet: false,
+    });
+    cookies.remove("loggedIn", { path: "/" });
+    cookies.remove("userObj", { path: "/" });
     window.scrollTo(0, 0);
   };
 
@@ -165,7 +275,7 @@ class App extends Component {
     window.scrollTo(0, 0);
   };
 
-  toggleLogIn = userObj => {
+  toggleLogIn = async (userObj) => {
     window.scrollTo(0, 0);
     let message = "";
     let title = "";
@@ -174,27 +284,58 @@ class App extends Component {
         "You need to reset your password. Click the Manage Profile button to do so.";
       title = "Welcome to RCS, Heres some information";
     }
-    this.setState({
+    await this.setState({
       userObj: userObj,
       loggedIn: true,
       message,
-      title
+      title,
     });
-    console.log("setCookie here");
-    cookie.remove("appState");
-    console.log(this.state);
-    let cookieToSet = JSON.parse(JSON.stringify(this.state));
-    cookieToSet.discussionMessages = [];
-    cookieToSet.allUsers = [];
-    cookie.save("appState", cookieToSet);
+    this.getMyMessages();
+    this.loadMessage(userObj);
+    if (isAdminUser(userObj)) {
+      this.doFetchFormApprovalCount();
+    }
+
+    let cookieToSet = { ...this.state };
+    delete cookieToSet.discussionMessages;
+    delete cookieToSet.allUsers;
+    delete cookieToSet.messagesInitLoad;
+    delete cookieToSet.allUsersSet;
+    delete cookieToSet.errorModalMeta;
+    delete cookieToSet.doDisplay;
+    delete cookieToSet.discussionMessages;
+    delete cookieToSet.allUsers;
+    delete cookieToSet.showLearnMore;
+    delete cookieToSet.name;
+    delete cookieToSet.organization;
+    delete cookieToSet.emailTo;
+    delete cookieToSet.emailSent;
+    delete cookieToSet.dmTo;
+    delete cookieToSet.blockCompUpdates;
+    delete cookieToSet.toUserSelected;
+    delete cookieToSet.dmMessage;
+    delete cookieToSet.messages;
+    delete cookieToSet.discussionMessagesLoading;
+    delete cookieToSet.showUploadModal;
+    delete cookieToSet.showClients;
+    delete cookieToSet.showTrainings;
+
+    delete cookieToSet.userObj.signature; // messes up cookie storage
+    const current = new Date();
+    const nextYear = new Date();
+    nextYear.setFullYear(current.getFullYear() + 1);
+    await cookies.set("userObj", JSON.stringify(cookieToSet.userObj), {
+      expires: nextYear,
+    });
+    await cookies.set("loggedIn", cookieToSet.loggedIn, { expires: nextYear });
   };
 
-  toggleDisplay = display => {
+  toggleDisplay = (display) => {
     window.scrollTo(0, 0);
     this.setState({ doDisplay: display });
   };
 
-  handleFieldInput = event => {
+  handleFieldInput = (event) => {
     var stateObj = {};
     stateObj[event.target.id] = event.target.value;
     this.setState(stateObj);
@@ -203,7 +344,7 @@ class App extends Component {
   toggleLearnMore = () => {
     this.setState({
       showLearnMore: !this.state.showLearnMore,
-      blockCompUpdates: !this.state.blockCompUpdates
+      blockCompUpdates: !this.state.blockCompUpdates,
     });
   };
 
@@ -213,13 +354,18 @@ class App extends Component {
       return;
     }
     thisHook.setState({ blockCompUpdates: true });
-    Axios.post(`/api/email/${this.state.emailTo}/${this.state.name}`)
-      .then(function(response) {
+    Axios.post(
+      `/api/email/${this.state.emailTo}/${this.state.name}/${
+        this.state.organization ? this.state.organization : "null"
+      }`
+    )
+      .then(function (response) {
         thisHook.setState({
           name: "",
           emailTo: "",
+          organization: "",
           emailSent: true,
-          showLearnMore: false
+          showLearnMore: false,
         });
         setTimeout(() => {
           thisHook.setState({ emailSent: false });
@@ -228,58 +374,167 @@ class App extends Component {
           }, 4000);
         }, 4000);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         alert("error sending email");
         console.log(error);
       });
   };
 
+  sendDM = async () => {
+    if (
+      this.state.dmTo !== "" ||
+      (this.state.dmTo !== null && this.state.dmMessage)
+    ) {
+      try {
+        await Axios.post(`/api/directMessages`, {
+          toObj: this.state.dmTo,
+          fromObj: this.state.userObj,
+          toID: this.state.dmTo.email,
+          fromID: this.state.userObj.email,
+          message: this.state.dmMessage,
+          date: new Date(),
+          homeId: this.state.userObj.homeId,
+        });
+
+        const { data } = await Axios.get(
+          `/api/directMessages/${this.state.userObj.email}/${this.state.userObj.homeId}`
+        );
+
+        this.setState({
+          ...this.state,
+          dmMessage: "",
+          messages: data,
+        });
+      } catch (e) {
+        alert("Error sending message");
+        console.log(e);
+      }
+    }
+  };
+
+  setDmMessage = (message) => {
+    this.setState({ ...this.state, dmMessage: message });
+  };
+
+  openUpload = (val) => {
+    this.setState({ ...this.state, showUploadModal: val });
+  };
+
+  doToggleClientDisplay = (val) => {
+    this.setState({ ...this.state, showClients: val });
+  };
+
+  doToggleTrainingDisplay = (val) => {
+    this.setState({ ...this.state, showTrainings: val });
+  };
+
+  updateUserData = async (newUserData, updateSig = false) => {
+    if (!updateSig) {
+      delete newUserData.signature; // messes up cookie storage
+      const current = new Date();
+      const nextYear = new Date();
+      nextYear.setFullYear(current.getFullYear() + 1);
+      await cookies.set("userObj", JSON.stringify(newUserData), {
+        expires: nextYear,
+      });
+    }
+    this.setState({ ...this.state, userObj: newUserData });
+  };
+
+  setBackButtonBlock = () => {
+    window.onbeforeunload = function () {
+      return "Your work will be lost.";
+    };
+  };
+
   render() {
+    this.setBackButtonBlock();
     if (this.state.loggedIn) {
       return (
-        <div className="App container" id="mainContainer">
-          <BSNavBar
-            logOut={this.logOut}
-            toggleDisplay={this.toggleDisplay}
-            isLoggedIn={this.state.loggedIn}
-            userObj={this.state.userObj}
-          ></BSNavBar>
-          {this.state.doDisplay !== "Reports" ? (
-            <div id="desktopView" className="row">
-              <div className="col-sm-3">
-                <DisplayExtra
-                  name={this.state.doDisplay}
-                  userObj={this.state.userObj}
-                  scrollTop={this.scrollTop}
-                  toggleDisplay={this.toggleDisplay}
-                />
-              </div>
-              <div className="col-sm-9" id="actionSection">
-                <div>
-                  <ToggleScreen
+        <FormCountContext.Provider value={this.state.formCountState}>
+          <div className="App container" id="mainContainer">
+            <BSNavBar
+              logOut={this.logOut}
+              toggleDisplay={this.toggleDisplay}
+              isLoggedIn={this.state.loggedIn}
+              userObj={this.state.userObj}
+              appState={this.state}
+            ></BSNavBar>
+            {this.state.doDisplay !== "Reports" ? (
+              <div id="desktopView" className="row">
+                <div className="col-sm-3">
+                  <DisplayExtra
                     name={this.state.doDisplay}
+                    userObj={this.state.userObj}
+                    scrollTop={this.scrollTop}
+                    toggleDisplay={this.toggleDisplay}
                     appState={this.state}
-                    appendMessage={this.appendMessage}
+                    setDmToUser={this.setDmToUser}
+                    sendDM={this.sendDM}
+                    dmMessage={this.state.dmMessage}
+                    setDmMessage={this.setDmMessage}
+                    showUploadModal={this.showUploadModal}
+                    openUpload={this.openUpload}
+                    doToggleClientDisplay={this.doToggleClientDisplay}
+                    doToggleTrainingDisplay={this.doToggleTrainingDisplay}
+                    showClients={this.state.showClients}
+                    showTrainings={this.state.showTrainings}
+                    loadMessage={this.loadMessage}
+                  />
+                </div>
+                <div className="col-sm-9" id="actionSection">
+                  <div>
+                    <ToggleScreen
+                      name={this.state.doDisplay}
+                      appState={this.state}
+                      appendMessage={this.appendMessage}
+                      toggleDisplay={this.toggleDisplay}
+                      showClients={this.state.showClients}
+                      showTrainings={this.state.showTrainings}
+                      doToggleClientDisplay={this.doToggleClientDisplay}
+                      doToggleTrainingDisplay={this.doToggleTrainingDisplay}
+                      discussionMessagesLoading={
+                        this.state.discussionMessagesLoading
+                      }
+                      removeMessage={this.removeMessage}
+                      setDMs={this.setDMs}
+                      updateUserData={this.updateUserData}
+                    />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div id="desktopView" className="row">
+                <div
+                  className="col-md-12"
+                  style={
+                    this.state.doDisplay === "Reports"
+                      ? { marginBottom: "150px 0px" }
+                      : hideStyle
+                  }
+                >
+                  <Reports
+                    userObj={this.state.userObj}
+                    allUsers={this.state.allUsers}
                   />
                 </div>
               </div>
-            </div>
-          ) : (
-            <div id="desktopView" className="row">
-              <div
-                className="col-md-12"
-                style={
-                  this.state.doDisplay === "Reports"
-                    ? { marginBottom: "150px 0px" }
-                    : hideStyle
-                }
+            )}
+            <div
+              className="hide-on-print"
+              style={{ position: "fixed", left: "90vw", top: "85vh" }}
+            >
+              <button
+                className="btn btn-light extraInfoButton"
+                onClick={() => {
+                  if (window.scrollY) window.scrollTo(0, 0);
+                }}
               >
-                <Reports userObj={this.state.userObj} />
-              </div>
+                <i className="fa fa-arrow-up"></i>
+              </button>
             </div>
-          )}
-          {/* <UserActions/> */}
-        </div>
+          </div>
+        </FormCountContext.Provider>
       );
     } else {
       return (
@@ -303,8 +558,6 @@ class App extends Component {
           ) : (
             <React.Fragment />
           )}
-          {/* <LogInContiner id="desktopLogin" logIn={this.toggleLogIn} /> */}
-          {/* Body Start */}
           <div className="container-fluid" id="greetingContainer">
             <div className="row" id="greetingRow">
               <div className="col-sm-7" id="greetingColRight">
@@ -317,11 +570,12 @@ class App extends Component {
 
                   <div id="greetingRowRightPContainer">
                     <p id="greetingRowRightP">
-                      Health care, health-care, or healthcare is the maintenance
-                      or improvement of health via the prevention, diagnosis,
-                      and treatment of disease, illness, injury, and other
-                      physical and mental impairments in people. Health care is
-                      delivered by health professionals in allied health fields.
+                      e-Care Residential aims to provide a simple, functional
+                      software solution for both large and small scale behavior
+                      residential care facilities. We are a young software
+                      development company with experience in the fields of
+                      software development and childcare. We offer a simple,
+                      easy to use documenting and messaging software suite.
                     </p>
                   </div>
                   <div id="greetingRowRightBtnContainer">
@@ -347,12 +601,13 @@ class App extends Component {
               style={{
                 color: "maroon",
                 borderColor: "maroon",
-                textAlign: "center"
+                textAlign: "center",
+                backgroundColor: "white",
               }}
             >
               <h5>Learn more about our services</h5>
             </ModalHeader>
-            <ModalBody>
+            <ModalBody style={{ backgroundColor: "white" }}>
               <div className="form-group">
                 <p>
                   Complete the form below to get a personalized email describing
@@ -364,7 +619,15 @@ class App extends Component {
                   value={this.state.name}
                   style={{ width: "100%", margin: "15px 0px" }}
                   className="form-control"
-                  placeholder="Name / Organization"
+                  placeholder="Name"
+                />
+                <input
+                  id="organization"
+                  onChange={this.handleFieldInput}
+                  value={this.state.organization}
+                  style={{ width: "100%", margin: "15px 0px" }}
+                  className="form-control"
+                  placeholder="Organization"
                 />
                 <input
                   id="emailTo"
@@ -379,7 +642,7 @@ class App extends Component {
                     margin: "5px 0px",
                     float: "right",
                     backgroundColor: "maroon",
-                    color: "white"
+                    color: "white",
                   }}
                   onClick={this.sendEmail}
                   className="btn"
@@ -395,13 +658,63 @@ class App extends Component {
   }
 }
 
-function ToggleScreen({ name, appState, appendMessage }) {
+function ToggleScreen({
+  name,
+  appState,
+  appendMessage,
+  toggleDisplay,
+  showClients,
+  showTrainings,
+  doToggleClientDisplay,
+  doToggleTrainingDisplay,
+  discussionMessagesLoading,
+  removeMessage,
+  setDMs,
+  updateUserData,
+}) {
   if (name === "Dashboard") {
     return (
       <div>
         <MessageBoard
+          discussionMessagesLoading={discussionMessagesLoading}
           messages={appState.discussionMessages}
           appendMessage={appendMessage}
+          toggleDisplay={toggleDisplay}
+          userObj={appState.userObj}
+          removeMessage={removeMessage}
+        />
+      </div>
+    );
+  }
+
+  if (name === "Orientation Training") {
+    return (
+      <div>
+        <OrientationTraining
+          userObj={appState.userObj}
+          allUsers={appState.allUsers}
+        />
+      </div>
+    );
+  }
+
+  if (name === "Pre Service Training") {
+    return (
+      <div>
+        <PreServiceTraining
+          userObj={appState.userObj}
+          allUsers={appState.allUsers}
+        />
+      </div>
+    );
+  }
+
+  if (name === "First aid CPR Training") {
+    return (
+      <div>
+        <FirstAidCprTraining
+          userObj={appState.userObj}
+          allUsers={appState.allUsers}
         />
       </div>
     );
@@ -410,7 +723,7 @@ function ToggleScreen({ name, appState, appendMessage }) {
   if (name === "Documents") {
     return (
       <div>
-        <Documents />
+        <Documents userObj={appState.userObj} allUsers={appState.allUsers} />
       </div>
     );
   }
@@ -421,6 +734,19 @@ function ToggleScreen({ name, appState, appendMessage }) {
         <UserManagement
           userObj={appState.userObj}
           allUsers={appState.allUsers}
+          updateUserData={updateUserData}
+        />
+      </div>
+    );
+  }
+
+  if (name === "manTraining") {
+    return (
+      <div>
+        <ManageTraining
+          doToggleTrainingDisplay={doToggleTrainingDisplay}
+          showTrainingsForm={showTrainings}
+          userObj={appState.userObj}
         />
       </div>
     );
@@ -450,6 +776,54 @@ function ToggleScreen({ name, appState, appendMessage }) {
     );
   }
 
+  if (name === "SeriousIncidentReport") {
+    return (
+      <div>
+        <SeriousIncidentReport
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="incident"
+        />
+      </div>
+    );
+  }
+
+  if (name === "admissionAssessment") {
+    return (
+      <div>
+        <AdmissionAssessment
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="admissionAssessment"
+        />
+      </div>
+    );
+  }
+
+  if (name === "Annual Training") {
+    return (
+      <div>
+        <AnnualTraining
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="admissionAssessment"
+        />
+      </div>
+    );
+  }
+
+  if (name === "bodyCheck") {
+    return (
+      <div>
+        <BodyCheck
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="admissionAssessment"
+        />
+      </div>
+    );
+  }
+
   if (name === "DailyProgress") {
     return (
       <div>
@@ -457,6 +831,18 @@ function ToggleScreen({ name, appState, appendMessage }) {
           valuesSet={false}
           userObj={appState.userObj}
           id="dailyProgress"
+        />
+      </div>
+    );
+  }
+
+  if (name === "IllnessInjury") {
+    return (
+      <div>
+        <IllnessInjury
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="illnessInjury"
         />
       </div>
     );
@@ -477,7 +863,22 @@ function ToggleScreen({ name, appState, appendMessage }) {
   if (name === "Manage Account") {
     return (
       <div>
-        <ManageAccountContainer userObj={appState.userObj} />
+        <ManageAccountContainer
+          userObj={appState.userObj}
+          updateUserData={updateUserData}
+        />
+      </div>
+    );
+  }
+
+  if (name === "Clients") {
+    return (
+      <div>
+        <Clients
+          doToggleClientDisplay={doToggleClientDisplay}
+          showClientForm={showClients}
+          userObj={appState.userObj}
+        />
       </div>
     );
   }
@@ -487,19 +888,34 @@ function ToggleScreen({ name, appState, appendMessage }) {
       <div>
         <DirectMessageBoard
           userObj={appState.userObj}
-          messages={appState.discussionMessages}
+          messagesInit={appState.messages}
+          allUsers={appState.allUsers}
+          setDMs={setDMs}
         />
       </div>
     );
   }
 }
 
-function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
+function DisplayExtra({
+  name,
+  userObj,
+  scrollTop,
+  appState,
+  setDmToUser,
+  sendDM,
+  dmMessage,
+  setDmMessage,
+  doToggleClientDisplay,
+  doToggleTrainingDisplay,
+  showClients,
+  showTrainings,
+  loadMessage,
+}) {
   if (name === "TreatmentPlan72") {
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle">Treatment Plan 72</h5> */}
           <p className="extraInfoNavSubTitle">
             This is what the must be filled out when a child is first admitted
             to the facility.
@@ -513,40 +929,59 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
     );
   }
 
+  if (name === "Orientation Training") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv">
+          <p className="extraInfoNavSubTitle">
+            New Employee Orientation training is an eight-hour (8) program
+            provided to each new employee within the first fourteen days of
+            hiring. The program includes, but is not limited to, the following
+            employee and agency information.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "Pre Service Training") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv">
+          <p className="extraInfoNavSubTitle">
+            Pre-service training is a forty (40) hour course offered by New
+            Pathways training staff at the facility within the first fourteen
+            days of hiring. The program includes all the necessary topics to
+            receive sole supervision status.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "First aid CPR Training") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv">
+          <p className="extraInfoNavSubTitle">
+            First Aid and CPR training is a course offered by a CPR/First Aid
+            certified instructor or at the American Red Cross within the first
+            ninety days of hiring.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   if (name === "Documents") {
     return (
       <div id="extraInfo">
-        {/* <div id="">
-          <h4 className="extraInfoMainTitle">
-            Documents
-          </h4>
-          <h6 className="extraInfoSubTitle">{userObj.jobTitle}</h6>
-        </div> */}
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle">Documents</h5> */}
           <p className="extraInfoNavSubTitle">
-            <i>
-              This is where you upload documents for everyone to see
-            </i>
+            <i>This is where you upload documents for everyone to see</i>
           </p>
         </div>
-        <div className="extraInfoButtonDiv">
-          {/* <button onClick={scrollTop} className="btn btn-light extraInfoButton">
-            Upload Document 
-          </button> */}
-          <button className="btn btn-light extraInfoButton">
-            Upload New File
-          </button>
-          {/* <button className="btn btn-light extraInfoButton">
-            Direct Messages
-          </button> */}
-          {/* <button
-            onClick={toggleDisplay.bind("", "Manage Account")}
-            className="btn btn-light extraInfoButton"
-          >
-            Account Settings
-          </button> */}
-        </div>
+        <div className="extraInfoButtonDiv"></div>
       </div>
     );
   }
@@ -555,7 +990,6 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle">Restraint Report</h5> */}
           <p className="extraInfoNavSubTitle">
             If a child had to be restrained, file this form, notationg what
             happened to cause this action.
@@ -565,14 +999,80 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
     );
   }
 
+  if (name === "admissionAssessment") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv">
+          <p className="extraInfoNavSubTitle">Admission Assessment</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "Annual Training") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv">
+          <p className="extraInfoNavSubTitle">Annual Training</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "bodyCheck") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv">
+          <p className="extraInfoNavSubTitle">
+            Indicate on the body diagram, all marks such as old or recent scars,
+            bruises, discolorations or disfigurements and any other questionable
+            or abnormal markings.
+          </p>
+
+          <p>
+            1=Bruise 2=Abrasion 3=Scratch(es) 4=Scar 5=Scab 6=Rash 7=Cut(s)
+            8=Sore 9=Birth Mark 10=Insect Bite(s)
+          </p>
+          <div
+            style={{
+              height: "550px",
+              overflow: "scroll",
+              borderColor: "#eee",
+              borderRadius: 9,
+              borderStyle: "solid",
+            }}
+          >
+            <div className="d-flex justify-content-center">
+              <img src={leftBody} width={250} />
+            </div>
+            <div className="d-flex justify-content-center">
+              <img src={rightBody} width={250} />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (name === "DailyProgress") {
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle">Daily Progress</h5> */}
           <p className="extraInfoNavSubTitle">
             This explains what the child has done today or what the child will
             do today.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "IllnessInjury") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv">
+          <p className="extraInfoNavSubTitle">
+            Illness and Injury Report Extra info
           </p>
         </div>
       </div>
@@ -583,10 +1083,22 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle">Incident Report</h5> */}
           <p className="extraInfoNavSubTitle">
             When an incident happens, this must be filled out in order to keep
             track of what exactly happend.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "SeriousIncidentReport") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv">
+          <p className="extraInfoNavSubTitle">
+            When a serious incident happens, this must be filled out in order to
+            keep track of what exactly happend.
           </p>
         </div>
       </div>
@@ -600,10 +1112,11 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
           <h4 className="extraInfoMainTitle">
             {userObj.firstName + " " + userObj.lastName}
           </h4>
-          <h6 className="extraInfoSubTitle">{userObj.jobTitle}</h6>
+          <h6 className="extraInfoSubTitle">
+            {userObj.jobTitle.replace(/\//gm, " ")}
+          </h6>
         </div>
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle">Dashboard</h5> */}
           <p className="extraInfoNavSubTitle">
             <i>
               This is the first screen users will see when they log in. I feel
@@ -612,24 +1125,15 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
           </p>
         </div>
         <div className="extraInfoButtonDiv">
-          <button onClick={scrollTop} className="btn btn-light extraInfoButton">
-            Write Dashboard Message
-          </button>
-          {/* <button onClick={scrollTop} className="btn btn-light extraInfoButton">
-            Upload Document 
-          </button> */}
-          <button className="btn btn-light extraInfoButton">
-            Upload a File
-          </button>
-          {/* <button className="btn btn-light extraInfoButton">
-            Direct Messages
-          </button> */}
-          {/* <button
-            onClick={toggleDisplay.bind("", "Manage Account")}
-            className="btn btn-light extraInfoButton"
+          <button
+            onClick={() => {
+              scrollTop();
+              loadMessage(userObj);
+            }}
+            className="btn btn-light extraInfoButton m-1"
           >
-            Account Settings
-          </button> */}
+            <i className="fa fa-refresh"></i> Refresh Dashboard
+          </button>
         </div>
       </div>
     );
@@ -639,12 +1143,60 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>
-            Manage User Information
-          </h5> */}
           <p className="extraInfoNavSubTitle">
             Allows users to view account information and update their password.
           </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "Clients") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv"></div>
+        <div className="extraInfoButtonDiv">
+          {showClients ? (
+            <button
+              onClick={() => {
+                doToggleClientDisplay(false);
+              }}
+              className="btn btn-light extraInfoButton"
+            >
+              Add New Client
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                doToggleClientDisplay(true);
+              }}
+              className="btn btn-light extraInfoButton"
+            >
+              Show All Clients
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (name === "manTraining") {
+    return (
+      <div id="extraInfo">
+        <div className="extraInfoNavDiv"></div>
+        <div className="extraInfoButtonDiv">
+          {showTrainings ? (
+            <p>Please select a training to begin editing.</p>
+          ) : (
+            <button
+              onClick={() => {
+                doToggleTrainingDisplay(true);
+              }}
+              className="btn btn-light extraInfoButton"
+            >
+              Show All Trainings
+            </button>
+          )}
         </div>
       </div>
     );
@@ -654,17 +1206,16 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>
-            Direct Messages
-          </h5> */}
-          <p className="extraInfoNavSubTitle">This is me sending a DM</p>
+          <p className="extraInfoNavSubTitle">
+            Select a users and type your message
+          </p>
           <div>
             <div style={{ width: "100%", display: "flex", margin: "10px 0px" }}>
               <p
                 className="extraInfoNavSubTitle"
                 style={{
                   width: "30px",
-                  marginTop: "2px"
+                  marginTop: "2px",
                 }}
               >
                 To:
@@ -672,40 +1223,59 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
               <select
                 style={{
                   flex: "1",
-                  height: "30px"
+                  height: "30px",
                 }}
+                onChange={(e) => {
+                  setDmToUser(e.target.value);
+                }}
+                defaultValue={appState.dmTo ? appState.dmTo : null}
               >
-                <option disabled selected>
+                <option selected value={null}>
                   Choose...
                 </option>
-                <option>Some person</option>
-                <option>Anotha one</option>
+                {appState.allUsers
+                  .filter((user) => {
+                    return user._id !== userObj._id;
+                  })
+                  .map((user) => {
+                    return (
+                      <option
+                        key={user._id}
+                        value={user._id}
+                      >{`${user.firstName} ${user.lastName}`}</option>
+                    );
+                  })}
               </select>
             </div>
-            <div style={{ width: "100%", display: "flex", margin: "10px 0px" }}>
+            <div style={{ width: "100%", margin: "10px 0px" }}>
               <textarea
                 id="messageText"
-                // xvalue={this.state.messageText}
-                // xonChange={this.handleFieldInput}
+                value={dmMessage}
+                onChange={(e) => {
+                  setDmMessage(e.target.value);
+                }}
                 cols="1"
                 style={{
-                  height: "40px",
+                  height: "150px",
+                  width: "100%",
                   flex: "1",
                   borderColor: "#eee",
                   margin: "0px 5px",
                   resize: "none",
                   borderRight: "none",
                   borderTop: "none",
-                  borderLeft: "none"
+                  borderLeft: "none",
                 }}
-                placeholder="Whats on your mind ?"
+                placeholder="Type your message here.."
               ></textarea>
               <button
-                // xonClick={this.callAppendMessage}
+                onClick={() => {
+                  if (appState.dmMessage.length > 0 && appState.dmTo) sendDM();
+                }}
                 className="btn btn-light"
-                style={{ margin: "0px 5px", width: "40px" }}
+                style={{ margin: "0px 5px", width: "100%" }}
               >
-                <i className="fas fa-paper-plane"></i>
+                Send <i className="fas fa-paper-plane"></i>
               </button>
             </div>
           </div>
@@ -718,9 +1288,6 @@ function DisplayExtra({ name, userObj, scrollTop, toggleDisplay }) {
     return (
       <div id="extraInfo">
         <div className="extraInfoNavDiv">
-          {/* <h5 className="extraInfoNavTitle" style={{ color: "maroon" }}>
-            User Management
-          </h5> */}
           <p className="extraInfoNavSubTitle">
             Allows Admin users the ability to view information about their home
             as well create new and modify exiting staff members.

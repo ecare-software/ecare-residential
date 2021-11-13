@@ -3,19 +3,38 @@ const Schema = mongoose.Schema;
 
 // create Schema
 const DirectMessageSchema = new Schema({
-  to: {
-    type: String,
-    required: true
+  toObj: {
+    type: Object,
+    required: true,
   },
-  from: {
+  fromObj: {
+    type: Object,
+    required: true,
+  },
+  toID: {
     type: String,
-    required: true
+    required: true,
+  },
+  fromID: {
+    type: String,
+    required: true,
   },
   message: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
+  date: {
+    type: Date,
+    required: true,
+  },
+  homeId: {
+    type: String,
+    required: true,
+  },
+  createDate: {
+    type: Date,
+    default: new Date(),
+  },
 });
 
-
-module.exports  = User = mongoose.model('directMessage',DirectMessageSchema);
+module.exports = User = mongoose.model("directMessage", DirectMessageSchema);

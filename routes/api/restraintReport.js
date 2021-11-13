@@ -57,122 +57,235 @@ router.post("/", (req, res) => {
 
     follow_up_results: req.body.follow_up_results,
 
+    risk_explaination: req.body.risk_explaination,
+
+    risk_alternative_strategies: req.body.risk_alternative_strategies,
+
+    type_of_restraint: req.body.type_of_restraint,
+
+    risk_stategies_used: req.body.risk_stategies_used,
+
+    result_of_incident: req.body.result_of_incident,
+
+    injuries: req.body.injuries,
+
+    action_taken: req.body.action_taken,
+
+    restraint_start_time: req.body.restraint_start_time,
+
+    restraint_end_time: req.body.restraint_end_time,
+
+    notification_made_date_time: req.body.notification_made_date_time,
+
+    interviewer: req.body.interviewer,
+
+    date_of_interview: req.body.date_of_interview,
+
+    client_behavior: req.body.client_behavior,
+
+    client_responce: req.body.client_responce,
+
+    client_restraint_description: req.body.client_restraint_description,
+
+    procedural_approved_reason: req.body.procedural_approved_reason,
+
+    procedural_approved_standards: req.body.procedural_approved_standards,
+
+    procedural_any_injuries: req.body.procedural_any_injuries,
+
+    procedural_comments: req.body.procedural_comments,
+
     createdBy: req.body.createdBy,
 
     createdByName: req.body.createdByName,
 
     lastEditDate: new Date().toISOString(),
 
+    createDate: new Date().toISOString(),
+
     homeId: req.body.homeId,
 
-    formType: "Restraint Report"
+    formType: "Restraint Report",
   });
 
   newRestraintReport
     .save()
-    .then(restraintReport => res.json(restraintReport))
-    .catch(e => {
+    .then((restraintReport) => res.json(restraintReport))
+    .catch((e) => {
       console.log(e);
     });
 });
 
 router.get("/:homeId", (req, res) => {
   RestraintReport.find({ homeId: req.params.homeId })
-    .sort({ lastEditDate: -1 })
+    .sort({ createDate: -1 })
     .exec()
-    .then(RestraintReports => res.json(RestraintReports))
-    .catch(err => res.status(404).json({ success: false }));
+    .then((RestraintReports) => res.json(RestraintReports))
+    .catch((err) => res.status(404).json({ success: false }));
 });
 
-router.get("/:homeId/:searchString"
-          +"/:lastEditDateAfter/:lastEditDateBefore"
-          +"/:childDOBAfter/:childDOBBefore"
-          +"/:childDOAAfter/:childDOABefore"
-          +"/:ethnicityA"
-          +"/:submittedByA",(req,res)=>{
-
-  var findObj = { 
-    homeId: req.params.homeId,
-  }
-  //search string
-  if(req.params.searchString!=="none"){
-    findObj.childMeta_name = { $regex: ".*"+req.params.searchString+".*",$options: 'ig' }
-  }
-
-  //submitted
-  if(req.params.lastEditDateAfter!=="none" && req.params.lastEditDateBefore!=="none"){
-    var dateAfter = new Date(req.params.lastEditDateAfter)
-    var dateBefore = new Date(req.params.lastEditDateBefore)
-    findObj["$and"] = [
-      {lastEditDate:{$gt:(new Date(dateAfter.setDate(dateAfter.getDate()+ 1))).toISOString()}},
-      {lastEditDate:{$lt:(new Date(dateBefore.setDate(dateBefore.getDate()))).toISOString()}}
-    ]
-  }else{
-    //submittedAfter
-    if(req.params.lastEditDateAfter!=="none"){
-      var date = new Date(req.params.lastEditDateAfter);
-      findObj.lastEditDate = {$gt:(new Date(date.setDate(date.getDate()+ 1))).toISOString()}
+router.get(
+  "/:homeId/:searchString" +
+    "/:lastEditDateAfter/:lastEditDateBefore" +
+    "/:childDOBAfter/:childDOBBefore" +
+    "/:childDOAAfter/:childDOABefore" +
+    "/:ethnicityA" +
+    "/:submittedByA" +
+    "/:approved",
+  (req, res) => {
+    var findObj = {
+      homeId: req.params.homeId,
+    };
+    //search string
+    if (req.params.searchString !== "none") {
+      findObj.childMeta_name = {
+        $regex: ".*" + req.params.searchString + ".*",
+        $options: "ig",
+      };
     }
 
-    //submittedBefore
-    if(req.params.lastEditDateBefore!=="none"){
-      var date = new Date(req.params.lastEditDateBefore);
-      findObj.lastEditDate = {$lt:(new Date(date.setDate(date.getDate()))).toISOString()}
+    //submitted
+    if (
+      req.params.lastEditDateAfter !== "none" &&
+      req.params.lastEditDateBefore !== "none"
+    ) {
+      var dateAfter = new Date(req.params.lastEditDateAfter);
+      var dateBefore = new Date(req.params.lastEditDateBefore);
+      findObj["$and"] = [
+        {
+          createDate: {
+            $gt: new Date(dateAfter.setDate(dateAfter.getDate() + 1)),
+          },
+        },
+        {
+          createDate: {
+            $lt: new Date(dateBefore.setDate(dateBefore.getDate())),
+          },
+        },
+      ];
+    } else {
+      //submittedAfter
+      if (req.params.lastEditDateAfter !== "none") {
+        var date = new Date(req.params.lastEditDateAfter);
+        findObj.createDate = {
+          $gt: new Date(date.setDate(date.getDate() + 1)),
+        };
+      }
+
+      //submittedBefore
+      if (req.params.lastEditDateBefore !== "none") {
+        var date = new Date(req.params.lastEditDateBefore);
+        findObj.createDate = {
+          $lt: new Date(date.setDate(date.getDate())),
+        };
+      }
     }
+
+    //child date of birth
+    if (
+      req.params.childDOBAfter !== "none" &&
+      req.params.childDOBBefore !== "none"
+    ) {
+      var dobAfter = new Date(req.params.childDOBAfter);
+      var dobBefore = new Date(req.params.childDOBBefore);
+      findObj["$and"] = [
+        {
+          childMeta_dob: {
+            $gt: new Date(
+              dobAfter.setDate(dobAfter.getDate() + 1)
+            ).toISOString(),
+          },
+        },
+        {
+          childMeta_dob: {
+            $lt: new Date(dobBefore.setDate(dobBefore.getDate())).toISOString(),
+          },
+        },
+      ];
+    } else {
+      //submittedAfter
+      if (req.params.childDOBAfter !== "none") {
+        var date = new Date(req.params.childDOBAfter);
+        findObj.childMeta_dob = {
+          $gt: new Date(date.setDate(date.getDate() + 1)),
+        };
+      }
+
+      //submittedBefore
+      if (req.params.childDOBBefore !== "none") {
+        var date = new Date(req.params.childDOBBefore);
+        findObj.childMeta_dob = {
+          $lt: new Date(date.setDate(date.getDate())),
+        };
+      }
+    }
+
+    //child date of admission
+    if (
+      req.params.childDOAAfter !== "none" &&
+      req.params.childDOABefore !== "none"
+    ) {
+      var doaAfter = new Date(req.params.childDOAAfter);
+      var doaBefore = new Date(req.params.childDOABefore);
+      findObj["$and"] = [
+        {
+          childMeta_dateOfAdmission: {
+            $gte: new Date(
+              doaAfter.setDate(doaAfter.getDate() + 1)
+            ).toISOString(),
+          },
+        },
+        {
+          childMeta_dateOfAdmission: {
+            $lte: new Date(
+              doaBefore.setDate(doaBefore.getDate())
+            ).toISOString(),
+          },
+        },
+      ];
+    } else {
+      //submittedAfter
+      if (req.params.childDOAAfter !== "none") {
+        var date = new Date(req.params.childDOAAfter);
+        findObj.childMeta_dateOfAdmission = {
+          $gt: new Date(date.setDate(date.getDate() + 1)),
+        };
+      }
+
+      //submittedBefore
+      if (req.params.childDOABefore !== "none") {
+        var date = new Date(req.params.childDOABefore);
+        findObj.childMeta_dateOfAdmission = {
+          $lt: new Date(date.setDate(date.getDate())),
+        };
+      }
+    }
+    // submitted by
+    if (req.params.submittedByA !== "none") {
+      findObj.createdBy = req.params.submittedByA;
+    }
+
+    if (req.params.approved !== "null") {
+      findObj.approved = req.params.approved;
+    }
+
+    RestraintReport.find(findObj)
+      .sort({ createDate: -1 })
+      .exec()
+      .then((restraintReports) => res.json(restraintReports))
+      .catch((err) => res.status(404).json({ success: err }));
   }
+);
 
-  //child date of birth
-  if(req.params.childDOBAfter!=="none" && req.params.childDOBBefore!=="none"){
-    var dobAfter = new Date(req.params.childDOBAfter)
-    var dobBefore = new Date(req.params.childDOBBefore)
-    findObj["$and"] = [
-      {childMeta_dob:{$gt:(new Date(dobAfter.setDate(dobAfter.getDate()+ 1))).toISOString()}},
-      {childMeta_dob:{$lt:(new Date(dobBefore.setDate(dobBefore.getDate()))).toISOString()}}
-    ]
-  }else{
-    //submittedAfter
-    if(req.params.childDOBAfter!=="none"){
-      var date = new Date(req.params.childDOBAfter)
-      findObj.childMeta_dob = {$gt:(new Date(date.setDate(date.getDate()+ 1))).toISOString()}
-    }
-
-    //submittedBefore
-    if(req.params.childDOBBefore!=="none"){
-      var date = new Date(req.params.childDOBBefore)
-      findObj.childMeta_dob = {$lt:(new Date(date.setDate(date.getDate()))).toISOString()}
-    }
-  }
-
-  //child date of admission
-  if(req.params.childDOAAfter!=="none" && req.params.childDOABefore!=="none"){
-    var doaAfter = new Date(req.params.childDOAAfter)
-    var doaBefore = new Date(req.params.childDOABefore)
-    findObj["$and"] = [
-      {childMeta_dateOfAdmission:{$gte:(new Date(doaAfter.setDate(doaAfter.getDate()+ 1))).toISOString()}},
-      {childMeta_dateOfAdmission:{$lte:(new Date(doaBefore.setDate(doaBefore.getDate()))).toISOString()}}
-    ]
-  }else{
-    //submittedAfter
-    if(req.params.childDOAAfter!=="none"){
-      var date = new Date(req.params.childDOAAfter)
-      findObj.childMeta_dateOfAdmission = {$gt:(new Date(date.setDate(date.getDate()+ 1))).toISOString()}
-    }
-
-    //submittedBefore
-    if(req.params.childDOABefore!=="none"){
-      var date = new Date(req.params.childDOABefore);
-      findObj.childMeta_dateOfAdmission = {$lt:(new Date(date.setDate(date.getDate()))).toISOString()}
-    }
-  }
-  // submitted by
-  if(req.params.submittedByA!=="none"){
-    findObj.createdBy = req.params.submittedByA
-  }
-
-  RestraintReport.find(findObj).sort({lastEditDate:-1}).exec()
-    .then(restraintReports => res.json(restraintReports))
-    .catch(err => res.status(404).json({ success: err }));
-
+router.put("/:homeId/:formId/", (req, res) => {
+  const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
+  RestraintReport.updateOne({ _id: req.params.formId }, updatedLastEditDate)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
 });
 
 module.exports = router;

@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 const selectedUserNameClass = {
-  // backgroundColor: "rgb(128, 0, 0)",
   color: "maroon",
   padding: "10px",
   borderRadius: "9px",
   cursor: "pointer",
   fontWeight: "800",
-  width:"80%"
+  width: "80%",
 };
 
 const userNameClass = {
@@ -16,49 +15,58 @@ const userNameClass = {
   borderRadius: "9px",
   cursor: "pointer",
   fontWeight: "300",
-
 };
 
 class FormSubmitterListContainer extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { 
-          selectedUser: -1
-         }
-    }
-
-    selectUser = userId => {
-      if(this.state.selectedUser === userId){
-        this.setState({ selectedUser: -1 });
-        this.props.setSelectedUser(-1);
-      }else{
-        this.setState({ selectedUser: userId });
-        this.props.setSelectedUser(userId);
-      }
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedUser: -1,
     };
+  }
 
-    componentWillReceiveProps(){
-      if(this.props.reset){
-        this.setState({selectedUser:-1});
-      }
+  selectUser = (userId) => {
+    if (this.state.selectedUser === userId) {
+      this.setState({ selectedUser: -1 });
+      this.props.setSelectedUser(-1);
+    } else {
+      this.setState({ selectedUser: userId });
+      this.props.setSelectedUser(userId);
     }
+  };
 
-    render() { 
+  componentWillReceiveProps() {
+    if (this.props.reset) {
+      this.setState({ selectedUser: -1 });
+    }
+  }
 
-        return ( 
-            <ul style={{"listStyleType":"none","padding":"0px"}}>
-              {
-                this.props.submittions.map((form,formIndex)=>(
-                  <li onClick={this.selectUser.bind("",formIndex)} style={
-                    this.state.selectedUser === formIndex
-                      ? selectedUserNameClass
-                      : userNameClass
-                  } key={formIndex}>{new Date(form.lastEditDate).toLocaleString()} - {form.createdByName}</li>
-                ))
+  render() {
+    return (
+      <ul style={{ listStyleType: "none", padding: "0px" }}>
+        {this.props.submittions.length > 0 ? (
+          this.props.submittions.map((form, formIndex) => (
+            <li
+              onClick={this.selectUser.bind("", formIndex)}
+              style={
+                this.state.selectedUser === formIndex
+                  ? selectedUserNameClass
+                  : userNameClass
               }
-              </ul>
-         );
-    }
+              key={formIndex}
+            >
+              {`${new Date(form.createDate).getUTCMonth() + 1}/${new Date(
+                form.createDate
+              ).getUTCDate()}/${new Date(form.createDate).getFullYear()}`}{" "}
+              - {form.createdByName}
+            </li>
+          ))
+        ) : (
+          <p>No records found</p>
+        )}
+      </ul>
+    );
+  }
 }
- 
+
 export default FormSubmitterListContainer;

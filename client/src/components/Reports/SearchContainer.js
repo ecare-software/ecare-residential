@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import ClientOption from "../../utils/ClientOption.util";
+import Axios from "axios";
+import { Form } from "react-bootstrap";
 
 class SearchContainer extends Component {
   constructor(props) {
@@ -13,51 +16,88 @@ class SearchContainer extends Component {
       dobAfter: "",
       doaBefore: "",
       doaAfter: "",
-      ethnicityA: []
+      ethnicityA: [],
+      approved: false,
+      clients: [],
+      loadingClients: true,
     };
     this.ethnicities = [
       {
         name: "Black / African American",
-        value: "Black_-_African_American"
+        value: "Black_-_African_American",
       },
       {
         name: "White / Caucasian",
-        value: "White_-_Caucasian"
+        value: "White_-_Caucasian",
       },
       {
         name: "Hispanic / Latino",
-        value: "Hispanic_-_Latino"
+        value: "Hispanic_-_Latino",
       },
       {
         name: "Asian / Pacific Islander",
-        value: "Asian_-_Pacific_Islander"
+        value: "Asian_-_Pacific_Islander",
       },
       {
         name: "Other",
-        value: "Other"
-      }
+        value: "Other",
+      },
     ];
   }
 
-  toggleSubmittedBy = event => {
-    if (event.target.value === "Any") {
-      this.setState({ submittedByA: [] });
-    } else {
-      this.setState({ submittedByA: [event.target.value] });
+  getClients = async () => {
+    try {
+      let { data: clients } = await Axios.get(
+        `/api/client/${this.props.userObj.homeId}`
+      );
+      setTimeout(() => {
+        this.setState({
+          ...this.state,
+          clients,
+          loadingClients: !this.state.loadingClients,
+        });
+      }, 2000);
+    } catch (e) {
+      console.log(e);
+      alert("Error loading clients");
     }
-    setTimeout(() => {
-      // console.log(this.state)
-      this.callRunSearch(this.state);
-    });
   };
 
-  handleFieldInput = event => {
+  handleClientSelect = async (event) => {
+    try {
+      await this.setState({
+        ...this.state,
+        searchString: JSON.parse(event.target.value).childMeta_name,
+      });
+    } catch (e) {
+      await this.setState({
+        ...this.state,
+        searchString: "",
+      });
+    }
+  };
+
+  toggleSubmittedBy = async (event) => {
+    if (event.target.value === "Any") {
+      await this.setState({ submittedByA: [] });
+    } else {
+      await this.setState({ submittedByA: [event.target.value] });
+    }
+
+    this.callRunSearch(this.state);
+  };
+
+  toggleApproval = (event) => {
+    this.setState({ approved: event.target.value });
+  };
+
+  handleFieldInput = (event) => {
     var stateObj = {};
     stateObj[event.target.id] = event.target.value;
     this.setState(stateObj);
   };
 
-  toggleBtnFormRunSearch = formName => {
+  toggleBtnFormRunSearch = (formName) => {
     var submittedForms = this.state.submittedForms;
     var foundIndex = submittedForms.indexOf(formName);
     if (foundIndex > -1) {
@@ -66,13 +106,9 @@ class SearchContainer extends Component {
       submittedForms.push(formName);
     }
     this.setState({ submittedForms: submittedForms });
-    setTimeout(() => {
-      // console.log(this.state)
-      this.callRunSearch(this.state);
-    });
   };
 
-  toggleBtnEthnicityRunSearch = eth => {
+  toggleBtnEthnicityRunSearch = (eth) => {
     var ethnicityA = this.state.ethnicityA;
     var foundIndex = ethnicityA.indexOf(eth);
     if (foundIndex > -1) {
@@ -81,9 +117,7 @@ class SearchContainer extends Component {
       ethnicityA.push(eth);
     }
     this.setState({ ethnicityA: ethnicityA });
-    // this.callRunSearch();
     setTimeout(() => {
-      // console.log(this.state)
       this.callRunSearch(this.state);
     });
   };
@@ -92,17 +126,21 @@ class SearchContainer extends Component {
     this.props.runSearch(this.state);
   };
 
-  checkForEnterKey = e => {
+  checkForEnterKey = (e) => {
     if (e.keyCode === 13) {
       this.callRunSearch();
     }
   };
 
+  componentDidMount() {
+    this.getClients();
+  }
+
   render() {
     return (
       <div
         style={{
-          width: "100%"
+          width: "100%",
         }}
       >
         {/* search bar */}
@@ -112,29 +150,29 @@ class SearchContainer extends Component {
               className="form-group"
               style={{ height: "50px", display: "flex" }}
             >
-              <input
-                type="text"
-                className=""
-                placeholder="Child Name, Medicaid Number........"
-                onChange={this.handleFieldInput}
-                onKeyDown={this.checkForEnterKey}
-                id="searchString"
-                style={{
-                  height: "50px",
-                  fontSize: "18px",
-                  color: "black",
-                  border: "none",
-                  border: ".5px solid #ccc",
-                  borderRadius: "9px",
-                  paddingLeft: "10px",
-                  flex: "1",
-                  marginRight: "3px",
-                  marginLeft: "0px"
-                }}
-              />
+              <div
+                className="form-group logInInputField"
+                style={{ width: "100%" }}
+              >
+                {" "}
+                <label className="control-label">Child's Name</label>{" "}
+                <Form.Control
+                  as="select"
+                  defaultValue={null}
+                  onChange={this.handleClientSelect}
+                  style={{ width: "100%" }}
+                >
+                  {[null, ...this.state.clients].map(
+                    (client) => (
+                      <ClientOption data={client} nullName="All" />
+                    ),
+                    []
+                  )}
+                </Form.Control>
+              </div>
               <button
                 className="btn btn-link"
-                style={{ width: "40px", boxShadow: "none" }}
+                style={{ width: "40px", boxShadow: "none", marginTop: 30 }}
                 onClick={this.callRunSearch}
                 id="searchBtn"
               >
@@ -147,6 +185,20 @@ class SearchContainer extends Component {
         <div className="row filterSection">
           <div className="col-md-12">
             <h4 style={{ color: "maroon" }}>Basic Filters</h4>
+            <div className="form-group" style={{ margin: "0px 5px" }}>
+              <label style={{ margin: "5px" }}>Approval</label>
+              <select
+                defaultValue="Any"
+                onChange={this.toggleApproval.bind("")}
+                className="form-control"
+                style={{ width: "100%" }}
+                defaultValue={this.state.approved}
+              >
+                <option value={true}>Approved</option>
+                <option value={false}>Needs Approval</option>
+                <option value={"null"}>All</option>
+              </select>
+            </div>
             <p style={{ margin: "10px 10px 5px 5px", fontWeight: "900" }}>
               {" "}
               Forms
@@ -168,29 +220,33 @@ class SearchContainer extends Component {
                 </div>
               ))}
             </div>
-            <div className="form-group" style={{ margin: "0px 5px" }}>
-              <label style={{ margin: "5px" }}>Submitted By</label>
-              <select
-                defaultValue="Any"
-                onChange={this.toggleSubmittedBy.bind("")}
-                className="form-control"
-                style={{ width: "100%" }}
-              >
-                {this.props.allUsers.length === 0
-                  ? []
-                  : this.props.allUsers.map((user, userIndex) => (
-                      <option
-                        key={"user-" + userIndex}
-                        id={"user-" + userIndex}
-                        value={user.email}
-                      >
-                        {user.firstName === "Any"
-                          ? "Any"
-                          : user.firstName + " " + user.lastName}
-                      </option>
-                    ))}
-              </select>
-            </div>
+            {this.props.doShowSubmittedBy ? (
+              <div className="form-group" style={{ margin: "0px 5px" }}>
+                <label style={{ margin: "5px" }}>Submitted By</label>
+                <select
+                  defaultValue="Any"
+                  onChange={this.toggleSubmittedBy.bind("")}
+                  className="form-control"
+                  style={{ width: "100%" }}
+                >
+                  {this.props.allUsers.length === 0
+                    ? []
+                    : this.props.allUsers.map((user, userIndex) => (
+                        <option
+                          key={"user-" + userIndex}
+                          id={"user-" + userIndex}
+                          value={user.email}
+                        >
+                          {user.firstName === "Any"
+                            ? "Any"
+                            : user.firstName + " " + user.lastName}
+                        </option>
+                      ))}
+                </select>
+              </div>
+            ) : (
+              <></>
+            )}
             <div style={{ display: "flex", margin: "0px 5px" }}>
               <div
                 className="form-group"
@@ -289,7 +345,7 @@ class SearchContainer extends Component {
                 />
               </div>
             </div>
-            <p style={{ margin: "10px 10px 5px 5px", fontWeight: "900" }}>
+            {/* <p style={{ margin: "10px 10px 5px 5px", fontWeight: "900" }}>
               Ethnicity
             </p>
             <div
@@ -311,10 +367,10 @@ class SearchContainer extends Component {
                   </label>
                 </div>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
-        <hr/>
+        <hr />
       </div>
     );
   }

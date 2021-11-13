@@ -5,7 +5,6 @@ import "../../App.css";
 import Axios from "axios";
 import FormError from "../FormMods/FormError";
 
-
 class LogInContainer extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +16,7 @@ class LogInContainer extends Component {
       password: "",
       password2: "",
       title: "",
-      signUp: false
+      signUp: false,
     };
 
     this.handleFieldInput = this.handleFieldInput.bind(this);
@@ -37,8 +36,6 @@ class LogInContainer extends Component {
   }
 
   submit(isNew) {
-
-
     let currentState = JSON.parse(JSON.stringify(this.state));
     var staticThis = this;
 
@@ -47,31 +44,32 @@ class LogInContainer extends Component {
       Axios({
         method: "post",
         url: "/api/users/",
-        data: currentState
+        data: currentState,
       })
-        .then(function(response) {
+        .then(function (response) {
           staticThis.props.logIn(response.data);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.log(error);
         });
     } else {
       Axios({
         method: "get",
-        url: "/api/users/" + this.state.email + "/" + this.state.password
+        url: "/api/users/" + this.state.email + "/" + this.state.password,
       })
-        .then(function(response) {
+        .then(function (response) {
           // handle success
           if (response.data === null) {
-            // alert("hey");
-            document.getElementById(staticThis.props.id+"-error").innerText = "Invalid email or password";
-            document.getElementById(staticThis.props.id+"-error").style.display = "block";
+            document.getElementById(staticThis.props.id + "-error").innerText =
+              "Invalid email or password";
+            document.getElementById(
+              staticThis.props.id + "-error"
+            ).style.display = "block";
           } else {
-
             staticThis.props.logIn(response.data);
           }
         })
-        .catch(function(error) {
+        .catch(function (error) {
           // handle error
           console.log(error);
         });
@@ -90,15 +88,15 @@ class LogInContainer extends Component {
       delete simpleState.middleName;
       delete simpleState.password2;
       delete simpleState.title;
-    }else{
+    } else {
       delete simpleState.middleName;
       delete simpleState.title;
     }
 
-    Object.keys(simpleState).forEach(function(k) {
+    Object.keys(simpleState).forEach(function (k) {
       let value = simpleState[k];
       if (value === "" || value.includes(" ")) {
-        console.log(k)
+        console.log(k);
         validForm = false;
       }
     });
@@ -107,24 +105,31 @@ class LogInContainer extends Component {
         this.submit(false);
       } else {
         if (simpleState.password !== simpleState.password2) {
-          document.getElementById(staticThis.props.id+"-error").innerText = "Passwords do not match";
-          document.getElementById(staticThis.props.id+"-error").style.display = "block";
+          document.getElementById(staticThis.props.id + "-error").innerText =
+            "Passwords do not match";
+          document.getElementById(
+            staticThis.props.id + "-error"
+          ).style.display = "block";
         } else {
-          alert("")
+          alert("");
           Axios({
             method: "get",
-            url: "/api/users/" + this.state.email
+            url: "/api/users/" + this.state.email,
           })
-            .then(function(response) {
+            .then(function (response) {
               // handle success
               if (response.data.length === 0) {
                 staticThis.submit(true);
               } else {
-                document.getElementById(staticThis.props.id+"-error").innerText = "Email address already in use";
-                document.getElementById(staticThis.props.id+"-error").style.display = "block";
+                document.getElementById(
+                  staticThis.props.id + "-error"
+                ).innerText = "Email address already in use";
+                document.getElementById(
+                  staticThis.props.id + "-error"
+                ).style.display = "block";
               }
             })
-            .catch(function(error) {
+            .catch(function (error) {
               // handle error
               document.getElementById("error").innerText = "catch";
               document.getElementById("error").style.display = "block";
@@ -132,53 +137,48 @@ class LogInContainer extends Component {
         }
       }
     } else {
-      document.getElementById(staticThis.props.id+"-error").innerText = "Invalid form submission";
-      document.getElementById(staticThis.props.id+"-error").style.display = "block";
+      document.getElementById(staticThis.props.id + "-error").innerText =
+        "Invalid form submission";
+      document.getElementById(staticThis.props.id + "-error").style.display =
+        "block";
     }
   }
 
   render() {
-      return (
-
-          <div
-            id={this.props.id}
-            style={this.props.pos}
-            className="logInContainer"
-          >
-            <div className="logInInputFields">
-              <div className="form-group logInInputField">
-                <label className="control-label">username</label>
-                <input
-                  onChange={this.handleFieldInput}
-                  id="email"
-                  className="form-control"
-                  type="text"
-                />
-              </div>
-              <div className="form-group logInInputField">
-                <label className="control-label">Password</label>
-                <input
-                  onChange={this.handleFieldInput}
-                  id="password"
-                  className="form-control"
-                  type="password"
-                />
-              </div>
-              
-              <FormError errorId={this.props.id+'-error'}></FormError>
-              <div className="form-group logInInputField">
-                <button
-                  onClick={this.validateForm}
-                  className="btn darkBtnSimple pull-right"
-                >
-                  Sign In
-                </button>
-              </div>
-            </div>
+    return (
+      <div id={this.props.id} style={this.props.pos} className="logInContainer">
+        <div className="logInInputFields">
+          <div className="form-group logInInputField">
+            <label className="control-label">username</label>
+            <input
+              onChange={this.handleFieldInput}
+              id="email"
+              className="form-control"
+              type="text"
+            />
+          </div>
+          <div className="form-group logInInputField">
+            <label className="control-label">Password</label>
+            <input
+              onChange={this.handleFieldInput}
+              id="password"
+              className="form-control"
+              type="password"
+            />
           </div>
 
-      );
-    
+          <FormError errorId={this.props.id + "-error"}></FormError>
+          <div className="form-group logInInputField d-flex justify-content-between">
+            <button onClick={this.props.close} className="btn lightBtnSimple">
+              cancel
+            </button>
+            <button onClick={this.validateForm} className="btn darkBtnSimple">
+              Sign In
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 

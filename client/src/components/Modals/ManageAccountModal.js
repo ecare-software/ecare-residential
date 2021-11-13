@@ -10,7 +10,7 @@ class ManageAccountModal extends Component {
     super(props);
     this.state = {
       password: "",
-      password2: ""
+      password2: "",
     };
   }
 
@@ -19,17 +19,15 @@ class ManageAccountModal extends Component {
     var staticThis = this;
     delete currentState.password2;
 
-    // return;
     Axios({
       method: "put",
       url: "/api/users/" + this.props.userObj._id,
       data: {
         password: this.state.password,
-        newUser: false
-      }
+        newUser: false,
+      },
     })
-      .then(function(response) {
-        console.log(response);
+      .then(function (response) {
         document.getElementById(staticThis.props.id + "-success").innerText =
           "Password Updated";
         document.getElementById(
@@ -37,19 +35,19 @@ class ManageAccountModal extends Component {
         ).style.display = "block";
         document.getElementById("password").value = "";
         document.getElementById("password2").value = "";
-        setTimeout(function() {
+        setTimeout(function () {
           document.getElementById(
             staticThis.props.id + "-success"
           ).style.display = "none";
         }, 3000);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         // handle error
         console.log(error);
       });
   };
 
-  handleFieldInput = event => {
+  handleFieldInput = (event) => {
     var stateObj = {};
     stateObj[event.target.id] = event.target.value;
     this.setState(stateObj);
@@ -61,7 +59,7 @@ class ManageAccountModal extends Component {
     let simpleState = JSON.parse(JSON.stringify(this.state));
     document.getElementById(staticThis.props.id + "-error").style.display =
       "none";
-    Object.keys(simpleState).forEach(function(k) {
+    Object.keys(simpleState).forEach(function (k) {
       let value = simpleState[k];
       if (value === "" || value.includes(" ")) {
         console.log(k);
@@ -124,7 +122,8 @@ class ManageAccountModal extends Component {
                       <tr>
                         <td style={{ width: "30%" }}>
                           <p>
-                            {this.props.userObj.firstName}, {this.props.userObj.lastName}
+                            {this.props.userObj.firstName},{" "}
+                            {this.props.userObj.lastName}
                           </p>
                         </td>
                         <td>

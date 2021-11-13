@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "../../App.css";
-import Axios from "axios";
 import "./UserManagement.css";
 import CreateNewUser from "./CreateNewUser";
 import ManageUsers from "./ManageUsers";
@@ -10,12 +9,11 @@ class UserManagement extends Component {
     super(props);
     this.state = {
       showCreateNewUser: false,
-      showManageUsers: false
+      showManageUsers: false,
     };
   }
 
-  toggleShow = compName => {
-    console.log(compName);
+  toggleShow = (compName) => {
     switch (compName) {
       case "Create New User":
         this.setState({ showCreateNewUser: !this.state.showCreateNewUser });
@@ -27,7 +25,7 @@ class UserManagement extends Component {
   };
   render() {
     return (
-      <div className="formCompNoBg" >
+      <div className="formCompNoBg">
         <div className="formTitleDiv">
           <h2 className="formTitle">User Management</h2>
         </div>
@@ -38,6 +36,7 @@ class UserManagement extends Component {
             toggleShow={this.toggleShow}
             doShow={this.state.showManageUsers}
             userObj={this.props.userObj}
+            updateUserData={this.props.updateUserData}
           />
           <CreateNewUser
             id="createUser"

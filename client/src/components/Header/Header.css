@@ -1,157 +1,158 @@
-.headerMainText{
-    color:white;
-    text-shadow: 0px 2px 6px #000000;
-  }
-  
-  .headerSubText{
-    color:rgb(255, 255, 255);
-    text-shadow: 0px 2px 6px #707070f5;
-    letter-spacing: 2px;
-  }
-  /* desktop */
-  @media only screen and (min-width: 1226px) {
-    .headerImg {
-      /* background: url("./images/Caregiver-Assistance.jpg") no-repeat; */
-      background-size: cover;
-  
-      /* height: 900px; */
-      height: 100vh;
-      width:100%;
-    }
-  
-    .headerTextContainer{
-      position: absolute;
-      top:30vh;
-      left:8%;
-      width: 600px;
-      /* font-family: "Google Sans Display",Arial,Helvetica,sans-serif; */
-    }
-    .headerMainText{
-      font-size: 4rem;
-      width:70%;
-    }
-    .headerSubText{
-      margin-top:25px;
-      font-size: 1.5rem;
-      line-height: 35px;
-      font-weight: 300;
-      text-shadow: 0px 2px 6px #000000;
-    }
+.headerMainText {
+  color: white;
+  text-shadow: 0px 2px 6px #000000;
+}
 
-    
-    #headerDemoBtn{
-      position: relative;
-      left:70%;
-      top:10px;
-    }
-    #logEventInBtn{
-      display: none;
-    }
-  }
-  
-  /* ipad */
-  @media only screen and (min-width: 768px) and (max-width: 1225px) {
-    .headerImg {
-      /* background: url("./images/Caregiver-Assistance.jpg") no-repeat; */
-      background-size: cover;
-  
-      height: 700px;
-      width:100%;
-    }
-  
-    .headerTextContainer{
-      position: absolute;
-      top:200px;
-      margin:0px 50px;
-      /* width: 600px; */
-      font-family: "Google Sans Display",Arial,Helvetica,sans-serif;
-    }
-    
-    .headerMainText{
-      font-size: 4rem;
-      width:70%;
-    }
-    .headerSubText{
-      margin-top:25px;
-      font-size: 3rem;
-      line-height: 35px;
-      text-shadow: 0px 2px 6px #000000;
-    }
-    #headerDemoBtn{
-      position: relative;
-      left:70%;
-      top:10px;
-    }
-    #logEventInBtn{
-      display: none;
-    }
-  }
-  
-  /* mobile up right */
-  @media only screen and (max-width: 767px) {
-    .headerImg {
-      /* background: url("./images/Caregiver-Assistance.jpg") no-repeat; */
-      background-position: -330px 0px;
-      height: 500px;
-      width: 101%;
-    }
-    .headerTextContainer{
-      position: absolute;
-      top:250px;
-      margin:0px 30px;
-      margin-right: 50%;
-      font-family: "Google Sans Display",Arial,Helvetica,sans-serif;
-    }
-    .headerMainText{
-      font-size: 1.5rem;
-    }
-    .headerSubText{
-      display: none;
-    }
-    #headerDemoBtn{
-      position: relative;
-      left:45%;
-      top:10px;
-      padding:5px 10px;
-      font-size: 1.2rem;
-  
-    }
-    #desktopLogin{
-      display: none;
-    }
-  }
-  /* mobile sideways */
-  @media only screen and (min-width: 550px) and (max-width: 766px){
-    .headerTextContainer{
-      position: absolute;
-      top:110px;
-      margin:0px 20px;
-      font-family: "Google Sans Display",Arial,Helvetica,sans-serif;
+.headerSubText {
+  color: maroon;
+  /* text-shadow: 0px 2px 6px #9f9f9ff5; */
+  letter-spacing: 2px;
+}
+.headerTextContainer {
+  z-index: 1;
+}
+/* desktop */
+@media only screen and (min-width: 1226px) {
+  .headerImg {
+    /* background: url("./images/Caregiver-Assistance.jpg") no-repeat; */
+    background-size: cover;
 
-    }
-    .headerSubText{
-      display: block;
-      margin-top:25px;
-      font-size: 1.5em;
-      line-height: 35px;
-      text-shadow: 0px 2px 6px #000000;
-    }
-    #headerDemoBtn{
-      position: relative;
-      left:40%;
-      top:10px;
-    }
+    /* height: 900px; */
+    height: 100vh;
+    width: 100%;
   }
-  
-  /* stupid iphone 5 */
-  @media only screen and (max-width: 319px) {
-    #headerDemoBtn{
-      position: relative;
-      left:55%;
-      top:10px;
-    }
-    #headerTextContainer{
-      position: relative;
-      left:-10px;
-    }
+
+  .headerTextContainer {
+    position: absolute;
+    top: 40vh;
+    left: 15%;
+    width: 600px;
+    /* font-family: "Google Sans Display",Arial,Helvetica,sans-serif; */
   }
+  .headerMainText {
+    font-size: 4rem;
+    width: 70%;
+  }
+  .headerSubText {
+    margin-top: 25px;
+    font-size: 1.5rem;
+    line-height: 35px;
+    font-weight: 300;
+    text-shadow: 0px 2px 2px #1c1c1c;
+  }
+
+  #headerDemoBtn {
+    position: relative;
+    left: 70%;
+    top: 10px;
+  }
+  #logEventInBtn {
+    display: none;
+  }
+}
+
+/* ipad */
+@media only screen and (min-width: 768px) and (max-width: 1225px) {
+  .headerImg {
+    /* background: url("./images/Caregiver-Assistance.jpg") no-repeat; */
+    background-size: cover;
+
+    height: 700px;
+    width: 100%;
+  }
+
+  .headerTextContainer {
+    position: absolute;
+    top: 200px;
+    margin: 0px 50px;
+    /* width: 600px; */
+    font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+  }
+
+  .headerMainText {
+    font-size: 4rem;
+    width: 70%;
+  }
+  .headerSubText {
+    margin-top: 25px;
+    font-size: 1.8rem;
+    line-height: 35px;
+    text-shadow: 0px 2px 2px #1c1c1c;
+  }
+  #headerDemoBtn {
+    position: relative;
+    left: 70%;
+    top: 10px;
+  }
+  #logEventInBtn {
+    display: none;
+  }
+}
+
+/* mobile up right */
+@media only screen and (max-width: 767px) {
+  .headerImg {
+    /* background: url("./images/Caregiver-Assistance.jpg") no-repeat; */
+    background-position: -330px 0px;
+    height: 400px;
+    width: 101%;
+  }
+  .headerTextContainer {
+    position: absolute;
+    top: 150px;
+    margin: 0px 30px;
+    margin-right: 50%;
+    font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+  }
+  .headerMainText {
+    font-size: 1.5rem;
+  }
+  .headerSubText {
+    display: none;
+  }
+  #headerDemoBtn {
+    position: relative;
+    left: 45%;
+    top: 10px;
+    padding: 5px 10px;
+    font-size: 1.2rem;
+  }
+  #desktopLogin {
+    display: none;
+  }
+}
+/* mobile sideways */
+@media only screen and (min-width: 550px) and (max-width: 766px) {
+  .headerTextContainer {
+    position: absolute;
+    top: 110px;
+    margin: 0px 20px;
+    font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
+  }
+  .headerSubText {
+    display: block;
+    margin-top: 25px;
+    font-size: 1.5em;
+    line-height: 35px;
+    text-shadow: 0px 2px 2px #1c1c1c;
+    color: #1111;
+  }
+  #headerDemoBtn {
+    position: relative;
+    left: 40%;
+    top: 10px;
+  }
+}
+
+/* stupid iphone 5 */
+@media only screen and (max-width: 319px) {
+  #headerDemoBtn {
+    position: relative;
+    left: 55%;
+    top: 10px;
+  }
+  #headerTextContainer {
+    position: relative;
+    left: -10px;
+  }
+}

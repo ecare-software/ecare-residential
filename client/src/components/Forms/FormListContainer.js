@@ -7,7 +7,7 @@ const selectedFormNameClass = {
   padding: "10px",
   borderRadius: "9px",
   cursor: "pointer",
-  fontWeight: "900"
+  fontWeight: "900",
 };
 
 const formNameClass = {
@@ -16,7 +16,7 @@ const formNameClass = {
   borderRadius: "9px",
   cursor: "pointer",
   fontWeight: "900",
-  border: "1px solid rgb(128, 0, 0)"
+  border: "1px solid rgb(128, 0, 0)",
 };
 
 const selectedFormCountClass = {
@@ -25,7 +25,7 @@ const selectedFormCountClass = {
   fontWeight: "900",
   borderRadius: "9px",
   padding: "5px 10px",
-  margin: "5px 0px 0px 5px"
+  margin: "5px 0px 0px 5px",
 };
 
 const formCountClass = {
@@ -34,25 +34,25 @@ const formCountClass = {
   borderRadius: "9px",
 
   padding: "5px 10px",
-  margin: "5px 0px 0px 5px"
+  margin: "5px 0px 0px 5px",
 };
 
 class FormListContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedForm: this.props.reset === "true" ? -1 : -1
+      selectedForm: this.props.reset === "true" ? -1 : -1,
     };
   }
 
-  componentDidUpdate = () =>{
-    if(this.props.doReset && this.state.selectedForm!==-1){
+  componentDidUpdate = () => {
+    if (this.props.doReset && this.state.selectedForm !== -1) {
       console.log("reset state");
-      this.setState({selectedForm:-1});
+      this.setState({ selectedForm: -1 });
     }
-  }
+  };
 
-  selectForm = formId => {
+  selectForm = (formId) => {
     this.props.setSelectedUser(-1);
     if (this.state.selectedForm === formId) {
       this.setState({ selectedForm: -1 });
@@ -66,9 +66,27 @@ class FormListContainer extends Component {
   render() {
     return (
       <div style={{ display: "flex", flexDirection: "column" }}>
+        {this.props.formObjs.length === 0 && (
+          <div>
+            <p style={{ textAlign: "center" }}>No Results Found</p>
+          </div>
+        )}
         {this.props.formObjs.map((item, index) => (
-          <div key={index} style={{ display: "flex", flexDirection: "row",justifyContent:"center" }}>
-            <div style={{ display: "flex", flexDirection: "column", width: "600px" }}>
+          <div
+            key={index}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "600px",
+              }}
+            >
               <div style={{ textAlign: "center" }}>
                 <p
                   onClick={this.selectForm.bind({}, index)}

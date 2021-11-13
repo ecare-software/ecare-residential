@@ -1,117 +1,113 @@
 /* desktop */
 @media only screen and (min-width: 1226px) {
-    #messageBoard {
-      margin-top: 50px;
-      width: 100%;
-      background-color: white;
-  
-      border:.5px solid #eee;
-    }
-    .MessagePost {
-      border-top: 0.5px solid #eee;
-      border-bottom: 0.5px solid #eee;
-  
-    }
-    .MessagePostUser {
-      font-weight: 300;
-      color: maroon;
-      font-size: 1.5em;
-    }
-    .MessagePostTime{
-      font-weight: 200;
-      color: black;
-      font-size: 1em;
-    }
-    .MessagePostMeta {
-      display: flex;
-      flex-direction: column;
-      margin:20px 30px 10px 20px;
-    }
-    .MessagePostTextDiv{
-      margin:10px 30px 20px 20px;
-      font-size: 1.6em;
-    }
-    .DMBtn{
-      font-size: 1.2em !important;
-    }
+  #messageBoard {
+    margin-top: 50px;
+    width: 100%;
+    background-color: white;
+
+    border: 0.5px solid #eee;
   }
-  
-  /* ipad */
-  @media only screen and (min-width: 768px) and (max-width: 1225px) {
-    #messageBoard {
-      margin-top: 50px;
-      width: 100%;
-      background-color: white;
-  
-      border:.5px solid #eee;
-    }
-    .MessagePost {
-      border-top: 0.5px solid #eee;
-      border-bottom: 0.5px solid #eee;
-  
-    }
-    .MessagePostUser {
-      font-weight: 300;
-      color: maroon;
-      font-size: 1.5em;
-    }
-    .MessagePostTime{
-      font-weight: 200;
-      color: black;
-      font-size: 1em;
-    }
-    .MessagePostMeta {
-      display: flex;
-      flex-direction: column;
-      margin:20px 30px 10px 20px;
-    }
-    .MessagePostTextDiv{
-      margin:10px 30px 20px 20px;
-      font-size: 1.6em;
-    }
-    .DMBtn{
-      font-size: 1.2em !important;
-    }
+  .MessagePost {
+    border-top: 0.5px solid #eee;
+    border-bottom: 0.5px solid #eee;
   }
-  
-  /* mobile up right */
-  @media only screen and (max-width: 767px) {
-    #messageBoard {
-      margin-top: 40px;
-      width: 100%;
-      background-color: white;
-      padding-bottom: 60px;
-    }
-    .MessagePost {
-      border-top: 0.5px solid #eee;
-      border-bottom: 0.5px solid #eee;
-  
-    }
-    .MessagePostUser {
-      font-weight: 300;
-      color: maroon;
-      font-size: 1.1em;
-    }
-    .MessagePostTime{
-      font-weight: 200;
-      color: black;
-      font-size: .8em;
-    }
-    .MessagePostMeta {
-      display: flex;
-      flex-direction: column;
-      margin:10px;
-    }
-    .MessagePostTextDiv{
-      margin:10px;
-    }
+  .MessagePostUser {
+    font-weight: 400;
+    color: maroon;
+    font-size: 1.5em;
   }
-  
-  /* mobile sideways */
-  @media only screen and (min-width: 550px) and (max-width: 766px) {
+  .MessagePostTime {
+    font-weight: 200;
+    color: black;
+    font-size: 1em;
   }
-  
-  /* stupid iphone 5 */
-  @media only screen and (max-width: 361px) {
+  .MessagePostMeta {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 30px 10px 20px;
   }
-  
+  .MessagePostTextDiv {
+    margin: 10px 30px 20px 20px;
+    font-size: 1.6em;
+  }
+  .DMBtn {
+    font-size: 1.2em !important;
+  }
+}
+
+/* ipad */
+@media only screen and (min-width: 768px) and (max-width: 1225px) {
+  #messageBoard {
+    margin-top: 50px;
+    width: 100%;
+    background-color: white;
+
+    border: 0.5px solid #eee;
+  }
+  .MessagePost {
+    border-top: 0.5px solid #eee;
+    border-bottom: 0.5px solid #eee;
+  }
+  .MessagePostUser {
+    font-weight: 400;
+    color: maroon;
+    font-size: 1.5em;
+  }
+  .MessagePostTime {
+    font-weight: 200;
+    color: black;
+    font-size: 1em;
+  }
+  .MessagePostMeta {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 30px 10px 20px;
+  }
+  .MessagePostTextDiv {
+    margin: 10px 30px 20px 20px;
+    font-size: 1.6em;
+  }
+  .DMBtn {
+    font-size: 1.2em !important;
+  }
+}
+
+/* mobile up right */
+@media only screen and (max-width: 767px) {
+  #messageBoard {
+    margin-top: 40px;
+    width: 100%;
+    background-color: white;
+    padding-bottom: 60px;
+  }
+  .MessagePost {
+    border-top: 0.5px solid #eee;
+    border-bottom: 0.5px solid #eee;
+  }
+  .MessagePostUser {
+    font-weight: 400;
+    color: maroon;
+    font-size: 1.1em;
+  }
+  .MessagePostTime {
+    font-weight: 200;
+    color: black;
+    font-size: 0.8em;
+  }
+  .MessagePostMeta {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+  }
+  .MessagePostTextDiv {
+    margin: 10px;
+  }
+}
+
+/* mobile sideways */
+@media only screen and (min-width: 550px) and (max-width: 766px) {
+}
+
+/* stupid iphone 5 */
+@media only screen and (max-width: 361px) {
+}

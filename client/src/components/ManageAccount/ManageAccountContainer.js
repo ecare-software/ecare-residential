@@ -4,51 +4,54 @@ import "../LogInContainer/LogInContainer.css";
 import FormError from "../FormMods/FormError";
 import FormSuccess from "../FormMods/FormSuccess";
 import Axios from "axios";
+import SignatureCanvas from "react-signature-canvas";
+import ClipLoader from "react-spinners/ClipLoader";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 
 class ManageAccountContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       password: "",
-      password2: ""
+      password2: "",
+      isLoading: true,
     };
   }
-  submit = () => {
+
+  submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     var staticThis = this;
     delete currentState.password2;
+    try {
+      const { data } = await Axios({
+        method: "put",
+        url: "/api/users/" + this.props.userObj._id,
+        data: {
+          password: this.state.password,
+          newUser: false,
+        },
+      });
 
-    // return;
-    Axios({
-      method: "put",
-      url: "/api/users/" + this.props.userObj._id,
-      data: {
-        password: this.state.password,
-        newUser: false
-      }
-    })
-      .then(function(response) {
-        console.log(response);
-        document.getElementById(staticThis.props.id + "-success").innerText =
-          "Password Updated";
+      await this.props.updateUserData(data);
+      document.getElementById(staticThis.props.id + "-success").innerText =
+        "Password Updated";
+      document.getElementById(staticThis.props.id + "-success").style.display =
+        "block";
+      document.getElementById("password").value = "";
+      document.getElementById("password2").value = "";
+      setTimeout(function () {
         document.getElementById(
           staticThis.props.id + "-success"
-        ).style.display = "block";
-        document.getElementById("password").value = "";
-        document.getElementById("password2").value = "";
-        setTimeout(function() {
-          document.getElementById(
-            staticThis.props.id + "-success"
-          ).style.display = "none";
-        }, 3000);
-      })
-      .catch(function(error) {
-        // handle error
-        console.log(error);
-      });
+        ).style.display = "none";
+      }, 3000);
+    } catch (e) {
+      alert("An error has occured");
+      console.log(e);
+    }
   };
 
-  handleFieldInput = event => {
+  handleFieldInput = (event) => {
     var stateObj = {};
     stateObj[event.target.id] = event.target.value;
     this.setState(stateObj);
@@ -60,10 +63,11 @@ class ManageAccountContainer extends Component {
     let simpleState = JSON.parse(JSON.stringify(this.state));
     document.getElementById(staticThis.props.id + "-error").style.display =
       "none";
-    Object.keys(simpleState).forEach(function(k) {
+    delete simpleState.isLoading;
+
+    Object.keys(simpleState).forEach(function (k) {
       let value = simpleState[k];
       if (value === "" || value.includes(" ")) {
-        console.log(k);
         validForm = false;
       }
     });
@@ -81,6 +85,74 @@ class ManageAccountContainer extends Component {
         "Invalid form submission";
       document.getElementById(staticThis.props.id + "-error").style.display =
         "block";
+    }
+  };
+
+  submitSig = async () => {
+    try {
+      const { data: newUserData } = await Axios({
+        method: "put",
+        url: "/api/users/sig/" + this.props.userObj._id,
+        data: {
+          signature: this.sigCanvas.toData(),
+        },
+      });
+
+      await this.props.updateUserData(newUserData, true);
+
+      document.getElementById(this.props.id + "-sig-success").innerText =
+        "Signature Updated";
+      document.getElementById(this.props.id + "-sig-success").style.display =
+        "block";
+
+      setTimeout(() => {
+        document.getElementById(this.props.id + "-sig-success").style.display =
+          "none";
+      }, 3000);
+    } catch (e) {
+      // handle error
+      console.log(e);
+      alert(e);
+    }
+  };
+
+  validateSig = () => {
+    if (!this.sigCanvas.toData().length) {
+      alert("Please Provide a signature before updating");
+    } else {
+      this.submitSig();
+    }
+  };
+
+  setSignature = (userObj) => {
+    if (userObj.signature && userObj.signature.length) {
+      this.sigCanvas.fromData(userObj.signature);
+    }
+  };
+
+  getUserSign = async (userObj) => {
+    try {
+      const { data } = await Axios({
+        method: "get",
+        url: `/api/users/user/${userObj._id}`,
+      });
+      this.setSignature(data);
+      this.setState({ ...this.state, isLoading: false });
+    } catch (e) {
+      alert(e);
+      console.log(e);
+    }
+  };
+
+  componentDidMount() {
+    this.getUserSign(this.props.userObj);
+  }
+
+  basicDateFormat = () => {
+    try {
+      return `${new Date(this.props.userObj.lastLogIn).toLocaleString()}`;
+    } catch (e) {
+      return `${new Date().toLocaleString()}`;
     }
   };
 
@@ -105,11 +177,7 @@ class ManageAccountContainer extends Component {
                           {this.props.userObj.lastName}
                         </p>
                       </td>
-                      <td>
-                        {/* <p style={{ cursor:"pointer",color: "maroon" }}>
-                              Reset Password
-                            </p> */}
-                      </td>
+                      <td></td>
                     </tr>
                   </tbody>
                 </table>
@@ -118,7 +186,7 @@ class ManageAccountContainer extends Component {
                     <tr>
                       <td style={{ width: "50%" }}>Last Logged In</td>
                       <td>
-                        <span>{this.props.userObj.lastLogIn}</span>
+                        <span>{this.basicDateFormat()}</span>
                       </td>
                     </tr>
                     <tr>
@@ -164,11 +232,93 @@ class ManageAccountContainer extends Component {
                 ></FormSuccess>
                 <div
                   className="form-group logInInputField"
-                  style={{ display: "flex", flexDirection: "row-reverse" }}
+                  style={{
+                    display: "flex",
+                    flexDirection: "row-reverse",
+                    marginTop: 50,
+                  }}
                 >
-                  <button onClick={this.validateForm} className="darkBtn">
-                    Submit
+                  <button
+                    onClick={this.validateForm}
+                    className="btn btn-light extraInfoButton"
+                  >
+                    Update
                   </button>
+                </div>
+                {this.state.isLoading && (
+                  <div className="formLoadingDiv">
+                    <div>
+                      <ClipLoader
+                        className="formSpinner"
+                        size={50}
+                        color={"#ffc107"}
+                      />
+                    </div>
+
+                    <p>Loading...</p>
+                  </div>
+                )}
+
+                <div
+                  style={{
+                    visibility: `${
+                      this.state.isLoading ? "hidden" : "visible"
+                    }`,
+                  }}
+                >
+                  <h4 className="defaultSubLabel formFieldsTitle">Signature</h4>
+                  <FormError errorId={this.props.id + "-sig-error"}></FormError>
+                  <FormSuccess
+                    successId={this.props.id + "-sig-success"}
+                  ></FormSuccess>
+                  <div className="sigSection">
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <SignatureCanvas
+                        ref={(ref) => {
+                          this.sigCanvas = ref;
+                        }}
+                        style={{ border: "solid" }}
+                        penColor="black"
+                        clearOnResize={false}
+                        canvasProps={{
+                          width: 600,
+                          height: 200,
+                          className: "sigCanvas",
+                        }}
+                        backgroundColor="#eeee"
+                      />
+                    </div>
+                    <div
+                      className="form-group logInInputField"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row-reverse",
+                        marginTop: 50,
+                      }}
+                    >
+                      <button
+                        onClick={this.validateSig}
+                        className="btn btn-light extraInfoButton"
+                      >
+                        Update
+                      </button>
+                      <button
+                        style={{ marginRight: 20 }}
+                        onClick={() => {
+                          this.sigCanvas.clear();
+                        }}
+                        className="btn "
+                      >
+                        Clear
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
