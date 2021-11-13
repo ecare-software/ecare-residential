@@ -148,6 +148,14 @@ class ManageAccountContainer extends Component {
     this.getUserSign(this.props.userObj);
   }
 
+  basicDateFormat = () => {
+    try {
+      return `${new Date(this.props.userObj.lastLogIn).toLocaleString()}`;
+    } catch (e) {
+      return `${new Date().toLocaleString()}`;
+    }
+  };
+
   render() {
     return (
       <div className="formCompNoBg">
@@ -178,7 +186,7 @@ class ManageAccountContainer extends Component {
                     <tr>
                       <td style={{ width: "50%" }}>Last Logged In</td>
                       <td>
-                        <span>{this.props.userObj.lastLogIn}</span>
+                        <span>{this.basicDateFormat()}</span>
                       </td>
                     </tr>
                     <tr>
