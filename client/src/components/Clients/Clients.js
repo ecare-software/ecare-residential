@@ -26,6 +26,9 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
   const [clients, setClients] = useState([]);
 
   useEffect(() => {
+    if (showClientForm) {
+      setIsClientSelected(false);
+    }
     setShowClients(showClientForm);
     if (showClientForm && !isInit) {
       getAllClients.run([userObj.homeId]);
@@ -51,8 +54,8 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
 
   const setClient = (value) => {
     setIsClientSelected(true);
-    setSelectedClient(value);
     doToggleClientDisplay(false);
+    setSelectedClient(value);
   };
 
   const deleteClientCall = async (value) => {
