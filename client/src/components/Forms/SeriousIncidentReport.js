@@ -331,6 +331,11 @@ class SeriousIncidentReport extends Component {
       let { data: clients } = await Axios.get(
         `/api/client/${this.props.userObj.homeId}`
       );
+
+      clients = clients.filter((client) => {
+        return !client.hasOwnProperty("active") || client.active === true;
+      });
+
       setTimeout(() => {
         this.setState({
           ...this.state,

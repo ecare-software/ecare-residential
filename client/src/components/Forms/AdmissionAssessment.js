@@ -506,6 +506,11 @@ class AdmissionAssessment extends Component {
       let { data: clients } = await Axios.get(
         `/api/client/${this.props.userObj.homeId}`
       );
+
+      clients = clients.filter((client) => {
+        return !client.hasOwnProperty("active") || client.active === true;
+      });
+
       setTimeout(() => {
         this.setState({
           ...this.state,
@@ -535,9 +540,6 @@ class AdmissionAssessment extends Component {
         if (clonedState.hasOwnProperty(key)) {
           clonedState[key] = client[key];
         }
-        // if (key.includes("childMeta_placeOfBirth")) {
-        //   clonedState.childMeta_placeOfBirth = `${client[key]} `;
-        // }
       });
       await this.setState({ ...clonedState, clientId: client._id });
     }

@@ -88,4 +88,15 @@ router.delete("/:homeId/:id/", (req, res) => {
     });
 });
 
+router.put("/:homeId/:id/", (req, res) => {
+  const active = req.body.active;
+  Client.updateOne({ _id: req.params.id }, { active })
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+});
+
 module.exports = router;
