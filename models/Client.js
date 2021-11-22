@@ -101,6 +101,10 @@ const ClientSchema = new Schema({
   homeId: {
     type: String,
   },
+  active: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 module.exports = Client = mongoose.model("client", ClientSchema);
