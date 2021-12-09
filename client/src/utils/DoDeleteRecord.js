@@ -11,7 +11,7 @@ export const DoDeleteRecord = async (
       await Axios.delete(apiPath);
       callback();
     } catch (e) {
-      alert("Error deleting message");
+      alert("Error deleting record");
     }
   }
 };
