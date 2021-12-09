@@ -883,7 +883,11 @@ export class FromReports extends Component {
                     )}
                     className="btn btn-link"
                   >
-                    <span className="fa fa-backspace"></span> Back
+                    <span
+                      className="fa fa-backspace"
+                      id="form-reports-back-btn"
+                    ></span>{" "}
+                    Back
                   </button>
                 )}
               </div>
