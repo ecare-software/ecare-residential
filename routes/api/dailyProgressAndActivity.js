@@ -161,4 +161,14 @@ router.put("/:homeId/:formId/", (req, res) => {
     });
 });
 
+router.delete("/:homeId/:formId/", (req, res) => {
+  DailyProgressAndActivity.deleteOne({ _id: req.params.formId })
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+});
+
 module.exports = router;

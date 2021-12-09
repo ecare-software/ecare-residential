@@ -1,4 +1,4 @@
-import React, { Component, useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import TreatmentPlan72 from "../Forms/TreatmentPlan72";
 import IncidentReport from "../Forms/IncidentReport";
 import SeriousIncidentReport from "../Forms/SeriousIncidentReport";
@@ -15,6 +15,7 @@ import { FormCountContext } from "../../context";
 import { GetUserSig } from "../../utils/GetUserSig";
 import SignatureCanvas from "react-signature-canvas";
 import { FetchHomeData } from "../../utils/FetchHomeData";
+import { DoDeleteRecord } from "../../utils/DoDeleteRecord";
 
 const needsNurseSig = ["Health Body Check", "Illness Injury"];
 
@@ -293,6 +294,16 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
     }
   };
 
+  const doDelete = async () => {
+    DoDeleteRecord(
+      "Are you sure you want to delete this message? This cannot be undone.",
+      `/api/${route}/${formData.homeId}/${formData._id}`,
+      () => {
+        document.getElementById("form-reports-back-btn").click();
+      }
+    );
+  };
+
   return (
     <div style={{ margin: "0px 20px 40px 20px" }}>
       <div className="d-flex align-items-center hide-on-print">
@@ -346,10 +357,20 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
           onClick={() => {
             doPrint();
           }}
-          className="btn btn-light hide-on-print"
+          className="mr-3 btn btn-light hide-on-print"
         >
           Print <i className="fas fa-print"></i>
         </button>
+        {isAdminRole && (
+          <button
+            onClick={() => {
+              doDelete();
+            }}
+            className="btn btn-light hide-on-print"
+          >
+            Delete Form <i className="fas fa-trash"></i>
+          </button>
+        )}
         {homeData && (
           <div>
             <h3 className="text-center">
@@ -510,6 +531,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
     </div>
   );
 };
+
 const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
   const [updatedFormData, setFormData] = useState({});
 
