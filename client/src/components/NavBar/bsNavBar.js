@@ -476,6 +476,25 @@ class NavBar extends React.Component {
                   >
                     Illness Injury
                   </NavDropdown.Item>
+                  {this.props.userObj.homeid === "home-1234" && (
+                    <NavDropdown.Item
+                      eventKey="link-812"
+                      onClick={() => {
+                        document
+                          .querySelector(".Submit-a-Form-nav > a")
+                          .classList.add("active");
+                        document
+                          .querySelector(".Manage-Account-nav > a")
+                          .classList.remove("active");
+                        document
+                          .querySelector(".Training-nav > a")
+                          .classList.remove("active");
+                        this.props.toggleDisplay("AwakeNightStaffSignoff");
+                      }}
+                    >
+                      Awake Night Staff Signoff
+                    </NavDropdown.Item>
+                  )}
                 </NavDropdown>
                 <NavDropdown
                   style={navItemStyle}

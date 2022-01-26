@@ -208,6 +208,7 @@ export class FromReports extends Component {
               "Incident Report",
               "Serious Incident Report",
               "72 Hour Treatment Plan",
+              "Awake Night Staff Signoff",
             ],
           });
           this.setState({ formNamesReady: true });
@@ -260,6 +261,11 @@ export class FromReports extends Component {
       ),
       Axios.get(
         "/api/bodyCheck/" +
+          this.props.userObj.homeId +
+          "/none/none/none/none/none/none/none/none/none/false"
+      ),
+      Axios.get(
+        "/api/awakeNightStaffSignoff/" +
           this.props.userObj.homeId +
           "/none/none/none/none/none/none/none/none/none/false"
       ),
@@ -335,6 +341,11 @@ export class FromReports extends Component {
       ),
       Axios.get(
         "/api/bodyCheck/" +
+          this.props.userObj.homeId +
+          "/none/none/none/none/none/none/none/none/none/false"
+      ),
+      Axios.get(
+        "/api/awakeNightStaffSignoff/" +
           this.props.userObj.homeId +
           "/none/none/none/none/none/none/none/none/none/false"
       ),
@@ -554,6 +565,7 @@ export class FromReports extends Component {
             )
           );
         }
+
         if (formName === "Illness Injury") {
           formRequests.push(
             Axios.get(
@@ -582,10 +594,40 @@ export class FromReports extends Component {
             )
           );
         }
+
         if (formName === "Admission Assessment") {
           formRequests.push(
             Axios.get(
               "/api/admissionAssessment/" +
+                this.props.userObj.homeId +
+                "/" +
+                searchString +
+                "/" +
+                submittedAfter +
+                "/" +
+                submittedBefore +
+                "/" +
+                dobAfter +
+                "/" +
+                dobBefore +
+                "/" +
+                doaAfter +
+                "/" +
+                doaBefore +
+                "/" +
+                ethnicityA +
+                "/" +
+                submittedByA +
+                "/" +
+                approved
+            )
+          );
+        }
+
+        if (formName === "Awake Night Staff Signoff") {
+          formRequests.push(
+            Axios.get(
+              "/api/awakeNightStaffSignoff/" +
                 this.props.userObj.homeId +
                 "/" +
                 searchString +
@@ -782,9 +824,32 @@ export class FromReports extends Component {
             "/" +
             approved
         ),
-
         Axios.get(
           "/api/illnessInjury/" +
+            this.props.userObj.homeId +
+            "/" +
+            searchString +
+            "/" +
+            submittedAfter +
+            "/" +
+            submittedBefore +
+            "/" +
+            dobAfter +
+            "/" +
+            dobBefore +
+            "/" +
+            doaAfter +
+            "/" +
+            doaBefore +
+            "/" +
+            ethnicityA +
+            "/" +
+            submittedByA +
+            "/" +
+            approved
+        ),
+        Axios.get(
+          "/api/awakeNightStaffSignoff/" +
             this.props.userObj.homeId +
             "/" +
             searchString +

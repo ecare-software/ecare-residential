@@ -33,6 +33,7 @@ const email = require("./routes/api/email");
 const uploadDocument = require("./routes/api/uploadDocument");
 const allForms = require("./routes/api/allFormRoutes");
 const homes = require("./routes/api/home");
+const awakeNightStaffSignoff = require("./routes/api/awakeNightStaffSignoff");
 
 //user express
 const app = express();
@@ -91,6 +92,7 @@ app.use("/api/uploadDocument", uploadDocument);
 app.use("/uploads", express.static("uploads"));
 app.use("/api/forms", allForms);
 app.use("/api/home", homes);
+app.use("/api/awakeNightStaffSignoff", awakeNightStaffSignoff);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

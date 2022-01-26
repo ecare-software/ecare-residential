@@ -9,6 +9,7 @@ const IncidentReport = require("../../models/IncidentReport");
 const RestraintReport = require("../../models/RestraintReport");
 const SeriousIncidentReport = require("../../models/SeriousIncidentReport");
 const TreatmentPlan72 = require("../../models/TreatmentPlan72");
+const AwakeNightStaffSignoff = require("../../models/AwakeNightStaffSignoff");
 
 const getApprovalFilter = (status) => {
   if (status == "true") {
@@ -58,6 +59,17 @@ router.get("/count/:status/:homeId", async (req, res) => {
     );
   } catch (e) {
     console.log(`Error loading AdmissionAssessment -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      AwakeNightStaffSignoff.find({
+        homeId: req.params.homeId,
+        approved,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading AwakeNightStaffSignoff -  ${e}`);
   }
 
   try {
@@ -162,6 +174,16 @@ router.get("/count/:homeId", async (req, res) => {
     );
   } catch (e) {
     console.log(`Error loading AdmissionAssessment -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      AwakeNightStaffSignoff.find({
+        homeId: req.params.homeId,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading AwakeNightStaffSignoff -  ${e}`);
   }
 
   try {
