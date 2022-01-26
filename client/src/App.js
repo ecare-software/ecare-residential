@@ -28,6 +28,7 @@ import OrientationTraining from "./components/Forms/OrientationTraining";
 import PreServiceTraining from "./components/Forms/PreServiceTraining";
 import FirstAidCprTraining from "./components/Forms/FirstAidCprTraining";
 import ManageAccountContainer from "./components/ManageAccount/ManageAccountContainer";
+import AwakeNightStaffSignoff from "./components/Forms/AwakeNightStaffSignoff";
 import rightBody from "./images/right_body.png";
 import leftBody from "./images/left_body.png";
 import "./App.css";
@@ -682,6 +683,18 @@ function ToggleScreen({
           toggleDisplay={toggleDisplay}
           userObj={appState.userObj}
           removeMessage={removeMessage}
+        />
+      </div>
+    );
+  }
+
+  if (name === "AwakeNightStaffSignoff") {
+    return (
+      <div>
+        <AwakeNightStaffSignoff
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="AwakeNightStaffSignoff"
         />
       </div>
     );

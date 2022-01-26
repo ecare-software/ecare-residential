@@ -169,7 +169,6 @@ router.post("/", (req, res) => {
 
     formType: "Admission Assessment",
   });
-
   newAdmissionAssessment
     .save()
     .then((admissionAssessment) => res.json(admissionAssessment))

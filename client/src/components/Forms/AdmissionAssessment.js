@@ -3766,15 +3766,6 @@ class AdmissionAssessment extends Component {
                   >
                     Save
                   </button>
-
-                  <button
-                    className="darkBtn"
-                    onClick={() => {
-                      this.validateForm(false);
-                    }}
-                  >
-                    Submit
-                  </button>
                 </div>
               </>
             )}

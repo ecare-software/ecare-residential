@@ -15,6 +15,7 @@ export const FormSuccessAlert = () => (
       borderRadius: "9px",
       display: "flex",
       flexDirection: "column",
+      zIndex: 1,
     }}
   >
     <h1

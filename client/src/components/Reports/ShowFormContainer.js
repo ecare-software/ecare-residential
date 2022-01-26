@@ -9,6 +9,7 @@ import AdmissionAssessment from "../Forms/AdmissionAssessment";
 import OrientationTraining from "../Forms/OrientationTraining";
 import PreServiceTraining from "../Forms/PreServiceTraining";
 import BodyCheck from "../Forms/BodyCheck";
+import AwakeNightStaffSignoff from "../Forms/AwakeNightStaffSignoff";
 import { Form, Col } from "react-bootstrap";
 import Axios from "axios";
 import { FormCountContext } from "../../context";
@@ -569,7 +570,10 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
       droute = "orientationTraining";
     } else if (name === "Pre Service Training") {
       droute = "preServiceTraining";
+    } else if (name === "AwakeNightStaffSignoff") {
+      droute = "awakeNightStaffSignoff";
     }
+
     setRoute(droute);
   };
 
@@ -677,6 +681,15 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     } else if (name === "Pre Service Training") {
       comp = (
         <PreServiceTraining
+          valuesSet="true"
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    } else if (name === "AwakeNightStaffSignoff") {
+      comp = (
+        <AwakeNightStaffSignoff
           valuesSet="true"
           userObj={userObj}
           formData={updatedFormData}

@@ -804,14 +804,14 @@ class IllnessInjury extends Component {
                     Save
                   </button>
 
-                  <button
+                  {/* <button
                     className="darkBtn"
                     onClick={() => {
                       this.validateForm(false);
                     }}
                   >
                     Submit
-                  </button>
+                  </button> */}
                 </div>
               </>
             )}
