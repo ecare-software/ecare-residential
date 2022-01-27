@@ -476,7 +476,7 @@ class NavBar extends React.Component {
                   >
                     Illness Injury
                   </NavDropdown.Item>
-                  {this.props.userObj.homeid === "home-1234" && (
+                  {this.props.userObj.homeId === "home-1234" && (
                     <NavDropdown.Item
                       eventKey="link-812"
                       onClick={() => {
