@@ -268,6 +268,15 @@ class AwakeNightStaffSignoff extends Component {
   setSignature = (userObj) => {
     if (userObj.signature && userObj.signature.length) {
       this.sigCanvas.fromData(userObj.signature);
+      this.sigCanvas.off();
+    }
+  };
+
+  setSignatures = (userObj) => {
+    let i = 40;
+    for (let x = 1; x <= i; x++) {
+      this[`sigCanvas${x}`].fromData(userObj.signature);
+      this[`sigCanvas${x}`].off();
     }
   };
 
@@ -276,9 +285,7 @@ class AwakeNightStaffSignoff extends Component {
       this.props.formData.createdBy,
       this.props.userObj.homeId
     );
-    console.log(this.props.formData);
-    this.setSignature(createdUserData);
-    this.sigCanvas.off();
+    this.setSignatures(createdUserData);
     this.setState({
       ...this.state,
       ...this.props.formData,
@@ -289,6 +296,8 @@ class AwakeNightStaffSignoff extends Component {
   componentDidMount() {
     if (this.props.valuesSet) {
       this.setValues();
+    } else {
+      this.setSignatures(this.props.userObj);
     }
   }
 
@@ -321,7 +330,7 @@ class AwakeNightStaffSignoff extends Component {
                 <label>Time</label>
               </Col>
               <Col md="6" className="control-label">
-                Signed
+                <span className="hide-on-print">Signed</span>
               </Col>
             </Row>
 
@@ -338,6 +347,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts1Approval");
                         }}
@@ -350,14 +360,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts1Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 d-flex align-items-center justify-content-space-between "
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts1Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas1 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -373,6 +408,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts2Approval");
                         }}
@@ -385,14 +421,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts2Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts2Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas2 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -408,6 +469,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts3Approval");
                         }}
@@ -420,14 +482,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts3Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts3Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas3 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -443,6 +530,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts4Approval");
                         }}
@@ -455,14 +543,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts4Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts4Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas4 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -478,6 +591,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts5Approval");
                         }}
@@ -490,14 +604,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts5Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts5Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas5 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -513,6 +652,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts6Approval");
                         }}
@@ -525,14 +665,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts6Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts6Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas6 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -548,6 +713,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts7Approval");
                         }}
@@ -560,14 +726,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts7Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts7Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas7 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -583,6 +774,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts8Approval");
                         }}
@@ -595,14 +787,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts8Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts8Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas8 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -618,6 +835,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts9Approval");
                         }}
@@ -630,14 +848,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts9Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts9Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas9 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -653,6 +896,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts10Approval");
                         }}
@@ -665,14 +909,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts10Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts10Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas10 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -688,6 +957,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts11Approval");
                         }}
@@ -700,14 +970,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts11Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts11Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas11 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -723,6 +1018,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts12Approval");
                         }}
@@ -735,14 +1031,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts12Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts12Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas12 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -758,6 +1079,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts13Approval");
                         }}
@@ -769,15 +1091,40 @@ class AwakeNightStaffSignoff extends Component {
                 ) : (
                   <Form.Check
                     type="checkbox"
-                    id="ts1Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    id="ts13Approval"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts13Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas13 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -793,6 +1140,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts14Approval");
                         }}
@@ -805,14 +1153,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts14Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts14Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas14 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -828,6 +1201,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts15Approval");
                         }}
@@ -840,14 +1214,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts15Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts15Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas15 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -863,6 +1262,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts16Approval");
                         }}
@@ -875,14 +1275,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts16Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts16Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas16 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -898,6 +1323,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts17Approval");
                         }}
@@ -910,14 +1336,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts17Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts17Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas17 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -933,6 +1384,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts18Approval");
                         }}
@@ -945,14 +1397,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts18Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts18Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas18 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -968,6 +1445,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts19Approval");
                         }}
@@ -980,14 +1458,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts19Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts19Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas19 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1003,6 +1506,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts20Approval");
                         }}
@@ -1015,14 +1519,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts20Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts20Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas20 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1038,6 +1567,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts21Approval");
                         }}
@@ -1050,14 +1580,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts21Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts21Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas21 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1073,6 +1628,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts22Approval");
                         }}
@@ -1085,14 +1641,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts22Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts22Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas22 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1108,6 +1689,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts23Approval");
                         }}
@@ -1120,14 +1702,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts23Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts23Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas23 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1143,6 +1750,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts24Approval");
                         }}
@@ -1155,14 +1763,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts24Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts24Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas24 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1178,6 +1811,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts25Approval");
                         }}
@@ -1190,14 +1824,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts25Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts25Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas25 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1213,6 +1872,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts26Approval");
                         }}
@@ -1225,14 +1885,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts26Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts26Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas26 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1248,6 +1933,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts27Approval");
                         }}
@@ -1260,14 +1946,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts27Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts27Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas27 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1283,6 +1994,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts28Approval");
                         }}
@@ -1295,14 +2007,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts28Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts28Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas28 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1318,6 +2055,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts29Approval");
                         }}
@@ -1330,14 +2068,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts29Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts29Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas29 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1353,6 +2116,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts30Approval");
                         }}
@@ -1365,14 +2129,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts30Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts30Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas30 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1388,6 +2177,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts31Approval");
                         }}
@@ -1400,14 +2190,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts31Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts31Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas31 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1423,6 +2238,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts32Approval");
                         }}
@@ -1435,14 +2251,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts32Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts32Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas32 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1458,6 +2299,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts33Approval");
                         }}
@@ -1470,14 +2312,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts33Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts33Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas33 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1493,6 +2360,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts34Approval");
                         }}
@@ -1505,14 +2373,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts34Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts34Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas34 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1528,6 +2421,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts35Approval");
                         }}
@@ -1540,14 +2434,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts35Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts35Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas35 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1563,6 +2482,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts36Approval");
                         }}
@@ -1575,14 +2495,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts36Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts36Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas36 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1598,6 +2543,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts37Approval");
                         }}
@@ -1610,14 +2556,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts37Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts37Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas37 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1633,6 +2604,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts38Approval");
                         }}
@@ -1645,14 +2617,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts38Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts38Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas38 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1668,6 +2665,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts39Approval");
                         }}
@@ -1680,14 +2678,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts39Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts39Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas39 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <Row>
@@ -1697,12 +2720,13 @@ class AwakeNightStaffSignoff extends Component {
               >
                 <label>5:45pm - 6:00pm</label>
               </Col>
-              <Col md="6" className="control-label text-center">
+              <Col md="6" className="control-label">
                 {this.state.ts40Approval ? (
-                  <div className="mb-2 d-flex align-items-center">
+                  <div className="mb-2 ">
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts40Approval");
                         }}
@@ -1715,14 +2739,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts40Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts40Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas40 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
 
             <FormError errorId={this.props.id + "-error"} />
@@ -1774,12 +2823,9 @@ class AwakeNightStaffSignoff extends Component {
           </div>
 
           <div className="formFieldsMobileReport">
-            <Row>
+            <Row className="mb-5">
               <Col md="6" className="control-label text-center">
                 <label>Time</label>
-              </Col>
-              <Col md="6" className="control-label">
-                Signed
               </Col>
             </Row>
             <Row>
@@ -1795,6 +2841,7 @@ class AwakeNightStaffSignoff extends Component {
                     {this.props.valuesSet && (
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts1Approval");
                         }}
@@ -1807,14 +2854,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts1Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 d-flex hide-on-print align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts1Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas1 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -1829,6 +2901,7 @@ class AwakeNightStaffSignoff extends Component {
                     {this.props.valuesSet && (
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts2Approval");
                         }}
@@ -1841,14 +2914,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts2Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts2Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas2 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -1863,6 +2961,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts3Approval");
                         }}
@@ -1875,14 +2974,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts3Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts3Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas3 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -1897,6 +3021,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts4Approval");
                         }}
@@ -1909,14 +3034,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts4Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts4Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas4 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -1931,6 +3081,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts5Approval");
                         }}
@@ -1943,14 +3094,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts5Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts5Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas5 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -1965,6 +3141,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts6Approval");
                         }}
@@ -1977,14 +3154,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts6Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts6Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas6 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -1999,6 +3201,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts7Approval");
                         }}
@@ -2011,14 +3214,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts7Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts7Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas7 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2033,6 +3261,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts8Approval");
                         }}
@@ -2045,14 +3274,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts8Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts8Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas8 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2067,6 +3321,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts9Approval");
                         }}
@@ -2079,14 +3334,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts9Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts9Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas9 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2101,6 +3381,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts10Approval");
                         }}
@@ -2113,14 +3394,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts10Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts10Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas10 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2135,6 +3441,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts11Approval");
                         }}
@@ -2147,14 +3454,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts11Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts11Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas11 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2169,6 +3501,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts12Approval");
                         }}
@@ -2181,14 +3514,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts12Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts12Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas12 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2203,6 +3561,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts13Approval");
                         }}
@@ -2215,14 +3574,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts1Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts13Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas13 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2237,6 +3621,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts14Approval");
                         }}
@@ -2249,14 +3634,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts14Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts14Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas14 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2271,6 +3681,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts15Approval");
                         }}
@@ -2283,14 +3694,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts15Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts15Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas15 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2305,6 +3741,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts16Approval");
                         }}
@@ -2317,14 +3754,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts16Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts16Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas16 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2339,6 +3801,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts17Approval");
                         }}
@@ -2351,14 +3814,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts17Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts17Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas17 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2373,6 +3861,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts18Approval");
                         }}
@@ -2385,14 +3874,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts18Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts18Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas18 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2407,6 +3921,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts19Approval");
                         }}
@@ -2419,14 +3934,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts19Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts19Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas19 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2441,6 +3981,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts20Approval");
                         }}
@@ -2453,14 +3994,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts20Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts20Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas20 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2475,6 +4041,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts21Approval");
                         }}
@@ -2487,14 +4054,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts21Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts21Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas21 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2509,6 +4101,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts22Approval");
                         }}
@@ -2521,14 +4114,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts22Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts22Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas22 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2543,6 +4161,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts23Approval");
                         }}
@@ -2555,14 +4174,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts23Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts23Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas23 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2577,6 +4221,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts24Approval");
                         }}
@@ -2589,14 +4234,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts24Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts24Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas24 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2611,6 +4281,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts25Approval");
                         }}
@@ -2623,14 +4294,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts25Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts25Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas25 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2645,6 +4341,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts26Approval");
                         }}
@@ -2657,14 +4354,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts26Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts26Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas26 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2679,6 +4401,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts27Approval");
                         }}
@@ -2691,14 +4414,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts27Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts27Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas27 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2713,6 +4461,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts28Approval");
                         }}
@@ -2725,14 +4474,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts28Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts28Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas28 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2747,6 +4521,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts29Approval");
                         }}
@@ -2759,14 +4534,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts29Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts29Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas29 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2781,6 +4581,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts30Approval");
                         }}
@@ -2793,14 +4594,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts30Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts30Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas30 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2815,6 +4641,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts31Approval");
                         }}
@@ -2827,14 +4654,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts31Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts31Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas31 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2849,6 +4701,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts32Approval");
                         }}
@@ -2861,14 +4714,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts32Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts32Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas32 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2883,6 +4761,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts33Approval");
                         }}
@@ -2895,14 +4774,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts33Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts33Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas33 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2917,6 +4821,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts34Approval");
                         }}
@@ -2929,14 +4834,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts34Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts34Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas34 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2951,6 +4881,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts35Approval");
                         }}
@@ -2963,14 +4894,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts35Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts35Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas35 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -2985,6 +4941,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts36Approval");
                         }}
@@ -2997,14 +4954,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts36Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts36Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas36 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -3019,6 +5001,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts37Approval");
                         }}
@@ -3031,14 +5014,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts37Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts37Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas37 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -3053,6 +5061,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts38Approval");
                         }}
@@ -3065,14 +5074,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts38Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts38Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas38 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -3087,6 +5121,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts39Approval");
                         }}
@@ -3099,14 +5134,39 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts39Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  visibility: this.state.ts39Approval ? "visible" : "hidden",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas39 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600,
+                    height: 200,
+                    className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
             </Row>
             <Row>
               <Col
@@ -3121,6 +5181,7 @@ class AwakeNightStaffSignoff extends Component {
                     {
                       <a
                         href="javascript:void(0)"
+                        className="hide-on-print"
                         onClick={() => {
                           this.clearFieldInput("ts40Approval");
                         }}
@@ -3133,27 +5194,27 @@ class AwakeNightStaffSignoff extends Component {
                   <Form.Check
                     type="checkbox"
                     id="ts40Approval"
-                    className="mb-2 d-flex align-items-center justify-content-space-between"
+                    className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
                     label={
-                      this.props.valuesSet ? "Not Completed" : "Click to sign"
+                      this.props.valuesSet
+                        ? "Not Completed or Signed"
+                        : "Click to sign"
                     }
                     onClick={this.handleFieldInput}
                   />
                 )}
               </Col>
-            </Row>
-            <label className="control-label">Signature</label>{" "}
-            <div className="sigSection">
               <div
                 style={{
                   width: "100%",
                   display: "flex",
                   justifyContent: "center",
+                  visibility: this.state.ts40Approval ? "visible" : "hidden",
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
-                    this.sigCanvas = ref;
+                    this.sigCanvas40 = ref;
                   }}
                   style={{ border: "solid" }}
                   penColor="black"
@@ -3166,7 +5227,7 @@ class AwakeNightStaffSignoff extends Component {
                   backgroundColor="#eeee"
                 />
               </div>
-            </div>
+            </Row>
             {!this.props.formData.approved && (
               <>
                 <FormError errorId={this.props.id + "-error"} />

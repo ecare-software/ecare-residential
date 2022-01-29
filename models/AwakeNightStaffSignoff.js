@@ -82,6 +82,6 @@ const AwakeNightStaffSignoffSchema = new Schema({
 });
 
 module.exports = AwakeNightStaffSignoff = mongoose.model(
-  "awakeNightStaffSignoffSchema",
+  "awakeNightStaffSignoff",
   AwakeNightStaffSignoffSchema
 );
