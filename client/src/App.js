@@ -65,7 +65,7 @@ class App extends Component {
     toUserSelected: null,
     dmMessage: "",
     messages: [],
-    discussionMessagesLoading: false,
+    discussionMessagesLoading: true,
     showUploadModal: false,
     showClients: true,
     showTrainings: true,
@@ -195,7 +195,7 @@ class App extends Component {
   loadMessage = (userObj) => {
     this.setState({
       ...this.state,
-      discussionMessagesLoading: !this.state.discussionMessagesLoading,
+      discussionMessagesLoading: true,
     });
     Axios.get(`/api/discussionMessages/${userObj.homeId}`)
       .then((response) => {
@@ -203,13 +203,13 @@ class App extends Component {
           this.setState({
             discussionMessages: response.data,
             messagesInitLoad: true,
-            discussionMessagesLoading: !this.state.discussionMessagesLoading,
+            discussionMessagesLoading: false,
           });
         }, 1000);
       })
       .catch((error) => {
         this.setState({
-          discussionMessagesLoading: !this.state.discussionMessagesLoading,
+          discussionMessagesLoading: false,
         });
         alert(error);
       });
