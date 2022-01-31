@@ -207,7 +207,7 @@ class AwakeNightStaffSignoff extends Component {
         this.setState({
           ...this.state,
           formHasError: true,
-          formErrorMessage: `User signiture required to submit a form. Create a new signiture under 'Manage Profile'.`,
+          formErrorMessage: `User signature required to submit a form. Create a new signature under 'Manage Profile'.`,
         });
         return;
       }
@@ -339,7 +339,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>8:00am - 8:15am</label>
+                <label>8:00pm- 8:15pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts1Approval ? (
@@ -352,7 +352,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts1Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -400,7 +400,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>8:15am - 8:30am</label>
+                <label>8:15pm - 8:30pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts2Approval ? (
@@ -413,7 +413,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts2Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -461,7 +461,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>8:30am - 8:45am</label>
+                <label>8:30pm - 8:45pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts3Approval ? (
@@ -474,7 +474,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts3Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -522,7 +522,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>8:45am - 9:00am</label>
+                <label>8:45pm - 9:00pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts4Approval ? (
@@ -535,7 +535,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts4Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -583,7 +583,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>9:00am - 9:15am</label>
+                <label>9:00pm - 9:15pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts5Approval ? (
@@ -596,7 +596,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts5Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -644,7 +644,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>9:15am - 9:30am</label>
+                <label>9:15pm - 9:30pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts6Approval ? (
@@ -657,7 +657,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts6Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -705,7 +705,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>9:30am - 9:45am</label>
+                <label>9:30pm - 9:45pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts7Approval ? (
@@ -718,7 +718,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts7Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -766,7 +766,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>9:45am - 10:00am</label>
+                <label>9:45pm - 10:00pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts8Approval ? (
@@ -779,7 +779,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts8Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -827,7 +827,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>10:00am - 10:15am</label>
+                <label>10:00pm - 10:15pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts9Approval ? (
@@ -840,7 +840,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts9Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -888,7 +888,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>10:15am - 10:30am</label>
+                <label>10:15pm - 10:30pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts10Approval ? (
@@ -901,7 +901,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts10Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -949,7 +949,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>10:30am - 10:45am</label>
+                <label>10:30pm - 10:45pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts11Approval ? (
@@ -962,7 +962,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts11Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -1010,7 +1010,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>10:45am - 11:00am</label>
+                <label>10:45pm - 11:00pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts12Approval ? (
@@ -1023,7 +1023,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts12Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -1071,7 +1071,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>11:00am - 11:15am</label>
+                <label>11:00pm - 11:15pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts13Approval ? (
@@ -1084,7 +1084,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts13Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -1132,7 +1132,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>11:15am - 11:30am</label>
+                <label>11:15pm - 11:30pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts14Approval ? (
@@ -1145,7 +1145,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts14Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -1193,7 +1193,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>11:30am - 11:45am</label>
+                <label>11:30pm - 11:45pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts15Approval ? (
@@ -1206,7 +1206,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts15Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -1254,7 +1254,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>11:45am - 12:00pm</label>
+                <label>11:45pm - 12:00am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts16Approval ? (
@@ -1267,7 +1267,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts16Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -1315,7 +1315,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>12:00pm - 12:15pm</label>
+                <label>12:00am - 12:15am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts17Approval ? (
@@ -1328,7 +1328,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts17Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -1376,7 +1376,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>12:15pm - 12:30pm</label>
+                <label>12:15am - 12:30am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts18Approval ? (
@@ -1389,7 +1389,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts18Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -1437,7 +1437,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>12:30pm - 12:45pm</label>
+                <label>12:30am - 12:45am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts19Approval ? (
@@ -1450,7 +1450,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts19Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -1498,7 +1498,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>12:45pm - 1:00pm</label>
+                <label>12:45am - 1:00am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts20Approval ? (
@@ -1511,7 +1511,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts20Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -1559,7 +1559,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>1:00pm - 1:15pm</label>
+                <label>1:00am - 1:15am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts21Approval ? (
@@ -1572,7 +1572,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts21Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -1620,7 +1620,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>1:15pm - 1:30pm</label>
+                <label>1:15am - 1:30am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts22Approval ? (
@@ -1633,7 +1633,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts22Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -1681,7 +1681,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>1:30pm - 1:45pm</label>
+                <label>1:30am - 1:45am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts23Approval ? (
@@ -1694,7 +1694,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts23Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -1742,7 +1742,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>1:45pm - 2:00pm</label>
+                <label>1:45am - 2:00am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts24Approval ? (
@@ -1755,7 +1755,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts24Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -1803,7 +1803,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>2:00pm - 2:15pm</label>
+                <label>2:00am - 2:15am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts25Approval ? (
@@ -1816,7 +1816,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts25Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -1864,7 +1864,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>2:15pm - 2:30pm</label>
+                <label>2:15am - 2:30am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts26Approval ? (
@@ -1877,7 +1877,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts26Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -1925,7 +1925,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>2:30pm - 2:45pm</label>
+                <label>2:30am - 2:45am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts27Approval ? (
@@ -1938,7 +1938,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts27Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -1986,7 +1986,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>2:45pm - 3:00pm</label>
+                <label>2:45am - 3:00am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts28Approval ? (
@@ -1999,7 +1999,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts28Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -2047,7 +2047,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>3:00pm - 3:15pm</label>
+                <label>3:00am - 3:15am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts29Approval ? (
@@ -2060,7 +2060,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts29Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -2108,7 +2108,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>3:15pm - 3:30pm</label>
+                <label>3:15am - 3:30am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts30Approval ? (
@@ -2121,7 +2121,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts30Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -2169,7 +2169,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>3:30pm - 3:45pm</label>
+                <label>3:30am - 3:45am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts31Approval ? (
@@ -2182,7 +2182,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts31Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -2230,7 +2230,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>3:45pm - 4:00pm</label>
+                <label>3:45am - 4:00am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts32Approval ? (
@@ -2243,7 +2243,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts32Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -2291,7 +2291,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>4:00pm - 4:15pm</label>
+                <label>4:00am - 4:15am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts33Approval ? (
@@ -2304,7 +2304,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts33Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -2352,7 +2352,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>4:15pm - 4:30pm</label>
+                <label>4:15am - 4:30am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts34Approval ? (
@@ -2365,7 +2365,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts34Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -2413,7 +2413,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>4:30pm - 4:45pm</label>
+                <label>4:30am - 4:45am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts35Approval ? (
@@ -2426,7 +2426,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts35Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -2474,7 +2474,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>4:45pm - 5:00pm</label>
+                <label>4:45am - 5:00am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts36Approval ? (
@@ -2487,7 +2487,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts36Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -2535,7 +2535,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>5:00pm - 5:15pm</label>
+                <label>5:00am - 5:15am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts37Approval ? (
@@ -2548,7 +2548,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts37Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -2596,7 +2596,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>5:15pm - 5:30pm</label>
+                <label>5:15am - 5:30am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts38Approval ? (
@@ -2609,7 +2609,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts38Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -2657,7 +2657,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>5:30pm - 5:45pm</label>
+                <label>5:30am - 5:45am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts39Approval ? (
@@ -2670,7 +2670,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts39Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -2718,7 +2718,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>5:45pm - 6:00pm</label>
+                <label>5:45am - 6:00am</label>
               </Col>
               <Col md="6" className="control-label">
                 {this.state.ts40Approval ? (
@@ -2731,7 +2731,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts40Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -2833,7 +2833,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>8:00am - 8:15am</label>
+                <label>8:00pm - 8:15pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts1Approval ? (
@@ -2846,7 +2846,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts1Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     )}
                   </div>
@@ -2893,7 +2893,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>8:15am - 8:30am</label>
+                <label>8:15pm - 8:30pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts2Approval ? (
@@ -2906,7 +2906,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts2Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     )}
                   </div>
@@ -2953,7 +2953,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>8:30am - 8:45am</label>
+                <label>8:30pm - 8:45pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts3Approval ? (
@@ -2966,7 +2966,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts3Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -3013,7 +3013,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>8:45am - 9:00am</label>
+                <label>8:45pm - 9:00pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts4Approval ? (
@@ -3026,7 +3026,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts4Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -3073,7 +3073,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>9:00am - 9:15am</label>
+                <label>9:00pm - 9:15pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts5Approval ? (
@@ -3086,7 +3086,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts5Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -3133,7 +3133,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>9:15am - 9:30am</label>
+                <label>9:15pm - 9:30pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts6Approval ? (
@@ -3146,7 +3146,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts6Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -3193,7 +3193,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>9:30am - 9:45am</label>
+                <label>9:30pm - 9:45pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts7Approval ? (
@@ -3206,7 +3206,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts7Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -3253,7 +3253,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>9:45am - 10:00am</label>
+                <label>9:45pm - 10:00pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts8Approval ? (
@@ -3266,7 +3266,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts8Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -3313,7 +3313,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>10:00am - 10:15am</label>
+                <label>10:00pm - 10:15pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts9Approval ? (
@@ -3326,7 +3326,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts9Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -3373,7 +3373,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>10:15am - 10:30am</label>
+                <label>10:15pm - 10:30pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts10Approval ? (
@@ -3386,7 +3386,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts10Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -3433,7 +3433,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>10:30am - 10:45am</label>
+                <label>10:30pm - 10:45pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts11Approval ? (
@@ -3446,7 +3446,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts11Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -3493,7 +3493,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>10:45am - 11:00am</label>
+                <label>10:45pm - 11:00pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts12Approval ? (
@@ -3506,7 +3506,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts12Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -3553,7 +3553,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>11:00am - 11:15am</label>
+                <label>11:00pm - 11:15pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts13Approval ? (
@@ -3566,7 +3566,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts13Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -3613,7 +3613,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>11:15am - 11:30am</label>
+                <label>11:15pm - 11:30pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts14Approval ? (
@@ -3626,7 +3626,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts14Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -3673,7 +3673,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>11:30am - 11:45am</label>
+                <label>11:30pm - 11:45pm</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts15Approval ? (
@@ -3686,7 +3686,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts15Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -3733,7 +3733,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>11:45am - 12:00pm</label>
+                <label>11:45pm - 12:00am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts16Approval ? (
@@ -3746,7 +3746,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts16Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -3793,7 +3793,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>12:00pm - 12:15pm</label>
+                <label>12:00am - 12:15am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts17Approval ? (
@@ -3806,7 +3806,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts17Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -3853,7 +3853,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>12:15pm - 12:30pm</label>
+                <label>12:15am - 12:30am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts18Approval ? (
@@ -3866,7 +3866,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts18Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -3913,7 +3913,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>12:30pm - 12:45pm</label>
+                <label>12:30am - 12:45am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts19Approval ? (
@@ -3926,7 +3926,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts19Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -3973,7 +3973,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>12:45pm - 1:00pm</label>
+                <label>12:45am - 1:00am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts20Approval ? (
@@ -3986,7 +3986,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts20Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -4033,7 +4033,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>1:00pm - 1:15pm</label>
+                <label>1:00am - 1:15am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts21Approval ? (
@@ -4046,7 +4046,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts21Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -4093,7 +4093,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>1:15pm - 1:30pm</label>
+                <label>1:15am - 1:30am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts22Approval ? (
@@ -4106,7 +4106,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts22Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -4153,7 +4153,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>1:30pm - 1:45pm</label>
+                <label>1:30am - 1:45am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts23Approval ? (
@@ -4166,7 +4166,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts23Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -4213,7 +4213,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>1:45pm - 2:00pm</label>
+                <label>1:45am - 2:00am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts24Approval ? (
@@ -4226,7 +4226,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts24Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -4273,7 +4273,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>2:00pm - 2:15pm</label>
+                <label>2:00am - 2:15am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts25Approval ? (
@@ -4286,7 +4286,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts25Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -4333,7 +4333,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>2:15pm - 2:30pm</label>
+                <label>2:15am - 2:30am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts26Approval ? (
@@ -4346,7 +4346,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts26Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -4393,7 +4393,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>2:30pm - 2:45pm</label>
+                <label>2:30am - 2:45am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts27Approval ? (
@@ -4406,7 +4406,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts27Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -4453,7 +4453,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>2:45pm - 3:00pm</label>
+                <label>2:45am - 3:00am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts28Approval ? (
@@ -4466,7 +4466,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts28Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -4513,7 +4513,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>3:00pm - 3:15pm</label>
+                <label>3:00am - 3:15am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts29Approval ? (
@@ -4526,7 +4526,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts29Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -4573,7 +4573,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>3:15pm - 3:30pm</label>
+                <label>3:15am - 3:30am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts30Approval ? (
@@ -4586,7 +4586,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts30Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -4633,7 +4633,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>3:30pm - 3:45pm</label>
+                <label>3:30am - 3:45am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts31Approval ? (
@@ -4646,7 +4646,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts31Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -4693,7 +4693,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>3:45pm - 4:00pm</label>
+                <label>3:45am - 4:00am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts32Approval ? (
@@ -4706,7 +4706,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts32Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -4753,7 +4753,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>4:00pm - 4:15pm</label>
+                <label>4:00am - 4:15am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts33Approval ? (
@@ -4766,7 +4766,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts33Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -4813,7 +4813,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>4:15pm - 4:30pm</label>
+                <label>4:15am - 4:30am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts34Approval ? (
@@ -4826,7 +4826,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts34Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -4873,7 +4873,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>4:30pm - 4:45pm</label>
+                <label>4:30am - 4:45am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts35Approval ? (
@@ -4886,7 +4886,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts35Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -4933,7 +4933,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>4:45pm - 5:00pm</label>
+                <label>4:45am - 5:00am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts36Approval ? (
@@ -4946,7 +4946,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts36Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -4993,7 +4993,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>5:00pm - 5:15pm</label>
+                <label>5:00am - 5:15am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts37Approval ? (
@@ -5006,7 +5006,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts37Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -5053,7 +5053,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>5:15pm - 5:30pm</label>
+                <label>5:15am - 5:30am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts38Approval ? (
@@ -5066,7 +5066,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts38Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -5113,7 +5113,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>5:30pm - 5:45pm</label>
+                <label>5:30am - 5:45am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts39Approval ? (
@@ -5126,7 +5126,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts39Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>
@@ -5173,7 +5173,7 @@ class AwakeNightStaffSignoff extends Component {
                 md="6"
                 className="control-label d-flex align-items-center justify-content-center"
               >
-                <label>5:45pm - 6:00pm</label>
+                <label>5:45am - 6:00am</label>
               </Col>
               <Col md="6" className="control-label text-center">
                 {this.state.ts40Approval ? (
@@ -5186,7 +5186,7 @@ class AwakeNightStaffSignoff extends Component {
                           this.clearFieldInput("ts40Approval");
                         }}
                       >
-                        Signed. Remove signiture?
+                        Signed. Remove signature?
                       </a>
                     }
                   </div>

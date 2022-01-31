@@ -371,7 +371,7 @@ class AdmissionAssessment extends Component {
         this.setState({
           ...this.state,
           formHasError: true,
-          formErrorMessage: `User signiture required to submit a form. Create a new signiture under 'Manage Profile'.`,
+          formErrorMessage: `User signature required to submit a form. Create a new signature under 'Manage Profile'.`,
           loadingClients: false,
         });
         return;

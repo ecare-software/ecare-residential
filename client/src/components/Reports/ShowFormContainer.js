@@ -184,7 +184,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
 
   const getPostObjectData = async (type) => {
     let doFetchSig;
-    let signiture = null;
+    let signature = null;
     if (type === "nurse") {
       doFetchSig = !isApprovedByNurse === true;
     } else if (type === "alt1") {
@@ -205,14 +205,14 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
           !createdUserData.signature.length > 0
         ) {
           alert(
-            `User signiture required to update a form. Create a new signiture under 'Manage Profile'.`
+            `User signature required to update a form. Create a new signature under 'Manage Profile'.`
           );
           return {
             success: false,
             body: null,
           };
         }
-        signiture = createdUserData.signature;
+        signature = createdUserData.signature;
       } catch (e) {
         alert("Error update form state");
       }
@@ -228,7 +228,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
           approvedByNurse: userObj.email,
           approvedByNameNurse: `${userObj.firstName} ${userObj.lastName}`,
           approvedByDateNurse: new Date(),
-          approvedNurseSig: copy ? signiture : [],
+          approvedNurseSig: copy ? signature : [],
         },
       };
     } else if (type === "alt1") {
@@ -241,7 +241,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
           approvedBy_alt1: userObj.email,
           approvedByName_alt1: `${userObj.firstName} ${userObj.lastName}`,
           approvedByDate_alt1: new Date(),
-          approvedSig_alt1: copy ? signiture : [],
+          approvedSig_alt1: copy ? signature : [],
         },
       };
     } else {
@@ -254,7 +254,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
           approvedBy: userObj.email,
           approvedByName: `${userObj.firstName} ${userObj.lastName}`,
           approvedByDate: new Date(),
-          approvedSig: copy ? signiture : [],
+          approvedSig: copy ? signature : [],
         },
       };
     }
