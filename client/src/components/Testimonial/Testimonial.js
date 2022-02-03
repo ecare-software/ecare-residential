@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import Fade from "react-reveal/Fade";
 import caregiverAssistance from "../Header/images/Caregiver-Assistance.jpg";
 import "./Testimonial.css";
 
-const Testimonial = () => {
-  // const initialState = {};
-
-  return this.props.dir === "right" ? (
+const Testimonial = ({ dir }) => {
+  return dir === "right" ? (
     <div className="container-fluid testimonialContainer">
       <div className="testimonialRow row">
         <div className="col-sm-6">
