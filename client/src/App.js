@@ -35,6 +35,7 @@ import "./App.css";
 import Fade from "react-reveal/Fade";
 import ManageTraining from "./components/ManageTraining/ManageTraining";
 import { isAdminUser } from "./utils/AdminReportingRoles";
+import NightMonitoring from "./components/Forms/NightMonitoring";
 
 const hideStyle = {
   display: "none",
@@ -717,6 +718,18 @@ function ToggleScreen({
         <PreServiceTraining
           userObj={appState.userObj}
           allUsers={appState.allUsers}
+        />
+      </div>
+    );
+  }
+
+  if (name === "Night Monitoring") {
+    return (
+      <div>
+        <NightMonitoring
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="AwakeNightStaffSignoff"
         />
       </div>
     );

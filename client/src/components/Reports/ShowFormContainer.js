@@ -17,6 +17,7 @@ import { GetUserSig } from "../../utils/GetUserSig";
 import SignatureCanvas from "react-signature-canvas";
 import { FetchHomeData } from "../../utils/FetchHomeData";
 import { DoDeleteRecord } from "../../utils/DoDeleteRecord";
+import NightMonitoring from "../Forms/NightMonitoring";
 
 const needsNurseSig = ["Health Body Check", "Illness Injury"];
 
@@ -570,8 +571,10 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
       droute = "orientationTraining";
     } else if (name === "Pre Service Training") {
       droute = "preServiceTraining";
-    } else if (name === "AwakeNightStaffSignoff") {
+    } else if (name === "Awake Night Staff Signoff") {
       droute = "awakeNightStaffSignoff";
+    } else if (name === "Night Monitoring") {
+      droute = "nightMonitoring";
     }
 
     setRoute(droute);
@@ -687,9 +690,18 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
           doUpdateFormDates={doUpdateFormDates}
         />
       );
-    } else if (name === "AwakeNightStaffSignoff") {
+    } else if (name === "Awake Night Staff Signoff") {
       comp = (
         <AwakeNightStaffSignoff
+          valuesSet="true"
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    } else if (name === "Night Monitoring") {
+      comp = (
+        <NightMonitoring
           valuesSet="true"
           userObj={userObj}
           formData={updatedFormData}

@@ -1,50 +1,16 @@
 const express = require("express");
+const NightMonitoring = require("../../models/NightMonitoring");
 const router = express.Router();
 
-const AwakeNightStaffSignoff = require("../../models/AwakeNightStaffSignoff");
-
 router.post("/", (req, res) => {
-  const newAwakeNightStaffSignoff = new AwakeNightStaffSignoff({
-    ts1Approval: req.body.ts1Approval,
-    ts2Approval: req.body.ts2Approval,
-    ts3Approval: req.body.ts3Approval,
-    ts4Approval: req.body.ts4Approval,
-    ts5Approval: req.body.ts5Approval,
-    ts6Approval: req.body.ts6Approval,
-    ts7Approval: req.body.ts7Approval,
-    ts8Approval: req.body.ts8Approval,
-    ts9Approval: req.body.ts9Approval,
-    ts10Approval: req.body.ts10Approval,
-    ts11Approval: req.body.ts11Approval,
-    ts12Approval: req.body.ts12Approval,
-    ts13Approval: req.body.ts13Approval,
-    ts14Approval: req.body.ts14Approval,
-    ts15Approval: req.body.ts15Approval,
-    ts16Approval: req.body.ts16Approval,
-    ts17Approval: req.body.ts17Approval,
-    ts18Approval: req.body.ts18Approval,
-    ts19Approval: req.body.ts19Approval,
-    ts20Approval: req.body.ts20Approval,
-    ts21Approval: req.body.ts21Approval,
-    ts22Approval: req.body.ts22Approval,
-    ts23Approval: req.body.ts23Approval,
-    ts24Approval: req.body.ts24Approval,
-    ts25Approval: req.body.ts25Approval,
-    ts26Approval: req.body.ts26Approval,
-    ts27Approval: req.body.ts27Approval,
-    ts28Approval: req.body.ts28Approval,
-    ts29Approval: req.body.ts29Approval,
-    ts30Approval: req.body.ts30Approval,
-    ts31Approval: req.body.ts31Approval,
-    ts32Approval: req.body.ts32Approval,
-    ts33Approval: req.body.ts33Approval,
-    ts34Approval: req.body.ts34Approval,
-    ts35Approval: req.body.ts35Approval,
-    ts36Approval: req.body.ts36Approval,
-    ts37Approval: req.body.ts37Approval,
-    ts38Approval: req.body.ts38Approval,
-    ts39Approval: req.body.ts39Approval,
-    ts40Approval: req.body.ts40Approval,
+  const newNightMonitoring = new NightMonitoring({
+    date: req.body.date,
+    roomNumber: req.body.roomNumber,
+    timeChildAwake: req.body.timeChildAwake,
+    timeChildReturnBed: req.body.timeChildReturnBed,
+    reason: req.body.reason,
+    childMeta_name: req.body.childMeta_name,
+    signed: req.body.signed,
 
     createdBy: req.body.createdBy,
 
@@ -56,32 +22,32 @@ router.post("/", (req, res) => {
 
     homeId: req.body.homeId,
 
-    formType: "Awake Night Staff Signoff",
+    formType: "Night Monitoring",
   });
-  newAwakeNightStaffSignoff
+  newNightMonitoring
     .save()
-    .then((awakeNightStaffSignoff) => res.json(awakeNightStaffSignoff))
+    .then((nightMonitoring) => res.json(nightMonitoring))
     .catch((e) => {
       e;
     });
 });
 
 router.get("/:homeId", (req, res) => {
-  AwakeNightStaffSignoff.find({ homeId: req.params.homeId })
+  NightMonitoring.find({ homeId: req.params.homeId })
     .sort({ createDate: -1 })
     .exec()
-    .then((awakeNightStaffSignoff) => res.json(awakeNightStaffSignoff))
+    .then((nightMonitoring) => res.json(nightMonitoring))
     .catch((err) => res.status(404).json({ success: false }));
 });
 
 router.get("/:homeId/:email", (req, res) => {
-  AwakeNightStaffSignoff.find({
+  NightMonitoring.find({
     homeId: req.params.homeId,
     createdBy: req.params.email,
   })
     .sort({ createDate: -1 })
     .exec()
-    .then((awakeNightStaffSignoff) => res.json(awakeNightStaffSignoff))
+    .then((nightMonitoring) => res.json(nightMonitoring))
     .catch((err) => res.status(404).json({ success: false }));
 });
 
@@ -230,7 +196,7 @@ router.get(
       findObj.approved = req.params.approved;
     }
 
-    AwakeNightStaffSignoff.find(findObj)
+    NightMonitoring.find(findObj)
       .sort({ createDate: -1 })
       .exec()
       .then((incidentReports) => res.json(incidentReports))
@@ -248,15 +214,15 @@ router.get("/:homeId" + "/:submittedByA" + "/:lastEditDate", (req, res) => {
     findObj.createdBy = req.params.submittedByA;
   }
 
-  AwakeNightStaffSignoff.find(findObj)
+  NightMonitoring.find(findObj)
     .sort({ createDate: -1 })
     .exec()
-    .then((awakeNightStaffSignoff) => res.json(awakeNightStaffSignoff))
+    .then((nightMonitoring) => res.json(nightMonitoring))
     .catch((err) => res.status(404).json({ success: err }));
 });
 
 router.put("/:formId", (req, res) => {
-  AwakeNightStaffSignoff.updateOne({ _id: req.params.formId }, req.body)
+  NightMonitoring.updateOne({ _id: req.params.formId }, req.body)
     .then((data) => {
       res.json(data);
     })
@@ -267,10 +233,7 @@ router.put("/:formId", (req, res) => {
 
 router.put("/:homeId/:formId/", (req, res) => {
   const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
-  AwakeNightStaffSignoff.updateOne(
-    { _id: req.params.formId },
-    updatedLastEditDate
-  )
+  NightMonitoring.updateOne({ _id: req.params.formId }, updatedLastEditDate)
     .then((data) => {
       res.json(data);
     })
@@ -280,7 +243,7 @@ router.put("/:homeId/:formId/", (req, res) => {
 });
 
 router.delete("/:homeId/:formId/", (req, res) => {
-  AwakeNightStaffSignoff.deleteOne({ _id: req.params.formId })
+  NightMonitoring.deleteOne({ _id: req.params.formId })
     .then((data) => {
       res.json(data);
     })
