@@ -34,7 +34,7 @@ const SlidingNav = ({ toggleDisplay, toggleSlidingDiv, userObj, logOut }) => {
         <h5 className="navSectionTitle">User Actions</h5>
         <button
           className="navAction"
-          onClick={openModal("", "PostMessageModal")}
+          onClick={openModal("PostMessageModal")}
           data-toggle="modal"
           data-target="#postMessageModal"
         >
@@ -44,7 +44,7 @@ const SlidingNav = ({ toggleDisplay, toggleSlidingDiv, userObj, logOut }) => {
         {/* <button  className="navAction" data-toggle="modal" data-target="#UploadFileModal">
             <span className="fa fa-upload navG" />Upload a File
           </button> */}
-        <button className="navAction" onClick={openModal("", "PickFormModal")}>
+        <button className="navAction" onClick={openModal("PickFormModal")}>
           <span className="fa fa-file-upload navG" />
           Submit a Form
         </button>
@@ -62,7 +62,7 @@ const SlidingNav = ({ toggleDisplay, toggleSlidingDiv, userObj, logOut }) => {
         </button>
         <button
           style={userObj.isAdmin ? {} : hideStyle}
-          onClick={sideDivThenShow({}, "Dashboard")}
+          onClick={sideDivThenShow("Dashboard")}
           className="navAction"
         >
           <span className="fa fa-list navG" />
@@ -76,7 +76,7 @@ const SlidingNav = ({ toggleDisplay, toggleSlidingDiv, userObj, logOut }) => {
         </h5>
         <button
           style={userObj.isAdmin ? {} : hideStyle}
-          onClick={sideDivThenShow({}, "User Management")}
+          onClick={sideDivThenShow("User Management")}
           className="navAction"
         >
           <span className="fa fa-list navG" />
