@@ -11,14 +11,10 @@ const hideStyle = {
 };
 
 const SlidingNav = ({ toggleDisplay, toggleSlidingDiv, userObj, logOut }) => {
-  const initialState = {
-    showModal: "",
-  };
-
   const [showModal, setModal] = useState(initialState);
 
   openModal = (modalName) => {
-    setModal({ showModal: modalName });
+    setModal(modalName);
     toggleSlidingDiv();
   };
 
@@ -28,7 +24,7 @@ const SlidingNav = ({ toggleDisplay, toggleSlidingDiv, userObj, logOut }) => {
   };
 
   closeModals = () => {
-    setModal({ showModal: "" });
+    setModal("");
   };
 
   return (
