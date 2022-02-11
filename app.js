@@ -35,6 +35,7 @@ const allForms = require("./routes/api/allFormRoutes");
 const homes = require("./routes/api/home");
 const awakeNightStaffSignoff = require("./routes/api/awakeNightStaffSignoff");
 const nightMonitoring = require("./routes/api/nightMonitoring");
+const coinbase = require("./routes/api/coinbase");
 
 //user express
 const app = express();
@@ -95,6 +96,7 @@ app.use("/api/forms", allForms);
 app.use("/api/home", homes);
 app.use("/api/awakeNightStaffSignoff", awakeNightStaffSignoff);
 app.use("/api/nightMonitoring", nightMonitoring);
+app.use("/api/coinbase", coinbase);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
