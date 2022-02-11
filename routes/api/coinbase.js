@@ -18,7 +18,7 @@ function rawBody(req, res, next) {
 }
 router.post("/confirm", async (req, res) => {
   try {
-    console.log(req.rawBody);
+    console.log(req);
     // const rawBody = req.rawBody;
     // const signature = req.headers["x-cc-webhook-signature"];
     // const webhookSecret = "2100833d-fec5-48c0-b671-89f3b309075b";
@@ -65,7 +65,7 @@ router.post("/confirm", async (req, res) => {
     //   );
     // }
 
-    res.status(200).json(req.rawBody);
+    res.status(200).json(req);
   } catch (e) {
     console.log(`Failed confirm pay with coinbase ${e}`);
     res.status(500).send(`Coinbase Error ${e}`);
