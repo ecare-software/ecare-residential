@@ -44,6 +44,13 @@ const app = express();
 //  Body Parser middleware
 app.use(bodyParser.json());
 app.use(methodOverride("_method"));
+app.use(
+  bodyParser.json({
+    verify: (req, res, buf) => {
+      req.rawBody = buf;
+    },
+  })
+);
 
 // get/connet to db
 const db = require("./config/keys").mongoURI;
