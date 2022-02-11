@@ -1,7 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const { Webhook } = require("coinbase-commerce-node");
-
+router.use(
+  express.json({
+    verify: (req, res, buf) => {
+      req.rawBody = buf;
+    },
+  })
+);
 router.post("/confirm", async (req, res) => {
   try {
     const rawBody = req.body;

@@ -35,7 +35,6 @@ const allForms = require("./routes/api/allFormRoutes");
 const homes = require("./routes/api/home");
 const awakeNightStaffSignoff = require("./routes/api/awakeNightStaffSignoff");
 const nightMonitoring = require("./routes/api/nightMonitoring");
-const coinbase = require("./routes/api/coinbase");
 
 //user express
 const app = express();
@@ -44,13 +43,6 @@ const app = express();
 //  Body Parser middleware
 app.use(bodyParser.json());
 app.use(methodOverride("_method"));
-app.use(
-  bodyParser.json({
-    verify: (req, res, buf) => {
-      req.rawBody = buf;
-    },
-  })
-);
 
 // get/connet to db
 const db = require("./config/keys").mongoURI;
@@ -103,7 +95,6 @@ app.use("/api/forms", allForms);
 app.use("/api/home", homes);
 app.use("/api/awakeNightStaffSignoff", awakeNightStaffSignoff);
 app.use("/api/nightMonitoring", nightMonitoring);
-app.use("/api/coinbase", coinbase);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
