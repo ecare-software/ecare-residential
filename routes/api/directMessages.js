@@ -105,10 +105,10 @@ router.post("/", async (req, res) => {
   var toObj = req.body.toObj;
   var fromObj = req.body.fromObj;
   var toEmail = req.body.toID.toLocaleLowerCase();
-  var toName = `${toObj?.firstName} ${toObj?.lastName}`;
+  var toName = toObj ? `${toObj.firstName} ${toObj.lastName}` : null;
   var homeId = req.body.homeId;
   var fromEmail = req.body.fromID;
-  var fromName = `${fromObj?.firstName} ${fromObj?.lastName}`;
+  var fromName = fromObj ? `${fromObj.firstName} ${fromObj.lastName}` : null;
   var message = req.body.message;
   var date = req.body.date;
 
