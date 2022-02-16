@@ -76,6 +76,7 @@ class App extends Component {
       updateCount: this.doFetchFormApprovalCount,
     },
     flip: false,
+    showMessageSent: false,
   };
 
   doFetchFormApprovalCount = async () => {
@@ -398,17 +399,33 @@ class App extends Component {
           homeId: this.state.userObj.homeId,
         });
 
+        this.setState({
+          ...this.state,
+          showMessageSent: true,
+          dmMessage: "",
+        });
+
         const { data } = await Axios.get(
           `/api/directMessages/${this.state.userObj.email}/${this.state.userObj.homeId}`
         );
 
         this.setState({
           ...this.state,
-          dmMessage: "",
           messages: data,
         });
+
+        setTimeout(() => {
+          this.setState({
+            ...this.state,
+            showMessageSent: false,
+          });
+        }, 2000);
       } catch (e) {
         alert("Error sending message");
+        this.setState({
+          ...this.state,
+          showMessageSent: false,
+        });
         console.log(e);
       }
     }
@@ -1294,6 +1311,20 @@ function DisplayExtra({
                 }}
                 placeholder="Type your message here.."
               ></textarea>
+              <div style={{ height: 30, width: "100%", margin: "0px 5px" }}>
+                {appState.showMessageSent && (
+                  <p
+                    style={{
+                      color: "green",
+                      background: "#00800038",
+                      textAlign: "center",
+                      borderRadius: 5,
+                    }}
+                  >
+                    message sent
+                  </p>
+                )}
+              </div>
               <button
                 onClick={() => {
                   if (appState.dmMessage.length > 0 && appState.dmTo) sendDM();
