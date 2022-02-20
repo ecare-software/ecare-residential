@@ -16,6 +16,7 @@ router.post("/", (req, res) => {
     nurse_designee_title: req.body.nurse_designee_title,
     nurse_designee_date: req.body.nurse_designee_date,
     head: req.body.head,
+    face: req.body.face,
     left_ear: req.body.left_ear,
     right_ear: req.body.right_ear,
     left_eye: req.body.left_eye,

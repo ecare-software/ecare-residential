@@ -38,6 +38,7 @@ class BodyCheck extends Component {
       nurse_designee_date: "",
 
       head: -1,
+      face: -1,
 
       left_ear: -1,
       right_ear: -1,
@@ -153,6 +154,7 @@ class BodyCheck extends Component {
       nurse_designee_date: "",
 
       head: -1,
+      face: -1,
 
       left_ear: -1,
       right_ear: -1,
@@ -278,6 +280,7 @@ class BodyCheck extends Component {
       "formSubmitted",
       "formErrorMessage",
       "head",
+      "face",
       "left_ear",
       "right_ear",
       "left_eye",
@@ -528,6 +531,29 @@ class BodyCheck extends Component {
                   onChange={this.handleFieldInput}
                   value={this.state.head}
                   id="head"
+                >
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>11</option>
+                  <option>Other</option>
+                  <option value={-1}>N/A</option>
+                </Form.Control>
+              </div>
+              <div className="form-group logInInputField">
+                <label className="control-label text-capitalize">face</label>{" "}
+                <Form.Control
+                  as="select"
+                  onChange={this.handleFieldInput}
+                  value={this.state.face}
+                  id="face"
                 >
                   <option>1</option>
                   <option>2</option>
@@ -1429,6 +1455,29 @@ class BodyCheck extends Component {
                     onChange={this.handleFieldInput}
                     value={this.state.head}
                     id="head"
+                  >
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <option>11</option>
+                    <option>Other</option>
+                    <option value={-1}>N/A</option>
+                  </Form.Control>
+                </div>
+                <div className="form-group logInInputField">
+                  <label className="control-label text-capitalize">face</label>{" "}
+                  <Form.Control
+                    as="select"
+                    onChange={this.handleFieldInput}
+                    value={this.state.face}
+                    id="face"
                   >
                     <option>1</option>
                     <option>2</option>
