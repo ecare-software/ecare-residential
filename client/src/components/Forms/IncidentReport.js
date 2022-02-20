@@ -12,6 +12,7 @@ import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
 import { FormSavedAlert } from "../../utils/FormSavedAlert";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 import TextareaAutosize from "react-textarea-autosize";
+import StaffOption from "../../utils/StaffOption.util";
 
 class IncidentReport extends Component {
   constructor(props) {
@@ -90,7 +91,10 @@ class IncidentReport extends Component {
 
       loadingSig: true,
 
+      loadingStaff: true,
+
       clients: [],
+      staff: [],
       clientId: "",
     };
   }
@@ -262,6 +266,7 @@ class IncidentReport extends Component {
       "client_witness_doa2",
       "client_witness_name2",
       "loadingClients",
+      "loadingStaff",
     ];
 
     //resubmit fields
@@ -334,7 +339,7 @@ class IncidentReport extends Component {
         this.setState({
           ...this.state,
           clients,
-          loadingClients: !this.state.loadingClients,
+          loadingClients: false,
         });
       }, 2000);
     } catch (e) {
@@ -343,11 +348,35 @@ class IncidentReport extends Component {
     }
   };
 
+  getStaff = async () => {
+    try {
+      let { data: staff } = await Axios.get(
+        `/api/users/${this.props.userObj.homeId}`
+      );
+
+      staff = staff.filter((staff) => {
+        return !staff.hasOwnProperty("active") || staff.active === true;
+      });
+
+      setTimeout(() => {
+        this.setState({
+          ...this.state,
+          staff,
+          loadingStaff: false,
+        });
+      }, 2000);
+    } catch (e) {
+      console.log(e);
+      alert("Error loading staff");
+    }
+  };
+
   componentDidMount() {
     if (this.props.valuesSet) {
       this.setValues();
     } else {
       this.getClients();
+      this.getStaff();
     }
   }
 
@@ -364,6 +393,19 @@ class IncidentReport extends Component {
         // }
       });
       await this.setState({ ...clonedState, clientId: client._id });
+    }
+  };
+
+  handleStaffSelect = async (val, stateValToSet) => {
+    if (val !== null) {
+      try {
+        let staff = JSON.parse(val);
+        staff = `${staff.firstName} ${staff.lastName}`;
+
+        await this.setState({ ...this.state, ...{ [stateValToSet]: staff } });
+      } catch (e) {
+        alert("Error parsing staff user data");
+      }
     }
   };
 
@@ -389,7 +431,7 @@ class IncidentReport extends Component {
           <div className="formTitleDiv">
             <h2 className="formTitle">Incident Report</h2>
           </div>
-          {this.state.loadingClients ? (
+          {this.state.loadingClients && this.state.loadingStaff ? (
             <div className="formLoadingDiv">
               <div>
                 <ClipLoader
@@ -479,13 +521,23 @@ class IncidentReport extends Component {
                 <label className="control-label">
                   Name of Care Staff Involved
                 </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id="staff_involved_name"
-                  value={this.state.staff_involved_name}
-                  className="form-control"
-                  type="text"
-                />{" "}
+                <Form.Control
+                  as="select"
+                  defaultValue={null}
+                  onChange={(e) => {
+                    this.handleStaffSelect(
+                      e.target.value,
+                      "staff_involved_name"
+                    );
+                  }}
+                >
+                  {[null, ...this.state.staff].map(
+                    (staff) => (
+                      <StaffOption data={staff} />
+                    ),
+                    []
+                  )}
+                </Form.Control>
               </div>
 
               <div className="form-group logInInputField">
@@ -523,13 +575,23 @@ class IncidentReport extends Component {
                 <label className="control-label">
                   Name of Staff Witness
                 </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id="staff_witness_name"
-                  value={this.state.staff_witness_name}
-                  className="form-control"
-                  type="text"
-                />{" "}
+                <Form.Control
+                  as="select"
+                  defaultValue={null}
+                  onChange={(e) => {
+                    this.handleStaffSelect(
+                      e.target.value,
+                      "staff_witness_name"
+                    );
+                  }}
+                >
+                  {[null, ...this.state.staff].map(
+                    (staff) => (
+                      <StaffOption data={staff} />
+                    ),
+                    []
+                  )}
+                </Form.Control>
               </div>
 
               <div className="form-group logInInputField">
@@ -826,7 +888,7 @@ class IncidentReport extends Component {
           </div>
 
           <div className="formFieldsMobileReport">
-            {this.state.loadingClients ? (
+            {this.state.loadingClients && this.state.loadingStaff ? (
               <div className="formLoadingDiv">
                 <div>
                   <ClipLoader
