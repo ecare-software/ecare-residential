@@ -44,6 +44,9 @@ const BodyCheckSchema = new Schema({
   head: {
     type: Number,
   },
+  face: {
+    type: Number,
+  },
   left_ear: {
     type: Number,
   },
