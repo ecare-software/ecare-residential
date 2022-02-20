@@ -3,6 +3,7 @@ import "./ReportsContainer.css";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 import { FromReports } from "./FormReports";
 import { TrainingReports } from "./TrainingReports";
+import AllReports from "./AllReports";
 
 const ReportsContainer = (props) => {
   const [{ showForms, showTrainings }, setState] = useState({
@@ -21,53 +22,12 @@ const ReportsContainer = (props) => {
   };
 
   return !showForms && !showTrainings ? (
-    <div style={{ marginTop: "50px" }}>
-      <div className="row" style={{ margin: "0px 30px" }}>
-        <div className="formTitleDiv" style={{ width: "100%" }}>
-          <h2 className="formTitle">Reports{"  "}</h2>
-          <hr />
-          <h2 className="formTitle">
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-evenly",
-              }}
-            >
-              <button
-                className="btn btn-light extraInfoButton"
-                onClick={() => {
-                  showFormReports();
-                }}
-              >
-                Form Reports
-              </button>
-            </div>
-          </h2>
-          {isAdminUser(props.userObj) && (
-            <h2 className="formTitle">
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "space-evenly",
-                }}
-              >
-                <button
-                  className="btn btn-light extraInfoButton"
-                  onClick={() => {
-                    showTrainingReports();
-                  }}
-                >
-                  Internal Trainings
-                </button>
-              </div>
-            </h2>
-          )}
-        </div>
-      </div>
-      <div className="reportBtnsMobile"></div>
-    </div>
+    <AllReports
+      showFormReports={showFormReports}
+      showTrainingReports={showTrainingReports}
+      userObj={props.userObj}
+      allUsers={props.allUsers}
+    />
   ) : showForms ? (
     <div>
       <FromReports
