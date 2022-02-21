@@ -470,7 +470,7 @@ class RestraintReport extends Component {
             <React.Fragment />
           )}
           <div className="formTitleDiv">
-            <h2 className="formTitle">Restriant Report</h2>
+            <h2 className="formTitle">Restraint Report</h2>
           </div>
           {this.state.loadingClients && this.state.loadingStaff ? (
             <div className="formLoadingDiv">
@@ -1105,7 +1105,7 @@ class RestraintReport extends Component {
             <React.Fragment />
           )}
           <div className="formTitleDivReport">
-            <h2 className="formTitle">Restriant Report</h2>
+            <h2 className="formTitle">Restraint Report</h2>
           </div>
 
           <div className="formFieldsMobileReport">
