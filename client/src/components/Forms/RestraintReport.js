@@ -27,7 +27,6 @@ class RestraintReport extends Component {
       time_of_incident: "",
       staff_witness_name: "",
       staff_witness_gender: "",
-      staff_witness_name: "",
 
       staff_witness_gender: "",
 
@@ -158,7 +157,6 @@ class RestraintReport extends Component {
       time_of_incident: "",
       staff_witness_name: "",
       staff_witness_gender: "",
-      staff_witness_name: "",
 
       staff_witness_gender: "",
 
