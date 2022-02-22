@@ -187,12 +187,14 @@ class IncidentReport extends Component {
 
   submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
+    delete currentState.staff;
+    delete currentState.clients;
     if (this.props.valuesSet) {
       try {
         await Axios.put(
           `/api/incidentReport/${this.state.homeId}/${this.props.formData._id}`,
           {
-            ...this.state,
+            ...currentState,
           }
         );
         this.props.doUpdateFormDates();
