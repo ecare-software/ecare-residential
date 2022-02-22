@@ -204,10 +204,12 @@ class IncidentReport extends Component {
       } catch (e) {
         this.setState({
           formHasError: true,
-          formErrorMessage: `Error Submitting Incident Report ${e}`,
+          formErrorMessage: `Error Submitting Incident Report - ${JSON.stringify(
+            e
+          )}`,
           loadingClients: false,
         });
-        console.log(e);
+        console.log(JSON.stringify(e));
       }
     } else {
       currentState.createdBy = this.props.userObj.email;
@@ -225,10 +227,12 @@ class IncidentReport extends Component {
         .catch((e) => {
           this.setState({
             formHasError: true,
-            formErrorMessage: `Error Submitting Incident Report ${e}`,
+            formErrorMessage: `Error Submitting Incident Report - ${JSON.stringify(
+              e
+            )}`,
             loadingClients: false,
           });
-          console.log(e);
+          console.log(JSON.stringify(e));
         });
     }
   };
