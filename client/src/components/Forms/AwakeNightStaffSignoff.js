@@ -154,7 +154,7 @@ class AwakeNightStaffSignoff extends Component {
         await Axios.put(
           `/api/awakeNightStaffSignoff/${this.state.homeId}/${this.props.formData._id}`,
           {
-            ...this.state,
+            ...currentState,
           }
         );
         this.props.doUpdateFormDates();

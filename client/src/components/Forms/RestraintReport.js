@@ -437,6 +437,42 @@ class RestraintReport extends Component {
     }
   };
 
+  handleClientSelectWithness1 = async (event) => {
+    if (event.target.value !== null) {
+      try {
+        const client = JSON.parse(event.target.value);
+        await this.setState({
+          ...this.state,
+          client_witness_name1: client.childMeta_name,
+          client_witness_gender1: client.childMeta_gender,
+          client_witness_dob1: client.childMeta_dob,
+          client_witness_doa1: client.childMeta_dateOfAdmission,
+        });
+      } catch (e) {
+        alert("Error parsing data");
+        console.log(e);
+      }
+    }
+  };
+
+  handleClientSelectWithness2 = async (event) => {
+    if (event.target.value !== null) {
+      try {
+        const client = JSON.parse(event.target.value);
+        await this.setState({
+          ...this.state,
+          client_witness_name2: client.childMeta_name,
+          client_witness_gender2: client.childMeta_gender,
+          client_witness_dob2: client.childMeta_dob,
+          client_witness_doa2: client.childMeta_dateOfAdmission,
+        });
+      } catch (e) {
+        alert("Error parsing data");
+        console.log(e);
+      }
+    }
+  };
+
   handleStaffSelect = async (val, stateValToSet) => {
     if (val !== null) {
       try {
@@ -641,13 +677,18 @@ class RestraintReport extends Component {
                 <label className="control-label">
                   Name of Client Witness (1)
                 </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id="client_witness_name1"
-                  value={this.state.client_witness_name1}
-                  className="form-control"
-                  type="text"
-                />{" "}
+                <Form.Control
+                  as="select"
+                  defaultValue={null}
+                  onChange={this.handleClientSelectWithness1}
+                >
+                  {[null, ...this.state.clients].map(
+                    (client, idx) => (
+                      <ClientOption key={`${idx}`} data={client} />
+                    ),
+                    []
+                  )}
+                </Form.Control>
               </div>
 
               <div className="form-group logInInputField">
@@ -702,13 +743,18 @@ class RestraintReport extends Component {
                 <label className="control-label">
                   Name Client Witness (2)
                 </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id="client_witness_name2"
-                  value={this.state.client_witness_name2}
-                  className="form-control"
-                  type="text"
-                />{" "}
+                <Form.Control
+                  as="select"
+                  defaultValue={null}
+                  onChange={this.handleClientSelectWithness2}
+                >
+                  {[null, ...this.state.clients].map(
+                    (client, idx) => (
+                      <ClientOption key={`${idx}`} data={client} />
+                    ),
+                    []
+                  )}
+                </Form.Control>
               </div>
 
               <div className="form-group logInInputField">

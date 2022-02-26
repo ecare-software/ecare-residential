@@ -118,7 +118,7 @@ class FaceSheet extends Component {
     if (this.props.valuesSet) {
       Axios.put(
         `/api/client/${this.state.homeId}/${this.state._id}`,
-        this.state
+        currentState
       )
         .then((res) => {
           window.scrollTo(0, 0);
