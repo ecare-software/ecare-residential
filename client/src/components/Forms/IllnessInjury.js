@@ -114,7 +114,7 @@ class IllnessInjury extends Component {
         await Axios.put(
           `/api/illnessInjury/${this.state.homeId}/${this.props.formData._id}`,
           {
-            ...this.state,
+            ...currentState,
           }
         );
         this.props.doUpdateFormDates();

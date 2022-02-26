@@ -155,6 +155,7 @@ class DailyProgressAndActivity extends Component {
 
   submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
+    delete currentState.clients;
     if (this.props.valuesSet) {
       if (currentState.createDate) {
         const patchedDate = new Date(currentState.createDate).toISOString();
@@ -164,7 +165,7 @@ class DailyProgressAndActivity extends Component {
         await Axios.put(
           `/api/dailyProgressAndActivity/${this.state.homeId}/${this.props.formData._id}`,
           {
-            ...this.state,
+            ...currentState,
           }
         );
         this.props.doUpdateFormDates(currentState.createDate);

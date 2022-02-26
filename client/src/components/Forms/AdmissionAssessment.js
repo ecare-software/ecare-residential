@@ -313,7 +313,7 @@ class AdmissionAssessment extends Component {
         await Axios.put(
           `/api/admissionAssessment/${this.state.homeId}/${this.props.formData._id}`,
           {
-            ...this.state,
+            ...currentState,
           }
         );
         this.props.doUpdateFormDates();
