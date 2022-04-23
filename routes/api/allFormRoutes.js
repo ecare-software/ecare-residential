@@ -121,7 +121,7 @@ router.get("/count/:status/:homeId", async (req, res) => {
     formPromises.push(
       IncidentReport.find({
         homeId: req.params.homeId,
-        ...getApprovalFilter(approved),
+        approved,
       })
     );
   } catch (e) {
@@ -143,7 +143,7 @@ router.get("/count/:status/:homeId", async (req, res) => {
     formPromises.push(
       SeriousIncidentReport.find({
         homeId: req.params.homeId,
-        ...getApprovalFilter(approved),
+        approved,
       })
     );
   } catch (e) {
@@ -284,7 +284,6 @@ router.get("/count/:homeId", async (req, res) => {
     acc = acc + formTypePromise.length;
     return acc;
   }, 0);
-  console.log(completedPromisses);
   res.json({
     count,
     homeId,

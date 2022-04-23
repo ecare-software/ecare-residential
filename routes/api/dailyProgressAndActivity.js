@@ -48,7 +48,7 @@ router.post("/", (req, res) => {
 
     createDate: req.body.createDate
       ? req.body.createDate
-      : new Date(new Date().setHours(0, 0, 0, 0)).toISOString(),
+      : new Date().toISOString(),
 
     homeId: req.body.homeId,
 
