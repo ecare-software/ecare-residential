@@ -317,11 +317,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
         <h6 style={{ fontWeight: 300 }}>
           {` ${formData.createdByName}, ${
             formData.lastEditDate
-              ? `${
-                  new Date(formData.lastEditDate).getUTCMonth() + 1
-                }/${new Date(formData.lastEditDate).getUTCDate()}/${new Date(
-                  formData.lastEditDate
-                ).getFullYear()}`
+              ? `${new Date(formData.lastEditDate).toLocaleDateString()}`
               : ""
           }`}
         </h6>
@@ -330,10 +326,8 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
         <h6 style={{ fontWeight: 400, marginRight: 5 }}>Created Date</h6>{" "}
         <h6 style={{ fontWeight: 300 }}>
           {` ${formData.createdByName}, ${
-            formData.lastEditDate
-              ? `${new Date(formData.createDate).getUTCMonth() + 1}/${new Date(
-                  formData.createDate
-                ).getUTCDate()}/${new Date(formData.createDate).getFullYear()}`
+            formData.createdByName
+              ? `${new Date(formData.createDate).toLocaleDateString()}`
               : ""
           }`}
         </h6>
