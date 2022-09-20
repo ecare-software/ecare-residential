@@ -263,7 +263,7 @@ router.put("/:homeId/:formId/", (req, res) => {
   const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
   AdmissionAssessment.updateOne({ _id: req.params.formId }, updatedLastEditDate)
     .then((data) => {
-      res.json(data);
+      res.json(updatedLastEditDate);
     })
     .catch((e) => {
       console.log(e);

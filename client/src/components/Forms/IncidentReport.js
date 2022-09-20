@@ -13,7 +13,8 @@ import { FormSavedAlert } from "../../utils/FormSavedAlert";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 import TextareaAutosize from "react-textarea-autosize";
 import StaffOption from "../../utils/StaffOption.util";
-
+var interval = 0; // used for autosaving
+let initAutoSave = false;
 class IncidentReport extends Component {
   constructor(props) {
     super(props);
@@ -77,7 +78,7 @@ class IncidentReport extends Component {
           ? ""
           : this.props.userObj.firstName + " " + this.props.userObj.lastName,
 
-      lastEditDate: new Date(),
+      lastEditDate: null,
 
       homeId: this.props.valuesSet === true ? "" : this.props.userObj.homeId,
 
@@ -185,25 +186,28 @@ class IncidentReport extends Component {
     });
   };
 
-  submit = async () => {
+  // auto save
+  autoSave = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-    delete currentState.staff;
     delete currentState.clients;
-    if (this.props.valuesSet) {
+    console.log("auto saving");
+    if (initAutoSave) {
+      console.log("updating existing form");
       try {
-        await Axios.put(
-          `/api/incidentReport/${this.state.homeId}/${this.props.formData._id}`,
+        const { data } = await Axios.put(
+          `/api/incidentReport/${this.state.homeId}/${this.state._id}`,
           {
             ...currentState,
           }
         );
-        this.props.doUpdateFormDates();
-        window.scrollTo(0, 0);
-        this.toggleSuccessAlert();
-        setTimeout(() => {
-          this.toggleSuccessAlert();
-        }, 2000);
+
+        const { createDate, ...savedData } = {
+          ...this.state,
+          ...data,
+        };
+        this.setState({ ...this.state, ...savedData });
       } catch (e) {
+        console.log(e);
         this.setState({
           formHasError: true,
           formErrorMessage: `Error Submitting Incident Report - ${JSON.stringify(
@@ -211,7 +215,72 @@ class IncidentReport extends Component {
           )}`,
           loadingClients: false,
         });
-        console.log(JSON.stringify(e));
+      }
+    } else {
+      console.log("creating");
+      currentState.createdBy = this.props.userObj.email;
+      currentState.createdByName =
+        this.props.userObj.firstName + " " + this.props.userObj.lastName;
+
+      Axios.post("/api/incidentReport", currentState)
+        .then((res) => {
+          initAutoSave = true;
+          const { createDate, ...savedData } = {
+            ...this.state,
+            ...res.data,
+          };
+
+          this.setState({
+            ...this.state,
+            ...savedData,
+          });
+        })
+        .catch((e) => {
+          console.log(e);
+          this.setState({
+            formHasError: true,
+            formErrorMessage: `Error Submitting Incident Report - ${JSON.stringify(
+              e
+            )}`,
+            loadingClients: false,
+          });
+        });
+    }
+  };
+
+  submit = async () => {
+    let currentState = JSON.parse(JSON.stringify(this.state));
+    delete currentState.clients;
+    initAutoSave = false;
+    clearInterval(interval);
+    if (this.props.valuesSet || this.state._id) {
+      try {
+        const { data } = await Axios.put(
+          `/api/incidentReport/${this.state.homeId}/${this.state._id}`,
+          {
+            ...currentState,
+          }
+        );
+
+        const { createDate, ...savedData } = {
+          ...this.state,
+          ...data,
+        };
+        this.setState({ ...this.state, ...savedData });
+        window.scrollTo(0, 0);
+        this.toggleSuccessAlert();
+        // setTimeout(() => {
+        //   this.toggleSuccessAlert();
+        // }, 2000);
+      } catch (e) {
+        console.log(e);
+        this.setState({
+          formHasError: true,
+          formErrorMessage: `Error Submitting Incident Report - ${JSON.stringify(
+            e
+          )}`,
+          loadingClients: false,
+        });
       }
     } else {
       currentState.createdBy = this.props.userObj.email;
@@ -227,6 +296,7 @@ class IncidentReport extends Component {
           }
         })
         .catch((e) => {
+          console.log(e);
           this.setState({
             formHasError: true,
             formErrorMessage: `Error Submitting Incident Report - ${JSON.stringify(
@@ -234,7 +304,6 @@ class IncidentReport extends Component {
             )}`,
             loadingClients: false,
           });
-          console.log(JSON.stringify(e));
         });
     }
   };
@@ -316,6 +385,11 @@ class IncidentReport extends Component {
 
     this.submit();
   };
+  componentWillUnmount() {
+    console.log("clearing auto save interval");
+    initAutoSave = false;
+    clearInterval(interval);
+  }
 
   setSignature = (userObj) => {
     if (userObj.signature && userObj.signature.length) {
@@ -379,12 +453,14 @@ class IncidentReport extends Component {
     }
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     if (this.props.valuesSet) {
       this.setValues();
     } else {
-      this.getClients();
-      this.getStaff();
+      await this.getClients();
+      interval = setInterval(() => {
+        this.autoSave();
+      }, 10000);
     }
   }
 
@@ -392,15 +468,19 @@ class IncidentReport extends Component {
     if (event.target.value !== null) {
       const client = JSON.parse(event.target.value);
       const clonedState = { ...this.state };
+      const id = clonedState._id;
+      const lastEditDate = clonedState.lastEditDate;
       Object.keys(client).forEach((key) => {
-        if (clonedState.hasOwnProperty(key)) {
+        if (!key.includes("create") && clonedState.hasOwnProperty(key)) {
           clonedState[key] = client[key];
         }
-        // if (key.includes("childMeta_placeOfBirth")) {
-        // clonedState.childMeta_placeOfBirth = `${client[key]} `;
-        // }
       });
-      await this.setState({ ...clonedState, clientId: client._id });
+      await this.setState({
+        ...clonedState,
+        clientId: client._id,
+        _id: id,
+        lastEditDate,
+      });
     }
   };
 
@@ -474,6 +554,24 @@ class IncidentReport extends Component {
           )}
           <div className="formTitleDiv">
             <h2 className="formTitle">Incident Report</h2>
+            <h5
+              className="text-center"
+              style={{ color: "rgb(119 119 119 / 93%)" }}
+            >
+              {this.state.lastEditDate ? (
+                <i>
+                  {" "}
+                  Last Saved:
+                  {`${new Date(this.state.lastEditDate)
+                    .toTimeString()
+                    .replace(/\s.*/, "")} - ${new Date(
+                    this.state.lastEditDate
+                  ).toDateString()}`}
+                </i>
+              ) : (
+                "-"
+              )}
+            </h5>
           </div>
           {this.state.loadingClients && this.state.loadingStaff ? (
             <div className="formLoadingDiv">
