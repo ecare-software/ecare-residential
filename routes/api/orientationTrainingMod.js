@@ -101,7 +101,7 @@ router.put("/:homeId/:formId/", (req, res) => {
     updatedLastEditDate
   )
     .then((data) => {
-      res.json(data);
+      res.json(updatedLastEditDate);
     })
     .catch((e) => {
       console.log(e);
