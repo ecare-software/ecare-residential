@@ -647,11 +647,7 @@ class TreatmentPlan72 extends Component {
           }
         );
 
-        const { createDate, ...savedData } = {
-          ...this.state,
-          ...data,
-        };
-        this.setState({ ...this.state, ...savedData });
+        this.setState({ ...this.state, ...data });
       } catch (e) {
         console.log(e);
         this.setState({
@@ -669,14 +665,10 @@ class TreatmentPlan72 extends Component {
       Axios.post("/api/treatmentPlans72", currentState)
         .then((res) => {
           initAutoSave = true;
-          const { createDate, ...savedData } = {
-            ...this.state,
-            ...res.data,
-          };
 
           this.setState({
             ...this.state,
-            ...savedData,
+            ...res.data,
           });
         })
         .catch((e) => {
@@ -704,11 +696,7 @@ class TreatmentPlan72 extends Component {
           }
         );
 
-        const { createDate, ...savedData } = {
-          ...this.state,
-          ...data,
-        };
-        this.setState({ ...this.state, ...savedData });
+        this.setState({ ...this.state, ...data });
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
         // setTimeout(() => {
@@ -922,9 +910,9 @@ class TreatmentPlan72 extends Component {
       this.setValues();
     } else {
       await this.getClients();
-      //interval = setInterval(() => {
-      //      this.autoSave();
-      //  }, 10000);
+      interval = setInterval(() => {
+        this.autoSave();
+      }, 10000);
     }
   }
 
