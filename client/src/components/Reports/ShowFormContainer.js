@@ -1,4 +1,4 @@
-import React, { Component, useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import TreatmentPlan72 from "../Forms/TreatmentPlan72";
 import IncidentReport from "../Forms/IncidentReport";
 import SeriousIncidentReport from "../Forms/SeriousIncidentReport";
@@ -9,12 +9,15 @@ import AdmissionAssessment from "../Forms/AdmissionAssessment";
 import OrientationTraining from "../Forms/OrientationTraining";
 import PreServiceTraining from "../Forms/PreServiceTraining";
 import BodyCheck from "../Forms/BodyCheck";
+import AwakeNightStaffSignoff from "../Forms/AwakeNightStaffSignoff";
 import { Form, Col } from "react-bootstrap";
 import Axios from "axios";
 import { FormCountContext } from "../../context";
 import { GetUserSig } from "../../utils/GetUserSig";
 import SignatureCanvas from "react-signature-canvas";
 import { FetchHomeData } from "../../utils/FetchHomeData";
+import { DoDeleteRecord } from "../../utils/DoDeleteRecord";
+import NightMonitoring from "../Forms/NightMonitoring";
 
 const needsNurseSig = ["Health Body Check", "Illness Injury"];
 
@@ -182,7 +185,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
 
   const getPostObjectData = async (type) => {
     let doFetchSig;
-    let signiture = null;
+    let signature = null;
     if (type === "nurse") {
       doFetchSig = !isApprovedByNurse === true;
     } else if (type === "alt1") {
@@ -203,14 +206,14 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
           !createdUserData.signature.length > 0
         ) {
           alert(
-            `User signiture required to update a form. Create a new signiture under 'Manage Profile'.`
+            `User signature required to update a form. Create a new signature under 'Manage Profile'.`
           );
           return {
             success: false,
             body: null,
           };
         }
-        signiture = createdUserData.signature;
+        signature = createdUserData.signature;
       } catch (e) {
         alert("Error update form state");
       }
@@ -226,7 +229,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
           approvedByNurse: userObj.email,
           approvedByNameNurse: `${userObj.firstName} ${userObj.lastName}`,
           approvedByDateNurse: new Date(),
-          approvedNurseSig: copy ? signiture : [],
+          approvedNurseSig: copy ? signature : [],
         },
       };
     } else if (type === "alt1") {
@@ -239,7 +242,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
           approvedBy_alt1: userObj.email,
           approvedByName_alt1: `${userObj.firstName} ${userObj.lastName}`,
           approvedByDate_alt1: new Date(),
-          approvedSig_alt1: copy ? signiture : [],
+          approvedSig_alt1: copy ? signature : [],
         },
       };
     } else {
@@ -252,7 +255,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
           approvedBy: userObj.email,
           approvedByName: `${userObj.firstName} ${userObj.lastName}`,
           approvedByDate: new Date(),
-          approvedSig: copy ? signiture : [],
+          approvedSig: copy ? signature : [],
         },
       };
     }
@@ -293,6 +296,16 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
     }
   };
 
+  const doDelete = async () => {
+    DoDeleteRecord(
+      "Are you sure you want to delete this message? This cannot be undone.",
+      `/api/${route}/${formData.homeId}/${formData._id}`,
+      () => {
+        document.getElementById("form-reports-back-btn").click();
+      }
+    );
+  };
+
   return (
     <div style={{ margin: "0px 20px 40px 20px" }}>
       <div className="d-flex align-items-center hide-on-print">
@@ -304,11 +317,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
         <h6 style={{ fontWeight: 300 }}>
           {` ${formData.createdByName}, ${
             formData.lastEditDate
-              ? `${
-                  new Date(formData.lastEditDate).getUTCMonth() + 1
-                }/${new Date(formData.lastEditDate).getUTCDate()}/${new Date(
-                  formData.lastEditDate
-                ).getFullYear()}`
+              ? `${new Date(formData.lastEditDate).toLocaleDateString()}`
               : ""
           }`}
         </h6>
@@ -317,10 +326,8 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
         <h6 style={{ fontWeight: 400, marginRight: 5 }}>Created Date</h6>{" "}
         <h6 style={{ fontWeight: 300 }}>
           {` ${formData.createdByName}, ${
-            formData.lastEditDate
-              ? `${new Date(formData.createDate).getUTCMonth() + 1}/${new Date(
-                  formData.createDate
-                ).getUTCDate()}/${new Date(formData.createDate).getFullYear()}`
+            formData.createdByName
+              ? `${new Date(formData.createDate).toLocaleDateString()}`
               : ""
           }`}
         </h6>
@@ -346,10 +353,20 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
           onClick={() => {
             doPrint();
           }}
-          className="btn btn-light hide-on-print"
+          className="mr-3 btn btn-light hide-on-print"
         >
           Print <i className="fas fa-print"></i>
         </button>
+        {isAdminRole && (
+          <button
+            onClick={() => {
+              doDelete();
+            }}
+            className="btn btn-light hide-on-print"
+          >
+            Delete Form <i className="fas fa-trash"></i>
+          </button>
+        )}
         {homeData && (
           <div>
             <h3 className="text-center">
@@ -510,6 +527,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
     </div>
   );
 };
+
 const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
   const [updatedFormData, setFormData] = useState({});
 
@@ -547,7 +565,12 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
       droute = "orientationTraining";
     } else if (name === "Pre Service Training") {
       droute = "preServiceTraining";
+    } else if (name === "Awake Night Staff Signoff") {
+      droute = "awakeNightStaffSignoff";
+    } else if (name === "Night Monitoring") {
+      droute = "nightMonitoring";
     }
+
     setRoute(droute);
   };
 
@@ -655,6 +678,24 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     } else if (name === "Pre Service Training") {
       comp = (
         <PreServiceTraining
+          valuesSet="true"
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    } else if (name === "Awake Night Staff Signoff") {
+      comp = (
+        <AwakeNightStaffSignoff
+          valuesSet="true"
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    } else if (name === "Night Monitoring") {
+      comp = (
+        <NightMonitoring
           valuesSet="true"
           userObj={userObj}
           formData={updatedFormData}

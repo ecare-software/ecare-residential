@@ -13,6 +13,8 @@ import { FormSavedAlert } from "../../utils/FormSavedAlert";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 import TextareaAutosize from "react-textarea-autosize";
 
+var interval = 0; // used for autosaving
+let initAutoSave = false;
 class TreatmentPlan72 extends Component {
   constructor(props) {
     super(props);
@@ -31,8 +33,6 @@ class TreatmentPlan72 extends Component {
       childMeta_religion: "",
 
       childMeta_managingConservator: "",
-
-      childMeta_dateOfAdmission: "",
 
       projectedDateForAchievingPermanency: "",
 
@@ -299,7 +299,7 @@ class TreatmentPlan72 extends Component {
           ? ""
           : this.props.userObj.firstName + " " + this.props.userObj.lastName,
 
-      lastEditDate: new Date(),
+      lastEditDate: null,
 
       homeId: this.props.valuesSet === true ? "" : this.props.userObj.homeId,
 
@@ -363,8 +363,6 @@ class TreatmentPlan72 extends Component {
       childMeta_religion: "",
 
       childMeta_managingConservator: "",
-
-      childMeta_dateOfAdmission: "",
 
       projectedDateForAchievingPermanency: "",
 
@@ -628,23 +626,84 @@ class TreatmentPlan72 extends Component {
     });
   };
 
-  submit = async () => {
+  componentWillUnmount() {
+    console.log("clearing auto save interval");
+    initAutoSave = false;
+    clearInterval(interval);
+  }
+
+  // auto save
+  autoSave = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-    if (this.props.valuesSet) {
+    delete currentState.clients;
+    console.log("auto saving");
+    if (initAutoSave) {
+      console.log("updating existing form");
       try {
-        await Axios.put(
-          `/api/treatmentPlans72/${this.state.homeId}/${this.props.formData._id}`,
+        const { data } = await Axios.put(
+          `/api/treatmentPlans72/${this.state.homeId}/${this.state._id}`,
           {
-            ...this.state,
+            ...currentState,
           }
         );
-        this.props.doUpdateFormDates();
+
+        this.setState({ ...this.state, ...data });
+      } catch (e) {
+        console.log(e);
+        this.setState({
+          formHasError: true,
+          formErrorMessage: "Error Submitting 72 Hour Treatment Plan",
+          loadingClients: false,
+        });
+      }
+    } else {
+      console.log("creating");
+      currentState.createdBy = this.props.userObj.email;
+      currentState.createdByName =
+        this.props.userObj.firstName + " " + this.props.userObj.lastName;
+
+      Axios.post("/api/treatmentPlans72", currentState)
+        .then((res) => {
+          initAutoSave = true;
+
+          this.setState({
+            ...this.state,
+            ...res.data,
+          });
+        })
+        .catch((e) => {
+          console.log(e);
+          this.setState({
+            formHasError: true,
+            formErrorMessage: "Error Submitting 72 Hour Treatment Plan",
+            loadingClients: false,
+          });
+        });
+    }
+  };
+
+  submit = async () => {
+    let currentState = JSON.parse(JSON.stringify(this.state));
+    delete currentState.clients;
+    initAutoSave = false;
+    clearInterval(interval);
+    if (this.props.valuesSet || this.state._id) {
+      try {
+        const { data } = await Axios.put(
+          `/api/treatmentPlans72/${this.state.homeId}/${this.state._id}`,
+          {
+            ...currentState,
+          }
+        );
+
+        this.setState({ ...this.state, ...data });
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
-        setTimeout(() => {
-          this.toggleSuccessAlert();
-        }, 2000);
+        // setTimeout(() => {
+        //   this.toggleSuccessAlert();
+        // }, 2000);
       } catch (e) {
+        console.log(e);
         this.setState({
           formHasError: true,
           formErrorMessage: "Error Submitting 72 Hour Treatment Plan",
@@ -665,6 +724,7 @@ class TreatmentPlan72 extends Component {
           }
         })
         .catch((e) => {
+          console.log(e);
           this.setState({
             formHasError: true,
             formErrorMessage: "Error Submitting 72 Hour Treatment Plan",
@@ -693,7 +753,7 @@ class TreatmentPlan72 extends Component {
         this.setState({
           ...this.state,
           formHasError: true,
-          formErrorMessage: `User signiture required to submit a form. Create a new signiture under 'Manage Profile'.`,
+          formErrorMessage: `User signature required to submit a form. Create a new signature under 'Manage Profile'.`,
           loadingClients: false,
         });
         return;
@@ -827,6 +887,11 @@ class TreatmentPlan72 extends Component {
       let { data: clients } = await Axios.get(
         `/api/client/${this.props.userObj.homeId}`
       );
+
+      clients = clients.filter((client) => {
+        return !client.hasOwnProperty("active") || client.active === true;
+      });
+
       setTimeout(() => {
         this.setState({
           ...this.state,
@@ -840,11 +905,14 @@ class TreatmentPlan72 extends Component {
     }
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     if (this.props.valuesSet) {
       this.setValues();
     } else {
-      this.getClients();
+      await this.getClients();
+      interval = setInterval(() => {
+        this.autoSave();
+      }, 10000);
     }
   }
 
@@ -852,15 +920,19 @@ class TreatmentPlan72 extends Component {
     if (event.target.value !== null) {
       const client = JSON.parse(event.target.value);
       const clonedState = { ...this.state };
+      const id = clonedState._id;
+      const lastEditDate = clonedState.lastEditDate;
       Object.keys(client).forEach((key) => {
-        if (clonedState.hasOwnProperty(key)) {
+        if (!key.includes("create") && clonedState.hasOwnProperty(key)) {
           clonedState[key] = client[key];
         }
-        // if (key.includes("childMeta_placeOfBirth")) {
-        //   clonedState.childMeta_placeOfBirth = `${client[key]} `;
-        // }
       });
-      await this.setState({ ...clonedState, clientId: client._id });
+      await this.setState({
+        ...clonedState,
+        clientId: client._id,
+        _id: id,
+        lastEditDate,
+      });
     }
   };
 
@@ -885,6 +957,24 @@ class TreatmentPlan72 extends Component {
           )}
           <div className="formTitleDiv">
             <h2 className="formTitle">72 Hour Treatment Plan</h2>
+            <h5
+              className="text-center"
+              style={{ color: "rgb(119 119 119 / 93%)" }}
+            >
+              {this.state.lastEditDate ? (
+                <i>
+                  {" "}
+                  Last Saved:
+                  {`${new Date(this.state.lastEditDate)
+                    .toTimeString()
+                    .replace(/\s.*/, "")} - ${new Date(
+                    this.state.lastEditDate
+                  ).toDateString()}`}
+                </i>
+              ) : (
+                "-"
+              )}
+            </h5>
           </div>
 
           <div className="formFieldsMobile">
@@ -1069,19 +1159,6 @@ class TreatmentPlan72 extends Component {
                     value={this.state.childMeta_managingConservator}
                     className="form-control"
                     type="text"
-                  />{" "}
-                </div>
-                <div className="form-group logInInputField">
-                  {" "}
-                  <label className="control-label">
-                    Child's Date of Admission
-                  </label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    id="childMeta_dateOfAdmission"
-                    value={this.state.childMeta_dateOfAdmission}
-                    className="form-control"
-                    type="date"
                   />{" "}
                 </div>
                 <div className="form-group logInInputField">
@@ -2789,15 +2866,9 @@ class TreatmentPlan72 extends Component {
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  value={
-                    this.state.childMeta_dob !== undefined
-                      ? new Date(this.state.childMeta_dob)
-                          .toISOString()
-                          .replace(/T.*/g, "")
-                      : this.state.childMeta_dob
-                  }
+                  value={this.state.childMeta_dob}
                   className="form-control"
-                  type="date"
+                  type="string"
                 />{" "}
               </div>
               <div className="form-group logInInputField">
@@ -2941,37 +3012,13 @@ class TreatmentPlan72 extends Component {
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">
-                  Child's Date of Admission
-                </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  value={
-                    this.state.childMeta_dateOfAdmission !== undefined
-                      ? new Date(this.state.childMeta_dateOfAdmission)
-                          .toISOString()
-                          .replace(/T.*/g, "")
-                      : this.state.childMeta_dateOfAdmission
-                  }
-                  className="form-control"
-                  type="date"
-                />{" "}
-              </div>
-              <div className="form-group logInInputField">
-                {" "}
-                <label className="control-label">
                   Projected Date For Achieving Permanency
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  value={
-                    this.state.projectedDateForAchievingPermanency !== undefined
-                      ? new Date(this.state.projectedDateForAchievingPermanency)
-                          .toISOString()
-                          .replace(/T.*/g, "")
-                      : this.state.projectedDateForAchievingPermanency
-                  }
+                  value={this.state.projectedDateForAchievingPermanency}
                   className="form-control"
-                  type="date"
+                  type="string"
                 />{" "}
               </div>
               <div className="form-group logInInputField">
@@ -3440,15 +3487,9 @@ class TreatmentPlan72 extends Component {
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  value={
-                    this.state.lastPhysicalExamination_date !== undefined
-                      ? new Date(this.state.lastPhysicalExamination_date)
-                          .toISOString()
-                          .replace(/T.*/g, "")
-                      : this.state.lastPhysicalExamination_date
-                  }
+                  value={this.state.lastPhysicalExamination_date}
                   className="form-control"
-                  type="date"
+                  type="string"
                 />{" "}
               </div>
               <div className="form-group logInInputField">
@@ -3484,15 +3525,9 @@ class TreatmentPlan72 extends Component {
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  value={
-                    this.state.lastDentalExamination_date !== undefined
-                      ? new Date(this.state.lastDentalExamination_date)
-                          .toISOString()
-                          .replace(/T.*/g, "")
-                      : this.state.lastDentalExamination_date
-                  }
+                  value={this.state.lastDentalExamination_date}
                   className="form-control"
-                  type="date"
+                  type="string"
                 />{" "}
               </div>
               <div className="form-group logInInputField">
@@ -3528,15 +3563,9 @@ class TreatmentPlan72 extends Component {
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  value={
-                    this.state.lastOpticalExamination_date !== undefined
-                      ? new Date(this.state.lastOpticalExamination_date)
-                          .toISOString()
-                          .replace(/T.*/g, "")
-                      : this.state.lastOpticalExamination_date
-                  }
+                  value={this.state.lastOpticalExamination_date}
                   className="form-control"
-                  type="date"
+                  type="string"
                 />{" "}
               </div>
               <div className="form-group logInInputField">
@@ -4606,14 +4635,14 @@ class TreatmentPlan72 extends Component {
                   Save
                 </button>
 
-                <button
+                {/* <button
                   className="darkBtn"
                   onClick={() => {
                     this.validateForm(false);
                   }}
                 >
                   Submit
-                </button>
+                </button> */}
               </div>
             </>
           )}

@@ -10,7 +10,7 @@ const DirectMessageBoard = ({ messagesInit, userObj, allUsers, setDMs }) => {
 
   useEffect(() => {
     setMessages(messagesInit);
-  }, messagesInit);
+  }, [messagesInit]);
 
   const DisplayGroupUserName = () => {
     const selectedEmail = selectedUser.user;
@@ -158,6 +158,7 @@ const DirectMessageBoard = ({ messagesInit, userObj, allUsers, setDMs }) => {
           </div>
           {FromUsersList().map((obj, idx) => (
             <DirectMessageGroup
+              key={`dm-${idx}`}
               dmData={obj}
               setSelectedUser={setSelectedUser}
               allUsers={allUsers}

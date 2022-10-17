@@ -10,8 +10,10 @@ const fetchAllClientsInit = async ({ homeId }) => {
   return await Axios.get(`/api/client/${homeId}`);
 };
 
-const doDeleteClient = async ([homeId, clientId]) => {
-  return await Axios.delete(`/api/client/${homeId}/${clientId}`);
+const doDeleteClient = async ([homeId, clientId, active]) => {
+  return await Axios.put(`/api/client/${homeId}/${clientId}`, {
+    active,
+  });
 };
 
 const fetchAllClients = async ([homeId]) => {
@@ -24,8 +26,12 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
   const [isInit, setIsInit] = useState(true);
   const [selectedClient, setSelectedClient] = useState(null);
   const [clients, setClients] = useState([]);
+  const [showActive, setShowActive] = useState(true);
 
   useEffect(() => {
+    if (showClientForm) {
+      setIsClientSelected(false);
+    }
     setShowClients(showClientForm);
     if (showClientForm && !isInit) {
       getAllClients.run([userObj.homeId]);
@@ -33,14 +39,33 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
     setIsInit(false);
   }, [showClientForm]);
 
+  useEffect(() => {
+    if (!isInit) {
+      getAllClients.run([userObj.homeId]);
+    }
+  }, [showActive]);
+
   const getAllClients = useAsync({
     promiseFn: fetchAllClientsInit,
     homeId: userObj.homeId,
     deferFn: fetchAllClients,
     onResolve: (data) => {
-      setClients(data.data);
+      const d = filterClients(data.data);
+      setClients(d);
     },
   });
+
+  const filterClients = (data) => {
+    if (showActive === true) {
+      return data.filter((client) => {
+        return !client.hasOwnProperty("active") || client.active === true;
+      });
+    } else {
+      return data.filter((client) => {
+        return client.active === false;
+      });
+    }
+  };
 
   const deleteClient = useAsync({
     deferFn: doDeleteClient,
@@ -51,14 +76,26 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
 
   const setClient = (value) => {
     setIsClientSelected(true);
-    setSelectedClient(value);
     doToggleClientDisplay(false);
+    setSelectedClient(value);
   };
 
-  const deleteClientCall = async (value) => {
-    if (window.confirm("Are you sure you want to delete this client?")) {
-      await deleteClient.run(userObj.homeId, value._id);
+  const deleteClientCall = async (value, active) => {
+    if (
+      window.confirm(
+        `Are you sure you want to ${
+          active ? "activate" : "deactivate"
+        } this client?`
+      )
+    ) {
+      await deleteClient.run(userObj.homeId, value._id, active);
       doToggleClientDisplay(true);
+    }
+  };
+
+  const toggleClientFilter = async (value) => {
+    if (value !== showActive) {
+      await setShowActive(value);
     }
   };
 
@@ -69,8 +106,41 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
           <h2 className="formTitle">Clients</h2>
         </div>
         <div className="formFieldsMobile">
-          <div>
-            <h4>{clients.length} Clients</h4>
+          <div style={{ height: "25px" }}>
+            <IfPending>
+              <h4>Loading...</h4>
+            </IfPending>
+            <IfFulfilled state={getAllClients}>
+              <h4>
+                {clients.length} {showActive ? "Active" : "Inactive"} Clients
+              </h4>
+            </IfFulfilled>
+          </div>
+          <div
+            className="form-group logInInputField d-flex mt-3 justify-content-center"
+            style={{ alignItems: "center" }}
+          >
+            <h5 style={{ margin: "0px 10px" }}>Filter</h5>
+            {/* <div className="mt-3"> */}
+            <button
+              onClick={() => {
+                toggleClientFilter(true);
+              }}
+              className={`btn ${showActive ? "btn-light" : ""} extraInfoButton`}
+            >
+              Active
+            </button>
+            <button
+              onClick={() => {
+                toggleClientFilter(false);
+              }}
+              className={`btn ${
+                showActive ? "" : "btn-light"
+              } extraInfoButton `}
+            >
+              Inactive
+            </button>
+            {/* </div> */}
           </div>
           <div className="form-group logInInputField d-flex mt-3 border-bottom">
             <Col className="control-label"></Col>
@@ -95,7 +165,7 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
                 <button
                   className="btn btn-link extraInfoButton"
                   onClick={() => {
-                    deleteClientCall(client);
+                    deleteClientCall(client, !showActive);
                   }}
                 >
                   <span
@@ -105,7 +175,7 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
                       cursor: "pointer",
                     }}
                   >
-                    Delete
+                    {showActive ? "Deactivate" : "Activate"}
                   </span>
                 </button>
               </Col>

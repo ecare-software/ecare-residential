@@ -1,4 +1,4 @@
-import React, { Component, useContext } from "react";
+import React from "react";
 import LogInContiner from "../LogInContainer/LogInContainer";
 import Modal from "react-bootstrap/Modal";
 import FormAlert from "../Forms/FormAlert";
@@ -475,6 +475,42 @@ class NavBar extends React.Component {
                     }}
                   >
                     Illness Injury
+                  </NavDropdown.Item>
+
+                  <NavDropdown.Item
+                    eventKey="link-812"
+                    onClick={() => {
+                      document
+                        .querySelector(".Submit-a-Form-nav > a")
+                        .classList.add("active");
+                      document
+                        .querySelector(".Manage-Account-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Training-nav > a")
+                        .classList.remove("active");
+                      this.props.toggleDisplay("AwakeNightStaffSignoff");
+                    }}
+                  >
+                    Awake Night Staff Signoff
+                  </NavDropdown.Item>
+
+                  <NavDropdown.Item
+                    eventKey="link-8112"
+                    onClick={() => {
+                      document
+                        .querySelector(".Submit-a-Form-nav > a")
+                        .classList.add("active");
+                      document
+                        .querySelector(".Manage-Account-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Training-nav > a")
+                        .classList.remove("active");
+                      this.props.toggleDisplay("Night Monitoring");
+                    }}
+                  >
+                    Awake Night Monitoring
                   </NavDropdown.Item>
                 </NavDropdown>
                 <NavDropdown

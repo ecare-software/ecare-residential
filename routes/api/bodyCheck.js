@@ -16,6 +16,7 @@ router.post("/", (req, res) => {
     nurse_designee_title: req.body.nurse_designee_title,
     nurse_designee_date: req.body.nurse_designee_date,
     head: req.body.head,
+    face: req.body.face,
     left_ear: req.body.left_ear,
     right_ear: req.body.right_ear,
     left_eye: req.body.left_eye,
@@ -148,6 +149,16 @@ router.get(
 router.put("/:homeId/:formId/", (req, res) => {
   const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
   BodyCheck.updateOne({ _id: req.params.formId }, updatedLastEditDate)
+    .then((data) => {
+      res.json(updatedLastEditDate);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+});
+
+router.delete("/:homeId/:formId/", (req, res) => {
+  BodyCheck.deleteOne({ _id: req.params.formId })
     .then((data) => {
       res.json(data);
     })

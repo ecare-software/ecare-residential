@@ -12,7 +12,8 @@ import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
 import { FormSavedAlert } from "../../utils/FormSavedAlert";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 import TextareaAutosize from "react-textarea-autosize";
-
+var interval = 0; // used for autosaving
+let initAutoSave = false;
 class IllnessInjury extends Component {
   constructor(props) {
     super(props);
@@ -39,7 +40,7 @@ class IllnessInjury extends Component {
           ? ""
           : this.props.userObj.firstName + " " + this.props.userObj.lastName,
 
-      lastEditDate: new Date(),
+      lastEditDate: null,
 
       homeId: this.props.valuesSet === true ? "" : this.props.userObj.homeId,
 
@@ -106,24 +107,78 @@ class IllnessInjury extends Component {
     });
   };
 
+  // auto save
+  autoSave = async () => {
+    let currentState = JSON.parse(JSON.stringify(this.state));
+    delete currentState.clients;
+    console.log("auto saving");
+    if (initAutoSave) {
+      console.log("updating existing form");
+      try {
+        const { data } = await Axios.put(
+          `/api/illnessInjury/${this.state.homeId}/${this.state._id}`,
+          {
+            ...currentState,
+          }
+        );
+
+        this.setState({ ...this.state, ...data });
+      } catch (e) {
+        console.log(e);
+        this.setState({
+          formHasError: true,
+          formErrorMessage: "Error Submitting Illness Injury",
+          loadingClients: false,
+        });
+      }
+    } else {
+      console.log("creating");
+      currentState.createdBy = this.props.userObj.email;
+      currentState.createdByName =
+        this.props.userObj.firstName + " " + this.props.userObj.lastName;
+
+      Axios.post("/api/illnessInjury", currentState)
+        .then((res) => {
+          initAutoSave = true;
+
+          this.setState({
+            ...this.state,
+            ...res.data,
+          });
+        })
+        .catch((e) => {
+          console.log(e);
+          this.setState({
+            formHasError: true,
+            formErrorMessage: "Error Submitting Illness Injury",
+            loadingClients: false,
+          });
+        });
+    }
+  };
+
   submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
-    if (this.props.valuesSet) {
+    initAutoSave = false;
+    clearInterval(interval);
+    if (this.props.valuesSet || this.state._id) {
       try {
-        await Axios.put(
-          `/api/illnessInjury/${this.state.homeId}/${this.props.formData._id}`,
+        const { data } = await Axios.put(
+          `/api/illnessInjury/${this.state.homeId}/${this.state._id}`,
           {
-            ...this.state,
+            ...currentState,
           }
         );
-        this.props.doUpdateFormDates();
+
+        this.setState({ ...this.state, ...data });
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
-        setTimeout(() => {
-          this.toggleSuccessAlert();
-        }, 2000);
+        // setTimeout(() => {
+        //   this.toggleSuccessAlert();
+        // }, 2000);
       } catch (e) {
+        console.log(e);
         this.setState({
           formHasError: true,
           formErrorMessage: "Error Submitting Illness Injury",
@@ -134,7 +189,6 @@ class IllnessInjury extends Component {
       currentState.createdBy = this.props.userObj.email;
       currentState.createdByName =
         this.props.userObj.firstName + " " + this.props.userObj.lastName;
-      console.log(currentState);
 
       Axios.post("/api/illnessInjury", currentState)
         .then((res) => {
@@ -145,6 +199,7 @@ class IllnessInjury extends Component {
           }
         })
         .catch((e) => {
+          console.log(e);
           this.setState({
             formHasError: true,
             formErrorMessage: "Error Submitting Illness Injury",
@@ -173,7 +228,7 @@ class IllnessInjury extends Component {
         this.setState({
           ...this.state,
           formHasError: true,
-          formErrorMessage: `User signiture required to submit a form. Create a new signiture under 'Manage Profile'.`,
+          formErrorMessage: `User signature required to submit a form. Create a new signature under 'Manage Profile'.`,
           loadingClients: false,
         });
         return;
@@ -234,6 +289,11 @@ class IllnessInjury extends Component {
     this.submit();
   };
 
+  componentWillUnmount() {
+    console.log("clearing auto save interval");
+    initAutoSave = false;
+    clearInterval(interval);
+  }
   setSignature = (userObj) => {
     if (userObj.signature && userObj.signature.length) {
       this.sigCanvas.fromData(userObj.signature);
@@ -260,6 +320,11 @@ class IllnessInjury extends Component {
       let { data: clients } = await Axios.get(
         `/api/client/${this.props.userObj.homeId}`
       );
+
+      clients = clients.filter((client) => {
+        return !client.hasOwnProperty("active") || client.active === true;
+      });
+
       setTimeout(() => {
         this.setState({
           ...this.state,
@@ -273,11 +338,14 @@ class IllnessInjury extends Component {
     }
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     if (this.props.valuesSet) {
       this.setValues();
     } else {
-      this.getClients();
+      await this.getClients();
+      interval = setInterval(() => {
+        this.autoSave();
+      }, 10000);
     }
   }
 
@@ -285,15 +353,19 @@ class IllnessInjury extends Component {
     if (event.target.value !== null) {
       const client = JSON.parse(event.target.value);
       const clonedState = { ...this.state };
+      const id = clonedState._id;
+      const lastEditDate = clonedState.lastEditDate;
       Object.keys(client).forEach((key) => {
-        if (clonedState.hasOwnProperty(key)) {
+        if (!key.includes("create") && clonedState.hasOwnProperty(key)) {
           clonedState[key] = client[key];
         }
-        // if (key.includes("childMeta_placeOfBirth")) {
-        //   clonedState.childMeta_placeOfBirth = `${client[key]} `;
-        // }
       });
-      await this.setState({ ...clonedState, clientId: client._id });
+      await this.setState({
+        ...clonedState,
+        clientId: client._id,
+        _id: id,
+        lastEditDate,
+      });
     }
   };
 
@@ -318,6 +390,24 @@ class IllnessInjury extends Component {
           )}
           <div className="formTitleDiv">
             <h2 className="formTitle">Illness and Injury Report</h2>
+            <h5
+              className="text-center"
+              style={{ color: "rgb(119 119 119 / 93%)" }}
+            >
+              {this.state.lastEditDate ? (
+                <i>
+                  {" "}
+                  Last Saved:
+                  {`${new Date(this.state.lastEditDate)
+                    .toTimeString()
+                    .replace(/\s.*/, "")} - ${new Date(
+                    this.state.lastEditDate
+                  ).toDateString()}`}
+                </i>
+              ) : (
+                "-"
+              )}
+            </h5>
           </div>
           {this.state.loadingClients ? (
             <div className="formLoadingDiv">
@@ -799,14 +889,14 @@ class IllnessInjury extends Component {
                     Save
                   </button>
 
-                  <button
+                  {/* <button
                     className="darkBtn"
                     onClick={() => {
                       this.validateForm(false);
                     }}
                   >
                     Submit
-                  </button>
+                  </button> */}
                 </div>
               </>
             )}

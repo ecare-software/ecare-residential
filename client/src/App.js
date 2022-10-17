@@ -28,12 +28,14 @@ import OrientationTraining from "./components/Forms/OrientationTraining";
 import PreServiceTraining from "./components/Forms/PreServiceTraining";
 import FirstAidCprTraining from "./components/Forms/FirstAidCprTraining";
 import ManageAccountContainer from "./components/ManageAccount/ManageAccountContainer";
+import AwakeNightStaffSignoff from "./components/Forms/AwakeNightStaffSignoff";
 import rightBody from "./images/right_body.png";
 import leftBody from "./images/left_body.png";
 import "./App.css";
 import Fade from "react-reveal/Fade";
 import ManageTraining from "./components/ManageTraining/ManageTraining";
 import { isAdminUser } from "./utils/AdminReportingRoles";
+import NightMonitoring from "./components/Forms/NightMonitoring";
 
 const hideStyle = {
   display: "none",
@@ -64,7 +66,7 @@ class App extends Component {
     toUserSelected: null,
     dmMessage: "",
     messages: [],
-    discussionMessagesLoading: false,
+    discussionMessagesLoading: true,
     showUploadModal: false,
     showClients: true,
     showTrainings: true,
@@ -74,6 +76,7 @@ class App extends Component {
       updateCount: this.doFetchFormApprovalCount,
     },
     flip: false,
+    showMessageSent: false,
   };
 
   doFetchFormApprovalCount = async () => {
@@ -194,7 +197,7 @@ class App extends Component {
   loadMessage = (userObj) => {
     this.setState({
       ...this.state,
-      discussionMessagesLoading: !this.state.discussionMessagesLoading,
+      discussionMessagesLoading: true,
     });
     Axios.get(`/api/discussionMessages/${userObj.homeId}`)
       .then((response) => {
@@ -202,13 +205,13 @@ class App extends Component {
           this.setState({
             discussionMessages: response.data,
             messagesInitLoad: true,
-            discussionMessagesLoading: !this.state.discussionMessagesLoading,
+            discussionMessagesLoading: false,
           });
         }, 1000);
       })
       .catch((error) => {
         this.setState({
-          discussionMessagesLoading: !this.state.discussionMessagesLoading,
+          discussionMessagesLoading: false,
         });
         alert(error);
       });
@@ -396,17 +399,33 @@ class App extends Component {
           homeId: this.state.userObj.homeId,
         });
 
+        this.setState({
+          ...this.state,
+          showMessageSent: true,
+          dmMessage: "",
+        });
+
         const { data } = await Axios.get(
           `/api/directMessages/${this.state.userObj.email}/${this.state.userObj.homeId}`
         );
 
         this.setState({
           ...this.state,
-          dmMessage: "",
           messages: data,
         });
+
+        setTimeout(() => {
+          this.setState({
+            ...this.state,
+            showMessageSent: false,
+          });
+        }, 2000);
       } catch (e) {
         alert("Error sending message");
+        this.setState({
+          ...this.state,
+          showMessageSent: false,
+        });
         console.log(e);
       }
     }
@@ -687,6 +706,18 @@ function ToggleScreen({
     );
   }
 
+  if (name === "AwakeNightStaffSignoff") {
+    return (
+      <div>
+        <AwakeNightStaffSignoff
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="AwakeNightStaffSignoff"
+        />
+      </div>
+    );
+  }
+
   if (name === "Orientation Training") {
     return (
       <div>
@@ -704,6 +735,18 @@ function ToggleScreen({
         <PreServiceTraining
           userObj={appState.userObj}
           allUsers={appState.allUsers}
+        />
+      </div>
+    );
+  }
+
+  if (name === "Night Monitoring") {
+    return (
+      <div>
+        <NightMonitoring
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="AwakeNightStaffSignoff"
         />
       </div>
     );
@@ -1268,6 +1311,20 @@ function DisplayExtra({
                 }}
                 placeholder="Type your message here.."
               ></textarea>
+              <div style={{ height: 30, width: "100%", margin: "0px 5px" }}>
+                {appState.showMessageSent && (
+                  <p
+                    style={{
+                      color: "green",
+                      background: "#00800038",
+                      textAlign: "center",
+                      borderRadius: 5,
+                    }}
+                  >
+                    message sent
+                  </p>
+                )}
+              </div>
               <button
                 onClick={() => {
                   if (appState.dmMessage.length > 0 && appState.dmTo) sendDM();

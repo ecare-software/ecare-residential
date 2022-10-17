@@ -55,10 +55,8 @@ class FormSubmitterListContainer extends Component {
               }
               key={formIndex}
             >
-              {`${new Date(form.createDate).getUTCMonth() + 1}/${new Date(
-                form.createDate
-              ).getUTCDate()}/${new Date(form.createDate).getFullYear()}`}{" "}
-              - {form.createdByName}
+              {`${new Date(form.createDate).toLocaleDateString()}`} -{" "}
+              {form.createdByName}
             </li>
           ))
         ) : (

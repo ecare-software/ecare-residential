@@ -243,6 +243,16 @@ router.put("/:homeId/:formId/", (req, res) => {
   const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
   IncidentReport.updateOne({ _id: req.params.formId }, updatedLastEditDate)
     .then((data) => {
+      res.json(updatedLastEditDate);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+});
+
+router.delete("/:homeId/:formId/", (req, res) => {
+  IncidentReport.deleteOne({ _id: req.params.formId })
+    .then((data) => {
       res.json(data);
     })
     .catch((e) => {

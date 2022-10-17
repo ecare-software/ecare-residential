@@ -169,7 +169,6 @@ router.post("/", (req, res) => {
 
     formType: "Admission Assessment",
   });
-
   newAdmissionAssessment
     .save()
     .then((admissionAssessment) => res.json(admissionAssessment))
@@ -263,6 +262,16 @@ router.get(
 router.put("/:homeId/:formId/", (req, res) => {
   const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
   AdmissionAssessment.updateOne({ _id: req.params.formId }, updatedLastEditDate)
+    .then((data) => {
+      res.json(updatedLastEditDate);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+});
+
+router.delete("/:homeId/:formId/", (req, res) => {
+  AdmissionAssessment.deleteOne({ _id: req.params.formId })
     .then((data) => {
       res.json(data);
     })

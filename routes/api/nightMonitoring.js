@@ -1,61 +1,16 @@
 const express = require("express");
+const NightMonitoring = require("../../models/NightMonitoring");
 const router = express.Router();
 
-const SeriousIncidentReport = require("../../models/SeriousIncidentReport");
-
 router.post("/", (req, res) => {
-  const newSeriousIncidentReport = new SeriousIncidentReport({
+  const newNightMonitoring = new NightMonitoring({
+    date: req.body.date,
+    roomNumber: req.body.roomNumber,
+    timeChildAwake: req.body.timeChildAwake,
+    timeChildReturnBed: req.body.timeChildReturnBed,
+    reason: req.body.reason,
     childMeta_name: req.body.childMeta_name,
-
-    childMeta_gender: req.body.childMeta_gender,
-
-    childMeta_dob: req.body.childMeta_dob,
-
-    childMeta_dateOfAdmission: req.body.childMeta_dateOfAdmission,
-
-    dateOfIncident: req.body.dateOfIncident,
-
-    staff_involved_name: req.body.staff_involved_name,
-
-    staff_involved_gender: req.body.staff_involved_gender,
-
-    time_of_incident: req.body.time_of_incident,
-
-    staff_witness_name: req.body.staff_witness_name,
-
-    staff_witness_gender: req.body.staff_witness_gender,
-
-    client_witness_name1: req.body.client_witness_name1,
-
-    client_witness_gender1: req.body.client_witness_gender1,
-
-    client_witness_dob1: req.body.client_witness_dob1,
-
-    client_witness_doa1: req.body.client_witness_doa1,
-
-    client_witness_name2: req.body.client_witness_name2,
-
-    client_witness_gender2: req.body.client_witness_gender2,
-
-    client_witness_dob2: req.body.client_witness_dob2,
-
-    client_witness_doa2: req.body.client_witness_doa2,
-
-    incident_explaination: req.body.incident_explaination,
-
-    seperation: req.body.seperation,
-
-    result: req.body.result,
-
-    able_to_prevent: req.body.able_to_prevent,
-
-    notification_made_to: req.body.notification_made_to,
-
-    notification_made_date_time: req.body.notification_made_date_time,
-
-    notification_made_by: req.body.notification_made_by,
-
-    follow_up_results: req.body.follow_up_results,
+    signed: req.body.signed,
 
     createdBy: req.body.createdBy,
 
@@ -67,22 +22,32 @@ router.post("/", (req, res) => {
 
     homeId: req.body.homeId,
 
-    formType: "Serious Incident Report",
+    formType: "Night Monitoring",
   });
-
-  newSeriousIncidentReport
+  newNightMonitoring
     .save()
-    .then((seriousIncidentReport) => res.json(seriousIncidentReport))
+    .then((nightMonitoring) => res.json(nightMonitoring))
     .catch((e) => {
-      console.log(e);
+      e;
     });
 });
 
 router.get("/:homeId", (req, res) => {
-  SeriousIncidentReport.find({ homeId: req.params.homeId })
+  NightMonitoring.find({ homeId: req.params.homeId })
     .sort({ createDate: -1 })
     .exec()
-    .then((IncidentReports) => res.json(IncidentReports))
+    .then((nightMonitoring) => res.json(nightMonitoring))
+    .catch((err) => res.status(404).json({ success: false }));
+});
+
+router.get("/:homeId/:email", (req, res) => {
+  NightMonitoring.find({
+    homeId: req.params.homeId,
+    createdBy: req.params.email,
+  })
+    .sort({ createDate: -1 })
+    .exec()
+    .then((nightMonitoring) => res.json(nightMonitoring))
     .catch((err) => res.status(404).json({ success: false }));
 });
 
@@ -231,20 +196,44 @@ router.get(
       findObj.approved = req.params.approved;
     }
 
-    SeriousIncidentReport.find(findObj)
+    NightMonitoring.find(findObj)
       .sort({ createDate: -1 })
       .exec()
-      .then((seriousIncidentReports) => res.json(seriousIncidentReports))
+      .then((incidentReports) => res.json(incidentReports))
       .catch((err) => res.status(404).json({ success: err }));
   }
 );
 
+router.get("/:homeId" + "/:submittedByA" + "/:lastEditDate", (req, res) => {
+  var findObj = {
+    homeId: req.params.homeId,
+  };
+
+  // submitted by
+  if (req.params.submittedByA !== "none") {
+    findObj.createdBy = req.params.submittedByA;
+  }
+
+  NightMonitoring.find(findObj)
+    .sort({ createDate: -1 })
+    .exec()
+    .then((nightMonitoring) => res.json(nightMonitoring))
+    .catch((err) => res.status(404).json({ success: err }));
+});
+
+router.put("/:formId", (req, res) => {
+  NightMonitoring.updateOne({ _id: req.params.formId }, req.body)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+});
+
 router.put("/:homeId/:formId/", (req, res) => {
   const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
-  SeriousIncidentReport.updateOne(
-    { _id: req.params.formId },
-    updatedLastEditDate
-  )
+  NightMonitoring.updateOne({ _id: req.params.formId }, updatedLastEditDate)
     .then((data) => {
       res.json(updatedLastEditDate);
     })
@@ -254,7 +243,7 @@ router.put("/:homeId/:formId/", (req, res) => {
 });
 
 router.delete("/:homeId/:formId/", (req, res) => {
-  SeriousIncidentReport.deleteOne({ _id: req.params.formId })
+  NightMonitoring.deleteOne({ _id: req.params.formId })
     .then((data) => {
       res.json(data);
     })

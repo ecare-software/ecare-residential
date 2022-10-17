@@ -42,10 +42,6 @@ const RestraintReportSchema = new Schema({
     type: String,
     required: false,
   },
-  staff_witness_name: {
-    type: String,
-    required: false,
-  },
 
   staff_witness_gender: {
     type: String,

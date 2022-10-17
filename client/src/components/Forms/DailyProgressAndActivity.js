@@ -17,7 +17,8 @@ import TextareaAutosize from "react-textarea-autosize";
     "Restricted field Trip"
 
 */
-
+var interval = 0; // used for autosaving
+let initAutoSave = false;
 class DailyProgressAndActivity extends Component {
   constructor(props) {
     super(props);
@@ -63,7 +64,7 @@ class DailyProgressAndActivity extends Component {
           ? ""
           : this.props.userObj.firstName + " " + this.props.userObj.lastName,
 
-      lastEditDate: new Date(),
+      lastEditDate: null,
 
       homeId: this.props.valuesSet === true ? "" : this.props.userObj.homeId,
 
@@ -153,27 +154,80 @@ class DailyProgressAndActivity extends Component {
     });
   };
 
-  submit = async () => {
+  // auto save
+  autoSave = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-    if (this.props.valuesSet) {
-      if (currentState.createDate) {
-        const patchedDate = new Date(currentState.createDate).toISOString();
-        currentState.createDate = patchedDate;
-      }
+    delete currentState.clients;
+    console.log("auto saving");
+    if (initAutoSave) {
+      console.log("updating existing form");
       try {
-        await Axios.put(
-          `/api/dailyProgressAndActivity/${this.state.homeId}/${this.props.formData._id}`,
+        const { data } = await Axios.put(
+          `/api/dailyProgressAndActivity/${this.state.homeId}/${this.state._id}`,
           {
-            ...this.state,
+            ...currentState,
           }
         );
-        this.props.doUpdateFormDates(currentState.createDate);
+
+        this.setState({ ...this.state, ...data });
+      } catch (e) {
+        console.log(e);
+        this.setState({
+          formHasError: true,
+          formErrorMessage:
+            "Error Submitting Daily Progress and Activity Report",
+          loadingClients: false,
+        });
+      }
+    } else {
+      console.log("creating");
+      currentState.createdBy = this.props.userObj.email;
+      currentState.createdByName =
+        this.props.userObj.firstName + " " + this.props.userObj.lastName;
+
+      Axios.post("/api/dailyProgressAndActivity", currentState)
+        .then((res) => {
+          initAutoSave = true;
+
+          this.setState({
+            ...this.state,
+            ...res.data,
+          });
+        })
+        .catch((e) => {
+          console.log(e);
+          this.setState({
+            formHasError: true,
+            formErrorMessage:
+              "Error Submitting Daily Progress and Activity Report",
+            loadingClients: false,
+          });
+        });
+    }
+  };
+
+  submit = async () => {
+    let currentState = JSON.parse(JSON.stringify(this.state));
+    delete currentState.clients;
+    initAutoSave = false;
+    clearInterval(interval);
+    if (this.props.valuesSet || this.state._id) {
+      try {
+        const { data } = await Axios.put(
+          `/api/dailyProgressAndActivity/${this.state.homeId}/${this.state._id}`,
+          {
+            ...currentState,
+          }
+        );
+
+        this.setState({ ...this.state, ...data });
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
-        setTimeout(() => {
-          this.toggleSuccessAlert();
-        }, 2000);
+        // setTimeout(() => {
+        //   this.toggleSuccessAlert();
+        // }, 2000);
       } catch (e) {
+        console.log(e);
         this.setState({
           formHasError: true,
           formErrorMessage:
@@ -195,6 +249,7 @@ class DailyProgressAndActivity extends Component {
           }
         })
         .catch((e) => {
+          console.log(e);
           this.setState({
             formHasError: true,
             formErrorMessage:
@@ -224,7 +279,7 @@ class DailyProgressAndActivity extends Component {
         this.setState({
           ...this.state,
           formHasError: true,
-          formErrorMessage: `User signiture required to submit a form. Create a new signiture under 'Manage Profile'.`,
+          formErrorMessage: `User signature required to submit a form. Create a new signature under 'Manage Profile'.`,
           loadingClients: false,
         });
         return;
@@ -281,6 +336,12 @@ class DailyProgressAndActivity extends Component {
     }
   };
 
+  componentWillUnmount() {
+    console.log("clearing auto save interval");
+    initAutoSave = false;
+    clearInterval(interval);
+  }
+
   setValues = async () => {
     const { data: createdUserData } = await GetUserSig(
       this.props.formData.createdBy,
@@ -301,6 +362,11 @@ class DailyProgressAndActivity extends Component {
       let { data: clients } = await Axios.get(
         `/api/client/${this.props.userObj.homeId}`
       );
+
+      clients = clients.filter((client) => {
+        return !client.hasOwnProperty("active") || client.active === true;
+      });
+
       setTimeout(() => {
         this.setState({
           ...this.state,
@@ -314,11 +380,14 @@ class DailyProgressAndActivity extends Component {
     }
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     if (this.props.valuesSet) {
       this.setValues();
     } else {
-      this.getClients();
+      await this.getClients();
+      interval = setInterval(() => {
+        this.autoSave();
+      }, 10000);
     }
   }
 
@@ -326,12 +395,19 @@ class DailyProgressAndActivity extends Component {
     if (event.target.value !== null) {
       const client = JSON.parse(event.target.value);
       const clonedState = { ...this.state };
+      const id = clonedState._id;
+      const lastEditDate = clonedState.lastEditDate;
       Object.keys(client).forEach((key) => {
-        if (clonedState.hasOwnProperty(key) && key !== "createDate") {
+        if (!key.includes("create") && clonedState.hasOwnProperty(key)) {
           clonedState[key] = client[key];
         }
       });
-      await this.setState({ ...clonedState, clientId: client._id });
+      await this.setState({
+        ...clonedState,
+        clientId: client._id,
+        _id: id,
+        lastEditDate,
+      });
     }
   };
 
@@ -356,6 +432,24 @@ class DailyProgressAndActivity extends Component {
           )}
           <div className="formTitleDiv">
             <h2 className="formTitle">Daily Progress and Activity</h2>
+            <h5
+              className="text-center"
+              style={{ color: "rgb(119 119 119 / 93%)" }}
+            >
+              {this.state.lastEditDate ? (
+                <i>
+                  {" "}
+                  Last Saved:
+                  {`${new Date(this.state.lastEditDate)
+                    .toTimeString()
+                    .replace(/\s.*/, "")} - ${new Date(
+                    this.state.lastEditDate
+                  ).toDateString()}`}
+                </i>
+              ) : (
+                "-"
+              )}
+            </h5>
           </div>
           {this.state.loadingClients ? (
             <div className="formLoadingDiv">
@@ -1359,14 +1453,14 @@ class DailyProgressAndActivity extends Component {
                     Save
                   </button>
 
-                  <button
+                  {/* <button
                     className="darkBtn"
                     onClick={() => {
                       this.validateForm(false);
                     }}
                   >
                     Submit
-                  </button>
+                  </button> */}
                 </div>
               </>
             )}

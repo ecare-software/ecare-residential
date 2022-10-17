@@ -1,5 +1,59 @@
 const express = require("express");
 const router = express.Router();
+const Home = require("../../models/Home");
+const nodemailer = require("nodemailer");
+
+const sendEmail = async (
+  toEmail,
+  toName,
+  homeId,
+  homeName,
+  fromEmail,
+  fromName,
+  message
+) => {
+  const mailClientUser = "admin.support@ecare-software.com"; // mail client
+  const mailClientPass = "eCare2020?";
+
+  let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: mailClientUser,
+      pass: mailClientPass,
+    },
+  });
+  const mailOptions = {
+    from: mailClientUser, // sender address
+    to: toEmail,
+    subject: `Hey ${toName}, you have a new direct message`, // Subject line
+    html: `<div>
+    <h2 style={{color:"black"}}>
+      You have a Direct Message from ${fromName} of ${homeName} (${homeId})
+    </h2>
+    <h4 style={{color:"black"}}>
+      Message:
+    </h4>
+    <p style={{color:"black"}}>
+      ${message}
+    </p>
+    <h4 style={{color:"black"}}>
+      To respond please visit the system at <a href="https://ecare-residential.com/" target="_blank" >https://ecare-residential.com/</a>
+    </h4>
+    </div>`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    return {
+      success: true,
+    };
+  } catch (e) {
+    return {
+      success: false,
+      error: e,
+    };
+  }
+};
 
 // direct message model
 const DirectMessage = require("../../models/DirectMessage");
@@ -43,26 +97,81 @@ router.get("/", (req, res) => {
 // @desc    Create an item
 // @access  Public
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   console.log(
-    `Posting Direct Message for user ${req.body.toID} at home ${req.body.homeId} - start`
+    `Posting Direct Message for user ${req.body.toID} at home ${req.body.homeId}`
   );
+
+  var toObj = req.body.toObj;
+  var fromObj = req.body.fromObj;
+  var toEmail = req.body.toID.toLocaleLowerCase();
+  var toName = toObj ? `${toObj.firstName} ${toObj.lastName}` : null;
+  var homeId = req.body.homeId;
+  var fromEmail = req.body.fromID;
+  var fromName = fromObj ? `${fromObj.firstName} ${fromObj.lastName}` : null;
+  var message = req.body.message;
+  var date = req.body.date;
+
+  if (
+    !toObj ||
+    !fromObj ||
+    !toEmail ||
+    !toName ||
+    !homeId ||
+    !fromEmail ||
+    !fromName ||
+    !message ||
+    !date
+  ) {
+    res.status(500).send(`Missing required fields`);
+    return;
+  }
+
   const newDirectMessage = new DirectMessage({
-    toObj: req.body.toObj,
-    fromObj: req.body.fromObj,
-    toID: req.body.toID,
-    fromID: req.body.fromID,
-    message: req.body.message,
-    date: req.body.date,
-    homeId: req.body.homeId,
+    toObj,
+    fromObj,
+    toID: toEmail,
+    fromID: fromEmail,
+    message,
+    date,
+    homeId,
   });
 
-  newDirectMessage.save().then((directMessage) => {
+  let directMessage, foundHome;
+  try {
+    directMessage = await newDirectMessage.save();
+  } catch (e) {
+    res.status(500).send(`Direct message error ${e}`);
+  }
+
+  try {
+    [foundHome] = await Home.find({ homeId });
+  } catch {
+    res.status(200).json(directMessage);
+    console.log(`Home fetch error ${e}`);
+  }
+
+  const emailResp = await sendEmail(
+    toEmail,
+    toName,
+    homeId,
+    foundHome.name,
+    fromEmail,
+    fromName,
+    message
+  );
+
+  if (emailResp.success) {
     console.log(
-      `Posted Direct Message for user ${req.body.toID} at home ${req.body.homeId} - end`
+      `Sent email for user ${req.body.toID} at home ${req.body.homeId}`
     );
-    res.json(directMessage);
-  });
+  } else {
+    console.log(
+      `Error sending email for user ${req.body.toID} at home ${req.body.homeId}`
+    );
+  }
+
+  res.status(200).json(directMessage);
 });
 
 // @route   Delete api/items

@@ -9,6 +9,8 @@ const IncidentReport = require("../../models/IncidentReport");
 const RestraintReport = require("../../models/RestraintReport");
 const SeriousIncidentReport = require("../../models/SeriousIncidentReport");
 const TreatmentPlan72 = require("../../models/TreatmentPlan72");
+const AwakeNightStaffSignoff = require("../../models/AwakeNightStaffSignoff");
+const NightMonitoring = require("../../models/NightMonitoring");
 
 const getApprovalFilter = (status) => {
   if (status == "true") {
@@ -62,6 +64,28 @@ router.get("/count/:status/:homeId", async (req, res) => {
 
   try {
     formPromises.push(
+      AwakeNightStaffSignoff.find({
+        homeId: req.params.homeId,
+        approved,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading Awake Night Staff Signoff -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      NightMonitoring.find({
+        homeId: req.params.homeId,
+        approved,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading Night Monitoring -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
       BodyCheck.find({
         homeId: req.params.homeId,
         approved,
@@ -97,7 +121,7 @@ router.get("/count/:status/:homeId", async (req, res) => {
     formPromises.push(
       IncidentReport.find({
         homeId: req.params.homeId,
-        ...getApprovalFilter(approved),
+        approved,
       })
     );
   } catch (e) {
@@ -119,7 +143,7 @@ router.get("/count/:status/:homeId", async (req, res) => {
     formPromises.push(
       SeriousIncidentReport.find({
         homeId: req.params.homeId,
-        ...getApprovalFilter(approved),
+        approved,
       })
     );
   } catch (e) {
@@ -166,6 +190,26 @@ router.get("/count/:homeId", async (req, res) => {
 
   try {
     formPromises.push(
+      AwakeNightStaffSignoff.find({
+        homeId: req.params.homeId,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading Awake Night Staff Signoff -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      NightMonitoring.find({
+        homeId: req.params.homeId,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading Night Monitoring -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
       BodyCheck.find({
         homeId: req.params.homeId,
       })
@@ -240,7 +284,6 @@ router.get("/count/:homeId", async (req, res) => {
     acc = acc + formTypePromise.length;
     return acc;
   }, 0);
-  console.log(completedPromisses);
   res.json({
     count,
     homeId,

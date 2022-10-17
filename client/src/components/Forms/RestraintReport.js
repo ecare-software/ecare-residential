@@ -12,7 +12,9 @@ import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
 import { FormSavedAlert } from "../../utils/FormSavedAlert";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 import TextareaAutosize from "react-textarea-autosize";
-
+import StaffOption from "../../utils/StaffOption.util";
+var interval = 0; // used for autosaving
+let initAutoSave = false;
 class RestraintReport extends Component {
   constructor(props) {
     super(props);
@@ -26,7 +28,6 @@ class RestraintReport extends Component {
       time_of_incident: "",
       staff_witness_name: "",
       staff_witness_gender: "",
-      staff_witness_name: "",
 
       staff_witness_gender: "",
 
@@ -95,7 +96,7 @@ class RestraintReport extends Component {
           ? ""
           : this.props.userObj.firstName + " " + this.props.userObj.lastName,
 
-      lastEditDate: new Date(),
+      lastEditDate: null,
 
       homeId: this.props.valuesSet === true ? "" : this.props.userObj.homeId,
 
@@ -107,9 +108,12 @@ class RestraintReport extends Component {
 
       loadingClients: true,
 
+      loadingStaff: true,
+
       loadingSig: true,
 
       clients: [],
+      staff: [],
       clientId: "",
     };
   }
@@ -154,7 +158,6 @@ class RestraintReport extends Component {
       time_of_incident: "",
       staff_witness_name: "",
       staff_witness_gender: "",
-      staff_witness_name: "",
 
       staff_witness_gender: "",
 
@@ -219,23 +222,78 @@ class RestraintReport extends Component {
     });
   };
 
-  submit = async () => {
+  // auto save
+  autoSave = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-    if (this.props.valuesSet) {
+    delete currentState.clients;
+    console.log("auto saving");
+    if (initAutoSave) {
+      console.log("updating existing form");
       try {
-        await Axios.put(
-          `/api/restraintReport/${this.state.homeId}/${this.props.formData._id}`,
+        const { data } = await Axios.put(
+          `/api/restraintReport/${this.state.homeId}/${this.state._id}`,
           {
-            ...this.state,
+            ...currentState,
           }
         );
-        this.props.doUpdateFormDates();
+
+        this.setState({ ...this.state, ...data });
+      } catch (e) {
+        console.log(e);
+        this.setState({
+          formHasError: true,
+          formErrorMessage: "Error Submitting Restraint Report",
+          loadingClients: false,
+        });
+      }
+    } else {
+      console.log("creating");
+      currentState.createdBy = this.props.userObj.email;
+      currentState.createdByName =
+        this.props.userObj.firstName + " " + this.props.userObj.lastName;
+
+      Axios.post("/api/restraintReport", currentState)
+        .then((res) => {
+          initAutoSave = true;
+
+          this.setState({
+            ...this.state,
+            ...res.data,
+          });
+        })
+        .catch((e) => {
+          console.log(e);
+          this.setState({
+            formHasError: true,
+            formErrorMessage: "Error Submitting Restraint Report",
+            loadingClients: false,
+          });
+        });
+    }
+  };
+
+  submit = async () => {
+    let currentState = JSON.parse(JSON.stringify(this.state));
+    delete currentState.clients;
+    initAutoSave = false;
+    clearInterval(interval);
+    if (this.props.valuesSet || this.state._id) {
+      try {
+        const { data } = await Axios.put(
+          `/api/restraintReport/${this.state.homeId}/${this.state._id}`,
+          {
+            ...currentState,
+          }
+        );
+
+        this.setState({ ...this.state, ...data });
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
-        setTimeout(() => {
-          this.toggleSuccessAlert();
-        }, 2000);
+        // setTimeout(() => {
+        //   this.toggleSuccessAlert();
+        // }, 2000);
       } catch (e) {
+        console.log(e);
         this.setState({
           formHasError: true,
           formErrorMessage: "Error Submitting Restraint Report",
@@ -256,6 +314,7 @@ class RestraintReport extends Component {
           }
         })
         .catch((e) => {
+          console.log(e);
           this.setState({
             formHasError: true,
             formErrorMessage: "Error Submitting Restraint Report",
@@ -284,7 +343,7 @@ class RestraintReport extends Component {
         this.setState({
           ...this.state,
           formHasError: true,
-          formErrorMessage: `User signiture required to submit a form. Create a new signiture under 'Manage Profile'.`,
+          formErrorMessage: `User signature required to submit a form. Create a new signature under 'Manage Profile'.`,
           loadingClients: false,
         });
         return;
@@ -300,6 +359,7 @@ class RestraintReport extends Component {
       "client_witness_dob2",
       "client_witness_doa2",
       "loadingClients",
+      "loadingStaff",
     ];
 
     //resubmit fields
@@ -348,6 +408,11 @@ class RestraintReport extends Component {
       this.sigCanvas.fromData(userObj.signature);
     }
   };
+  componentWillUnmount() {
+    console.log("clearing auto save interval");
+    initAutoSave = false;
+    clearInterval(interval);
+  }
 
   setValues = async () => {
     const { data: createdUserData } = await GetUserSig(
@@ -369,11 +434,16 @@ class RestraintReport extends Component {
       let { data: clients } = await Axios.get(
         `/api/client/${this.props.userObj.homeId}`
       );
+
+      clients = clients.filter((client) => {
+        return !client.hasOwnProperty("active") || client.active === true;
+      });
+
       setTimeout(() => {
         this.setState({
           ...this.state,
           clients,
-          loadingClients: !this.state.loadingClients,
+          loadingClients: false,
         });
       }, 2000);
     } catch (e) {
@@ -382,11 +452,37 @@ class RestraintReport extends Component {
     }
   };
 
-  componentDidMount() {
+  getStaff = async () => {
+    try {
+      let { data: staff } = await Axios.get(
+        `/api/users/${this.props.userObj.homeId}`
+      );
+
+      staff = staff.filter((staff) => {
+        return !staff.hasOwnProperty("active") || staff.active === true;
+      });
+
+      setTimeout(() => {
+        this.setState({
+          ...this.state,
+          staff,
+          loadingStaff: false,
+        });
+      }, 2000);
+    } catch (e) {
+      console.log(e);
+      alert("Error loading staff");
+    }
+  };
+
+  async componentDidMount() {
     if (this.props.valuesSet) {
       this.setValues();
     } else {
-      this.getClients();
+      await this.getClients();
+      interval = setInterval(() => {
+        this.autoSave();
+      }, 10000);
     }
   }
 
@@ -394,15 +490,68 @@ class RestraintReport extends Component {
     if (event.target.value !== null) {
       const client = JSON.parse(event.target.value);
       const clonedState = { ...this.state };
+      const id = clonedState._id;
+      const lastEditDate = clonedState.lastEditDate;
       Object.keys(client).forEach((key) => {
-        if (clonedState.hasOwnProperty(key)) {
+        if (!key.includes("create") && clonedState.hasOwnProperty(key)) {
           clonedState[key] = client[key];
         }
-        // if (key.includes("childMeta_placeOfBirth")) {
-        //   clonedState.childMeta_placeOfBirth = `${client[key]} `;
-        // }
       });
-      await this.setState({ ...clonedState, clientId: client._id });
+      await this.setState({
+        ...clonedState,
+        clientId: client._id,
+        _id: id,
+        lastEditDate,
+      });
+    }
+  };
+
+  handleClientSelectWithness1 = async (event) => {
+    if (event.target.value !== null) {
+      try {
+        const client = JSON.parse(event.target.value);
+        await this.setState({
+          ...this.state,
+          client_witness_name1: client.childMeta_name,
+          client_witness_gender1: client.childMeta_gender,
+          client_witness_dob1: client.childMeta_dob,
+          client_witness_doa1: client.childMeta_dateOfAdmission,
+        });
+      } catch (e) {
+        alert("Error parsing data");
+        console.log(e);
+      }
+    }
+  };
+
+  handleClientSelectWithness2 = async (event) => {
+    if (event.target.value !== null) {
+      try {
+        const client = JSON.parse(event.target.value);
+        await this.setState({
+          ...this.state,
+          client_witness_name2: client.childMeta_name,
+          client_witness_gender2: client.childMeta_gender,
+          client_witness_dob2: client.childMeta_dob,
+          client_witness_doa2: client.childMeta_dateOfAdmission,
+        });
+      } catch (e) {
+        alert("Error parsing data");
+        console.log(e);
+      }
+    }
+  };
+
+  handleStaffSelect = async (val, stateValToSet) => {
+    if (val !== null) {
+      try {
+        let staff = JSON.parse(val);
+        staff = `${staff.firstName} ${staff.lastName}`;
+
+        await this.setState({ ...this.state, ...{ [stateValToSet]: staff } });
+      } catch (e) {
+        alert("Error parsing staff user data");
+      }
     }
   };
 
@@ -426,9 +575,27 @@ class RestraintReport extends Component {
             <React.Fragment />
           )}
           <div className="formTitleDiv">
-            <h2 className="formTitle">Restriant Report</h2>
+            <h2 className="formTitle">Restraint Report</h2>
+            <h5
+              className="text-center"
+              style={{ color: "rgb(119 119 119 / 93%)" }}
+            >
+              {this.state.lastEditDate ? (
+                <i>
+                  {" "}
+                  Last Saved:
+                  {`${new Date(this.state.lastEditDate)
+                    .toTimeString()
+                    .replace(/\s.*/, "")} - ${new Date(
+                    this.state.lastEditDate
+                  ).toDateString()}`}
+                </i>
+              ) : (
+                "-"
+              )}
+            </h5>
           </div>
-          {this.state.loadingClients ? (
+          {this.state.loadingClients && this.state.loadingStaff ? (
             <div className="formLoadingDiv">
               <div>
                 <ClipLoader
@@ -504,13 +671,23 @@ class RestraintReport extends Component {
                 <label className="control-label">
                   Name of Care Staff Involved
                 </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id="staff_involved_name"
-                  value={this.state.staff_involved_name}
-                  className="form-control"
-                  type="text"
-                />{" "}
+                <Form.Control
+                  as="select"
+                  defaultValue={null}
+                  onChange={(e) => {
+                    this.handleStaffSelect(
+                      e.target.value,
+                      "staff_involved_name"
+                    );
+                  }}
+                >
+                  {[null, ...this.state.staff].map(
+                    (staff) => (
+                      <StaffOption data={staff} />
+                    ),
+                    []
+                  )}
+                </Form.Control>
               </div>
               <div className="form-group logInInputField">
                 {" "}
@@ -547,13 +724,23 @@ class RestraintReport extends Component {
                 <label className="control-label">
                   Name of Staff Witness
                 </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id="staff_witness_name"
-                  value={this.state.staff_witness_name}
-                  className="form-control"
-                  type="text"
-                />{" "}
+                <Form.Control
+                  as="select"
+                  defaultValue={null}
+                  onChange={(e) => {
+                    this.handleStaffSelect(
+                      e.target.value,
+                      "staff_witness_name"
+                    );
+                  }}
+                >
+                  {[null, ...this.state.staff].map(
+                    (staff) => (
+                      <StaffOption data={staff} />
+                    ),
+                    []
+                  )}
+                </Form.Control>
               </div>
               <div className="form-group logInInputField">
                 {" "}
@@ -577,13 +764,18 @@ class RestraintReport extends Component {
                 <label className="control-label">
                   Name of Client Witness (1)
                 </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id="client_witness_name1"
-                  value={this.state.client_witness_name1}
-                  className="form-control"
-                  type="text"
-                />{" "}
+                <Form.Control
+                  as="select"
+                  defaultValue={null}
+                  onChange={this.handleClientSelectWithness1}
+                >
+                  {[null, ...this.state.clients].map(
+                    (client, idx) => (
+                      <ClientOption key={`${idx}`} data={client} />
+                    ),
+                    []
+                  )}
+                </Form.Control>
               </div>
 
               <div className="form-group logInInputField">
@@ -638,13 +830,18 @@ class RestraintReport extends Component {
                 <label className="control-label">
                   Name Client Witness (2)
                 </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id="client_witness_name2"
-                  value={this.state.client_witness_name2}
-                  className="form-control"
-                  type="text"
-                />{" "}
+                <Form.Control
+                  as="select"
+                  defaultValue={null}
+                  onChange={this.handleClientSelectWithness2}
+                >
+                  {[null, ...this.state.clients].map(
+                    (client, idx) => (
+                      <ClientOption key={`${idx}`} data={client} />
+                    ),
+                    []
+                  )}
+                </Form.Control>
               </div>
 
               <div className="form-group logInInputField">
@@ -1041,11 +1238,11 @@ class RestraintReport extends Component {
             <React.Fragment />
           )}
           <div className="formTitleDivReport">
-            <h2 className="formTitle">Restriant Report</h2>
+            <h2 className="formTitle">Restraint Report</h2>
           </div>
 
           <div className="formFieldsMobileReport">
-            {this.state.loadingClients ? (
+            {this.state.loadingClients && this.state.loadingStaff ? (
               <div className="formLoadingDiv">
                 <div>
                   <ClipLoader
@@ -1625,14 +1822,14 @@ class RestraintReport extends Component {
                     Save
                   </button>
 
-                  <button
+                  {/* <button
                     className="darkBtn"
                     onClick={() => {
                       this.validateForm(false);
                     }}
                   >
                     Submit
-                  </button>
+                  </button> */}
                 </div>
               </>
             )}

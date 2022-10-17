@@ -46,9 +46,7 @@ router.post("/", (req, res) => {
 
     lastEditDate: new Date().toISOString(),
 
-    createDate: req.body.createDate
-      ? req.body.createDate
-      : new Date(new Date().setHours(0, 0, 0, 0)).toISOString(),
+    createDate: new Date().toISOString(),
 
     homeId: req.body.homeId,
 
@@ -153,6 +151,16 @@ router.put("/:homeId/:formId/", (req, res) => {
     { _id: req.params.formId },
     updatedLastEditDate
   )
+    .then((data) => {
+      res.json(updatedLastEditDate);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+});
+
+router.delete("/:homeId/:formId/", (req, res) => {
+  DailyProgressAndActivity.deleteOne({ _id: req.params.formId })
     .then((data) => {
       res.json(data);
     })

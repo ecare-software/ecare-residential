@@ -1,61 +1,50 @@
 const express = require("express");
 const router = express.Router();
 
-const SeriousIncidentReport = require("../../models/SeriousIncidentReport");
+const AwakeNightStaffSignoff = require("../../models/AwakeNightStaffSignoff");
 
 router.post("/", (req, res) => {
-  const newSeriousIncidentReport = new SeriousIncidentReport({
-    childMeta_name: req.body.childMeta_name,
-
-    childMeta_gender: req.body.childMeta_gender,
-
-    childMeta_dob: req.body.childMeta_dob,
-
-    childMeta_dateOfAdmission: req.body.childMeta_dateOfAdmission,
-
-    dateOfIncident: req.body.dateOfIncident,
-
-    staff_involved_name: req.body.staff_involved_name,
-
-    staff_involved_gender: req.body.staff_involved_gender,
-
-    time_of_incident: req.body.time_of_incident,
-
-    staff_witness_name: req.body.staff_witness_name,
-
-    staff_witness_gender: req.body.staff_witness_gender,
-
-    client_witness_name1: req.body.client_witness_name1,
-
-    client_witness_gender1: req.body.client_witness_gender1,
-
-    client_witness_dob1: req.body.client_witness_dob1,
-
-    client_witness_doa1: req.body.client_witness_doa1,
-
-    client_witness_name2: req.body.client_witness_name2,
-
-    client_witness_gender2: req.body.client_witness_gender2,
-
-    client_witness_dob2: req.body.client_witness_dob2,
-
-    client_witness_doa2: req.body.client_witness_doa2,
-
-    incident_explaination: req.body.incident_explaination,
-
-    seperation: req.body.seperation,
-
-    result: req.body.result,
-
-    able_to_prevent: req.body.able_to_prevent,
-
-    notification_made_to: req.body.notification_made_to,
-
-    notification_made_date_time: req.body.notification_made_date_time,
-
-    notification_made_by: req.body.notification_made_by,
-
-    follow_up_results: req.body.follow_up_results,
+  const newAwakeNightStaffSignoff = new AwakeNightStaffSignoff({
+    ts1Approval: req.body.ts1Approval,
+    ts2Approval: req.body.ts2Approval,
+    ts3Approval: req.body.ts3Approval,
+    ts4Approval: req.body.ts4Approval,
+    ts5Approval: req.body.ts5Approval,
+    ts6Approval: req.body.ts6Approval,
+    ts7Approval: req.body.ts7Approval,
+    ts8Approval: req.body.ts8Approval,
+    ts9Approval: req.body.ts9Approval,
+    ts10Approval: req.body.ts10Approval,
+    ts11Approval: req.body.ts11Approval,
+    ts12Approval: req.body.ts12Approval,
+    ts13Approval: req.body.ts13Approval,
+    ts14Approval: req.body.ts14Approval,
+    ts15Approval: req.body.ts15Approval,
+    ts16Approval: req.body.ts16Approval,
+    ts17Approval: req.body.ts17Approval,
+    ts18Approval: req.body.ts18Approval,
+    ts19Approval: req.body.ts19Approval,
+    ts20Approval: req.body.ts20Approval,
+    ts21Approval: req.body.ts21Approval,
+    ts22Approval: req.body.ts22Approval,
+    ts23Approval: req.body.ts23Approval,
+    ts24Approval: req.body.ts24Approval,
+    ts25Approval: req.body.ts25Approval,
+    ts26Approval: req.body.ts26Approval,
+    ts27Approval: req.body.ts27Approval,
+    ts28Approval: req.body.ts28Approval,
+    ts29Approval: req.body.ts29Approval,
+    ts30Approval: req.body.ts30Approval,
+    ts31Approval: req.body.ts31Approval,
+    ts32Approval: req.body.ts32Approval,
+    ts33Approval: req.body.ts33Approval,
+    ts34Approval: req.body.ts34Approval,
+    ts35Approval: req.body.ts35Approval,
+    ts36Approval: req.body.ts36Approval,
+    ts37Approval: req.body.ts37Approval,
+    ts38Approval: req.body.ts38Approval,
+    ts39Approval: req.body.ts39Approval,
+    ts40Approval: req.body.ts40Approval,
 
     createdBy: req.body.createdBy,
 
@@ -67,22 +56,32 @@ router.post("/", (req, res) => {
 
     homeId: req.body.homeId,
 
-    formType: "Serious Incident Report",
+    formType: "Awake Night Staff Signoff",
   });
-
-  newSeriousIncidentReport
+  newAwakeNightStaffSignoff
     .save()
-    .then((seriousIncidentReport) => res.json(seriousIncidentReport))
+    .then((awakeNightStaffSignoff) => res.json(awakeNightStaffSignoff))
     .catch((e) => {
-      console.log(e);
+      e;
     });
 });
 
 router.get("/:homeId", (req, res) => {
-  SeriousIncidentReport.find({ homeId: req.params.homeId })
+  AwakeNightStaffSignoff.find({ homeId: req.params.homeId })
     .sort({ createDate: -1 })
     .exec()
-    .then((IncidentReports) => res.json(IncidentReports))
+    .then((awakeNightStaffSignoff) => res.json(awakeNightStaffSignoff))
+    .catch((err) => res.status(404).json({ success: false }));
+});
+
+router.get("/:homeId/:email", (req, res) => {
+  AwakeNightStaffSignoff.find({
+    homeId: req.params.homeId,
+    createdBy: req.params.email,
+  })
+    .sort({ createDate: -1 })
+    .exec()
+    .then((awakeNightStaffSignoff) => res.json(awakeNightStaffSignoff))
     .catch((err) => res.status(404).json({ success: false }));
 });
 
@@ -231,17 +230,44 @@ router.get(
       findObj.approved = req.params.approved;
     }
 
-    SeriousIncidentReport.find(findObj)
+    AwakeNightStaffSignoff.find(findObj)
       .sort({ createDate: -1 })
       .exec()
-      .then((seriousIncidentReports) => res.json(seriousIncidentReports))
+      .then((incidentReports) => res.json(incidentReports))
       .catch((err) => res.status(404).json({ success: err }));
   }
 );
 
+router.get("/:homeId" + "/:submittedByA" + "/:lastEditDate", (req, res) => {
+  var findObj = {
+    homeId: req.params.homeId,
+  };
+
+  // submitted by
+  if (req.params.submittedByA !== "none") {
+    findObj.createdBy = req.params.submittedByA;
+  }
+
+  AwakeNightStaffSignoff.find(findObj)
+    .sort({ createDate: -1 })
+    .exec()
+    .then((awakeNightStaffSignoff) => res.json(awakeNightStaffSignoff))
+    .catch((err) => res.status(404).json({ success: err }));
+});
+
+router.put("/:formId", (req, res) => {
+  AwakeNightStaffSignoff.updateOne({ _id: req.params.formId }, req.body)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+});
+
 router.put("/:homeId/:formId/", (req, res) => {
   const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
-  SeriousIncidentReport.updateOne(
+  AwakeNightStaffSignoff.updateOne(
     { _id: req.params.formId },
     updatedLastEditDate
   )
@@ -254,7 +280,7 @@ router.put("/:homeId/:formId/", (req, res) => {
 });
 
 router.delete("/:homeId/:formId/", (req, res) => {
-  SeriousIncidentReport.deleteOne({ _id: req.params.formId })
+  AwakeNightStaffSignoff.deleteOne({ _id: req.params.formId })
     .then((data) => {
       res.json(data);
     })
