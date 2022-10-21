@@ -465,9 +465,9 @@ class BodyCheck extends Component {
       this.setValues();
     } else {
       await this.getClients();
-      interval = setInterval(() => {
-        this.autoSave();
-      }, 10000);
+      //interval = setInterval(() => {
+      //      this.autoSave();
+      //      }, 10000);
     }
   }
 
@@ -494,15 +494,15 @@ class BodyCheck extends Component {
   render() {
     if (!this.props.valuesSet) {
       return (
-        <div className="formComp">
+        <div className='formComp'>
           {this.state.formSubmitted || this.state.formHasError ? (
             <React.Fragment>
               {this.state.formSubmitted && <FormSuccessAlert />}
               <FormAlert
                 doShow={this.state.formHasError}
                 toggleErrorAlert={this.toggleErrorAlert}
-                type="danger"
-                heading="Error Submitting form"
+                type='danger'
+                heading='Error Submitting form'
               >
                 <p>{this.state.formErrorMessage}</p>
               </FormAlert>
@@ -510,10 +510,10 @@ class BodyCheck extends Component {
           ) : (
             <React.Fragment />
           )}
-          <div className="formTitleDiv">
-            <h2 className="formTitle">Health Body Check</h2>
+          <div className='formTitleDiv'>
+            <h2 className='formTitle'>Health Body Check</h2>
             <h5
-              className="text-center"
+              className='text-center'
               style={{ color: "rgb(119 119 119 / 93%)" }}
             >
               {this.state.lastEditDate ? (
@@ -532,10 +532,10 @@ class BodyCheck extends Component {
             </h5>
           </div>
           {this.state.loadingClients ? (
-            <div className="formLoadingDiv">
+            <div className='formLoadingDiv'>
               <div>
                 <ClipLoader
-                  className="formSpinner"
+                  className='formSpinner'
                   size={50}
                   color={"#ffc107"}
                 />
@@ -543,12 +543,12 @@ class BodyCheck extends Component {
               <p>Loading...</p>
             </div>
           ) : (
-            <div className="formFieldsMobile">
-              <div className="form-group logInInputField">
+            <div className='formFieldsMobile'>
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Child's Name</label>{" "}
+                <label className='control-label'>Child's Name</label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   defaultValue={null}
                   onChange={this.handleClientSelect}
                 >
@@ -560,14 +560,14 @@ class BodyCheck extends Component {
                   )}
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Child's Gender</label>{" "}
+                <label className='control-label'>Child's Gender</label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.childMeta_gender}
-                  id="childMeta_gender"
+                  id='childMeta_gender'
                 >
                   <option>Male</option>
                   <option>Female</option>
@@ -576,33 +576,33 @@ class BodyCheck extends Component {
                 </Form.Control>
               </div>
 
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Does the child have an injury (Yes / No)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="injury"
+                  id='injury'
                   value={this.state.injury}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
 
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">AM / PM</label>{" "}
+                <label className='control-label'>AM / PM</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="amPm"
+                  id='amPm'
                   value={this.state.amPm}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
 
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 <h5>
                   Write the number code corresponding to the type of mark on the
                   area of the child’s body the mark appears.
@@ -614,13 +614,13 @@ class BodyCheck extends Component {
                 </h5>
               </div>
 
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">head</label>{" "}
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>head</label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.head}
-                  id="head"
+                  id='head'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -637,13 +637,13 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">face</label>{" "}
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>face</label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.face}
-                  id="face"
+                  id='face'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -660,15 +660,15 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>
                   left ear
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.left_ear}
-                  id="left_ear"
+                  id='left_ear'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -685,15 +685,15 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>
                   right ear
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.right_ear}
-                  id="right_ear"
+                  id='right_ear'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -710,15 +710,15 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>
                   left eye
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.left_eye}
-                  id="left_eye"
+                  id='left_eye'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -735,15 +735,15 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>
                   right eye
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.right_eye}
-                  id="right_eye"
+                  id='right_eye'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -760,13 +760,13 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">nose</label>{" "}
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>nose</label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.nose}
-                  id="nose"
+                  id='nose'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -783,13 +783,13 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">mouth</label>{" "}
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>mouth</label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.mouth}
-                  id="mouth"
+                  id='mouth'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -806,13 +806,13 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">chin</label>{" "}
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>chin</label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.chin}
-                  id="chin"
+                  id='chin'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -829,13 +829,13 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">neck</label>{" "}
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>neck</label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.neck}
-                  id="neck"
+                  id='neck'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -852,15 +852,15 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>
                   left shoulder
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.left_shoulder}
-                  id="left_shoulder"
+                  id='left_shoulder'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -877,15 +877,15 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>
                   right shoulder
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.right_shoulder}
-                  id="right_shoulder"
+                  id='right_shoulder'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -902,15 +902,15 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>
                   left arm
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.left_arm}
-                  id="left_arm"
+                  id='left_arm'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -927,15 +927,15 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>
                   right arm
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.right_arm}
-                  id="right_arm"
+                  id='right_arm'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -952,15 +952,15 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>
                   left hand
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.left_hand}
-                  id="left_hand"
+                  id='left_hand'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -977,15 +977,15 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>
                   right hand
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.right_hand}
-                  id="right_hand"
+                  id='right_hand'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -1002,13 +1002,13 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">chest</label>{" "}
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>chest</label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.chest}
-                  id="chest"
+                  id='chest'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -1025,13 +1025,13 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">back</label>{" "}
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>back</label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.back}
-                  id="back"
+                  id='back'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -1048,13 +1048,13 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">stomach</label>{" "}
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>stomach</label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.stomach}
-                  id="stomach"
+                  id='stomach'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -1071,15 +1071,15 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>
                   left hip
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.left_hip}
-                  id="left_hip"
+                  id='left_hip'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -1096,15 +1096,15 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>
                   right hip
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.right_hip}
-                  id="right_hip"
+                  id='right_hip'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -1121,15 +1121,15 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>
                   left leg
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.left_leg}
-                  id="left_leg"
+                  id='left_leg'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -1146,15 +1146,15 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>
                   right leg
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.right_leg}
-                  id="right_leg"
+                  id='right_leg'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -1171,15 +1171,15 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>
                   left knee
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.left_knee}
-                  id="left_knee"
+                  id='left_knee'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -1196,15 +1196,15 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>
                   right knee
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.right_knee}
-                  id="right_knee"
+                  id='right_knee'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -1221,15 +1221,15 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>
                   left ankle
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.left_ankle}
-                  id="left_ankle"
+                  id='left_ankle'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -1246,15 +1246,15 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>
                   right ankle
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.right_ankle}
-                  id="right_ankle"
+                  id='right_ankle'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -1271,15 +1271,15 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>
                   left foot
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.left_foot}
-                  id="left_foot"
+                  id='left_foot'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -1296,15 +1296,15 @@ class BodyCheck extends Component {
                   <option value={-1}>N/A</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label text-capitalize">
+              <div className='form-group logInInputField'>
+                <label className='control-label text-capitalize'>
                   right foot
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.right_foot}
-                  id="right_foot"
+                  id='right_foot'
                 >
                   <option>1</option>
                   <option>2</option>
@@ -1322,104 +1322,104 @@ class BodyCheck extends Component {
                 </Form.Control>
               </div>
 
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Additional Details</label>{" "}
+                <label className='control-label'>Additional Details</label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="details"
+                  id='details'
                   value={this.state.details}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
 
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Examiner Name</label>{" "}
+                <label className='control-label'>Examiner Name</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="examiner_name"
+                  id='examiner_name'
                   value={this.state.examiner_name}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
 
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Examiner Title</label>{" "}
+                <label className='control-label'>Examiner Title</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="examiner_title"
+                  id='examiner_title'
                   value={this.state.examiner_title}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
 
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Date Examiner Checked Body
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="examin_date"
+                  id='examin_date'
                   value={this.state.examin_date}
-                  className="form-control"
-                  type="datetime-local"
+                  className='form-control'
+                  type='datetime-local'
                 />{" "}
               </div>
 
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Nurse or Designee Name
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="nurse_designee_name"
+                  id='nurse_designee_name'
                   value={this.state.nurse_designee_name}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
 
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Nurse or Designee Title
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="nurse_designee_title"
+                  id='nurse_designee_title'
                   value={this.state.nurse_designee_title}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
 
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Date Nurse or Designee Checked Body
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="nurse_designee_date"
+                  id='nurse_designee_date'
                   value={this.state.nurse_designee_date}
-                  className="form-control"
-                  type="datetime-local"
+                  className='form-control'
+                  type='datetime-local'
                 />{" "}
               </div>
 
               <FormError errorId={this.props.id + "-error"} />
               <div
-                className="form-group logInInputField"
+                className='form-group logInInputField'
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
                 <button
-                  className="lightBtn"
+                  className='lightBtn'
                   onClick={() => {
                     this.validateForm(true);
                   }}
@@ -1428,7 +1428,7 @@ class BodyCheck extends Component {
                 </button>
 
                 <button
-                  className="darkBtn"
+                  className='darkBtn'
                   onClick={() => {
                     this.validateForm(false);
                   }}
@@ -1442,15 +1442,15 @@ class BodyCheck extends Component {
       );
     } else {
       return (
-        <div className="formComp">
+        <div className='formComp'>
           {this.state.formSubmitted || this.state.formHasError ? (
             <React.Fragment>
               {this.state.formSubmitted && <FormSavedAlert />}
               <FormAlert
                 doShow={this.state.formHasError}
                 toggleErrorAlert={this.toggleErrorAlert}
-                type="danger"
-                heading="Error Submitting form"
+                type='danger'
+                heading='Error Submitting form'
               >
                 <p>{this.state.formErrorMessage}</p>
               </FormAlert>
@@ -1458,15 +1458,15 @@ class BodyCheck extends Component {
           ) : (
             <React.Fragment />
           )}
-          <div className="formTitleDivReport">
-            <h2 className="formTitle">Health Body Check</h2>
+          <div className='formTitleDivReport'>
+            <h2 className='formTitle'>Health Body Check</h2>
           </div>
-          <div className="formFieldsMobileReport">
+          <div className='formFieldsMobileReport'>
             {this.state.loadingClients ? (
-              <div className="formLoadingDiv">
+              <div className='formLoadingDiv'>
                 <div>
                   <ClipLoader
-                    className="formSpinner"
+                    className='formSpinner'
                     size={50}
                     color={"#ffc107"}
                   />
@@ -1475,25 +1475,25 @@ class BodyCheck extends Component {
               </div>
             ) : (
               <div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Child's Name</label>{" "}
+                  <label className='control-label'>Child's Name</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="childMeta_name"
+                    id='childMeta_name'
                     value={this.state.childMeta_name}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Child's Gender</label>{" "}
+                  <label className='control-label'>Child's Gender</label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.childMeta_gender}
-                    id="childMeta_gender"
+                    id='childMeta_gender'
                   >
                     <option>Male</option>
                     <option>Female</option>
@@ -1501,31 +1501,31 @@ class BodyCheck extends Component {
                     <option value={""}>Choose</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Does the child have an injury (Yes / No)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="injury"
+                    id='injury'
                     value={this.state.injury}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">AM / PM</label>{" "}
+                  <label className='control-label'>AM / PM</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="amPm"
+                    id='amPm'
                     value={this.state.amPm}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   <h5>
                     Write the number code corresponding to the type of mark on
                     the area of the child’s body the mark appears.
@@ -1538,13 +1538,13 @@ class BodyCheck extends Component {
                     :
                   </h5>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">head</label>{" "}
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>head</label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.head}
-                    id="head"
+                    id='head'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -1561,13 +1561,13 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">face</label>{" "}
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>face</label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.face}
-                    id="face"
+                    id='face'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -1584,15 +1584,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     left ear
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.left_ear}
-                    id="left_ear"
+                    id='left_ear'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -1609,15 +1609,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     right ear
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.right_ear}
-                    id="right_ear"
+                    id='right_ear'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -1634,15 +1634,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     left eye
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.left_eye}
-                    id="left_eye"
+                    id='left_eye'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -1659,15 +1659,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     right eye
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.right_eye}
-                    id="right_eye"
+                    id='right_eye'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -1684,13 +1684,13 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">nose</label>{" "}
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>nose</label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.nose}
-                    id="nose"
+                    id='nose'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -1707,13 +1707,13 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">mouth</label>{" "}
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>mouth</label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.mouth}
-                    id="mouth"
+                    id='mouth'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -1730,13 +1730,13 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">chin</label>{" "}
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>chin</label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.chin}
-                    id="chin"
+                    id='chin'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -1753,13 +1753,13 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">neck</label>{" "}
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>neck</label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.neck}
-                    id="neck"
+                    id='neck'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -1776,15 +1776,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     left shoulder
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.left_shoulder}
-                    id="left_shoulder"
+                    id='left_shoulder'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -1801,15 +1801,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     right shoulder
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.right_shoulder}
-                    id="right_shoulder"
+                    id='right_shoulder'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -1826,15 +1826,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     left arm
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.left_arm}
-                    id="left_arm"
+                    id='left_arm'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -1851,15 +1851,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     right arm
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.right_arm}
-                    id="right_arm"
+                    id='right_arm'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -1876,15 +1876,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     left hand
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.left_hand}
-                    id="left_hand"
+                    id='left_hand'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -1901,15 +1901,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     right hand
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.right_hand}
-                    id="right_hand"
+                    id='right_hand'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -1926,13 +1926,13 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">chest</label>{" "}
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>chest</label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.chest}
-                    id="chest"
+                    id='chest'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -1949,13 +1949,13 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">back</label>{" "}
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>back</label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.back}
-                    id="back"
+                    id='back'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -1972,15 +1972,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     stomach
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.stomach}
-                    id="stomach"
+                    id='stomach'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -1997,15 +1997,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     left hip
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.left_hip}
-                    id="left_hip"
+                    id='left_hip'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -2022,15 +2022,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     right hip
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.right_hip}
-                    id="right_hip"
+                    id='right_hip'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -2047,15 +2047,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     left leg
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.left_leg}
-                    id="left_leg"
+                    id='left_leg'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -2072,15 +2072,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     right leg
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.right_leg}
-                    id="right_leg"
+                    id='right_leg'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -2097,15 +2097,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     left knee
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.left_knee}
-                    id="left_knee"
+                    id='left_knee'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -2122,15 +2122,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     right knee
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.right_knee}
-                    id="right_knee"
+                    id='right_knee'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -2147,15 +2147,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     left ankle
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.left_ankle}
-                    id="left_ankle"
+                    id='left_ankle'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -2172,15 +2172,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     right ankle
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.right_ankle}
-                    id="right_ankle"
+                    id='right_ankle'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -2197,15 +2197,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     left foot
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.left_foot}
-                    id="left_foot"
+                    id='left_foot'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -2222,15 +2222,15 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label text-capitalize">
+                <div className='form-group logInInputField'>
+                  <label className='control-label text-capitalize'>
                     right foot
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.right_foot}
-                    id="right_foot"
+                    id='right_foot'
                   >
                     <option>1</option>
                     <option>2</option>
@@ -2247,96 +2247,96 @@ class BodyCheck extends Component {
                     <option value={-1}>N/A</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Additional Details
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="details"
+                    id='details'
                     value={this.state.details}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Examiner Name</label>{" "}
+                  <label className='control-label'>Examiner Name</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="examiner_name"
+                    id='examiner_name'
                     value={this.state.examiner_name}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Examiner Title</label>{" "}
+                  <label className='control-label'>Examiner Title</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="examiner_title"
+                    id='examiner_title'
                     value={this.state.examiner_title}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Date Examiner Checked Body
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="examin_date"
+                    id='examin_date'
                     value={this.state.examin_date}
-                    className="form-control"
-                    type="datetime-local"
+                    className='form-control'
+                    type='datetime-local'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Nurse or Designee Name
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="nurse_designee_name"
+                    id='nurse_designee_name'
                     value={this.state.nurse_designee_name}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Nurse or Designee Title
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="nurse_designee_title"
+                    id='nurse_designee_title'
                     value={this.state.nurse_designee_title}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Date Nurse or Designee Checked Body
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="nurse_designee_date"
+                    id='nurse_designee_date'
                     value={this.state.nurse_designee_date}
-                    className="form-control"
-                    type="datetime-local"
+                    className='form-control'
+                    type='datetime-local'
                   />{" "}
                 </div>
               </div>
             )}
-            <label className="control-label">Signature</label>{" "}
-            <div className="sigSection">
+            <label className='control-label'>Signature</label>{" "}
+            <div className='sigSection'>
               <div
                 style={{
                   width: "100%",
@@ -2349,14 +2349,14 @@ class BodyCheck extends Component {
                     this.sigCanvas = ref;
                   }}
                   style={{ border: "solid" }}
-                  penColor="black"
+                  penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
                     className: "sigCanvas",
                   }}
-                  backgroundColor="#eeee"
+                  backgroundColor='#eeee'
                 />
               </div>
             </div>
@@ -2364,11 +2364,11 @@ class BodyCheck extends Component {
               <>
                 <FormError errorId={this.props.id + "-error"} />
                 <div
-                  className="form-group logInInputField"
+                  className='form-group logInInputField'
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   <button
-                    className="lightBtn"
+                    className='lightBtn'
                     onClick={() => {
                       this.validateForm(true);
                     }}
