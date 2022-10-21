@@ -446,9 +446,9 @@ class IncidentReport extends Component {
       this.setValues();
     } else {
       await this.getClients();
-      //interval = setInterval(() => {
-      //      this.autoSave();
-      //      }, 10000);
+      interval = setInterval(() => {
+            this.autoSave();
+           }, 10000);
     }
   }
 
