@@ -637,6 +637,12 @@ class TreatmentPlan72 extends Component {
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
     console.log("auto saving");
+    if (
+      currentState.childMeta_name === "" ||
+      currentState.childMeta_name.length === 0
+    ) {
+      return;
+    }
     if (initAutoSave) {
       console.log("updating existing form");
       try {
@@ -911,8 +917,8 @@ class TreatmentPlan72 extends Component {
     } else {
       await this.getClients();
       interval = setInterval(() => {
-            this.autoSave();
-           }, 10000);
+        this.autoSave();
+      }, 7000);
     }
   }
 

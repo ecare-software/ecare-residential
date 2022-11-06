@@ -313,8 +313,8 @@ class NightMonitoring extends Component {
     } else {
       await this.getClients();
       interval = setInterval(() => {
-            this.autoSave();
-           }, 10000);
+        this.autoSave();
+      }, 7000);
     }
   }
 
