@@ -1409,7 +1409,9 @@ class DailyProgressAndActivity extends Component {
                       onChange={this.handleFieldInput}
                       id='createDate'
                       value={
-                        new Date(this.state.createDate)
+                        new Date(
+                          new Date(this.state.createDate).toLocaleDateString()
+                        )
                           .toISOString()
                           .split("T")[0]
                       }
