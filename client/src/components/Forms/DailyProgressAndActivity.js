@@ -159,6 +159,14 @@ class DailyProgressAndActivity extends Component {
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
     console.log("auto saving");
+
+    if (
+      currentState.childMeta_name === "" ||
+      currentState.childMeta_name.length === 0
+    ) {
+      return;
+    }
+
     if (initAutoSave) {
       console.log("updating existing form");
       try {
@@ -385,9 +393,9 @@ class DailyProgressAndActivity extends Component {
       this.setValues();
     } else {
       await this.getClients();
-      //interval = setInterval(() => {
-      //      this.autoSave();
-      //      }, 10000);
+      interval = setInterval(() => {
+        this.autoSave();
+      }, 7000);
     }
   }
 
@@ -1401,7 +1409,9 @@ class DailyProgressAndActivity extends Component {
                       onChange={this.handleFieldInput}
                       id='createDate'
                       value={
-                        new Date(this.state.createDate)
+                        new Date(
+                          new Date(this.state.createDate).toLocaleDateString()
+                        )
                           .toISOString()
                           .split("T")[0]
                       }
