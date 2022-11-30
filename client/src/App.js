@@ -583,7 +583,7 @@ class App extends Component {
                 <div id="greetingRowRight">
                   <div id="greetingRowRightHeaderContainer">
                     <h1 id="greetingRowRightHeader">
-                      Who we are and <br /> what we do
+                      Who we are and <br />  we do
                     </h1>
                   </div>
 
