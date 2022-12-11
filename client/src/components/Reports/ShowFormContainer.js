@@ -18,6 +18,7 @@ import SignatureCanvas from "react-signature-canvas";
 import { FetchHomeData } from "../../utils/FetchHomeData";
 import { DoDeleteRecord } from "../../utils/DoDeleteRecord";
 import NightMonitoring from "../Forms/NightMonitoring";
+import Modal from "react-bootstrap/Modal";
 
 const needsNurseSig = ["Health Body Check", "Illness Injury"];
 
@@ -59,6 +60,16 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   const [sigCanvasAdminAlt1, setSigCanvasAdminAlt1] = useState(null);
 
   const [homeData, setHomeData] = useState("");
+
+  const [showPrint, setShowPrint] = useState(false);
+
+  const openPrintModal = () => {
+    setShowPrint(showPrint(true));
+  };
+  
+  const closePrintModal = () => {
+    setShowPrint(showPrint(false));
+  };
 
   const doGetHomeInfo = async () => {
     try {
@@ -349,14 +360,21 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
         </h6>{" "}
       </div>
       <div>
-        <button
-          onClick={() => {
-            doPrint();
-          }}
-          className="mr-3 btn btn-light hide-on-print"
-        >
-          Print <i className="fas fa-print"></i>
-        </button>
+         <button
+            className="btn btn-default mobileAdj"
+            style={{ position: "fixed" }}
+            variant="secondary"
+            onClick={this.openPrintModal}
+            >
+              Print
+            </button>
+          <Modal show={this.state.showPrint}>
+            <PrintContainer
+              print={this.props.print}
+              pos={{ position: "relati", top: "100%", top: "20vh" }}
+              close={this.closePrintModal}
+            />
+          </Modal>
         {isAdminRole && (
           <button
             onClick={() => {
