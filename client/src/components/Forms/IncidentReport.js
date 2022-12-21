@@ -452,6 +452,7 @@ class IncidentReport extends Component {
       this.setValues();
     } else {
       await this.getClients();
+      await this.getStaff();
       interval = setInterval(() => {
         this.autoSave();
       }, 7000);
@@ -1120,7 +1121,6 @@ class IncidentReport extends Component {
                     onChange={this.handleFieldInput}
                     value={this.state.staff_involved_name}
                     id='staff_involved_name'
-                    id='staff_involved_name'
                     className='form-control'
                     type='text'
                   />{" "}
@@ -1134,7 +1134,6 @@ class IncidentReport extends Component {
                     as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.staff_involved_gender}
-                    id='staff_involved_gender'
                     id='staff_involved_gender'
                   >
                     <option>Male</option>
@@ -1176,7 +1175,6 @@ class IncidentReport extends Component {
                     as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.staff_witness_gender}
-                    id='staff_witness_gender'
                     id='staff_witness_gender'
                   >
                     <option>Male</option>

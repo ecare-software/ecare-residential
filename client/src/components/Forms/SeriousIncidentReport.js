@@ -449,6 +449,7 @@ class SeriousIncidentReport extends Component {
       this.setValues();
     } else {
       await this.getClients();
+      await this.getStaff();
       interval = setInterval(() => {
         this.autoSave();
       }, 7000);
