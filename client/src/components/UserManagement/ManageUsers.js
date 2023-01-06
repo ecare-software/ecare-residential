@@ -14,6 +14,7 @@ class ManageUsers extends Component {
       resetting: -1,
       newPassword: "",
       newPassword2: "",
+      allUsers: [],
     };
   }
 
@@ -72,12 +73,18 @@ class ManageUsers extends Component {
     }
   };
 
+  componentDidMount() {
+    Axios.get("/api/users/" + this.props.userObj.homeId).then((allUsers) => {
+      this.setState({ ...this.state, allUsers: allUsers.data });
+    });
+  }
+
   render() {
     if (this.props.allUsers) {
       return (
-        <div className="managementElement" id="manageUsersContainer">
+        <div className='managementElement' id='manageUsersContainer'>
           <h4
-            className="defaultLabel pointer"
+            className='defaultLabel pointer'
             onClick={this.props.toggleShow.bind({}, "Manage User")}
           >
             Manage Users{" "}
@@ -89,7 +96,7 @@ class ManageUsers extends Component {
             ></span>
           </h4>
           <div className={this.props.doShow ? "formFields" : "hideIt"}>
-            {this.props.allUsers.map((item, index) => (
+            {this.state.allUsers.map((item, index) => (
               <div key={index + "-" + "user"} style={{ margin: "50px 0px" }}>
                 <table style={{ width: "100%" }}>
                   <tbody>
@@ -116,28 +123,28 @@ class ManageUsers extends Component {
                       : "hideIt"
                   }
                 >
-                  <div className="form-group" style={{ margin: "5px" }}>
-                    <label className="control-label">New Password</label>
+                  <div className='form-group' style={{ margin: "5px" }}>
+                    <label className='control-label'>New Password</label>
                     <input
                       onChange={this.handleFieldInput}
-                      className="form-control"
+                      className='form-control'
                       id={"password-" + index}
-                      type="text"
+                      type='text'
                     />
                   </div>
-                  <div className="form-group" style={{ margin: "5px" }}>
-                    <label className="control-label">
+                  <div className='form-group' style={{ margin: "5px" }}>
+                    <label className='control-label'>
                       Re-enter New Password
                     </label>
                     <input
                       onChange={this.handleFieldInput}
                       id={"reenterpassword-" + index}
-                      className="form-control"
-                      type="text"
+                      className='form-control'
+                      type='text'
                     />
                   </div>
                   <div
-                    className="form-group"
+                    className='form-group'
                     style={{
                       display: "flex",
                       flexDirection: "column-reverse",
@@ -147,7 +154,7 @@ class ManageUsers extends Component {
                   >
                     <button
                       onClick={this.saveNewPassword.bind("", item._id, index)}
-                      className="btn btn-default"
+                      className='btn btn-default'
                     >
                       Save
                     </button>

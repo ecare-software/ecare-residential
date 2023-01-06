@@ -116,9 +116,9 @@ class CreateNewUser extends Component {
 
   render() {
     return (
-      <div className="managementElement" id="createNewUserContainer">
+      <div className='managementElement' id='createNewUserContainer'>
         <h4
-          className="defaultLabel pointer"
+          className='defaultLabel pointer'
           onClick={this.props.toggleShow.bind({}, "Create New User")}
         >
           Create New User{" "}
@@ -131,93 +131,93 @@ class CreateNewUser extends Component {
         </h4>
 
         <div className={this.props.doShow ? "formFields" : "hideIt"}>
-          <div className="form-group logInInputField">
-            <label className="control-label">First Name</label>
+          <div className='form-group logInInputField'>
+            <label className='control-label'>First Name</label>
             <input
               onChange={this.handleFieldInput}
-              id="firstName"
-              className="form-control"
-              type="text"
+              id='firstName'
+              className='form-control'
+              type='text'
             />
           </div>
-          <div className="form-group logInInputField">
-            <label className="control-label">Middle Name</label>
+          <div className='form-group logInInputField'>
+            <label className='control-label'>Middle Name</label>
             <input
               onChange={this.handleFieldInput}
-              id="middleName"
-              className="form-control"
-              type="text"
+              id='middleName'
+              className='form-control'
+              type='text'
             />
           </div>
-          <div className="form-group logInInputField">
-            <label className="control-label">Last Name</label>
+          <div className='form-group logInInputField'>
+            <label className='control-label'>Last Name</label>
             <input
               onChange={this.handleFieldInput}
-              id="lastName"
-              className="form-control"
-              type="text"
+              id='lastName'
+              className='form-control'
+              type='text'
             />
           </div>
-          <div className="form-group logInInputField">
-            <label className="control-label">Job Title</label>
+          <div className='form-group logInInputField'>
+            <label className='control-label'>Job Title</label>
             <select
-              className="form-control"
+              className='form-control'
               onChange={this.handleFieldInput}
-              id="jobTitle"
+              id='jobTitle'
             >
-              <option value="">Choose...</option>
-              <option value="Owner/CEO">Owner/CEO</option>
-              <option value="Executive/Director">Executive Director</option>
-              <option value="Administrator">Administrator</option>
-              <option value="Case/Manager">Case Manager</option>
-              <option value="Supervisor">Supervisor</option>
-              <option value="Direct/Care/Staff">Direct Care Staff</option>
+              <option value=''>Choose...</option>
+              <option value='Owner/CEO'>Owner/CEO</option>
+              <option value='Executive/Director'>Executive Director</option>
+              <option value='Administrator'>Administrator</option>
+              <option value='Case/Manager'>Case Manager</option>
+              <option value='Supervisor'>Supervisor</option>
+              <option value='Direct/Care/Staff'>Direct Care Staff</option>
             </select>
           </div>
-          <div className="form-group logInInputField">
-            <label className="control-label">Home ID</label>
+          <div className='form-group logInInputField'>
+            <label className='control-label'>Home ID</label>
             <input
               value={this.props.userObj.homeId}
-              id="homeId"
-              className="form-control"
-              type="text"
+              id='homeId'
+              className='form-control'
+              type='text'
               disabled
             />
           </div>
-          <div className="form-group logInInputField">
-            <label className="control-label">Email</label>
+          <div className='form-group logInInputField'>
+            <label className='control-label'>Email</label>
             <input
               onChange={this.handleFieldInput}
-              id="email"
-              className="form-control"
-              type="text"
+              id='email'
+              className='form-control'
+              type='text'
             />
           </div>
-          <div className="form-group logInInputField">
-            <label className="control-label">Temporary Password</label>
+          <div className='form-group logInInputField'>
+            <label className='control-label'>Temporary Password</label>
             <input
               onChange={this.handleFieldInput}
-              id="password"
-              className="form-control"
-              type="text"
+              id='password'
+              className='form-control'
+              type='text'
             />
           </div>
-          <div className="form-group logInInputField">
-            <label className="control-label">Re-Enter Password</label>
+          <div className='form-group logInInputField'>
+            <label className='control-label'>Re-Enter Password</label>
             <input
               onChange={this.handleFieldInput}
-              id="password2"
-              className="form-control"
-              type="text"
+              id='password2'
+              className='form-control'
+              type='text'
             />
           </div>
           <FormError errorId={this.props.id + "-error"}></FormError>
           <FormSuccess successId={this.props.id + "-success"}></FormSuccess>
           <div
-            className="form-group logInInputField"
+            className='form-group logInInputField'
             style={{ display: "flex", justifyContent: "flex-end" }}
           >
-            <button onClick={this.validateForm} className="darkBtn">
+            <button onClick={this.validateForm} className='darkBtn'>
               Submit
             </button>
           </div>
