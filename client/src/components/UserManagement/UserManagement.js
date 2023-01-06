@@ -25,13 +25,13 @@ class UserManagement extends Component {
   };
   render() {
     return (
-      <div className="formCompNoBg">
-        <div className="formTitleDiv">
-          <h2 className="formTitle">User Management</h2>
+      <div className='formCompNoBg'>
+        <div className='formTitleDiv'>
+          <h2 className='formTitle'>User Management</h2>
         </div>
-        <div className="formFieldsMobile">
+        <div className='formFieldsMobile'>
           <ManageUsers
-            id="manageUsers"
+            id='manageUsers'
             allUsers={this.props.allUsers}
             toggleShow={this.toggleShow}
             doShow={this.state.showManageUsers}
@@ -39,7 +39,7 @@ class UserManagement extends Component {
             updateUserData={this.props.updateUserData}
           />
           <CreateNewUser
-            id="createUser"
+            id='createUser'
             toggleShow={this.toggleShow}
             doShow={this.state.showCreateNewUser}
             userObj={this.props.userObj}
