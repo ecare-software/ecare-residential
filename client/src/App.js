@@ -471,7 +471,7 @@ class App extends Component {
     if (this.state.loggedIn) {
       return (
         <FormCountContext.Provider value={this.state.formCountState}>
-          <div className="App container" id="mainContainer">
+          <div className='App container' id='mainContainer'>
             <BSNavBar
               logOut={this.logOut}
               toggleDisplay={this.toggleDisplay}
@@ -480,8 +480,8 @@ class App extends Component {
               appState={this.state}
             ></BSNavBar>
             {this.state.doDisplay !== "Reports" ? (
-              <div id="desktopView" className="row">
-                <div className="col-sm-3">
+              <div id='desktopView' className='row'>
+                <div className='col-sm-3'>
                   <DisplayExtra
                     name={this.state.doDisplay}
                     userObj={this.state.userObj}
@@ -501,7 +501,7 @@ class App extends Component {
                     loadMessage={this.loadMessage}
                   />
                 </div>
-                <div className="col-sm-9" id="actionSection">
+                <div className='col-sm-9' id='actionSection'>
                   <div>
                     <ToggleScreen
                       name={this.state.doDisplay}
@@ -518,14 +518,15 @@ class App extends Component {
                       removeMessage={this.removeMessage}
                       setDMs={this.setDMs}
                       updateUserData={this.updateUserData}
+                      getAllUsers={this.getAllUsers}
                     />
                   </div>
                 </div>
               </div>
             ) : (
-              <div id="desktopView" className="row">
+              <div id='desktopView' className='row'>
                 <div
-                  className="col-md-12"
+                  className='col-md-12'
                   style={
                     this.state.doDisplay === "Reports"
                       ? { marginBottom: "150px 0px" }
@@ -540,16 +541,16 @@ class App extends Component {
               </div>
             )}
             <div
-              className="hide-on-print"
+              className='hide-on-print'
               style={{ position: "fixed", left: "90vw", top: "85vh" }}
             >
               <button
-                className="btn btn-light extraInfoButton"
+                className='btn btn-light extraInfoButton'
                 onClick={() => {
                   if (window.scrollY) window.scrollTo(0, 0);
                 }}
               >
-                <i className="fa fa-arrow-up"></i>
+                <i className='fa fa-arrow-up'></i>
               </button>
             </div>
           </div>
@@ -557,7 +558,7 @@ class App extends Component {
       );
     } else {
       return (
-        <div className="App">
+        <div className='App'>
           <BSNavBar
             logOut={this.logOut}
             logIn={this.toggleLogIn}
@@ -570,25 +571,25 @@ class App extends Component {
             <React.Fragment>
               <FormAlert
                 doShow={this.state.emailSent}
-                type="success"
+                type='success'
                 heading={`Thank you, We shall email you shortly`}
               ></FormAlert>
             </React.Fragment>
           ) : (
             <React.Fragment />
           )}
-          <div className="container-fluid" id="greetingContainer">
-            <div className="row" id="greetingRow">
-              <div className="col-sm-7" id="greetingColRight">
-                <div id="greetingRowRight">
-                  <div id="greetingRowRightHeaderContainer">
-                    <h1 id="greetingRowRightHeader">
+          <div className='container-fluid' id='greetingContainer'>
+            <div className='row' id='greetingRow'>
+              <div className='col-sm-7' id='greetingColRight'>
+                <div id='greetingRowRight'>
+                  <div id='greetingRowRightHeaderContainer'>
+                    <h1 id='greetingRowRightHeader'>
                       Who we are and <br /> what we do
                     </h1>
                   </div>
 
-                  <div id="greetingRowRightPContainer">
-                    <p id="greetingRowRightP">
+                  <div id='greetingRowRightPContainer'>
+                    <p id='greetingRowRightP'>
                       e-Care Residential aims to provide a simple, functional
                       software solution for both large and small scale behavior
                       residential care facilities. We are a young software
@@ -597,19 +598,19 @@ class App extends Component {
                       easy to use documenting and messaging software suite.
                     </p>
                   </div>
-                  <div id="greetingRowRightBtnContainer">
+                  <div id='greetingRowRightBtnContainer'>
                     <button
                       onClick={this.toggleLearnMore}
-                      className="btn darkBtn"
+                      className='btn darkBtn'
                     >
                       Request a Demo
                     </button>
                   </div>
                 </div>
               </div>
-              <div className="col-sm-5" id="iPhoneContainer">
+              <div className='col-sm-5' id='iPhoneContainer'>
                 <Fade bottom>
-                  <div id="homeiPhone" />
+                  <div id='homeiPhone' />
                 </Fade>
               </div>
             </div>
@@ -627,34 +628,34 @@ class App extends Component {
               <h5>Learn more about our services</h5>
             </ModalHeader>
             <ModalBody style={{ backgroundColor: "white" }}>
-              <div className="form-group">
+              <div className='form-group'>
                 <p>
                   Complete the form below to get a personalized email describing
                   the services offered.
                 </p>
                 <input
-                  id="name"
+                  id='name'
                   onChange={this.handleFieldInput}
                   value={this.state.name}
                   style={{ width: "100%", margin: "15px 0px" }}
-                  className="form-control"
-                  placeholder="Name"
+                  className='form-control'
+                  placeholder='Name'
                 />
                 <input
-                  id="organization"
+                  id='organization'
                   onChange={this.handleFieldInput}
                   value={this.state.organization}
                   style={{ width: "100%", margin: "15px 0px" }}
-                  className="form-control"
-                  placeholder="Organization"
+                  className='form-control'
+                  placeholder='Organization'
                 />
                 <input
-                  id="emailTo"
+                  id='emailTo'
                   onChange={this.handleFieldInput}
                   value={this.state.emailTo}
                   style={{ width: "100%", margin: "15px 0px" }}
-                  className="form-control"
-                  placeholder="youremail@example.com"
+                  className='form-control'
+                  placeholder='youremail@example.com'
                 />
                 <button
                   style={{
@@ -664,7 +665,7 @@ class App extends Component {
                     color: "white",
                   }}
                   onClick={this.sendEmail}
-                  className="btn"
+                  className='btn'
                 >
                   Submit
                 </button>
@@ -690,6 +691,7 @@ function ToggleScreen({
   removeMessage,
   setDMs,
   updateUserData,
+  getAllUsers,
 }) {
   if (name === "Dashboard") {
     return (
@@ -712,7 +714,7 @@ function ToggleScreen({
         <AwakeNightStaffSignoff
           valuesSet={false}
           userObj={appState.userObj}
-          id="AwakeNightStaffSignoff"
+          id='AwakeNightStaffSignoff'
         />
       </div>
     );
@@ -746,7 +748,7 @@ function ToggleScreen({
         <NightMonitoring
           valuesSet={false}
           userObj={appState.userObj}
-          id="AwakeNightStaffSignoff"
+          id='AwakeNightStaffSignoff'
         />
       </div>
     );
@@ -778,6 +780,7 @@ function ToggleScreen({
           userObj={appState.userObj}
           allUsers={appState.allUsers}
           updateUserData={updateUserData}
+          getAllUsers={getAllUsers}
         />
       </div>
     );
@@ -801,7 +804,7 @@ function ToggleScreen({
         <TreatmentPlan72
           valuesSet={false}
           userObj={appState.userObj}
-          id="treatment"
+          id='treatment'
         />
       </div>
     );
@@ -813,7 +816,7 @@ function ToggleScreen({
         <IncidentReport
           valuesSet={false}
           userObj={appState.userObj}
-          id="incident"
+          id='incident'
         />
       </div>
     );
@@ -825,7 +828,7 @@ function ToggleScreen({
         <SeriousIncidentReport
           valuesSet={false}
           userObj={appState.userObj}
-          id="incident"
+          id='incident'
         />
       </div>
     );
@@ -837,7 +840,7 @@ function ToggleScreen({
         <AdmissionAssessment
           valuesSet={false}
           userObj={appState.userObj}
-          id="admissionAssessment"
+          id='admissionAssessment'
         />
       </div>
     );
@@ -849,7 +852,7 @@ function ToggleScreen({
         <AnnualTraining
           valuesSet={false}
           userObj={appState.userObj}
-          id="admissionAssessment"
+          id='admissionAssessment'
         />
       </div>
     );
@@ -861,7 +864,7 @@ function ToggleScreen({
         <BodyCheck
           valuesSet={false}
           userObj={appState.userObj}
-          id="admissionAssessment"
+          id='admissionAssessment'
         />
       </div>
     );
@@ -873,7 +876,7 @@ function ToggleScreen({
         <DailyProgress
           valuesSet={false}
           userObj={appState.userObj}
-          id="dailyProgress"
+          id='dailyProgress'
         />
       </div>
     );
@@ -885,7 +888,7 @@ function ToggleScreen({
         <IllnessInjury
           valuesSet={false}
           userObj={appState.userObj}
-          id="illnessInjury"
+          id='illnessInjury'
         />
       </div>
     );
@@ -897,7 +900,7 @@ function ToggleScreen({
         <RestraintReport
           valuesSet={false}
           userObj={appState.userObj}
-          id="restraintReport"
+          id='restraintReport'
         />
       </div>
     );
@@ -957,13 +960,13 @@ function DisplayExtra({
 }) {
   if (name === "TreatmentPlan72") {
     return (
-      <div id="extraInfo">
-        <div className="extraInfoNavDiv">
-          <p className="extraInfoNavSubTitle">
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
             This is what the must be filled out when a child is first admitted
             to the facility.
           </p>
-          <p className="extraInfoNavSubTitle">
+          <p className='extraInfoNavSubTitle'>
             Required fields include, Child Name, Child DOA, Child Date of Birth,
             and thing like that.
           </p>
@@ -974,9 +977,9 @@ function DisplayExtra({
 
   if (name === "Orientation Training") {
     return (
-      <div id="extraInfo">
-        <div className="extraInfoNavDiv">
-          <p className="extraInfoNavSubTitle">
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
             New Employee Orientation training is an eight-hour (8) program
             provided to each new employee within the first fourteen days of
             hiring. The program includes, but is not limited to, the following
@@ -989,9 +992,9 @@ function DisplayExtra({
 
   if (name === "Pre Service Training") {
     return (
-      <div id="extraInfo">
-        <div className="extraInfoNavDiv">
-          <p className="extraInfoNavSubTitle">
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
             Pre-service training is a forty (40) hour course offered by New
             Pathways training staff at the facility within the first fourteen
             days of hiring. The program includes all the necessary topics to
@@ -1004,9 +1007,9 @@ function DisplayExtra({
 
   if (name === "First aid CPR Training") {
     return (
-      <div id="extraInfo">
-        <div className="extraInfoNavDiv">
-          <p className="extraInfoNavSubTitle">
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
             First Aid and CPR training is a course offered by a CPR/First Aid
             certified instructor or at the American Red Cross within the first
             ninety days of hiring.
@@ -1018,22 +1021,22 @@ function DisplayExtra({
 
   if (name === "Documents") {
     return (
-      <div id="extraInfo">
-        <div className="extraInfoNavDiv">
-          <p className="extraInfoNavSubTitle">
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
             <i>This is where you upload documents for everyone to see</i>
           </p>
         </div>
-        <div className="extraInfoButtonDiv"></div>
+        <div className='extraInfoButtonDiv'></div>
       </div>
     );
   }
 
   if (name === "restraintReport") {
     return (
-      <div id="extraInfo">
-        <div className="extraInfoNavDiv">
-          <p className="extraInfoNavSubTitle">
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
             If a child had to be restrained, file this form, notationg what
             happened to cause this action.
           </p>
@@ -1044,9 +1047,9 @@ function DisplayExtra({
 
   if (name === "admissionAssessment") {
     return (
-      <div id="extraInfo">
-        <div className="extraInfoNavDiv">
-          <p className="extraInfoNavSubTitle">Admission Assessment</p>
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>Admission Assessment</p>
         </div>
       </div>
     );
@@ -1054,9 +1057,9 @@ function DisplayExtra({
 
   if (name === "Annual Training") {
     return (
-      <div id="extraInfo">
-        <div className="extraInfoNavDiv">
-          <p className="extraInfoNavSubTitle">Annual Training</p>
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>Annual Training</p>
         </div>
       </div>
     );
@@ -1064,9 +1067,9 @@ function DisplayExtra({
 
   if (name === "bodyCheck") {
     return (
-      <div id="extraInfo">
-        <div className="extraInfoNavDiv">
-          <p className="extraInfoNavSubTitle">
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
             Indicate on the body diagram, all marks such as old or recent scars,
             bruises, discolorations or disfigurements and any other questionable
             or abnormal markings.
@@ -1085,10 +1088,10 @@ function DisplayExtra({
               borderStyle: "solid",
             }}
           >
-            <div className="d-flex justify-content-center">
+            <div className='d-flex justify-content-center'>
               <img src={leftBody} width={250} />
             </div>
-            <div className="d-flex justify-content-center">
+            <div className='d-flex justify-content-center'>
               <img src={rightBody} width={250} />
             </div>
           </div>
@@ -1099,9 +1102,9 @@ function DisplayExtra({
 
   if (name === "DailyProgress") {
     return (
-      <div id="extraInfo">
-        <div className="extraInfoNavDiv">
-          <p className="extraInfoNavSubTitle">
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
             This explains what the child has done today or what the child will
             do today.
           </p>
@@ -1112,9 +1115,9 @@ function DisplayExtra({
 
   if (name === "IllnessInjury") {
     return (
-      <div id="extraInfo">
-        <div className="extraInfoNavDiv">
-          <p className="extraInfoNavSubTitle">
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
             Illness and Injury Report Extra info
           </p>
         </div>
@@ -1124,9 +1127,9 @@ function DisplayExtra({
 
   if (name === "IncidentReport") {
     return (
-      <div id="extraInfo">
-        <div className="extraInfoNavDiv">
-          <p className="extraInfoNavSubTitle">
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
             When an incident happens, this must be filled out in order to keep
             track of what exactly happend.
           </p>
@@ -1137,9 +1140,9 @@ function DisplayExtra({
 
   if (name === "SeriousIncidentReport") {
     return (
-      <div id="extraInfo">
-        <div className="extraInfoNavDiv">
-          <p className="extraInfoNavSubTitle">
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
             When a serious incident happens, this must be filled out in order to
             keep track of what exactly happend.
           </p>
@@ -1150,32 +1153,32 @@ function DisplayExtra({
 
   if (name === "Dashboard") {
     return (
-      <div id="extraInfo">
-        <div id="">
-          <h4 className="extraInfoMainTitle">
+      <div id='extraInfo'>
+        <div id=''>
+          <h4 className='extraInfoMainTitle'>
             {userObj.firstName + " " + userObj.lastName}
           </h4>
-          <h6 className="extraInfoSubTitle">
+          <h6 className='extraInfoSubTitle'>
             {userObj.jobTitle.replace(/\//gm, " ")}
           </h6>
         </div>
-        <div className="extraInfoNavDiv">
-          <p className="extraInfoNavSubTitle">
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
             <i>
               This is the first screen users will see when they log in. I feel
               this is alright for now.
             </i>
           </p>
         </div>
-        <div className="extraInfoButtonDiv">
+        <div className='extraInfoButtonDiv'>
           <button
             onClick={() => {
               scrollTop();
               loadMessage(userObj);
             }}
-            className="btn btn-light extraInfoButton m-1"
+            className='btn btn-light extraInfoButton m-1'
           >
-            <i className="fa fa-refresh"></i> Refresh Dashboard
+            <i className='fa fa-refresh'></i> Refresh Dashboard
           </button>
         </div>
       </div>
@@ -1184,9 +1187,9 @@ function DisplayExtra({
 
   if (name === "Manage Account") {
     return (
-      <div id="extraInfo">
-        <div className="extraInfoNavDiv">
-          <p className="extraInfoNavSubTitle">
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
             Allows users to view account information and update their password.
           </p>
         </div>
@@ -1196,15 +1199,15 @@ function DisplayExtra({
 
   if (name === "Clients") {
     return (
-      <div id="extraInfo">
-        <div className="extraInfoNavDiv"></div>
-        <div className="extraInfoButtonDiv">
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'></div>
+        <div className='extraInfoButtonDiv'>
           {showClients ? (
             <button
               onClick={() => {
                 doToggleClientDisplay(false);
               }}
-              className="btn btn-light extraInfoButton"
+              className='btn btn-light extraInfoButton'
             >
               Add New Client
             </button>
@@ -1213,7 +1216,7 @@ function DisplayExtra({
               onClick={() => {
                 doToggleClientDisplay(true);
               }}
-              className="btn btn-light extraInfoButton"
+              className='btn btn-light extraInfoButton'
             >
               Show All Clients
             </button>
@@ -1225,9 +1228,9 @@ function DisplayExtra({
 
   if (name === "manTraining") {
     return (
-      <div id="extraInfo">
-        <div className="extraInfoNavDiv"></div>
-        <div className="extraInfoButtonDiv">
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'></div>
+        <div className='extraInfoButtonDiv'>
           {showTrainings ? (
             <p>Please select a training to begin editing.</p>
           ) : (
@@ -1235,7 +1238,7 @@ function DisplayExtra({
               onClick={() => {
                 doToggleTrainingDisplay(true);
               }}
-              className="btn btn-light extraInfoButton"
+              className='btn btn-light extraInfoButton'
             >
               Show All Trainings
             </button>
@@ -1247,15 +1250,15 @@ function DisplayExtra({
 
   if (name === "Direct Message") {
     return (
-      <div id="extraInfo">
-        <div className="extraInfoNavDiv">
-          <p className="extraInfoNavSubTitle">
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
             Select a users and type your message
           </p>
           <div>
             <div style={{ width: "100%", display: "flex", margin: "10px 0px" }}>
               <p
-                className="extraInfoNavSubTitle"
+                className='extraInfoNavSubTitle'
                 style={{
                   width: "30px",
                   marginTop: "2px",
@@ -1292,12 +1295,12 @@ function DisplayExtra({
             </div>
             <div style={{ width: "100%", margin: "10px 0px" }}>
               <textarea
-                id="messageText"
+                id='messageText'
                 value={dmMessage}
                 onChange={(e) => {
                   setDmMessage(e.target.value);
                 }}
-                cols="1"
+                cols='1'
                 style={{
                   height: "150px",
                   width: "100%",
@@ -1309,7 +1312,7 @@ function DisplayExtra({
                   borderTop: "none",
                   borderLeft: "none",
                 }}
-                placeholder="Type your message here.."
+                placeholder='Type your message here..'
               ></textarea>
               <div style={{ height: 30, width: "100%", margin: "0px 5px" }}>
                 {appState.showMessageSent && (
@@ -1329,10 +1332,10 @@ function DisplayExtra({
                 onClick={() => {
                   if (appState.dmMessage.length > 0 && appState.dmTo) sendDM();
                 }}
-                className="btn btn-light"
+                className='btn btn-light'
                 style={{ margin: "0px 5px", width: "100%" }}
               >
-                Send <i className="fas fa-paper-plane"></i>
+                Send <i className='fas fa-paper-plane'></i>
               </button>
             </div>
           </div>
@@ -1343,9 +1346,9 @@ function DisplayExtra({
 
   if (name === "User Management") {
     return (
-      <div id="extraInfo">
-        <div className="extraInfoNavDiv">
-          <p className="extraInfoNavSubTitle">
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
             Allows Admin users the ability to view information about their home
             as well create new and modify exiting staff members.
           </p>
