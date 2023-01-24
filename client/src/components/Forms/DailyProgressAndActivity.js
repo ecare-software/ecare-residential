@@ -414,7 +414,7 @@ class DailyProgressAndActivity extends Component {
         lastEditDate,
       });
     }
-  };
+  }; 
 
   render() {
     if (!this.props.valuesSet) {
@@ -500,94 +500,150 @@ class DailyProgressAndActivity extends Component {
                 <label className='control-label'>
                   Personal Hygiene wk
                 </label>{" "}
-                <input
+                <Form.Control
+                  as='select'
                   onChange={this.handleFieldInput}
-                  id='personal_hygiene'
                   value={this.state.personal_hygiene}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                  id='personal_hygiene'
+                >
+                  <option>G - Good</option>
+                  <option>A - Adequate</option>
+                  <option>P - Poor</option>
+                  <option>NS - Needs Supervision</option>
+                  <option>PA - Physical Assistance</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>Dressing</label>{" "}
-                <input
+                <Form.Control
+                  as='select'
                   onChange={this.handleFieldInput}
-                  id='dressing'
                   value={this.state.dressing}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                  id='dressing'
+                >
+                  <option>G - Good</option>
+                  <option>A - Adequate</option>
+                  <option>P - Poor</option>
+                  <option>NS - Needs Supervision</option>
+                  <option>PA - Physical Assistance</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>Table Manners</label>{" "}
-                <input
+                <Form.Control
+                  as='select'
                   onChange={this.handleFieldInput}
-                  id='table_mannders'
                   value={this.state.table_mannders}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                  id='table_mannders'
+                >
+                  <option>G - Good</option>
+                  <option>A - Adequate</option>
+                  <option>P - Poor</option>
+                  <option>NS - Needs Supervision</option>
+                  <option>PA - Physical Assistance</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>
                   Clothes Maintenance
                 </label>{" "}
-                <input
+                <Form.Control
+                  as='select'
                   onChange={this.handleFieldInput}
-                  id='clothes_maintenace'
                   value={this.state.clothes_maintenace}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                  id='clothes_maintenace'
+                >
+                  <option>G - Good</option>
+                  <option>A - Adequate</option>
+                  <option>P - Poor</option>
+                  <option>NS - Needs Supervision</option>
+                  <option>PA - Physical Assistance</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>Self Feeding</label>{" "}
-                <input
+                <Form.Control
+                  as='select'
                   onChange={this.handleFieldInput}
-                  id='self_feeding'
                   value={this.state.self_feeding}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                  id='self_feeding'
+                >
+                  <option>G - Good</option>
+                  <option>A - Adequate</option>
+                  <option>P - Poor</option>
+                  <option>NS - Needs Supervision</option>
+                  <option>PA - Physical Assistance</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>Care of Property</label>{" "}
-                <input
+                <Form.Control
+                  as='select'
                   onChange={this.handleFieldInput}
-                  id='care_of_property'
                   value={this.state.care_of_property}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                  id='care_of_property'
+                >
+                  <option>G - Good</option>
+                  <option>A - Adequate</option>
+                  <option>P - Poor</option>
+                  <option>NS - Needs Supervision</option>
+                  <option>PA - Physical Assistance</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>
                   Maintenance of Personal Space
                 </label>{" "}
-                <input
+                <Form.Control
+                  as='select'
                   onChange={this.handleFieldInput}
-                  id='maintenace_of_personal_space'
                   value={this.state.maintenace_of_personal_space}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                  id='maintenace_of_personal_space'
+                >
+                  <option>G - Good</option>
+                  <option>A - Adequate</option>
+                  <option>P - Poor</option>
+                  <option>NS - Needs Supervision</option>
+                  <option>PA - Physical Assistance</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>Household Chores</label>{" "}
-                <input
+                <Form.Control
+                  as='select'
                   onChange={this.handleFieldInput}
-                  id='household_chorse'
                   value={this.state.household_chorse}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                  id='household_chorse'
+                >
+                  <option>G - Good</option>
+                  <option>A - Adequate</option>
+                  <option>P - Poor</option>
+                  <option>NS - Needs Supervision</option>
+                  <option>PA - Physical Assistance</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
               </div>
               <div className='form-group'>
                 <h5>
@@ -600,74 +656,173 @@ class DailyProgressAndActivity extends Component {
                 <label className='control-label'>
                   Informal Counseling
                 </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id='informal_counseling'
-                  value={this.state.informal_counseling}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                <div className="d-flex mt-6 "
+                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                  {/* <div className="radio"> */}
+                    <label htmlFor="informalCounselYes">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="informalCounselYes"
+                        value="Yes"
+                      />
+                      Yes
+                    </label>
+                  {/* </div> */}
+                  {/* <div className="radio"> */}
+                    <label htmlFor="informalCounselNA">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="informalCounselNA"
+                        value="NA"
+                      />
+                      NA
+                    </label>
+                </div>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>Verbal Redirection</label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id='verbal_redirection'
-                  value={this.state.verbal_redirection}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                <div className="d-flex mt-6 "
+                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      <label htmlFor="verbal_redirectionYes">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="verbal_redirectionYes"
+                        value="Yes"
+                      />
+                      Yes
+                    </label>
+                    <label htmlFor="verbal_redirectionNA">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="verbal_redirectionNA"
+                        value="NA"
+                      />
+                      NA
+                    </label>
+                </div>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>Modeling</label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id='modeling'
-                  value={this.state.modeling}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                <div className="d-flex mt-6 "
+                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      <label htmlFor="modelingYes">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="modelingYes"
+                        value="Yes"
+                      />
+                      Yes
+                    </label>
+                    <label htmlFor="modelingNA">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="modelingNA"
+                        value="NA"
+                      />
+                      NA
+                    </label>
+                </div>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>
                   Supervised Separation
                 </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id='supervised_separation'
-                  value={this.state.supervised_separation}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                <div className="d-flex mt-6 "
+                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      <label htmlFor="supervised_separationYes">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="supervised_separationYes"
+                        value="Yes"
+                      />
+                      Yes
+                    </label>
+                    <label htmlFor="supervised_separationNA">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="supervised_separationNA"
+                        value="NA"
+                      />
+                      NA
+                    </label>
+                </div>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>
                   Provider Feedback to Client
                 </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id='provider_feedback_to_client'
-                  value={this.state.provider_feedback_to_client}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                <div className="d-flex mt-6 "
+                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      <label htmlFor="provider_feedback_to_clientYes">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="provider_feedback_to_clientYes"
+                        value="Yes"
+                      />
+                      Yes
+                    </label>
+                    <label htmlFor="provider_feedback_to_clientNA">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="provider_feedback_to_clientNA"
+                        value="NA"
+                      />
+                      NA
+                    </label>
+                </div>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>
                   Positive Reinforcement
                 </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id='positive_reinforcement'
-                  value={this.state.positive_reinforcement}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                <div className="d-flex mt-6 "
+                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      <label htmlFor="positive_reinforcementYes">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="positive_reinforcementYes"
+                        value="Yes"
+                      />
+                      Yes
+                    </label>
+                    <label htmlFor="positive_reinforcementNA">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="positive_reinforcementNA"
+                        value="NA"
+                      />
+                      NA
+                    </label>
+                </div>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
@@ -688,37 +843,85 @@ class DailyProgressAndActivity extends Component {
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>Home Restrictions</label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id='home_restrictions'
-                  value={this.state.home_restrictions}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                <div className="d-flex mt-6 "
+                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      <label htmlFor="home_restrictionsYes">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="home_restrictionsYes"
+                        value="Yes"
+                      />
+                      Yes
+                    </label>
+                    <label htmlFor="home_restrictionsNA">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="home_restrictionsNA"
+                        value="NA"
+                      />
+                      NA
+                    </label>
+                </div>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>
                   Restricted Leisure Activity
                 </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id='restricted_leisure_activity'
-                  value={this.state.restricted_leisure_activity}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                <div className="d-flex mt-6 "
+                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      <label htmlFor="restricted_leisure_activityYes">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="restricted_leisure_activityYes"
+                        value="Yes"
+                      />
+                      Yes
+                    </label>
+                    <label htmlFor="restricted_leisure_activityNA">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="restricted_leisure_activityNA"
+                        value="NA"
+                      />
+                      NA
+                    </label>
+                </div>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>No Allowance</label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id='no_allowance'
-                  value={this.state.no_allowance}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                <div className="d-flex mt-6 "
+                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      <label htmlFor="no_allowanceYes">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="no_allowanceYes"
+                        value="Yes"
+                      />
+                      Yes
+                    </label>
+                    <label htmlFor="no_allowanceNA">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="no_allowanceNA"
+                        value="NA"
+                      />
+                      NA
+                    </label>
+                </div>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
@@ -739,78 +942,156 @@ class DailyProgressAndActivity extends Component {
                 <label className='control-label'>
                   Number of Home Incidents
                 </label>{" "}
-                <input
+                <Form.Control
+                  as='select'
                   onChange={this.handleFieldInput}
-                  id='no_of_home_incidents'
                   value={this.state.no_of_home_incidents}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                  id='no_of_home_incidents'
+                >
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10+</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>
                   Number of Home Serious Incidents
                 </label>{" "}
-                <input
+                <Form.Control
+                  as='select'
                   onChange={this.handleFieldInput}
-                  id='no_of_home_serious_incidents'
                   value={this.state.no_of_home_serious_incidents}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                  id='no_of_home_serious_incidents'
+                >
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10+</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>
                   Number of Home Restraints
                 </label>{" "}
-                <input
+                <Form.Control
+                  as='select'
                   onChange={this.handleFieldInput}
-                  id='no_of_home_restraints'
                   value={this.state.no_of_home_restraints}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                  id='no_of_home_restraints'
+                >
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10+</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>
                   Number of School Incidents
                 </label>{" "}
-                <input
+                <Form.Control
+                  as='select'
                   onChange={this.handleFieldInput}
-                  id='no_of_school_incidents'
                   value={this.state.no_of_school_incidents}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                  id='no_of_school_incidents'
+                >
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10+</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>
                   Number of School Restraints
                 </label>{" "}
-                <input
+                <Form.Control
+                  as='select'
                   onChange={this.handleFieldInput}
-                  id='no_of_school_restraints'
                   value={this.state.no_of_school_restraints}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                  id='no_of_school_restraints'
+                >
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10+</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>
                   Illnesses / Injuries
                 </label>{" "}
-                <input
+                <Form.Control
+                  as='select'
                   onChange={this.handleFieldInput}
-                  id='illness_injury'
                   value={this.state.illness_injury}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                  id='illness_injury'
+                >
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10+</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
               </div>
               <div className='form-group logInInputField'>
                 {" "}
@@ -984,94 +1265,150 @@ class DailyProgressAndActivity extends Component {
                   <label className='control-label'>
                     Personal Hygiene wk
                   </label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    value={this.state.personal_hygiene}
-                    id='personal_hygiene'
-                    className='form-control'
-                    type='text'
-                  />{" "}
+                  <Form.Control
+                  as='select'
+                  onChange={this.handleFieldInput}
+                  value={this.state.personal_hygiene}
+                  id='personal_hygiene'
+                >
+                  <option>G - Good</option>
+                  <option>A - Adequate</option>
+                  <option>P - Poor</option>
+                  <option>NS - Needs Supervision</option>
+                  <option>PA - Physical Assistance</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>Dressing</label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    value={this.state.dressing}
-                    id='dressing'
-                    className='form-control'
-                    type='text'
-                  />{" "}
+                  <Form.Control
+                  as='select'
+                  onChange={this.handleFieldInput}
+                  value={this.state.dressing}
+                  id='dressing'
+                >
+                  <option>G - Good</option>
+                  <option>A - Adequate</option>
+                  <option>P - Poor</option>
+                  <option>NS - Needs Supervision</option>
+                  <option>PA - Physical Assistance</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>Table Manners</label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    value={this.state.table_mannders}
-                    id='table_mannders'
-                    className='form-control'
-                    type='text'
-                  />{" "}
+                  <Form.Control
+                  as='select'
+                  onChange={this.handleFieldInput}
+                  value={this.state.table_mannders}
+                  id='table_mannders'
+                >
+                  <option>G - Good</option>
+                  <option>A - Adequate</option>
+                  <option>P - Poor</option>
+                  <option>NS - Needs Supervision</option>
+                  <option>PA - Physical Assistance</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>
                     Clothes Maintenance
                   </label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    value={this.state.clothes_maintenace}
-                    id='clothes_maintenace'
-                    className='form-control'
-                    type='text'
-                  />{" "}
+                  <Form.Control
+                  as='select'
+                  onChange={this.handleFieldInput}
+                  value={this.state.clothes_maintenace}
+                  id='clothes_maintenace'
+                >
+                  <option>G - Good</option>
+                  <option>A - Adequate</option>
+                  <option>P - Poor</option>
+                  <option>NS - Needs Supervision</option>
+                  <option>PA - Physical Assistance</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>Self Feeding</label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    value={this.state.self_feeding}
-                    id='self_feeding'
-                    className='form-control'
-                    type='text'
-                  />{" "}
+                  <Form.Control
+                  as='select'
+                  onChange={this.handleFieldInput}
+                  value={this.state.self_feeding}
+                  id='self_feeding'
+                >
+                  <option>G - Good</option>
+                  <option>A - Adequate</option>
+                  <option>P - Poor</option>
+                  <option>NS - Needs Supervision</option>
+                  <option>PA - Physical Assistance</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>Care of Property</label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    value={this.state.care_of_property}
-                    id='care_of_property'
-                    className='form-control'
-                    type='text'
-                  />{" "}
+                  <Form.Control
+                  as='select'
+                  onChange={this.handleFieldInput}
+                  value={this.state.care_of_property}
+                  id='care_of_property'
+                >
+                  <option>G - Good</option>
+                  <option>A - Adequate</option>
+                  <option>P - Poor</option>
+                  <option>NS - Needs Supervision</option>
+                  <option>PA - Physical Assistance</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>
                     Maintenance of Personal Space
                   </label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    value={this.state.maintenace_of_personal_space}
-                    id='maintenace_of_personal_space'
-                    className='form-control'
-                    type='text'
-                  />{" "}
+                  <Form.Control
+                  as='select'
+                  onChange={this.handleFieldInput}
+                  value={this.state.maintenace_of_personal_space}
+                  id='maintenace_of_personal_space'
+                >
+                  <option>G - Good</option>
+                  <option>A - Adequate</option>
+                  <option>P - Poor</option>
+                  <option>NS - Needs Supervision</option>
+                  <option>PA - Physical Assistance</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>Household Chores</label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    value={this.state.household_chorse}
-                    id='household_chorse'
-                    className='form-control'
-                    type='text'
-                  />{" "}
+                  <Form.Control
+                  as='select'
+                  onChange={this.handleFieldInput}
+                  value={this.state.household_chorse}
+                  id='household_chorse'
+                >
+                  <option>G - Good</option>
+                  <option>A - Adequate</option>
+                  <option>P - Poor</option>
+                  <option>NS - Needs Supervision</option>
+                  <option>PA - Physical Assistance</option>
+                  <option>NA - Not Applicable</option>
+                  <option value={""}>Choose</option>
+                </Form.Control>
                 </div>
                 <div className='form-group'>
                   <h5>
@@ -1081,9 +1418,35 @@ class DailyProgressAndActivity extends Component {
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
-                  <label className='control-label'>
+                  <label className='control-label' htmlFor='radios' >
                     Informal Counseling
                   </label>{" "}
+                <div className="">
+                  <div className="radio">
+                    <label htmlFor="informalCounselYes">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="informalCounselYes"
+                        value="Yes"
+                      />
+                      Yes
+                    </label>
+                  </div>
+                  <div className="radio">
+                    <label htmlFor="informalCounselNA">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="informalCounselNA"
+                        value="NA"
+                      />
+                      NA
+                    </label>
+                  </div>
+                </div>
                   <input
                     onChange={this.handleFieldInput}
                     value={this.state.informal_counseling}
@@ -1176,37 +1539,85 @@ class DailyProgressAndActivity extends Component {
                   <label className='control-label'>
                     Home Restrictions
                   </label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    value={this.state.home_restrictions}
-                    id='home_restrictions'
-                    className='form-control'
-                    type='text'
-                  />{" "}
+                  <div className="d-flex mt-6 "
+                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      <label htmlFor="home_restrictionsYes">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="home_restrictionsYes"
+                        value="Yes"
+                      />
+                      Yes
+                    </label>
+                    <label htmlFor="home_restrictionsNA">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="home_restrictionsNA"
+                        value="NA"
+                      />
+                      NA
+                    </label>
+                </div>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>
                     Restricted Leisure Activity
                   </label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    value={this.state.restricted_leisure_activity}
-                    id='restricted_leisure_activity'
-                    className='form-control'
-                    type='text'
-                  />{" "}
+                  <div className="d-flex mt-6 "
+                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      <label htmlFor="restricted_leisure_activityYes">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="restricted_leisure_activityYes"
+                        value="Yes"
+                      />
+                      Yes
+                    </label>
+                    <label htmlFor="restricted_leisure_activityNA">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="restricted_leisure_activityNA"
+                        value="NA"
+                      />
+                      NA
+                    </label>
+                </div>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>No Allowance</label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    value={this.state.no_allowance}
-                    id='no_allowance'
-                    className='form-control'
-                    type='text'
-                  />{" "}
+                  <div className="d-flex mt-6 "
+                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      <label htmlFor="no_allowanceYes">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="no_allowanceYes"
+                        value="Yes"
+                      />
+                      Yes
+                    </label>
+                    <label htmlFor="no_allowanceNA">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="no_allowanceNA"
+                        value="NA"
+                      />
+                      NA
+                    </label>
+                </div>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
