@@ -589,25 +589,61 @@ class BodyCheck extends Component {
                 <label className='control-label'>
                   Does the child have an injury (Yes / No)
                 </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id='injury'
-                  value={this.state.injury}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                <div className="d-flex mt-6 "
+                      style={{ flexWrap: "wrap",
+                      rowGap: "10px",
+                      columnGap: "2em" }}>
+                      <label htmlFor="injuryYes">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="injuryYes"
+                        value="Yes"
+                      />
+                      Yes
+                    </label>
+                    <label htmlFor="verbal_redirectionNA">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="injuryNo"
+                        value="No"
+                      />
+                      No
+                    </label>
+                </div>{" "}
               </div>
 
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>AM / PM</label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id='amPm'
-                  value={this.state.amPm}
-                  className='form-control'
-                  type='text'
-                />{" "}
+                <div className="d-flex mt-6 "
+                      style={{ flexWrap: "wrap",
+                      rowGap: "10px",
+                      columnGap: "2em" }}>
+                      <label htmlFor="amPm_AM">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="amPm_AM"
+                        value="AM"
+                      />
+                      AM
+                    </label>
+                    <label htmlFor="amPm_PM">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="amPm_PM"
+                        value="PM"
+                      />
+                      PM
+                    </label>
+                </div>{" "}
               </div>
 
               <div className='form-group logInInputField'>
@@ -1514,24 +1550,60 @@ class BodyCheck extends Component {
                   <label className='control-label'>
                     Does the child have an injury (Yes / No)
                   </label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    id='injury'
-                    value={this.state.injury}
-                    className='form-control'
-                    type='text'
-                  />{" "}
+                  <div className="d-flex mt-6 "
+                      style={{ flexWrap: "wrap",
+                      rowGap: "10px",
+                      columnGap: "2em" }}>
+                      <label htmlFor="injuryYes">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="injuryYes"
+                        value="Yes"
+                      />
+                      Yes
+                    </label>
+                    <label htmlFor="verbal_redirectionNA">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="injuryNo"
+                        value="No"
+                      />
+                      No
+                    </label>
+                </div>{" "}
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>AM / PM</label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    id='amPm'
-                    value={this.state.amPm}
-                    className='form-control'
-                    type='text'
-                  />{" "}
+                  <div className="d-flex mt-6 "
+                      style={{ flexWrap: "wrap",
+                      rowGap: "10px",
+                      columnGap: "2em" }}>
+                      <label htmlFor="amPm_AM">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="amPm_AM"
+                        value="AM"
+                      />
+                      AM
+                    </label>
+                    <label htmlFor="amPm_PM">
+                      <input
+                        onClick={this.toggleDemoMethod}
+                        type="radio"
+                        name="radios"
+                        id="amPm_PM"
+                        value="PM"
+                      />
+                      PM
+                    </label>
+                </div>{" "}
                 </div>
                 <div className='form-group logInInputField'>
                   <h5>
