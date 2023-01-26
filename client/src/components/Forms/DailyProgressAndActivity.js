@@ -659,7 +659,9 @@ class DailyProgressAndActivity extends Component {
                   Informal Counseling
                 </label>{" "}
                 <div className="d-flex mt-6 "
-                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      style={{ flexWrap: "wrap",
+                      rowGap: "10px",
+                      columnGap: "2em" }}>
                   {/* <div className="radio"> */}
                     <label htmlFor="informalCounselYes">
                       <input
@@ -683,13 +685,15 @@ class DailyProgressAndActivity extends Component {
                       />
                       NA
                     </label>
-                </div>
+                </div>{" "}
               </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>Verbal Redirection</label>{" "}
                 <div className="d-flex mt-6 "
-                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      style={{ flexWrap: "wrap",
+                      rowGap: "10px",
+                      columnGap: "2em" }}>
                       <label htmlFor="verbal_redirectionYes">
                       <input
                         onClick={this.toggleDemoMethod}
@@ -716,7 +720,9 @@ class DailyProgressAndActivity extends Component {
                 {" "}
                 <label className='control-label'>Modeling</label>{" "}
                 <div className="d-flex mt-6 "
-                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      style={{ flexWrap: "wrap",
+                      rowGap: "10px",
+                      columnGap: "2em" }}>
                       <label htmlFor="modelingYes">
                       <input
                         onClick={this.toggleDemoMethod}
@@ -745,7 +751,9 @@ class DailyProgressAndActivity extends Component {
                   Supervised Separation
                 </label>{" "}
                 <div className="d-flex mt-6 "
-                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                     style={{ flexWrap: "wrap",
+                     rowGap: "10px",
+                     columnGap: "2em" }}>
                       <label htmlFor="supervised_separationYes">
                       <input
                         onClick={this.toggleDemoMethod}
@@ -774,7 +782,9 @@ class DailyProgressAndActivity extends Component {
                   Provider Feedback to Client
                 </label>{" "}
                 <div className="d-flex mt-6 "
-                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      style={{ flexWrap: "wrap",
+                      rowGap: "10px",
+                      columnGap: "2em" }}>
                       <label htmlFor="provider_feedback_to_clientYes">
                       <input
                         onClick={this.toggleDemoMethod}
@@ -803,7 +813,9 @@ class DailyProgressAndActivity extends Component {
                   Positive Reinforcement
                 </label>{" "}
                 <div className="d-flex mt-6 "
-                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      style={{ flexWrap: "wrap",
+                      rowGap: "10px",
+                      columnGap: "2em" }}>
                       <label htmlFor="positive_reinforcementYes">
                       <input
                         onClick={this.toggleDemoMethod}
@@ -846,7 +858,9 @@ class DailyProgressAndActivity extends Component {
                 {" "}
                 <label className='control-label'>Home Restrictions</label>{" "}
                 <div className="d-flex mt-6 "
-                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      style={{ flexWrap: "wrap",
+                      rowGap: "10px",
+                      columnGap: "2em" }}>
                       <label htmlFor="home_restrictionsYes">
                       <input
                         onClick={this.toggleDemoMethod}
@@ -875,7 +889,9 @@ class DailyProgressAndActivity extends Component {
                   Restricted Leisure Activity
                 </label>{" "}
                 <div className="d-flex mt-6 "
-                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      style={{ flexWrap: "wrap",
+                      rowGap: "10px",
+                      columnGap: "2em" }}>
                       <label htmlFor="restricted_leisure_activityYes">
                       <input
                         onClick={this.toggleDemoMethod}
@@ -902,7 +918,9 @@ class DailyProgressAndActivity extends Component {
                 {" "}
                 <label className='control-label'>No Allowance</label>{" "}
                 <div className="d-flex mt-6 "
-                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      style={{ flexWrap: "wrap",
+                      rowGap: "10px",
+                      columnGap: "2em" }}>
                       <label htmlFor="no_allowanceYes">
                       <input
                         onClick={this.toggleDemoMethod}
@@ -1542,7 +1560,9 @@ class DailyProgressAndActivity extends Component {
                     Home Restrictions
                   </label>{" "}
                   <div className="d-flex mt-6 "
-                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      style={{ flexWrap: "wrap",
+                      rowGap: "10px",
+                      columnGap: "2em" }}>
                       <label htmlFor="home_restrictionsYes">
                       <input
                         onClick={this.toggleDemoMethod}
@@ -1571,7 +1591,9 @@ class DailyProgressAndActivity extends Component {
                     Restricted Leisure Activity
                   </label>{" "}
                   <div className="d-flex mt-6 "
-                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      style={{ flexWrap: "wrap",
+                      rowGap: "10px",
+                      columnGap: "2em" }}>
                       <label htmlFor="restricted_leisure_activityYes">
                       <input
                         onClick={this.toggleDemoMethod}
@@ -1598,7 +1620,9 @@ class DailyProgressAndActivity extends Component {
                   {" "}
                   <label className='control-label'>No Allowance</label>{" "}
                   <div className="d-flex mt-6 "
-                      style={{ alignItems: "left", justifyContent: "space-evenly" }}>
+                      style={{ flexWrap: "wrap",
+                      rowGap: "10px",
+                      columnGap: "2em" }}>
                       <label htmlFor="no_allowanceYes">
                       <input
                         onClick={this.toggleDemoMethod}
