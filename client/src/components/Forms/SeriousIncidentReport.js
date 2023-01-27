@@ -206,8 +206,6 @@ class SeriousIncidentReport extends Component {
             ...currentState,
           }
         );
-
-        this.setState({ ...this.state, ...data });
       } catch (e) {
         console.log(e);
         this.setState({

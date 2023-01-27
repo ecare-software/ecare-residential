@@ -653,8 +653,6 @@ class TreatmentPlan72 extends Component {
             ...currentState,
           }
         );
-
-        this.setState({ ...this.state, ...data });
       } catch (e) {
         console.log(e);
         this.setState({
