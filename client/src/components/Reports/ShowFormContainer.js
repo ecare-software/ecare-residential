@@ -18,7 +18,9 @@ import SignatureCanvas from "react-signature-canvas";
 import { FetchHomeData } from "../../utils/FetchHomeData";
 import { DoDeleteRecord } from "../../utils/DoDeleteRecord";
 import NightMonitoring from "../Forms/NightMonitoring";
- 
+
+import ClipLoader from "react-spinners/ClipLoader";
+
 
 const needsNurseSig = ["Health Body Check", "Illness Injury"];
 
@@ -58,6 +60,13 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   const [sigCanvasNurse, setSigCanvasNurse] = useState(null);
 
   const [sigCanvasAdminAlt1, setSigCanvasAdminAlt1] = useState(null);
+
+  const [isSavingSigCanvasAdmin, setIsSavingSigCanvasAdmin] = useState(false);
+
+  const [isSavingSigCanvasNurse, setIsSavingSigCanvasNurse] = useState(false);
+
+  const [isSavingSigCanvasAdminAlt1, setIsSavingSigCanvasAdminAlt1] =
+    useState(false);
 
   const [homeData, setHomeData] = useState("");
 
@@ -264,6 +273,13 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
       return;
     }
     try {
+      if (type === "nurse") {
+        setIsSavingSigCanvasNurse(true);
+      } else if (type === "alt1") {
+        setIsSavingSigCanvasAdminAlt1(true);
+      } else {
+        setIsSavingSigCanvasAdmin(true);
+      }
       await Axios.put(
         `/api/${route}/${formData.homeId}/${formData._id}`,
         postData
@@ -271,12 +287,15 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
       if (type === "nurse") {
         setApprovedByNurseText(`${userObj.firstName} ${userObj.lastName} `);
         doSetSigs(type, postData.approvedNurseSig);
+        setIsSavingSigCanvasNurse(false);
       } else if (type === "alt1") {
         setApprovedByAlt1Text(`${userObj.firstName} ${userObj.lastName} `);
         doSetSigs(type, postData.approvedSig_alt1);
+        setIsSavingSigCanvasAdminAlt1(false);
       } else {
         setApprovedByText(`${userObj.firstName} ${userObj.lastName}`);
         doSetSigs(type, postData.approvedSig);
+        setIsSavingSigCanvasAdmin(false);
       }
     } catch (e) {
       //go back
@@ -382,6 +401,27 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
               />
             </Col>
           </Form.Row>
+          {isSavingSigCanvasAdmin && (
+            <div
+              className=''
+              style={{
+                height: "200px",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <div>
+                <ClipLoader
+                  className='formSpinner'
+                  size={50}
+                  color={"#ffc107"}
+                />
+              </div>
+
+              <p>Updating...</p>
+            </div>
+          )}
           <Form.Row>
             <Col xs='auto'>
               <div
@@ -389,6 +429,10 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
                   width: "100%",
                   display: "flex",
                   justifyContent: "center",
+                  visibility:
+                    !isSavingSigCanvasAdmin && isApproved
+                      ? "visible"
+                      : "hidden",
                 }}
               >
                 <SignatureCanvas
@@ -429,6 +473,27 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
                   />
                 </Col>
               </Form.Row>
+              {isSavingSigCanvasNurse && (
+                <div
+                  className=''
+                  style={{
+                    height: "200px",
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <div>
+                    <ClipLoader
+                      className='formSpinner'
+                      size={50}
+                      color={"#ffc107"}
+                    />
+                  </div>
+
+                  <p>Updating...</p>
+                </div>
+              )}
               <Form.Row>
                 <Col xs='auto'>
                   <div
@@ -436,6 +501,10 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
                       width: "100%",
                       display: "flex",
                       justifyContent: "center",
+                      visibility:
+                        !isSavingSigCanvasNurse && isApprovedByNurse
+                          ? "visible"
+                          : "hidden",
                     }}
                   >
                     <SignatureCanvas
@@ -475,6 +544,27 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
                   />
                 </Col>
               </Form.Row>
+              {isSavingSigCanvasAdminAlt1 && (
+                <div
+                  className=''
+                  style={{
+                    height: "200px",
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <div>
+                    <ClipLoader
+                      className='formSpinner'
+                      size={50}
+                      color={"#ffc107"}
+                    />
+                  </div>
+
+                  <p>Updating...</p>
+                </div>
+              )}
               <Form.Row>
                 <Col xs='auto'>
                   <div
@@ -482,6 +572,10 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
                       width: "100%",
                       display: "flex",
                       justifyContent: "center",
+                      visibility:
+                        !isSavingSigCanvasAdminAlt1 && isApprovedByAlt1
+                          ? "visible"
+                          : "hidden",
                     }}
                   >
                     <SignatureCanvas
