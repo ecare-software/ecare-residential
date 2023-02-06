@@ -56,6 +56,7 @@ class IllnessInjury extends Component {
 
       clients: [],
       clientId: "",
+      createDate: new Date().toISOString(),
     };
   }
 
@@ -104,6 +105,7 @@ class IllnessInjury extends Component {
       otherActionsTreatment: "",
       treatmentAuthBy: "",
       clientId: "",
+      createDate: new Date().toISOString(),
     });
   };
 
@@ -128,6 +130,10 @@ class IllnessInjury extends Component {
             ...currentState,
           }
         );
+        this.setState({
+          ...this.state,
+          lastEditDate: data.lastEditDate,
+        });
       } catch (e) {
         console.log(e);
         this.setState({
@@ -148,7 +154,7 @@ class IllnessInjury extends Component {
 
           this.setState({
             ...this.state,
-            ...res.data,
+            _id: res.data._id,
           });
         })
         .catch((e) => {
@@ -220,76 +226,18 @@ class IllnessInjury extends Component {
       ...this.state,
       loadingClients: true,
     });
-    if (!save) {
-      const { data: createdUserData } = await GetUserSig(
-        this.props.userObj.email,
-        this.props.userObj.homeId
-      );
 
-      if (
-        !createdUserData.signature ||
-        Array.isArray(createdUserData.signature) === false ||
-        !createdUserData.signature.length > 0
-      ) {
-        this.setState({
-          ...this.state,
-          formHasError: true,
-          formErrorMessage: `User signature required to submit a form. Create a new signature under 'Manage Profile'.`,
-          loadingClients: false,
-        });
-        return;
-      }
-    }
-
-    var keysToExclude = [
-      "formHasError",
-      "formSubmitted",
-      "formErrorMessage",
-      "tempMethodTaken",
-      "tempInitialReading",
-      "adminFollowUp",
-      "lastMedicationGiven",
-      "otherActionsTreatment",
-      "treatmentAuthBy",
-      "loadingClients",
-    ];
-
-    //resubmit fields
-    keysToExclude = [
-      ...keysToExclude,
-      "__v",
-      "approved",
-      "approvedBy",
-      "approvedByDate",
-      "approvedByName",
-      "clientId",
-    ];
-
-    var isValid = true;
-    var errorFields = [];
-
-    /*Object.keys(this.state).forEach((key) => {
-      if (!keysToExclude.includes(key)) {
-        if (
-          !this.state[key] ||
-          /^\s+$/.test(this.state[key]) ||
-          this.state[key].length < 1
-        ) {
-          errorFields.push("\n" + key);
-          isValid = false;
-        }
-      }
-    });
-*/
-
-    if (!isValid && !isAdminUser(this.props.userObj)) {
+    if (!this.state.createDate) {
       this.setState({
         formHasError: true,
-        formErrorMessage: `Please complete the following field(s): ${errorFields
-          .toString()
-          .replace(/,/g, "\n")}`,
+        formErrorMessage: `Please complete the following field(s): Create Date`,
       });
       return;
+    } else {
+      this.setState({
+        ...this.state,
+        createDate: new Date(this.state.createDate),
+      });
     }
 
     this.submit();
@@ -305,6 +253,14 @@ class IllnessInjury extends Component {
       this.sigCanvas.fromData(userObj.signature);
     }
   };
+
+  dateForDateTimeInputValue = () =>
+    new Date(
+      new Date(this.state.createDate).getTime() +
+        new Date().getTimezoneOffset() * -60 * 1000
+    )
+      .toISOString()
+      .slice(0, 19);
 
   setValues = async () => {
     const { data: createdUserData } = await GetUserSig(
@@ -429,6 +385,16 @@ class IllnessInjury extends Component {
             </div>
           ) : (
             <div className='formFieldsMobile'>
+              <div className='form-group logInInputField'>
+                <label className='control-label'>Create Date</label>{" "}
+                <input
+                  onChange={this.handleFieldInput}
+                  id='createDate'
+                  value={this.state.createDate}
+                  className='form-control'
+                  type='datetime-local'
+                />{" "}
+              </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>Child's Name</label>{" "}
@@ -681,6 +647,16 @@ class IllnessInjury extends Component {
               </div>
             ) : (
               <div>
+                <div className='form-group logInInputField'>
+                  <label className='control-label'>Create Date</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    id='createDate'
+                    value={this.dateForDateTimeInputValue()}
+                    className='form-control'
+                    type='datetime-local'
+                  />{" "}
+                </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>Child's Name</label>{" "}
