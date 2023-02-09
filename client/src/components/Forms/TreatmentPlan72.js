@@ -745,10 +745,7 @@ class TreatmentPlan72 extends Component {
   };
 
   dateForDateTimeInputValue = () =>
-    new Date(
-      new Date(this.state.createDate).getTime() +
-        new Date().getTimezoneOffset() * -60 * 1000
-    )
+    new Date(new Date(this.state.createDate).getTime())
       .toISOString()
       .slice(0, 19);
 
