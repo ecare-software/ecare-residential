@@ -386,8 +386,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -447,8 +447,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -508,8 +508,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -569,8 +569,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -630,8 +630,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -691,8 +691,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -752,8 +752,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -813,8 +813,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -874,8 +874,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -935,8 +935,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -996,8 +996,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -1057,8 +1057,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -1118,8 +1118,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -1179,8 +1179,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -1240,8 +1240,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -1301,8 +1301,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -1362,8 +1362,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -1423,8 +1423,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -1484,8 +1484,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -1545,8 +1545,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -1606,8 +1606,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -1667,8 +1667,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -1728,8 +1728,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -1789,8 +1789,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -1850,8 +1850,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -1911,8 +1911,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -1972,8 +1972,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -2033,8 +2033,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -2094,8 +2094,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -2155,8 +2155,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -2216,8 +2216,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -2277,8 +2277,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -2338,8 +2338,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -2399,8 +2399,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -2460,8 +2460,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -2521,8 +2521,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -2582,8 +2582,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -2643,8 +2643,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -2704,8 +2704,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -2765,8 +2765,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -2880,8 +2880,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -2940,8 +2940,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -3000,8 +3000,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -3060,8 +3060,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -3120,8 +3120,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -3180,8 +3180,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -3240,8 +3240,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -3300,8 +3300,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -3360,8 +3360,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -3420,8 +3420,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -3480,8 +3480,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -3540,8 +3540,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -3600,8 +3600,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -3660,8 +3660,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -3720,8 +3720,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -3780,8 +3780,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -3840,8 +3840,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -3900,8 +3900,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -3960,8 +3960,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -4020,8 +4020,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -4080,8 +4080,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -4140,8 +4140,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -4200,8 +4200,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -4260,8 +4260,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -4320,8 +4320,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -4380,8 +4380,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -4440,8 +4440,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -4500,8 +4500,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -4560,8 +4560,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -4620,8 +4620,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -4680,8 +4680,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -4740,8 +4740,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -4800,8 +4800,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -4860,8 +4860,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -4920,8 +4920,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -4980,8 +4980,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -5040,8 +5040,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -5100,8 +5100,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -5160,8 +5160,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
@@ -5220,8 +5220,8 @@ class AwakeNightStaffSignoff extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
-                    height: 200,
+                    width: 300,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
