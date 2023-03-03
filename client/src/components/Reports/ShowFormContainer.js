@@ -430,6 +430,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
                 style={{
                   width: "100%",
                   display: "flex",
+                  maxHeight: "170",
                   justifyContent: "center",
                   visibility:
                     !isSavingSigCanvasAdmin && isApproved
@@ -445,8 +446,8 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
-                    width: 300,
-                    height: 100,
+                    width: 600,
+                    height: 200,
                     className: "sigCanvasAdmin",
                   }}
                   backgroundColor='#eeee'

@@ -459,8 +459,9 @@ class NightMonitoring extends Component {
             <div className="sigSection">
               <div
                 style={{
-                  width: "100%",
+                 width: "100%",
                   display: "flex",
+maxHeight:"170",
                   justifyContent: "center",
                 }}
               >
