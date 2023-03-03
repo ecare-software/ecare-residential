@@ -1375,6 +1375,7 @@ class DailyProgressAndActivity extends Component {
                 style={{
                   width: "100%",
                   display: "flex",
+                  maxHeight: "170",
                   justifyContent: "center",
                 }}
               >
@@ -1386,8 +1387,8 @@ class DailyProgressAndActivity extends Component {
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
-                    width: 300,
-                    height: 100,
+                    width: 600,
+                    height: 200,
                     className: "sigCanvas",
                   }}
                   backgroundColor='#eeee'
