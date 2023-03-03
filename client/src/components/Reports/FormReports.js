@@ -103,6 +103,7 @@ export class FromReports extends Component {
       showForms: false,
       showTrainings: false,
       isLoading: true,
+      showFullForms:false
     };
   }
 
@@ -284,6 +285,39 @@ export class FromReports extends Component {
 
     return;
   };
+
+  triggerPrint= ()=>{
+    /*
+    1. change all of the listed forms to full view of forms
+    */
+    this.setState({...this.state,showFullForms:true})
+    /*
+    2. call print method, (window.print()), bringing up the print window
+*/
+
+    /*
+    3. change the view back after set amount of time, showing list of filtered forms again
+    */
+   setTimeout(()=>{
+    this.setState({...this.state,showFullForms:false})
+   },2000)
+
+  }
+
+  doShowForms = (showFullForms) =>{
+    return showFullForms ?  <div className="formLoadingDiv">
+            <div>
+              <ClipLoader className="formSpinner" size={50} color={"#ffc107"} />
+            </div>
+
+            <p>Loading...</p>
+          </div>:<FormListContainer
+    doReset={this.state.doReset}
+    setSelectedForm={this.setSelectedForm}
+    setSelectedUser={this.setSelectedUser}
+    formObjs={this.state.forms}
+  />
+  }
 
   selectedUserFormToggle = (searchObj) => {
     if (Object.keys(searchObj).length > 0) {
@@ -1019,6 +1053,14 @@ export class FromReports extends Component {
                     Back
                   </button>
                 )}
+                 {!this.state.doShowFilters && (
+                  <button
+                    onClick={this.triggerPrint}
+                    className="btn btn-link"
+                  >
+                    <span className="fa fa-print"></span> Print Results
+                  </button>
+                )}
               </div>
             </h2>
           </div>
@@ -1070,12 +1112,7 @@ export class FromReports extends Component {
                 }
               >
                 {this.state.forms.length > 0 ? (
-                  <FormListContainer
-                    doReset={this.state.doReset}
-                    setSelectedForm={this.setSelectedForm}
-                    setSelectedUser={this.setSelectedUser}
-                    formObjs={this.state.forms}
-                  />
+                this.doShowForms(this.state.showFullForms)
                 ) : (
                   <p style={{ textAlign: "center" }}>
                     You have not submitted a form just yet
