@@ -787,7 +787,11 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
         </div>
       );
     }
-    return Reflect.ownKeys(updatedFormData).length > 0 ? <>{comp}</> : <></>;
+    return Reflect.ownKeys(updatedFormData).length > 0 ? (
+      <div style={{ pageBreakAfter: "always" }}>{comp}</div>
+    ) : (
+      <></>
+    );
   };
 
   return (
@@ -800,7 +804,7 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
           userObj={userObj}
         />
       )}
-      {displayComponent(form.name)}
+      {displayComponent(form.name ? form.name : form.formType)}
     </>
   );
 };
