@@ -90,7 +90,7 @@ router.get(
     if (req.params.searchString !== "none") {
       findObj.childMeta_name = {
         $regex: ".*" + req.params.searchString + ".*",
-        $options: "ig",
+        $options: "i",
       };
     }
 

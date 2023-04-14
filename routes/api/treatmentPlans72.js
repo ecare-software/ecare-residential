@@ -360,7 +360,7 @@ router.get(
       if (isNaN(req.params.searchString)) {
         findObj.childMeta_name = {
           $regex: ".*" + req.params.searchString + ".*",
-          $options: "ig",
+          $options: "i",
         };
       } else {
         findObj.childMeta_medicaidNumber = req.params.searchString;
