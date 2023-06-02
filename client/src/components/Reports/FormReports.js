@@ -326,13 +326,16 @@ export class FromReports extends Component {
     */
     setTimeout(() => {
       window.print();
+    }, 5000);
+
+    setTimeout(() => {
       this.setState({ ...this.state, showFullForms: false, formsToPrint: [] });
-    }, 2000);
+    }, 8000);
   };
 
   doShowForms = (showFullForms) => {
     return showFullForms ? (
-      <div className='formLoadingDiv'>
+      <div className='formLoadingDiv hide-on-print'>
         <div>
           <ClipLoader className='formSpinner' size={50} color={"#ffc107"} />
         </div>
@@ -1033,15 +1036,17 @@ export class FromReports extends Component {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              marginTop: 100,
+              marginTop: 200,
+              marginBottom: 200,
             }}
+            className='hide-on-print'
           >
-            <h1 className='hide-on-print'>Printing Forms</h1>
             <div>
               <ClipLoader className='formSpinner' size={50} color={"#ffc107"} />
             </div>
+            <h1>Printing Forms, Please Wait...</h1>
           </div>
-          <div>
+          <div className='hide-on-non-print'>
             {this.state.formsToPrint.map((form, idx) => (
               <div key={`print-form-${idx}`}>{form}</div>
             ))}
@@ -1146,7 +1151,7 @@ export class FromReports extends Component {
           </div>
         )}
         {this.state.isLoading ? (
-          <div className='formLoadingDiv'>
+          <div className='formLoadingDiv hide-on-print'>
             <div>
               <ClipLoader className='formSpinner' size={50} color={"#ffc107"} />
             </div>
@@ -1195,7 +1200,7 @@ export class FromReports extends Component {
             </div>
           </div>
         ) : (
-          <div className='formLoadingDiv'>
+          <div className='formLoadingDiv hide-on-print'>
             <div>
               <ClipLoader className='formSpinner' size={50} color={"#ffc107"} />
             </div>
