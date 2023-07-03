@@ -25,6 +25,7 @@
     "nodemailer": "^6.4.16",
     "prop-types": "^15.7.2",
     "react-signature-canvas": "^1.0.3",
+    "readme-md-generator": "^1.0.0",
     "universal-cookie": "^4.0.4"
   },
   "devDependencies": {

@@ -29,51 +29,28 @@ class TreatmentPlan72 extends Component {
       childMeta_placeOfBirth: "",
       childMeta_ethnicity: "",
       childMeta_levelOfCare: "",
-
       childMeta_religion: "",
-
       childMeta_managingConservator: "",
-
       projectedDateForAchievingPermanency: "",
-
       legalStatus_PermancyGoal: "",
-
       fatherMeta_name: "",
-
       fatherMeta_address: "",
-
       fatherMeta_phoneNumber: "",
-
       motherMeta_name: "",
-
       motherMeta_address: "",
-
       motherMeta_phoneNumber: "",
-
       legalStatus: "",
-
       referringAgency_co: "",
-
       agentOfReferringAgency_co_name: "",
-
       agentOfReferringAgency_co_address: "",
-
       reactionToPlacement: "",
-
       interests: "",
-
       otherMeta1_name: "",
-
       otherMeta1_relationship: "",
-
       otherMeta1_address: "",
-
       otherMeta1_phoneNumber: "",
-
       otherMeta2_name: "",
-
       otherMeta2_relationship: "",
-
       otherMeta2_address: "",
 
       otherMeta2_phoneNumber: "",
