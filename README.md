@@ -19,8 +19,13 @@
 
 ### Running the Server
 1. Navigate back to the main folder
-2. Run ` npm
+2. Run `npm install` and then run `npm run start`.
 ## Usage
+
+### Starting Up
+
+
+
 
 ## Contributing
 
