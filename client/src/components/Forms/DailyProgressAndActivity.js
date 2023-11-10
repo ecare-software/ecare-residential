@@ -1360,7 +1360,7 @@ class DailyProgressAndActivity extends Component {
                     ></TextareaAutosize>
                   </div>
                   <p className='hide-on-non-print'>
-                    {this.state.therapeutic_value}
+                    {this.state.therapeutic_recreational}
                   </p>
                 </div>
                 <div className='form-group logInInputField'>
