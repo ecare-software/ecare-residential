@@ -156,6 +156,7 @@ class AdmissionAssessment extends Component {
 
       clients: [],
       clientId: "",
+      createDate: new Date().toISOString(),
     };
   }
 
@@ -305,6 +306,7 @@ class AdmissionAssessment extends Component {
       shortTermGoals: "",
       longTermGoals: "",
       clientId: "",
+      createDate: new Date().toISOString(),
     });
   };
 
@@ -312,9 +314,17 @@ class AdmissionAssessment extends Component {
   autoSave = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
-    console.log("auto saving");
+    delete currentState.staff;
+
+    if (
+      currentState.childMeta_name === "" ||
+      currentState.childMeta_name.length === 0
+    ) {
+      return;
+    }
+
     if (initAutoSave) {
-      console.log("updating existing form");
+      console.log("autosaving existing form");
       try {
         const { data } = await Axios.put(
           `/api/admissionAssessment/${this.state.homeId}/${this.state._id}`,
@@ -322,12 +332,10 @@ class AdmissionAssessment extends Component {
             ...currentState,
           }
         );
-
-        const { createDate, ...savedData } = {
+        this.setState({
           ...this.state,
-          ...data,
-        };
-        this.setState({ ...this.state, ...savedData });
+          lastEditDate: data.lastEditDate,
+        });
       } catch (e) {
         console.log(e);
         this.setState({
@@ -337,7 +345,7 @@ class AdmissionAssessment extends Component {
         });
       }
     } else {
-      console.log("creating");
+      console.log("autosaving new form");
       currentState.createdBy = this.props.userObj.email;
       currentState.createdByName =
         this.props.userObj.firstName + " " + this.props.userObj.lastName;
@@ -345,14 +353,10 @@ class AdmissionAssessment extends Component {
       Axios.post("/api/admissionAssessment/", currentState)
         .then((res) => {
           initAutoSave = true;
-          const { createDate, ...savedData } = {
-            ...this.state,
-            ...res.data,
-          };
 
           this.setState({
             ...this.state,
-            ...savedData,
+            _id: res.data._id,
           });
         })
         .catch((e) => {
@@ -369,6 +373,7 @@ class AdmissionAssessment extends Component {
   submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
+    delete currentState.staff;
     initAutoSave = false;
     clearInterval(interval);
     if (this.props.valuesSet || this.state._id) {
@@ -380,16 +385,9 @@ class AdmissionAssessment extends Component {
           }
         );
 
-        const { createDate, ...savedData } = {
-          ...this.state,
-          ...data,
-        };
-        this.setState({ ...this.state, ...savedData });
+        this.setState({ ...this.state, ...data });
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
-        // setTimeout(() => {
-        //   this.toggleSuccessAlert();
-        // }, 2000);
       } catch (e) {
         console.log(e);
         this.setState({
@@ -427,124 +425,19 @@ class AdmissionAssessment extends Component {
       ...this.state,
       loadingClients: true,
     });
-    if (!save) {
-      const { data: createdUserData } = await GetUserSig(
-        this.props.userObj.email,
-        this.props.userObj.homeId
-      );
 
-      if (
-        !createdUserData.signature ||
-        Array.isArray(createdUserData.signature) === false ||
-        !createdUserData.signature.length > 0
-      ) {
-        this.setState({
-          ...this.state,
-          formHasError: true,
-          formErrorMessage: `User signature required to submit a form. Create a new signature under 'Manage Profile'.`,
-          loadingClients: false,
-        });
-        return;
-      }
+    if (!this.state.createDate) {
+      this.setState({
+        formHasError: true,
+        formErrorMessage: `Please complete the following field(s): Create Date`,
+      });
+      return;
+    } else {
+      this.setState({
+        ...this.state,
+        createDate: new Date(this.state.createDate),
+      });
     }
-
-    var keysToExclude = [
-      "formHasError",
-      "formSubmitted",
-      "formErrorMessage",
-      "administorSign",
-      "administorSignDate",
-      "treatmentDirectorSign",
-      "treatmentDirectorSignDate",
-      "otherMeta2_name",
-      "otherMeta2_relationship",
-      "otherMeta2_address",
-      "otherMeta2_phoneNumber",
-      "otherMeta3_name",
-      "otherMeta3_relationship",
-      "otherMeta3_address",
-      "otherMeta3_phoneNumber",
-      "otherMeta4_name",
-      "otherMeta4_relationship",
-      "otherMeta4_address",
-      "otherMeta4_phoneNumber",
-      "currentMedications_dosages_targetedSymptoms2_medication",
-      "currentMedications_dosages_targetedSymptoms2_dosage_frequency",
-      "currentMedications_dosages_targetedSymptoms2_purpose",
-      "currentMedications_dosages_targetedSymptoms2_possibleSideEffects",
-      "currentMedications_dosages_targetedSymptoms2_monitoredBy",
-      "currentMedications_dosages_targetedSymptoms3_medication",
-      "currentMedications_dosages_targetedSymptoms3_dosage_frequency",
-      "currentMedications_dosages_targetedSymptoms3_purpose",
-      "currentMedications_dosages_targetedSymptoms3_possibleSideEffects",
-      "currentMedications_dosages_targetedSymptoms3_monitoredBy",
-      "currentMedications_dosages_targetedSymptoms4_medication",
-      "currentMedications_dosages_targetedSymptoms4_dosage_frequency",
-      "currentMedications_dosages_targetedSymptoms4_purpose",
-      "currentMedications_dosages_targetedSymptoms4_possibleSideEffects",
-      "currentMedications_dosages_targetedSymptoms4_monitoredBy",
-      "currentMedications_dosages_targetedSymptoms5_medication",
-      "currentMedications_dosages_targetedSymptoms5_dosage_frequency",
-      "currentMedications_dosages_targetedSymptoms5_purpose",
-      "currentMedications_dosages_targetedSymptoms5_possibleSideEffects",
-      "currentMedications_dosages_targetedSymptoms5_monitoredBy",
-      "visitor2_name",
-      "visitor2_relationship",
-      "visitor2_frequency",
-      "visitor2_supervisedBy",
-      "visitor2_location",
-      "visitor2_length",
-      "visitor3_name",
-      "visitor3_relationship",
-      "visitor3_frequency",
-      "visitor3_supervisedBy",
-      "visitor3_location",
-      "visitor3_length",
-      "visitor4_name",
-      "visitor4_relationship",
-      "visitor4_frequency",
-      "visitor4_supervisedBy",
-      "visitor4_location",
-      "visitor4_length",
-      "loadingClients",
-    ];
-
-    //resubmit fields
-    keysToExclude = [
-      ...keysToExclude,
-      "__v",
-      "approved",
-      "approvedBy",
-      "approvedByDate",
-      "approvedByName",
-      "clientId",
-    ];
-
-    var isValid = true;
-    var errorFields = [];
-
-    // Object.keys(this.state).forEach((key) => {
-    //   if (!keysToExclude.includes(key)) {
-    //     if (
-    //       !this.state[key] ||
-    //       /^\s+$/.test(this.state[key]) ||
-    //       this.state[key].length < 1
-    //     ) {
-    //       errorFields.push("\n" + key);
-    //       isValid = false;
-    //     }
-    //   }
-    // });
-
-    // if (!isValid) {
-    //   this.setState({
-    //     formHasError: true,
-    //     formErrorMessage: `Please complete the following field(s): ${errorFields
-    //       .toString()
-    //       .replace(/,/g, "\n")}`,
-    //   });
-    //   return;
-    // }
 
     this.submit();
   };
@@ -607,9 +500,14 @@ class AdmissionAssessment extends Component {
       await this.getClients();
       interval = setInterval(() => {
         this.autoSave();
-      }, 10000);
+      }, 7000);
     }
   }
+
+  dateForDateTimeInputValue = () =>
+    new Date(new Date(this.state.createDate).getTime())
+      .toISOString()
+      .slice(0, 19);
 
   handleClientSelect = async (event) => {
     if (event.target.value !== null) {
@@ -634,15 +532,15 @@ class AdmissionAssessment extends Component {
   render() {
     if (!this.props.valuesSet) {
       return (
-        <div className="formComp">
+        <div className='formComp'>
           {this.state.formSubmitted || this.state.formHasError ? (
             <React.Fragment>
               {this.state.formSubmitted && <FormSuccessAlert />}
               <FormAlert
                 doShow={this.state.formHasError}
                 toggleErrorAlert={this.toggleErrorAlert}
-                type="danger"
-                heading="Error Submitting form"
+                type='danger'
+                heading='Error Submitting form'
               >
                 <p>{this.state.formErrorMessage}</p>
               </FormAlert>
@@ -650,10 +548,10 @@ class AdmissionAssessment extends Component {
           ) : (
             <React.Fragment />
           )}
-          <div className="formTitleDiv">
-            <h2 className="formTitle">Admission Assessment</h2>
+          <div className='formTitleDiv'>
+            <h2 className='formTitle'>Admission Assessment</h2>
             <h5
-              className="text-center"
+              className='text-center'
               style={{ color: "rgb(119 119 119 / 93%)" }}
             >
               {this.state.lastEditDate ? (
@@ -672,10 +570,10 @@ class AdmissionAssessment extends Component {
             </h5>
           </div>
           {this.state.loadingClients ? (
-            <div className="formLoadingDiv">
+            <div className='formLoadingDiv'>
               <div>
                 <ClipLoader
-                  className="formSpinner"
+                  className='formSpinner'
                   size={50}
                   color={"#ffc107"}
                 />
@@ -684,12 +582,22 @@ class AdmissionAssessment extends Component {
               <p>Loading...</p>
             </div>
           ) : (
-            <div className="formFieldsMobile">
-              <div className="form-group logInInputField">
+            <div className='formFieldsMobile'>
+              <div className='form-group logInInputField'>
+                <label className='control-label'>Create Date</label>{" "}
+                <input
+                  onChange={this.handleFieldInput}
+                  id='createDate'
+                  value={this.state.createDate}
+                  className='form-control'
+                  type='datetime-local'
+                />{" "}
+              </div>
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Child's Name</label>{" "}
+                <label className='control-label'>Child's Name</label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   defaultValue={null}
                   onChange={this.handleClientSelect}
                 >
@@ -701,49 +609,49 @@ class AdmissionAssessment extends Component {
                   )}
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Child's Date of Birth
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="childMeta_dob"
+                  id='childMeta_dob'
                   value={this.state.childMeta_dob}
-                  className="form-control"
-                  type="date"
+                  className='form-control'
+                  type='date'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Child's Age</label>{" "}
+                <label className='control-label'>Child's Age</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="childMeta_age"
+                  id='childMeta_age'
                   value={this.state.childMeta_age}
-                  className="form-control"
-                  type="number"
+                  className='form-control'
+                  type='number'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Child's SSN</label>{" "}
+                <label className='control-label'>Child's SSN</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="childMeta_ssn"
+                  id='childMeta_ssn'
                   value={this.state.childMeta_ssn}
-                  className="form-control"
-                  type="number"
+                  className='form-control'
+                  type='number'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Child's Gender</label>{" "}
+                <label className='control-label'>Child's Gender</label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.childMeta_gender}
-                  id="childMeta_gender"
+                  id='childMeta_gender'
                 >
                   <option>Male</option>
                   <option>Female</option>
@@ -751,53 +659,53 @@ class AdmissionAssessment extends Component {
                   <option value={""}>Choose</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Child's Medicaid Number
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="childMeta_medicaidNumber"
+                  id='childMeta_medicaidNumber'
                   value={this.state.childMeta_medicaidNumber}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Child's Birth County
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="childMeta_county"
+                  id='childMeta_county'
                   value={this.state.childMeta_county}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Child's Place of Birth (City, State)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="childMeta_placeOfBirth"
+                  id='childMeta_placeOfBirth'
                   value={this.state.childMeta_placeOfBirth}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Child's Ethnicity</label>{" "}
+                <label className='control-label'>Child's Ethnicity</label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.childMeta_ethnicity}
-                  id="childMeta_ethnicity"
+                  id='childMeta_ethnicity'
                 >
                   <option>Black</option>
                   <option>White</option>
@@ -810,16 +718,16 @@ class AdmissionAssessment extends Component {
                 </Form.Control>
               </div>
 
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Child's Level of Care
                 </label>{" "}
                 <Form.Control
-                  as="select"
+                  as='select'
                   onChange={this.handleFieldInput}
                   value={this.state.childMeta_levelOfCare}
-                  id="childMeta_levelOfCare"
+                  id='childMeta_levelOfCare'
                 >
                   <option>Basic</option>
                   <option>Moderate</option>
@@ -829,121 +737,121 @@ class AdmissionAssessment extends Component {
                   <option value={""}>Choose</option>
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Child's Religion</label>{" "}
+                <label className='control-label'>Child's Religion</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="childMeta_religion"
+                  id='childMeta_religion'
                   value={this.state.childMeta_religion}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Child's Managing Conservator
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="childMeta_managingConservator"
+                  id='childMeta_managingConservator'
                   value={this.state.childMeta_managingConservator}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Child's Date of Admission
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="childMeta_dateOfAdmission"
+                  id='childMeta_dateOfAdmission'
                   value={this.state.childMeta_dateOfAdmission}
-                  className="form-control"
-                  type="date"
+                  className='form-control'
+                  type='date'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Projected Date For Achieving Permanency
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="projectedDateForAchievingPermanency"
+                  id='projectedDateForAchievingPermanency'
                   value={this.state.projectedDateForAchievingPermanency}
-                  className="form-control"
-                  type="date"
+                  className='form-control'
+                  type='date'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Legal Status / Permancy Goal
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="legalStatus_PermancyGoal"
+                  id='legalStatus_PermancyGoal'
                   value={this.state.legalStatus_PermancyGoal}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Estimated Length of Stay at New Pathways
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="est_length_of_stay"
+                  id='est_length_of_stay'
                   value={this.state.est_length_of_stay}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Description of circumstances making placement necessary
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="desc_of_circum"
+                  id='desc_of_circum'
                   value={this.state.desc_of_circum}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Family/Social History
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="family_social_history"
+                  id='family_social_history'
                   value={this.state.family_social_history}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Environment and Family function
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="env_family_function"
+                  id='env_family_function'
                   value={this.state.env_family_function}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 <h5>
                   Significant relationship to the child{" "}
                   <i>
@@ -952,418 +860,418 @@ class AdmissionAssessment extends Component {
                   :
                 </h5>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Name of Significant Relation (1)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="otherMeta1_name"
+                  id='otherMeta1_name'
                   value={this.state.otherMeta1_name}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Relationship of Significant Relation (1)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="otherMeta1_relationship"
+                  id='otherMeta1_relationship'
                   value={this.state.otherMeta1_relationship}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Adress of Significant Relation (1)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="otherMeta1_address"
+                  id='otherMeta1_address'
                   value={this.state.otherMeta1_address}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Phone Number of Significant Relation (1)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="otherMeta1_phoneNumber"
+                  id='otherMeta1_phoneNumber'
                   value={this.state.otherMeta1_phoneNumber}
-                  className="form-control"
-                  type="number"
+                  className='form-control'
+                  type='number'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Name of Significant Relation (2)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="otherMeta2_name"
+                  id='otherMeta2_name'
                   value={this.state.otherMeta2_name}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Relationship of Significant Relation (2)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="otherMeta2_relationship"
+                  id='otherMeta2_relationship'
                   value={this.state.otherMeta2_relationship}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Address of Significant Relation (2)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="otherMeta2_address"
+                  id='otherMeta2_address'
                   value={this.state.otherMeta2_address}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Phone Number of Significant Relation (2)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="otherMeta2_phoneNumber"
+                  id='otherMeta2_phoneNumber'
                   value={this.state.otherMeta2_phoneNumber}
-                  className="form-control"
-                  type="number"
+                  className='form-control'
+                  type='number'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Name of Significant Relation (3)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="otherMeta3_name"
+                  id='otherMeta3_name'
                   value={this.state.otherMeta3_name}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Relationship of Significant Relation (3)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="otherMeta3_relationship"
+                  id='otherMeta3_relationship'
                   value={this.state.otherMeta3_relationship}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Address of Significant Relation (3)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="otherMeta3_address"
+                  id='otherMeta3_address'
                   value={this.state.otherMeta3_address}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Phone Number of Significant Relation (3)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="otherMeta3_phoneNumber"
+                  id='otherMeta3_phoneNumber'
                   value={this.state.otherMeta3_phoneNumber}
-                  className="form-control"
-                  type="number"
+                  className='form-control'
+                  type='number'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Name of Significant Relation (4)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="otherMeta4_name"
+                  id='otherMeta4_name'
                   value={this.state.otherMeta4_name}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Relationship of Significant Relation (4)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="otherMeta4_relationship"
+                  id='otherMeta4_relationship'
                   value={this.state.otherMeta4_relationship}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Address of Significant Relation (4)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="otherMeta4_address"
+                  id='otherMeta4_address'
                   value={this.state.otherMeta4_address}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Phone Number of Significant Relation (4)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="otherMeta4_phoneNumber"
+                  id='otherMeta4_phoneNumber'
                   value={this.state.otherMeta4_phoneNumber}
-                  className="form-control"
-                  type="number"
+                  className='form-control'
+                  type='number'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 <h5>
                   ISSUES OR CONCERNS THAT COULD INCREASE ESCALATING BEHAVIORS:
                 </h5>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Food</label>{" "}
+                <label className='control-label'>Food</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="food1"
+                  id='food1'
                   value={this.state.food1}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Eye Contact</label>{" "}
+                <label className='control-label'>Eye Contact</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="eyeContact"
+                  id='eyeContact'
                   value={this.state.eyeContact}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Physical Touch</label>{" "}
+                <label className='control-label'>Physical Touch</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="physicalTouch"
+                  id='physicalTouch'
                   value={this.state.physicalTouch}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Personal Property</label>{" "}
+                <label className='control-label'>Personal Property</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="personalProperty"
+                  id='personalProperty'
                   value={this.state.personalProperty}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Certain Topics</label>{" "}
+                <label className='control-label'>Certain Topics</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="certainTopics"
+                  id='certainTopics'
                   value={this.state.certainTopics}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Known contraindications to the use of restraint
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="knownContraindicationsToTheUuseOfRestraint"
+                  id='knownContraindicationsToTheUuseOfRestraint'
                   value={this.state.knownContraindicationsToTheUuseOfRestraint}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   De-escalating Techniques to avoid restraints (EBI)
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="de_escalatingTechniquesToAvoidRestraints_ebi"
+                  id='de_escalatingTechniquesToAvoidRestraints_ebi'
                   value={
                     this.state.de_escalatingTechniquesToAvoidRestraints_ebi
                   }
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Child's De-escalation Technique:
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="child_de_escalator"
+                  id='child_de_escalator'
                   value={this.state.child_de_escalator}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Staff Member's De-escalation Technique:
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="staff_de_escalator"
+                  id='staff_de_escalator'
                   value={this.state.staff_de_escalator}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Therapist's De-escalation Technique:
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="therapist_de_escalator"
+                  id='therapist_de_escalator'
                   value={this.state.therapist_de_escalator}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Child's Preferred De-escalation
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="childPreferred_de_escalation"
+                  id='childPreferred_de_escalation'
                   value={this.state.childPreferred_de_escalation}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Intervention Strategies
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="interventionStrategies"
+                  id='interventionStrategies'
                   value={this.state.interventionStrategies}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 <h5>
                   Summary of discussion with managing conservator and/or family
                   members (as appropriate) regarding placement
                 </h5>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Managing conservator/family members (as appropriate)
                   expectation of placement
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="managingConservator_text"
+                  id='managingConservator_text'
                   value={this.state.managingConservator_text}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Child’s understanding and expectations of placement
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="understanding_expectations"
+                  id='understanding_expectations'
                   value={this.state.understanding_expectations}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Previous Placements
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="previousPlacements"
+                  id='previousPlacements'
                   value={this.state.previousPlacements}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Summary of discussion with child care staff regarding the
                   child’s medical, social psychological and educational history
                   and needs (include date of discussion.){" "}
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="summary_of_discussion"
+                  id='summary_of_discussion'
                   value={this.state.summary_of_discussion}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 <h5>
                   HISTORY OF PHYSICAL, SEXUAL, EMOTIONAL ABUSE OR NEGLECT:
                   According to the common application, there are 19 CPS
@@ -1374,862 +1282,862 @@ class AdmissionAssessment extends Component {
                   (1) and Neglectful Supervision (2).
                 </h5>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Child’s Behavioral History
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="behavioralHistory"
+                  id='behavioralHistory'
                   value={this.state.behavioralHistory}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   JUVENILE JUSTICE HISTORY: If child has had any involvement in
                   the Juvenile Justice System, list incidents, status, Probation
                   Department, and contact person
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="juvenileHistory"
+                  id='juvenileHistory'
                   value={this.state.juvenileHistory}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Child’s Emotional History
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="emotionalHistory"
+                  id='emotionalHistory'
                   value={this.state.emotionalHistory}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   CURRENT MENTAL HEALTH/SUBSTANCE ABUSE STATUS
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="substanceAbuseStatus"
+                  id='substanceAbuseStatus'
                   value={this.state.substanceAbuseStatus}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Child’s Recreational History (skills/interest):{" "}
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="recHistory"
+                  id='recHistory'
                   value={this.state.recHistory}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Child’s Developmental/Medical History
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="developmental_medicalHistory"
+                  id='developmental_medicalHistory'
                   value={this.state.developmental_medicalHistory}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Drug Allergies</label>{" "}
+                <label className='control-label'>Drug Allergies</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="drugAllergies"
+                  id='drugAllergies'
                   value={this.state.drugAllergies}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Food</label>{" "}
+                <label className='control-label'>Food</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="food2"
+                  id='food2'
                   value={this.state.food2}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Allergies</label>{" "}
+                <label className='control-label'>Allergies</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="allergies"
+                  id='allergies'
                   value={this.state.allergies}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Chronic Health Conditions
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="chronicHealthConditions"
+                  id='chronicHealthConditions'
                   value={this.state.chronicHealthConditions}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Date of Last Physical Examination
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="lastPhysicalExamination_date"
+                  id='lastPhysicalExamination_date'
                   value={this.state.lastPhysicalExamination_date}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Location of Last Physical Examination
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="lastPhysicalExamination_location"
+                  id='lastPhysicalExamination_location'
                   value={this.state.lastPhysicalExamination_location}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Who monitored the child's last physical examination?
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="lastPhysicalExamination_monitoredBy"
+                  id='lastPhysicalExamination_monitoredBy'
                   value={this.state.lastPhysicalExamination_monitoredBy}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Last Dental Examination
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="lastDentalExamination_date"
+                  id='lastDentalExamination_date'
                   value={this.state.lastDentalExamination_date}
-                  className="form-control"
-                  type="date"
+                  className='form-control'
+                  type='date'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Location of the Last Dental Examination
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="lastDentalExamination_location"
+                  id='lastDentalExamination_location'
                   value={this.state.lastDentalExamination_location}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Who monitored the child's last dental examination?
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="lastDentalExamination_monitoredBy"
+                  id='lastDentalExamination_monitoredBy'
                   value={this.state.lastDentalExamination_monitoredBy}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Last Optical Examination
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="lastOpticalExamination_date"
+                  id='lastOpticalExamination_date'
                   value={this.state.lastOpticalExamination_date}
-                  className="form-control"
-                  type="date"
+                  className='form-control'
+                  type='date'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Location of the last optical examination
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="lastOpticalExamination_location"
+                  id='lastOpticalExamination_location'
                   value={this.state.lastOpticalExamination_location}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Who monitored the last optical examination?
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="lastOpticalExamination_monitoredBy"
+                  id='lastOpticalExamination_monitoredBy'
                   value={this.state.lastOpticalExamination_monitoredBy}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Last hearing Examination
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="lastHearingExamination_date"
+                  id='lastHearingExamination_date'
                   value={this.state.lastHearingExamination_date}
-                  className="form-control"
-                  type="date"
+                  className='form-control'
+                  type='date'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Location of the last hearing examination
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="lastHearingExamination_location"
+                  id='lastHearingExamination_location'
                   value={this.state.lastHearingExamination_location}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Who monitored the last hearing examination?
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="lastHearingExamination_monitoredBy"
+                  id='lastHearingExamination_monitoredBy'
                   value={this.state.lastHearingExamination_monitoredBy}
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 <h5>
                   CURRENT MEDICATIONS, DOSAGES AND TARGETED SYMPTOMS: NOTE:
                   refer to current Medical Logs for Possible Recent Medication
                   Alterations:
                 </h5>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Medication (1)</label>{" "}
+                <label className='control-label'>Medication (1)</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms1_medication"
+                  id='currentMedications_dosages_targetedSymptoms1_medication'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms1_medication
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Dosage / Frequency (1)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms1_dosage_frequency"
+                  id='currentMedications_dosages_targetedSymptoms1_dosage_frequency'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms1_dosage_frequency
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Purpose (1)</label>{" "}
+                <label className='control-label'>Purpose (1)</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms1_purpose"
+                  id='currentMedications_dosages_targetedSymptoms1_purpose'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms1_purpose
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Possible side effects (1)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms1_possibleSideEffects"
+                  id='currentMedications_dosages_targetedSymptoms1_possibleSideEffects'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms1_possibleSideEffects
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Monitored By (1)</label>{" "}
+                <label className='control-label'>Monitored By (1)</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms1_monitoredBy"
+                  id='currentMedications_dosages_targetedSymptoms1_monitoredBy'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms1_monitoredBy
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Medication (2)</label>{" "}
+                <label className='control-label'>Medication (2)</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms2_medication"
+                  id='currentMedications_dosages_targetedSymptoms2_medication'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms2_medication
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Dosage / Frequency (2)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms2_dosage_frequency"
+                  id='currentMedications_dosages_targetedSymptoms2_dosage_frequency'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms2_dosage_frequency
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Purpose (2)</label>{" "}
+                <label className='control-label'>Purpose (2)</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms2_purpose"
+                  id='currentMedications_dosages_targetedSymptoms2_purpose'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms2_purpose
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Possible Side Effects (2)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms2_possibleSideEffects"
+                  id='currentMedications_dosages_targetedSymptoms2_possibleSideEffects'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms2_possibleSideEffects
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Monitored By (2)</label>{" "}
+                <label className='control-label'>Monitored By (2)</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms2_monitoredBy"
+                  id='currentMedications_dosages_targetedSymptoms2_monitoredBy'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms2_monitoredBy
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Medication (3)</label>{" "}
+                <label className='control-label'>Medication (3)</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms3_medication"
+                  id='currentMedications_dosages_targetedSymptoms3_medication'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms3_medication
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Dosage Frequency (3)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms3_dosage_frequency"
+                  id='currentMedications_dosages_targetedSymptoms3_dosage_frequency'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms3_dosage_frequency
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Purpose (3)</label>{" "}
+                <label className='control-label'>Purpose (3)</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms3_purpose"
+                  id='currentMedications_dosages_targetedSymptoms3_purpose'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms3_purpose
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Possible Side Effects (3)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms3_possibleSideEffects"
+                  id='currentMedications_dosages_targetedSymptoms3_possibleSideEffects'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms3_possibleSideEffects
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Monitored By (3)</label>{" "}
+                <label className='control-label'>Monitored By (3)</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms3_monitoredBy"
+                  id='currentMedications_dosages_targetedSymptoms3_monitoredBy'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms3_monitoredBy
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Medication (4)</label>{" "}
+                <label className='control-label'>Medication (4)</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms4_medication"
+                  id='currentMedications_dosages_targetedSymptoms4_medication'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms4_medication
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Dosage Frequency (4)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms4_dosage_frequency"
+                  id='currentMedications_dosages_targetedSymptoms4_dosage_frequency'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms4_dosage_frequency
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Purpose (4)</label>{" "}
+                <label className='control-label'>Purpose (4)</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms4_purpose"
+                  id='currentMedications_dosages_targetedSymptoms4_purpose'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms4_purpose
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Possible Side Effects (4)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms4_possibleSideEffects"
+                  id='currentMedications_dosages_targetedSymptoms4_possibleSideEffects'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms4_possibleSideEffects
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Monitored By (4)</label>{" "}
+                <label className='control-label'>Monitored By (4)</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms4_monitoredBy"
+                  id='currentMedications_dosages_targetedSymptoms4_monitoredBy'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms4_monitoredBy
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Medication (5)</label>{" "}
+                <label className='control-label'>Medication (5)</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms5_medication"
+                  id='currentMedications_dosages_targetedSymptoms5_medication'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms5_medication
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Dosage Frequency (5)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms5_dosage_frequency"
+                  id='currentMedications_dosages_targetedSymptoms5_dosage_frequency'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms5_dosage_frequency
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Purpose (5)</label>{" "}
+                <label className='control-label'>Purpose (5)</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms5_purpose"
+                  id='currentMedications_dosages_targetedSymptoms5_purpose'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms5_purpose
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Possible Side Effects (5)
                 </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms5_possibleSideEffects"
+                  id='currentMedications_dosages_targetedSymptoms5_possibleSideEffects'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms5_possibleSideEffects
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Monitored By (5)</label>{" "}
+                <label className='control-label'>Monitored By (5)</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="currentMedications_dosages_targetedSymptoms5_monitoredBy"
+                  id='currentMedications_dosages_targetedSymptoms5_monitoredBy'
                   value={
                     this.state
                       .currentMedications_dosages_targetedSymptoms5_monitoredBy
                   }
-                  className="form-control"
-                  type="text"
+                  className='form-control'
+                  type='text'
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Child’s Educational History
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="educationHistory"
+                  id='educationHistory'
                   value={this.state.educationHistory}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   LAST SCHOOL ATTENDED
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="lastSchoolAttended"
+                  id='lastSchoolAttended'
                   value={this.state.lastSchoolAttended}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Last Progress Report
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="progressReportInfo"
+                  id='progressReportInfo'
                   value={this.state.progressReportInfo}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Child’s educational level and any pertinent school problems
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="educationalLevel"
+                  id='educationalLevel'
                   value={this.state.educationalLevel}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Examiner</label>{" "}
+                <label className='control-label'>Examiner</label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="examiner"
+                  id='examiner'
                   value={this.state.examiner}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Date of Evaluation</label>{" "}
+                <label className='control-label'>Date of Evaluation</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id="date_of_evaluation"
+                  id='date_of_evaluation'
                   value={this.state.date_of_evaluation}
-                  className="form-control"
-                  type="date"
+                  className='form-control'
+                  type='date'
                 ></input>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Diagnosis</label>{" "}
+                <label className='control-label'>Diagnosis</label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="diagnosis"
+                  id='diagnosis'
                   value={this.state.diagnosis}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Stressors</label>{" "}
+                <label className='control-label'>Stressors</label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="stressors"
+                  id='stressors'
                   value={this.state.stressors}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">Health Issues</label>{" "}
+                <label className='control-label'>Health Issues</label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="healthIssues"
+                  id='healthIssues'
                   value={this.state.healthIssues}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Supervision Strategies
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="supervisionStrategies"
+                  id='supervisionStrategies'
                   value={this.state.supervisionStrategies}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Efforts made to obtain information that was unavailable at the
                   time of admission
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="effortsToObtainInfo"
+                  id='effortsToObtainInfo'
                   value={this.state.effortsToObtainInfo}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Rationale for appropriate admission
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="rationl_admission"
+                  id='rationl_admission'
                   value={this.state.rationl_admission}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Parent/guardian’s expectation for placement and family
                   involvement
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="parent_gaurdian_expectation"
+                  id='parent_gaurdian_expectation'
                   value={this.state.parent_gaurdian_expectation}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   OBJECTIVE OF PLACEMENT
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="objective"
+                  id='objective'
                   value={this.state.objective}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">BASIC NEEDS</label>{" "}
+                <label className='control-label'>BASIC NEEDS</label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="basicNeeds"
+                  id='basicNeeds'
                   value={this.state.basicNeeds}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Short-term Goals of Placement
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="shortTermGoals"
+                  id='shortTermGoals'
                   value={this.state.shortTermGoals}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
-              <div className="form-group logInInputField">
+              <div className='form-group logInInputField'>
                 {" "}
-                <label className="control-label">
+                <label className='control-label'>
                   Long-term Goals of Placement
                 </label>{" "}
                 <TextareaAutosize
                   onChange={this.handleFieldInput}
-                  id="longTermGoals"
+                  id='longTermGoals'
                   value={this.state.longTermGoals}
-                  className="form-control"
+                  className='form-control'
                 ></TextareaAutosize>
               </div>
               <FormError errorId={this.props.id + "-error"} />
               <div
-                className="form-group logInInputField"
+                className='form-group logInInputField'
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
                 <button
-                  className="lightBtn"
+                  className='lightBtn'
                   onClick={() => {
                     this.validateForm(true);
                   }}
@@ -2238,7 +2146,7 @@ class AdmissionAssessment extends Component {
                 </button>
 
                 <button
-                  className="darkBtn"
+                  className='darkBtn'
                   onClick={() => {
                     this.validateForm(false);
                   }}
@@ -2252,15 +2160,15 @@ class AdmissionAssessment extends Component {
       );
     } else {
       return (
-        <div className="formComp">
+        <div className='formComp'>
           {this.state.formSubmitted || this.state.formHasError ? (
             <React.Fragment>
               {this.state.formSubmitted && <FormSavedAlert />}
               <FormAlert
                 doShow={this.state.formHasError}
                 toggleErrorAlert={this.toggleErrorAlert}
-                type="danger"
-                heading="Error Submitting form"
+                type='danger'
+                heading='Error Submitting form'
               >
                 <p>{this.state.formErrorMessage}</p>
               </FormAlert>
@@ -2268,16 +2176,16 @@ class AdmissionAssessment extends Component {
           ) : (
             <React.Fragment />
           )}
-          <div className="formTitleDivReport">
-            <h2 className="formTitle"> Admission Assessment</h2>
+          <div className='formTitleDivReport'>
+            <h2 className='formTitle'> Admission Assessment</h2>
           </div>
 
-          <div className="formFieldsMobileReport">
+          <div className='formFieldsMobileReport'>
             {this.state.loadingClients ? (
-              <div className="formLoadingDiv">
+              <div className='formLoadingDiv'>
                 <div>
                   <ClipLoader
-                    className="formSpinner"
+                    className='formSpinner'
                     size={50}
                     color={"#ffc107"}
                   />
@@ -2287,60 +2195,70 @@ class AdmissionAssessment extends Component {
               </div>
             ) : (
               <div>
-                <div className="form-group logInInputField">
-                  {" "}
-                  <label className="control-label">Child's Name</label>{" "}
+                <div className='form-group logInInputField'>
+                  <label className='control-label'>Create Date</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="childMeta_name"
-                    value={this.state.childMeta_name}
-                    className="form-control"
-                    type="text"
+                    id='createDate'
+                    value={this.dateForDateTimeInputValue()}
+                    className='form-control'
+                    type='datetime-local'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>Child's Name</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    id='childMeta_name'
+                    value={this.state.childMeta_name}
+                    className='form-control'
+                    type='text'
+                  />{" "}
+                </div>
+                <div className='form-group logInInputField'>
+                  {" "}
+                  <label className='control-label'>
                     Child's Date of Birth
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="childMeta_dob"
+                    id='childMeta_dob'
                     value={this.state.childMeta_dob}
-                    className="form-control"
-                    type="date"
+                    className='form-control'
+                    type='date'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Child's Age</label>{" "}
+                  <label className='control-label'>Child's Age</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="childMeta_age"
+                    id='childMeta_age'
                     value={this.state.childMeta_age}
-                    className="form-control"
-                    type="number"
+                    className='form-control'
+                    type='number'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Child's SSN</label>{" "}
+                  <label className='control-label'>Child's SSN</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="childMeta_ssn"
+                    id='childMeta_ssn'
                     value={this.state.childMeta_ssn}
-                    className="form-control"
-                    type="number"
+                    className='form-control'
+                    type='number'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Child's Gender</label>{" "}
+                  <label className='control-label'>Child's Gender</label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.childMeta_gender}
-                    id="childMeta_gender"
+                    id='childMeta_gender'
                   >
                     <option>Male</option>
                     <option>Female</option>
@@ -2348,55 +2266,55 @@ class AdmissionAssessment extends Component {
                     <option value={""}>Choose</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Child's Medicaid Number
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="childMeta_medicaidNumber"
+                    id='childMeta_medicaidNumber'
                     value={this.state.childMeta_medicaidNumber}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Child's Birth County
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="childMeta_county"
+                    id='childMeta_county'
                     value={this.state.childMeta_county}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Child's Place of Birth (City, State)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="childMeta_placeOfBirth"
+                    id='childMeta_placeOfBirth'
                     value={this.state.childMeta_placeOfBirth}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Child's Ethnicity
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.childMeta_ethnicity}
-                    id="childMeta_ethnicity"
+                    id='childMeta_ethnicity'
                   >
                     <option>Black</option>
                     <option>White</option>
@@ -2408,16 +2326,16 @@ class AdmissionAssessment extends Component {
                     <option value={""}>Choose</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Child's Level of Care
                   </label>{" "}
                   <Form.Control
-                    as="select"
+                    as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.childMeta_levelOfCare}
-                    id="childMeta_levelOfCare"
+                    id='childMeta_levelOfCare'
                   >
                     <option>Basic</option>
                     <option>Moderate</option>
@@ -2427,121 +2345,121 @@ class AdmissionAssessment extends Component {
                     <option value={""}>Choose</option>
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Child's Religion</label>{" "}
+                  <label className='control-label'>Child's Religion</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="childMeta_religion"
+                    id='childMeta_religion'
                     value={this.state.childMeta_religion}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Child's Managing Conservator
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="childMeta_managingConservator"
+                    id='childMeta_managingConservator'
                     value={this.state.childMeta_managingConservator}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Child's Date of Admission
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="childMeta_dateOfAdmission"
+                    id='childMeta_dateOfAdmission'
                     value={this.state.childMeta_dateOfAdmission}
-                    className="form-control"
-                    type="date"
+                    className='form-control'
+                    type='date'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Projected Date For Achieving Permanency
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="projectedDateForAchievingPermanency"
+                    id='projectedDateForAchievingPermanency'
                     value={this.state.projectedDateForAchievingPermanency}
-                    className="form-control"
-                    type="date"
+                    className='form-control'
+                    type='date'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Legal Status / Permancy Goal
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="legalStatus_PermancyGoal"
+                    id='legalStatus_PermancyGoal'
                     value={this.state.legalStatus_PermancyGoal}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Estimated Length of Stay at New Pathways
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="est_length_of_stay"
+                    id='est_length_of_stay'
                     value={this.state.est_length_of_stay}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Description of circumstances making placement necessary
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="desc_of_circum"
+                    id='desc_of_circum'
                     value={this.state.desc_of_circum}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Family/Social History
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="family_social_history"
+                    id='family_social_history'
                     value={this.state.family_social_history}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Environment and Family function
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="env_family_function"
+                    id='env_family_function'
                     value={this.state.env_family_function}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   <h5>
                     Significant relationship to the child{" "}
                     <i>
@@ -2550,423 +2468,423 @@ class AdmissionAssessment extends Component {
                     :
                   </h5>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Name of Significant Relation (1)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="otherMeta1_name"
+                    id='otherMeta1_name'
                     value={this.state.otherMeta1_name}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Relationship of Significant Relation (1)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="otherMeta1_relationship"
+                    id='otherMeta1_relationship'
                     value={this.state.otherMeta1_relationship}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Adress of Significant Relation (1)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="otherMeta1_address"
+                    id='otherMeta1_address'
                     value={this.state.otherMeta1_address}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Phone Number of Significant Relation (1)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="otherMeta1_phoneNumber"
+                    id='otherMeta1_phoneNumber'
                     value={this.state.otherMeta1_phoneNumber}
-                    className="form-control"
-                    type="number"
+                    className='form-control'
+                    type='number'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Name of Significant Relation (2)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="otherMeta2_name"
+                    id='otherMeta2_name'
                     value={this.state.otherMeta2_name}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Relationship of Significant Relation (2)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="otherMeta2_relationship"
+                    id='otherMeta2_relationship'
                     value={this.state.otherMeta2_relationship}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Address of Significant Relation (2)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="otherMeta2_address"
+                    id='otherMeta2_address'
                     value={this.state.otherMeta2_address}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
 
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Phone Number of Significant Relation (2)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="otherMeta2_phoneNumber"
+                    id='otherMeta2_phoneNumber'
                     value={this.state.otherMeta2_phoneNumber}
-                    className="form-control"
-                    type="number"
+                    className='form-control'
+                    type='number'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Name of Significant Relation (3)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="otherMeta3_name"
+                    id='otherMeta3_name'
                     value={this.state.otherMeta3_name}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Relationship of Significant Relation (3)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="otherMeta3_relationship"
+                    id='otherMeta3_relationship'
                     value={this.state.otherMeta3_relationship}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Address of Significant Relation (3)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="otherMeta3_address"
+                    id='otherMeta3_address'
                     value={this.state.otherMeta3_address}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Phone Number of Significant Relation (3)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="otherMeta3_phoneNumber"
+                    id='otherMeta3_phoneNumber'
                     value={this.state.otherMeta3_phoneNumber}
-                    className="form-control"
-                    type="number"
+                    className='form-control'
+                    type='number'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Name of Significant Relation (4)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="otherMeta4_name"
+                    id='otherMeta4_name'
                     value={this.state.otherMeta4_name}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Relationship of Significant Relation (4)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="otherMeta4_relationship"
+                    id='otherMeta4_relationship'
                     value={this.state.otherMeta4_relationship}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Address of Significant Relation (4)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="otherMeta4_address"
+                    id='otherMeta4_address'
                     value={this.state.otherMeta4_address}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Phone Number of Significant Relation (4)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="otherMeta4_phoneNumber"
+                    id='otherMeta4_phoneNumber'
                     value={this.state.otherMeta4_phoneNumber}
-                    className="form-control"
-                    type="number"
+                    className='form-control'
+                    type='number'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   <h5>
                     ISSUES OR CONCERNS THAT COULD INCREASE ESCALATING BEHAVIORS:
                   </h5>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Food</label>{" "}
+                  <label className='control-label'>Food</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="food1"
+                    id='food1'
                     value={this.state.food1}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Eye Contact</label>{" "}
+                  <label className='control-label'>Eye Contact</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="eyeContact"
+                    id='eyeContact'
                     value={this.state.eyeContact}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Physical Touch</label>{" "}
+                  <label className='control-label'>Physical Touch</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="physicalTouch"
+                    id='physicalTouch'
                     value={this.state.physicalTouch}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Personal Property
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="personalProperty"
+                    id='personalProperty'
                     value={this.state.personalProperty}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Certain Topics</label>{" "}
+                  <label className='control-label'>Certain Topics</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="certainTopics"
+                    id='certainTopics'
                     value={this.state.certainTopics}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Known contraindications to the use of restraint
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="knownContraindicationsToTheUuseOfRestraint"
+                    id='knownContraindicationsToTheUuseOfRestraint'
                     value={
                       this.state.knownContraindicationsToTheUuseOfRestraint
                     }
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     De-escalating Techniques to avoid restraints (EBI)
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="de_escalatingTechniquesToAvoidRestraints_ebi"
+                    id='de_escalatingTechniquesToAvoidRestraints_ebi'
                     value={
                       this.state.de_escalatingTechniquesToAvoidRestraints_ebi
                     }
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Child's De-escalation Technique:
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="child_de_escalator"
+                    id='child_de_escalator'
                     value={this.state.child_de_escalator}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Staff Member's De-escalation Technique:
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="staff_de_escalator"
+                    id='staff_de_escalator'
                     value={this.state.staff_de_escalator}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Therapist's De-escalation Technique:
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="therapist_de_escalator"
+                    id='therapist_de_escalator'
                     value={this.state.therapist_de_escalator}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Child's Preferred De-escalation
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="childPreferred_de_escalation"
+                    id='childPreferred_de_escalation'
                     value={this.state.childPreferred_de_escalation}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Intervention Strategies
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="interventionStrategies"
+                    id='interventionStrategies'
                     value={this.state.interventionStrategies}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   <h5>
                     Summary of discussion with managing conservator and/or
                     family members (as appropriate) regarding placement
                   </h5>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Managing conservator/family members (as appropriate)
                     expectation of placement
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="managingConservator_text"
+                    id='managingConservator_text'
                     value={this.state.managingConservator_text}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Child’s understanding and expectations of placement
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="understanding_expectations"
+                    id='understanding_expectations'
                     value={this.state.understanding_expectations}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Previous Placements
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="previousPlacements"
+                    id='previousPlacements'
                     value={this.state.previousPlacements}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Summary of discussion with child care staff regarding the
                     child’s medical, social psychological and educational
                     history and needs (include date of discussion.){" "}
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="summary_of_discussion"
+                    id='summary_of_discussion'
                     value={this.state.summary_of_discussion}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   <h5>
                     HISTORY OF PHYSICAL, SEXUAL, EMOTIONAL ABUSE OR NEGLECT:
                     According to the common application, there are 19 CPS
@@ -2977,865 +2895,866 @@ class AdmissionAssessment extends Component {
                     Neglect (1) and Neglectful Supervision (2).
                   </h5>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Child’s Behavioral History
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="behavioralHistory"
+                    id='behavioralHistory'
                     value={this.state.behavioralHistory}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     JUVENILE JUSTICE HISTORY: If child has had any involvement
                     in the Juvenile Justice System, list incidents, status,
                     Probation Department, and contact person
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="juvenileHistory"
+                    id='juvenileHistory'
                     value={this.state.juvenileHistory}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Child’s Emotional History
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="emotionalHistory"
+                    id='emotionalHistory'
                     value={this.state.emotionalHistory}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     CURRENT MENTAL HEALTH/SUBSTANCE ABUSE STATUS
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="substanceAbuseStatus"
+                    id='substanceAbuseStatus'
                     value={this.state.substanceAbuseStatus}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Child’s Recreational History (skills/interest):{" "}
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="recHistory"
+                    id='recHistory'
                     value={this.state.recHistory}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Child’s Developmental/Medical History
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="developmental_medicalHistory"
+                    id='developmental_medicalHistory'
                     value={this.state.developmental_medicalHistory}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Drug Allergies</label>{" "}
+                  <label className='control-label'>Drug Allergies</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="drugAllergies"
+                    id='drugAllergies'
                     value={this.state.drugAllergies}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Food</label>{" "}
+                  <label className='control-label'>Food</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="food2"
+                    id='food2'
                     value={this.state.food2}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Allergies</label>{" "}
+                  <label className='control-label'>Allergies</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="allergies"
+                    id='allergies'
                     value={this.state.allergies}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Chronic Health Conditions
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="chronicHealthConditions"
+                    id='chronicHealthConditions'
                     value={this.state.chronicHealthConditions}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Date of Last Physical Examination
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="lastPhysicalExamination_date"
+                    id='lastPhysicalExamination_date'
                     value={this.state.lastPhysicalExamination_date}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Location of Last Physical Examination
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="lastPhysicalExamination_location"
+                    id='lastPhysicalExamination_location'
                     value={this.state.lastPhysicalExamination_location}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Who monitored the child's last physical examination?
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="lastPhysicalExamination_monitoredBy"
+                    id='lastPhysicalExamination_monitoredBy'
                     value={this.state.lastPhysicalExamination_monitoredBy}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Last Dental Examination
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="lastDentalExamination_date"
+                    id='lastDentalExamination_date'
                     value={this.state.lastDentalExamination_date}
-                    className="form-control"
-                    type="date"
+                    className='form-control'
+                    type='date'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Location of the Last Dental Examination
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="lastDentalExamination_location"
+                    id='lastDentalExamination_location'
                     value={this.state.lastDentalExamination_location}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Who monitored the child's last dental examination?
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="lastDentalExamination_monitoredBy"
+                    id='lastDentalExamination_monitoredBy'
                     value={this.state.lastDentalExamination_monitoredBy}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Last Optical Examination
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="lastOpticalExamination_date"
+                    id='lastOpticalExamination_date'
                     value={this.state.lastOpticalExamination_date}
-                    className="form-control"
-                    type="date"
+                    className='form-control'
+                    type='date'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Location of the last optical examination
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="lastOpticalExamination_location"
+                    id='lastOpticalExamination_location'
                     value={this.state.lastOpticalExamination_location}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Who monitored the last optical examination?
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="lastOpticalExamination_monitoredBy"
+                    id='lastOpticalExamination_monitoredBy'
                     value={this.state.lastOpticalExamination_monitoredBy}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Last hearing Examination
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="lastHearingExamination_date"
+                    id='lastHearingExamination_date'
                     value={this.state.lastHearingExamination_date}
-                    className="form-control"
-                    type="date"
+                    className='form-control'
+                    type='date'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Location of the last hearing examination
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="lastHearingExamination_location"
+                    id='lastHearingExamination_location'
                     value={this.state.lastHearingExamination_location}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Who monitored the last hearing examination?
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="lastHearingExamination_monitoredBy"
+                    id='lastHearingExamination_monitoredBy'
                     value={this.state.lastHearingExamination_monitoredBy}
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   <h5>
                     CURRENT MEDICATIONS, DOSAGES AND TARGETED SYMPTOMS: NOTE:
                     refer to current Medical Logs for Possible Recent Medication
                     Alterations:
                   </h5>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Medication (1)</label>{" "}
+                  <label className='control-label'>Medication (1)</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms1_medication"
+                    id='currentMedications_dosages_targetedSymptoms1_medication'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms1_medication
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Dosage / Frequency (1)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms1_dosage_frequency"
+                    id='currentMedications_dosages_targetedSymptoms1_dosage_frequency'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms1_dosage_frequency
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Purpose (1)</label>{" "}
+                  <label className='control-label'>Purpose (1)</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms1_purpose"
+                    id='currentMedications_dosages_targetedSymptoms1_purpose'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms1_purpose
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Possible side effects (1)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms1_possibleSideEffects"
+                    id='currentMedications_dosages_targetedSymptoms1_possibleSideEffects'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms1_possibleSideEffects
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Monitored By (1)</label>{" "}
+                  <label className='control-label'>Monitored By (1)</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms1_monitoredBy"
+                    id='currentMedications_dosages_targetedSymptoms1_monitoredBy'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms1_monitoredBy
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Medication (2)</label>{" "}
+                  <label className='control-label'>Medication (2)</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms2_medication"
+                    id='currentMedications_dosages_targetedSymptoms2_medication'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms2_medication
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Dosage / Frequency (2)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms2_dosage_frequency"
+                    id='currentMedications_dosages_targetedSymptoms2_dosage_frequency'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms2_dosage_frequency
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Purpose (2)</label>{" "}
+                  <label className='control-label'>Purpose (2)</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms2_purpose"
+                    id='currentMedications_dosages_targetedSymptoms2_purpose'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms2_purpose
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Possible Side Effects (2)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms2_possibleSideEffects"
+                    id='currentMedications_dosages_targetedSymptoms2_possibleSideEffects'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms2_possibleSideEffects
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Monitored By (2)</label>{" "}
+                  <label className='control-label'>Monitored By (2)</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms2_monitoredBy"
+                    id='currentMedications_dosages_targetedSymptoms2_monitoredBy'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms2_monitoredBy
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Medication (3)</label>{" "}
+                  <label className='control-label'>Medication (3)</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms3_medication"
+                    id='currentMedications_dosages_targetedSymptoms3_medication'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms3_medication
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Dosage Frequency (3)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms3_dosage_frequency"
+                    id='currentMedications_dosages_targetedSymptoms3_dosage_frequency'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms3_dosage_frequency
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Purpose (3)</label>{" "}
+                  <label className='control-label'>Purpose (3)</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms3_purpose"
+                    id='currentMedications_dosages_targetedSymptoms3_purpose'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms3_purpose
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Possible Side Effects (3)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms3_possibleSideEffects"
+                    id='currentMedications_dosages_targetedSymptoms3_possibleSideEffects'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms3_possibleSideEffects
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Monitored By (3)</label>{" "}
+                  <label className='control-label'>Monitored By (3)</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms3_monitoredBy"
+                    id='currentMedications_dosages_targetedSymptoms3_monitoredBy'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms3_monitoredBy
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Medication (4)</label>{" "}
+                  <label className='control-label'>Medication (4)</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms4_medication"
+                    id='currentMedications_dosages_targetedSymptoms4_medication'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms4_medication
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Dosage Frequency (4)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms4_dosage_frequency"
+                    id='currentMedications_dosages_targetedSymptoms4_dosage_frequency'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms4_dosage_frequency
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Purpose (4)</label>{" "}
+                  <label className='control-label'>Purpose (4)</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms4_purpose"
+                    id='currentMedications_dosages_targetedSymptoms4_purpose'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms4_purpose
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Possible Side Effects (4)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms4_possibleSideEffects"
+                    id='currentMedications_dosages_targetedSymptoms4_possibleSideEffects'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms4_possibleSideEffects
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Monitored By (4)</label>{" "}
+                  <label className='control-label'>Monitored By (4)</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms4_monitoredBy"
+                    id='currentMedications_dosages_targetedSymptoms4_monitoredBy'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms4_monitoredBy
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Medication (5)</label>{" "}
+                  <label className='control-label'>Medication (5)</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms5_medication"
+                    id='currentMedications_dosages_targetedSymptoms5_medication'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms5_medication
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Dosage Frequency (5)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms5_dosage_frequency"
+                    id='currentMedications_dosages_targetedSymptoms5_dosage_frequency'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms5_dosage_frequency
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Purpose (5)</label>{" "}
+                  <label className='control-label'>Purpose (5)</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms5_purpose"
+                    id='currentMedications_dosages_targetedSymptoms5_purpose'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms5_purpose
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Possible Side Effects (5)
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms5_possibleSideEffects"
+                    id='currentMedications_dosages_targetedSymptoms5_possibleSideEffects'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms5_possibleSideEffects
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Monitored By (5)</label>{" "}
+                  <label className='control-label'>Monitored By (5)</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="currentMedications_dosages_targetedSymptoms5_monitoredBy"
+                    id='currentMedications_dosages_targetedSymptoms5_monitoredBy'
                     value={
                       this.state
                         .currentMedications_dosages_targetedSymptoms5_monitoredBy
                     }
-                    className="form-control"
-                    type="text"
+                    className='form-control'
+                    type='text'
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Child’s Educational History
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="educationHistory"
+                    id='educationHistory'
                     value={this.state.educationHistory}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     LAST SCHOOL ATTENDED
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="lastSchoolAttended"
+                    id='lastSchoolAttended'
                     value={this.state.lastSchoolAttended}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Last Progress Report
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="progressReportInfo"
+                    id='progressReportInfo'
                     value={this.state.progressReportInfo}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Child’s educational level and any pertinent school problems
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="educationalLevel"
+                    id='educationalLevel'
                     value={this.state.educationalLevel}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Examiner</label>{" "}
+                  <label className='control-label'>Examiner</label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="examiner"
+                    id='examiner'
                     value={this.state.examiner}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Date of Evaluation
                   </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id="date_of_evaluation"
+                    id='date_of_evaluation'
                     value={this.state.date_of_evaluation}
-                    className="form-control"
-                    type="date"
+                    className='form-control'
+                    type='date'
                   ></input>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Diagnosis</label>{" "}
+                  <label className='control-label'>Diagnosis</label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="diagnosis"
+                    id='diagnosis'
                     value={this.state.diagnosis}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Stressors</label>{" "}
+                  <label className='control-label'>Stressors</label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="stressors"
+                    id='stressors'
                     value={this.state.stressors}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">Health Issues</label>{" "}
+                  <label className='control-label'>Health Issues</label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="healthIssues"
+                    id='healthIssues'
                     value={this.state.healthIssues}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Supervision Strategies
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="supervisionStrategies"
+                    id='supervisionStrategies'
                     value={this.state.supervisionStrategies}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Efforts made to obtain information that was unavailable at
                     the time of admission
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="effortsToObtainInfo"
+                    id='effortsToObtainInfo'
                     value={this.state.effortsToObtainInfo}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Rationale for appropriate admission
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="rationl_admission"
+                    id='rationl_admission'
                     value={this.state.rationl_admission}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Parent/guardian’s expectation for placement and family
                     involvement
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="parent_gaurdian_expectation"
+                    id='parent_gaurdian_expectation'
                     value={this.state.parent_gaurdian_expectation}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     OBJECTIVE OF PLACEMENT
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="objective"
+                    id='objective'
                     value={this.state.objective}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">BASIC NEEDS</label>{" "}
+                  <label className='control-label'>BASIC NEEDS</label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="basicNeeds"
+                    id='basicNeeds'
                     value={this.state.basicNeeds}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
-                <div className="form-group logInInputField">
+                <div className='form-group logInInputField'>
                   {" "}
-                  <label className="control-label">
+                  <label className='control-label'>
                     Short-term Goals of Placement
                   </label>{" "}
                   <TextareaAutosize
                     onChange={this.handleFieldInput}
-                    id="shortTermGoals"
+                    id='shortTermGoals'
                     value={this.state.shortTermGoals}
-                    className="form-control"
+                    className='form-control'
                   ></TextareaAutosize>
                 </div>
               </div>
             )}
-            <div className="form-group logInInputField">
+            <div className='form-group logInInputField'>
               {" "}
-              <label className="control-label">
+              <label className='control-label'>
                 Long-term Goals of Placement
               </label>{" "}
               <TextareaAutosize
                 onChange={this.handleFieldInput}
-                id="longTermGoals"
+                id='longTermGoals'
                 value={this.state.longTermGoals}
-                className="form-control"
+                className='form-control'
               ></TextareaAutosize>
             </div>
-            <label className="control-label">Signature</label>{" "}
-            <div className="sigSection">
+            <label className='control-label'>Signature</label>{" "}
+            <div className='sigSection'>
               <div
                 style={{
                   width: "100%",
                   display: "flex",
+                  maxHeight: "170",
                   justifyContent: "center",
                 }}
               >
@@ -3844,14 +3763,14 @@ class AdmissionAssessment extends Component {
                     this.sigCanvas = ref;
                   }}
                   style={{ border: "solid" }}
-                  penColor="black"
+                  penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
                     className: "sigCanvas",
                   }}
-                  backgroundColor="#eeee"
+                  backgroundColor='#eeee'
                 />
               </div>
             </div>
@@ -3859,11 +3778,11 @@ class AdmissionAssessment extends Component {
               <>
                 <FormError errorId={this.props.id + "-error"} />
                 <div
-                  className="form-group logInInputField"
+                  className='form-group logInInputField'
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   <button
-                    className="lightBtn"
+                    className='lightBtn'
                     onClick={() => {
                       this.validateForm(true);
                     }}

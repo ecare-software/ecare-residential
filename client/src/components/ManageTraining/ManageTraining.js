@@ -94,42 +94,43 @@ const ManageTraining = ({
 
   if (showTrainings) {
     return (
-      <div className="formCompNoBg">
-        <div className="formTitleDiv">
-          <h2 className="formTitle">Trainings</h2>
+      <div className='formCompNoBg'>
+        <div className='formTitleDiv'>
+          <h2 className='formTitle'>Trainings</h2>
         </div>
-        <div className="formFieldsMobile">
-          <div className="form-group logInInputField d-flex mt-3 border-bottom">
-            <Col className="control-label"></Col>
-            <Col className="control-label">
+        <div className='formFieldsMobile'>
+          <div className='form-group logInInputField d-flex mt-3 border-bottom'>
+            <Col className='control-label'></Col>
+            <Col className='control-label'>
               <label>Name</label>
             </Col>
           </div>
-          {trainings.map((training) => (
-            <div className="form-group logInInputField d-flex mt-3">
-              <Col className="control-label">
-                <button
-                  className="btn btn-light extraInfoButton"
-                  onClick={() => {
-                    setTraining(training);
-                  }}
-                >
-                  Edit
-                </button>
-              </Col>
-              <Col className="control-label">
-                <label>{training.formType}</label>
-              </Col>
-            </div>
-          ))}
+          {trainings &&
+            trainings.map((training) => (
+              <div className='form-group logInInputField d-flex mt-3'>
+                <Col className='control-label'>
+                  <button
+                    className='btn btn-light extraInfoButton'
+                    onClick={() => {
+                      setTraining(training);
+                    }}
+                  >
+                    Edit
+                  </button>
+                </Col>
+                <Col className='control-label'>
+                  <label>{training?.formType}</label>
+                </Col>
+              </div>
+            ))}
         </div>
       </div>
     );
   } else {
     return (
-      <div className="formCompNoBg">
-        <div className="formTitleDiv">
-          <h2 className="formTitle">Trainings</h2>
+      <div className='formCompNoBg'>
+        <div className='formTitleDiv'>
+          <h2 className='formTitle'>Trainings</h2>
         </div>
         <IfRejected state={getAllTrainings}>
           <p>Error</p>

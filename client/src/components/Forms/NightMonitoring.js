@@ -47,6 +47,7 @@ class NightMonitoring extends Component {
       clients: [],
       clientId: "",
       signature: [],
+      createDate: new Date().toISOString(),
     };
   }
 
@@ -88,6 +89,7 @@ class NightMonitoring extends Component {
       timeChildReturnBed: "",
       reason: "",
       signed: false,
+      createDate: new Date(),
     });
   };
   componentWillUnmount() {
@@ -99,6 +101,7 @@ class NightMonitoring extends Component {
   autoSave = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
+    delete currentState.staff;
     console.log("auto saving");
     if (initAutoSave) {
       console.log("updating existing form");
@@ -109,12 +112,10 @@ class NightMonitoring extends Component {
             ...currentState,
           }
         );
-
-        const { createDate, ...savedData } = {
+        this.setState({
           ...this.state,
-          ...data,
-        };
-        this.setState({ ...this.state, ...savedData });
+          lastEditDate: data.lastEditDate,
+        });
       } catch (e) {
         console.log(e);
         this.setState({
@@ -132,14 +133,10 @@ class NightMonitoring extends Component {
       Axios.post("/api/nightMonitoring", currentState)
         .then((res) => {
           initAutoSave = true;
-          const { createDate, ...savedData } = {
-            ...this.state,
-            ...res.data,
-          };
 
           this.setState({
             ...this.state,
-            ...savedData,
+            _id: res.data._id,
           });
         })
         .catch((e) => {
@@ -156,6 +153,7 @@ class NightMonitoring extends Component {
   submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
+    delete currentState.staff;
     initAutoSave = false;
     clearInterval(interval);
     if (this.props.valuesSet || this.state._id) {
@@ -167,11 +165,7 @@ class NightMonitoring extends Component {
           }
         );
 
-        const { createDate, ...savedData } = {
-          ...this.state,
-          ...data,
-        };
-        this.setState({ ...this.state, ...savedData });
+        this.setState({ ...this.state, ...data });
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
         // setTimeout(() => {
@@ -214,77 +208,27 @@ class NightMonitoring extends Component {
       ...this.state,
       loadingClients: true,
     });
-    if (!save) {
-      const { data: createdUserData } = await GetUserSig(
-        this.props.userObj.email,
-        this.props.userObj.homeId
-      );
 
-      if (
-        !createdUserData.signature ||
-        Array.isArray(createdUserData.signature) === false ||
-        !createdUserData.signature.length > 0
-      ) {
-        this.setState({
-          ...this.state,
-          formHasError: true,
-          formErrorMessage: `User signature required to submit a form. Create a new signature under 'Manage Profile'.`,
-          loadingClients: false,
-        });
-        return;
-      }
-    }
-
-    var keysToExclude = [
-      "formHasError",
-      "formSubmitted",
-      "formErrorMessage",
-      "client_witness_gender2",
-      "client_witness_dob2",
-      "client_witness_doa2",
-      "client_witness_name2",
-      "loadingClients",
-    ];
-
-    //resubmit fields
-    keysToExclude = [
-      ...keysToExclude,
-      "__v",
-      "approved",
-      "approvedBy",
-      "approvedByDate",
-      "approvedByName",
-      "clientId",
-    ];
-
-    var isValid = true;
-    var errorFields = [];
-
-    /*Object.keys(this.state).forEach((key) => {
-      if (!keysToExclude.includes(key)) {
-        if (
-          !this.state[key] ||
-          /^\s+$/.test(this.state[key]) ||
-          this.state[key].length < 1
-        ) {
-          errorFields.push('\n' + key);
-          isValid = false;
-        }
-      }
-    });*/
-
-    if (!isValid && !isAdminUser(this.props.userObj)) {
+    if (!this.state.createDate) {
       this.setState({
         formHasError: true,
-        formErrorMessage: `Please complete the following field(s): ${errorFields
-          .toString()
-          .replace(/,/g, "\n")}`,
+        formErrorMessage: `Please complete the following field(s): Create Date`,
       });
       return;
+    } else {
+      this.setState({
+        ...this.state,
+        createDate: new Date(this.state.createDate),
+      });
     }
 
     this.submit();
   };
+
+  dateForDateTimeInputValue = () =>
+    new Date(new Date(this.state.createDate).getTime())
+      .toISOString()
+      .slice(0, 19);
 
   setValues = async () => {
     const { data: createdUserData } = await GetUserSig(
@@ -326,7 +270,7 @@ class NightMonitoring extends Component {
       await this.getClients();
       interval = setInterval(() => {
         this.autoSave();
-      }, 10000);
+      }, 7000);
     }
   }
 
@@ -361,15 +305,15 @@ class NightMonitoring extends Component {
   render() {
     if (!this.props.valuesSet) {
       return (
-        <div className="formComp">
+        <div className='formComp'>
           {this.state.formSubmitted || this.state.formHasError ? (
             <React.Fragment>
               {this.state.formSubmitted && <FormSuccessAlert />}
               <FormAlert
                 doShow={this.state.formHasError}
                 toggleErrorAlert={this.toggleErrorAlert}
-                type="danger"
-                heading="Error Submitting form"
+                type='danger'
+                heading='Error Submitting form'
               >
                 <p>{this.state.formErrorMessage}</p>
               </FormAlert>
@@ -377,10 +321,10 @@ class NightMonitoring extends Component {
           ) : (
             <React.Fragment />
           )}
-          <div className="formTitleDiv">
-            <h2 className="formTitle">Awake Night Monitoring</h2>
+          <div className='formTitleDiv'>
+            <h2 className='formTitle'>Awake Night Monitoring</h2>
             <h5
-              className="text-center"
+              className='text-center'
               style={{ color: "rgb(119 119 119 / 93%)" }}
             >
               {this.state.lastEditDate ? (
@@ -399,10 +343,10 @@ class NightMonitoring extends Component {
             </h5>
           </div>
           {this.state.loadingClients ? (
-            <div className="formLoadingDiv">
+            <div className='formLoadingDiv'>
               <div>
                 <ClipLoader
-                  className="formSpinner"
+                  className='formSpinner'
                   size={50}
                   color={"#ffc107"}
                 />
@@ -411,7 +355,17 @@ class NightMonitoring extends Component {
               <p>Loading...</p>
             </div>
           ) : (
-            <div className="formFieldsMobile">
+            <div className='formFieldsMobile'>
+              <div className='form-group logInInputField'>
+                <label className='control-label'>Create Date</label>{" "}
+                <input
+                  onChange={this.handleFieldInput}
+                  id='createDate'
+                  value={this.state.createDate}
+                  className='form-control'
+                  type='datetime-local'
+                />{" "}
+              </div>
               <NightMonitoringChildRow
                 setRootState={this.setRootState}
                 rootState={this.state}
@@ -420,11 +374,11 @@ class NightMonitoring extends Component {
               />
               <FormError errorId={this.props.id + "-error"} />
               <div
-                className="form-group logInInputField"
+                className='form-group logInInputField'
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
                 <button
-                  className="lightBtn"
+                  className='lightBtn'
                   onClick={() => {
                     this.validateForm(true);
                   }}
@@ -433,7 +387,7 @@ class NightMonitoring extends Component {
                 </button>
 
                 <button
-                  className="darkBtn"
+                  className='darkBtn'
                   onClick={() => {
                     this.validateForm(false);
                   }}
@@ -447,15 +401,15 @@ class NightMonitoring extends Component {
       );
     } else {
       return (
-        <div className="formComp">
+        <div className='formComp'>
           {this.state.formSubmitted || this.state.formHasError ? (
             <React.Fragment>
               {this.state.formSubmitted && <FormSavedAlert />}
               <FormAlert
                 doShow={this.state.formHasError}
                 toggleErrorAlert={this.toggleErrorAlert}
-                type="danger"
-                heading="Error Submitting form"
+                type='danger'
+                heading='Error Submitting form'
               >
                 <p>{this.state.formErrorMessage}</p>
               </FormAlert>
@@ -463,16 +417,16 @@ class NightMonitoring extends Component {
           ) : (
             <React.Fragment />
           )}
-          <div className="formTitleDivReport">
-            <h2 className="formTitle">Awake Night Monitoring</h2>
+          <div className='formTitleDivReport'>
+            <h2 className='formTitle'>Awake Night Monitoring</h2>
           </div>
 
-          <div className="formFieldsMobileReport">
+          <div className='formFieldsMobileReport'>
             {this.state.loadingClients ? (
-              <div className="formLoadingDiv">
+              <div className='formLoadingDiv'>
                 <div>
                   <ClipLoader
-                    className="formSpinner"
+                    className='formSpinner'
                     size={50}
                     color={"#ffc107"}
                   />
@@ -482,6 +436,16 @@ class NightMonitoring extends Component {
               </div>
             ) : (
               <div>
+                <div className='form-group logInInputField'>
+                  <label className='control-label'>Create Date</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    id='createDate'
+                    value={this.dateForDateTimeInputValue()}
+                    className='form-control'
+                    type='datetime-local'
+                  />{" "}
+                </div>
                 <NightMonitoringChildRow
                   propsSet={true}
                   setRootState={this.setRootState}
@@ -495,8 +459,9 @@ class NightMonitoring extends Component {
             <div className="sigSection">
               <div
                 style={{
-                  width: "100%",
+                 width: "100%",
                   display: "flex",
+maxHeight:"170",
                   justifyContent: "center",
                 }}
               >
@@ -520,11 +485,11 @@ class NightMonitoring extends Component {
               <>
                 <FormError errorId={this.props.id + "-error"} />
                 <div
-                  className="form-group logInInputField"
+                  className='form-group logInInputField'
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   <button
-                    className="lightBtn"
+                    className='lightBtn'
                     onClick={() => {
                       this.validateForm(true);
                     }}
