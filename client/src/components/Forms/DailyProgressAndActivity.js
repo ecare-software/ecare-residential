@@ -1300,72 +1300,99 @@ class DailyProgressAndActivity extends Component {
                   <label className='control-label'>
                     Summary of Daily Schedule
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.summary_of_daily_schedule}
-                    id='summary_of_daily_schedule'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.summary_of_daily_schedule}
+                      id='summary_of_daily_schedule'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.summary_of_daily_schedule}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>
                     Summary of Behavior at School
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.summary_of_behavior_at_school}
-                    id='summary_of_behavior_at_school'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.summary_of_behavior_at_school}
+                      id='summary_of_behavior_at_school'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.summary_of_behavior_at_school}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>
                     Summary of Behavior at Home
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.summary_of_behavior_at_home}
-                    id='summary_of_behavior_at_home'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.summary_of_behavior_at_home}
+                      id='summary_of_behavior_at_home'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.summary_of_behavior_at_home}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>
                     Therapeutic / Recreational
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.therapeutic_recreational}
-                    id='therapeutic_recreational'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.therapeutic_recreational}
+                      id='therapeutic_recreational'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.therapeutic_value}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
-                  {" "}
-                  <label className='control-label'>
-                    Therapeutic Value
-                  </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.therapeutic_value}
-                    id='therapeutic_value'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <label className='control-label'>Therapeutic Value</label>{" "}
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.therapeutic_value}
+                      id='therapeutic_value'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.therapeutic_value}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>
                     Phone Calls / Visits
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.phone_calls_or_visits}
-                    id='phone_calls_or_visits'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.phone_calls_or_visits}
+                      id='phone_calls_or_visits'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.phone_calls_or_visits}
+                  </p>
                 </div>
               </div>
             )}
@@ -1375,6 +1402,7 @@ class DailyProgressAndActivity extends Component {
                 style={{
                   width: "100%",
                   display: "flex",
+                  maxHeight: "170",
                   justifyContent: "center",
                 }}
               >

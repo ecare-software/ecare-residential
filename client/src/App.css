@@ -77,7 +77,9 @@ input {
   background-color: #5e0000;
   border-radius: 11px;
 }
-
+.sigCanvas{
+  width: 450px;
+}
 .extraInfoMainTitle {
   font-weight: 300;
 }

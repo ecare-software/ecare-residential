@@ -100,11 +100,12 @@ router.get(
     var findObj = {
       homeId: req.params.homeId,
     };
+    console.log(req.params.searchString);
     //search string
     if (req.params.searchString !== "none") {
-      findObj.childMeta_name = {
+      findObj["childMeta_name"] = {
         $regex: ".*" + req.params.searchString + ".*",
-        $options: "ig",
+        $options: "i",
       };
     }
 

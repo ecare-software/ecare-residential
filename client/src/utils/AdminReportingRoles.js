@@ -5,15 +5,12 @@ export const AdminReportingRoles = [
   "Administrator",
   "Case/Manager",
   "Supervisor",
+  "Administrative/Assistant",
+  "Therapist",
+  "Medical/Coordinator",
 ];
 
 export const isAdminUser = (userObj) => {
   return AdminReportingRoles.includes(userObj?.jobTitle);
 };
 
-//roles we dont have
-/*
-tharapist
-lead staff
-
-*/

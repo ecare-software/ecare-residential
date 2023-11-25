@@ -3754,6 +3754,7 @@ class AdmissionAssessment extends Component {
                 style={{
                   width: "100%",
                   display: "flex",
+                  maxHeight: "170",
                   justifyContent: "center",
                 }}
               >
