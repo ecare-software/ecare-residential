@@ -430,6 +430,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
                 style={{
                   width: "100%",
                   display: "flex",
+                  maxHeight: "170",
                   justifyContent: "center",
                   visibility:
                     !isSavingSigCanvasAdmin && isApproved
@@ -517,8 +518,8 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
                       penColor='black'
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
-                        height: 200,
+                        width: 300,
+                        height: 100,
                         className: "setSigCanvasNurse",
                       }}
                       backgroundColor='#eeee'
@@ -588,8 +589,8 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
                       penColor='black'
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
-                        height: 200,
+                        width: 300,
+                        height: 100,
                         className: "setSigCanvasAlt1",
                       }}
                       backgroundColor='#eeee'
@@ -786,7 +787,11 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
         </div>
       );
     }
-    return Reflect.ownKeys(updatedFormData).length > 0 ? <>{comp}</> : <></>;
+    return Reflect.ownKeys(updatedFormData).length > 0 ? (
+      <div style={{ pageBreakAfter: "always" }}>{comp}</div>
+    ) : (
+      <></>
+    );
   };
 
   return (
@@ -799,7 +804,7 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
           userObj={userObj}
         />
       )}
-      {displayComponent(form.name)}
+      {displayComponent(form.name ? form.name : form.formType)}
     </>
   );
 };

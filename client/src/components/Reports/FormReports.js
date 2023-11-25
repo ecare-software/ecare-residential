@@ -103,6 +103,8 @@ export class FromReports extends Component {
       showForms: false,
       showTrainings: false,
       isLoading: true,
+      showFullForms: false,
+      formsToPrint: [],
     };
   }
 
@@ -283,6 +285,71 @@ export class FromReports extends Component {
     });
 
     return;
+  };
+
+  triggerPrint = () => {
+    /*
+    1. change all of the listed forms to full view of forms
+    */
+    this.setState({ ...this.state, showFullForms: true });
+    /*
+    2. call print method, (window.print()), bringing up the print window on the list of forms
+*/
+
+    // 2.1 list forms (loop)
+    const allForms = this.state.forms.reduce((acc, form) => {
+      console.log(form);
+
+      acc.push(...form.forms);
+      return acc;
+    }, []);
+
+    //2.2 display all of the forms
+    const allFormComps = allForms.reduce((acc, form) => {
+      form = { ...form, name: form.formType };
+      acc.push(
+        <ShowFormContainer
+          valuesSet='true'
+          userObj={this.props.userObj}
+          formData={form}
+          form={form}
+          isAdminRole={isAdminUser(this.props.userObj)}
+        />
+      );
+      return acc;
+    }, []);
+
+    this.setState({ ...this.state, formsToPrint: allFormComps });
+
+    /*
+    3. change the view back after set amount of time, showing list of filtered forms again
+    */
+    setTimeout(() => {
+      window.print();
+    }, 5000);
+
+    setTimeout(() => {
+      this.setState({ ...this.state, showFullForms: false, formsToPrint: [] });
+    }, 8000);
+  };
+
+  doShowForms = (showFullForms) => {
+    return showFullForms ? (
+      <div className='formLoadingDiv hide-on-print'>
+        <div>
+          <ClipLoader className='formSpinner' size={50} color={"#ffc107"} />
+        </div>
+
+        <p>Loading...</p>
+      </div>
+    ) : (
+      <FormListContainer
+        doReset={this.state.doReset}
+        setSelectedForm={this.setSelectedForm}
+        setSelectedUser={this.setSelectedUser}
+        formObjs={this.state.forms}
+      />
+    );
   };
 
   selectedUserFormToggle = (searchObj) => {
@@ -960,11 +1027,38 @@ export class FromReports extends Component {
   };
 
   render() {
+    if (this.state.formsToPrint.length > 0) {
+      return (
+        <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 200,
+              marginBottom: 200,
+            }}
+            className='hide-on-print'
+          >
+            <div>
+              <ClipLoader className='formSpinner' size={50} color={"#ffc107"} />
+            </div>
+            <h1>Printing Forms, Please Wait...</h1>
+          </div>
+          <div className='hide-on-non-print'>
+            {this.state.formsToPrint.map((form, idx) => (
+              <div key={`print-form-${idx}`}>{form}</div>
+            ))}
+          </div>
+        </div>
+      );
+    }
     return (
       <div style={{ marginTop: "50px" }}>
-        <div className="row hide-on-print" style={{ margin: "0px 30px" }}>
-          <div className="formTitleDiv" style={{ width: "100%" }}>
-            <h2 className="formTitle">
+        <div className='row hide-on-print' style={{ margin: "0px 30px" }}>
+          <div className='formTitleDiv' style={{ width: "100%" }}>
+            <h2 className='formTitle'>
               Form Reports{"  "}
               <br />
               <hr />
@@ -978,30 +1072,30 @@ export class FromReports extends Component {
                 {Reflect.ownKeys(this.state.selectedUserForm).length === 0 && (
                   <button
                     onClick={this.props.resetReports}
-                    className="btn btn-link"
+                    className='btn btn-link'
                   >
-                    <span className="fa fa-backspace"></span> Show all Reports
+                    <span className='fa fa-backspace'></span> Show all Reports
                   </button>
                 )}
                 {Reflect.ownKeys(this.state.selectedUserForm).length === 0 && (
-                  <button className="btn btn-link" onClick={this.toggleFilters}>
+                  <button className='btn btn-link' onClick={this.toggleFilters}>
                     {this.state.doShowFilters ? (
                       <span>
-                        <span className="fa fa-undo"></span> Hide Filters
+                        <span className='fa fa-undo'></span> Hide Filters
                       </span>
                     ) : (
                       <span>
-                        <span className="fa fa-filter"></span> Show Filters
+                        <span className='fa fa-filter'></span> Show Filters
                       </span>
                     )}
                   </button>
                 )}
                 {this.state.doShowFilters && (
                   <button
-                    className="btn btn-link"
+                    className='btn btn-link'
                     onClick={this.runSearchClick}
                   >
-                    <span className="fa fa-play"></span> Run Search
+                    <span className='fa fa-play'></span> Run Search
                   </button>
                 )}
                 {Reflect.ownKeys(this.state.selectedUserForm).length > 0 && (
@@ -1010,22 +1104,27 @@ export class FromReports extends Component {
                       "",
                       this.state.searchObj
                     )}
-                    className="btn btn-link"
+                    className='btn btn-link'
                   >
                     <span
-                      className="fa fa-backspace"
-                      id="form-reports-back-btn"
+                      className='fa fa-backspace'
+                      id='form-reports-back-btn'
                     ></span>{" "}
                     Back
+                  </button>
+                )}
+                {!this.state.doShowFilters && (
+                  <button onClick={this.triggerPrint} className='btn btn-link'>
+                    <span className='fa fa-print'></span> Print Results
                   </button>
                 )}
               </div>
             </h2>
           </div>
         </div>
-        <div className="reportBtnsMobile"></div>
+        <div className='reportBtnsMobile'></div>
         <Collapse in={this.state.doShowFilters === true} timeout={10000}>
-          <div className="row" style={{ padding: "10px 0px" }}>
+          <div className='row' style={{ padding: "10px 0px" }}>
             <SearchContainer
               allUsers={this.state.allUsers}
               runSearch={this.runSearch}
@@ -1036,13 +1135,13 @@ export class FromReports extends Component {
           </div>
         </Collapse>
         {this.state.doShowFilters === false && (
-          <div className="row hide-on-print" style={{ padding: "10px 50px" }}>
-            <div className="col-md-12">
-              <p className="mainFont MessagePostUser">
-                <span className="fa fa-filter"></span> Filters
+          <div className='row hide-on-print' style={{ padding: "10px 50px" }}>
+            <div className='col-md-12'>
+              <p className='mainFont MessagePostUser'>
+                <span className='fa fa-filter'></span> Filters
               </p>
             </div>
-            <div className="col-md-12">
+            <div className='col-md-12'>
               {getFilterText(this.state.searchObj).map((filter) => (
                 <p>
                   <i>{filter}</i>
@@ -1052,16 +1151,16 @@ export class FromReports extends Component {
           </div>
         )}
         {this.state.isLoading ? (
-          <div className="formLoadingDiv">
+          <div className='formLoadingDiv hide-on-print'>
             <div>
-              <ClipLoader className="formSpinner" size={50} color={"#ffc107"} />
+              <ClipLoader className='formSpinner' size={50} color={"#ffc107"} />
             </div>
 
             <p>Loading...</p>
           </div>
         ) : this.state.doShowFilters === false && !this.state.isLoading ? (
-          <div className="row" style={{ paddingBottom: "100px" }}>
-            <div style={{ marginTop: "20px" }} className="col-md-12">
+          <div className='row' style={{ paddingBottom: "100px" }}>
+            <div style={{ marginTop: "20px" }} className='col-md-12'>
               <div
                 className={
                   Object.keys(this.state.selectedUserForm).length > 0
@@ -1070,12 +1169,7 @@ export class FromReports extends Component {
                 }
               >
                 {this.state.forms.length > 0 ? (
-                  <FormListContainer
-                    doReset={this.state.doReset}
-                    setSelectedForm={this.setSelectedForm}
-                    setSelectedUser={this.setSelectedUser}
-                    formObjs={this.state.forms}
-                  />
+                  this.doShowForms(this.state.showFullForms)
                 ) : (
                   <p style={{ textAlign: "center" }}>
                     You have not submitted a form just yet
@@ -1091,7 +1185,7 @@ export class FromReports extends Component {
               >
                 <div>
                   <ShowFormContainer
-                    valuesSet="true"
+                    valuesSet='true'
                     userObj={this.props.userObj}
                     formData={this.state.selectedUserForm}
                     form={
@@ -1106,9 +1200,9 @@ export class FromReports extends Component {
             </div>
           </div>
         ) : (
-          <div className="formLoadingDiv">
+          <div className='formLoadingDiv hide-on-print'>
             <div>
-              <ClipLoader className="formSpinner" size={50} color={"#ffc107"} />
+              <ClipLoader className='formSpinner' size={50} color={"#ffc107"} />
             </div>
 
             <p>Loading...</p>
