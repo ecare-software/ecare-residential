@@ -8,7 +8,7 @@
     "dev": "concurrently \"nodemon run start \" \"npm run client \""
   },
   "dependencies": {
-    "axios": "^0.21.2",
+    "axios": "^1.6.0",
     "coinbase-commerce-node": "^1.0.4",
     "constantinople": "^3.1.1",
     "cookie-parser": "~1.4.4",
