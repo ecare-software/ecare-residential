@@ -156,6 +156,7 @@ class AdmissionAssessment extends Component {
 
       clients: [],
       clientId: "",
+      createDate: new Date().toISOString(),
     };
   }
 
@@ -305,6 +306,7 @@ class AdmissionAssessment extends Component {
       shortTermGoals: "",
       longTermGoals: "",
       clientId: "",
+      createDate: new Date().toISOString(),
     });
   };
 
@@ -312,7 +314,7 @@ class AdmissionAssessment extends Component {
   autoSave = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
-    console.log("auto saving");
+    delete currentState.staff;
 
     if (
       currentState.childMeta_name === "" ||
@@ -322,7 +324,7 @@ class AdmissionAssessment extends Component {
     }
 
     if (initAutoSave) {
-      console.log("updating existing form");
+      console.log("autosaving existing form");
       try {
         const { data } = await Axios.put(
           `/api/admissionAssessment/${this.state.homeId}/${this.state._id}`,
@@ -330,8 +332,10 @@ class AdmissionAssessment extends Component {
             ...currentState,
           }
         );
-
-        this.setState({ ...this.state, ...data });
+        this.setState({
+          ...this.state,
+          lastEditDate: data.lastEditDate,
+        });
       } catch (e) {
         console.log(e);
         this.setState({
@@ -341,7 +345,7 @@ class AdmissionAssessment extends Component {
         });
       }
     } else {
-      console.log("creating");
+      console.log("autosaving new form");
       currentState.createdBy = this.props.userObj.email;
       currentState.createdByName =
         this.props.userObj.firstName + " " + this.props.userObj.lastName;
@@ -352,7 +356,7 @@ class AdmissionAssessment extends Component {
 
           this.setState({
             ...this.state,
-            ...res.data,
+            _id: res.data._id,
           });
         })
         .catch((e) => {
@@ -369,6 +373,7 @@ class AdmissionAssessment extends Component {
   submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
+    delete currentState.staff;
     initAutoSave = false;
     clearInterval(interval);
     if (this.props.valuesSet || this.state._id) {
@@ -383,9 +388,6 @@ class AdmissionAssessment extends Component {
         this.setState({ ...this.state, ...data });
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
-        // setTimeout(() => {
-        //   this.toggleSuccessAlert();
-        // }, 2000);
       } catch (e) {
         console.log(e);
         this.setState({
@@ -423,124 +425,19 @@ class AdmissionAssessment extends Component {
       ...this.state,
       loadingClients: true,
     });
-    if (!save) {
-      const { data: createdUserData } = await GetUserSig(
-        this.props.userObj.email,
-        this.props.userObj.homeId
-      );
 
-      if (
-        !createdUserData.signature ||
-        Array.isArray(createdUserData.signature) === false ||
-        !createdUserData.signature.length > 0
-      ) {
-        this.setState({
-          ...this.state,
-          formHasError: true,
-          formErrorMessage: `User signature required to submit a form. Create a new signature under 'Manage Profile'.`,
-          loadingClients: false,
-        });
-        return;
-      }
+    if (!this.state.createDate) {
+      this.setState({
+        formHasError: true,
+        formErrorMessage: `Please complete the following field(s): Create Date`,
+      });
+      return;
+    } else {
+      this.setState({
+        ...this.state,
+        createDate: new Date(this.state.createDate),
+      });
     }
-
-    var keysToExclude = [
-      "formHasError",
-      "formSubmitted",
-      "formErrorMessage",
-      "administorSign",
-      "administorSignDate",
-      "treatmentDirectorSign",
-      "treatmentDirectorSignDate",
-      "otherMeta2_name",
-      "otherMeta2_relationship",
-      "otherMeta2_address",
-      "otherMeta2_phoneNumber",
-      "otherMeta3_name",
-      "otherMeta3_relationship",
-      "otherMeta3_address",
-      "otherMeta3_phoneNumber",
-      "otherMeta4_name",
-      "otherMeta4_relationship",
-      "otherMeta4_address",
-      "otherMeta4_phoneNumber",
-      "currentMedications_dosages_targetedSymptoms2_medication",
-      "currentMedications_dosages_targetedSymptoms2_dosage_frequency",
-      "currentMedications_dosages_targetedSymptoms2_purpose",
-      "currentMedications_dosages_targetedSymptoms2_possibleSideEffects",
-      "currentMedications_dosages_targetedSymptoms2_monitoredBy",
-      "currentMedications_dosages_targetedSymptoms3_medication",
-      "currentMedications_dosages_targetedSymptoms3_dosage_frequency",
-      "currentMedications_dosages_targetedSymptoms3_purpose",
-      "currentMedications_dosages_targetedSymptoms3_possibleSideEffects",
-      "currentMedications_dosages_targetedSymptoms3_monitoredBy",
-      "currentMedications_dosages_targetedSymptoms4_medication",
-      "currentMedications_dosages_targetedSymptoms4_dosage_frequency",
-      "currentMedications_dosages_targetedSymptoms4_purpose",
-      "currentMedications_dosages_targetedSymptoms4_possibleSideEffects",
-      "currentMedications_dosages_targetedSymptoms4_monitoredBy",
-      "currentMedications_dosages_targetedSymptoms5_medication",
-      "currentMedications_dosages_targetedSymptoms5_dosage_frequency",
-      "currentMedications_dosages_targetedSymptoms5_purpose",
-      "currentMedications_dosages_targetedSymptoms5_possibleSideEffects",
-      "currentMedications_dosages_targetedSymptoms5_monitoredBy",
-      "visitor2_name",
-      "visitor2_relationship",
-      "visitor2_frequency",
-      "visitor2_supervisedBy",
-      "visitor2_location",
-      "visitor2_length",
-      "visitor3_name",
-      "visitor3_relationship",
-      "visitor3_frequency",
-      "visitor3_supervisedBy",
-      "visitor3_location",
-      "visitor3_length",
-      "visitor4_name",
-      "visitor4_relationship",
-      "visitor4_frequency",
-      "visitor4_supervisedBy",
-      "visitor4_location",
-      "visitor4_length",
-      "loadingClients",
-    ];
-
-    //resubmit fields
-    keysToExclude = [
-      ...keysToExclude,
-      "__v",
-      "approved",
-      "approvedBy",
-      "approvedByDate",
-      "approvedByName",
-      "clientId",
-    ];
-
-    var isValid = true;
-    var errorFields = [];
-
-    // Object.keys(this.state).forEach((key) => {
-    //   if (!keysToExclude.includes(key)) {
-    //     if (
-    //       !this.state[key] ||
-    //       /^\s+$/.test(this.state[key]) ||
-    //       this.state[key].length < 1
-    //     ) {
-    //       errorFields.push("\n" + key);
-    //       isValid = false;
-    //     }
-    //   }
-    // });
-
-    // if (!isValid) {
-    //   this.setState({
-    //     formHasError: true,
-    //     formErrorMessage: `Please complete the following field(s): ${errorFields
-    //       .toString()
-    //       .replace(/,/g, "\n")}`,
-    //   });
-    //   return;
-    // }
 
     this.submit();
   };
@@ -606,6 +503,11 @@ class AdmissionAssessment extends Component {
       }, 7000);
     }
   }
+
+  dateForDateTimeInputValue = () =>
+    new Date(new Date(this.state.createDate).getTime())
+      .toISOString()
+      .slice(0, 19);
 
   handleClientSelect = async (event) => {
     if (event.target.value !== null) {
@@ -681,6 +583,16 @@ class AdmissionAssessment extends Component {
             </div>
           ) : (
             <div className='formFieldsMobile'>
+              <div className='form-group logInInputField'>
+                <label className='control-label'>Create Date</label>{" "}
+                <input
+                  onChange={this.handleFieldInput}
+                  id='createDate'
+                  value={this.state.createDate}
+                  className='form-control'
+                  type='datetime-local'
+                />{" "}
+              </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>Child's Name</label>{" "}
@@ -2284,6 +2196,16 @@ class AdmissionAssessment extends Component {
             ) : (
               <div>
                 <div className='form-group logInInputField'>
+                  <label className='control-label'>Create Date</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    id='createDate'
+                    value={this.dateForDateTimeInputValue()}
+                    className='form-control'
+                    type='datetime-local'
+                  />{" "}
+                </div>
+                <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>Child's Name</label>{" "}
                   <input
@@ -3832,6 +3754,7 @@ class AdmissionAssessment extends Component {
                 style={{
                   width: "100%",
                   display: "flex",
+                  maxHeight: "170",
                   justifyContent: "center",
                 }}
               >

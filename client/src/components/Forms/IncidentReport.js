@@ -97,6 +97,7 @@ class IncidentReport extends Component {
       clients: [],
       staff: [],
       clientId: "",
+      createDate: new Date().toISOString(),
     };
   }
 
@@ -183,6 +184,7 @@ class IncidentReport extends Component {
 
       follow_up_results: "",
       clientId: "",
+      createDate: new Date().toISOString(),
     });
   };
 
@@ -190,6 +192,7 @@ class IncidentReport extends Component {
   autoSave = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
+    delete currentState.staff;
     console.log("auto saving");
     if (
       currentState.childMeta_name === "" ||
@@ -206,8 +209,10 @@ class IncidentReport extends Component {
             ...currentState,
           }
         );
-
-        this.setState({ ...this.state, ...data });
+        this.setState({
+          ...this.state,
+          lastEditDate: data.lastEditDate,
+        });
       } catch (e) {
         console.log(e);
         this.setState({
@@ -230,7 +235,7 @@ class IncidentReport extends Component {
 
           this.setState({
             ...this.state,
-            ...res.data,
+            _id: res.data._id,
           });
         })
         .catch((e) => {
@@ -249,6 +254,8 @@ class IncidentReport extends Component {
   submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
+    delete currentState.staff;
+
     initAutoSave = false;
     clearInterval(interval);
     if (this.props.valuesSet || this.state._id) {
@@ -307,83 +314,33 @@ class IncidentReport extends Component {
       ...this.state,
       loadingClients: true,
     });
-    if (!save) {
-      const { data: createdUserData } = await GetUserSig(
-        this.props.userObj.email,
-        this.props.userObj.homeId
-      );
 
-      if (
-        !createdUserData.signature ||
-        Array.isArray(createdUserData.signature) === false ||
-        !createdUserData.signature.length > 0
-      ) {
-        this.setState({
-          ...this.state,
-          formHasError: true,
-          formErrorMessage: `User signature required to submit a form. Create a new signature under 'Manage Profile'.`,
-          loadingClients: false,
-        });
-        return;
-      }
-    }
-
-    var keysToExclude = [
-      "formHasError",
-      "formSubmitted",
-      "formErrorMessage",
-      "client_witness_gender2",
-      "client_witness_dob2",
-      "client_witness_doa2",
-      "client_witness_name2",
-      "loadingClients",
-      "loadingStaff",
-    ];
-
-    //resubmit fields
-    keysToExclude = [
-      ...keysToExclude,
-      "__v",
-      "approved",
-      "approvedBy",
-      "approvedByDate",
-      "approvedByName",
-      "clientId",
-    ];
-
-    var isValid = true;
-    var errorFields = [];
-
-    /*Object.keys(this.state).forEach((key) => {
-      if (!keysToExclude.includes(key)) {
-        if (
-          !this.state[key] ||
-          /^\s+$/.test(this.state[key]) ||
-          this.state[key].length < 1
-        ) {
-          errorFields.push('\n' + key);
-          isValid = false;
-        }
-      }
-    });*/
-
-    if (!isValid && !isAdminUser(this.props.userObj)) {
+    if (!this.state.createDate) {
       this.setState({
         formHasError: true,
-        formErrorMessage: `Please complete the following field(s): ${errorFields
-          .toString()
-          .replace(/,/g, "\n")}`,
+        formErrorMessage: `Please complete the following field(s): Create Date`,
       });
       return;
+    } else {
+      this.setState({
+        ...this.state,
+        createDate: new Date(this.state.createDate),
+      });
     }
 
     this.submit();
   };
+
   componentWillUnmount() {
     console.log("clearing auto save interval");
     initAutoSave = false;
     clearInterval(interval);
   }
+
+  dateForDateTimeInputValue = () =>
+    new Date(new Date(this.state.createDate).getTime())
+      .toISOString()
+      .slice(0, 19);
 
   setSignature = (userObj) => {
     if (userObj.signature && userObj.signature.length) {
@@ -452,6 +409,7 @@ class IncidentReport extends Component {
       this.setValues();
     } else {
       await this.getClients();
+      await this.getStaff();
       interval = setInterval(() => {
         this.autoSave();
       }, 7000);
@@ -581,6 +539,16 @@ class IncidentReport extends Component {
             </div>
           ) : (
             <div className='formFieldsMobile'>
+              <div className='form-group logInInputField'>
+                <label className='control-label'>Create Date</label>{" "}
+                <input
+                  onChange={this.handleFieldInput}
+                  id='createDate'
+                  value={this.state.createDate}
+                  className='form-control'
+                  type='datetime-local'
+                />{" "}
+              </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>Child's Name</label>{" "}
@@ -1049,6 +1017,16 @@ class IncidentReport extends Component {
             ) : (
               <div>
                 <div className='form-group logInInputField'>
+                  <label className='control-label'>Create Date</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    id='createDate'
+                    value={this.dateForDateTimeInputValue()}
+                    className='form-control'
+                    type='datetime-local'
+                  />{" "}
+                </div>
+                <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>Child's Name</label>{" "}
                   <input
@@ -1120,7 +1098,6 @@ class IncidentReport extends Component {
                     onChange={this.handleFieldInput}
                     value={this.state.staff_involved_name}
                     id='staff_involved_name'
-                    id='staff_involved_name'
                     className='form-control'
                     type='text'
                   />{" "}
@@ -1134,7 +1111,6 @@ class IncidentReport extends Component {
                     as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.staff_involved_gender}
-                    id='staff_involved_gender'
                     id='staff_involved_gender'
                   >
                     <option>Male</option>
@@ -1176,7 +1152,6 @@ class IncidentReport extends Component {
                     as='select'
                     onChange={this.handleFieldInput}
                     value={this.state.staff_witness_gender}
-                    id='staff_witness_gender'
                     id='staff_witness_gender'
                   >
                     <option>Male</option>
@@ -1264,7 +1239,6 @@ class IncidentReport extends Component {
                     onChange={this.handleFieldInput}
                     value={this.state.client_witness_gender2}
                     id='client_witness_gender2'
-                    id='client_witness_gender2'
                   >
                     <option>Male</option>
                     <option>Female</option>
@@ -1303,12 +1277,17 @@ class IncidentReport extends Component {
                   <label className='control-label'>
                     Explain the Incident
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.incident_explaination}
-                    id='incident_explaination'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.incident_explaination}
+                      id='incident_explaination'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.incident_explaination}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
@@ -1329,24 +1308,32 @@ class IncidentReport extends Component {
                   <label className='control-label'>
                     Result of the incident
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.result}
-                    id='result'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.result}
+                      id='result'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>{this.state.result}</p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>
                     Were you able to prevent a more serious incident ?
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.able_to_prevent}
-                    id='able_to_prevent'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.able_to_prevent}
+                      id='able_to_prevent'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.able_to_prevent}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
@@ -1390,12 +1377,17 @@ class IncidentReport extends Component {
                   <label className='control-label'>
                     Results After Following Up
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.follow_up_results}
-                    id='follow_up_results'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.follow_up_results}
+                      id='follow_up_results'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.follow_up_results}
+                  </p>
                 </div>
               </div>
             )}
@@ -1405,6 +1397,7 @@ class IncidentReport extends Component {
                 style={{
                   width: "100%",
                   display: "flex",
+                  maxHeight: "170",
                   justifyContent: "center",
                 }}
               >

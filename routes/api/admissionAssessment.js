@@ -165,7 +165,9 @@ router.post("/", (req, res) => {
 
     lastEditDate: new Date().toISOString(),
 
-    createDate: new Date().toISOString(),
+    createDate: req.body.createDate
+      ? req.body.createDate
+      : new Date().toISOString(),
 
     formType: "Admission Assessment",
   });
@@ -201,7 +203,7 @@ router.get(
     if (req.params.searchString !== "none") {
       findObj.childMeta_name = {
         $regex: ".*" + req.params.searchString + ".*",
-        $options: "ig",
+        $options: "i",
       };
     }
 

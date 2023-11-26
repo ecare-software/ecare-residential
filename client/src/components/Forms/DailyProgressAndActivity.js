@@ -76,12 +76,11 @@ class DailyProgressAndActivity extends Component {
 
       loadingClients: true,
 
-      createDate: null,
-
       loadingSig: true,
 
       clients: [],
       clientId: "",
+      createDate: new Date().toISOString(),
     };
   }
 
@@ -150,7 +149,7 @@ class DailyProgressAndActivity extends Component {
       therapeutic_value: "",
       phone_calls_or_visits: "",
       clientId: "",
-      createDate: null,
+      createDate: new Date().toISOString(),
     });
   };
 
@@ -158,7 +157,7 @@ class DailyProgressAndActivity extends Component {
   autoSave = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
-    console.log("auto saving");
+    delete currentState.staff;
 
     if (
       currentState.childMeta_name === "" ||
@@ -168,7 +167,7 @@ class DailyProgressAndActivity extends Component {
     }
 
     if (initAutoSave) {
-      console.log("updating existing form");
+      console.log("autosaving existing form");
       try {
         const { data } = await Axios.put(
           `/api/dailyProgressAndActivity/${this.state.homeId}/${this.state._id}`,
@@ -177,7 +176,10 @@ class DailyProgressAndActivity extends Component {
           }
         );
 
-        this.setState({ ...this.state, ...data });
+        this.setState({
+          ...this.state,
+          lastEditDate: data.lastEditDate,
+        });
       } catch (e) {
         console.log(e);
         this.setState({
@@ -188,18 +190,18 @@ class DailyProgressAndActivity extends Component {
         });
       }
     } else {
-      console.log("creating");
+      console.log("autosaving new form");
       currentState.createdBy = this.props.userObj.email;
       currentState.createdByName =
         this.props.userObj.firstName + " " + this.props.userObj.lastName;
 
-      Axios.post("/api/dailyProgressAndActivity", currentState)
+      Axios.post("/api/dailyProgressAndActivity", { ...currentState })
         .then((res) => {
           initAutoSave = true;
 
           this.setState({
             ...this.state,
-            ...res.data,
+            _id: res.data._id,
           });
         })
         .catch((e) => {
@@ -217,6 +219,7 @@ class DailyProgressAndActivity extends Component {
   submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
+    delete currentState.staff;
     initAutoSave = false;
     clearInterval(interval);
     if (this.props.valuesSet || this.state._id) {
@@ -231,9 +234,6 @@ class DailyProgressAndActivity extends Component {
         this.setState({ ...this.state, ...data });
         window.scrollTo(0, 0);
         this.toggleSuccessAlert();
-        // setTimeout(() => {
-        //   this.toggleSuccessAlert();
-        // }, 2000);
       } catch (e) {
         console.log(e);
         this.setState({
@@ -273,66 +273,18 @@ class DailyProgressAndActivity extends Component {
       ...this.state,
       loadingClients: true,
     });
-    if (!save) {
-      const { data: createdUserData } = await GetUserSig(
-        this.props.userObj.email,
-        this.props.userObj.homeId
-      );
 
-      if (
-        !createdUserData.signature ||
-        Array.isArray(createdUserData.signature) === false ||
-        !createdUserData.signature.length > 0
-      ) {
-        this.setState({
-          ...this.state,
-          formHasError: true,
-          formErrorMessage: `User signature required to submit a form. Create a new signature under 'Manage Profile'.`,
-          loadingClients: false,
-        });
-        return;
-      }
-    }
-
-    var keysToExclude = ["formHasError", "formSubmitted", "formErrorMessage"];
-
-    //resubmit fields
-    keysToExclude = [
-      ...keysToExclude,
-      "__v",
-      "approved",
-      "approvedBy",
-      "approvedByDate",
-      "approvedByName",
-      "clientId",
-      "loadingClients",
-    ];
-
-    var isValid = true;
-    var errorFields = [];
-
-    /*Object.keys(this.state).forEach((key) => {
-      if (!keysToExclude.includes(key)) {
-        if (
-          !this.state[key] ||
-          /^\s+$/.test(this.state[key]) ||
-          this.state[key].length < 1
-        ) {
-          errorFields.push("\n" + key);
-          isValid = false;
-        }
-      }
-    });
-*/
-
-    if (!isValid && !isAdminUser(this.props.userObj)) {
+    if (!this.state.createDate) {
       this.setState({
         formHasError: true,
-        formErrorMessage: `Please complete the following field(s): ${errorFields
-          .toString()
-          .replace(/,/g, "\n")}`,
+        formErrorMessage: `Please complete the following field(s): Create Date`,
       });
       return;
+    } else {
+      this.setState({
+        ...this.state,
+        createDate: new Date(this.state.createDate),
+      });
     }
 
     this.submit();
@@ -419,6 +371,13 @@ class DailyProgressAndActivity extends Component {
     }
   };
 
+  dateForDateTimeInputValue = () => {
+    console.log(new Date(this.state.createDate));
+    return new Date(new Date(this.state.createDate).getTime())
+      .toISOString()
+      .slice(0, 19);
+  };
+
   render() {
     if (!this.props.valuesSet) {
       return (
@@ -473,6 +432,16 @@ class DailyProgressAndActivity extends Component {
             </div>
           ) : (
             <div className='formFieldsMobile'>
+              <div className='form-group logInInputField'>
+                <label className='control-label'>Create Date</label>{" "}
+                <input
+                  onChange={this.handleFieldInput}
+                  id='createDate'
+                  value={this.state.createDate}
+                  className='form-control'
+                  type='datetime-local'
+                />{" "}
+              </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>Child's Name</label>{" "}
@@ -898,19 +867,6 @@ class DailyProgressAndActivity extends Component {
                   className='form-control'
                 ></TextareaAutosize>
               </div>
-              {isAdminUser(this.props.userObj) && (
-                <div className='form-group logInInputField'>
-                  {" "}
-                  <label className='control-label'>Created Date</label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    id='createDate'
-                    value={this.state.createDate}
-                    className='form-control'
-                    type='date'
-                  />{" "}
-                </div>
-              )}
               <FormError errorId={this.props.id + "-error"} />
               <div
                 className='form-group logInInputField'
@@ -975,6 +931,16 @@ class DailyProgressAndActivity extends Component {
               </div>
             ) : (
               <div>
+                <div className='form-group logInInputField'>
+                  <label className='control-label'>Create Date</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    id='createDate'
+                    value={this.dateForDateTimeInputValue()}
+                    className='form-control'
+                    type='datetime-local'
+                  />{" "}
+                </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>Child's Name</label>{" "}
@@ -1334,92 +1300,100 @@ class DailyProgressAndActivity extends Component {
                   <label className='control-label'>
                     Summary of Daily Schedule
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.summary_of_daily_schedule}
-                    id='summary_of_daily_schedule'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.summary_of_daily_schedule}
+                      id='summary_of_daily_schedule'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.summary_of_daily_schedule}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>
                     Summary of Behavior at School
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.summary_of_behavior_at_school}
-                    id='summary_of_behavior_at_school'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.summary_of_behavior_at_school}
+                      id='summary_of_behavior_at_school'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.summary_of_behavior_at_school}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>
                     Summary of Behavior at Home
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.summary_of_behavior_at_home}
-                    id='summary_of_behavior_at_home'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.summary_of_behavior_at_home}
+                      id='summary_of_behavior_at_home'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.summary_of_behavior_at_home}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>
                     Therapeutic / Recreational
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.therapeutic_recreational}
-                    id='therapeutic_recreational'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.therapeutic_recreational}
+                      id='therapeutic_recreational'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.therapeutic_value}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
-                  {" "}
-                  <label className='control-label'>
-                    Therapeutic Value
-                  </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.therapeutic_value}
-                    id='therapeutic_value'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <label className='control-label'>Therapeutic Value</label>{" "}
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.therapeutic_value}
+                      id='therapeutic_value'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.therapeutic_value}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>
                     Phone Calls / Visits
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.phone_calls_or_visits}
-                    id='phone_calls_or_visits'
-                    className='form-control'
-                  ></TextareaAutosize>
-                </div>
-                {isAdminUser(this.props.userObj) && (
-                  <div className='form-group logInInputField'>
-                    {" "}
-                    <label className='control-label'>Created Date</label>{" "}
-                    <input
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
                       onChange={this.handleFieldInput}
-                      id='createDate'
-                      value={
-                        new Date(
-                          new Date(this.state.createDate).toLocaleDateString()
-                        )
-                          .toISOString()
-                          .split("T")[0]
-                      }
+                      value={this.state.phone_calls_or_visits}
+                      id='phone_calls_or_visits'
                       className='form-control'
-                      type='date'
-                    />{" "}
+                    ></TextareaAutosize>
                   </div>
-                )}
+                  <p className='hide-on-non-print'>
+                    {this.state.phone_calls_or_visits}
+                  </p>
+                </div>
               </div>
             )}
             <label className='control-label'>Signature</label>{" "}
@@ -1428,6 +1402,7 @@ class DailyProgressAndActivity extends Component {
                 style={{
                   width: "100%",
                   display: "flex",
+                  maxHeight: "170",
                   justifyContent: "center",
                 }}
               >
@@ -1464,13 +1439,13 @@ class DailyProgressAndActivity extends Component {
                   </button>
 
                   {/* <button
-                    className="darkBtn"
-                    onClick={() => {
-                      this.validateForm(false);
-                    }}
-                  >
-                    Submit
-                  </button> */}
+                        className="darkBtn"
+                        onClick={() => {
+                          this.validateForm(false);
+                        }}
+                      >
+                        Submit
+                      </button> */}
                 </div>
               </>
             )}

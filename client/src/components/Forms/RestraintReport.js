@@ -115,6 +115,7 @@ class RestraintReport extends Component {
       clients: [],
       staff: [],
       clientId: "",
+      createDate: new Date().toISOString(),
     };
   }
 
@@ -219,6 +220,7 @@ class RestraintReport extends Component {
 
       procedural_comments: "",
       clientId: "",
+      createDate: new Date().toISOString(),
     });
   };
 
@@ -226,6 +228,7 @@ class RestraintReport extends Component {
   autoSave = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
+    delete currentState.staff;
     console.log("auto saving");
     if (
       currentState.childMeta_name === "" ||
@@ -242,8 +245,10 @@ class RestraintReport extends Component {
             ...currentState,
           }
         );
-
-        this.setState({ ...this.state, ...data });
+        this.setState({
+          ...this.state,
+          lastEditDate: data.lastEditDate,
+        });
       } catch (e) {
         console.log(e);
         this.setState({
@@ -264,7 +269,7 @@ class RestraintReport extends Component {
 
           this.setState({
             ...this.state,
-            ...res.data,
+            _id: res.data._id,
           });
         })
         .catch((e) => {
@@ -281,6 +286,7 @@ class RestraintReport extends Component {
   submit = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
+    delete currentState.staff;
     initAutoSave = false;
     clearInterval(interval);
     if (this.props.valuesSet || this.state._id) {
@@ -335,79 +341,27 @@ class RestraintReport extends Component {
       ...this.state,
       loadingClients: true,
     });
-    if (!save) {
-      const { data: createdUserData } = await GetUserSig(
-        this.props.userObj.email,
-        this.props.userObj.homeId
-      );
 
-      if (
-        !createdUserData.signature ||
-        Array.isArray(createdUserData.signature) === false ||
-        !createdUserData.signature.length > 0
-      ) {
-        this.setState({
-          ...this.state,
-          formHasError: true,
-          formErrorMessage: `User signature required to submit a form. Create a new signature under 'Manage Profile'.`,
-          loadingClients: false,
-        });
-        return;
-      }
-    }
-
-    var keysToExclude = [
-      "formHasError",
-      "formSubmitted",
-      "formErrorMessage",
-      "client_witness_name2",
-      "client_witness_gender2",
-      "client_witness_dob2",
-      "client_witness_doa2",
-      "loadingClients",
-      "loadingStaff",
-    ];
-
-    //resubmit fields
-    keysToExclude = [
-      ...keysToExclude,
-      "__v",
-      "approved",
-      "approvedBy",
-      "approvedByDate",
-      "approvedByName",
-      "clientId",
-    ];
-
-    var isValid = true;
-    var errorFields = [];
-
-    /*Object.keys(this.state).forEach((key) => {
-      if (!keysToExclude.includes(key)) {
-        if (
-          !this.state[key] ||
-          /^\s+$/.test(this.state[key]) ||
-          this.state[key].length < 1
-        ) {
-          errorFields.push("\n" + key);
-          isValid = false;
-        }
-      }
-    });
-*/
-
-    if (!isValid && !isAdminUser(this.props.userObj)) {
+    if (!this.state.createDate) {
       this.setState({
         formHasError: true,
-        formErrorMessage: `Please complete the following field(s): ${errorFields
-          .toString()
-          .replace(/,/g, "\n")}`,
+        formErrorMessage: `Please complete the following field(s): Create Date`,
       });
       return;
+    } else {
+      this.setState({
+        ...this.state,
+        createDate: new Date(this.state.createDate),
+      });
     }
 
     this.submit();
   };
+
+  dateForDateTimeInputValue = () =>
+    new Date(new Date(this.state.createDate).getTime())
+      .toISOString()
+      .slice(0, 19);
 
   setSignature = (userObj) => {
     if (userObj.signature && userObj.signature.length) {
@@ -486,6 +440,7 @@ class RestraintReport extends Component {
       this.setValues();
     } else {
       await this.getClients();
+      await this.getStaff();
       interval = setInterval(() => {
         this.autoSave();
       }, 7000);
@@ -615,6 +570,16 @@ class RestraintReport extends Component {
             </div>
           ) : (
             <div className='formFieldsMobile'>
+              <div className='form-group logInInputField'>
+                <label className='control-label'>Create Date</label>{" "}
+                <input
+                  onChange={this.handleFieldInput}
+                  id='createDate'
+                  value={this.state.createDate}
+                  className='form-control'
+                  type='datetime-local'
+                />{" "}
+              </div>
               <div className='form-group logInInputField'>
                 {" "}
                 <label className='control-label'>Child's Name</label>{" "}
@@ -1263,6 +1228,16 @@ class RestraintReport extends Component {
             ) : (
               <div>
                 <div className='form-group logInInputField'>
+                  <label className='control-label'>Create Date</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    id='createDate'
+                    value={this.dateForDateTimeInputValue()}
+                    className='form-control'
+                    type='datetime-local'
+                  />{" "}
+                </div>
+                <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>Child's Name</label>{" "}
                   <input
@@ -1509,12 +1484,17 @@ class RestraintReport extends Component {
                     all pertinent details and behavior leading up to the
                     incident. Be specific:
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.risk_explaination}
-                    id='risk_explaination'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.risk_explaination}
+                      id='risk_explaination'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.risk_explaination}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
@@ -1524,24 +1504,34 @@ class RestraintReport extends Component {
                     EPR. Client response to attempted interventions. Be
                     specific.
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.risk_alternative_strategies}
-                    id='risk_alternative_strategies'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.risk_alternative_strategies}
+                      id='risk_alternative_strategies'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.risk_alternative_strategies}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>
                     Type of Restraint. Be specific.
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.type_of_restraint}
-                    id='type_of_restraint'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.type_of_restraint}
+                      id='type_of_restraint'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.type_of_restraint}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
@@ -1549,13 +1539,18 @@ class RestraintReport extends Component {
                     What strategies were used during Restraint to calm client?
                     How did you explain behaviors necessary for release? How
                     often?
-                  </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.risk_stategies_used}
-                    id='risk_stategies_used'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  </label>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.risk_stategies_used}
+                      id='risk_stategies_used'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.risk_stategies_used}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
@@ -1567,12 +1562,17 @@ class RestraintReport extends Component {
                     physical aggression, Etc.), how they occurred, and treatment
                     provided
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.result_of_incident}
-                    id='result_of_incident'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.result_of_incident}
+                      id='result_of_incident'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.result_of_incident}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
@@ -1582,12 +1582,15 @@ class RestraintReport extends Component {
                     <br />
                     Client’s response to Restraint.
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.injuries}
-                    id='injuries'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.injuries}
+                      id='injuries'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>{this.state.action_taken}</p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
@@ -1595,12 +1598,15 @@ class RestraintReport extends Component {
                     Action taken to help client return to normal activities
                     following release from the Restraint.
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.action_taken}
-                    id='action_taken'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.action_taken}
+                      id='action_taken'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>{this.state.action_taken}</p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
@@ -1608,12 +1614,17 @@ class RestraintReport extends Component {
                     In your opinion, were you able to prevent a more serious
                     incident? Explain.
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.able_to_prevent}
-                    id='able_to_prevent'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.able_to_prevent}
+                      id='able_to_prevent'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.able_to_prevent}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
@@ -1699,12 +1710,17 @@ class RestraintReport extends Component {
                   <label className='control-label'>
                     What was your behavior?
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.client_behavior}
-                    id='client_behavior'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.client_behavior}
+                      id='client_behavior'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>{" "}
+                  <p className='hide-on-non-print'>
+                    {this.state.client_behavior}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
@@ -1712,24 +1728,34 @@ class RestraintReport extends Component {
                     {" "}
                     Describe the Restraint?
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.client_restraint_description}
-                    id='client_restraint_description'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.client_restraint_description}
+                      id='client_restraint_description'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.client_restraint_description}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
                   <label className='control-label'>
                     How did you respond to the Restraint
                   </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.client_responce}
-                    id='client_responce'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.client_responce}
+                      id='client_responce'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>{" "}
+                  <p className='hide-on-non-print'>
+                    {this.state.client_responce}
+                  </p>
                 </div>
                 <div className='form-group logInInputField'>
                   {" "}
@@ -1777,13 +1803,18 @@ class RestraintReport extends Component {
                   {" "}
                   <label className='control-label'>
                     Comments. Corrective action, including training, needed
-                  </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    value={this.state.procedural_comments}
-                    id='procedural_comments'
-                    className='form-control'
-                  ></TextareaAutosize>
+                  </label>
+                  <div className='hide-on-print'>
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.procedural_comments}
+                      id='procedural_comments'
+                      className='form-control'
+                    ></TextareaAutosize>
+                  </div>
+                  <p className='hide-on-non-print'>
+                    {this.state.procedural_comments}
+                  </p>
                 </div>
               </div>
             )}
@@ -1793,6 +1824,7 @@ class RestraintReport extends Component {
                 style={{
                   width: "100%",
                   display: "flex",
+                  maxHeight: "170",
                   justifyContent: "center",
                 }}
               >

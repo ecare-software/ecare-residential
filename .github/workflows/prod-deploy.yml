@@ -35,6 +35,6 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'ecare-residential-prod'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_f6ebab2aa9434797a7cde997260d5fde }}
+        slot-name: 'Production'
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_EF21F2D29DD14A878D1C31198F3AB108 }}
         package: .

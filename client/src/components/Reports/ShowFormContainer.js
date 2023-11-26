@@ -18,7 +18,9 @@ import SignatureCanvas from "react-signature-canvas";
 import { FetchHomeData } from "../../utils/FetchHomeData";
 import { DoDeleteRecord } from "../../utils/DoDeleteRecord";
 import NightMonitoring from "../Forms/NightMonitoring";
- 
+
+import ClipLoader from "react-spinners/ClipLoader";
+
 
 const needsNurseSig = ["Health Body Check", "Illness Injury"];
 
@@ -58,6 +60,13 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   const [sigCanvasNurse, setSigCanvasNurse] = useState(null);
 
   const [sigCanvasAdminAlt1, setSigCanvasAdminAlt1] = useState(null);
+
+  const [isSavingSigCanvasAdmin, setIsSavingSigCanvasAdmin] = useState(false);
+
+  const [isSavingSigCanvasNurse, setIsSavingSigCanvasNurse] = useState(false);
+
+  const [isSavingSigCanvasAdminAlt1, setIsSavingSigCanvasAdminAlt1] =
+    useState(false);
 
   const [homeData, setHomeData] = useState("");
 
@@ -264,6 +273,13 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
       return;
     }
     try {
+      if (type === "nurse") {
+        setIsSavingSigCanvasNurse(true);
+      } else if (type === "alt1") {
+        setIsSavingSigCanvasAdminAlt1(true);
+      } else {
+        setIsSavingSigCanvasAdmin(true);
+      }
       await Axios.put(
         `/api/${route}/${formData.homeId}/${formData._id}`,
         postData
@@ -271,12 +287,15 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
       if (type === "nurse") {
         setApprovedByNurseText(`${userObj.firstName} ${userObj.lastName} `);
         doSetSigs(type, postData.approvedNurseSig);
+        setIsSavingSigCanvasNurse(false);
       } else if (type === "alt1") {
         setApprovedByAlt1Text(`${userObj.firstName} ${userObj.lastName} `);
         doSetSigs(type, postData.approvedSig_alt1);
+        setIsSavingSigCanvasAdminAlt1(false);
       } else {
         setApprovedByText(`${userObj.firstName} ${userObj.lastName}`);
         doSetSigs(type, postData.approvedSig);
+        setIsSavingSigCanvasAdmin(false);
       }
     } catch (e) {
       //go back
@@ -305,11 +324,11 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
 
   return (
     <div style={{ margin: "0px 20px 40px 20px" }}>
-      <div className="d-flex align-items-center hide-on-print">
+      <div className='d-flex align-items-center hide-on-print'>
         <h6 style={{ fontWeight: 400, marginRight: 5 }}>Form Id</h6>{" "}
         <h6 style={{ fontWeight: 300 }}>{formData._id}</h6>
       </div>
-      <div className="d-flex align-items-center hide-on-print">
+      <div className='d-flex align-items-center hide-on-print'>
         <h6 style={{ fontWeight: 400, marginRight: 5 }}>Last Updated</h6>{" "}
         <h6 style={{ fontWeight: 300 }}>
           {` ${formData.createdByName}, ${
@@ -319,7 +338,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
           }`}
         </h6>
       </div>
-      <div className="d-flex align-items-center">
+      <div className='d-flex align-items-center hide-on-print'>
         <h6 style={{ fontWeight: 400, marginRight: 5 }}>Created Date</h6>{" "}
         <h6 style={{ fontWeight: 300 }}>
           {` ${formData.createdByName}, ${
@@ -329,44 +348,37 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
           }`}
         </h6>
       </div>
-      <div className="hide-on-non-print" style={{ width: "500px" }}>
-        <h6 style={{ fontWeight: 400, marginRight: 5 }}>
-          Date Printed{" "}
-          <span style={{ fontWeight: 300 }}>
-            {new Date().toLocaleString().split(",")[0]}
-          </span>
-        </h6>{" "}
-      </div>
-      <div className="hide-on-non-print">
-        <h6 style={{ fontWeight: 400, marginRight: 5 }}>
-          Printed By{" "}
-          <span style={{ fontWeight: 300 }}>
-            {`${userObj.firstName} ${userObj.lastName}`}
-          </span>
-        </h6>{" "}
-      </div>
       <div>
+
+        <button
+          onClick={() => {
+            doPrint();
+          }}
+          className='mr-3 btn btn-light hide-on-print'
+        >
+          Print <i className='fas fa-print'></i>
+        </button>
         {isAdminRole && (
           <button
             onClick={() => {
               doDelete();
             }}
-            className="btn btn-light hide-on-print"
+            className='btn btn-light hide-on-print'
           >
-            Delete Form <i className="fas fa-trash"></i>
+            Delete Form <i className='fas fa-trash'></i>
           </button>
         )}
         {homeData && (
           <div>
-            <h3 className="text-center">
+            <h3 className='text-center'>
               {homeData.name && `RTC - ${homeData.name}`}
             </h3>
             {homeData.address && (
-              <h4 className="text-center">
+              <h4 className='text-center'>
                 {`${homeData.address?.street}, ${homeData.address?.city}, ${homeData.address?.state} ${homeData.address?.zip}`}
               </h4>
             )}
-            <h4 className="text-center">
+            <h4 className='text-center'>
               {homeData.phone && `${homeData.phone}`}
             </h4>
           </div>
@@ -375,12 +387,12 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
       <div>
         <div>
           <Form.Row>
-            <Col xs="auto">
+            <Col xs='auto'>
               <Form.Check
-                type="checkbox"
-                id="baseBtn"
+                type='checkbox'
+                id='baseBtn'
                 style={{ color: isApproved ? "green" : "red" }}
-                className="mb-2 d-flex align-items-center"
+                className='mb-2 d-flex align-items-center'
                 label={setApprovedLabel(isApproved, "Admin 1")}
                 disabled={!isAdminRole}
                 checked={isApproved}
@@ -390,13 +402,39 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
               />
             </Col>
           </Form.Row>
+          {isSavingSigCanvasAdmin && (
+            <div
+              className=''
+              style={{
+                height: "200px",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <div>
+                <ClipLoader
+                  className='formSpinner'
+                  size={50}
+                  color={"#ffc107"}
+                />
+              </div>
+
+              <p>Updating...</p>
+            </div>
+          )}
           <Form.Row>
-            <Col xs="auto">
+            <Col xs='auto'>
               <div
                 style={{
                   width: "100%",
                   display: "flex",
+                  maxHeight: "170",
                   justifyContent: "center",
+                  visibility:
+                    !isSavingSigCanvasAdmin && isApproved
+                      ? "visible"
+                      : "hidden",
                 }}
               >
                 <SignatureCanvas
@@ -404,14 +442,14 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
                     setSigCanvasAdmin(ref);
                   }}
                   style={{ border: "solid" }}
-                  penColor="black"
+                  penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
                     className: "sigCanvasAdmin",
                   }}
-                  backgroundColor="#eeee"
+                  backgroundColor='#eeee'
                 />
               </div>
             </Col>
@@ -419,12 +457,12 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
           {needsNurseSig.includes(formData.formType) && (
             <>
               <Form.Row>
-                <Col xs="auto">
+                <Col xs='auto'>
                   <Form.Check
-                    type="checkbox"
-                    id="nurseBtn"
+                    type='checkbox'
+                    id='nurseBtn'
                     style={{ color: isApprovedByNurse ? "green" : "red" }}
-                    className="mb-2 d-flex align-items-center"
+                    className='mb-2 d-flex align-items-center'
                     label={setApprovedLabelNurse(
                       isApprovedByNurse,
                       "Nurse or Designee"
@@ -437,13 +475,38 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
                   />
                 </Col>
               </Form.Row>
+              {isSavingSigCanvasNurse && (
+                <div
+                  className=''
+                  style={{
+                    height: "200px",
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <div>
+                    <ClipLoader
+                      className='formSpinner'
+                      size={50}
+                      color={"#ffc107"}
+                    />
+                  </div>
+
+                  <p>Updating...</p>
+                </div>
+              )}
               <Form.Row>
-                <Col xs="auto">
+                <Col xs='auto'>
                   <div
                     style={{
                       width: "100%",
                       display: "flex",
                       justifyContent: "center",
+                      visibility:
+                        !isSavingSigCanvasNurse && isApprovedByNurse
+                          ? "visible"
+                          : "hidden",
                     }}
                   >
                     <SignatureCanvas
@@ -451,14 +514,14 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
                         setSigCanvasNurse(ref);
                       }}
                       style={{ border: "solid" }}
-                      penColor="black"
+                      penColor='black'
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
-                        height: 200,
+                        width: 300,
+                        height: 100,
                         className: "setSigCanvasNurse",
                       }}
-                      backgroundColor="#eeee"
+                      backgroundColor='#eeee'
                     />
                   </div>
                 </Col>
@@ -468,12 +531,12 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
           {needsAlt1Sig.includes(formData.formType) && (
             <>
               <Form.Row>
-                <Col xs="auto">
+                <Col xs='auto'>
                   <Form.Check
-                    type="checkbox"
-                    id="alt1Btn"
+                    type='checkbox'
+                    id='alt1Btn'
                     style={{ color: isApprovedByAlt1 ? "green" : "red" }}
-                    className="mb-2 d-flex align-items-center"
+                    className='mb-2 d-flex align-items-center'
                     label={setApprovedLabelAlt(isApprovedByAlt1, "Admin 2")}
                     disabled={!isAdminRole}
                     checked={isApprovedByAlt1}
@@ -483,13 +546,38 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
                   />
                 </Col>
               </Form.Row>
+              {isSavingSigCanvasAdminAlt1 && (
+                <div
+                  className=''
+                  style={{
+                    height: "200px",
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <div>
+                    <ClipLoader
+                      className='formSpinner'
+                      size={50}
+                      color={"#ffc107"}
+                    />
+                  </div>
+
+                  <p>Updating...</p>
+                </div>
+              )}
               <Form.Row>
-                <Col xs="auto">
+                <Col xs='auto'>
                   <div
                     style={{
                       width: "100%",
                       display: "flex",
                       justifyContent: "center",
+                      visibility:
+                        !isSavingSigCanvasAdminAlt1 && isApprovedByAlt1
+                          ? "visible"
+                          : "hidden",
                     }}
                   >
                     <SignatureCanvas
@@ -497,14 +585,14 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
                         setSigCanvasAdminAlt1(ref);
                       }}
                       style={{ border: "solid" }}
-                      penColor="black"
+                      penColor='black'
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
-                        height: 200,
+                        width: 300,
+                        height: 100,
                         className: "setSigCanvasAlt1",
                       }}
-                      backgroundColor="#eeee"
+                      backgroundColor='#eeee'
                     />
                   </div>
                 </Col>
@@ -586,7 +674,7 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     if (name === "72 Hour Treatment Plan") {
       comp = (
         <TreatmentPlan72
-          valuesSet="true"
+          valuesSet='true'
           userObj={userObj}
           formData={updatedFormData}
           doUpdateFormDates={doUpdateFormDates}
@@ -595,7 +683,7 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     } else if (name === "Incident Report") {
       comp = (
         <IncidentReport
-          valuesSet="true"
+          valuesSet='true'
           userObj={userObj}
           formData={updatedFormData}
           doUpdateFormDates={doUpdateFormDates}
@@ -604,7 +692,7 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     } else if (name === "Serious Incident Report") {
       comp = (
         <SeriousIncidentReport
-          valuesSet="true"
+          valuesSet='true'
           userObj={userObj}
           formData={updatedFormData}
           doUpdateFormDates={doUpdateFormDates}
@@ -613,7 +701,7 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     } else if (name === "Daily Activity") {
       comp = (
         <DailyProgress
-          valuesSet="true"
+          valuesSet='true'
           userObj={userObj}
           formData={updatedFormData}
           doUpdateFormDates={doUpdateFormDates}
@@ -622,7 +710,7 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     } else if (name === "Illness Injury") {
       comp = (
         <IllnessInjury
-          valuesSet="true"
+          valuesSet='true'
           userObj={userObj}
           formData={updatedFormData}
           doUpdateFormDates={doUpdateFormDates}
@@ -631,7 +719,7 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     } else if (name === "Admission Assessment") {
       comp = (
         <AdmissionAssessment
-          valuesSet="true"
+          valuesSet='true'
           userObj={userObj}
           formData={updatedFormData}
           doUpdateFormDates={doUpdateFormDates}
@@ -640,7 +728,7 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     } else if (name === "Health Body Check") {
       comp = (
         <BodyCheck
-          valuesSet="true"
+          valuesSet='true'
           userObj={userObj}
           formData={updatedFormData}
           doUpdateFormDates={doUpdateFormDates}
@@ -649,7 +737,7 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     } else if (name === "Restraint Report") {
       comp = (
         <RestraintReport
-          valuesSet="true"
+          valuesSet='true'
           userObj={userObj}
           formData={updatedFormData}
           doUpdateFormDates={doUpdateFormDates}
@@ -658,7 +746,7 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     } else if (name === "Orientation Training") {
       comp = (
         <OrientationTraining
-          valuesSet="true"
+          valuesSet='true'
           userObj={userObj}
           formData={updatedFormData}
           doUpdateFormDates={doUpdateFormDates}
@@ -667,7 +755,7 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     } else if (name === "Pre Service Training") {
       comp = (
         <PreServiceTraining
-          valuesSet="true"
+          valuesSet='true'
           userObj={userObj}
           formData={updatedFormData}
           doUpdateFormDates={doUpdateFormDates}
@@ -676,7 +764,7 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     } else if (name === "Awake Night Staff Signoff") {
       comp = (
         <AwakeNightStaffSignoff
-          valuesSet="true"
+          valuesSet='true'
           userObj={userObj}
           formData={updatedFormData}
           doUpdateFormDates={doUpdateFormDates}
@@ -685,7 +773,7 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     } else if (name === "Night Monitoring") {
       comp = (
         <NightMonitoring
-          valuesSet="true"
+          valuesSet='true'
           userObj={userObj}
           formData={updatedFormData}
           doUpdateFormDates={doUpdateFormDates}
@@ -698,7 +786,11 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
         </div>
       );
     }
-    return Reflect.ownKeys(updatedFormData).length > 0 ? <>{comp}</> : <></>;
+    return Reflect.ownKeys(updatedFormData).length > 0 ? (
+      <div style={{ pageBreakAfter: "always" }}>{comp}</div>
+    ) : (
+      <></>
+    );
   };
 
   return (
@@ -711,7 +803,7 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
           userObj={userObj}
         />
       )}
-      {displayComponent(form.name)}
+      {displayComponent(form.name ? form.name : form.formType)}
     </>
   );
 };
