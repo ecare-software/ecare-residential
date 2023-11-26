@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useAsync, IfRejected, IfPending, IfFulfilled } from "react-async";
 import "../../App.css";
 import "../LogInContainer/LogInContainer.css";
@@ -92,60 +92,56 @@ const ManageTraining = ({
     doToggleTrainingDisplay(false);
   };
 
-  if (showTrainings) {
-    return (
-      <div className="formCompNoBg">
-        <div className="formTitleDiv">
-          <h2 className="formTitle">Trainings</h2>
+  return showTrainings ? (
+    <div className="formCompNoBg">
+      <div className="formTitleDiv">
+        <h2 className="formTitle">Trainings</h2>
+      </div>
+      <div className="formFieldsMobile">
+        <div className="form-group logInInputField d-flex mt-3 border-bottom">
+          <Col className="control-label"></Col>
+          <Col className="control-label">
+            <label>Name</label>
+          </Col>
         </div>
-        <div className="formFieldsMobile">
-          <div className="form-group logInInputField d-flex mt-3 border-bottom">
-            <Col className="control-label"></Col>
+        {trainings.map((training) => (
+          <div className="form-group logInInputField d-flex mt-3">
             <Col className="control-label">
-              <label>Name</label>
+              <button
+                className="btn btn-light extraInfoButton"
+                onClick={() => {
+                  setTraining(training);
+                }}
+              >
+                Edit
+              </button>
+            </Col>
+            <Col className="control-label">
+              <label>{training.formType}</label>
             </Col>
           </div>
-          {trainings.map((training) => (
-            <div className="form-group logInInputField d-flex mt-3">
-              <Col className="control-label">
-                <button
-                  className="btn btn-light extraInfoButton"
-                  onClick={() => {
-                    setTraining(training);
-                  }}
-                >
-                  Edit
-                </button>
-              </Col>
-              <Col className="control-label">
-                <label>{training.formType}</label>
-              </Col>
-            </div>
-          ))}
-        </div>
+        ))}
       </div>
-    );
-  } else {
-    return (
-      <div className="formCompNoBg">
-        <div className="formTitleDiv">
-          <h2 className="formTitle">Trainings</h2>
-        </div>
-        <IfRejected state={getAllTrainings}>
-          <p>Error</p>
-        </IfRejected>
-        <IfPending state={getAllTrainings}>
-          <p>Loading...</p>
-        </IfPending>
-        <IfFulfilled state={getAllTrainings}>
-          <TrainingMod
-            doToggleTrainingDisplay={doToggleTrainingDisplay}
-            data={selectedTraining}
-          />
-        </IfFulfilled>
+    </div>
+  ) : (
+    <div className="formCompNoBg">
+      <div className="formTitleDiv">
+        <h2 className="formTitle">Trainings</h2>
       </div>
-    );
-  }
+      <IfRejected state={getAllTrainings}>
+        <p>Error</p>
+      </IfRejected>
+      <IfPending state={getAllTrainings}>
+        <p>Loading...</p>
+      </IfPending>
+      <IfFulfilled state={getAllTrainings}>
+        <TrainingMod
+          doToggleTrainingDisplay={doToggleTrainingDisplay}
+          data={selectedTraining}
+        />
+      </IfFulfilled>
+    </div>
+  );
 };
 
 export default ManageTraining;
