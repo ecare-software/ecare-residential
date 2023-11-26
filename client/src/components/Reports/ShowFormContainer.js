@@ -18,7 +18,9 @@ import SignatureCanvas from "react-signature-canvas";
 import { FetchHomeData } from "../../utils/FetchHomeData";
 import { DoDeleteRecord } from "../../utils/DoDeleteRecord";
 import NightMonitoring from "../Forms/NightMonitoring";
+
 import ClipLoader from "react-spinners/ClipLoader";
+
 
 const needsNurseSig = ["Health Body Check", "Illness Injury"];
 
@@ -75,10 +77,6 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
     } catch (e) {
       console.log("Error fetching home info");
     }
-  };
-
-  const doPrint = async () => {
-    window.print();
   };
 
   const setApprovedLabel = (approved, label) => {
@@ -351,6 +349,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
         </h6>
       </div>
       <div>
+
         <button
           onClick={() => {
             doPrint();
