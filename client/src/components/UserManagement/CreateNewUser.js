@@ -169,9 +169,15 @@ class CreateNewUser extends Component {
               <option value='Owner/CEO'>Owner/CEO</option>
               <option value='Executive/Director'>Executive Director</option>
               <option value='Administrator'>Administrator</option>
-              <option value='Case/Manager'>Case Manager</option>
               <option value='Supervisor'>Supervisor</option>
+              <option value='Administrative/Assistant'>Administrative Assistant</option>
+              <option value='Lead/Staff'>Lead Staff</option>
+              <option value='Medical/Coordinator'>Medical Coordinator</option>
+              <option value='Therapist'>Therapist</option>
+              <option value='Case/Manager'>Case Manager</option>
               <option value='Direct/Care/Staff'>Direct Care Staff</option>
+              <option value='Awake/Night/Staff'>Awake Night Staff</option>
+              <option value='Volunteer/Staff'>Volunteer Staff</option>
             </select>
           </div>
           <div className='form-group logInInputField'>
