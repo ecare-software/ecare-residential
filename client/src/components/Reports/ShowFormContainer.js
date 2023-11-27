@@ -788,7 +788,7 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
       );
     }
     return Reflect.ownKeys(updatedFormData).length > 0 ? (
-      <div style={{ pageBreakAfter: "always" }}>{comp}</div>
+      <div>{comp}</div>
     ) : (
       <></>
     );
