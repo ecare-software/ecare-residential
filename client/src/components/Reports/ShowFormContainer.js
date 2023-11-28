@@ -78,10 +78,6 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
     }
   };
 
-  const doPrint = async () => {
-    window.print();
-  };
-
   const setApprovedLabel = (approved, label) => {
     if (approved) {
       return `Approved by ${label} ${approvedByText}`;
@@ -352,6 +348,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
         </h6>
       </div>
       <div>
+
         <button
           onClick={() => {
             doPrint();
