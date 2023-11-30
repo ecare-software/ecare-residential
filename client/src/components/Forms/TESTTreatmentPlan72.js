@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef, Component } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import FormError from '../FormMods/FormError';
-import FormAlert from '../Forms/FormAlert';
+import FormAlert from './FormAlert';
 import '../../App.css';
 import Axios from 'axios';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -15,7 +15,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 var interval = 0; // used for autosaving
 let initAutoSave = true;
 
-const TESTTreatmentPlan72 = ({ id, inputData, valuesSet, userObj }) => {
+const TestTreatmentPlan72 = ({ id, inputData, valuesSet, userObj }) => {
   const { firstName, lastName, homeId } = userObj;
 
   const [formData, setFormData] = useState({
@@ -4447,4 +4447,4 @@ const TESTTreatmentPlan72 = ({ id, inputData, valuesSet, userObj }) => {
   }
 };
 
-export default TESTTreatmentPlan72;
+export default TestTreatmentPlan72;

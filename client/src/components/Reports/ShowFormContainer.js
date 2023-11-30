@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 // import TreatmentPlan72 from "../Forms/TreatmentPlan72";
-import TESTTreatmentPlan72 from '../Forms/TESTTreatmentPlan72';
+import TestTreatmentPlan72 from '../Forms/TestTreatmentPlan72';
 import IncidentReport from '../Forms/IncidentReport';
 import SeriousIncidentReport from '../Forms/SeriousIncidentReport';
 import DailyProgress from '../Forms/DailyProgressAndActivity';
@@ -348,7 +348,6 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
         </h6>
       </div>
       <div>
-
         <button
           onClick={() => {
             doPrint();
@@ -678,7 +677,7 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
         //   formData={updatedFormData}
         //   doUpdateFormDates={doUpdateFormDates}
         // />
-        <TESTTreatmentPlan72
+        <TestTreatmentPlan72
           valuesSet='true'
           userObj={userObj}
           formData={updatedFormData}
