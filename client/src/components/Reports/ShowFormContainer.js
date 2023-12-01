@@ -18,9 +18,9 @@ import SignatureCanvas from "react-signature-canvas";
 import { FetchHomeData } from "../../utils/FetchHomeData";
 import { DoDeleteRecord } from "../../utils/DoDeleteRecord";
 import NightMonitoring from "../Forms/NightMonitoring";
+import * as PrintContainer  from "../PrintContainer/PrintContainer";
 
 import ClipLoader from "react-spinners/ClipLoader";
-
 
 const needsNurseSig = ["Health Body Check", "Illness Injury"];
 
@@ -352,7 +352,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
 
         <button
           onClick={() => {
-            doPrint();
+            PrintContainer();
           }}
           className='mr-3 btn btn-light hide-on-print'
         >
