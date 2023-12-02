@@ -363,6 +363,7 @@ const RestraintReport = (props) => {
     }
   };
 
+  // Use Effect for Auto Save
   React.useEffect(() => {
     async function fetchDataAndSetInterval() {
       if (props.valuesSet) {
