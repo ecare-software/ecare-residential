@@ -54,6 +54,9 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
     formData.approved_alt1 === true ? `${formData.approvedByName_alt1}` : ''
   );
 
+  const ShowFormContainer = () => {
+    const [showPrint, setShowPrint] = useState(false);
+
   const [sigCanvasAdmin, setSigCanvasAdmin] = useState(null);
 
   const [sigCanvasNurse, setSigCanvasNurse] = useState(null);
@@ -348,14 +351,13 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
         </h6>
       </div>
       <div>
-        <button
-          onClick={() => {
-            doPrint();
-          }}
-          className='mr-3 btn btn-light hide-on-print'
-        >
-          Print <i className='fas fa-print'></i>
-        </button>
+
+      <button
+        onClick={() => setShowPrint(true)}
+        className='mr-3 btn btn-light hide-on-print'
+      >
+        Print <i className='fas fa-print'></i>
+      </button>
         {isAdminRole && (
           <button
             onClick={() => {
