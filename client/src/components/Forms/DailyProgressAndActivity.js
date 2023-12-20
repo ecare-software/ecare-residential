@@ -433,7 +433,7 @@ class DailyProgressAndActivity extends Component {
           ) : (
             <div className='formFieldsMobile'>
               <div className='form-group logInInputField'>
-                <label className='control-label'>Create Date</label>{" "}
+                <label className='control-label hide hide-on-print'>Create Date</label>{" "}
                 <input
                   onChange={this.handleFieldInput}
                   id='createDate'
@@ -932,12 +932,12 @@ class DailyProgressAndActivity extends Component {
             ) : (
               <div>
                 <div className='form-group logInInputField'>
-                  <label className='control-label'>Create Date</label>{" "}
+                  <label className='control-label hide-on-print'>Create Date</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
                     id='createDate'
                     value={this.dateForDateTimeInputValue()}
-                    className='form-control'
+                    className='form-control hide-on-print'
                     type='datetime-local'
                   />{" "}
                 </div>
