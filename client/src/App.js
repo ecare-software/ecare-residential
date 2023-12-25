@@ -5,7 +5,7 @@ import { FormCountContext } from './context/index';
 //components
 import Header from './components/Header/Header';
 // import TreatmentPlan72 from "./components/Forms/TreatmentPlan72";
-import TestTreatmentPlan72 from './components/Forms/TestTreatmentPlan72';
+import TestTreatmentPlan72 from './components/Forms/TEStTreatmentPlan72';
 import IncidentReport from './components/Forms/IncidentReport';
 import SeriousIncidentReport from './components/Forms/SeriousIncidentReport';
 import RestraintReport from './components/Forms/RestraintReport';
