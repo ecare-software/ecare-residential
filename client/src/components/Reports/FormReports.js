@@ -6,6 +6,10 @@ import ShowFormContainer from "./ShowFormContainer";
 import { Collapse } from "react-bootstrap";
 import ClipLoader from "react-spinners/ClipLoader";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
+import Modal from "react-bootstrap/Modal";
+import ModalBody from "react-bootstrap/ModalBody";
+import ModalHeader from "react-bootstrap/ModalHeader";
+import  PrintContainer  from "../../components/PrintContainer/PrintContainer"
 
 function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
@@ -101,12 +105,20 @@ export class FromReports extends Component {
       doShowFilters: false,
       allUsers: [],
       showForms: false,
+      showPrint: false,
       showTrainings: false,
       isLoading: true,
       showFullForms: false,
       formsToPrint: [],
     };
   }
+   openPrintModal = () => {
+    this.setState({...this.state, showPrint: true});
+  };
+  
+  closePrintModal = () => {
+    this.setState({...this.state, showPrint: false});
+  };
 
   setSelectedForm = (formIndex) => {
     if (formIndex > -1) {
@@ -326,13 +338,16 @@ export class FromReports extends Component {
     */
     setTimeout(() => {
       window.print();
+    }, 5000);
+
+    setTimeout(() => {
       this.setState({ ...this.state, showFullForms: false, formsToPrint: [] });
-    }, 2000);
+    }, 8000);
   };
 
   doShowForms = (showFullForms) => {
     return showFullForms ? (
-      <div className='formLoadingDiv'>
+      <div className='formLoadingDiv hide-on-print'>
         <div>
           <ClipLoader className='formSpinner' size={50} color={"#ffc107"} />
         </div>
@@ -1033,15 +1048,17 @@ export class FromReports extends Component {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              marginTop: 100,
+              marginTop: 200,
+              marginBottom: 200,
             }}
+            className='hide-on-print'
           >
-            <h1 className='hide-on-print'>Printing Forms</h1>
             <div>
               <ClipLoader className='formSpinner' size={50} color={"#ffc107"} />
             </div>
+            <h1>Printing Forms, Please Wait...</h1>
           </div>
-          <div>
+          <div className='hide-on-non-print'>
             {this.state.formsToPrint.map((form, idx) => (
               <div key={`print-form-${idx}`}>{form}</div>
             ))}
@@ -1064,7 +1081,50 @@ export class FromReports extends Component {
                   justifyContent: "space-evenly",
                 }}
               >
+                <button
+                  className="btn btn-default mobileAdj btn-link "
+                  style={{ position: "relative", justifyContent: "flex-end" }}
+                  variant="secondary"
+                  onClick={() => {
+                    this.openPrintModal();
+                  }}
+                  >
+                    <i className="fas fa-print"></i> Print
+                  </button>
+
+                <Modal show={this.state.showPrint}
+                  onHide={() => {
+                    this.setState({ ...this.state, showPrint: false });
+                  }}>
+                  <div style={{ backgroundColor: "white" }}>
+                  <ModalHeader
+                    closeButton
+                    style={{
+                      color: "maroon",
+                      borderColor: "maroon",
+                      textAlign: "center",
+                    }}
+                  >
+                    <h5>Print</h5>
+                  </ModalHeader>
+                  <ModalBody>
+                    <div className="form-group">
+                      <br />
+                      <p>Are you sure you want to print?</p>
+                    </div>
+                    <PrintContainer
+                    id="formPrint"
+                    print={this.props.print}
+                    pos={{ position: "relati", top: "100%", top: "20vh" }}
+                    close={() => {
+                      this.closePrintModal();
+                    }}
+                  />
+                  </ModalBody>
+                  </div>
+                </Modal>
                 {Reflect.ownKeys(this.state.selectedUserForm).length === 0 && (
+                  
                   <button
                     onClick={this.props.resetReports}
                     className='btn btn-link'
@@ -1146,7 +1206,7 @@ export class FromReports extends Component {
           </div>
         )}
         {this.state.isLoading ? (
-          <div className='formLoadingDiv'>
+          <div className='formLoadingDiv hide-on-print'>
             <div>
               <ClipLoader className='formSpinner' size={50} color={"#ffc107"} />
             </div>
@@ -1195,7 +1255,7 @@ export class FromReports extends Component {
             </div>
           </div>
         ) : (
-          <div className='formLoadingDiv'>
+          <div className='formLoadingDiv hide-on-print'>
             <div>
               <ClipLoader className='formSpinner' size={50} color={"#ffc107"} />
             </div>
