@@ -586,7 +586,7 @@ class IllnessInjury extends Component {
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
                 <button
-                  className='lightBtn'
+                  className='lightBtn hide-on-print'
                   onClick={() => {
                     this.validateForm(true);
                   }}
@@ -595,7 +595,7 @@ class IllnessInjury extends Component {
                 </button>
 
                 <button
-                  className='darkBtn'
+                  className='darkBtn hide-on-print'
                   onClick={() => {
                     this.validateForm(false);
                   }}
@@ -861,7 +861,7 @@ class IllnessInjury extends Component {
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   <button
-                    className='lightBtn'
+                    className='lightBtn hide-on-print'
                     onClick={() => {
                       this.validateForm(true);
                     }}
