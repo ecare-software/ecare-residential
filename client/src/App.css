@@ -7,6 +7,16 @@
   }
   .logInInputField {
     break-inside: avoid;
+    margin: 2px 0 2px 0;
+  }
+  .print-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .print-column {
+    flex: 1 0 33.33%; /* Each column takes one-third of the container */
+    box-sizing: border-box; /* Include padding and border in the width */
+    padding: 10px; /* Add padding as needed */
   }
 }
 @page {
@@ -481,6 +491,7 @@ html {
     color: maroon;
     min-height: 60px;
     margin-bottom: 25px;
+    margin-top: 0px;
     padding: 25px 0px 10px 0px;
     border-bottom: 0.5px solid #cfcece;
   }
@@ -502,7 +513,7 @@ html {
   .formTitleDiv {
     color: maroon;
     min-height: 60px;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
     padding: 25px 0px 10px 0px;
     border-bottom: 0.5px solid #cfcece;
   }
@@ -692,7 +703,7 @@ html {
     margin-top: 175px;
   }
   .formFieldsMobile {
-    margin-top: 150px;
+    margin-top: 100px;
   }
   .formFieldsMobileReport {
     margin-top: 50px;

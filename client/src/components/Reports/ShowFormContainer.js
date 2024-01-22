@@ -325,7 +325,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   };
 
   return (
-    <div style={{ margin: "0px 20px 40px 20px" }}>
+    <div style={{ margin: "0px 20px 0px 20px" }}>
       <div className='d-flex align-items-center hide-on-print'>
         <h6 style={{ fontWeight: 400, marginRight: 5 }}>Form Id</h6>{" "}
         <h6 style={{ fontWeight: 300 }}>{formData._id}</h6>
@@ -385,15 +385,15 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
           </div>
         )}
       </div>
-      <div>
-        <div>
+      
+        <div className='hide-on-print'>
           <Form.Row>
             <Col xs='auto'>
               <Form.Check
                 type='checkbox'
                 id='baseBtn'
                 style={{ color: isApproved ? "green" : "red" }}
-                className='mb-2 d-flex align-items-center'
+                className='d-flex align-items-center'
                 label={setApprovedLabel(isApproved, "Admin 1")}
                 disabled={!isAdminRole}
                 checked={isApproved}
@@ -600,7 +600,6 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
               </Form.Row>
             </>
           )}
-        </div>
       </div>
     </div>
   );
