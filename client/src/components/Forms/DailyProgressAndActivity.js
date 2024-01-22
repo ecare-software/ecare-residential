@@ -463,15 +463,15 @@ class DailyProgressAndActivity extends Component {
               </div>
               <Row>
                 <Col md={4} className="print-column">
-                  <div className="form-group">
-                    <h5>
+                  <div className="form-group input-header">
+                    <h6>
                       Daily living / Development skills :{" "}
                       <i>
                         G - Good; A - Adequate; P - Poor; NS - Needs
                         Supervision; PA - Physical Assistance; NA - Not
                         Applicable
                       </i>
-                    </h5>
+                    </h6>
                   </div>
                   <div className="form-group logInInputField">
                     {" "}
@@ -574,11 +574,11 @@ class DailyProgressAndActivity extends Component {
                 </Col>
 
                 <Col md={4} className="print-column">
-                <div className="form-group">
-                    <h5>
+                <div className="form-group input-header">
+                    <h6>
                       Techniques used to encourage positive change :{" "}
                       <i>Y - Yes (if applicable)</i>
-                    </h5>
+                    </h6>
                   </div>
                   <div className="form-group logInInputField">
                     {" "}
@@ -669,10 +669,10 @@ class DailyProgressAndActivity extends Component {
                       type="text"
                     />{" "}
                   </div>
-                  <div className="form-group">
-                    <h5>
+                  <div className="form-group input-header">
+                    <h6>
                       Consequences : <i>Y - Yes (if applicable)</i>
-                    </h5>
+                    </h6>
                   </div>
                   <div className="form-group logInInputField">
                     {" "}
@@ -729,8 +729,8 @@ class DailyProgressAndActivity extends Component {
 
                 <Col md={4} className="print-column">
                   <div className="form-group logInInputField">
-                  <div className="form-group">
-                    <h5>Behavior Summary</h5>
+                  <div className="form-group input-header">
+                    <h6>Behavior Summary</h6>
                   </div>
                     {" "}
                     <label className="control-label">
@@ -985,15 +985,15 @@ class DailyProgressAndActivity extends Component {
                 </div>
                 <Row>
                   <Col md={4} className="print-column">
-                    <div className="form-group">
-                      <h5>
+                    <div className="form-group input-header">
+                      <h6>
                         Daily living/development skills :{" "}
                         <i>
                           G - Good; A - Adequate; P - Poor; NS - Needs
                           Supervision; PA - Physical Assistance; NA - Not
                           Applicable
                         </i>
-                      </h5>
+                      </h6>
                     </div>
                     <div className="form-group logInInputField">
                       {" "}
@@ -1098,11 +1098,11 @@ class DailyProgressAndActivity extends Component {
                   </Col>
 
                   <Col md={4} className="print-column">
-                  <div className="form-group">
-                      <h5>
+                  <div className="form-group input-header">
+                      <h6>
                         Techniques used to encourage positive change :{" "}
                         <i>Y - Yes (if applicable)</i>
-                      </h5>
+                      </h6>
                     </div>
                     <div className="form-group logInInputField">
                       {" "}
@@ -1193,10 +1193,10 @@ class DailyProgressAndActivity extends Component {
                         type="text"
                       />{" "}
                     </div>
-                    <div className="form-group">
-                      <h5>
+                    <div className="form-group input-header">
+                      <h6>
                         Consequences : <i>Y - Yes (if applicable)</i>
-                      </h5>
+                      </h6>
                     </div>
                     <div className="form-group logInInputField">
                       {" "}
@@ -1251,8 +1251,8 @@ class DailyProgressAndActivity extends Component {
                   </Col>
 
                   <Col md={4} className="print-column">
-                  <div className="form-group">
-                      <h5>Behavior Summary</h5>
+                  <div className="form-group input-header">
+                      <h6>Behavior Summary</h6>
                     </div>
                     <div className="form-group logInInputField">
                       {" "}

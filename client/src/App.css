@@ -14,9 +14,12 @@
     flex-wrap: wrap;
   }
   .print-column {
-    flex: 1 0 33.33%; /* Each column takes one-third of the container */
-    box-sizing: border-box; /* Include padding and border in the width */
-    padding: 10px; /* Add padding as needed */
+    flex: 1 0 33.33%;
+    box-sizing: border-box; 
+    padding: 10px; 
+  }
+  .input-header {
+    margin-top: 15px;
   }
 }
 @page {
