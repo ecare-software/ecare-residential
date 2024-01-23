@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {useCallback} from 'react';
 import FormError from '../FormMods/FormError';
 import FormAlert from '../Forms/FormAlert';
 import '../../App.css';
@@ -12,6 +12,7 @@ import { FormSuccessAlert } from '../../utils/FormSuccessAlert';
 import { FormSavedAlert } from '../../utils/FormSavedAlert';
 import TextareaAutosize from 'react-textarea-autosize';
 import StaffOption from '../../utils/StaffOption.util';
+
 const RestraintReport = (props) => {
   const [autoSaveInterval, setAutoSaveInterval] = React.useState(0); // used for autosaving
   const [initAutoSave, setInitAutoSave] = React.useState(false);
@@ -25,7 +26,6 @@ const RestraintReport = (props) => {
     time_of_incident: '',
     staff_witness_name: '',
     staff_witness_gender: '',
-
     client_witness_name1: '',
 
     client_witness_gender1: '',
@@ -218,8 +218,8 @@ const RestraintReport = (props) => {
     });
   };
 
-  // auto save
-  const autoSave = async () => {
+  // Auto Save
+  const autoSave = useCallback(async () => {
     let currentState = JSON.parse(JSON.stringify(formInputs));
     delete currentState.clients;
     delete currentState.staff;
@@ -275,7 +275,7 @@ const RestraintReport = (props) => {
           });
         });
     }
-  };
+  }, [formInputs, initAutoSave, props.userObj]);
 
   const submit = async () => {
     let currentState = JSON.parse(JSON.stringify(formInputs));
@@ -1847,15 +1847,6 @@ const RestraintReport = (props) => {
                 >
                   Save
                 </button>
-
-                {/* <button
-                  className="darkBtn"
-                  onClick={() => {
-                    this.validateForm(false);
-                  }}
-                >
-                  Submit
-                </button> */}
               </div>
             </>
           )}
