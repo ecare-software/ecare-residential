@@ -605,10 +605,12 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   );
 };
 
-const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
+const otherShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
   const [updatedFormData, setFormData] = useState({});
 
   const [route, setRoute] = useState('');
+
+  // ...
 
   useEffect(() => {
     if (
@@ -620,35 +622,10 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     }
   });
 
-  const doSetRoute = (name) => {
-    let droute = '';
-    if (name === '72 Hour Treatment Plan') {
-      droute = 'treatmentPlans72';
-    } else if (name === 'Incident Report') {
-      droute = 'incidentReport';
-    } else if (name === 'Serious Incident Report') {
-      droute = 'seriousIncidentReport';
-    } else if (name === 'Daily Activity') {
-      droute = 'dailyProgressAndActivity';
-    } else if (name === 'Illness Injury') {
-      droute = 'illnessInjury';
-    } else if (name === 'Admission Assessment') {
-      droute = 'admissionAssessment';
-    } else if (name === 'Health Body Check') {
-      droute = 'bodyCheck';
-    } else if (name === 'Restraint Report') {
-      droute = 'restraintReport';
-    } else if (name === 'Orientation Training') {
-      droute = 'orientationTraining';
-    } else if (name === 'Pre Service Training') {
-      droute = 'preServiceTraining';
-    } else if (name === 'Awake Night Staff Signoff') {
-      droute = 'awakeNightStaffSignoff';
-    } else if (name === 'Night Monitoring') {
-      droute = 'nightMonitoring';
-    }
+  // ...
 
-    setRoute(droute);
+  const doSetRoute = (name) => {
+    // ...make
   };
 
   const doUpdateFormDates = async (createDate) => {
@@ -656,7 +633,6 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
       ...updatedFormData,
       lastEditDate: new Date(),
     };
-
     if (createDate) {
       update.createDate = createDate;
     }
@@ -664,7 +640,6 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
       ...updatedFormData,
       ...update,
     });
-
     formData = updatedFormData;
   };
 
@@ -813,4 +788,4 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     </>
   );
 };
-export default ShowFormContainer;
+export default otherShowFormContainer;
