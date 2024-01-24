@@ -478,7 +478,8 @@ class IllnessInjury extends Component {
                       type="text"
                     />{" "}
                   </div>
-
+                </Col>
+                <Col md={4} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -506,8 +507,7 @@ class IllnessInjury extends Component {
                       type="text"
                     />{" "}
                   </div>
-                </Col>
-                <Col md={4} className="print-column">
+
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -535,7 +535,8 @@ class IllnessInjury extends Component {
                       type="text"
                     />{" "}
                   </div>
-
+                </Col>
+                <Col md={4} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -741,6 +742,8 @@ class IllnessInjury extends Component {
                         type="text"
                       />{" "}
                     </div>
+                  </Col>
+                  <Col md={4} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -767,8 +770,7 @@ class IllnessInjury extends Component {
                         type="text"
                       />{" "}
                     </div>
-                  </Col>
-                  <Col md={4} className="print-column">
+
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -795,6 +797,8 @@ class IllnessInjury extends Component {
                         type="text"
                       />{" "}
                     </div>
+                  </Col>
+                  <Col md={4} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
