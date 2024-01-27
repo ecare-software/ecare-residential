@@ -4,8 +4,7 @@ import Cookies from 'universal-cookie';
 import { FormCountContext } from './context/index';
 //components
 import Header from './components/Header/Header';
-// import TreatmentPlan72 from "./components/Forms/TreatmentPlan72";
-import TestTreatmentPlan72 from './components/Forms/TestTreatmentPlan72';
+import TreatmentPlan72 from "./components/Forms/TreatmentPlan72";
 import IncidentReport from './components/Forms/IncidentReport';
 import SeriousIncidentReport from './components/Forms/SeriousIncidentReport';
 import RestraintReport from './components/Forms/RestraintReport';
@@ -802,12 +801,7 @@ function ToggleScreen({
   if (name === 'TreatmentPlan72') {
     return (
       <div>
-        {/* <TreatmentPlan72
-          valuesSet={false}
-          userObj={appState.userObj}
-          id='treatment'
-        /> */}
-        <TestTreatmentPlan72
+        <TreatmentPlan72
           valuesSet={false}
           userObj={appState.userObj}
           id='treatment'
