@@ -1,44 +1,44 @@
-import React, { Component } from "react";
-import Axios from "axios";
-import Cookies from "universal-cookie";
-import { FormCountContext } from "./context/index";
+import React, { Component } from 'react';
+import Axios from 'axios';
+import Cookies from 'universal-cookie';
+import { FormCountContext } from './context/index';
 //components
-import Header from "./components/Header/Header";
+import Header from './components/Header/Header';
 import TreatmentPlan72 from "./components/Forms/TreatmentPlan72";
-import IncidentReport from "./components/Forms/IncidentReport";
-import SeriousIncidentReport from "./components/Forms/SeriousIncidentReport";
-import RestraintReport from "./components/Forms/RestraintReport";
-import DailyProgress from "./components/Forms/DailyProgressAndActivity";
-import AnnualTraining from "./components/Forms/AnnualTraining";
-import MessageBoard from "./components/MessageBoard/MessageBoard";
-import Reports from "./components/Reports/ReportsContainer";
-import UserManagement from "./components/UserManagement/UserManagement";
-import BSNavBar from "./components/NavBar/bsNavBar";
-import DirectMessageBoard from "./components/DirectMessageBoard/DirectMessageBoard";
-import Modal from "react-bootstrap/Modal";
-import ModalBody from "react-bootstrap/ModalBody";
-import ModalHeader from "react-bootstrap/ModalHeader";
-import Clients from "./components/Clients/Clients";
-import FormAlert from "./components/Forms/FormAlert";
-import Documents from "./components/Documents/Documents";
-import IllnessInjury from "./components/Forms/IllnessInjury";
-import AdmissionAssessment from "./components/Forms/AdmissionAssessment";
-import BodyCheck from "./components/Forms/BodyCheck";
-import OrientationTraining from "./components/Forms/OrientationTraining";
-import PreServiceTraining from "./components/Forms/PreServiceTraining";
-import FirstAidCprTraining from "./components/Forms/FirstAidCprTraining";
-import ManageAccountContainer from "./components/ManageAccount/ManageAccountContainer";
-import AwakeNightStaffSignoff from "./components/Forms/AwakeNightStaffSignoff";
-import rightBody from "./images/right_body.png";
-import leftBody from "./images/left_body.png";
-import "./App.css";
-import Fade from "react-reveal/Fade";
-import ManageTraining from "./components/ManageTraining/ManageTraining";
-import { isAdminUser } from "./utils/AdminReportingRoles";
-import NightMonitoring from "./components/Forms/NightMonitoring";
+import IncidentReport from './components/Forms/IncidentReport';
+import SeriousIncidentReport from './components/Forms/SeriousIncidentReport';
+import RestraintReport from './components/Forms/RestraintReport';
+import DailyProgress from './components/Forms/DailyProgressAndActivity';
+import AnnualTraining from './components/Forms/AnnualTraining';
+import MessageBoard from './components/MessageBoard/MessageBoard';
+import Reports from './components/Reports/ReportsContainer';
+import UserManagement from './components/UserManagement/UserManagement';
+import BSNavBar from './components/NavBar/bsNavBar';
+import DirectMessageBoard from './components/DirectMessageBoard/DirectMessageBoard';
+import Modal from 'react-bootstrap/Modal';
+import ModalBody from 'react-bootstrap/ModalBody';
+import ModalHeader from 'react-bootstrap/ModalHeader';
+import Clients from './components/Clients/Clients';
+import FormAlert from './components/Forms/FormAlert';
+import Documents from './components/Documents/Documents';
+import IllnessInjury from './components/Forms/IllnessInjury';
+import AdmissionAssessment from './components/Forms/AdmissionAssessment';
+import BodyCheck from './components/Forms/BodyCheck';
+import OrientationTraining from './components/Forms/OrientationTraining';
+import PreServiceTraining from './components/Forms/PreServiceTraining';
+import FirstAidCprTraining from './components/Forms/FirstAidCprTraining';
+import ManageAccountContainer from './components/ManageAccount/ManageAccountContainer';
+import AwakeNightStaffSignoff from './components/Forms/AwakeNightStaffSignoff';
+import rightBody from './images/right_body.png';
+import leftBody from './images/left_body.png';
+import './App.css';
+import Fade from 'react-reveal/Fade';
+import ManageTraining from './components/ManageTraining/ManageTraining';
+import { isAdminUser } from './utils/AdminReportingRoles';
+import NightMonitoring from './components/Forms/NightMonitoring';
 
 const hideStyle = {
-  display: "none",
+  display: 'none',
 };
 
 const cookies = new Cookies();
@@ -50,21 +50,21 @@ class App extends Component {
     messagesInitLoad: false,
     allUsersSet: false,
     errorModalMeta: {
-      title: "",
-      message: "",
+      title: '',
+      message: '',
     },
-    doDisplay: "Dashboard",
+    doDisplay: 'Dashboard',
     discussionMessages: [],
     allUsers: [],
     showLearnMore: false,
-    name: "",
-    organization: "",
-    emailTo: "",
+    name: '',
+    organization: '',
+    emailTo: '',
     emailSent: false,
     dmTo: null,
     blockCompUpdates: false,
     toUserSelected: null,
-    dmMessage: "",
+    dmMessage: '',
     messages: [],
     discussionMessagesLoading: true,
     showUploadModal: false,
@@ -143,8 +143,8 @@ class App extends Component {
   };
 
   componentDidMount = async () => {
-    let userObj = cookies.get("userObj");
-    let loggedIn = cookies.get("loggedIn");
+    let userObj = cookies.get('userObj');
+    let loggedIn = cookies.get('loggedIn');
     if (userObj && loggedIn) {
       try {
         await this.setState({
@@ -152,8 +152,8 @@ class App extends Component {
           loggedIn: loggedIn,
         });
         const { data: updatedUserData } = await Axios({
-          method: "get",
-          url: "/api/users/" + userObj.email + "/" + userObj.password,
+          method: 'get',
+          url: '/api/users/' + userObj.email + '/' + userObj.password,
         });
         await this.setState({
           userObj: updatedUserData,
@@ -228,10 +228,10 @@ class App extends Component {
       date: new Date().toISOString(),
     };
     try {
-      await Axios.post("/api/discussionMessages", newMessage);
+      await Axios.post('/api/discussionMessages', newMessage);
       this.loadMessage(this.state.userObj);
     } catch (e) {
-      alert("Error loading messages");
+      alert('Error loading messages');
       console.log(e);
     }
   };
@@ -254,7 +254,7 @@ class App extends Component {
   };
 
   getAllUsers = () => {
-    Axios.get("/api/users/" + this.state.userObj.homeId).then((allUsers) => {
+    Axios.get('/api/users/' + this.state.userObj.homeId).then((allUsers) => {
       this.setState({ allUsers: allUsers.data, allUsersSet: true });
     });
   };
@@ -264,13 +264,13 @@ class App extends Component {
       ...this.state,
       loggedIn: false,
       userObj: {},
-      doDisplay: "Dashboard",
+      doDisplay: 'Dashboard',
       allUsersSet: false,
       blockCompUpdates: false,
       nonApprovedFormCountSet: false,
     });
-    cookies.remove("loggedIn", { path: "/" });
-    cookies.remove("userObj", { path: "/" });
+    cookies.remove('loggedIn', { path: '/' });
+    cookies.remove('userObj', { path: '/' });
     window.scrollTo(0, 0);
   };
 
@@ -280,12 +280,12 @@ class App extends Component {
 
   toggleLogIn = async (userObj) => {
     window.scrollTo(0, 0);
-    let message = "";
-    let title = "";
+    let message = '';
+    let title = '';
     if (userObj.newUser) {
       message =
-        "You need to reset your password. Click the Manage Profile button to do so.";
-      title = "Welcome to RCS, Heres some information";
+        'You need to reset your password. Click the Manage Profile button to do so.';
+      title = 'Welcome to RCS, Heres some information';
     }
     await this.setState({
       userObj: userObj,
@@ -327,10 +327,10 @@ class App extends Component {
     const current = new Date();
     const nextYear = new Date();
     nextYear.setFullYear(current.getFullYear() + 1);
-    await cookies.set("userObj", JSON.stringify(cookieToSet.userObj), {
+    await cookies.set('userObj', JSON.stringify(cookieToSet.userObj), {
       expires: nextYear,
     });
-    await cookies.set("loggedIn", cookieToSet.loggedIn, { expires: nextYear });
+    await cookies.set('loggedIn', cookieToSet.loggedIn, { expires: nextYear });
   };
 
   toggleDisplay = (display) => {
@@ -353,20 +353,20 @@ class App extends Component {
 
   sendEmail = () => {
     var thisHook = this;
-    if (this.state.emailTo === "") {
+    if (this.state.emailTo === '') {
       return;
     }
     thisHook.setState({ blockCompUpdates: true });
     Axios.post(
       `/api/email/${this.state.emailTo}/${this.state.name}/${
-        this.state.organization ? this.state.organization : "null"
+        this.state.organization ? this.state.organization : 'null'
       }`
     )
       .then(function (response) {
         thisHook.setState({
-          name: "",
-          emailTo: "",
-          organization: "",
+          name: '',
+          emailTo: '',
+          organization: '',
           emailSent: true,
           showLearnMore: false,
         });
@@ -378,14 +378,14 @@ class App extends Component {
         }, 4000);
       })
       .catch(function (error) {
-        alert("error sending email");
+        alert('error sending email');
         console.log(error);
       });
   };
 
   sendDM = async () => {
     if (
-      this.state.dmTo !== "" ||
+      this.state.dmTo !== '' ||
       (this.state.dmTo !== null && this.state.dmMessage)
     ) {
       try {
@@ -402,7 +402,7 @@ class App extends Component {
         this.setState({
           ...this.state,
           showMessageSent: true,
-          dmMessage: "",
+          dmMessage: '',
         });
 
         const { data } = await Axios.get(
@@ -421,7 +421,7 @@ class App extends Component {
           });
         }, 2000);
       } catch (e) {
-        alert("Error sending message");
+        alert('Error sending message');
         this.setState({
           ...this.state,
           showMessageSent: false,
@@ -453,7 +453,7 @@ class App extends Component {
       const current = new Date();
       const nextYear = new Date();
       nextYear.setFullYear(current.getFullYear() + 1);
-      await cookies.set("userObj", JSON.stringify(newUserData), {
+      await cookies.set('userObj', JSON.stringify(newUserData), {
         expires: nextYear,
       });
     }
@@ -462,7 +462,7 @@ class App extends Component {
 
   setBackButtonBlock = () => {
     window.onbeforeunload = function () {
-      return "Your work will be lost.";
+      return 'Your work will be lost.';
     };
   };
 
@@ -479,7 +479,7 @@ class App extends Component {
               userObj={this.state.userObj}
               appState={this.state}
             ></BSNavBar>
-            {this.state.doDisplay !== "Reports" ? (
+            {this.state.doDisplay !== 'Reports' ? (
               <div id='desktopView' className='row'>
                 <div className='col-sm-3'>
                   <DisplayExtra
@@ -528,8 +528,8 @@ class App extends Component {
                 <div
                   className='col-md-12'
                   style={
-                    this.state.doDisplay === "Reports"
-                      ? { marginBottom: "150px 0px" }
+                    this.state.doDisplay === 'Reports'
+                      ? { marginBottom: '150px 0px' }
                       : hideStyle
                   }
                 >
@@ -542,7 +542,7 @@ class App extends Component {
             )}
             <div
               className='hide-on-print'
-              style={{ position: "fixed", left: "90vw", top: "85vh" }}
+              style={{ position: 'fixed', left: '90vw', top: '85vh' }}
             >
               <button
                 className='btn btn-light extraInfoButton'
@@ -619,15 +619,15 @@ class App extends Component {
             <ModalHeader
               closeButton
               style={{
-                color: "maroon",
-                borderColor: "maroon",
-                textAlign: "center",
-                backgroundColor: "white",
+                color: 'maroon',
+                borderColor: 'maroon',
+                textAlign: 'center',
+                backgroundColor: 'white',
               }}
             >
               <h5>Learn more about our services</h5>
             </ModalHeader>
-            <ModalBody style={{ backgroundColor: "white" }}>
+            <ModalBody style={{ backgroundColor: 'white' }}>
               <div className='form-group'>
                 <p>
                   Complete the form below to get a personalized email describing
@@ -637,7 +637,7 @@ class App extends Component {
                   id='name'
                   onChange={this.handleFieldInput}
                   value={this.state.name}
-                  style={{ width: "100%", margin: "15px 0px" }}
+                  style={{ width: '100%', margin: '15px 0px' }}
                   className='form-control'
                   placeholder='Name'
                 />
@@ -645,7 +645,7 @@ class App extends Component {
                   id='organization'
                   onChange={this.handleFieldInput}
                   value={this.state.organization}
-                  style={{ width: "100%", margin: "15px 0px" }}
+                  style={{ width: '100%', margin: '15px 0px' }}
                   className='form-control'
                   placeholder='Organization'
                 />
@@ -653,16 +653,16 @@ class App extends Component {
                   id='emailTo'
                   onChange={this.handleFieldInput}
                   value={this.state.emailTo}
-                  style={{ width: "100%", margin: "15px 0px" }}
+                  style={{ width: '100%', margin: '15px 0px' }}
                   className='form-control'
                   placeholder='youremail@example.com'
                 />
                 <button
                   style={{
-                    margin: "5px 0px",
-                    float: "right",
-                    backgroundColor: "maroon",
-                    color: "white",
+                    margin: '5px 0px',
+                    float: 'right',
+                    backgroundColor: 'maroon',
+                    color: 'white',
                   }}
                   onClick={this.sendEmail}
                   className='btn'
@@ -693,7 +693,7 @@ function ToggleScreen({
   updateUserData,
   getAllUsers,
 }) {
-  if (name === "Dashboard") {
+  if (name === 'Dashboard') {
     return (
       <div>
         <MessageBoard
@@ -708,7 +708,7 @@ function ToggleScreen({
     );
   }
 
-  if (name === "AwakeNightStaffSignoff") {
+  if (name === 'AwakeNightStaffSignoff') {
     return (
       <div>
         <AwakeNightStaffSignoff
@@ -720,7 +720,7 @@ function ToggleScreen({
     );
   }
 
-  if (name === "Orientation Training") {
+  if (name === 'Orientation Training') {
     return (
       <div>
         <OrientationTraining
@@ -731,7 +731,7 @@ function ToggleScreen({
     );
   }
 
-  if (name === "Pre Service Training") {
+  if (name === 'Pre Service Training') {
     return (
       <div>
         <PreServiceTraining
@@ -742,7 +742,7 @@ function ToggleScreen({
     );
   }
 
-  if (name === "Night Monitoring") {
+  if (name === 'Night Monitoring') {
     return (
       <div>
         <NightMonitoring
@@ -754,7 +754,7 @@ function ToggleScreen({
     );
   }
 
-  if (name === "First aid CPR Training") {
+  if (name === 'First aid CPR Training') {
     return (
       <div>
         <FirstAidCprTraining
@@ -765,7 +765,7 @@ function ToggleScreen({
     );
   }
 
-  if (name === "Documents") {
+  if (name === 'Documents') {
     return (
       <div>
         <Documents userObj={appState.userObj} allUsers={appState.allUsers} />
@@ -773,7 +773,7 @@ function ToggleScreen({
     );
   }
 
-  if (name === "User Management") {
+  if (name === 'User Management') {
     return (
       <div>
         <UserManagement
@@ -786,7 +786,7 @@ function ToggleScreen({
     );
   }
 
-  if (name === "manTraining") {
+  if (name === 'manTraining') {
     return (
       <div>
         <ManageTraining
@@ -798,7 +798,7 @@ function ToggleScreen({
     );
   }
 
-  if (name === "TreatmentPlan72") {
+  if (name === 'TreatmentPlan72') {
     return (
       <div>
         <TreatmentPlan72
@@ -810,7 +810,7 @@ function ToggleScreen({
     );
   }
 
-  if (name === "IncidentReport") {
+  if (name === 'IncidentReport') {
     return (
       <div>
         <IncidentReport
@@ -822,7 +822,7 @@ function ToggleScreen({
     );
   }
 
-  if (name === "SeriousIncidentReport") {
+  if (name === 'SeriousIncidentReport') {
     return (
       <div>
         <SeriousIncidentReport
@@ -834,7 +834,7 @@ function ToggleScreen({
     );
   }
 
-  if (name === "admissionAssessment") {
+  if (name === 'admissionAssessment') {
     return (
       <div>
         <AdmissionAssessment
@@ -846,7 +846,7 @@ function ToggleScreen({
     );
   }
 
-  if (name === "Annual Training") {
+  if (name === 'Annual Training') {
     return (
       <div>
         <AnnualTraining
@@ -858,7 +858,7 @@ function ToggleScreen({
     );
   }
 
-  if (name === "bodyCheck") {
+  if (name === 'bodyCheck') {
     return (
       <div>
         <BodyCheck
@@ -870,7 +870,7 @@ function ToggleScreen({
     );
   }
 
-  if (name === "DailyProgress") {
+  if (name === 'DailyProgress') {
     return (
       <div>
         <DailyProgress
@@ -882,7 +882,7 @@ function ToggleScreen({
     );
   }
 
-  if (name === "IllnessInjury") {
+  if (name === 'IllnessInjury') {
     return (
       <div>
         <IllnessInjury
@@ -894,7 +894,7 @@ function ToggleScreen({
     );
   }
 
-  if (name === "restraintReport") {
+  if (name === 'restraintReport') {
     return (
       <div>
         <RestraintReport
@@ -906,7 +906,7 @@ function ToggleScreen({
     );
   }
 
-  if (name === "Manage Account") {
+  if (name === 'Manage Account') {
     return (
       <div>
         <ManageAccountContainer
@@ -917,7 +917,7 @@ function ToggleScreen({
     );
   }
 
-  if (name === "Clients") {
+  if (name === 'Clients') {
     return (
       <div>
         <Clients
@@ -929,7 +929,7 @@ function ToggleScreen({
     );
   }
 
-  if (name === "Direct Message") {
+  if (name === 'Direct Message') {
     return (
       <div>
         <DirectMessageBoard
@@ -958,7 +958,7 @@ function DisplayExtra({
   showTrainings,
   loadMessage,
 }) {
-  if (name === "TreatmentPlan72") {
+  if (name === 'TreatmentPlan72') {
     return (
       <div id='extraInfo'>
         <div className='extraInfoNavDiv'>
@@ -975,7 +975,7 @@ function DisplayExtra({
     );
   }
 
-  if (name === "Orientation Training") {
+  if (name === 'Orientation Training') {
     return (
       <div id='extraInfo'>
         <div className='extraInfoNavDiv'>
@@ -990,7 +990,7 @@ function DisplayExtra({
     );
   }
 
-  if (name === "Pre Service Training") {
+  if (name === 'Pre Service Training') {
     return (
       <div id='extraInfo'>
         <div className='extraInfoNavDiv'>
@@ -1005,7 +1005,7 @@ function DisplayExtra({
     );
   }
 
-  if (name === "First aid CPR Training") {
+  if (name === 'First aid CPR Training') {
     return (
       <div id='extraInfo'>
         <div className='extraInfoNavDiv'>
@@ -1019,7 +1019,7 @@ function DisplayExtra({
     );
   }
 
-  if (name === "Documents") {
+  if (name === 'Documents') {
     return (
       <div id='extraInfo'>
         <div className='extraInfoNavDiv'>
@@ -1032,7 +1032,7 @@ function DisplayExtra({
     );
   }
 
-  if (name === "restraintReport") {
+  if (name === 'restraintReport') {
     return (
       <div id='extraInfo'>
         <div className='extraInfoNavDiv'>
@@ -1045,7 +1045,7 @@ function DisplayExtra({
     );
   }
 
-  if (name === "admissionAssessment") {
+  if (name === 'admissionAssessment') {
     return (
       <div id='extraInfo'>
         <div className='extraInfoNavDiv'>
@@ -1055,7 +1055,7 @@ function DisplayExtra({
     );
   }
 
-  if (name === "Annual Training") {
+  if (name === 'Annual Training') {
     return (
       <div id='extraInfo'>
         <div className='extraInfoNavDiv'>
@@ -1065,7 +1065,7 @@ function DisplayExtra({
     );
   }
 
-  if (name === "bodyCheck") {
+  if (name === 'bodyCheck') {
     return (
       <div id='extraInfo'>
         <div className='extraInfoNavDiv'>
@@ -1081,11 +1081,11 @@ function DisplayExtra({
           </p>
           <div
             style={{
-              height: "550px",
-              overflow: "scroll",
-              borderColor: "#eee",
+              height: '550px',
+              overflow: 'scroll',
+              borderColor: '#eee',
               borderRadius: 9,
-              borderStyle: "solid",
+              borderStyle: 'solid',
             }}
           >
             <div className='d-flex justify-content-center'>
@@ -1100,7 +1100,7 @@ function DisplayExtra({
     );
   }
 
-  if (name === "DailyProgress") {
+  if (name === 'DailyProgress') {
     return (
       <div id='extraInfo'>
         <div className='extraInfoNavDiv'>
@@ -1113,7 +1113,7 @@ function DisplayExtra({
     );
   }
 
-  if (name === "IllnessInjury") {
+  if (name === 'IllnessInjury') {
     return (
       <div id='extraInfo'>
         <div className='extraInfoNavDiv'>
@@ -1125,7 +1125,7 @@ function DisplayExtra({
     );
   }
 
-  if (name === "IncidentReport") {
+  if (name === 'IncidentReport') {
     return (
       <div id='extraInfo'>
         <div className='extraInfoNavDiv'>
@@ -1138,7 +1138,7 @@ function DisplayExtra({
     );
   }
 
-  if (name === "SeriousIncidentReport") {
+  if (name === 'SeriousIncidentReport') {
     return (
       <div id='extraInfo'>
         <div className='extraInfoNavDiv'>
@@ -1151,15 +1151,15 @@ function DisplayExtra({
     );
   }
 
-  if (name === "Dashboard") {
+  if (name === 'Dashboard') {
     return (
       <div id='extraInfo'>
         <div id=''>
           <h4 className='extraInfoMainTitle'>
-            {userObj.firstName + " " + userObj.lastName}
+            {userObj.firstName + ' ' + userObj.lastName}
           </h4>
           <h6 className='extraInfoSubTitle'>
-            {userObj.jobTitle.replace(/\//gm, " ")}
+            {userObj.jobTitle.replace(/\//gm, ' ')}
           </h6>
         </div>
         <div className='extraInfoNavDiv'>
@@ -1185,7 +1185,7 @@ function DisplayExtra({
     );
   }
 
-  if (name === "Manage Account") {
+  if (name === 'Manage Account') {
     return (
       <div id='extraInfo'>
         <div className='extraInfoNavDiv'>
@@ -1197,7 +1197,7 @@ function DisplayExtra({
     );
   }
 
-  if (name === "Clients") {
+  if (name === 'Clients') {
     return (
       <div id='extraInfo'>
         <div className='extraInfoNavDiv'></div>
@@ -1226,7 +1226,7 @@ function DisplayExtra({
     );
   }
 
-  if (name === "manTraining") {
+  if (name === 'manTraining') {
     return (
       <div id='extraInfo'>
         <div className='extraInfoNavDiv'></div>
@@ -1248,7 +1248,7 @@ function DisplayExtra({
     );
   }
 
-  if (name === "Direct Message") {
+  if (name === 'Direct Message') {
     return (
       <div id='extraInfo'>
         <div className='extraInfoNavDiv'>
@@ -1256,20 +1256,20 @@ function DisplayExtra({
             Select a users and type your message
           </p>
           <div>
-            <div style={{ width: "100%", display: "flex", margin: "10px 0px" }}>
+            <div style={{ width: '100%', display: 'flex', margin: '10px 0px' }}>
               <p
                 className='extraInfoNavSubTitle'
                 style={{
-                  width: "30px",
-                  marginTop: "2px",
+                  width: '30px',
+                  marginTop: '2px',
                 }}
               >
                 To:
               </p>
               <select
                 style={{
-                  flex: "1",
-                  height: "30px",
+                  flex: '1',
+                  height: '30px',
                 }}
                 onChange={(e) => {
                   setDmToUser(e.target.value);
@@ -1293,7 +1293,7 @@ function DisplayExtra({
                   })}
               </select>
             </div>
-            <div style={{ width: "100%", margin: "10px 0px" }}>
+            <div style={{ width: '100%', margin: '10px 0px' }}>
               <textarea
                 id='messageText'
                 value={dmMessage}
@@ -1302,25 +1302,25 @@ function DisplayExtra({
                 }}
                 cols='1'
                 style={{
-                  height: "150px",
-                  width: "100%",
-                  flex: "1",
-                  borderColor: "#eee",
-                  margin: "0px 5px",
-                  resize: "none",
-                  borderRight: "none",
-                  borderTop: "none",
-                  borderLeft: "none",
+                  height: '150px',
+                  width: '100%',
+                  flex: '1',
+                  borderColor: '#eee',
+                  margin: '0px 5px',
+                  resize: 'none',
+                  borderRight: 'none',
+                  borderTop: 'none',
+                  borderLeft: 'none',
                 }}
                 placeholder='Type your message here..'
               ></textarea>
-              <div style={{ height: 30, width: "100%", margin: "0px 5px" }}>
+              <div style={{ height: 30, width: '100%', margin: '0px 5px' }}>
                 {appState.showMessageSent && (
                   <p
                     style={{
-                      color: "green",
-                      background: "#00800038",
-                      textAlign: "center",
+                      color: 'green',
+                      background: '#00800038',
+                      textAlign: 'center',
                       borderRadius: 5,
                     }}
                   >
@@ -1333,7 +1333,7 @@ function DisplayExtra({
                   if (appState.dmMessage.length > 0 && appState.dmTo) sendDM();
                 }}
                 className='btn btn-light'
-                style={{ margin: "0px 5px", width: "100%" }}
+                style={{ margin: '0px 5px', width: '100%' }}
               >
                 Send <i className='fas fa-paper-plane'></i>
               </button>
@@ -1344,7 +1344,7 @@ function DisplayExtra({
     );
   }
 
-  if (name === "User Management") {
+  if (name === 'User Management') {
     return (
       <div id='extraInfo'>
         <div className='extraInfoNavDiv'>
