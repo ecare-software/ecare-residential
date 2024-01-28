@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-// import TreatmentPlan72 from "../Forms/TreatmentPlan72";
-import TestTreatmentPlan72 from '../Forms/TestTreatmentPlan72';
+import TreatmentPlan72 from '../Forms/TreatmentPlan72';
 import IncidentReport from '../Forms/IncidentReport';
 import SeriousIncidentReport from '../Forms/SeriousIncidentReport';
 import DailyProgress from '../Forms/DailyProgressAndActivity';
@@ -54,9 +53,6 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
     formData.approved_alt1 === true ? `${formData.approvedByName_alt1}` : ''
   );
 
-  const ShowFormContainer = () => {
-    const [showPrint, setShowPrint] = useState(false);
-
   const [sigCanvasAdmin, setSigCanvasAdmin] = useState(null);
 
   const [sigCanvasNurse, setSigCanvasNurse] = useState(null);
@@ -79,6 +75,10 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
     } catch (e) {
       console.log('Error fetching home info');
     }
+  };
+
+  const doPrint = async () => {
+    window.print();
   };
 
   const setApprovedLabel = (approved, label) => {
@@ -351,13 +351,14 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
         </h6>
       </div>
       <div>
-
-      <button
-        onClick={() => setShowPrint(true)}
-        className='mr-3 btn btn-light hide-on-print'
-      >
-        Print <i className='fas fa-print'></i>
-      </button>
+        <button
+          onClick={() => {
+            doPrint();
+          }}
+          className='mr-3 btn btn-light hide-on-print'
+        >
+          Print <i className='fas fa-print'></i>
+        </button>
         {isAdminRole && (
           <button
             onClick={() => {
@@ -605,7 +606,210 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   );
 };
 
-const otherShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
+const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
+  const [updatedFormData, setFormData] = useState({});
+
+  const [route, setRoute] = useState('');
+
+  useEffect(() => {
+    if (
+      Reflect.ownKeys(formData).length > 0 &&
+      Reflect.ownKeys(updatedFormData).length === 0
+    ) {
+      doSetRoute(form.name);
+      setFormData(formData);
+    }
+  });
+
+  const doSetRoute = (name) => {
+    let droute = '';
+    if (name === '72 Hour Treatment Plan') {
+      droute = 'treatmentPlans72';
+    } else if (name === 'Incident Report') {
+      droute = 'incidentReport';
+    } else if (name === 'Serious Incident Report') {
+      droute = 'seriousIncidentReport';
+    } else if (name === 'Daily Activity') {
+      droute = 'dailyProgressAndActivity';
+    } else if (name === 'Illness Injury') {
+      droute = 'illnessInjury';
+    } else if (name === 'Admission Assessment') {
+      droute = 'admissionAssessment';
+    } else if (name === 'Health Body Check') {
+      droute = 'bodyCheck';
+    } else if (name === 'Restraint Report') {
+      droute = 'restraintReport';
+    } else if (name === 'Orientation Training') {
+      droute = 'orientationTraining';
+    } else if (name === 'Pre Service Training') {
+      droute = 'preServiceTraining';
+    } else if (name === 'Awake Night Staff Signoff') {
+      droute = 'awakeNightStaffSignoff';
+    } else if (name === 'Night Monitoring') {
+      droute = 'nightMonitoring';
+    }
+
+    setRoute(droute);
+  };
+
+  const doUpdateFormDates = async (createDate) => {
+    const update = {
+      ...updatedFormData,
+      lastEditDate: new Date(),
+    };
+
+    if (createDate) {
+      update.createDate = createDate;
+    }
+    await setFormData({
+      ...updatedFormData,
+      ...update,
+    });
+
+    formData = updatedFormData;
+  };
+
+  const displayComponent = (name) => {
+    let comp = {};
+
+    if (name === '72 Hour Treatment Plan') {
+      comp = (
+        <TreatmentPlan72
+          valuesSet='true'
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    } else if (name === 'Incident Report') {
+      comp = (
+        <IncidentReport
+          valuesSet='true'
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    } else if (name === 'Serious Incident Report') {
+      comp = (
+        <SeriousIncidentReport
+          valuesSet='true'
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    } else if (name === 'Daily Activity') {
+      comp = (
+        <DailyProgress
+          valuesSet='true'
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    } else if (name === 'Illness Injury') {
+      comp = (
+        <IllnessInjury
+          valuesSet='true'
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    } else if (name === 'Admission Assessment') {
+      comp = (
+        <AdmissionAssessment
+          valuesSet='true'
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    } else if (name === 'Health Body Check') {
+      comp = (
+        <BodyCheck
+          valuesSet='true'
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    } else if (name === 'Restraint Report') {
+      comp = (
+        <RestraintReport
+          valuesSet='true'
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    } else if (name === 'Orientation Training') {
+      comp = (
+        <OrientationTraining
+          valuesSet='true'
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    } else if (name === 'Pre Service Training') {
+      comp = (
+        <PreServiceTraining
+          valuesSet='true'
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    } else if (name === 'Awake Night Staff Signoff') {
+      comp = (
+        <AwakeNightStaffSignoff
+          valuesSet='true'
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    } else if (name === 'Night Monitoring') {
+      comp = (
+        <NightMonitoring
+          valuesSet='true'
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    } else {
+      comp = (
+        <div>
+          <h1>404 - Form Not Found</h1>
+        </div>
+      );
+    }
+    return Reflect.ownKeys(updatedFormData).length > 0 ? (
+      <div>{comp}</div>
+    ) : (
+      <></>
+    );
+  };
+
+  return (
+    <>
+      {Reflect.ownKeys(updatedFormData).length > 0 && (
+        <MetaDetails
+          formData={updatedFormData}
+          isAdminRole={isAdminRole}
+          route={route}
+          userObj={userObj}
+        />
+      )}
+      {displayComponent(form.name ? form.name : form.formType)}
+    </>
+  );
+};
+
+const OtherShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
   const [updatedFormData, setFormData] = useState({});
 
   const [route, setRoute] = useState('');
@@ -648,18 +852,18 @@ const otherShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
 
     if (name === '72 Hour Treatment Plan') {
       comp = (
-        // <TreatmentPlan72
-        //   valuesSet='true'
-        //   userObj={userObj}
-        //   formData={updatedFormData}
-        //   doUpdateFormDates={doUpdateFormDates}
-        // />
-        <TestTreatmentPlan72
+        <TreatmentPlan72
           valuesSet='true'
           userObj={userObj}
           formData={updatedFormData}
           doUpdateFormDates={doUpdateFormDates}
         />
+        // <TestTreatmentPlan72
+        //   valuesSet='true'
+        //   userObj={userObj}
+        //   formData={updatedFormData}
+        //   doUpdateFormDates={doUpdateFormDates}
+        // />
       );
     } else if (name === 'Incident Report') {
       comp = (
@@ -788,4 +992,5 @@ const otherShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     </>
   );
 };
-export default otherShowFormContainer;
+
+export default ShowFormContainer;
