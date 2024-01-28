@@ -1233,7 +1233,7 @@ class RestraintReport extends Component {
                   <ClipLoader
                     className="formSpinner"
                     size={50}
-                    color={"#ffc107"}
+                    color={'#ffc107'}
                   />
                 </div>
 
@@ -1853,10 +1853,10 @@ class RestraintReport extends Component {
             <div className="sigSection">
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
                 }}
               >
                 <SignatureCanvas
@@ -1869,7 +1869,7 @@ class RestraintReport extends Component {
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor="#eeee"
                 />
@@ -1877,7 +1877,7 @@ class RestraintReport extends Component {
             </div>
             {!this.props.formData.approved && (
               <>
-                <FormError errorId={this.props.id + "-error"} />
+                <FormError errorId={this.props.id + '-error'} />
                 <div
                   className="form-group logInInputField"
                   style={{ display: "flex", justifyContent: "space-between" }}
@@ -1892,7 +1892,7 @@ class RestraintReport extends Component {
                   </button>
 
                   {/* <button
-                    className="darkBtn"
+                    className='darkBtn'
                     onClick={() => {
                       this.validateForm(false);
                     }}
