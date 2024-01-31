@@ -1306,17 +1306,12 @@ class IncidentReport extends Component {
                       <label className="control-label">
                         Explain the Incident
                       </label>{" "}
-                      {/* <div className="hide-on-print"> */}
                         <TextareaAutosize
                           onChange={this.handleFieldInput}
                           value={this.state.incident_explaination}
                           id="incident_explaination"
                           className="form-control"
                         ></TextareaAutosize>
-                      {/* </div> */}
-                      <p className="hide-on-non-print">
-                        {this.state.incident_explaination}
-                      </p>
                     </div>
                     <div className="form-group logInInputField">
                       {" "}
@@ -1337,29 +1332,24 @@ class IncidentReport extends Component {
                       <label className="control-label">
                         Result of the incident
                       </label>{" "}
-                      {/* <div className="hide-on-print"> */}
                         <TextareaAutosize
                           onChange={this.handleFieldInput}
                           value={this.state.result}
                           id="result"
                           className="form-control"
                         ></TextareaAutosize>
-                      {/* </div> */}
-                      <p className="hide-on-non-print">{this.state.result}</p>
                     </div>
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
                         Were you able to prevent a more serious incident ?
                       </label>{" "}
-                      {/* <div className="hide-on-print"> */}
                         <TextareaAutosize
                           onChange={this.handleFieldInput}
                           value={this.state.able_to_prevent}
                           id="able_to_prevent"
                           className="form-control"
                         ></TextareaAutosize>
-                      {/* </div> */}
                       <p className="hide-on-non-print">
                         {this.state.able_to_prevent}
                       </p>
@@ -1406,17 +1396,12 @@ class IncidentReport extends Component {
                       <label className="control-label">
                         Results After Following Up
                       </label>{" "}
-                      {/* <div className="hide-on-print"> */}
                         <TextareaAutosize
                           onChange={this.handleFieldInput}
                           value={this.state.follow_up_results}
                           id="follow_up_results"
                           className="form-control"
                         ></TextareaAutosize>
-                      {/* </div> */}
-                      <p className="hide-on-non-print">
-                        {this.state.follow_up_results}
-                      </p>
                     </div>
                   </Col>
                 </Row>
