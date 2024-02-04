@@ -506,7 +506,7 @@ class IncidentReport extends Component {
             <React.Fragment />
           )}
           <div className="formTitleDiv">
-            <h2 className="formTitle">Incident Report</h2>
+            <h4 className="formTitle">Incident Report</h4>
             <h5
               className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}
@@ -1013,7 +1013,7 @@ class IncidentReport extends Component {
             <React.Fragment />
           )}
           <div className="formTitleDivReport">
-            <h2 className="formTitle">Incident Report</h2>
+            <h4 className="formTitle">Incident Report</h4>
           </div>
 
           <div className="formFieldsMobileReport">
