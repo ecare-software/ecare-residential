@@ -10,8 +10,8 @@ import SignatureCanvas from "react-signature-canvas";
 import { GetUserSig } from "../../utils/GetUserSig";
 import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
 import { FormSavedAlert } from "../../utils/FormSavedAlert";
-import { isAdminUser } from "../../utils/AdminReportingRoles";
 import TextareaAutosize from "react-textarea-autosize";
+import { Container, Row, Col } from "react-bootstrap";
 var interval = 0; // used for autosaving
 let initAutoSave = false;
 class IllnessInjury extends Component {
@@ -331,15 +331,15 @@ class IllnessInjury extends Component {
   render() {
     if (!this.props.valuesSet) {
       return (
-        <div className='formComp'>
+        <div className="formComp">
           {this.state.formSubmitted || this.state.formHasError ? (
             <React.Fragment>
               {this.state.formSubmitted && <FormSuccessAlert />}
               <FormAlert
                 doShow={this.state.formHasError}
                 toggleErrorAlert={this.toggleErrorAlert}
-                type='danger'
-                heading='Error Submitting form'
+                type="danger"
+                heading="Error Submitting form"
               >
                 <p>{this.state.formErrorMessage}</p>
               </FormAlert>
@@ -347,10 +347,10 @@ class IllnessInjury extends Component {
           ) : (
             <React.Fragment />
           )}
-          <div className='formTitleDiv'>
-            <h2 className='formTitle'>Illness and Injury Report</h2>
+          <div className="formTitleDiv">
+            <h2 className="formTitle">Illness and Injury Report</h2>
             <h5
-              className='text-center'
+              className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}
             >
               {this.state.lastEditDate ? (
@@ -369,10 +369,10 @@ class IllnessInjury extends Component {
             </h5>
           </div>
           {this.state.loadingClients ? (
-            <div className='formLoadingDiv'>
+            <div className="formLoadingDiv">
               <div>
                 <ClipLoader
-                  className='formSpinner'
+                  className="formSpinner"
                   size={50}
                   color={"#ffc107"}
                 />
@@ -381,22 +381,24 @@ class IllnessInjury extends Component {
               <p>Loading...</p>
             </div>
           ) : (
-            <div className='formFieldsMobile'>
-              <div className='form-group logInInputField'>
-                <label className='control-label hide-on-print'>Create Date</label>{" "}
+            <Container className="print-container">
+              <div className="form-group logInInputField">
+                <label className="control-label hide-on-print">
+                  Create Date
+                </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id='createDate'
+                  id="createDate"
                   value={this.state.createDate}
-                  className='form-control hide-on-print'
-                  type='datetime-local'
+                  className="form-control hide-on-print"
+                  type="datetime-local"
                 />{" "}
               </div>
-              <div className='form-group logInInputField'>
+              <div className="form-group logInInputField">
                 {" "}
-                <label className='control-label'>Child's Name</label>{" "}
+                <label className="control-label">Child's Name</label>{" "}
                 <Form.Control
-                  as='select'
+                  as="select"
                   defaultValue={null}
                   onChange={this.handleClientSelect}
                 >
@@ -408,185 +410,194 @@ class IllnessInjury extends Component {
                   )}
                 </Form.Control>
               </div>
+              <Row>
+                <Col md={4} className="print-column">
+                  <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">
+                      Date and time of illness and/or injury
+                    </label>{" "}
+                    <input
+                      onChange={this.handleFieldInput}
+                      id="dateTimeOccur"
+                      value={this.state.dateTimeOccur}
+                      className="form-control"
+                      type="datetime-local"
+                    />{" "}
+                  </div>
 
-              <div className='form-group logInInputField'>
-                {" "}
-                <label className='control-label'>
-                  Date and time of illness and/or injury
-                </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id='dateTimeOccur'
-                  value={this.state.dateTimeOccur}
-                  className='form-control'
-                  type='datetime-local'
-                />{" "}
-              </div>
+                  <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">
+                      Nature of illness and/or injury
+                    </label>{" "}
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      id="illnessInjury"
+                      value={this.state.illnessInjury}
+                      className="form-control"
+                    ></TextareaAutosize>
+                  </div>
 
-              <div className='form-group logInInputField'>
-                {" "}
-                <label className='control-label'>
-                  Nature of illness and/or injury
-                </label>{" "}
-                <TextareaAutosize
-                  onChange={this.handleFieldInput}
-                  id='illnessInjury'
-                  value={this.state.illnessInjury}
-                  className='form-control'
-                ></TextareaAutosize>
-              </div>
+                  <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">
+                      Initial response action taken
+                    </label>{" "}
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      id="initialResponse"
+                      value={this.state.initialResponse}
+                      className="form-control"
+                    ></TextareaAutosize>
+                  </div>
 
-              <div className='form-group logInInputField'>
-                {" "}
-                <label className='control-label'>
-                  Initial response action taken
-                </label>{" "}
-                <TextareaAutosize
-                  onChange={this.handleFieldInput}
-                  id='initialResponse'
-                  value={this.state.initialResponse}
-                  className='form-control'
-                ></TextareaAutosize>
-              </div>
+                  <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">
+                      Temperature Taken?
+                    </label>{" "}
+                    <input
+                      onChange={this.handleFieldInput}
+                      id="tempTaken"
+                      value={this.state.tempTaken}
+                      className="form-control"
+                      type="text"
+                    />{" "}
+                  </div>
 
-              <div className='form-group logInInputField'>
-                {" "}
-                <label className='control-label'>Temperature Taken?</label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id='tempTaken'
-                  value={this.state.tempTaken}
-                  className='form-control'
-                  type='text'
-                />{" "}
-              </div>
+                  <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">Method</label>{" "}
+                    <input
+                      onChange={this.handleFieldInput}
+                      id="tempMethodTaken"
+                      value={this.state.tempMethodTaken}
+                      className="form-control"
+                      type="text"
+                    />{" "}
+                  </div>
+                </Col>
+                <Col md={4} className="print-column">
+                  <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">
+                      Initial Reading
+                    </label>{" "}
+                    <input
+                      onChange={this.handleFieldInput}
+                      id="tempInitialReading"
+                      value={this.state.tempInitialReading}
+                      className="form-control"
+                      type="text"
+                    />{" "}
+                  </div>
 
-              <div className='form-group logInInputField'>
-                {" "}
-                <label className='control-label'>Method</label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id='tempMethodTaken'
-                  value={this.state.tempMethodTaken}
-                  className='form-control'
-                  type='text'
-                />{" "}
-              </div>
+                  <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">
+                      Notification to Supervisor{" "}
+                    </label>{" "}
+                    <input
+                      onChange={this.handleFieldInput}
+                      id="supervisorNotified"
+                      value={this.state.supervisorNotified}
+                      className="form-control"
+                      type="text"
+                    />{" "}
+                  </div>
 
-              <div className='form-group logInInputField'>
-                {" "}
-                <label className='control-label'>Initial Reading</label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id='tempInitialReading'
-                  value={this.state.tempInitialReading}
-                  className='form-control'
-                  type='text'
-                />{" "}
-              </div>
+                  <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">
+                      Supervisor notified at
+                    </label>{" "}
+                    <input
+                      onChange={this.handleFieldInput}
+                      id="notifiedAt"
+                      value={this.state.notifiedAt}
+                      className="form-control"
+                      type="datetime-local"
+                    />{" "}
+                  </div>
 
-              <div className='form-group logInInputField'>
-                {" "}
-                <label className='control-label'>
-                  Notification to Supervisor{" "}
-                </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id='supervisorNotified'
-                  value={this.state.supervisorNotified}
-                  className='form-control'
-                  type='text'
-                />{" "}
-              </div>
+                  <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">
+                      Supervisor notified by
+                    </label>{" "}
+                    <input
+                      onChange={this.handleFieldInput}
+                      id="notifiedBy"
+                      value={this.state.notifiedBy}
+                      className="form-control"
+                      type="text"
+                    />{" "}
+                  </div>
+                </Col>
+                <Col md={4} className="print-column">
+                  <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">
+                      Follow-up by administrator
+                    </label>{" "}
+                    <input
+                      onChange={this.handleFieldInput}
+                      id="adminFollowUp"
+                      value={this.state.adminFollowUp}
+                      className="form-control"
+                      type="text"
+                    />{" "}
+                  </div>
 
-              <div className='form-group logInInputField'>
-                {" "}
-                <label className='control-label'>
-                  Supervisor notified at
-                </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id='notifiedAt'
-                  value={this.state.notifiedAt}
-                  className='form-control'
-                  type='datetime-local'
-                />{" "}
-              </div>
+                  <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">
+                      Last medication and time given to prior onset
+                    </label>{" "}
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      id="lastMedicationGiven"
+                      value={this.state.lastMedicationGiven}
+                      className="form-control"
+                    ></TextareaAutosize>
+                  </div>
 
-              <div className='form-group logInInputField'>
-                {" "}
-                <label className='control-label'>
-                  Supervisor notified by
-                </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id='notifiedBy'
-                  value={this.state.notifiedBy}
-                  className='form-control'
-                  type='text'
-                />{" "}
-              </div>
+                  <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">
+                      Other actions or treatment taken
+                    </label>{" "}
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      id="otherActionsTreatment"
+                      value={this.state.otherActionsTreatment}
+                      className="form-control"
+                    ></TextareaAutosize>
+                  </div>
 
-              <div className='form-group logInInputField'>
-                {" "}
-                <label className='control-label'>
-                  Follow-up by administrator
-                </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id='adminFollowUp'
-                  value={this.state.adminFollowUp}
-                  className='form-control'
-                  type='text'
-                />{" "}
-              </div>
-
-              <div className='form-group logInInputField'>
-                {" "}
-                <label className='control-label'>
-                  Last medication and time given to prior onset
-                </label>{" "}
-                <TextareaAutosize
-                  onChange={this.handleFieldInput}
-                  id='lastMedicationGiven'
-                  value={this.state.lastMedicationGiven}
-                  className='form-control'
-                ></TextareaAutosize>
-              </div>
-
-              <div className='form-group logInInputField'>
-                {" "}
-                <label className='control-label'>
-                  Other actions or treatment taken
-                </label>{" "}
-                <TextareaAutosize
-                  onChange={this.handleFieldInput}
-                  id='otherActionsTreatment'
-                  value={this.state.otherActionsTreatment}
-                  className='form-control'
-                ></TextareaAutosize>
-              </div>
-
-              <div className='form-group logInInputField'>
-                {" "}
-                <label className='control-label'>
-                  Treatment (including medications) authorized by
-                </label>{" "}
-                <TextareaAutosize
-                  onChange={this.handleFieldInput}
-                  id='treatmentAuthBy'
-                  value={this.state.treatmentAuthBy}
-                  className='form-control'
-                ></TextareaAutosize>
-              </div>
+                  <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">
+                      Treatment (including medications) authorized by
+                    </label>{" "}
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      id="treatmentAuthBy"
+                      value={this.state.treatmentAuthBy}
+                      className="form-control"
+                    ></TextareaAutosize>
+                  </div>
+                </Col>
+              </Row>
 
               <FormError errorId={this.props.id + "-error"} />
               <div
-                className='form-group logInInputField'
+                className="form-group logInInputField"
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
                 <button
-                  className='lightBtn'
+                  className="lightBtn hide-on-print"
                   onClick={() => {
                     this.validateForm(true);
                   }}
@@ -595,7 +606,7 @@ class IllnessInjury extends Component {
                 </button>
 
                 <button
-                  className='darkBtn'
+                  className="darkBtn hide-on-print"
                   onClick={() => {
                     this.validateForm(false);
                   }}
@@ -603,21 +614,21 @@ class IllnessInjury extends Component {
                   Submit
                 </button>
               </div>
-            </div>
+            </Container>
           )}
         </div>
       );
     } else {
       return (
-        <div className='formComp'>
+        <div className="formComp">
           {this.state.formSubmitted || this.state.formHasError ? (
             <React.Fragment>
               {this.state.formSubmitted && <FormSavedAlert />}
               <FormAlert
                 doShow={this.state.formHasError}
                 toggleErrorAlert={this.toggleErrorAlert}
-                type='danger'
-                heading='Error Submitting form'
+                type="danger"
+                heading="Error Submitting form"
               >
                 <p>{this.state.formErrorMessage}</p>
               </FormAlert>
@@ -625,16 +636,16 @@ class IllnessInjury extends Component {
           ) : (
             <React.Fragment />
           )}
-          <div className='formTitleDivReport'>
-            <h2 className='formTitle'>Illness and Injury Report</h2>
+          <div className="formTitleDivReport">
+            <h2 className="formTitle">Illness and Injury Report</h2>
           </div>
 
-          <div className='formFieldsMobileReport'>
+          <div className="formFieldsMobileReport">
             {this.state.loadingClients ? (
-              <div className='formLoadingDiv'>
+              <div className="formLoadingDiv">
                 <div>
                   <ClipLoader
-                    className='formSpinner'
+                    className="formSpinner"
                     size={50}
                     color={"#ffc107"}
                   />
@@ -643,192 +654,205 @@ class IllnessInjury extends Component {
                 <p>Loading...</p>
               </div>
             ) : (
-              <div>
-                <div className='form-group logInInputField'>
-                  <label className='control-label hide-on-print'>Create Date</label>{" "}
+              <Container className="print-container">
+                <div className="form-group logInInputField">
+                  <label className="control-label hide-on-print">
+                    Create Date
+                  </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id='createDate'
+                    id="createDate"
                     value={this.dateForDateTimeInputValue()}
-                    className='form-control hide-on-print'
-                    type='datetime-local'
+                    className="form-control hide-on-print"
+                    type="datetime-local"
                   />{" "}
                 </div>
-                <div className='form-group logInInputField'>
+                <div className="form-group logInInputField">
                   {" "}
-                  <label className='control-label'>Child's Name</label>{" "}
+                  <label className="control-label">Child's Name</label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id='childMeta_name'
+                    id="childMeta_name"
                     value={this.state.childMeta_name}
-                    className='form-control'
-                    type='text'
+                    className="form-control"
+                    type="text"
                   />{" "}
                 </div>
-                <div className='form-group logInInputField'>
-                  {" "}
-                  <label className='control-label'>
-                    Date and time of illness and/or injury
-                  </label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    id='dateTimeOccur'
-                    value={this.state.dateTimeOccur}
-                    className='form-control'
-                    type='datetime-local'
-                  />{" "}
-                </div>
-                <div className='form-group logInInputField'>
-                  {" "}
-                  <label className='control-label'>
-                    Nature of illness and/or injury
-                  </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    id='illnessInjury'
-                    value={this.state.illnessInjury}
-                    className='form-control'
-                  ></TextareaAutosize>
-                </div>
-                <div className='form-group logInInputField'>
-                  {" "}
-                  <label className='control-label'>
-                    Initial response action taken
-                  </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    id='initialResponse'
-                    value={this.state.initialResponse}
-                    className='form-control'
-                  ></TextareaAutosize>
-                </div>
-                <div className='form-group logInInputField'>
-                  {" "}
-                  <label className='control-label'>
-                    Temperature Taken?
-                  </label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    id='tempTaken'
-                    value={this.state.tempTaken}
-                    className='form-control'
-                    type='text'
-                  />{" "}
-                </div>
-                <div className='form-group logInInputField'>
-                  {" "}
-                  <label className='control-label'>Method</label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    id='tempMethodTaken'
-                    value={this.state.tempMethodTaken}
-                    className='form-control'
-                    type='text'
-                  />{" "}
-                </div>
-                <div className='form-group logInInputField'>
-                  {" "}
-                  <label className='control-label'>Initial Reading</label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    id='tempInitialReading'
-                    value={this.state.tempInitialReading}
-                    className='form-control'
-                    type='text'
-                  />{" "}
-                </div>
-                <div className='form-group logInInputField'>
-                  {" "}
-                  <label className='control-label'>
-                    Notification to Supervisor{" "}
-                  </label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    id='supervisorNotified'
-                    value={this.state.supervisorNotified}
-                    className='form-control'
-                    type='text'
-                  />{" "}
-                </div>
-                <div className='form-group logInInputField'>
-                  {" "}
-                  <label className='control-label'>
-                    Supervisor notified at
-                  </label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    id='notifiedAt'
-                    value={this.state.notifiedAt}
-                    className='form-control'
-                    type='datetime-local'
-                  />{" "}
-                </div>
-                <div className='form-group logInInputField'>
-                  {" "}
-                  <label className='control-label'>
-                    Supervisor notified by
-                  </label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    id='notifiedBy'
-                    value={this.state.notifiedBy}
-                    className='form-control'
-                    type='text'
-                  />{" "}
-                </div>
-                <div className='form-group logInInputField'>
-                  {" "}
-                  <label className='control-label'>
-                    Follow-up by administrator
-                  </label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    id='adminFollowUp'
-                    value={this.state.adminFollowUp}
-                    className='form-control'
-                    type='text'
-                  />{" "}
-                </div>
-                <div className='form-group logInInputField'>
-                  {" "}
-                  <label className='control-label'>
-                    Last medication and time given to prior onset
-                  </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    id='lastMedicationGiven'
-                    value={this.state.lastMedicationGiven}
-                    className='form-control'
-                  ></TextareaAutosize>
-                </div>
-                <div className='form-group logInInputField'>
-                  {" "}
-                  <label className='control-label'>
-                    Other actions or treatment taken
-                  </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    id='otherActionsTreatment'
-                    value={this.state.otherActionsTreatment}
-                    className='form-control'
-                  ></TextareaAutosize>
-                </div>
-                <div className='form-group logInInputField'>
-                  {" "}
-                  <label className='control-label'>
-                    Treatment (including medications) authorized by
-                  </label>{" "}
-                  <TextareaAutosize
-                    onChange={this.handleFieldInput}
-                    id='treatmentAuthBy'
-                    value={this.state.treatmentAuthBy}
-                    className='form-control'
-                  ></TextareaAutosize>
-                </div>
-              </div>
+                <Row>
+                  <Col md={4} className="print-column">
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">
+                        Date and time of illness and/or injury
+                      </label>{" "}
+                      <input
+                        onChange={this.handleFieldInput}
+                        id="dateTimeOccur"
+                        value={this.state.dateTimeOccur}
+                        className="form-control"
+                        type="datetime-local"
+                      />{" "}
+                    </div>
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">
+                        Nature of illness and/or injury
+                      </label>{" "}
+                      <TextareaAutosize
+                        onChange={this.handleFieldInput}
+                        id="illnessInjury"
+                        value={this.state.illnessInjury}
+                        className="form-control"
+                      ></TextareaAutosize>
+                    </div>
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">
+                        Initial response action taken
+                      </label>{" "}
+                      <TextareaAutosize
+                        onChange={this.handleFieldInput}
+                        id="initialResponse"
+                        value={this.state.initialResponse}
+                        className="form-control"
+                      ></TextareaAutosize>
+                    </div>
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">
+                        Temperature Taken?
+                      </label>{" "}
+                      <input
+                        onChange={this.handleFieldInput}
+                        id="tempTaken"
+                        value={this.state.tempTaken}
+                        className="form-control"
+                        type="text"
+                      />{" "}
+                    </div>
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">Method</label>{" "}
+                      <input
+                        onChange={this.handleFieldInput}
+                        id="tempMethodTaken"
+                        value={this.state.tempMethodTaken}
+                        className="form-control"
+                        type="text"
+                      />{" "}
+                    </div>
+                  </Col>
+                  <Col md={4} className="print-column">
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">
+                        Initial Reading
+                      </label>{" "}
+                      <input
+                        onChange={this.handleFieldInput}
+                        id="tempInitialReading"
+                        value={this.state.tempInitialReading}
+                        className="form-control"
+                        type="text"
+                      />{" "}
+                    </div>
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">
+                        Notification to Supervisor{" "}
+                      </label>{" "}
+                      <input
+                        onChange={this.handleFieldInput}
+                        id="supervisorNotified"
+                        value={this.state.supervisorNotified}
+                        className="form-control"
+                        type="text"
+                      />{" "}
+                    </div>
+
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">
+                        Supervisor notified at
+                      </label>{" "}
+                      <input
+                        onChange={this.handleFieldInput}
+                        id="notifiedAt"
+                        value={this.state.notifiedAt}
+                        className="form-control"
+                        type="datetime-local"
+                      />{" "}
+                    </div>
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">
+                        Supervisor notified by
+                      </label>{" "}
+                      <input
+                        onChange={this.handleFieldInput}
+                        id="notifiedBy"
+                        value={this.state.notifiedBy}
+                        className="form-control"
+                        type="text"
+                      />{" "}
+                    </div>
+                  </Col>
+                  <Col md={4} className="print-column">
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">
+                        Follow-up by administrator
+                      </label>{" "}
+                      <input
+                        onChange={this.handleFieldInput}
+                        id="adminFollowUp"
+                        value={this.state.adminFollowUp}
+                        className="form-control"
+                        type="text"
+                      />{" "}
+                    </div>
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">
+                        Last medication and time given to prior onset
+                      </label>{" "}
+                      <TextareaAutosize
+                        onChange={this.handleFieldInput}
+                        id="lastMedicationGiven"
+                        value={this.state.lastMedicationGiven}
+                        className="form-control"
+                      ></TextareaAutosize>
+                    </div>
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">
+                        Other actions or treatment taken
+                      </label>{" "}
+                      <TextareaAutosize
+                        onChange={this.handleFieldInput}
+                        id="otherActionsTreatment"
+                        value={this.state.otherActionsTreatment}
+                        className="form-control"
+                      ></TextareaAutosize>
+                    </div>
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">
+                        Treatment (including medications) authorized by
+                      </label>{" "}
+                      <TextareaAutosize
+                        onChange={this.handleFieldInput}
+                        id="treatmentAuthBy"
+                        value={this.state.treatmentAuthBy}
+                        className="form-control"
+                      ></TextareaAutosize>
+                    </div>
+                  </Col>
+                </Row>
+              </Container>
             )}
-            <label className='control-label'>Signature</label>{" "}
-            <div className='sigSection'>
+            <label className="control-label">Signature</label>{" "}
+            <div className="sigSection">
               <div
                 style={{
                   width: "100%",
@@ -842,14 +866,14 @@ class IllnessInjury extends Component {
                     this.sigCanvas = ref;
                   }}
                   style={{ border: "solid" }}
-                  penColor='black'
+                  penColor="black"
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
                     className: "sigCanvas",
                   }}
-                  backgroundColor='#eeee'
+                  backgroundColor="#eeee"
                 />
               </div>
             </div>
@@ -857,11 +881,11 @@ class IllnessInjury extends Component {
               <>
                 <FormError errorId={this.props.id + "-error"} />
                 <div
-                  className='form-group logInInputField'
+                  className="form-group logInInputField"
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   <button
-                    className='lightBtn'
+                    className="lightBtn hide-on-print"
                     onClick={() => {
                       this.validateForm(true);
                     }}
