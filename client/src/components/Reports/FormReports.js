@@ -9,7 +9,7 @@ import { isAdminUser } from "../../utils/AdminReportingRoles";
 import Modal from "react-bootstrap/Modal";
 import ModalBody from "react-bootstrap/ModalBody";
 import ModalHeader from "react-bootstrap/ModalHeader";
-import  PrintContainer  from "../../components/PrintContainer/PrintContainer"
+import PrintContainer from "../../components/PrintContainer/PrintContainer";
 
 function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
@@ -112,12 +112,12 @@ export class FromReports extends Component {
       formsToPrint: [],
     };
   }
-   openPrintModal = () => {
-    this.setState({...this.state, showPrint: true});
+  openPrintModal = () => {
+    this.setState({ ...this.state, showPrint: true });
   };
-  
+
   closePrintModal = () => {
-    this.setState({...this.state, showPrint: false});
+    this.setState({ ...this.state, showPrint: false });
   };
 
   setSelectedForm = (formIndex) => {
@@ -1081,18 +1081,18 @@ export class FromReports extends Component {
                   justifyContent: "space-evenly",
                 }}
               >
-                <button
-                  className="btn btn-default mobileAdj btn-link "
+                {/* <button
+                  className='btn btn-default mobileAdj btn-link '
                   style={{ position: "relative", justifyContent: "flex-end" }}
-                  variant="secondary"
+                  variant='secondary'
                   onClick={() => {
                     this.openPrintModal();
                   }}
-                  >
-                    <i className="fas fa-print"></i> Print
-                  </button>
+                >
+                  <i className='fas fa-print'></i> Print
+                </button> */}
 
-                <Modal show={this.state.showPrint}
+                {/* <Modal show={this.state.showPrint}
                   onHide={() => {
                     this.setState({ ...this.state, showPrint: false });
                   }}>
@@ -1122,9 +1122,8 @@ export class FromReports extends Component {
                   />
                   </ModalBody>
                   </div>
-                </Modal>
+                </Modal> */}
                 {Reflect.ownKeys(this.state.selectedUserForm).length === 0 && (
-                  
                   <button
                     onClick={this.props.resetReports}
                     className='btn btn-link'
