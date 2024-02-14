@@ -48,7 +48,7 @@ class SearchContainer extends Component {
   getClients = async () => {
     try {
       let { data: clients } = await Axios.get(
-        `/api/client/${this.props.userObj.homeId}`
+        `/api/client/${this.props.userObj.homeId}?active=true`
       );
       setTimeout(() => {
         this.setState({
