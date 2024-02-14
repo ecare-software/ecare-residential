@@ -59,7 +59,12 @@ router.get("/:clientId/:homeId/", (req, res) => {
 
 // Get all clients in a home
 router.get("/:homeId", (req, res) => {
-  Client.find({ homeId: req.params.homeId })
+  const activeFilter = req.query.active;
+  const filter = { homeId: req.params.homeId };
+  if (activeFilter) {
+    filter.active = true;
+  }
+  Client.find(filter)
     .sort({ childMeta_name: -1 })
     .exec()
     .then((clients) => res.json(clients))

@@ -371,7 +371,7 @@ class BodyCheck extends Component {
   getClients = async () => {
     try {
       let { data: clients } = await Axios.get(
-        `/api/client/${this.props.userObj.homeId}`
+        `/api/client/${this.props.userObj.homeId}?active=true`
       );
 
       clients = clients.filter((client) => {
