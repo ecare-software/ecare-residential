@@ -325,7 +325,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   };
 
   return (
-    <div style={{ margin: "0px 20px 0px 20px" }}>
+    <div className="meta-details-content">
       <div className='d-flex align-items-center hide-on-print'>
         <h6 style={{ fontWeight: 400, marginRight: 5 }}>Form Id</h6>{' '}
         <h6 style={{ fontWeight: 300 }}>{formData._id}</h6>
@@ -384,9 +384,8 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
             </h4>
           </div>
         )}
-      </div>
-      
-        <div className='hide-on-print'>
+      </div> 
+      <div>
           <Form.Row>
             <Col xs='auto'>
               <Form.Check
