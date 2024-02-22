@@ -4,7 +4,7 @@ import Cookies from 'universal-cookie';
 import { FormCountContext } from './context/index';
 //components
 import Header from './components/Header/Header';
-import TreatmentPlan72 from "./components/Forms/TreatmentPlan72";
+import TreatmentPlan72 from './components/Forms/TreatmentPlan72';
 import IncidentReport from './components/Forms/IncidentReport';
 import SeriousIncidentReport from './components/Forms/SeriousIncidentReport';
 import RestraintReport from './components/Forms/RestraintReport';
@@ -715,6 +715,7 @@ function ToggleScreen({
           valuesSet={false}
           userObj={appState.userObj}
           id='AwakeNightStaffSignoff'
+          toggleDisplay={toggleDisplay}
         />
       </div>
     );
