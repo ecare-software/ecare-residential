@@ -1,16 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-script-url */
-import React, { Component } from "react";
-import FormError from "../FormMods/FormError";
-import FormAlert from "../Forms/FormAlert";
-import "../../App.css";
-import Axios from "axios";
-import { Container, Col, Form, Row } from "react-bootstrap";
-import SignatureCanvas from "react-signature-canvas";
-import { GetUserSig } from "../../utils/GetUserSig";
-import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
-import { FormSavedAlert } from "../../utils/FormSavedAlert";
-import { isAdminUser } from "../../utils/AdminReportingRoles";
+import React, { Component } from 'react';
+import FormError from '../FormMods/FormError';
+import FormAlert from '../Forms/FormAlert';
+import '../../App.css';
+import Axios from 'axios';
+import { Container, Col, Form, Row } from 'react-bootstrap';
+import SignatureCanvas from 'react-signature-canvas';
+import { GetUserSig } from '../../utils/GetUserSig';
+import { FormSuccessAlert } from '../../utils/FormSuccessAlert';
+import { FormSavedAlert } from '../../utils/FormSavedAlert';
+import { isAdminUser } from '../../utils/AdminReportingRoles';
 
 class AwakeNightStaffSignoff extends Component {
   constructor(props) {
@@ -77,22 +77,22 @@ class AwakeNightStaffSignoff extends Component {
       sigCanvas18: null,
       sigCanvas19: null,
 
-      createdBy: this.props.valuesSet === true ? "" : this.props.userObj.email,
+      createdBy: this.props.valuesSet === true ? '' : this.props.userObj.email,
 
       createdByName:
         this.props.valuesSet === true
-          ? ""
-          : this.props.userObj.firstName + " " + this.props.userObj.lastName,
+          ? ''
+          : this.props.userObj.firstName + ' ' + this.props.userObj.lastName,
 
       lastEditDate: new Date(),
 
-      homeId: this.props.valuesSet === true ? "" : this.props.userObj.homeId,
+      homeId: this.props.valuesSet === true ? '' : this.props.userObj.homeId,
 
       formHasError: false,
 
       formSubmitted: false,
 
-      formErrorMessage: "",
+      formErrorMessage: '',
 
       loadingSig: true,
 
@@ -109,7 +109,7 @@ class AwakeNightStaffSignoff extends Component {
   toggleErrorAlert = () => {
     this.setState({
       formHasError: !this.state.formHasError,
-      formErrorMessage: "",
+      formErrorMessage: '',
     });
   };
 
@@ -190,16 +190,16 @@ class AwakeNightStaffSignoff extends Component {
       } catch (e) {
         this.setState({
           formHasError: true,
-          formErrorMessage: "Error Submitting Awake Night Staff Sign Off",
+          formErrorMessage: 'Error Submitting Awake Night Staff Sign Off',
         });
       }
     } else {
       currentState.createdBy = this.props.userObj.email;
       currentState.createdByName =
-        this.props.userObj.firstName + " " + this.props.userObj.lastName;
+        this.props.userObj.firstName + ' ' + this.props.userObj.lastName;
       console.log(currentState);
 
-      Axios.post("/api/awakeNightStaffSignoff", currentState)
+      Axios.post('/api/awakeNightStaffSignoff', currentState)
         .then((res) => {
           window.scrollTo(0, 0);
           this.toggleSuccessAlert();
@@ -210,7 +210,7 @@ class AwakeNightStaffSignoff extends Component {
         .catch((e) => {
           this.setState({
             formHasError: true,
-            formErrorMessage: "Error Submitting Awake Night Staff Sign Off",
+            formErrorMessage: 'Error Submitting Awake Night Staff Sign Off',
           });
         });
     }
@@ -238,25 +238,25 @@ class AwakeNightStaffSignoff extends Component {
     }
 
     var keysToExclude = [
-      "formHasError",
-      "formSubmitted",
-      "formErrorMessage",
-      "tempMethodTaken",
-      "tempInitialReading",
-      "adminFollowUp",
-      "lastMedicationGiven",
-      "otherActionsTreatment",
-      "treatmentAuthBy",
+      'formHasError',
+      'formSubmitted',
+      'formErrorMessage',
+      'tempMethodTaken',
+      'tempInitialReading',
+      'adminFollowUp',
+      'lastMedicationGiven',
+      'otherActionsTreatment',
+      'treatmentAuthBy',
     ];
 
     //resubmit fields
     keysToExclude = [
       ...keysToExclude,
-      "__v",
-      "approved",
-      "approvedBy",
-      "approvedByDate",
-      "approvedByName",
+      '__v',
+      'approved',
+      'approvedBy',
+      'approvedByDate',
+      'approvedByName',
     ];
 
     var isValid = true;
@@ -269,7 +269,7 @@ class AwakeNightStaffSignoff extends Component {
           /^\s+$/.test(this.state[key]) ||
           this.state[key].length < 1
         ) {
-          errorFields.push("\n" + key);
+          errorFields.push('\n' + key);
           isValid = false;
         }
       }
@@ -281,7 +281,7 @@ class AwakeNightStaffSignoff extends Component {
         formHasError: true,
         formErrorMessage: `Please complete the following field(s): ${errorFields
           .toString()
-          .replace(/,/g, "\n")}`,
+          .replace(/,/g, '\n')}`,
       });
       return;
     }
@@ -368,28 +368,28 @@ class AwakeNightStaffSignoff extends Component {
               <p className='text-danger'>
                 Warning: Looks like you do not have a user signature set.
                 <br />
-                This form cannot be completed. Visit{" "}
+                This form cannot be completed. Visit{' '}
                 <a
                   target='#'
                   className='text-info pointer'
                   onClick={() => {
                     document
-                      .querySelector(".Submit-a-Form-nav > a")
-                      .classList.remove("active");
+                      .querySelector('.Submit-a-Form-nav > a')
+                      .classList.remove('active');
                     document
-                      .querySelector(".Training-nav > a")
-                      .classList.remove("active");
+                      .querySelector('.Training-nav > a')
+                      .classList.remove('active');
                     document
-                      .querySelector(".nav-link")
-                      .classList.remove("active");
+                      .querySelector('.nav-link')
+                      .classList.remove('active');
                     document
-                      .querySelector(".Manage-Account-nav > a")
-                      .classList.add("active");
-                    this.props.toggleDisplay("Manage Account");
+                      .querySelector('.Manage-Account-nav > a')
+                      .classList.add('active');
+                    this.props.toggleDisplay('Manage Account');
                   }}
                 >
                   Manage Profile
-                </a>{" "}
+                </a>{' '}
                 to set one.
               </p>
             )}
@@ -411,7 +411,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts1Approval");
+                          this.clearFieldInput('ts1Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -425,8 +425,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 d-flex align-items-center justify-content-space-between '
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -434,24 +434,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts1Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts1Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas1 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -473,7 +473,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts2Approval");
+                          this.clearFieldInput('ts2Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -487,8 +487,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -496,24 +496,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts2Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts2Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas2 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -535,7 +535,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts3Approval");
+                          this.clearFieldInput('ts3Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -549,8 +549,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -558,24 +558,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts3Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts3Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas3 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -597,7 +597,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts4Approval");
+                          this.clearFieldInput('ts4Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -611,8 +611,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -620,24 +620,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts4Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts4Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas4 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -659,7 +659,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts5Approval");
+                          this.clearFieldInput('ts5Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -673,8 +673,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -682,24 +682,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts5Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts5Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas5 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -721,7 +721,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts6Approval");
+                          this.clearFieldInput('ts6Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -735,8 +735,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -744,24 +744,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts6Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts6Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas6 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -783,7 +783,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts7Approval");
+                          this.clearFieldInput('ts7Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -797,8 +797,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -806,24 +806,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts7Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts7Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas7 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -845,7 +845,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts8Approval");
+                          this.clearFieldInput('ts8Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -859,8 +859,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -868,24 +868,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts8Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts8Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas8 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -907,7 +907,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts9Approval");
+                          this.clearFieldInput('ts9Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -921,8 +921,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -930,24 +930,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts9Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts9Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas9 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -969,7 +969,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts10Approval");
+                          this.clearFieldInput('ts10Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -983,8 +983,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -992,24 +992,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts10Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts10Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas10 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -1031,7 +1031,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts11Approval");
+                          this.clearFieldInput('ts11Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -1045,8 +1045,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -1054,24 +1054,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts11Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts11Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas11 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -1093,7 +1093,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts12Approval");
+                          this.clearFieldInput('ts12Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -1107,8 +1107,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -1116,24 +1116,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts12Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts12Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas12 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -1155,7 +1155,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts13Approval");
+                          this.clearFieldInput('ts13Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -1169,8 +1169,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -1178,24 +1178,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts13Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts13Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas13 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -1217,7 +1217,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts14Approval");
+                          this.clearFieldInput('ts14Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -1231,8 +1231,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -1240,24 +1240,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts14Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts14Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas14 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -1279,7 +1279,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts15Approval");
+                          this.clearFieldInput('ts15Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -1293,8 +1293,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -1302,24 +1302,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts15Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts15Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas15 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -1341,7 +1341,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts16Approval");
+                          this.clearFieldInput('ts16Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -1355,8 +1355,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -1364,24 +1364,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts16Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts16Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas16 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -1403,7 +1403,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts17Approval");
+                          this.clearFieldInput('ts17Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -1417,8 +1417,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -1426,24 +1426,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts17Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts17Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas17 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -1465,7 +1465,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts18Approval");
+                          this.clearFieldInput('ts18Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -1479,8 +1479,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -1488,24 +1488,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts18Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts18Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas18 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -1527,7 +1527,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts19Approval");
+                          this.clearFieldInput('ts19Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -1541,8 +1541,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -1550,24 +1550,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts19Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts19Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas19 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -1589,7 +1589,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts20Approval");
+                          this.clearFieldInput('ts20Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -1603,8 +1603,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -1612,24 +1612,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts20Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts20Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas20 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -1651,7 +1651,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts21Approval");
+                          this.clearFieldInput('ts21Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -1665,8 +1665,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -1674,24 +1674,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts21Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts21Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas21 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -1713,7 +1713,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts22Approval");
+                          this.clearFieldInput('ts22Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -1727,8 +1727,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -1736,24 +1736,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts22Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts22Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas22 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -1775,7 +1775,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts23Approval");
+                          this.clearFieldInput('ts23Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -1789,8 +1789,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -1798,24 +1798,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts23Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts23Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas23 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -1837,7 +1837,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts24Approval");
+                          this.clearFieldInput('ts24Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -1851,8 +1851,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -1860,24 +1860,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts24Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts24Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas24 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -1899,7 +1899,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts25Approval");
+                          this.clearFieldInput('ts25Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -1913,8 +1913,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -1922,24 +1922,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts25Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts25Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas25 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -1961,7 +1961,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts26Approval");
+                          this.clearFieldInput('ts26Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -1975,8 +1975,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -1984,24 +1984,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts26Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts26Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas26 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -2023,7 +2023,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts27Approval");
+                          this.clearFieldInput('ts27Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -2037,8 +2037,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -2046,24 +2046,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts27Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts27Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas27 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -2085,7 +2085,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts28Approval");
+                          this.clearFieldInput('ts28Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -2099,8 +2099,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -2108,24 +2108,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts28Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts28Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas28 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -2147,7 +2147,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts29Approval");
+                          this.clearFieldInput('ts29Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -2161,8 +2161,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -2170,24 +2170,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts29Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts29Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas29 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -2209,7 +2209,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts30Approval");
+                          this.clearFieldInput('ts30Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -2223,8 +2223,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -2232,24 +2232,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts30Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts30Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas30 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -2271,7 +2271,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts31Approval");
+                          this.clearFieldInput('ts31Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -2285,8 +2285,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -2294,24 +2294,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts31Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts31Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas31 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -2333,7 +2333,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts32Approval");
+                          this.clearFieldInput('ts32Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -2347,8 +2347,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -2356,24 +2356,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts32Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts32Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas32 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -2395,7 +2395,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts33Approval");
+                          this.clearFieldInput('ts33Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -2409,8 +2409,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -2418,24 +2418,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts33Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts33Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas33 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -2457,7 +2457,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts34Approval");
+                          this.clearFieldInput('ts34Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -2471,8 +2471,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -2480,24 +2480,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts34Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts34Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas34 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -2519,7 +2519,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts35Approval");
+                          this.clearFieldInput('ts35Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -2533,8 +2533,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -2542,24 +2542,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts35Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts35Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas35 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -2581,7 +2581,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts36Approval");
+                          this.clearFieldInput('ts36Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -2595,8 +2595,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -2604,24 +2604,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts36Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts36Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas36 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -2643,7 +2643,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts37Approval");
+                          this.clearFieldInput('ts37Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -2657,8 +2657,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -2666,24 +2666,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts37Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts37Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas37 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -2705,7 +2705,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts38Approval");
+                          this.clearFieldInput('ts38Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -2719,8 +2719,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -2728,24 +2728,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts38Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts38Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas38 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -2767,7 +2767,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts39Approval");
+                          this.clearFieldInput('ts39Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -2781,8 +2781,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -2790,24 +2790,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts39Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts39Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas39 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -2829,7 +2829,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts40Approval");
+                          this.clearFieldInput('ts40Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -2843,8 +2843,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -2852,34 +2852,34 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts40Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts40Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas40 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
               </div>
             </Row>
 
-            <FormError errorId={this.props.id + "-error"} />
+            <FormError errorId={this.props.id + '-error'} />
             <div
               className='form-group logInInputField'
-              style={{ display: "flex", justifyContent: "space-between" }}
+              style={{ display: 'flex', justifyContent: 'space-between' }}
             >
               <button
                 className='lightBtn hide-on-print'
@@ -2942,7 +2942,7 @@ class AwakeNightStaffSignoff extends Component {
                             href='javascript:void(0)'
                             className='hide-on-print'
                             onClick={() => {
-                              this.clearFieldInput("ts1Approval");
+                              this.clearFieldInput('ts1Approval');
                             }}
                           >
                             Signed. Remove signature?
@@ -2956,8 +2956,8 @@ class AwakeNightStaffSignoff extends Component {
                         className='mb-2 d-flex hide-on-print align-items-center justify-content-space-between'
                         label={
                           this.props.valuesSet
-                            ? "Not Completed or Signed"
-                            : "Click to sign"
+                            ? 'Not Completed or Signed'
+                            : 'Click to sign'
                         }
                         onClick={this.handleFieldInput}
                       />
@@ -2965,24 +2965,24 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
-                      display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
-                      visibility: this.state.ts1Approval ? "visible" : "hidden",
+                      width: '100%',
+                      display: 'flex',
+                      maxHeight: '170',
+                      justifyContent: 'center',
+                      visibility: this.state.ts1Approval ? 'visible' : 'hidden',
                     }}
                   >
                     <SignatureCanvas
                       ref={(ref) => {
                         this.sigCanvas1 = ref;
                       }}
-                      style={{ border: "solid" }}
+                      style={{ border: 'solid' }}
                       penColor='black'
                       clearOnResize={false}
                       canvasProps={{
                         width: 600,
                         height: 200,
-                        className: "sigCanvas",
+                        className: 'sigCanvas',
                       }}
                       backgroundColor='#eeee'
                     />
@@ -3005,7 +3005,7 @@ class AwakeNightStaffSignoff extends Component {
                             href='javascript:void(0)'
                             className='hide-on-print'
                             onClick={() => {
-                              this.clearFieldInput("ts2Approval");
+                              this.clearFieldInput('ts2Approval');
                             }}
                           >
                             Signed. Remove signature?
@@ -3019,8 +3019,8 @@ class AwakeNightStaffSignoff extends Component {
                         className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                         label={
                           this.props.valuesSet
-                            ? "Not Completed or Signed"
-                            : "Click to sign"
+                            ? 'Not Completed or Signed'
+                            : 'Click to sign'
                         }
                         onClick={this.handleFieldInput}
                       />
@@ -3028,24 +3028,24 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
-                      display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
-                      visibility: this.state.ts2Approval ? "visible" : "hidden",
+                      width: '100%',
+                      display: 'flex',
+                      maxHeight: '170',
+                      justifyContent: 'center',
+                      visibility: this.state.ts2Approval ? 'visible' : 'hidden',
                     }}
                   >
                     <SignatureCanvas
                       ref={(ref) => {
                         this.sigCanvas2 = ref;
                       }}
-                      style={{ border: "solid" }}
+                      style={{ border: 'solid' }}
                       penColor='black'
                       clearOnResize={false}
                       canvasProps={{
                         width: 600,
                         height: 200,
-                        className: "sigCanvas",
+                        className: 'sigCanvas',
                       }}
                       backgroundColor='#eeee'
                     />
@@ -3068,7 +3068,7 @@ class AwakeNightStaffSignoff extends Component {
                             href='javascript:void(0)'
                             className='hide-on-print'
                             onClick={() => {
-                              this.clearFieldInput("ts3Approval");
+                              this.clearFieldInput('ts3Approval');
                             }}
                           >
                             Signed. Remove signature?
@@ -3082,8 +3082,8 @@ class AwakeNightStaffSignoff extends Component {
                         className='mb-2 hide-on-print hide-on-print d-flex align-items-center justify-content-space-between'
                         label={
                           this.props.valuesSet
-                            ? "Not Completed or Signed"
-                            : "Click to sign"
+                            ? 'Not Completed or Signed'
+                            : 'Click to sign'
                         }
                         onClick={this.handleFieldInput}
                       />
@@ -3091,24 +3091,24 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
-                      display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
-                      visibility: this.state.ts3Approval ? "visible" : "hidden",
+                      width: '100%',
+                      display: 'flex',
+                      maxHeight: '170',
+                      justifyContent: 'center',
+                      visibility: this.state.ts3Approval ? 'visible' : 'hidden',
                     }}
                   >
                     <SignatureCanvas
                       ref={(ref) => {
                         this.sigCanvas3 = ref;
                       }}
-                      style={{ border: "solid" }}
+                      style={{ border: 'solid' }}
                       penColor='black'
                       clearOnResize={false}
                       canvasProps={{
                         width: 600,
                         height: 200,
-                        className: "sigCanvas",
+                        className: 'sigCanvas',
                       }}
                       backgroundColor='#eeee'
                     />
@@ -3132,7 +3132,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts4Approval");
+                          this.clearFieldInput('ts4Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -3146,8 +3146,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -3155,24 +3155,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts4Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts4Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas4 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -3193,7 +3193,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts5Approval");
+                          this.clearFieldInput('ts5Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -3207,8 +3207,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -3216,24 +3216,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts5Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts5Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas5 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -3254,7 +3254,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts6Approval");
+                          this.clearFieldInput('ts6Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -3268,8 +3268,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -3277,24 +3277,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts6Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts6Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas6 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -3315,7 +3315,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts7Approval");
+                          this.clearFieldInput('ts7Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -3329,8 +3329,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -3338,24 +3338,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts7Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts7Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas7 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -3376,7 +3376,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts8Approval");
+                          this.clearFieldInput('ts8Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -3390,8 +3390,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -3399,24 +3399,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts8Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts8Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas8 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -3437,7 +3437,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts9Approval");
+                          this.clearFieldInput('ts9Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -3451,8 +3451,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -3460,24 +3460,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts9Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts9Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas9 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -3498,7 +3498,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts10Approval");
+                          this.clearFieldInput('ts10Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -3512,8 +3512,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -3521,24 +3521,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts10Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts10Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas10 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -3559,7 +3559,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts11Approval");
+                          this.clearFieldInput('ts11Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -3573,8 +3573,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -3582,24 +3582,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts11Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts11Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas11 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -3620,7 +3620,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts12Approval");
+                          this.clearFieldInput('ts12Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -3634,8 +3634,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -3643,24 +3643,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts12Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts12Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas12 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -3681,7 +3681,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts13Approval");
+                          this.clearFieldInput('ts13Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -3695,8 +3695,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -3704,24 +3704,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts13Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts13Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas13 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -3742,7 +3742,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts14Approval");
+                          this.clearFieldInput('ts14Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -3756,8 +3756,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -3765,24 +3765,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts14Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts14Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas14 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -3803,7 +3803,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts15Approval");
+                          this.clearFieldInput('ts15Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -3817,8 +3817,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -3826,24 +3826,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts15Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts15Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas15 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -3864,7 +3864,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts16Approval");
+                          this.clearFieldInput('ts16Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -3878,8 +3878,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -3887,24 +3887,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts16Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts16Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas16 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -3925,7 +3925,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts17Approval");
+                          this.clearFieldInput('ts17Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -3939,8 +3939,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -3948,24 +3948,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts17Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts17Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas17 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -3986,7 +3986,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts18Approval");
+                          this.clearFieldInput('ts18Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -4000,8 +4000,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -4009,24 +4009,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts18Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts18Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas18 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -4047,7 +4047,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts19Approval");
+                          this.clearFieldInput('ts19Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -4061,8 +4061,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -4070,24 +4070,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts19Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts19Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas19 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -4108,7 +4108,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts20Approval");
+                          this.clearFieldInput('ts20Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -4122,8 +4122,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -4131,24 +4131,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts20Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts20Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas20 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -4169,7 +4169,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts21Approval");
+                          this.clearFieldInput('ts21Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -4183,8 +4183,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -4192,24 +4192,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts21Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts21Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas21 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -4230,7 +4230,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts22Approval");
+                          this.clearFieldInput('ts22Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -4244,8 +4244,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -4253,24 +4253,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts22Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts22Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas22 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -4291,7 +4291,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts23Approval");
+                          this.clearFieldInput('ts23Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -4305,8 +4305,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -4314,24 +4314,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts23Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts23Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas23 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -4352,7 +4352,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts24Approval");
+                          this.clearFieldInput('ts24Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -4366,8 +4366,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -4375,24 +4375,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts24Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts24Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas24 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -4413,7 +4413,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts25Approval");
+                          this.clearFieldInput('ts25Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -4427,8 +4427,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -4436,24 +4436,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts25Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts25Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas25 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -4474,7 +4474,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts26Approval");
+                          this.clearFieldInput('ts26Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -4488,8 +4488,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -4497,24 +4497,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts26Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts26Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas26 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -4535,7 +4535,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts27Approval");
+                          this.clearFieldInput('ts27Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -4549,8 +4549,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -4558,24 +4558,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts27Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts27Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas27 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -4596,7 +4596,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts28Approval");
+                          this.clearFieldInput('ts28Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -4610,8 +4610,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -4619,24 +4619,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts28Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts28Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas28 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -4657,7 +4657,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts29Approval");
+                          this.clearFieldInput('ts29Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -4671,8 +4671,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -4680,24 +4680,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts29Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts29Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas29 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -4718,7 +4718,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts30Approval");
+                          this.clearFieldInput('ts30Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -4732,8 +4732,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -4741,24 +4741,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts30Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts30Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas30 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -4779,7 +4779,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts31Approval");
+                          this.clearFieldInput('ts31Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -4793,8 +4793,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -4802,24 +4802,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts31Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts31Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas31 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -4840,7 +4840,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts32Approval");
+                          this.clearFieldInput('ts32Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -4854,8 +4854,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -4863,24 +4863,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts32Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts32Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas32 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -4901,7 +4901,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts33Approval");
+                          this.clearFieldInput('ts33Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -4915,8 +4915,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -4924,24 +4924,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts33Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts33Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas33 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -4962,7 +4962,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts34Approval");
+                          this.clearFieldInput('ts34Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -4976,8 +4976,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -4985,24 +4985,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts34Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts34Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas34 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -5023,7 +5023,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts35Approval");
+                          this.clearFieldInput('ts35Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -5037,8 +5037,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -5046,24 +5046,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts35Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts35Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas35 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -5084,7 +5084,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts36Approval");
+                          this.clearFieldInput('ts36Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -5098,8 +5098,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -5107,24 +5107,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts36Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts36Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas36 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -5145,7 +5145,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts37Approval");
+                          this.clearFieldInput('ts37Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -5159,8 +5159,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -5168,24 +5168,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts37Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts37Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas37 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -5206,7 +5206,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts38Approval");
+                          this.clearFieldInput('ts38Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -5220,8 +5220,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -5229,24 +5229,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts38Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts38Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas38 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -5267,7 +5267,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts39Approval");
+                          this.clearFieldInput('ts39Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -5281,8 +5281,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -5290,24 +5290,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts39Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts39Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas39 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -5328,7 +5328,7 @@ class AwakeNightStaffSignoff extends Component {
                         href='javascript:void(0)'
                         className='hide-on-print'
                         onClick={() => {
-                          this.clearFieldInput("ts40Approval");
+                          this.clearFieldInput('ts40Approval');
                         }}
                       >
                         Signed. Remove signature?
@@ -5342,8 +5342,8 @@ class AwakeNightStaffSignoff extends Component {
                     className='mb-2 hide-on-print d-flex align-items-center justify-content-space-between'
                     label={
                       this.props.valuesSet
-                        ? "Not Completed or Signed"
-                        : "Click to sign"
+                        ? 'Not Completed or Signed'
+                        : 'Click to sign'
                     }
                     onClick={this.handleFieldInput}
                   />
@@ -5351,24 +5351,24 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
               <div
                 style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                  visibility: this.state.ts40Approval ? "visible" : "hidden",
+                  width: '100%',
+                  display: 'flex',
+                  maxHeight: '170',
+                  justifyContent: 'center',
+                  visibility: this.state.ts40Approval ? 'visible' : 'hidden',
                 }}
               >
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas40 = ref;
                   }}
-                  style={{ border: "solid" }}
+                  style={{ border: 'solid' }}
                   penColor='black'
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
                     height: 200,
-                    className: "sigCanvas",
+                    className: 'sigCanvas',
                   }}
                   backgroundColor='#eeee'
                 />
@@ -5376,10 +5376,10 @@ class AwakeNightStaffSignoff extends Component {
             </Row>
             {!this.props.formData.approved && (
               <>
-                <FormError errorId={this.props.id + "-error"} />
+                <FormError errorId={this.props.id + '-error'} />
                 <div
                   className='form-group logInInputField'
-                  style={{ display: "flex", justifyContent: "space-between" }}
+                  style={{ display: 'flex', justifyContent: 'space-between' }}
                 >
                   <button
                     className='lightBtn hide-on-print'
@@ -5391,7 +5391,7 @@ class AwakeNightStaffSignoff extends Component {
                   </button>
 
                   {/* <button
-                    className="darkBtn"
+                    className='darkBtn'
                     onClick={() => {
                       this.validateForm(false);
                     }}
