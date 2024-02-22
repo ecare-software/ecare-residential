@@ -540,36 +540,43 @@ class IncidentReport extends Component {
             </div>
           ) : (
             <Container className="print-container">
-              <div className="form-group logInInputField">
-                <label className="control-label hide-on-print">
-                  Create Date
-                </label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id="createDate"
-                  value={this.state.createDate}
-                  className="form-control hide-on-print"
-                  type="datetime-local"
-                />{" "}
-              </div>
-              <div className="form-group logInInputField">
-                {" "}
-                <label className="control-label">Child's Name</label>{" "}
-                <Form.Control
-                  as="select"
-                  defaultValue={null}
-                  onChange={this.handleClientSelect}
-                >
-                  {[null, ...this.state.clients].map(
-                    (client, idx) => (
-                      <ClientOption key={`${idx}`} data={client} />
-                    ),
-                    []
-                  )}
-                </Form.Control>
-              </div>
               <Row>
-                <Col md={4} className="print-column">
+                <Col xs={12} className="print-column">
+                  <div className="form-group logInInputField">
+                    <label className="control-label hide-on-print">
+                      Create Date
+                    </label>{" "}
+                    <input
+                      onChange={this.handleFieldInput}
+                      id="createDate"
+                      value={this.state.createDate}
+                      className="form-control hide-on-print"
+                      type="datetime-local"
+                    />{" "}
+                  </div>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col xs={3} className="print-column">
+                  <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">Child's Name</label>{" "}
+                    <Form.Control
+                      as="select"
+                      defaultValue={null}
+                      onChange={this.handleClientSelect}
+                    >
+                      {[null, ...this.state.clients].map(
+                        (client, idx) => (
+                          <ClientOption key={`${idx}`} data={client} />
+                        ),
+                        []
+                      )}
+                    </Form.Control>
+                  </div>
+                </Col>
+                <Col xs={3} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">Child's Gender</label>{" "}
@@ -585,12 +592,11 @@ class IncidentReport extends Component {
                       <option value={""}>Choose</option>
                     </Form.Control>
                   </div>
-
+                </Col>
+                <Col xs={3} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
-                    <label className="control-label">
-                      Child's Date of Birth
-                    </label>{" "}
+                    <label className="control-label">Child's DOB</label>{" "}
                     <input
                       onChange={this.handleFieldInput}
                       id="childMeta_dob"
@@ -599,12 +605,11 @@ class IncidentReport extends Component {
                       type="date"
                     />{" "}
                   </div>
-
+                </Col>
+                <Col xs={3} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
-                    <label className="control-label">
-                      Date of Admission
-                    </label>{" "}
+                    <label className="control-label">DOA</label>{" "}
                     <input
                       onChange={this.handleFieldInput}
                       id="childMeta_dateOfAdmission"
@@ -613,21 +618,11 @@ class IncidentReport extends Component {
                       type="date"
                     />{" "}
                   </div>
+                </Col>
+              </Row>
 
-                  <div className="form-group logInInputField">
-                    {" "}
-                    <label className="control-label">
-                      Date of Incident
-                    </label>{" "}
-                    <input
-                      onChange={this.handleFieldInput}
-                      id="dateOfIncident"
-                      value={this.state.dateOfIncident}
-                      className="form-control"
-                      type="date"
-                    />{" "}
-                  </div>
-
+              <Row>
+                <Col xs={3} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -651,7 +646,8 @@ class IncidentReport extends Component {
                       )}
                     </Form.Control>
                   </div>
-
+                </Col>
+                <Col xs={3} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -669,7 +665,8 @@ class IncidentReport extends Component {
                       <option value={""}>Choose</option>
                     </Form.Control>
                   </div>
-
+                </Col>
+                <Col xs={3} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -683,7 +680,26 @@ class IncidentReport extends Component {
                       type="time"
                     />{" "}
                   </div>
+                </Col>
+                <Col xs={3} className="print-column">
+                  <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">
+                      Date of Incident
+                    </label>{" "}
+                    <input
+                      onChange={this.handleFieldInput}
+                      id="dateOfIncident"
+                      value={this.state.dateOfIncident}
+                      className="form-control"
+                      type="date"
+                    />{" "}
+                  </div>
+                </Col>
+              </Row>
 
+              <Row>
+                <Col xs={6} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -708,7 +724,7 @@ class IncidentReport extends Component {
                     </Form.Control>
                   </div>
                 </Col>
-                <Col md={4} className="print-column">
+                <Col xs={6} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -726,7 +742,11 @@ class IncidentReport extends Component {
                       <option value={""}>Choose</option>
                     </Form.Control>
                   </div>
+                </Col>
+              </Row>
 
+              <Row>
+                <Col xs={3} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -745,7 +765,8 @@ class IncidentReport extends Component {
                       )}
                     </Form.Control>
                   </div>
-
+                </Col>
+                <Col xs={3} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -763,11 +784,12 @@ class IncidentReport extends Component {
                       <option value={""}>Choose</option>
                     </Form.Control>
                   </div>
-
+                </Col>
+                <Col xs={3} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
-                      Client Witness Date of Birth (1)
+                      Client Witness DOB (1)
                     </label>{" "}
                     <input
                       onChange={this.handleFieldInput}
@@ -777,11 +799,12 @@ class IncidentReport extends Component {
                       type="date"
                     />{" "}
                   </div>
-
+                </Col>
+                <Col xs={3} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
-                      Client Witness Date of Admission (1)
+                      Client Witness DOA (1)
                     </label>{" "}
                     <input
                       onChange={this.handleFieldInput}
@@ -791,7 +814,11 @@ class IncidentReport extends Component {
                       type="date"
                     />{" "}
                   </div>
+                </Col>
+              </Row>
 
+              <Row>
+                <Col xs={3} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -810,7 +837,8 @@ class IncidentReport extends Component {
                       )}
                     </Form.Control>
                   </div>
-
+                </Col>
+                <Col xs={3} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -828,11 +856,12 @@ class IncidentReport extends Component {
                       <option value={""}>Choose</option>
                     </Form.Control>
                   </div>
-
+                </Col>
+                <Col xs={3} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
-                      Client Witness Date of Birth (2)
+                      Client Witness DOB (2)
                     </label>{" "}
                     <input
                       onChange={this.handleFieldInput}
@@ -843,11 +872,11 @@ class IncidentReport extends Component {
                     />{" "}
                   </div>
                 </Col>
-                <Col md={4} className="print-column">
+                <Col xs={3} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
-                      Client Witness Date of Admission (2)
+                      Client Witness DOA (2)
                     </label>{" "}
                     <input
                       onChange={this.handleFieldInput}
@@ -857,7 +886,11 @@ class IncidentReport extends Component {
                       type="date"
                     />{" "}
                   </div>
+                </Col>
+              </Row>
 
+              <Row>
+                <Col xs={12} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -870,7 +903,11 @@ class IncidentReport extends Component {
                       className="form-control"
                     ></TextareaAutosize>
                   </div>
+                </Col>
+              </Row>
 
+              <Row>
+                <Col xs={12} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -885,7 +922,11 @@ class IncidentReport extends Component {
                       type="text"
                     />{" "}
                   </div>
+                </Col>
+              </Row>
 
+              <Row>
+                <Col xs={12} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -898,7 +939,11 @@ class IncidentReport extends Component {
                       className="form-control"
                     ></TextareaAutosize>
                   </div>
+                </Col>
+              </Row>
 
+              <Row>
+                <Col xs={12} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -911,7 +956,11 @@ class IncidentReport extends Component {
                       className="form-control"
                     ></TextareaAutosize>
                   </div>
+                </Col>
+              </Row>
 
+              <Row>
+                <Col xs={4} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -925,7 +974,8 @@ class IncidentReport extends Component {
                       type="text"
                     />{" "}
                   </div>
-
+                </Col>
+                <Col xs={4} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -939,7 +989,8 @@ class IncidentReport extends Component {
                       type="datetime-local"
                     />{" "}
                   </div>
-
+                </Col>
+                <Col xs={4} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">By who ?</label>{" "}
@@ -951,7 +1002,11 @@ class IncidentReport extends Component {
                       type="text"
                     />{" "}
                   </div>
+                </Col>
+              </Row>
 
+              <Row>
+                <Col xs={12} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -965,30 +1020,34 @@ class IncidentReport extends Component {
                     ></TextareaAutosize>
                   </div>
                 </Col>
+              </Row>
 
+              <Row>
                 <FormError errorId={this.props.id + "-error"} />
-                <div
-                  className="form-group logInInputField"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <button
-                    className="lightBtn hide-on-print"
-                    onClick={() => {
-                      this.validateForm(true);
-                    }}
+                <Col xs={12}>
+                  <div
+                    className="form-group logInInputField"
+                    style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    Save
-                  </button>
+                    <button
+                      className="lightBtn hide-on-print"
+                      onClick={() => {
+                        this.validateForm(true);
+                      }}
+                    >
+                      Save
+                    </button>
 
-                  <button
-                    className="darkBtn hide-on-print"
-                    onClick={() => {
-                      this.validateForm(false);
-                    }}
-                  >
-                    Submit
-                  </button>
-                </div>
+                    <button
+                      className="darkBtn hide-on-print"
+                      onClick={() => {
+                        this.validateForm(false);
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </Col>
               </Row>
             </Container>
           )}
@@ -1031,31 +1090,38 @@ class IncidentReport extends Component {
               </div>
             ) : (
               <Container className="print-container">
-                <div className="form-group logInInputField">
-                  <label className="control-label hide-on-print">
-                    Create Date
-                  </label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    id="createDate"
-                    value={this.dateForDateTimeInputValue()}
-                    className="form-control hide-on-print"
-                    type="datetime-local"
-                  />{" "}
-                </div>
-                <div className="form-group logInInputField">
-                  {" "}
-                  <label className="control-label">Child's Name</label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    value={this.state.childMeta_name}
-                    id={"childMeta_name"}
-                    className="form-control"
-                    type="text"
-                  />{" "}
-                </div>
                 <Row>
-                  <Col md={4} className="print-column">
+                  <Col xs={12}>
+                    <div className="form-group logInInputField">
+                      <label className="control-label hide-on-print">
+                        Create Date
+                      </label>{" "}
+                      <input
+                        onChange={this.handleFieldInput}
+                        id="createDate"
+                        value={this.dateForDateTimeInputValue()}
+                        className="form-control hide-on-print"
+                        type="datetime-local"
+                      />{" "}
+                    </div>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col xs={3} className="print-column">
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">Child's Name</label>{" "}
+                      <input
+                        onChange={this.handleFieldInput}
+                        value={this.state.childMeta_name}
+                        id={"childMeta_name"}
+                        className="form-control"
+                        type="text"
+                      />{" "}
+                    </div>
+                  </Col>
+                  <Col xs={3} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -1073,11 +1139,11 @@ class IncidentReport extends Component {
                         <option value={""}>Choose</option>
                       </Form.Control>
                     </div>
+                  </Col>
+                  <Col xs={3} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
-                      <label className="control-label">
-                        Child's Date of Birth
-                      </label>{" "}
+                      <label className="control-label">Child's DOB</label>{" "}
                       <input
                         onChange={this.handleFieldInput}
                         value={this.state.childMeta_dob}
@@ -1086,11 +1152,11 @@ class IncidentReport extends Component {
                         id="childMeta_dob"
                       />{" "}
                     </div>
+                  </Col>
+                  <Col xs={3} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
-                      <label className="control-label">
-                        Date of Admission
-                      </label>{" "}
+                      <label className="control-label">DOA</label>{" "}
                       <input
                         onChange={this.handleFieldInput}
                         value={this.state.childMeta_dateOfAdmission}
@@ -1099,19 +1165,11 @@ class IncidentReport extends Component {
                         id="childMeta_dateOfAdmission"
                       />{" "}
                     </div>
-                    <div className="form-group logInInputField">
-                      {" "}
-                      <label className="control-label">
-                        Date of Incident
-                      </label>{" "}
-                      <input
-                        onChange={this.handleFieldInput}
-                        value={this.state.dateOfIncident}
-                        className="form-control"
-                        type="date"
-                        id="dateOfIncident"
-                      />{" "}
-                    </div>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col xs={3} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -1125,6 +1183,8 @@ class IncidentReport extends Component {
                         type="text"
                       />{" "}
                     </div>
+                  </Col>
+                  <Col xs={3} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -1142,6 +1202,8 @@ class IncidentReport extends Component {
                         <option value={""}>Choose</option>
                       </Form.Control>
                     </div>
+                  </Col>
+                  <Col xs={3} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -1155,6 +1217,26 @@ class IncidentReport extends Component {
                         type="time"
                       />{" "}
                     </div>
+                  </Col>
+                  <Col xs={3} className="print-column">
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">
+                        Date of Incident
+                      </label>{" "}
+                      <input
+                        onChange={this.handleFieldInput}
+                        value={this.state.dateOfIncident}
+                        className="form-control"
+                        type="date"
+                        id="dateOfIncident"
+                      />{" "}
+                    </div>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col xs={6} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -1168,6 +1250,8 @@ class IncidentReport extends Component {
                         type="text"
                       />{" "}
                     </div>
+                  </Col>
+                  <Col xs={6} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -1186,7 +1270,10 @@ class IncidentReport extends Component {
                       </Form.Control>
                     </div>
                   </Col>
-                  <Col md={4} className="print-column">
+                </Row>
+
+                <Row>
+                  <Col xs={3} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -1200,6 +1287,8 @@ class IncidentReport extends Component {
                         type="text"
                       />{" "}
                     </div>
+                  </Col>
+                  <Col xs={3} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -1217,10 +1306,12 @@ class IncidentReport extends Component {
                         <option value={""}>Choose</option>
                       </Form.Control>
                     </div>
+                  </Col>
+                  <Col xs={3} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
-                        Client Witness Date of Birth (1)
+                        Client Witness DOB (1)
                       </label>{" "}
                       <input
                         onChange={this.handleFieldInput}
@@ -1230,10 +1321,12 @@ class IncidentReport extends Component {
                         id="client_witness_dob1"
                       />{" "}
                     </div>
+                  </Col>
+                  <Col xs={3} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
-                        Client Witness Date of Admission (1)
+                        Client Witness DOA (1)
                       </label>{" "}
                       <input
                         onChange={this.handleFieldInput}
@@ -1243,6 +1336,11 @@ class IncidentReport extends Component {
                         id="client_witness_doa1"
                       />{" "}
                     </div>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col xs={3} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -1256,6 +1354,8 @@ class IncidentReport extends Component {
                         type="text"
                       />{" "}
                     </div>
+                  </Col>
+                  <Col xs={3} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -1273,10 +1373,12 @@ class IncidentReport extends Component {
                         <option value={""}>Choose</option>
                       </Form.Control>
                     </div>
+                  </Col>
+                  <Col xs={3} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
-                        Client Witness Date of Birth (2)
+                        Client Witness DOB (2)
                       </label>{" "}
                       <input
                         onChange={this.handleFieldInput}
@@ -1286,10 +1388,12 @@ class IncidentReport extends Component {
                         id="client_witness_dob2"
                       />{" "}
                     </div>
+                  </Col>
+                  <Col xs={3} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
-                        Client Witness Date of Admission (2)
+                        Client Witness DOA (2)
                       </label>{" "}
                       <input
                         onChange={this.handleFieldInput}
@@ -1299,6 +1403,11 @@ class IncidentReport extends Component {
                         id="client_witness_doa2"
                       />{" "}
                     </div>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col xs={12} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -1312,7 +1421,10 @@ class IncidentReport extends Component {
                       ></TextareaAutosize>
                     </div>
                   </Col>
-                  <Col md={4} className="print-column">
+                </Row>
+
+                <Row>
+                  <Col xs={12} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -1327,6 +1439,11 @@ class IncidentReport extends Component {
                         type="text"
                       />{" "}
                     </div>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col xs={12} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -1339,6 +1456,11 @@ class IncidentReport extends Component {
                         className="form-control"
                       ></TextareaAutosize>
                     </div>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col xs={12} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -1354,6 +1476,11 @@ class IncidentReport extends Component {
                         {this.state.able_to_prevent}
                       </p>
                     </div>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col xs={4} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -1367,6 +1494,8 @@ class IncidentReport extends Component {
                         type="text"
                       />{" "}
                     </div>
+                  </Col>
+                  <Col xs={4} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -1380,6 +1509,8 @@ class IncidentReport extends Component {
                         id="notification_made_date_time"
                       />{" "}
                     </div>
+                  </Col>
+                  <Col xs={4} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">By who ?</label>{" "}
@@ -1391,6 +1522,11 @@ class IncidentReport extends Component {
                         type="text"
                       />{" "}
                     </div>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col xs={12} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -1407,49 +1543,84 @@ class IncidentReport extends Component {
                 </Row>
               </Container>
             )}
-            <label className="control-label">Signature</label>{" "}
-            <div className="sigSection">
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  justifyContent: "center",
-                }}
-              >
-                <SignatureCanvas
-                  ref={(ref) => {
-                    this.sigCanvas = ref;
-                  }}
-                  style={{ border: "solid" }}
-                  penColor="black"
-                  clearOnResize={false}
-                  canvasProps={{
-                    width: 600,
-                    height: 200,
-                    className: "sigCanvas",
-                  }}
-                  backgroundColor="#eeee"
-                />
-              </div>
-            </div>
+            <Container>
+              <Row>
+                <Col xs={6}>
+                  <label className="control-label">Signature</label>{" "}
+                  <div className="sigSection">
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        maxHeight: "170",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <SignatureCanvas
+                        ref={(ref) => {
+                          this.sigCanvas = ref;
+                        }}
+                        style={{ border: "solid" }}
+                        penColor="black"
+                        clearOnResize={false}
+                        canvasProps={{
+                          width: 600,
+                          height: 100,
+                          className: "sigCanvas",
+                        }}
+                        backgroundColor="#eeee"
+                      />
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={6}>
+                  <label className="control-label">Admin Signature</label>{" "}
+                  <div className="sigSection">
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        maxHeight: "170",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {/* <SignatureCanvas
+                        ref={(ref) => {
+                          this.sigCanvas = ref;
+                        }}
+                        style={{ border: "solid" }}
+                        penColor="black"
+                        clearOnResize={false}
+                        canvasProps={{
+                          width: 600,
+                          height: 100,
+                          className: "sigCanvas",
+                        }}
+                        backgroundColor="#eeee"
+                      /> */}
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+            </Container>
             {!this.props.formData.approved && (
-              <>
+              <Row>
                 <FormError errorId={this.props.id + "-error"} />
-                <div
-                  className="form-group logInInputField"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <button
-                    className="lightBtn hide-on-print"
-                    onClick={() => {
-                      this.validateForm(true);
-                    }}
+                <Col xs={12}>
+                  <div
+                    className="form-group logInInputField"
+                    style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    Save
-                  </button>
+                    <button
+                      className="lightBtn hide-on-print"
+                      onClick={() => {
+                        this.validateForm(true);
+                      }}
+                    >
+                      Save
+                    </button>
 
-                  {/* <button
+                    {/* <button
                     className="darkBtn"
                     onClick={() => {
                       this.validateForm(false);
@@ -1457,8 +1628,9 @@ class IncidentReport extends Component {
                   >
                     Submit
                   </button> */}
-                </div>
-              </>
+                  </div>
+                </Col>
+              </Row>
             )}
           </div>
         </div>

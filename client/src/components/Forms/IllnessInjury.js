@@ -870,7 +870,7 @@ class IllnessInjury extends Component {
                   clearOnResize={false}
                   canvasProps={{
                     width: 600,
-                    height: 200,
+                    height: 100,
                     className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
