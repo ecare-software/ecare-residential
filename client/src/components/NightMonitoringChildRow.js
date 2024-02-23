@@ -220,7 +220,7 @@ export const NightMonitoringChildRow = ({
               width: "100%",
               display: "flex",
               justifyContent: "center",
-              visibility: signed ? "visible" : "hidden",
+              display: signed ? "" : "none",
             }}
           >
             <SignatureCanvas
