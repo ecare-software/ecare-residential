@@ -363,6 +363,37 @@ class AwakeNightStaffSignoff extends Component {
           <div className='formTitleDiv'>
             <h2 className='formTitle'>Awake Night Staff Sign Off</h2>
           </div>
+          <div className='text-center'>
+            {this.state.userSig.length === 0 && !this.state.loadingSig && (
+              <p className='text-danger'>
+                Warning: Looks like you do not have a user signature set.
+                <br />
+                This form cannot be completed. Visit{' '}
+                <a
+                  target='#'
+                  className='text-info pointer'
+                  onClick={() => {
+                    document
+                      .querySelector('.Submit-a-Form-nav > a')
+                      .classList.remove('active');
+                    document
+                      .querySelector('.Training-nav > a')
+                      .classList.remove('active');
+                    document
+                      .querySelector('.nav-link')
+                      .classList.remove('active');
+                    document
+                      .querySelector('.Manage-Account-nav > a')
+                      .classList.add('active');
+                    this.props.toggleDisplay('Manage Account');
+                  }}
+                >
+                  Manage Profile
+                </a>{' '}
+                to set one.
+              </p>
+            )}
+          </div>
 
           <Container className="print-container">
             <Row>
