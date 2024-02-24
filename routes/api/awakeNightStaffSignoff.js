@@ -45,6 +45,10 @@ router.post("/", (req, res) => {
     ts38Approval: req.body.ts38Approval,
     ts39Approval: req.body.ts39Approval,
     ts40Approval: req.body.ts40Approval,
+    ts41Approval: req.body.ts41Approval,
+    ts42Approval: req.body.ts42Approval,
+    ts43Approval: req.body.ts43Approval,
+    ts44Approval: req.body.ts44Approval,
 
     createdBy: req.body.createdBy,
 
