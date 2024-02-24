@@ -2412,7 +2412,7 @@ class AwakeNightStaffSignoff extends Component {
                   >
                     <SignatureCanvas
                       ref={(ref) => {
-                        this.ts31Approval = ref;
+                        this.sigCanvas31 = ref;
                       }}
                       style={{ border: 'solid' }}
                       penColor='black'
