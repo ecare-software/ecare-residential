@@ -24,9 +24,6 @@ class FormSubmitterListContainer extends Component {
       selectedUser: -1,
       formType: props.formType,
     };
-    var formType = props.formType
-    console.log('forms on FormSubmitterListContainer:', props)
-    console.log('form type:', this.state.formType)
   }
 
   selectUser = (userId) => {

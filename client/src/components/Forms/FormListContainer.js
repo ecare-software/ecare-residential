@@ -43,7 +43,6 @@ class FormListContainer extends Component {
     this.state = {
       selectedForm: this.props.reset === "true" ? -1 : -1,
     };
-    console.log('forms on FormListContainer:', props)
   }
 
   componentDidUpdate = () => {
