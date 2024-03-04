@@ -43,6 +43,7 @@ class FormListContainer extends Component {
     this.state = {
       selectedForm: this.props.reset === "true" ? -1 : -1,
     };
+    console.log('forms on FormListContainer:', props)
   }
 
   componentDidUpdate = () => {
@@ -72,7 +73,7 @@ class FormListContainer extends Component {
           </div>
         )}
         {this.props.formObjs.map((item, index) => (
-          <div
+          <div 
             key={index}
             style={{
               display: "flex",
@@ -116,6 +117,7 @@ class FormListContainer extends Component {
                   reset={this.state.selectedForm === index ? false : true}
                   setSelectedUser={this.props.setSelectedUser}
                   submittions={item.forms}
+                  formType={item.forms[0].formType}
                 />
               </div>
               <div

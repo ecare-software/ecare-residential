@@ -22,7 +22,11 @@ class FormSubmitterListContainer extends Component {
     super(props);
     this.state = {
       selectedUser: -1,
+      formType: props.formType,
     };
+    var formType = props.formType
+    console.log('forms on FormSubmitterListContainer:', props)
+    console.log('form type:', this.state.formType)
   }
 
   selectUser = (userId) => {
@@ -55,8 +59,35 @@ class FormSubmitterListContainer extends Component {
               }
               key={formIndex}
             >
-              {`${new Date(form.createDate).toLocaleDateString()}`} -{" "}
-              {form.createdByName}
+              {/* TODO reformat this */}
+              {this.state.formType === "Incident Report" ?
+              /* Incident Report Summary displayed upon button click */
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className='col-sm-2'>
+                  {`${new Date(form.createDate).toLocaleDateString()}  `} 
+                </div>
+                <div className='col-sm-3'>
+                  {`${new Date(form.createDate).toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: true})}`} 
+                </div>
+                <div className='col-sm-7'>
+                  {form.result === "" ? "None specified." : form.result}
+                </div>
+              </div> :
+              /* Non-Incident Report Summary displayed upon button click */
+              <div style={{ display: "flex", flexDirection: "row" }}>
+              <div className='col-sm-2'>
+                {`${new Date(form.createDate).toLocaleDateString()}  `} 
+              </div>
+              <div className='col-sm-3'>
+                {`${new Date(form.createDate).toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: true})}`} 
+              </div>
+              <div className='col-sm-7'>
+                {form.createdByName}
+              </div>
+            </div>
+            }
+              
+              
             </li>
           ))
         ) : (

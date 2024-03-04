@@ -124,7 +124,8 @@ export class FromReports extends Component {
     if (formIndex > -1) {
       this.state.forms[formIndex].forms
         .map((forms) => {
-          return forms.createdByName;
+          console.log('forms on FormReports.js:', forms.result);
+          return forms.result;
         })
         .filter(onlyUnique);
       setTimeout(() => {
@@ -310,7 +311,7 @@ export class FromReports extends Component {
 
     // 2.1 list forms (loop)
     const allForms = this.state.forms.reduce((acc, form) => {
-      console.log(form);
+      console.log("form:", form);
 
       acc.push(...form.forms);
       return acc;
@@ -318,6 +319,7 @@ export class FromReports extends Component {
 
     //2.2 display all of the forms
     const allFormComps = allForms.reduce((acc, form) => {
+      console.log("form:", form);
       form = { ...form, name: form.formType };
       acc.push(
         <ShowFormContainer
@@ -395,6 +397,7 @@ export class FromReports extends Component {
           "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
+        // change data returned 
         "/api/incidentReport/" +
           this.props.userObj.homeId +
           "/none/none/none/none/none/none/none/none/none/false"
