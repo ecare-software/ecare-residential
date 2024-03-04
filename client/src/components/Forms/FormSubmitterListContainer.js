@@ -59,9 +59,7 @@ class FormSubmitterListContainer extends Component {
               }
               key={formIndex}
             >
-              {/* TODO reformat this */}
-              {this.state.formType === "Incident Report" ?
-              /* Incident Report Summary displayed upon button click */
+              {/* Report View  */}
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <div className='col-sm-2'>
                   {`${new Date(form.createDate).toLocaleDateString()}  `} 
@@ -69,24 +67,18 @@ class FormSubmitterListContainer extends Component {
                 <div className='col-sm-3'>
                   {`${new Date(form.createDate).toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: true})}`} 
                 </div>
+                { this.state.formType === "Incident Report" ?
+                /* Incident Report Summary displayed upon button click */
                 <div className='col-sm-7'>
                   {form.result === "" ? "None specified." : form.result}
                 </div>
-              </div> :
-              /* Non-Incident Report Summary displayed upon button click */
-              <div style={{ display: "flex", flexDirection: "row" }}>
-              <div className='col-sm-2'>
-                {`${new Date(form.createDate).toLocaleDateString()}  `} 
-              </div>
-              <div className='col-sm-3'>
-                {`${new Date(form.createDate).toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: true})}`} 
-              </div>
-              <div className='col-sm-7'>
-                {form.createdByName}
-              </div>
-            </div>
-            }
-              
+                :
+                /* Non-Incident Report Summary displayed upon button click */
+                <div className='col-sm-7'>
+                  {form.createdByName}
+                </div>
+  }
+              </div>           
               
             </li>
           ))
