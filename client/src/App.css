@@ -30,6 +30,11 @@
   .meta-details-content {
     margin: 0px !important;
   }
+
+  .meta-details-content {
+    page-break-before: always;
+  }
+
 }
 
 
