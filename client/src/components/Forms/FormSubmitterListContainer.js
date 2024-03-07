@@ -80,12 +80,13 @@ class FormSubmitterListContainer extends Component {
                 <tbody>
                   <tr>
                     <td style={reportDateTimeClass}>
-                      {/* TODO: need to change format recorded on Incident Report to maintain consistency, or something else */}
-                    {this.state.formType === "Incident Report" ? form.dateOfIncident : `${new Date(form.createDate).toLocaleDateString()}`}
+                    {this.state.formType === "Incident Report" ? `${new Date(form.dateOfIncident + 'T00:00:00').toLocaleDateString()}` : `${new Date(form.createDate).toLocaleDateString()}`}
                     </td>
                     <td style={reportDateTimeClass}>
-                    {this.state.formType === "Incident Report" ? form.time_of_incident : `${new Date(form.createDate).toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: true})}`}
-                      {/* TODO: need to capture AM/PM recorded in Incident Report form */}
+                    {this.state.formType === "Incident Report" ? 
+                      `${new Date('01-01-2001 '+form.time_of_incident).toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: true, hourCycle: 'h12'})}` : 
+                      `${new Date(form.createDate).toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: true})}`
+                    }
                     </td>
                     <td style={reportDetailsClass}>
                       { this.state.formType === "Incident Report" ?
