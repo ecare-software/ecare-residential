@@ -62,8 +62,6 @@ class FormSubmitterListContainer extends Component {
   }
 
   triggerPrint = () => {
-    console.log("submittions:", this.props.submittions);
-    console.log('userObj', this.state.userObj)
     /*
     1. change all of the listed forms to full view of forms
     */
@@ -78,7 +76,6 @@ class FormSubmitterListContainer extends Component {
     //2.2 display all of the forms
     const allFormComps = allForms.reduce((acc, form) => {
       form = { ...form, name: form.formType };
-      console.log("form:", form);
       acc.push(
         <ShowFormContainer
           valuesSet='true'
@@ -90,7 +87,6 @@ class FormSubmitterListContainer extends Component {
       );
       return acc;
     }, []);
-    console.log("formsToPrint:", allFormComps);
     this.setState({ ...this.state, formsToPrint: allFormComps });
 
     /*
@@ -106,7 +102,6 @@ class FormSubmitterListContainer extends Component {
   };
 
   render() {
-    console.log('userobj in formsubmitterlistcontainer render', this.state.userObj)
     if (this.state.formsToPrint.length > 0) {
       return (
         <div>
