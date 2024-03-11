@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import ShowFormContainer from "../Reports/ShowFormContainer";
+import { isAdminUser } from "../../utils/AdminReportingRoles";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const selectedUserNameClass = {
   color: "maroon",
@@ -25,12 +28,18 @@ const reportDetailsClass = {
   width: "60%"
 }
 
+
 class FormSubmitterListContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedUser: -1,
       formType: props.formType,
+      submittions: props.submittions,
+      showFullForms: false,
+      formsToPrint: [],
+      forms: [],
+      userObj: props.userObj
     };
   }
 
@@ -44,15 +53,97 @@ class FormSubmitterListContainer extends Component {
     }
   };
 
+  
+
   componentWillReceiveProps() {
     if (this.props.reset) {
       this.setState({ selectedUser: -1 });
     }
   }
 
+  triggerPrint = () => {
+    console.log("submittions:", this.props.submittions);
+    console.log('userObj', this.state.userObj)
+    /*
+    1. change all of the listed forms to full view of forms
+    */
+    this.setState({ ...this.state, showFullForms: true });
+    /*
+    2. call print method, (window.print()), bringing up the print window on the list of forms
+*/
+
+    // 2.1 list forms (loop)
+    const allForms = this.props.submittions;
+
+    //2.2 display all of the forms
+    const allFormComps = allForms.reduce((acc, form) => {
+      form = { ...form, name: form.formType };
+      console.log("form:", form);
+      acc.push(
+        <ShowFormContainer
+          valuesSet='true'
+          userObj={this.state.userObj}
+          formData={form}
+          form={form}
+          isAdminRole={isAdminUser(this.state.userObj)}
+        />
+      );
+      return acc;
+    }, []);
+    console.log("formsToPrint:", allFormComps);
+    this.setState({ ...this.state, formsToPrint: allFormComps });
+
+    /*
+    3. change the view back after set amount of time, showing list of filtered forms again
+    */
+    setTimeout(() => {
+      window.print();
+    }, 5000);
+
+    setTimeout(() => {
+      this.setState({ ...this.state, showFullForms: false, formsToPrint: [] });
+    }, 8000);
+  };
+
   render() {
+    console.log('userobj in formsubmitterlistcontainer render', this.state.userObj)
+    if (this.state.formsToPrint.length > 0) {
+      return (
+        <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "start",
+              marginTop: 200,
+              marginBottom: 200,
+              marginLeft: "0px",
+            }}
+            className='hide-on-print'
+          >
+            <div>
+              <ClipLoader className='formSpinner' size={50} color={"#ffc107"} />
+            </div>
+            <h1>Printing Forms, Please Wait...</h1>
+          </div>
+          <div className='hide-on-non-print'>
+            {this.state.formsToPrint.map((form, idx) => (
+              <div key={`print-form-${idx}`}>{form}</div>
+            ))}
+          </div>
+        </div>
+      );
+    }
     return (
       <ul style={{ listStyleType: "none", padding: "0px" }}>
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          {/* {!this.state.doShowFilters && ( */}
+            <button onClick={this.triggerPrint} className='btn btn-link'>
+              <span className='fa fa-print'></span> Print {this.props.formType}s
+            </button>
+           {/* )} */}
+        </div>
         {this.props.submittions.length > 0 ? (
           this.props.submittions.map((form, formIndex) => (
             <li
@@ -64,10 +155,10 @@ class FormSubmitterListContainer extends Component {
               }
               key={formIndex}
             >
-              <table class="table table-hover" style={{marginBottom:"0px", borderTopColor:"white"}}>
+              <table class="table table-hover" style={{marginBottom:"0px"}}>
                   {formIndex === 0 && (
-                     <thead style={{borderTopColor:"white"}}>
-                     <tr style={{borderTop:"white"}}>
+                     <thead>
+                     <tr>
                         <th style={reportDateTimeClass} colspan="2">
                         {this.state.formType === "Incident Report" ? "Incident Occured Date" : "Report Created Date"}
                         </th>

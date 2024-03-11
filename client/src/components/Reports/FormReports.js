@@ -300,6 +300,7 @@ export class FromReports extends Component {
   };
 
   triggerPrint = () => {
+    console.log('forms in triggerprint:', this.state.forms)
     /*
     1. change all of the listed forms to full view of forms
     */
@@ -315,10 +316,12 @@ export class FromReports extends Component {
       acc.push(...form.forms);
       return acc;
     }, []);
+    console.log('allForms:', allForms)
 
     //2.2 display all of the forms
     const allFormComps = allForms.reduce((acc, form) => {
       form = { ...form, name: form.formType };
+      console.log('userObj', this.props.userObj)
       acc.push(
         <ShowFormContainer
           valuesSet='true'
@@ -330,7 +333,7 @@ export class FromReports extends Component {
       );
       return acc;
     }, []);
-
+    console.log("formsToPrint:", allFormComps);
     this.setState({ ...this.state, formsToPrint: allFormComps });
 
     /*
@@ -360,6 +363,7 @@ export class FromReports extends Component {
         setSelectedForm={this.setSelectedForm}
         setSelectedUser={this.setSelectedUser}
         formObjs={this.state.forms}
+        userObj={this.props.userObj}
       />
     );
   };

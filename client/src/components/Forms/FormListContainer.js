@@ -42,6 +42,7 @@ class FormListContainer extends Component {
     super(props);
     this.state = {
       selectedForm: this.props.reset === "true" ? -1 : -1,
+      userObj: props.userObj
     };
   }
 
@@ -89,6 +90,7 @@ class FormListContainer extends Component {
             >
               <div style={{ textAlign: "center" }}>
                 <p
+                className='hide-on-print'
                   onClick={this.selectForm.bind({}, index)}
                   style={
                     this.state.selectedForm === index
@@ -98,6 +100,7 @@ class FormListContainer extends Component {
                 >
                   {item.name}{" "}
                   <span
+                  className='hide-on-print'
                     style={
                       this.state.selectedForm === index
                         ? selectedFormCountClass
@@ -109,7 +112,7 @@ class FormListContainer extends Component {
                 </p>
               </div>
               <div
-                style={{ marginLeft: "10px" }}
+                // style={{ marginLeft: "10px" }}
                 className={this.state.selectedForm === index ? "" : "hideIt"}
               >
                 <FormSubmitterListContainer
@@ -117,10 +120,11 @@ class FormListContainer extends Component {
                   setSelectedUser={this.props.setSelectedUser}
                   submittions={item.forms}
                   formType={item.forms[0].formType}
+                  userObj={this.props.userObj}
                 />
               </div>
               <div
-                style={{ marginLeft: "10px" }}
+                // style={{ marginLeft: "10px" }}
                 className={this.state.selectedForm === index ? "hideIt" : ""}
               ></div>
             </div>
