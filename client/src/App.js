@@ -358,8 +358,7 @@ class App extends Component {
     }
     thisHook.setState({ blockCompUpdates: true });
     Axios.post(
-      `/api/email/${this.state.emailTo}/${this.state.name}/${
-        this.state.organization ? this.state.organization : 'null'
+      `/api/email/${this.state.emailTo}/${this.state.name}/${this.state.organization ? this.state.organization : 'null'
       }`
     )
       .then(function (response) {
@@ -1166,8 +1165,7 @@ function DisplayExtra({
         <div className='extraInfoNavDiv'>
           <p className='extraInfoNavSubTitle'>
             <i>
-              This is the first screen users will see when they log in. I feel
-              this is alright for now.
+              This is the first screen users will see when they log in.
             </i>
           </p>
         </div>
