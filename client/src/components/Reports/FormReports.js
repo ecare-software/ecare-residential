@@ -1212,7 +1212,7 @@ export class FromReports extends Component {
             <p>Loading...</p>
           </div>
         ) : this.state.doShowFilters === false && !this.state.isLoading ? (
-          <div className='row' style={{ paddingBottom: "100px" }}>
+          <div className='row' style={{ paddingBottom: "100px", justifyContent: "center", alignItems: "center"}}>
             <div style={{ marginTop: "20px" }} className='col-md-12'>
               <div
                 className={
