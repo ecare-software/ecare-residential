@@ -5,7 +5,6 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 const selectedUserNameClass = {
   color: "maroon",
-  // padding: "10px",
   borderRadius: "9px",
   cursor: "pointer",
   fontWeight: "800",
@@ -14,10 +13,11 @@ const selectedUserNameClass = {
 
 const userNameClass = {
   color: "black",
-  // padding: "10px",
   borderRadius: "9px",
   cursor: "pointer",
   fontWeight: "300",
+  display: "flex",
+  justifyContent: "center"
 };
 
 const reportDateTimeClass = {
@@ -133,11 +133,9 @@ class FormSubmitterListContainer extends Component {
     return (
       <ul style={{ listStyleType: "none", padding: "0px" }}>
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-          {/* {!this.state.doShowFilters && ( */}
             <button onClick={this.triggerPrint} className='btn btn-link'>
               <span className='fa fa-print'></span> Print {this.props.formType}s
             </button>
-           {/* )} */}
         </div>
         {this.props.submittions.length > 0 ? (
           this.props.submittions.map((form, formIndex) => (
@@ -150,7 +148,7 @@ class FormSubmitterListContainer extends Component {
               }
               key={formIndex}
             >
-              <table class="table table-hover" style={{marginBottom:"0px"}}>
+              <table class="table table-hover hide-on-print" style={{width: "90%", marginBottom:"0px"}}>
                   {formIndex === 0 && (
                      <thead>
                      <tr>

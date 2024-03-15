@@ -73,11 +73,11 @@ class FormListContainer extends Component {
           </div>
         )}
         {this.props.formObjs.map((item, index) => (
-          <div 
+          <div
             key={index}
             style={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: "column",
               justifyContent: "center",
             }}
           >
@@ -85,10 +85,10 @@ class FormListContainer extends Component {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                width: "600px",
+                minWidth: "600px",
               }}
             >
-              <div style={{ textAlign: "center" }}>
+              <div style={{ textAlign: "center", display: "flex", flexDirection: "column" }}>
                 <p
                 className='hide-on-print'
                   onClick={this.selectForm.bind({}, index)}
@@ -112,7 +112,6 @@ class FormListContainer extends Component {
                 </p>
               </div>
               <div
-                // style={{ marginLeft: "10px" }}
                 className={this.state.selectedForm === index ? "" : "hideIt"}
               >
                 <FormSubmitterListContainer
