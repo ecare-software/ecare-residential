@@ -42,6 +42,7 @@ class FormListContainer extends Component {
     super(props);
     this.state = {
       selectedForm: this.props.reset === "true" ? -1 : -1,
+      userObj: props.userObj
     };
   }
 
@@ -76,7 +77,7 @@ class FormListContainer extends Component {
             key={index}
             style={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: "column",
               justifyContent: "center",
             }}
           >
@@ -84,11 +85,12 @@ class FormListContainer extends Component {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                width: "600px",
+                minWidth: "600px",
               }}
             >
-              <div style={{ textAlign: "center" }}>
+              <div style={{ textAlign: "center", display: "flex", flexDirection: "column" }}>
                 <p
+                className='hide-on-print'
                   onClick={this.selectForm.bind({}, index)}
                   style={
                     this.state.selectedForm === index
@@ -98,6 +100,7 @@ class FormListContainer extends Component {
                 >
                   {item.name}{" "}
                   <span
+                  className='hide-on-print'
                     style={
                       this.state.selectedForm === index
                         ? selectedFormCountClass
@@ -109,17 +112,18 @@ class FormListContainer extends Component {
                 </p>
               </div>
               <div
-                style={{ marginLeft: "10px" }}
                 className={this.state.selectedForm === index ? "" : "hideIt"}
               >
                 <FormSubmitterListContainer
                   reset={this.state.selectedForm === index ? false : true}
                   setSelectedUser={this.props.setSelectedUser}
                   submittions={item.forms}
+                  formType={item.forms[0].formType}
+                  userObj={this.props.userObj}
                 />
               </div>
               <div
-                style={{ marginLeft: "10px" }}
+                // style={{ marginLeft: "10px" }}
                 className={this.state.selectedForm === index ? "hideIt" : ""}
               ></div>
             </div>
