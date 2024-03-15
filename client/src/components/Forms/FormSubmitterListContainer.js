@@ -104,23 +104,27 @@ class FormSubmitterListContainer extends Component {
   render() {
     if (this.state.formsToPrint.length > 0) {
       return (
-        <div>
-          <div
+        <div className="container">
+          <div 
             style={{
               display: "flex",
-              flexDirection: "column",
+              flexDirection: "row",
               justifyContent: "center",
               alignItems: "start",
-              marginTop: 200,
-              marginBottom: 200,
+              marginTop: "100px",
+              marginBottom: "100px",
               marginLeft: "0px",
             }}
-            className='hide-on-print'
+            className='hide-on-print row'
           >
-            <div>
-              <ClipLoader className='formSpinner' size={50} color={"#ffc107"} />
+            <div className="col-xs-4">
+              <ClipLoader className='formSpinner' size={40} color={"#ffc107"} />
             </div>
-            <h1>Printing Forms, Please Wait...</h1>
+            <div className="col-xs-8">
+              <h1 style={{fontSize:"1.2rem", paddingLeft:"10px", paddingTop:"5px"}}>Printing {this.state.formType} Forms. Please wait...</h1>
+              {/* <h1 style={{fontSize:"1.2rem"}}>Please Wait...</h1> */}
+            </div>
+            
           </div>
           <div className='hide-on-non-print'>
             {this.state.formsToPrint.map((form, idx) => (
@@ -134,7 +138,7 @@ class FormSubmitterListContainer extends Component {
       <ul style={{ listStyleType: "none", padding: "0px" }}>
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <button onClick={this.triggerPrint} className='btn btn-link'>
-              <span className='fa fa-print'></span> Print {this.props.formType}s
+              <span className='fa fa-print'></span> Print {this.props.formType} Forms
             </button>
         </div>
         {this.props.submittions.length > 0 ? (
