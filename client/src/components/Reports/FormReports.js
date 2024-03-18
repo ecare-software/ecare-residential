@@ -310,7 +310,6 @@ export class FromReports extends Component {
 
     // 2.1 list forms (loop)
     const allForms = this.state.forms.reduce((acc, form) => {
-      console.log("form:", form);
 
       acc.push(...form.forms);
       return acc;
@@ -330,7 +329,6 @@ export class FromReports extends Component {
       );
       return acc;
     }, []);
-
     this.setState({ ...this.state, formsToPrint: allFormComps });
 
     /*
@@ -360,6 +358,7 @@ export class FromReports extends Component {
         setSelectedForm={this.setSelectedForm}
         setSelectedUser={this.setSelectedUser}
         formObjs={this.state.forms}
+        userObj={this.props.userObj}
       />
     );
   };
@@ -1213,7 +1212,7 @@ export class FromReports extends Component {
             <p>Loading...</p>
           </div>
         ) : this.state.doShowFilters === false && !this.state.isLoading ? (
-          <div className='row' style={{ paddingBottom: "100px" }}>
+          <div className='row' style={{ paddingBottom: "100px", justifyContent: "center", alignItems: "center"}}>
             <div style={{ marginTop: "20px" }} className='col-md-12'>
               <div
                 className={
