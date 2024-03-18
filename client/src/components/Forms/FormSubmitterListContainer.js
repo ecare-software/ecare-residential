@@ -172,7 +172,7 @@ class FormSubmitterListContainer extends Component {
                     </td>
                     <td style={reportDateTimeClass}>
                     {this.state.formType === "Incident Report" ? 
-                      `${new Date('01-01-2001 '+form.time_of_incident).toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: true, hourCycle: 'h12'})}` : 
+                      `${new Date('01/01/2001 '+ form.time_of_incident).toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: true, hourCycle: 'h12'})}` : 
                       `${new Date(form.createDate).toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: true})}`
                     }
                     </td>
