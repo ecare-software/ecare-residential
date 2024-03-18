@@ -4,7 +4,7 @@ import Cookies from 'universal-cookie';
 import { FormCountContext } from './context/index';
 //components
 import Header from './components/Header/Header';
-import TreatmentPlan72 from "./components/Forms/TreatmentPlan72";
+import TreatmentPlan72 from './components/Forms/TreatmentPlan72';
 import IncidentReport from './components/Forms/IncidentReport';
 import SeriousIncidentReport from './components/Forms/SeriousIncidentReport';
 import RestraintReport from './components/Forms/RestraintReport';
@@ -358,8 +358,7 @@ class App extends Component {
     }
     thisHook.setState({ blockCompUpdates: true });
     Axios.post(
-      `/api/email/${this.state.emailTo}/${this.state.name}/${
-        this.state.organization ? this.state.organization : 'null'
+      `/api/email/${this.state.emailTo}/${this.state.name}/${this.state.organization ? this.state.organization : 'null'
       }`
     )
       .then(function (response) {
@@ -715,6 +714,7 @@ function ToggleScreen({
           valuesSet={false}
           userObj={appState.userObj}
           id='AwakeNightStaffSignoff'
+          toggleDisplay={toggleDisplay}
         />
       </div>
     );
@@ -1165,8 +1165,7 @@ function DisplayExtra({
         <div className='extraInfoNavDiv'>
           <p className='extraInfoNavSubTitle'>
             <i>
-              This is the first screen users will see when they log in. I feel
-              this is alright for now.
+              This is the first screen users will see when they log in.
             </i>
           </p>
         </div>

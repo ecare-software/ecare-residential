@@ -157,7 +157,6 @@ export class FromReports extends Component {
       this.setState({ selectedUserForm: {} });
       this.setState({ chartsReady: true });
     }
-    setTimeout(() => {});
   };
 
   flushFormStateData = () => {
@@ -241,53 +240,53 @@ export class FromReports extends Component {
     var formRequests = [
       Axios.get(
         "/api/dailyProgressAndActivity/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/incidentReport/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/seriousIncidentReport/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/restraintReport/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/treatmentPlans72/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/illnessInjury/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/admissionAssessment/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/bodyCheck/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/awakeNightStaffSignoff/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/nightMonitoring/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/none/none/none/none/none/false"
       ),
     ];
 
@@ -301,16 +300,15 @@ export class FromReports extends Component {
 
   triggerPrint = () => {
     /*
-    1. change all of the listed forms to full view of forms
+      1. change all of the listed forms to full view of forms
     */
     this.setState({ ...this.state, showFullForms: true });
     /*
-    2. call print method, (window.print()), bringing up the print window on the list of forms
-*/
+      2. call print method, (window.print()), bringing up the print window on the list of forms
+    */
 
     // 2.1 list forms (loop)
     const allForms = this.state.forms.reduce((acc, form) => {
-
       acc.push(...form.forms);
       return acc;
     }, []);
@@ -330,18 +328,17 @@ export class FromReports extends Component {
       return acc;
     }, []);
     this.setState({ ...this.state, formsToPrint: allFormComps });
+  };
 
-    /*
-    3. change the view back after set amount of time, showing list of filtered forms again
-    */
+  doPrintResultsView = () => {
     setTimeout(() => {
       window.print();
-    }, 5000);
+    }, 1000);
+  }
 
-    setTimeout(() => {
-      this.setState({ ...this.state, showFullForms: false, formsToPrint: [] });
-    }, 8000);
-  };
+  doClosePrintView = () => {
+    this.setState({ ...this.state, showFullForms: false, formsToPrint: [] });
+  }
 
   doShowForms = (showFullForms) => {
     return showFullForms ? (
@@ -390,53 +387,53 @@ export class FromReports extends Component {
     var formRequests = [
       Axios.get(
         "/api/dailyProgressAndActivity/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/incidentReport/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/seriousIncidentReport/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/restraintReport/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/treatmentPlans72/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/illnessInjury/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/admissionAssessment/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/bodyCheck/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/awakeNightStaffSignoff/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/nightMonitoring/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/none/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/none/none/none/none/none/false"
       ),
     ];
 
@@ -485,27 +482,27 @@ export class FromReports extends Component {
           formRequests.push(
             Axios.get(
               "/api/dailyProgressAndActivity/" +
-                this.props.userObj.homeId +
-                "/" +
-                searchString +
-                "/" +
-                submittedAfter +
-                "/" +
-                submittedBefore +
-                "/" +
-                dobAfter +
-                "/" +
-                dobBefore +
-                "/" +
-                doaAfter +
-                "/" +
-                doaBefore +
-                "/" +
-                ethnicityA +
-                "/" +
-                submittedByA +
-                "/" +
-                approved
+              this.props.userObj.homeId +
+              "/" +
+              searchString +
+              "/" +
+              submittedAfter +
+              "/" +
+              submittedBefore +
+              "/" +
+              dobAfter +
+              "/" +
+              dobBefore +
+              "/" +
+              doaAfter +
+              "/" +
+              doaBefore +
+              "/" +
+              ethnicityA +
+              "/" +
+              submittedByA +
+              "/" +
+              approved
             )
           );
         }
@@ -514,27 +511,27 @@ export class FromReports extends Component {
           formRequests.push(
             Axios.get(
               "/api/bodyCheck/" +
-                this.props.userObj.homeId +
-                "/" +
-                searchString +
-                "/" +
-                submittedAfter +
-                "/" +
-                submittedBefore +
-                "/" +
-                dobAfter +
-                "/" +
-                dobBefore +
-                "/" +
-                doaAfter +
-                "/" +
-                doaBefore +
-                "/" +
-                ethnicityA +
-                "/" +
-                submittedByA +
-                "/" +
-                approved
+              this.props.userObj.homeId +
+              "/" +
+              searchString +
+              "/" +
+              submittedAfter +
+              "/" +
+              submittedBefore +
+              "/" +
+              dobAfter +
+              "/" +
+              dobBefore +
+              "/" +
+              doaAfter +
+              "/" +
+              doaBefore +
+              "/" +
+              ethnicityA +
+              "/" +
+              submittedByA +
+              "/" +
+              approved
             )
           );
         }
@@ -543,27 +540,27 @@ export class FromReports extends Component {
           formRequests.push(
             Axios.get(
               "/api/incidentReport/" +
-                this.props.userObj.homeId +
-                "/" +
-                searchString +
-                "/" +
-                submittedAfter +
-                "/" +
-                submittedBefore +
-                "/" +
-                dobAfter +
-                "/" +
-                dobBefore +
-                "/" +
-                doaAfter +
-                "/" +
-                doaBefore +
-                "/" +
-                ethnicityA +
-                "/" +
-                submittedByA +
-                "/" +
-                approved
+              this.props.userObj.homeId +
+              "/" +
+              searchString +
+              "/" +
+              submittedAfter +
+              "/" +
+              submittedBefore +
+              "/" +
+              dobAfter +
+              "/" +
+              dobBefore +
+              "/" +
+              doaAfter +
+              "/" +
+              doaBefore +
+              "/" +
+              ethnicityA +
+              "/" +
+              submittedByA +
+              "/" +
+              approved
             )
           );
         }
@@ -572,27 +569,27 @@ export class FromReports extends Component {
           formRequests.push(
             Axios.get(
               "/api/seriousIncidentReport/" +
-                this.props.userObj.homeId +
-                "/" +
-                searchString +
-                "/" +
-                submittedAfter +
-                "/" +
-                submittedBefore +
-                "/" +
-                dobAfter +
-                "/" +
-                dobBefore +
-                "/" +
-                doaAfter +
-                "/" +
-                doaBefore +
-                "/" +
-                ethnicityA +
-                "/" +
-                submittedByA +
-                "/" +
-                approved
+              this.props.userObj.homeId +
+              "/" +
+              searchString +
+              "/" +
+              submittedAfter +
+              "/" +
+              submittedBefore +
+              "/" +
+              dobAfter +
+              "/" +
+              dobBefore +
+              "/" +
+              doaAfter +
+              "/" +
+              doaBefore +
+              "/" +
+              ethnicityA +
+              "/" +
+              submittedByA +
+              "/" +
+              approved
             )
           );
         }
@@ -601,27 +598,27 @@ export class FromReports extends Component {
           formRequests.push(
             Axios.get(
               "/api/restraintReport/" +
-                this.props.userObj.homeId +
-                "/" +
-                searchString +
-                "/" +
-                submittedAfter +
-                "/" +
-                submittedBefore +
-                "/" +
-                dobAfter +
-                "/" +
-                dobBefore +
-                "/" +
-                doaAfter +
-                "/" +
-                doaBefore +
-                "/" +
-                ethnicityA +
-                "/" +
-                submittedByA +
-                "/" +
-                approved
+              this.props.userObj.homeId +
+              "/" +
+              searchString +
+              "/" +
+              submittedAfter +
+              "/" +
+              submittedBefore +
+              "/" +
+              dobAfter +
+              "/" +
+              dobBefore +
+              "/" +
+              doaAfter +
+              "/" +
+              doaBefore +
+              "/" +
+              ethnicityA +
+              "/" +
+              submittedByA +
+              "/" +
+              approved
             )
           );
         }
@@ -630,27 +627,27 @@ export class FromReports extends Component {
           formRequests.push(
             Axios.get(
               "/api/treatmentPlans72/" +
-                this.props.userObj.homeId +
-                "/" +
-                searchString +
-                "/" +
-                submittedAfter +
-                "/" +
-                submittedBefore +
-                "/" +
-                dobAfter +
-                "/" +
-                dobBefore +
-                "/" +
-                doaAfter +
-                "/" +
-                doaBefore +
-                "/" +
-                ethnicityA +
-                "/" +
-                submittedByA +
-                "/" +
-                approved
+              this.props.userObj.homeId +
+              "/" +
+              searchString +
+              "/" +
+              submittedAfter +
+              "/" +
+              submittedBefore +
+              "/" +
+              dobAfter +
+              "/" +
+              dobBefore +
+              "/" +
+              doaAfter +
+              "/" +
+              doaBefore +
+              "/" +
+              ethnicityA +
+              "/" +
+              submittedByA +
+              "/" +
+              approved
             )
           );
         }
@@ -659,27 +656,27 @@ export class FromReports extends Component {
           formRequests.push(
             Axios.get(
               "/api/illnessInjury/" +
-                this.props.userObj.homeId +
-                "/" +
-                searchString +
-                "/" +
-                submittedAfter +
-                "/" +
-                submittedBefore +
-                "/" +
-                dobAfter +
-                "/" +
-                dobBefore +
-                "/" +
-                doaAfter +
-                "/" +
-                doaBefore +
-                "/" +
-                ethnicityA +
-                "/" +
-                submittedByA +
-                "/" +
-                approved
+              this.props.userObj.homeId +
+              "/" +
+              searchString +
+              "/" +
+              submittedAfter +
+              "/" +
+              submittedBefore +
+              "/" +
+              dobAfter +
+              "/" +
+              dobBefore +
+              "/" +
+              doaAfter +
+              "/" +
+              doaBefore +
+              "/" +
+              ethnicityA +
+              "/" +
+              submittedByA +
+              "/" +
+              approved
             )
           );
         }
@@ -688,27 +685,27 @@ export class FromReports extends Component {
           formRequests.push(
             Axios.get(
               "/api/admissionAssessment/" +
-                this.props.userObj.homeId +
-                "/" +
-                searchString +
-                "/" +
-                submittedAfter +
-                "/" +
-                submittedBefore +
-                "/" +
-                dobAfter +
-                "/" +
-                dobBefore +
-                "/" +
-                doaAfter +
-                "/" +
-                doaBefore +
-                "/" +
-                ethnicityA +
-                "/" +
-                submittedByA +
-                "/" +
-                approved
+              this.props.userObj.homeId +
+              "/" +
+              searchString +
+              "/" +
+              submittedAfter +
+              "/" +
+              submittedBefore +
+              "/" +
+              dobAfter +
+              "/" +
+              dobBefore +
+              "/" +
+              doaAfter +
+              "/" +
+              doaBefore +
+              "/" +
+              ethnicityA +
+              "/" +
+              submittedByA +
+              "/" +
+              approved
             )
           );
         }
@@ -717,27 +714,27 @@ export class FromReports extends Component {
           formRequests.push(
             Axios.get(
               "/api/awakeNightStaffSignoff/" +
-                this.props.userObj.homeId +
-                "/" +
-                searchString +
-                "/" +
-                submittedAfter +
-                "/" +
-                submittedBefore +
-                "/" +
-                dobAfter +
-                "/" +
-                dobBefore +
-                "/" +
-                doaAfter +
-                "/" +
-                doaBefore +
-                "/" +
-                ethnicityA +
-                "/" +
-                submittedByA +
-                "/" +
-                approved
+              this.props.userObj.homeId +
+              "/" +
+              searchString +
+              "/" +
+              submittedAfter +
+              "/" +
+              submittedBefore +
+              "/" +
+              dobAfter +
+              "/" +
+              dobBefore +
+              "/" +
+              doaAfter +
+              "/" +
+              doaBefore +
+              "/" +
+              ethnicityA +
+              "/" +
+              submittedByA +
+              "/" +
+              approved
             )
           );
         }
@@ -746,27 +743,27 @@ export class FromReports extends Component {
           formRequests.push(
             Axios.get(
               "/api/nightMonitoring/" +
-                this.props.userObj.homeId +
-                "/" +
-                searchString +
-                "/" +
-                submittedAfter +
-                "/" +
-                submittedBefore +
-                "/" +
-                dobAfter +
-                "/" +
-                dobBefore +
-                "/" +
-                doaAfter +
-                "/" +
-                doaBefore +
-                "/" +
-                ethnicityA +
-                "/" +
-                submittedByA +
-                "/" +
-                approved
+              this.props.userObj.homeId +
+              "/" +
+              searchString +
+              "/" +
+              submittedAfter +
+              "/" +
+              submittedBefore +
+              "/" +
+              dobAfter +
+              "/" +
+              dobBefore +
+              "/" +
+              doaAfter +
+              "/" +
+              doaBefore +
+              "/" +
+              ethnicityA +
+              "/" +
+              submittedByA +
+              "/" +
+              approved
             )
           );
         }
@@ -776,243 +773,243 @@ export class FromReports extends Component {
       formRequests.push(
         Axios.get(
           "/api/dailyProgressAndActivity/" +
-            this.props.userObj.homeId +
-            "/" +
-            searchString +
-            "/" +
-            submittedAfter +
-            "/" +
-            submittedBefore +
-            "/" +
-            dobAfter +
-            "/" +
-            dobBefore +
-            "/" +
-            doaAfter +
-            "/" +
-            doaBefore +
-            "/" +
-            ethnicityA +
-            "/" +
-            submittedByA +
-            "/" +
-            approved
+          this.props.userObj.homeId +
+          "/" +
+          searchString +
+          "/" +
+          submittedAfter +
+          "/" +
+          submittedBefore +
+          "/" +
+          dobAfter +
+          "/" +
+          dobBefore +
+          "/" +
+          doaAfter +
+          "/" +
+          doaBefore +
+          "/" +
+          ethnicityA +
+          "/" +
+          submittedByA +
+          "/" +
+          approved
         ),
         Axios.get(
           "/api/bodyCheck/" +
-            this.props.userObj.homeId +
-            "/" +
-            searchString +
-            "/" +
-            submittedAfter +
-            "/" +
-            submittedBefore +
-            "/" +
-            dobAfter +
-            "/" +
-            dobBefore +
-            "/" +
-            doaAfter +
-            "/" +
-            doaBefore +
-            "/" +
-            ethnicityA +
-            "/" +
-            submittedByA +
-            "/" +
-            approved
+          this.props.userObj.homeId +
+          "/" +
+          searchString +
+          "/" +
+          submittedAfter +
+          "/" +
+          submittedBefore +
+          "/" +
+          dobAfter +
+          "/" +
+          dobBefore +
+          "/" +
+          doaAfter +
+          "/" +
+          doaBefore +
+          "/" +
+          ethnicityA +
+          "/" +
+          submittedByA +
+          "/" +
+          approved
         ),
         Axios.get(
           "/api/incidentReport/" +
-            this.props.userObj.homeId +
-            "/" +
-            searchString +
-            "/" +
-            submittedAfter +
-            "/" +
-            submittedBefore +
-            "/" +
-            dobAfter +
-            "/" +
-            dobBefore +
-            "/" +
-            doaAfter +
-            "/" +
-            doaBefore +
-            "/" +
-            ethnicityA +
-            "/" +
-            submittedByA +
-            "/" +
-            approved
+          this.props.userObj.homeId +
+          "/" +
+          searchString +
+          "/" +
+          submittedAfter +
+          "/" +
+          submittedBefore +
+          "/" +
+          dobAfter +
+          "/" +
+          dobBefore +
+          "/" +
+          doaAfter +
+          "/" +
+          doaBefore +
+          "/" +
+          ethnicityA +
+          "/" +
+          submittedByA +
+          "/" +
+          approved
         ),
         Axios.get(
           "/api/seriousIncidentReport/" +
-            this.props.userObj.homeId +
-            "/" +
-            searchString +
-            "/" +
-            submittedAfter +
-            "/" +
-            submittedBefore +
-            "/" +
-            dobAfter +
-            "/" +
-            dobBefore +
-            "/" +
-            doaAfter +
-            "/" +
-            doaBefore +
-            "/" +
-            ethnicityA +
-            "/" +
-            submittedByA +
-            "/" +
-            approved
+          this.props.userObj.homeId +
+          "/" +
+          searchString +
+          "/" +
+          submittedAfter +
+          "/" +
+          submittedBefore +
+          "/" +
+          dobAfter +
+          "/" +
+          dobBefore +
+          "/" +
+          doaAfter +
+          "/" +
+          doaBefore +
+          "/" +
+          ethnicityA +
+          "/" +
+          submittedByA +
+          "/" +
+          approved
         ),
         Axios.get(
           "/api/admissionAssessment/" +
-            this.props.userObj.homeId +
-            "/" +
-            searchString +
-            "/" +
-            submittedAfter +
-            "/" +
-            submittedBefore +
-            "/" +
-            dobAfter +
-            "/" +
-            dobBefore +
-            "/" +
-            doaAfter +
-            "/" +
-            doaBefore +
-            "/" +
-            ethnicityA +
-            "/" +
-            submittedByA +
-            "/" +
-            approved
+          this.props.userObj.homeId +
+          "/" +
+          searchString +
+          "/" +
+          submittedAfter +
+          "/" +
+          submittedBefore +
+          "/" +
+          dobAfter +
+          "/" +
+          dobBefore +
+          "/" +
+          doaAfter +
+          "/" +
+          doaBefore +
+          "/" +
+          ethnicityA +
+          "/" +
+          submittedByA +
+          "/" +
+          approved
         ),
         Axios.get(
           "/api/restraintReport/" +
-            this.props.userObj.homeId +
-            "/" +
-            searchString +
-            "/" +
-            submittedAfter +
-            "/" +
-            submittedBefore +
-            "/" +
-            dobAfter +
-            "/" +
-            dobBefore +
-            "/" +
-            doaAfter +
-            "/" +
-            doaBefore +
-            "/" +
-            ethnicityA +
-            "/" +
-            submittedByA +
-            "/" +
-            approved
+          this.props.userObj.homeId +
+          "/" +
+          searchString +
+          "/" +
+          submittedAfter +
+          "/" +
+          submittedBefore +
+          "/" +
+          dobAfter +
+          "/" +
+          dobBefore +
+          "/" +
+          doaAfter +
+          "/" +
+          doaBefore +
+          "/" +
+          ethnicityA +
+          "/" +
+          submittedByA +
+          "/" +
+          approved
         ),
         Axios.get(
           "/api/treatmentPlans72/" +
-            this.props.userObj.homeId +
-            "/" +
-            searchString +
-            "/" +
-            submittedAfter +
-            "/" +
-            submittedBefore +
-            "/" +
-            dobAfter +
-            "/" +
-            dobBefore +
-            "/" +
-            doaAfter +
-            "/" +
-            doaBefore +
-            "/" +
-            ethnicityA +
-            "/" +
-            submittedByA +
-            "/" +
-            approved
+          this.props.userObj.homeId +
+          "/" +
+          searchString +
+          "/" +
+          submittedAfter +
+          "/" +
+          submittedBefore +
+          "/" +
+          dobAfter +
+          "/" +
+          dobBefore +
+          "/" +
+          doaAfter +
+          "/" +
+          doaBefore +
+          "/" +
+          ethnicityA +
+          "/" +
+          submittedByA +
+          "/" +
+          approved
         ),
         Axios.get(
           "/api/illnessInjury/" +
-            this.props.userObj.homeId +
-            "/" +
-            searchString +
-            "/" +
-            submittedAfter +
-            "/" +
-            submittedBefore +
-            "/" +
-            dobAfter +
-            "/" +
-            dobBefore +
-            "/" +
-            doaAfter +
-            "/" +
-            doaBefore +
-            "/" +
-            ethnicityA +
-            "/" +
-            submittedByA +
-            "/" +
-            approved
+          this.props.userObj.homeId +
+          "/" +
+          searchString +
+          "/" +
+          submittedAfter +
+          "/" +
+          submittedBefore +
+          "/" +
+          dobAfter +
+          "/" +
+          dobBefore +
+          "/" +
+          doaAfter +
+          "/" +
+          doaBefore +
+          "/" +
+          ethnicityA +
+          "/" +
+          submittedByA +
+          "/" +
+          approved
         ),
         Axios.get(
           "/api/awakeNightStaffSignoff/" +
-            this.props.userObj.homeId +
-            "/" +
-            searchString +
-            "/" +
-            submittedAfter +
-            "/" +
-            submittedBefore +
-            "/" +
-            dobAfter +
-            "/" +
-            dobBefore +
-            "/" +
-            doaAfter +
-            "/" +
-            doaBefore +
-            "/" +
-            ethnicityA +
-            "/" +
-            submittedByA +
-            "/" +
-            approved
+          this.props.userObj.homeId +
+          "/" +
+          searchString +
+          "/" +
+          submittedAfter +
+          "/" +
+          submittedBefore +
+          "/" +
+          dobAfter +
+          "/" +
+          dobBefore +
+          "/" +
+          doaAfter +
+          "/" +
+          doaBefore +
+          "/" +
+          ethnicityA +
+          "/" +
+          submittedByA +
+          "/" +
+          approved
         ),
         Axios.get(
           "/api/nightMonitoring/" +
-            this.props.userObj.homeId +
-            "/" +
-            searchString +
-            "/" +
-            submittedAfter +
-            "/" +
-            submittedBefore +
-            "/" +
-            dobAfter +
-            "/" +
-            dobBefore +
-            "/" +
-            doaAfter +
-            "/" +
-            doaBefore +
-            "/" +
-            ethnicityA +
-            "/" +
-            submittedByA +
-            "/" +
-            approved
+          this.props.userObj.homeId +
+          "/" +
+          searchString +
+          "/" +
+          submittedAfter +
+          "/" +
+          submittedBefore +
+          "/" +
+          dobAfter +
+          "/" +
+          dobBefore +
+          "/" +
+          doaAfter +
+          "/" +
+          doaBefore +
+          "/" +
+          ethnicityA +
+          "/" +
+          submittedByA +
+          "/" +
+          approved
         )
       );
     }
@@ -1055,9 +1052,29 @@ export class FromReports extends Component {
             <div>
               <ClipLoader className='formSpinner' size={50} color={"#ffc107"} />
             </div>
-            <h1>Printing Forms, Please Wait...</h1>
+            <h1>Review the forms below</h1>
+            <div className="hide-on-print">
+              <button
+                onClick={() => {
+                  this.doPrintResultsView()
+                }}
+                className="mr-3 btn btn-light hide-on-print"
+              >
+                Print All Results <i className="fas fa-print"></i>
+              </button>
+
+              <button
+                onClick={() => {
+                  this.doClosePrintView()
+                }}
+                className="btn btn-light hide-on-print"
+              >
+                Close <i className="fas fa-times"></i>
+              </button>
+
+            </div>
           </div>
-          <div className='hide-on-non-print'>
+          <div>
             {this.state.formsToPrint.map((form, idx) => (
               <div key={`print-form-${idx}`}>{form}</div>
             ))}

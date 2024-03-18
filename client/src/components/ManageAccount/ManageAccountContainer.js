@@ -41,9 +41,13 @@ class ManageAccountContainer extends Component {
       document.getElementById("password").value = "";
       document.getElementById("password2").value = "";
       setTimeout(function () {
-        document.getElementById(
-          staticThis.props.id + "-success"
-        ).style.display = "none";
+        try {
+          document.getElementById(
+            staticThis.props.id + "-success"
+          ).style.display = "none";
+        } catch (e) {
+          console.log(e);
+        }
       }, 3000);
     } catch (e) {
       alert("An error has occured");
@@ -106,8 +110,13 @@ class ManageAccountContainer extends Component {
         "block";
 
       setTimeout(() => {
-        document.getElementById(this.props.id + "-sig-success").style.display =
-          "none";
+        try {
+          document.getElementById(
+            this.props.id + "-sig-success"
+          ).style.display = "none";
+        } catch (e) {
+          console.log(e);
+        }
       }, 3000);
     } catch (e) {
       // handle error
@@ -158,15 +167,15 @@ class ManageAccountContainer extends Component {
 
   render() {
     return (
-      <div className="formCompNoBg">
-        <div className="formTitleDiv">
-          <h2 className="formTitle">Manage Account</h2>
+      <div className='formCompNoBg'>
+        <div className='formTitleDiv'>
+          <h2 className='formTitle'>Manage Account</h2>
         </div>
-        <div className="formFieldsMobile">
-          <div className="modal-body">
+        <div className='formFieldsMobile'>
+          <div className='modal-body'>
             {/* sec 1 */}
             <div>
-              <h4 className="defaultLabel">User Info</h4>
+              <h4 className='defaultLabel'>User Info</h4>
               <div style={{ margin: "50px 0px" }}>
                 <table style={{ width: "100%" }}>
                   <tbody>
@@ -204,26 +213,26 @@ class ManageAccountContainer extends Component {
                   </tbody>
                 </table>
               </div>
-              <div className="formFields">
-                <h4 className="defaultSubLabel formFieldsTitle">
+              <div className='formFields'>
+                <h4 className='defaultSubLabel formFieldsTitle'>
                   Change Password
                 </h4>
-                <div className="form-group logInInputField">
-                  <label className="control-label">Enter New Password</label>
+                <div className='form-group logInInputField'>
+                  <label className='control-label'>Enter New Password</label>
                   <input
                     onChange={this.handleFieldInput}
-                    id="password"
-                    className="form-control"
-                    type="password"
+                    id='password'
+                    className='form-control'
+                    type='password'
                   />
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label">Re-enter New Password</label>
+                <div className='form-group logInInputField'>
+                  <label className='control-label'>Re-enter New Password</label>
                   <input
                     onChange={this.handleFieldInput}
-                    id="password2"
-                    className="form-control"
-                    type="password"
+                    id='password2'
+                    className='form-control'
+                    type='password'
                   />
                 </div>
                 <FormError errorId={this.props.id + "-error"}></FormError>
@@ -231,7 +240,7 @@ class ManageAccountContainer extends Component {
                   successId={this.props.id + "-success"}
                 ></FormSuccess>
                 <div
-                  className="form-group logInInputField"
+                  className='form-group logInInputField'
                   style={{
                     display: "flex",
                     flexDirection: "row-reverse",
@@ -240,16 +249,16 @@ class ManageAccountContainer extends Component {
                 >
                   <button
                     onClick={this.validateForm}
-                    className="btn btn-light extraInfoButton"
+                    className='btn btn-light extraInfoButton'
                   >
                     Update
                   </button>
                 </div>
                 {this.state.isLoading && (
-                  <div className="formLoadingDiv">
+                  <div className='formLoadingDiv'>
                     <div>
                       <ClipLoader
-                        className="formSpinner"
+                        className='formSpinner'
                         size={50}
                         color={"#ffc107"}
                       />
@@ -266,12 +275,12 @@ class ManageAccountContainer extends Component {
                     }`,
                   }}
                 >
-                  <h4 className="defaultSubLabel formFieldsTitle">Signature</h4>
+                  <h4 className='defaultSubLabel formFieldsTitle'>Signature</h4>
                   <FormError errorId={this.props.id + "-sig-error"}></FormError>
                   <FormSuccess
                     successId={this.props.id + "-sig-success"}
                   ></FormSuccess>
-                  <div className="sigSection">
+                  <div className='sigSection'>
                     <div
                       style={{
                         width: "100%",
@@ -284,18 +293,18 @@ class ManageAccountContainer extends Component {
                           this.sigCanvas = ref;
                         }}
                         style={{ border: "solid" }}
-                        penColor="black"
+                        penColor='black'
                         clearOnResize={false}
                         canvasProps={{
                           width: 300,
                           height: 100,
                           className: "sigCanvas",
                         }}
-                        backgroundColor="#eeee"
+                        backgroundColor='#eeee'
                       />
                     </div>
                     <div
-                      className="form-group logInInputField"
+                      className='form-group logInInputField'
                       style={{
                         display: "flex",
                         flexDirection: "row-reverse",
@@ -304,7 +313,7 @@ class ManageAccountContainer extends Component {
                     >
                       <button
                         onClick={this.validateSig}
-                        className="btn btn-light extraInfoButton"
+                        className='btn btn-light extraInfoButton'
                       >
                         Update
                       </button>
@@ -313,7 +322,7 @@ class ManageAccountContainer extends Component {
                         onClick={() => {
                           this.sigCanvas.clear();
                         }}
-                        className="btn "
+                        className='btn '
                       >
                         Clear
                       </button>

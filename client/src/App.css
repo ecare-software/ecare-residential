@@ -2,37 +2,55 @@
   .hide-on-print {
     display: none !important;
   }
+
   .hide-on-non-print {
     display: block !important;
   }
+
   .logInInputField {
     break-inside: avoid;
     margin: 1px;
   }
+
   .print-container {
     display: flex;
     flex-wrap: wrap;
   }
+
   .print-column {
     flex: 1 0 33.33%;
-    box-sizing: border-box; 
-    padding: 10px; 
+    box-sizing: border-box;
+    padding: 10px;
   }
+
   .input-header {
     margin-top: 15px;
   }
+
+  .meta-details-content {
+    margin: 0px !important;
+  }
+
+  .meta-details-content {
+    page-break-before: always;
+  }
+
 }
-@page {
-  margin: 10%;
-}
+
+
 .hide-on-non-print {
   display: none;
+}
+
+.meta-details-content {
+  margin: 0px 20px 0px 20px;
 }
 
 input {
   height: 40px;
   border-radius: 9px;
 }
+
 .formLoadingDiv {
   text-align: center;
   min-height: 80vh;
@@ -40,22 +58,27 @@ input {
   flex-direction: column;
   justify-content: center;
 }
+
 .btn-light {
   background-color: #5f000026;
   border-color: black;
 }
+
 .formSpinner {
   display: block;
   margin-left: 10px;
 }
+
 .defaultLabel {
   color: maroon;
   border-bottom: 0.5px solid #eee;
   padding: 10px 10px;
 }
+
 .nav-link-not-logged-in.active {
   background-color: transparent !important;
 }
+
 .modal-content {
   border: none;
   background-color: transparent;
@@ -65,6 +88,7 @@ input {
   border: none;
   background-color: #f5f5f5 !important;
 }
+
 .nav-link-not-logged-in {
   background-color: #ffffff31 !important;
 }
@@ -90,28 +114,35 @@ input {
   background-color: #5e0000;
   border-radius: 11px;
 }
-.sigCanvas{
+
+.sigCanvas {
   width: 450px;
 }
+
 .extraInfoMainTitle {
   font-weight: 300;
 }
+
 .extraInfoSubTitle {
   font-weight: 200;
 }
+
 .extraInfoNavDiv {
   margin: 20px 0px;
 }
+
 .extraInfoNavTitle {
   color: maroon;
   font-weight: 300;
 }
+
 .extraInfoButtonDiv {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin-right: 10px;
 }
+
 .extraInfoButton {
   text-align: left;
 }
@@ -120,6 +151,7 @@ input {
   font-weight: 900;
   /* margin2px; */
 }
+
 .flexNewPassword {
   display: flex;
 }
@@ -127,6 +159,7 @@ input {
 label {
   font-weight: 300 !important;
 }
+
 .formFields {
   margin: 25px 10px;
   height: fit-content;
@@ -135,9 +168,11 @@ label {
 .formFieldsTitle {
   margin: 15px 0px;
 }
+
 .pointer {
   cursor: pointer;
 }
+
 .fa {
   position: inherit;
 }
@@ -146,7 +181,7 @@ label {
   display: flex;
 }
 
-.modal-header > h5 {
+.modal-header>h5 {
   flex: 1;
 }
 
@@ -204,6 +239,7 @@ label {
   transition: all 0.3s;
   box-shadow: 0px 6px 23px 0px rgba(37, 37, 37, 0.459);
 }
+
 .darkBtn:hover {
   background-color: white;
   color: maroon;
@@ -215,6 +251,7 @@ label {
   transition: all 0.3s;
   box-shadow: 0px 6px 23px 0px rgba(37, 37, 37, 0.459);
 }
+
 .darkBtnSimple {
   background-color: maroon;
   color: white;
@@ -274,6 +311,7 @@ body {
 .App {
   overflow-x: hidden;
 }
+
 #extraInfo {
   position: fixed;
   width: 20%;
@@ -294,6 +332,7 @@ html {
   .mobileLearnMore {
     display: none;
   }
+
   .formComp {
     padding: 0px 20px 1px 20px;
     margin: 0px 20px 0px 20px;
@@ -301,12 +340,14 @@ html {
     border-bottom-left-radius: 9px;
     border-bottom-right-radius: 9px;
   }
+
   .formCompNoBg {
     padding: 0px 20px 1px 20px;
     margin: 0px 20px 0px 20px;
     border-bottom-left-radius: 9px;
     border-bottom-right-radius: 9px;
   }
+
   .formTitleDivReport {
     color: maroon;
     min-height: 60px;
@@ -321,6 +362,7 @@ html {
     margin-bottom: 25px;
     padding: 25px 0px 10px 0px;
   }
+
   .alert {
     position: fixed;
     width: 900px;
@@ -335,14 +377,17 @@ html {
   #desktopView {
     margin-top: 60px;
   }
+
   #mobileView {
     display: none;
   }
+
   #mainContainer {
     /* height: 500px; */
     /* margin: 0px 250px; */
     width: 75%;
   }
+
   .App-header {
     background-color: #282c34;
     min-height: 100vh;
@@ -362,6 +407,7 @@ html {
     from {
       transform: rotate(0deg);
     }
+
     to {
       transform: rotate(360deg);
     }
@@ -400,6 +446,7 @@ html {
     line-height: 40px;
     font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
   }
+
   #greetingRowRightBtnContainer {
     margin-top: 20px;
     display: flex;
@@ -414,12 +461,14 @@ html {
     padding: 25px 0px 10px 0px;
     border-bottom: 0.5px solid #cfcece;
   }
+
   .messageBoardTitleDiv {
     color: maroon;
     min-height: 60px;
     margin-bottom: 25px;
     padding: 25px 0px 10px 0px;
   }
+
   .formTitle {
     font-size: 2.3em;
     text-align: center;
@@ -442,6 +491,7 @@ html {
   .hideOnDesktop {
     display: none !important;
   }
+
   #navTitleDesktop {
     width: 100%;
     color: maroon;
@@ -456,9 +506,11 @@ html {
     border-bottom: 0.5px solid rgb(202, 202, 202);
     z-index: 50;
   }
-  #navTitleDesktop > p {
+
+  #navTitleDesktop>p {
     margin-left: 20px;
   }
+
   #navActionContainer {
     margin-top: 35px;
     position: fixed;
@@ -475,6 +527,7 @@ html {
   .mobileLearnMore {
     display: none;
   }
+
   .formComp {
     padding: 0px 20px 1px 20px;
     margin: 0px 20px 0px 20px;
@@ -527,10 +580,12 @@ html {
     margin-bottom: 25px;
     padding: 25px 0px 10px 0px;
   }
+
   .formTitle {
     font-size: 2.3em;
     text-align: center;
   }
+
   .alert {
     position: fixed;
     width: 600px;
@@ -541,9 +596,11 @@ html {
     max-height: 500px;
     overflow: scroll;
   }
+
   #desktopView {
     margin-top: 60px;
   }
+
   #navTitleDesktop {
     z-index: 50;
     color: maroon;
@@ -558,9 +615,11 @@ html {
     padding: 50px 0px 8px 0px;
     border-bottom: 0.5px solid rgb(202, 202, 202);
   }
-  #navTitleDesktop > p {
+
+  #navTitleDesktop>p {
     margin-left: 20px;
   }
+
   #navActionContainer {
     margin-top: 35px;
     position: fixed;
@@ -570,12 +629,15 @@ html {
     font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
     font-size: 2em;
   }
+
   .hideOnDesktop {
     display: none !important;
   }
+
   #mobileView {
     display: none;
   }
+
   #greetingContainer {
     padding: 0px;
     border-bottom: 15px solid maroon;
@@ -626,17 +688,21 @@ html {
     position: fixed !important;
     top: 20px !important;
   }
+
   .mobileAdj {
     position: fixed !important;
     top: 20px !important;
     left: 0px !important;
   }
+
   .desktopLearnMore {
     display: none;
   }
+
   .filterSection {
     margin: 15px 0px 15px 0px;
   }
+
   .formTitleDiv {
     -webkit-box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 0px 2px 7px -1px rgba(0, 0, 0, 0.75);
@@ -671,6 +737,7 @@ html {
     z-index: 1;
     border-bottom: 0.5px solid #eee;
   }
+
   .formTitleDivReport {
     color: maroon;
     background-color: rgba(255, 255, 255, 0.733);
@@ -686,6 +753,7 @@ html {
     text-align: center;
     border-bottom: 0.5px solid #ccc;
   }
+
   .formComp {
     margin: 0px 20px 1px 20px;
   }
@@ -693,27 +761,34 @@ html {
   .formCompNoBg {
     margin: 0px 20px 1px 20px;
   }
+
   #extraInfo {
     display: none;
     transition: all 2s;
   }
+
   .formTitle {
     font-size: 1.8em;
     margin: 5px 15px;
     text-align: center;
   }
+
   .reportBtnsMobile {
     margin-top: 175px;
   }
+
   .formFieldsMobile {
     margin-top: 100px;
   }
+
   .formFieldsMobileReport {
     margin-top: 50px;
   }
+
   html {
     scroll-behavior: smooth;
   }
+
   .alert {
     position: fixed;
     width: 300px;
@@ -726,11 +801,12 @@ html {
     max-height: 500px;
     overflow: scroll;
   }
+
   .alert-heading {
     font-size: 1.3em;
   }
-  #desktopView {
-  }
+
+  #desktopView {}
 
   #greetingContainer {
     padding: 0px;
@@ -765,10 +841,12 @@ html {
     margin-top: 70px;
     display: flex;
   }
+
   #iPhoneContainer {
     display: flex;
     justify-content: flex-end;
   }
+
   #homeiPhone {
     margin-top: -90px;
     background: url("../src/images/iphone.gif") no-repeat;
@@ -787,6 +865,7 @@ html {
   .desktopLearnMore {
     display: none;
   }
+
   html {
     scroll-behavior: smooth;
   }
@@ -794,6 +873,7 @@ html {
   .alert-heading {
     font-size: 1.3em;
   }
+
   #greetingRowRightPContainer {
     margin-right: 200px;
   }
@@ -801,6 +881,7 @@ html {
   #iPhoneContainer {
     height: 0px;
   }
+
   #homeiPhone {
     position: relative;
     top: -250px;
@@ -817,9 +898,11 @@ html {
   .desktopLearnMore {
     display: none;
   }
+
   html {
     scroll-behavior: smooth;
   }
+
   #homeiPhone {
     position: relative;
     left: 10px;
@@ -849,6 +932,7 @@ html {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
