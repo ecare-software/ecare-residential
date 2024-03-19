@@ -106,7 +106,7 @@ class FormSubmitterListContainer extends Component {
 
   setHomeData = async () => {
     try {
-      const { data } = await FetchHomeData("home-1234");
+      const { data } = await FetchHomeData(this.state.submittions[0].homeId);
       this.setState({ homeData: data[0]});
       console.log('homeData in setHomeData:', this.state.homeData.name)
       this.printTable();
