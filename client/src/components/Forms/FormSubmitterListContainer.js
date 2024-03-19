@@ -42,7 +42,8 @@ class FormSubmitterListContainer extends Component {
       formsToPrint: [],
       forms: [],
       userObj: props.userObj,
-      homeData: ' '
+      homeData: ' ',
+      searchObj: props.searchObj
     };
   }
 
@@ -171,7 +172,10 @@ class FormSubmitterListContainer extends Component {
             <h3 style={{paddingLeft:"50px"}}>
               {this.props.formType} Overview
             </h3>
-            {/* TODO: if no filter by child name - "" */}
+            {/* TODO: add more filters to print area */}
+            {this.state.searchObj.searchString.length > 0 && (
+              <p style={{paddingLeft:"50px"}}>Client Name - {this.state.searchObj.searchString}</p>
+            )}
           </div>
           )}
         <div className="hide-on-print" style={{paddingBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>

@@ -359,6 +359,7 @@ export class FromReports extends Component {
         setSelectedUser={this.setSelectedUser}
         formObjs={this.state.forms}
         userObj={this.props.userObj}
+        searchObj= {this.state.searchObj}
       />
     );
   };

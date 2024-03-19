@@ -42,7 +42,8 @@ class FormListContainer extends Component {
     super(props);
     this.state = {
       selectedForm: this.props.reset === "true" ? -1 : -1,
-      userObj: props.userObj
+      userObj: props.userObj,
+      searchObj: props.searchObj
     };
   }
 
@@ -120,6 +121,7 @@ class FormListContainer extends Component {
                   submittions={item.forms}
                   formType={item.forms[0].formType}
                   userObj={this.props.userObj}
+                  searchObj= {this.state.searchObj}
                 />
               </div>
               <div
