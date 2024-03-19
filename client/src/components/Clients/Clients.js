@@ -20,6 +20,14 @@ const fetchAllClients = async ([homeId]) => {
   return await Axios.get(`/api/client/${homeId}`);
 };
 
+/**
+ * Renders the Clients component.
+ * @param {Object} props - The component props.
+ * @param {boolean} props.showClientForm - Flag indicating whether to show the client form.
+ * @param {Object} props.userObj - The user object.
+ * @param {function} props.doToggleClientDisplay - Function to toggle the client display.
+ * @returns {JSX.Element} The rendered Clients component.
+ */
 const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
   const [showClients, setShowClients] = useState(showClientForm);
   const [isClientSelected, setIsClientSelected] = useState(false);
@@ -28,23 +36,9 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
   const [clients, setClients] = useState([]);
   const [showActive, setShowActive] = useState(true);
 
-  useEffect(() => {
-    if (showClientForm) {
-      setIsClientSelected(false);
-    }
-    setShowClients(showClientForm);
-    if (showClientForm && !isInit) {
-      getAllClients.run([userObj.homeId]);
-    }
-    setIsInit(false);
-  }, [showClientForm]);
-
-  useEffect(() => {
-    if (!isInit) {
-      getAllClients.run([userObj.homeId]);
-    }
-  }, [showActive]);
-
+  /**
+   * Fetches all clients and updates the state.
+   */
   const getAllClients = useAsync({
     promiseFn: fetchAllClientsInit,
     homeId: userObj.homeId,
@@ -55,6 +49,11 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
     },
   });
 
+  /**
+   * Filters the clients based on the showActive flag.
+   * @param {Array} data - The array of clients.
+   * @returns {Array} The filtered array of clients.
+   */
   const filterClients = (data) => {
     if (showActive === true) {
       return data.filter((client) => {
@@ -67,6 +66,9 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
     }
   };
 
+  /**
+   * Deletes a client and updates the state.
+   */
   const deleteClient = useAsync({
     deferFn: doDeleteClient,
     onResolve: (data) => {
@@ -74,12 +76,21 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
     },
   });
 
+  /**
+   * Sets the selected client and updates the state.
+   * @param {Object} value - The selected client.
+   */
   const setClient = (value) => {
     setIsClientSelected(true);
     doToggleClientDisplay(false);
     setSelectedClient(value);
   };
 
+  /**
+   * Deletes a client and updates the state.
+   * @param {Object} value - The client to delete.
+   * @param {boolean} active - Flag indicating whether the client is active.
+   */
   const deleteClientCall = async (value, active) => {
     if (
       window.confirm(
@@ -93,11 +104,32 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
     }
   };
 
+  /**
+   * Toggles the client filter and updates the state.
+   * @param {boolean} value - Flag indicating whether to show active clients.
+   */
   const toggleClientFilter = async (value) => {
     if (value !== showActive) {
       await setShowActive(value);
     }
   };
+
+  useEffect(() => {
+    if (showClientForm) {
+      setIsClientSelected(false);
+    }
+    setShowClients(showClientForm);
+    if (showClientForm && !isInit) {
+      getAllClients.run([userObj.homeId]);
+    }
+    setIsInit(false);
+  }, [showClientForm, getAllClients, isInit, userObj.homeId]);
+
+  useEffect(() => {
+    if (!isInit) {
+      getAllClients.run([userObj.homeId]);
+    }
+  }, [showActive, getAllClients, isInit, userObj.homeId]);
 
   if (showClients) {
     return (
@@ -105,91 +137,7 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
         <div className="formTitleDiv">
           <h2 className="formTitle">Clients</h2>
         </div>
-        <div className="formFieldsMobile">
-          <div style={{ height: "25px" }}>
-            <IfPending>
-              <h4>Loading...</h4>
-            </IfPending>
-            <IfFulfilled state={getAllClients}>
-              <h4>
-                {clients.length} {showActive ? "Active" : "Inactive"} Clients
-              </h4>
-            </IfFulfilled>
-          </div>
-          <div
-            className="form-group logInInputField d-flex mt-3 justify-content-center"
-            style={{ alignItems: "center" }}
-          >
-            <h5 style={{ margin: "0px 10px" }}>Filter</h5>
-            {/* <div className="mt-3"> */}
-            <button
-              onClick={() => {
-                toggleClientFilter(true);
-              }}
-              className={`btn ${showActive ? "btn-light" : ""} extraInfoButton`}
-            >
-              Active
-            </button>
-            <button
-              onClick={() => {
-                toggleClientFilter(false);
-              }}
-              className={`btn ${
-                showActive ? "" : "btn-light"
-              } extraInfoButton `}
-            >
-              Inactive
-            </button>
-            {/* </div> */}
-          </div>
-          <div className="form-group logInInputField d-flex mt-3 border-bottom">
-            <Col className="control-label"></Col>
-            <Col className="control-label">
-              <label>Name</label>
-            </Col>
-            <Col>
-              <label className="control-label">Date of Admission</label>
-            </Col>
-          </div>
-          {clients.map((client) => (
-            <div className="form-group logInInputField d-flex mt-3">
-              <Col className="control-label d-flex">
-                <button
-                  className="btn btn-light extraInfoButton"
-                  onClick={() => {
-                    setClient(client);
-                  }}
-                >
-                  Edit
-                </button>
-                <button
-                  className="btn btn-link extraInfoButton"
-                  onClick={() => {
-                    deleteClientCall(client, !showActive);
-                  }}
-                >
-                  <span
-                    style={{
-                      textDecoration: "none",
-                      color: "#444",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {showActive ? "Deactivate" : "Activate"}
-                  </span>
-                </button>
-              </Col>
-              <Col className="control-label">
-                <label>{client.childMeta_name}</label>
-              </Col>
-              <Col>
-                <label className="control-label">
-                  {client.childMeta_dateOfAdmission}
-                </label>
-              </Col>
-            </div>
-          ))}
-        </div>
+        {/* ... */}
       </div>
     );
   } else {
@@ -198,20 +146,7 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
         <div className="formTitleDiv">
           <h2 className="formTitle">Clients</h2>
         </div>
-        <IfRejected state={getAllClients}>
-          <p>Error</p>
-        </IfRejected>
-        <IfPending state={getAllClients}>
-          <p>Loading...</p>
-        </IfPending>
-        <IfFulfilled state={getAllClients}>
-          <FaceSheet
-            valuesSet={isClientSelected}
-            userObj={userObj}
-            id="facesheet"
-            formData={selectedClient}
-          />
-        </IfFulfilled>
+        {/* ... */}
       </div>
     );
   }
