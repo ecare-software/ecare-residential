@@ -356,6 +356,7 @@ export class FromReports extends Component {
         setSelectedUser={this.setSelectedUser}
         formObjs={this.state.forms}
         userObj={this.props.userObj}
+        searchObj= {this.state.searchObj}
       />
     );
   };
@@ -1230,7 +1231,7 @@ export class FromReports extends Component {
           </div>
         ) : this.state.doShowFilters === false && !this.state.isLoading ? (
           <div className='row' style={{ paddingBottom: "100px", justifyContent: "center", alignItems: "center"}}>
-            <div style={{ marginTop: "20px" }} className='col-md-12'>
+            <div style={{ marginTop: "5px" }} className='col-md-12'>
               <div
                 className={
                   Object.keys(this.state.selectedUserForm).length > 0

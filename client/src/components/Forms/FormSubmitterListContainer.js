@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import ShowFormContainer from "../Reports/ShowFormContainer";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 import ClipLoader from "react-spinners/ClipLoader";
+import { FetchHomeData } from "../../utils/FetchHomeData";
+
 
 const selectedUserNameClass = {
   color: "maroon",
@@ -39,9 +41,13 @@ class FormSubmitterListContainer extends Component {
       showFullForms: false,
       formsToPrint: [],
       forms: [],
-      userObj: props.userObj
+      userObj: props.userObj,
+      homeData: ' ',
+      searchObj: props.searchObj
     };
   }
+
+ 
 
   selectUser = (userId) => {
     if (this.state.selectedUser === userId) {
@@ -52,8 +58,6 @@ class FormSubmitterListContainer extends Component {
       this.props.setSelectedUser(userId);
     }
   };
-
-  
 
   componentWillReceiveProps() {
     if (this.props.reset) {
@@ -68,7 +72,7 @@ class FormSubmitterListContainer extends Component {
     this.setState({ ...this.state, showFullForms: true });
     /*
     2. call print method, (window.print()), bringing up the print window on the list of forms
-*/
+    */
 
     // 2.1 list forms (loop)
     const allForms = this.props.submittions;
@@ -101,6 +105,22 @@ class FormSubmitterListContainer extends Component {
     }, 8000);
   };
 
+  setHomeData = async () => {
+    try {
+      const { data } = await FetchHomeData(this.state.submittions[0].homeId);
+      this.setState({ homeData: data[0]});
+      console.log('homeData in setHomeData:', this.state.homeData.name)
+      this.printTable();
+    } catch (e) {
+      console.log('Error fetching home info');
+    }
+  };
+  
+  printTable = () => {
+    {console.log('homeData in printTable:', this.state.homeData.name)}
+    window.print();
+  }
+
   render() {
     if (this.state.formsToPrint.length > 0) {
       return (
@@ -122,7 +142,6 @@ class FormSubmitterListContainer extends Component {
             </div>
             <div className="col-xs-8">
               <h1 style={{fontSize:"1.2rem", paddingLeft:"10px", paddingTop:"5px"}}>Printing {this.state.formType} Forms. Please wait...</h1>
-              {/* <h1 style={{fontSize:"1.2rem"}}>Please Wait...</h1> */}
             </div>
             
           </div>
@@ -136,10 +155,37 @@ class FormSubmitterListContainer extends Component {
     }
     return (
       <ul style={{ listStyleType: "none", padding: "0px" }}>
-        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        {/* home info printed on top of table */}
+        {this.state.homeData && (
+        <div className="hide-on-non-print">
+            <h3 className='text-center'>
+              {this.state.homeData.name && `RTC - ${this.state.homeData.name}`}
+            </h3>
+            {this.state.homeData.address && (
+              <h4 className='text-center'>
+                {`${this.state.homeData.address?.street}, ${this.state.homeData.address?.city}, ${this.state.homeData.address?.state} ${this.state.homeData.address?.zip}`}
+              </h4>
+            )}
+              <h4 className='text-center'>
+              {this.state.homeData.phone && `${this.state.homeData.phone}`}
+            </h4>
+            <h3 style={{paddingLeft:"50px"}}>
+              {this.props.formType} Overview
+            </h3>
+            {/* TODO: add more filters to print area */}
+            {this.state.searchObj.searchString.length > 0 && (
+              <p style={{paddingLeft:"50px"}}>Client Name - {this.state.searchObj.searchString}</p>
+            )}
+          </div>
+          )}
+        <div className="hide-on-print" style={{paddingBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <button onClick={this.triggerPrint} className='btn btn-link'>
               <span className='fa fa-print'></span> Print {this.props.formType} Forms
             </button>
+            <button onClick={this.setHomeData} className='btn btn-link'>
+              <span className='fa fa-print'></span> Print Table
+            </button>
+            
         </div>
         {this.props.submittions.length > 0 ? (
           this.props.submittions.map((form, formIndex) => (
@@ -152,7 +198,7 @@ class FormSubmitterListContainer extends Component {
               }
               key={formIndex}
             >
-              <table class="table table-hover hide-on-print" style={{width: "90%", marginBottom:"0px"}}>
+              <table class="table table-hover" id="report-table" style={{width: "90%", marginBottom:"0px"}}>
                   {formIndex === 0 && (
                      <thead>
                      <tr>
@@ -192,7 +238,6 @@ class FormSubmitterListContainer extends Component {
                   </tr>
                 </tbody>
               </table>
-
 
 
 
