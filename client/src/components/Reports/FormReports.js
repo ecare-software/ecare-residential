@@ -327,7 +327,6 @@ export class FromReports extends Component {
       );
       return acc;
     }, []);
-
     this.setState({ ...this.state, formsToPrint: allFormComps });
   };
 
@@ -356,6 +355,8 @@ export class FromReports extends Component {
         setSelectedForm={this.setSelectedForm}
         setSelectedUser={this.setSelectedUser}
         formObjs={this.state.forms}
+        userObj={this.props.userObj}
+        searchObj= {this.state.searchObj}
       />
     );
   };
@@ -1229,8 +1230,8 @@ export class FromReports extends Component {
             <p>Loading...</p>
           </div>
         ) : this.state.doShowFilters === false && !this.state.isLoading ? (
-          <div className='row' style={{ paddingBottom: "100px" }}>
-            <div style={{ marginTop: "20px" }} className='col-md-12'>
+          <div className='row' style={{ paddingBottom: "100px", justifyContent: "center", alignItems: "center"}}>
+            <div style={{ marginTop: "5px" }} className='col-md-12'>
               <div
                 className={
                   Object.keys(this.state.selectedUserForm).length > 0
