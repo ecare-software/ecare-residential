@@ -208,6 +208,9 @@ class FormSubmitterListContainer extends Component {
                           <th>
                             Submitter
                           </th>
+                          <th>
+                            Status
+                          </th>
                           {(this.state.formType === "Incident Report" || this.state.formType === "Serious Incident Report" || this.state.formType === "Restraint Report") && (
                             // <th style={{width:"50%"}}>
                             //   Explaination
@@ -230,7 +233,9 @@ class FormSubmitterListContainer extends Component {
                     <td>
                         {form.createdByName}
                     </td>
-                    
+                    <td>
+                        {form.status}
+                    </td>
                     {(this.state.formType === "Incident Report" || this.state.formType === "Serious Incident Report") && (
                         <td>
                           {/* {form.incident_explaination === "" ? "None specified." : form.incident_explaination} */}

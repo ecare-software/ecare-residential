@@ -99,6 +99,7 @@ class IncidentReport extends Component {
       staff: [],
       clientId: "",
       createDate: new Date().toISOString(),
+      status: "",
     };
   }
 
@@ -186,12 +187,14 @@ class IncidentReport extends Component {
       follow_up_results: "",
       clientId: "",
       createDate: new Date().toISOString(),
+      status: "",
     });
   };
 
   // auto save
   autoSave = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
+    // this.state.status = "IN PROGRESS"
     delete currentState.clients;
     delete currentState.staff;
     console.log("auto saving");
@@ -315,6 +318,9 @@ class IncidentReport extends Component {
       ...this.state,
       loadingClients: true,
     });
+
+    // !save ? this.state.status = 'COMPLETED' : this.state.status = 'IN PROGRESS';
+    console.log('status in validateForm: ', this.state.status)
 
     if (!this.state.createDate) {
       this.setState({
@@ -1035,7 +1041,7 @@ class IncidentReport extends Component {
                         this.validateForm(true);
                       }}
                     >
-                      Save
+                      Save For Later
                     </button>
 
                     <button

@@ -125,6 +125,9 @@ const IncidentReportSchema = new Schema({
   clientId: {
     type: String,
   },
+  status: {
+    type: Sring,
+  },
 });
 
 module.exports = IncidentReport = mongoose.model(
