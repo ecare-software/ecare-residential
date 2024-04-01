@@ -158,6 +158,7 @@ class AdmissionAssessment extends Component {
       clients: [],
       clientId: "",
       createDate: new Date().toISOString(),
+      status: "IN PROGRESS"
     };
   }
 
@@ -308,6 +309,7 @@ class AdmissionAssessment extends Component {
       longTermGoals: "",
       clientId: "",
       createDate: new Date().toISOString(),
+      status: "IN PROGRESS"
     });
   };
 
@@ -371,7 +373,9 @@ class AdmissionAssessment extends Component {
     }
   };
 
-  submit = async () => {
+  submit = async (save) => {
+    if (!save) this.state.status = "COMPLETED";
+    console.log('state after submit', this.state);
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
     delete currentState.staff;
@@ -440,7 +444,7 @@ class AdmissionAssessment extends Component {
       });
     }
 
-    this.submit();
+    this.submit(save);
   };
 
   setSignature = (userObj) => {
@@ -2178,7 +2182,7 @@ class AdmissionAssessment extends Component {
                     this.validateForm(true);
                   }}
                 >
-                  Save
+                  Save Without Submitting
                 </button>
 
                 <button

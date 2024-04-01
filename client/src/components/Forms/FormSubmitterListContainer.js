@@ -208,9 +208,6 @@ class FormSubmitterListContainer extends Component {
                           <th>
                             Submitter
                           </th>
-                          <th>
-                            Status
-                          </th>
                           {(this.state.formType === "Incident Report" || this.state.formType === "Serious Incident Report" || this.state.formType === "Restraint Report") && (
                             // <th style={{width:"50%"}}>
                             //   Explaination
@@ -219,6 +216,10 @@ class FormSubmitterListContainer extends Component {
                              Occured
                            </th>
                           )}
+                          <th>
+                            Status
+                          </th>
+                         
                       </tr>
                      </thead>
                     )}               
@@ -233,9 +234,6 @@ class FormSubmitterListContainer extends Component {
                     <td>
                         {form.createdByName}
                     </td>
-                    <td>
-                        {form.status}
-                    </td>
                     {(this.state.formType === "Incident Report" || this.state.formType === "Serious Incident Report") && (
                         <td>
                           {/* {form.incident_explaination === "" ? "None specified." : form.incident_explaination} */}
@@ -248,6 +246,9 @@ class FormSubmitterListContainer extends Component {
                         {form.time_of_incident === "" ? " " : new Date(form.time_of_incident).toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric'})}
                       </td>
                     )}
+                    <td>
+                      {form.status}
+                    </td>
                   </tr>
                 </tbody>
               </Table>
