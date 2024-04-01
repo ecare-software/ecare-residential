@@ -126,7 +126,7 @@ const IncidentReportSchema = new Schema({
     type: String,
   },
   status: {
-    type: Sring,
+    type: String,
   },
 });
 
