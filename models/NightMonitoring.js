@@ -63,6 +63,9 @@ const NightMonitoringSchema = new Schema({
     type: Date,
     default: new Date(),
   },
+  status: {
+    type: String,
+  },
 });
 
 module.exports = NightMonitoring = mongoose.model(

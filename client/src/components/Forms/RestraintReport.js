@@ -117,6 +117,7 @@ class RestraintReport extends Component {
       staff: [],
       clientId: "",
       createDate: new Date().toISOString(),
+      status: "IN PROGRESS",
     };
   }
 
@@ -222,6 +223,7 @@ class RestraintReport extends Component {
       procedural_comments: "",
       clientId: "",
       createDate: new Date().toISOString(),
+      status: "IN PROGRESS",
     });
   };
 
@@ -284,7 +286,8 @@ class RestraintReport extends Component {
     }
   };
 
-  submit = async () => {
+  submit = async (save) => {
+    if (!save) this.state.status = "COMPLETED";
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
     delete currentState.staff;
@@ -356,7 +359,7 @@ class RestraintReport extends Component {
       });
     }
 
-    this.submit();
+    this.submit(save);
   };
 
   dateForDateTimeInputValue = () =>
@@ -1188,7 +1191,7 @@ class RestraintReport extends Component {
                     this.validateForm(true);
                   }}
                 >
-                  Save
+                  Save Without Submitting
                 </button>
 
                 <button

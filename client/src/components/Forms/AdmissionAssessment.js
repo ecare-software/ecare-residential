@@ -158,7 +158,7 @@ class AdmissionAssessment extends Component {
       clients: [],
       clientId: "",
       createDate: new Date().toISOString(),
-      status: "IN PROGRESS"
+      status: "IN PROGRESS",
     };
   }
 

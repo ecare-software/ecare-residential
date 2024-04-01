@@ -127,6 +127,7 @@ class AwakeNightStaffSignoff extends Component {
       loadingSig: true,
 
       userSig: [],
+      status: "IN PROGRESS",
     };
   }
 
@@ -202,10 +203,12 @@ class AwakeNightStaffSignoff extends Component {
       ts42Approval: false,
       ts43Approval: false,
       ts44Approval: false,
+      status: "IN PROGRESS",
     });
   };
 
-  submit = async () => {
+  submit = async (save) => {
+    if (!save) this.state.status = "COMPLETED";
     let currentState = JSON.parse(JSON.stringify(this.state));
     if (this.props.valuesSet) {
       try {
@@ -320,7 +323,7 @@ class AwakeNightStaffSignoff extends Component {
       return;
     }
 
-    this.submit();
+    this.submit(save);
   };
 
   setSignature = (userObj) => {
@@ -3336,7 +3339,7 @@ class AwakeNightStaffSignoff extends Component {
                   this.validateForm(true);
                 }}
               >
-                Save
+                Save Without Submitting
               </button>
 
               <button

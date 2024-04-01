@@ -61,6 +61,7 @@ router.post("/", (req, res) => {
     homeId: req.body.homeId,
 
     formType: "Awake Night Staff Signoff",
+    status: req.body.status,
   });
   newAwakeNightStaffSignoff
     .save()

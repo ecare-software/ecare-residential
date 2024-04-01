@@ -82,6 +82,7 @@ class DailyProgressAndActivity extends Component {
       clients: [],
       clientId: "",
       createDate: new Date().toISOString(),
+      status: "IN PROGRESS",
     };
   }
 
@@ -151,6 +152,7 @@ class DailyProgressAndActivity extends Component {
       phone_calls_or_visits: "",
       clientId: "",
       createDate: new Date().toISOString(),
+      status: "IN PROGRESS",
     });
   };
 
@@ -217,7 +219,8 @@ class DailyProgressAndActivity extends Component {
     }
   };
 
-  submit = async () => {
+  submit = async (save) => {
+    if (!save) this.state.status = "COMPLETED";
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
     delete currentState.staff;
@@ -288,7 +291,7 @@ class DailyProgressAndActivity extends Component {
       });
     }
 
-    this.submit();
+    this.submit(save);
   };
 
   setSignature = (userObj) => {
@@ -906,7 +909,7 @@ class DailyProgressAndActivity extends Component {
                       this.validateForm(true);
                     }}
                   >
-                    Save
+                    Save Without Submitting
                   </button>
 
                   <button

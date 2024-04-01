@@ -25,6 +25,7 @@ router.post("/", (req, res) => {
     homeId: req.body.homeId,
 
     formType: "Night Monitoring",
+    status: req.body.status,
   });
   newNightMonitoring
     .save()

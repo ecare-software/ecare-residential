@@ -315,6 +315,7 @@ class TreatmentPlan72 extends Component {
 
       clients: [],
       clientId: "",
+      status: "IN PROGRESS",
     };
   }
 
@@ -623,6 +624,7 @@ class TreatmentPlan72 extends Component {
       treatmentDirectorSignDate: "",
 
       clientId: "",
+      status: "IN PROGRESS",
     });
   };
 
@@ -691,7 +693,8 @@ class TreatmentPlan72 extends Component {
     }
   };
 
-  submit = async () => {
+  submit = async (save) => {
+    if (!save) this.state.status = "COMPLETED";
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
     delete currentState.staff;
@@ -768,7 +771,7 @@ class TreatmentPlan72 extends Component {
       });
     }
 
-    this.submit();
+    this.submit(save);
   };
 
   setSignature = (userObj) => {
@@ -2716,7 +2719,7 @@ class TreatmentPlan72 extends Component {
                       this.validateForm(true);
                     }}
                   >
-                    Save
+                    Save Without Submitting
                   </button>
 
                   <button
