@@ -2719,7 +2719,7 @@ class TreatmentPlan72 extends Component {
                       this.validateForm(true);
                     }}
                   >
-                    Save Without Submitting
+                    Finish Later
                   </button>
 
                   <button

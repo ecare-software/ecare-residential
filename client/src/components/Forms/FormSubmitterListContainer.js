@@ -209,17 +209,10 @@ class FormSubmitterListContainer extends Component {
                             Submitter
                           </th>
                           {(this.state.formType === "Incident Report" || this.state.formType === "Serious Incident Report" || this.state.formType === "Restraint Report") && (
-                            // <th style={{width:"50%"}}>
-                            //   Explaination
-                            // </th>
                             <th>
                              Occured
                            </th>
-                          )}
-                          <th>
-                            Status
-                          </th>
-                         
+                          )}                        
                       </tr>
                      </thead>
                     )}               
@@ -236,19 +229,14 @@ class FormSubmitterListContainer extends Component {
                     </td>
                     {(this.state.formType === "Incident Report" || this.state.formType === "Serious Incident Report") && (
                         <td>
-                          {/* {form.incident_explaination === "" ? "None specified." : form.incident_explaination} */}
                           {form.dateOfIncident === "" ? " " : new Date(form.dateOfIncident).toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric'})}
                         </td>
                     )}
                     {this.state.formType === ("Restraint Report") && (
                       <td>
-                        {/* {form.client_restraint_description === "" ? "None specified." : form.client_restraint_description} */}
                         {form.time_of_incident === "" ? " " : new Date(form.time_of_incident).toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric'})}
                       </td>
                     )}
-                    <td>
-                      {form.status}
-                    </td>
                   </tr>
                 </tbody>
               </Table>

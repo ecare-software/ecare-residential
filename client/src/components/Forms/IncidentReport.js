@@ -258,7 +258,6 @@ class IncidentReport extends Component {
 
   submit = async (save) => {
     if (!save) this.state.status = "COMPLETED";
-    console.log('state after submit', this.state)
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
     delete currentState.staff;
@@ -313,7 +312,6 @@ class IncidentReport extends Component {
   };
 
   validateForm = async (save) => {
-    console.log("save value", save)
     this.setState({
       ...this.state,
       loadingClients: true,
@@ -1044,7 +1042,7 @@ class IncidentReport extends Component {
                         this.validateForm(true);
                       }}
                     >
-                      Save Without Submitting
+                      Finish Later
                     </button>
 
                     <button
