@@ -3,6 +3,7 @@ import ShowFormContainer from "../Reports/ShowFormContainer";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 import ClipLoader from "react-spinners/ClipLoader";
 import { FetchHomeData } from "../../utils/FetchHomeData";
+import Table from 'react-bootstrap/Table';
 
 
 const selectedUserNameClass = {
@@ -22,9 +23,6 @@ const userNameClass = {
   justifyContent: "center"
 };
 
-const reportDateTimeClass = {
-  width: "20%"
-}
 
 const reportDetailsClass = {
   width: "60%"
@@ -172,7 +170,6 @@ class FormSubmitterListContainer extends Component {
             <h3 style={{paddingLeft:"50px"}}>
               {this.props.formType} Overview
             </h3>
-            {/* TODO: add more filters to print area */}
             {this.state.searchObj.searchString.length > 0 && (
               <p style={{paddingLeft:"50px"}}>Client Name - {this.state.searchObj.searchString}</p>
             )}
@@ -198,51 +195,57 @@ class FormSubmitterListContainer extends Component {
               }
               key={formIndex}
             >
-              <table class="table table-hover" id="report-table" style={{width: "90%", marginBottom:"0px"}}>
+              <Table hover id="report-table" style={{width: "90%", marginBottom:"0px"}}>
                   {formIndex === 0 && (
                      <thead>
-                     <tr>
-                        <th style={reportDateTimeClass} colspan="2">
-                        {this.state.formType === "Incident Report" ? "Incident Occured Date" : "Report Created Date"}
-                        </th>
-                        <th style={reportDetailsClass}>
-                          {this.state.formType === "Incident Report" ? "Incident Explanation" : "Reported By"}
-                        </th>
-                     </tr>
+                      <tr>
+                          <th>
+                            Created
+                          </th>
+                          <th>
+                            Client
+                          </th>
+                          <th>
+                            Submitter
+                          </th>
+                          {(this.state.formType === "Incident Report" || this.state.formType === "Serious Incident Report" || this.state.formType === "Restraint Report") && (
+                            // <th style={{width:"50%"}}>
+                            //   Explaination
+                            // </th>
+                            <th>
+                             Occured
+                           </th>
+                          )}
+                      </tr>
                      </thead>
                     )}               
                 <tbody>
                   <tr>
-                    <td style={reportDateTimeClass}>
-                    {this.state.formType === "Incident Report" ? `${new Date(form.dateOfIncident + 'T00:00:00').toLocaleDateString()}` : `${new Date(form.createDate).toLocaleDateString()}`}
+                    <td>
+                      {new Date(form.createDate).toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric'})}                    
                     </td>
-                    <td style={reportDateTimeClass}>
-                    {this.state.formType === "Incident Report" ? 
-                      `${new Date('01/01/2001 '+ form.time_of_incident).toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: true, hourCycle: 'h12'})}` : 
-                      `${new Date(form.createDate).toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit', hour12: true})}`
-                    }
+                    <td>
+                        {form.childMeta_name}
                     </td>
-                    <td style={reportDetailsClass}>
-                      { this.state.formType === "Incident Report" ?
-                        /* Incident Report Summary displayed upon button click */
-                        <div>
-                          {form.result === "" ? "None specified." : form.result}
-                        </div>
-                        :
-                        /* Non-Incident Report Summary displayed upon button click */
-                        <div>
-                          {form.createdByName}
-                        </div>
-                      }
+                    <td>
+                        {form.createdByName}
                     </td>
+                    
+                    {(this.state.formType === "Incident Report" || this.state.formType === "Serious Incident Report") && (
+                        <td>
+                          {/* {form.incident_explaination === "" ? "None specified." : form.incident_explaination} */}
+                          {form.dateOfIncident === "" ? " " : new Date(form.dateOfIncident).toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric'})}
+                        </td>
+                    )}
+                    {this.state.formType === ("Restraint Report") && (
+                      <td>
+                        {/* {form.client_restraint_description === "" ? "None specified." : form.client_restraint_description} */}
+                        {form.time_of_incident === "" ? " " : new Date(form.time_of_incident).toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric'})}
+                      </td>
+                    )}
                   </tr>
                 </tbody>
-              </table>
-
-
-
-                      
-              
+              </Table>
             </li>
           ))
         ) : (
