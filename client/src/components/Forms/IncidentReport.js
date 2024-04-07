@@ -185,7 +185,7 @@ class IncidentReport extends Component {
 
       follow_up_results: "",
       clientId: "",
-      createDate: new Date().toISOString(),
+      createDate: new Date().toISOString,
     });
   };
 
@@ -342,6 +342,12 @@ class IncidentReport extends Component {
     new Date(new Date(this.state.createDate).getTime())
       .toISOString()
       .slice(0, 19);
+
+  createDateTimeStamp = () =>
+    new Date(new Date(this.state.createDate).getTime()).toLocaleString(
+      "en-us",
+      { timeZone: "UTC" }
+    );
 
   setSignature = (userObj) => {
     if (userObj.signature && userObj.signature.length) {
@@ -507,6 +513,7 @@ class IncidentReport extends Component {
           )}
           <div className="formTitleDiv">
             <h4 className="formTitle">Incident Report</h4>
+            <p>{this.createDateTimeStamp()}</p>
             <h5
               className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}
@@ -1073,6 +1080,7 @@ class IncidentReport extends Component {
           )}
           <div className="formTitleDivReport">
             <h4 className="formTitle">Incident Report</h4>
+            <p>{this.createDateTimeStamp()}</p>
           </div>
 
           <div className="formFieldsMobileReport">

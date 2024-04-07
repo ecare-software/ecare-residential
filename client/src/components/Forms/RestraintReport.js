@@ -364,6 +364,12 @@ class RestraintReport extends Component {
       .toISOString()
       .slice(0, 19);
 
+  createDateTimeStamp = () =>
+    new Date(new Date(this.state.createDate).getTime()).toLocaleString(
+      "en-us",
+      { timeZone: "UTC" }
+    );
+
   setSignature = (userObj) => {
     if (userObj.signature && userObj.signature.length) {
       this.sigCanvas.fromData(userObj.signature);
@@ -538,6 +544,7 @@ class RestraintReport extends Component {
           )}
           <div className="formTitleDiv">
             <h2 className="formTitle">Restraint Report</h2>
+            <p>{this.createDateTimeStamp()}</p>
             <h5
               className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}
@@ -1224,6 +1231,7 @@ class RestraintReport extends Component {
           )}
           <div className="formTitleDivReport">
             <h2 className="formTitle">Restraint Report</h2>
+            <p>{this.createDateTimeStamp()}</p>
           </div>
 
           <>
@@ -1233,7 +1241,7 @@ class RestraintReport extends Component {
                   <ClipLoader
                     className="formSpinner"
                     size={50}
-                    color={'#ffc107'}
+                    color={"#ffc107"}
                   />
                 </div>
 
@@ -1853,10 +1861,10 @@ class RestraintReport extends Component {
             <div className="sigSection">
               <div
                 style={{
-                  width: '100%',
-                  display: 'flex',
-                  maxHeight: '170',
-                  justifyContent: 'center',
+                  width: "100%",
+                  display: "flex",
+                  maxHeight: "170",
+                  justifyContent: "center",
                 }}
               >
                 <SignatureCanvas
@@ -1869,7 +1877,7 @@ class RestraintReport extends Component {
                   canvasProps={{
                     width: 600,
                     height: 100,
-                    className: 'sigCanvas',
+                    className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
                 />
@@ -1877,7 +1885,7 @@ class RestraintReport extends Component {
             </div>
             {!this.props.formData.approved && (
               <>
-                <FormError errorId={this.props.id + '-error'} />
+                <FormError errorId={this.props.id + "-error"} />
                 <div
                   className="form-group logInInputField"
                   style={{ display: "flex", justifyContent: "space-between" }}

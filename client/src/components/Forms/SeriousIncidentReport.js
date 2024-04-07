@@ -303,6 +303,12 @@ class SeriousIncidentReport extends Component {
       .toISOString()
       .slice(0, 19);
 
+  createDateTimeStamp = () =>
+    new Date(new Date(this.state.createDate).getTime()).toLocaleString(
+      "en-us",
+      { timeZone: "UTC" }
+    );
+
   validateForm = async (save) => {
     this.setState({
       ...this.state,
@@ -499,6 +505,7 @@ class SeriousIncidentReport extends Component {
           )}
           <div className="formTitleDiv">
             <h2 className="formTitle">Serious Incident Report</h2>
+            <p>{this.createDateTimeStamp()}</p>
             <h5
               className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}
@@ -1007,6 +1014,7 @@ class SeriousIncidentReport extends Component {
           )}
           <div className="formTitleDivReport">
             <h2 className="formTitle">Serious Incident Report</h2>
+            <p>{this.createDateTimeStamp()}</p>
           </div>
 
           <div className="formFieldsMobileReport">
