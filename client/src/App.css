@@ -37,6 +37,9 @@
 
 }
 
+td{
+  width: 20%;
+}
 
 .hide-on-non-print {
   display: none;
