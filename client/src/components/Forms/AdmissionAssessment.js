@@ -513,6 +513,12 @@ class AdmissionAssessment extends Component {
       .toISOString()
       .slice(0, 19);
 
+  createDateTimeStamp = () =>
+    new Date(new Date(this.state.createDate).getTime()).toLocaleString(
+      "en-us",
+      { timeZone: "UTC" }
+    );
+
   handleClientSelect = async (event) => {
     if (event.target.value !== null) {
       const client = JSON.parse(event.target.value);
@@ -554,6 +560,7 @@ class AdmissionAssessment extends Component {
           )}
           <div className="formTitleDiv">
             <h2 className="formTitle">Admission Assessment</h2>
+            <p>{this.createDateTimeStamp()}</p>
             <h5
               className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}
@@ -2217,6 +2224,7 @@ class AdmissionAssessment extends Component {
           )}
           <div className="formTitleDivReport">
             <h2 className="formTitle"> Admission Assessment</h2>
+            <p>{this.createDateTimeStamp()}</p>
           </div>
 
           <div className="formFieldsMobileReport">

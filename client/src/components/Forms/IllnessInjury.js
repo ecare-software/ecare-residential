@@ -262,6 +262,12 @@ class IllnessInjury extends Component {
       .toISOString()
       .slice(0, 19);
 
+  createDateTimeStamp = () =>
+    new Date(new Date(this.state.createDate).getTime()).toLocaleString(
+      "en-us",
+      { timeZone: "UTC" }
+    );
+
   setValues = async () => {
     const { data: createdUserData } = await GetUserSig(
       this.props.formData.createdBy,
@@ -352,6 +358,7 @@ class IllnessInjury extends Component {
           )}
           <div className="formTitleDiv">
             <h2 className="formTitle">Illness and Injury Report</h2>
+            <p>{this.createDateTimeStamp()}</p>
             <h5
               className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}
@@ -641,6 +648,7 @@ class IllnessInjury extends Component {
           )}
           <div className="formTitleDivReport">
             <h2 className="formTitle">Illness and Injury Report</h2>
+            <p>{this.createDateTimeStamp()}</p>
           </div>
 
           <div className="formFieldsMobileReport">
