@@ -200,6 +200,9 @@ class FormSubmitterListContainer extends Component {
                      <thead>
                       <tr>
                           <th>
+                            Status
+                          </th>
+                          <th>
                             Created
                           </th>
                           <th>
@@ -218,6 +221,10 @@ class FormSubmitterListContainer extends Component {
                     )}               
                 <tbody>
                   <tr>
+                    <td>
+                      {/* display status as "IN PROGRESS" if form created before status attribute was added */}
+                      {(form.status === "" || !form.status) ? "IN PROGRESS" : form.status}                  
+                    </td>
                     <td>
                       {new Date(form.createDate).toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric'})}                    
                     </td>
