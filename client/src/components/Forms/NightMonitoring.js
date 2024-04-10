@@ -233,6 +233,12 @@ class NightMonitoring extends Component {
       .toISOString()
       .slice(0, 19);
 
+  createDateTimeStamp = () =>
+    new Date(new Date(this.state.createDate).getTime()).toLocaleString(
+      "en-us",
+      { timeZone: "UTC" }
+    );
+
   setValues = async () => {
     const { data: createdUserData } = await GetUserSig(
       this.props.formData.createdBy,
@@ -308,15 +314,15 @@ class NightMonitoring extends Component {
   render() {
     if (!this.props.valuesSet) {
       return (
-        <div className='formComp'>
+        <div className="formComp">
           {this.state.formSubmitted || this.state.formHasError ? (
             <React.Fragment>
               {this.state.formSubmitted && <FormSuccessAlert />}
               <FormAlert
                 doShow={this.state.formHasError}
                 toggleErrorAlert={this.toggleErrorAlert}
-                type='danger'
-                heading='Error Submitting form'
+                type="danger"
+                heading="Error Submitting form"
               >
                 <p>{this.state.formErrorMessage}</p>
               </FormAlert>
@@ -324,10 +330,11 @@ class NightMonitoring extends Component {
           ) : (
             <React.Fragment />
           )}
-          <div className='formTitleDiv'>
-            <h2 className='formTitle'>Awake Night Monitoring</h2>
+          <div className="formTitleDiv">
+            <h2 className="formTitle">Awake Night Monitoring</h2>
+            <p>{this.createDateTimeStamp()}</p>
             <h5
-              className='text-center'
+              className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}
             >
               {this.state.lastEditDate ? (
@@ -346,10 +353,10 @@ class NightMonitoring extends Component {
             </h5>
           </div>
           {this.state.loadingClients ? (
-            <div className='formLoadingDiv'>
+            <div className="formLoadingDiv">
               <div>
                 <ClipLoader
-                  className='formSpinner'
+                  className="formSpinner"
                   size={50}
                   color={"#ffc107"}
                 />
@@ -358,15 +365,17 @@ class NightMonitoring extends Component {
               <p>Loading...</p>
             </div>
           ) : (
-            <div className='formFieldsMobile'>
-              <div className='form-group logInInputField'>
-                <label className='control-label hide-on-print'>Create Date</label>{" "}
+            <div className="formFieldsMobile">
+              <div className="form-group logInInputField">
+                <label className="control-label hide-on-print">
+                  Create Date
+                </label>{" "}
                 <input
                   onChange={this.handleFieldInput}
-                  id='createDate'
+                  id="createDate"
                   value={this.state.createDate}
-                  className='form-control hide-on-print'
-                  type='datetime-local'
+                  className="form-control hide-on-print"
+                  type="datetime-local"
                 />{" "}
               </div>
               <NightMonitoringChildRow
@@ -377,11 +386,11 @@ class NightMonitoring extends Component {
               />
               <FormError errorId={this.props.id + "-error"} />
               <div
-                className='form-group logInInputField'
+                className="form-group logInInputField"
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
                 <button
-                  className='lightBtn hide-on-print'
+                  className="lightBtn hide-on-print"
                   onClick={() => {
                     this.validateForm(true);
                   }}
@@ -390,7 +399,7 @@ class NightMonitoring extends Component {
                 </button>
 
                 <button
-                  className='darkBtn hide-on-print'
+                  className="darkBtn hide-on-print"
                   onClick={() => {
                     this.validateForm(false);
                   }}
@@ -404,15 +413,15 @@ class NightMonitoring extends Component {
       );
     } else {
       return (
-        <div className='formComp'>
+        <div className="formComp">
           {this.state.formSubmitted || this.state.formHasError ? (
             <React.Fragment>
               {this.state.formSubmitted && <FormSavedAlert />}
               <FormAlert
                 doShow={this.state.formHasError}
                 toggleErrorAlert={this.toggleErrorAlert}
-                type='danger'
-                heading='Error Submitting form'
+                type="danger"
+                heading="Error Submitting form"
               >
                 <p>{this.state.formErrorMessage}</p>
               </FormAlert>
@@ -420,16 +429,17 @@ class NightMonitoring extends Component {
           ) : (
             <React.Fragment />
           )}
-          <div className='formTitleDivReport'>
-            <h2 className='formTitle'>Awake Night Monitoring</h2>
+          <div className="formTitleDivReport">
+            <h2 className="formTitle">Awake Night Monitoring</h2>
+            <p>{this.createDateTimeStamp()}</p>
           </div>
 
-          <div className='formFieldsMobileReport'>
+          <div className="formFieldsMobileReport">
             {this.state.loadingClients ? (
-              <div className='formLoadingDiv'>
+              <div className="formLoadingDiv">
                 <div>
                   <ClipLoader
-                    className='formSpinner'
+                    className="formSpinner"
                     size={50}
                     color={"#ffc107"}
                   />
@@ -439,14 +449,16 @@ class NightMonitoring extends Component {
               </div>
             ) : (
               <div>
-                <div className='form-group logInInputField'>
-                  <label className='control-label hide-on-print'>Create Date</label>{" "}
+                <div className="form-group logInInputField">
+                  <label className="control-label hide-on-print">
+                    Create Date
+                  </label>{" "}
                   <input
                     onChange={this.handleFieldInput}
-                    id='createDate'
+                    id="createDate"
                     value={this.dateForDateTimeInputValue()}
-                    className='form-control hide-on-print'
-                    type='datetime-local'
+                    className="form-control hide-on-print"
+                    type="datetime-local"
                   />{" "}
                 </div>
                 <NightMonitoringChildRow
@@ -488,11 +500,11 @@ maxHeight:"170",
               <>
                 <FormError errorId={this.props.id + "-error"} />
                 <div
-                  className='form-group logInInputField'
+                  className="form-group logInInputField"
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
                   <button
-                    className='lightBtn hide-on-print'
+                    className="lightBtn hide-on-print"
                     onClick={() => {
                       this.validateForm(true);
                     }}

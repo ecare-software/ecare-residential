@@ -382,6 +382,12 @@ class DailyProgressAndActivity extends Component {
       .slice(0, 19);
   };
 
+  createDateTimeStamp = () =>
+    new Date(new Date(this.state.createDate).getTime()).toLocaleString(
+      "en-us",
+      { timeZone: "UTC" }
+    );
+
   render() {
     if (!this.props.valuesSet) {
       return (
@@ -403,6 +409,7 @@ class DailyProgressAndActivity extends Component {
           )}
           <div className="formTitleDiv">
             <h2 className="formTitle">Daily Progress and Activity</h2>
+            <p>{this.createDateTimeStamp()}</p>
             <h5
               className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}
@@ -577,7 +584,7 @@ class DailyProgressAndActivity extends Component {
                 </Col>
 
                 <Col md={4} className="print-column">
-                <div className="form-group input-header">
+                  <div className="form-group input-header">
                     <h6>
                       Techniques used to encourage positive change :{" "}
                       <i>Y - Yes (if applicable)</i>
@@ -727,15 +734,13 @@ class DailyProgressAndActivity extends Component {
                       type="text"
                     />{" "}
                   </div>
-                  
                 </Col>
 
                 <Col md={4} className="print-column">
                   <div className="form-group logInInputField">
-                  <div className="form-group input-header">
-                    <h6>Behavior Summary</h6>
-                  </div>
-                    {" "}
+                    <div className="form-group input-header">
+                      <h6>Behavior Summary</h6>
+                    </div>{" "}
                     <label className="control-label">
                       Number of Home Incidents
                     </label>{" "}
@@ -946,6 +951,7 @@ class DailyProgressAndActivity extends Component {
           )}
           <div className="formTitleDivReport">
             <h2 className="formTitle">Daily Progress and Activity</h2>
+            <p>{this.createDateTimeStamp()}</p>
           </div>
 
           <div className="formFieldsMobileReport">
@@ -1101,7 +1107,7 @@ class DailyProgressAndActivity extends Component {
                   </Col>
 
                   <Col md={4} className="print-column">
-                  <div className="form-group input-header">
+                    <div className="form-group input-header">
                       <h6>
                         Techniques used to encourage positive change :{" "}
                         <i>Y - Yes (if applicable)</i>
@@ -1254,7 +1260,7 @@ class DailyProgressAndActivity extends Component {
                   </Col>
 
                   <Col md={4} className="print-column">
-                  <div className="form-group input-header">
+                    <div className="form-group input-header">
                       <h6>Behavior Summary</h6>
                     </div>
                     <div className="form-group logInInputField">
