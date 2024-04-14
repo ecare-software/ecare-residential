@@ -4,6 +4,7 @@ import { isAdminUser } from "../../utils/AdminReportingRoles";
 import ClipLoader from "react-spinners/ClipLoader";
 import { FetchHomeData } from "../../utils/FetchHomeData";
 import Table from 'react-bootstrap/Table';
+import "../../App.css";
 
 
 const selectedUserNameClass = {
@@ -103,22 +104,6 @@ class FormSubmitterListContainer extends Component {
     }, 8000);
   };
 
-  setHomeData = async () => {
-    try {
-      const { data } = await FetchHomeData(this.state.submittions[0].homeId);
-      this.setState({ homeData: data[0]});
-      console.log('homeData in setHomeData:', this.state.homeData.name)
-      this.printTable();
-    } catch (e) {
-      console.log('Error fetching home info');
-    }
-  };
-  
-  printTable = () => {
-    {console.log('homeData in printTable:', this.state.homeData.name)}
-    window.print();
-  }
-
   render() {
     if (this.state.formsToPrint.length > 0) {
       return (
@@ -179,9 +164,6 @@ class FormSubmitterListContainer extends Component {
             <button onClick={this.triggerPrint} className='btn btn-link'>
               <span className='fa fa-print'></span> Print {this.props.formType} Forms
             </button>
-            <button onClick={this.setHomeData} className='btn btn-link'>
-              <span className='fa fa-print'></span> Print Table
-            </button>
             
         </div>
         {this.props.submittions.length > 0 ? (
@@ -209,9 +191,6 @@ class FormSubmitterListContainer extends Component {
                             Submitter
                           </th>
                           {(this.state.formType === "Incident Report" || this.state.formType === "Serious Incident Report" || this.state.formType === "Restraint Report") && (
-                            // <th style={{width:"50%"}}>
-                            //   Explaination
-                            // </th>
                             <th>
                              Occured
                            </th>
@@ -233,13 +212,11 @@ class FormSubmitterListContainer extends Component {
                     
                     {(this.state.formType === "Incident Report" || this.state.formType === "Serious Incident Report") && (
                         <td>
-                          {/* {form.incident_explaination === "" ? "None specified." : form.incident_explaination} */}
                           {form.dateOfIncident === "" ? " " : new Date(form.dateOfIncident).toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric'})}
                         </td>
                     )}
                     {this.state.formType === ("Restraint Report") && (
                       <td>
-                        {/* {form.client_restraint_description === "" ? "None specified." : form.client_restraint_description} */}
                         {form.time_of_incident === "" ? " " : new Date(form.time_of_incident).toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric'})}
                       </td>
                     )}
