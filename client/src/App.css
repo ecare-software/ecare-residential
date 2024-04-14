@@ -1,12 +1,10 @@
 @media print {
-  
   .hide-on-print {
     display: none !important;
   }
 
   .hide-on-non-print {
     display: block !important;
-
   }
 
   .logInInputField {
@@ -36,7 +34,6 @@
   .meta-details-content {
     page-break-before: always;
   }
-
 
 }
 
