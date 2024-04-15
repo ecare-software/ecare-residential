@@ -110,6 +110,7 @@ export class FromReports extends Component {
       isLoading: true,
       showFullForms: false,
       formsToPrint: [],
+      formsLoaded: false,
     };
   }
   openPrintModal = () => {
@@ -299,6 +300,7 @@ export class FromReports extends Component {
   };
 
   triggerPrint = () => {
+    this.state.formsLoaded = false;
     /*
       1. change all of the listed forms to full view of forms
     */
@@ -328,13 +330,20 @@ export class FromReports extends Component {
       return acc;
     }, []);
     this.setState({ ...this.state, formsToPrint: allFormComps });
-  };
 
-  doPrintResultsView = () => {
-    setTimeout(() => {
-      window.print();
-    }, 1000);
-  }
+       /*
+      3. change the view back after set amount of time, showing list of filtered forms again
+      */
+      { !this.state.isLoading &&
+      setTimeout(() => {
+        window.print();
+      }, 100000) 
+
+      setTimeout(() => {
+        this.setState({ ...this.state, showFullForms: false, formsToPrint: [] });
+      }, 120000);
+    }
+  };
 
   doClosePrintView = () => {
     this.setState({ ...this.state, showFullForms: false, formsToPrint: [] });
@@ -1038,33 +1047,37 @@ export class FromReports extends Component {
   render() {
     if (this.state.formsToPrint.length > 0) {
       return (
-        <div>
+        <div className="container">
           <div
             style={{
               display: "flex",
-              flexDirection: "column",
+              flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
-              marginTop: 200,
-              marginBottom: 200,
+              marginTop: "100px",
+              marginBottom: "100px",
+              marginLeft: "0px",
             }}
-            className='hide-on-print'
+            className='hide-on-print row'
           >
-            <div>
-              <ClipLoader className='formSpinner' size={50} color={"#ffc107"} />
+             <div className="col-4" style={{textAlign:"end"}}>
+              <ClipLoader className='formSpinner' size={"4rem"} color={"#ffc107"} />
             </div>
-            <h1>Review the forms below</h1>
-            <div className="hide-on-print">
-              <button
+            <div className="col-8">
+              <h1 style={{fontSize:"1.5rem", paddingLeft:"10px", paddingTop:"5px"}}>Printing Forms. Please wait...</h1>
+            </div>
+            
+
+              {/* <button
                 onClick={() => {
                   this.doPrintResultsView()
                 }}
                 className="mr-3 btn btn-light hide-on-print"
               >
                 Print All Results <i className="fas fa-print"></i>
-              </button>
-
-              <button
+              </button> */}
+          </div>
+          <button
                 onClick={() => {
                   this.doClosePrintView()
                 }}
@@ -1072,10 +1085,7 @@ export class FromReports extends Component {
               >
                 Close <i className="fas fa-times"></i>
               </button>
-
-            </div>
-          </div>
-          <div>
+          <div className='hide-on-non-print'>
             {this.state.formsToPrint.map((form, idx) => (
               <div key={`print-form-${idx}`}>{form}</div>
             ))}
