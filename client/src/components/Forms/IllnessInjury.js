@@ -57,6 +57,7 @@ class IllnessInjury extends Component {
       clients: [],
       clientId: "",
       createDate: new Date().toISOString(),
+      status: "IN PROGRESS",
     };
   }
 
@@ -106,6 +107,7 @@ class IllnessInjury extends Component {
       treatmentAuthBy: "",
       clientId: "",
       createDate: new Date().toISOString(),
+      status: "IN PROGRESS",
     });
   };
 
@@ -168,7 +170,8 @@ class IllnessInjury extends Component {
     }
   };
 
-  submit = async () => {
+  submit = async (save) => {
+    if (!save) this.state.status = "COMPLETED";
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
     delete currentState.staff;
@@ -240,7 +243,7 @@ class IllnessInjury extends Component {
       });
     }
 
-    this.submit();
+    this.submit(save);
   };
 
   componentWillUnmount() {
@@ -609,7 +612,7 @@ class IllnessInjury extends Component {
                     this.validateForm(true);
                   }}
                 >
-                  Save
+                  Finish Later
                 </button>
 
                 <button

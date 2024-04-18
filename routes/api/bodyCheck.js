@@ -56,6 +56,7 @@ router.post("/", (req, res) => {
     homeId: req.body.homeId,
 
     formType: "Health Body Check",
+    status: req.body.status,
   });
 
   newBodyCheck

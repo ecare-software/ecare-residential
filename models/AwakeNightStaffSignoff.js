@@ -86,6 +86,9 @@ const AwakeNightStaffSignoffSchema = new Schema({
     type: Date,
     default: new Date(),
   },
+  status: {
+    type: String,
+  },
 });
 
 module.exports = AwakeNightStaffSignoff = mongoose.model(

@@ -53,6 +53,7 @@ router.post("/", (req, res) => {
     homeId: req.body.homeId,
 
     formType: "Daily Activity",
+    status: req.body.status,
   });
 
   newDailyProgressAndActivity
