@@ -325,6 +325,7 @@ router.post("/", (req, res) => {
     homeId: req.body.homeId,
 
     formType: "72 Hour Treatment Plan",
+    status: req.body.status,
   });
 
   newTreatmentPlan72

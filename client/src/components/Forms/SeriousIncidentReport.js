@@ -97,6 +97,7 @@ class SeriousIncidentReport extends Component {
       loadingStaff: true,
       staff: [],
       clientId: "",
+      status: "IN PROGRESS"
     };
   }
 
@@ -183,6 +184,7 @@ class SeriousIncidentReport extends Component {
 
       follow_up_results: "",
       clientId: "",
+      status: "IN PROGRESS"
     });
   };
 
@@ -245,7 +247,8 @@ class SeriousIncidentReport extends Component {
     }
   };
 
-  submit = async () => {
+  submit = async (save) => {
+    if (!save) this.state.status = "COMPLETED";
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
     delete currentState.staff;
@@ -310,6 +313,7 @@ class SeriousIncidentReport extends Component {
     );
 
   validateForm = async (save) => {
+    // save = true if 'save' btn, save = false if 'submit'
     this.setState({
       ...this.state,
       loadingClients: true,
@@ -328,7 +332,7 @@ class SeriousIncidentReport extends Component {
       });
     }
 
-    this.submit();
+    this.submit(save);
   };
 
   setSignature = (userObj) => {
@@ -978,7 +982,7 @@ class SeriousIncidentReport extends Component {
                     this.validateForm(true);
                   }}
                 >
-                  Save
+                  Finish Later
                 </button>
 
                 <button

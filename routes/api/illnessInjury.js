@@ -34,6 +34,7 @@ router.post("/", (req, res) => {
     homeId: req.body.homeId,
 
     formType: "Illness Injury",
+    status: req.body.status,
   });
 
   newIllnessInjury

@@ -112,6 +112,7 @@ class BodyCheck extends Component {
 
       clients: [],
       createDate: new Date().toISOString(),
+      status: "IN PROGRESS",
     };
   }
 
@@ -205,6 +206,7 @@ class BodyCheck extends Component {
       details: null,
       clientId: "",
       createDate: new Date().toISOString(),
+      status: "IN PROGRESS",
     });
   };
 
@@ -267,7 +269,8 @@ class BodyCheck extends Component {
     }
   };
 
-  submit = async () => {
+  submit = async (save) => {
+    if (!save) this.state.status = "COMPLETED";
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
     delete currentState.staff;
@@ -339,7 +342,7 @@ class BodyCheck extends Component {
       });
     }
 
-    this.submit();
+    this.submit(save);
   };
 
   setSignature = (userObj) => {
@@ -1414,7 +1417,7 @@ class BodyCheck extends Component {
                       this.validateForm(true);
                     }}
                   >
-                    Save
+                    Finish Later
                   </button>
 
                   <button

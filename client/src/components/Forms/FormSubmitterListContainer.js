@@ -182,6 +182,9 @@ class FormSubmitterListContainer extends Component {
                      <thead>
                       <tr>
                           <th>
+                            Status
+                          </th>
+                          <th>
                             Created
                           </th>
                           <th>
@@ -194,12 +197,16 @@ class FormSubmitterListContainer extends Component {
                             <th>
                              Occured
                            </th>
-                          )}
+                          )}                        
                       </tr>
                      </thead>
                     )}               
                 <tbody>
                   <tr>
+                    <td>
+                      {/* display status as "IN PROGRESS" if form created before status attribute was added */}
+                      {(form.status === "" || !form.status) ? "IN PROGRESS" : form.status}                  
+                    </td>
                     <td>
                       {new Date(form.createDate).toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric'})}                    
                     </td>
@@ -209,7 +216,6 @@ class FormSubmitterListContainer extends Component {
                     <td>
                         {form.createdByName}
                     </td>
-                    
                     {(this.state.formType === "Incident Report" || this.state.formType === "Serious Incident Report") && (
                         <td>
                           {form.dateOfIncident === "" ? " " : new Date(form.dateOfIncident).toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric'})}

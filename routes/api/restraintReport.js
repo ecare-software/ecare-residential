@@ -108,6 +108,7 @@ router.post("/", (req, res) => {
     homeId: req.body.homeId,
 
     formType: "Restraint Report",
+    status: req.body.status,
   });
 
   newRestraintReport

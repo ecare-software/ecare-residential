@@ -178,6 +178,9 @@ const DailyProgressAndActivitySchema = new Schema({
   clientId: {
     type: String,
   },
+  status: {
+    type: String,
+  },
 });
 
 module.exports = DailyProgressAndActivity = mongoose.model(
