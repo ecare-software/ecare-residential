@@ -69,6 +69,10 @@ input {
   border-color: black;
 }
 
+.save-submit-btn {
+  width: 40%;
+}
+
 .formSpinner {
   display: block;
   margin-left: 10px;
