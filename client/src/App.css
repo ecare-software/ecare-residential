@@ -31,10 +31,12 @@
     margin: 0px !important;
   }
 
-  .meta-details-content {
-    page-break-before: always;
-  }
-
+.formComp {
+  page-break-after: always;
+}
+.formComp:last-child {
+  page-break-after: avoid;
+}
 }
 
 td{
