@@ -398,6 +398,9 @@ const AdmissionAssessmentSchema = new Schema({
   clientId: {
     type: String,
   },
+  status: {
+    type: String,
+  },
 });
 
 module.exports = AdmissionAssessment = mongoose.model(

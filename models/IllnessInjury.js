@@ -144,6 +144,9 @@ const IllnessInjurySchema = new Schema({
   clientId: {
     type: String,
   },
+  status: {
+    type: String,
+  },
 });
 
 module.exports = IllnessInjury = mongoose.model(

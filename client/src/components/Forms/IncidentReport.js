@@ -99,6 +99,7 @@ class IncidentReport extends Component {
       staff: [],
       clientId: "",
       createDate: new Date().toISOString(),
+      status: "IN PROGRESS",
     };
   }
 
@@ -185,13 +186,15 @@ class IncidentReport extends Component {
 
       follow_up_results: "",
       clientId: "",
-      createDate: new Date().toISOString,
+      createDate: new Date().toISOString(),
+      status: "IN PROGRESS",
     });
   };
 
   // auto save
   autoSave = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
+    // this.state.status = "IN PROGRESS"
     delete currentState.clients;
     delete currentState.staff;
     console.log("auto saving");
@@ -199,6 +202,7 @@ class IncidentReport extends Component {
       currentState.childMeta_name === "" ||
       currentState.childMeta_name.length === 0
     ) {
+      console.log('state at end of auto save ', this.state)
       return;
     }
     if (initAutoSave) {
@@ -252,7 +256,8 @@ class IncidentReport extends Component {
     }
   };
 
-  submit = async () => {
+  submit = async (save) => {
+    if (!save) this.state.status = "COMPLETED";
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
     delete currentState.staff;
@@ -278,9 +283,7 @@ class IncidentReport extends Component {
         console.log(e);
         this.setState({
           formHasError: true,
-          formErrorMessage: `Error Submitting Incident Report - ${JSON.stringify(
-            e
-          )}`,
+          formErrorMessage: `Error Submitting Incident Report - ${JSON.stringify(e)}`,
           loadingClients: false,
         });
       }
@@ -301,9 +304,7 @@ class IncidentReport extends Component {
           console.log(e);
           this.setState({
             formHasError: true,
-            formErrorMessage: `Error Submitting Incident Report - ${JSON.stringify(
-              e
-            )}`,
+            formErrorMessage: `Error Submitting Incident Report - ${JSON.stringify(e)}`,
             loadingClients: false,
           });
         });
@@ -315,6 +316,7 @@ class IncidentReport extends Component {
       ...this.state,
       loadingClients: true,
     });
+
 
     if (!this.state.createDate) {
       this.setState({
@@ -329,7 +331,7 @@ class IncidentReport extends Component {
       });
     }
 
-    this.submit();
+    this.submit(save);
   };
 
   componentWillUnmount() {
@@ -375,6 +377,11 @@ class IncidentReport extends Component {
       let { data: clients } = await Axios.get(
         `/api/client/${this.props.userObj.homeId}?active=true`
       );
+
+      clients = clients.filter((client) => {
+        return !client.hasOwnProperty("active") || client.active === true;
+      });
+      
       setTimeout(() => {
         this.setState({
           ...this.state,
@@ -1042,7 +1049,7 @@ class IncidentReport extends Component {
                         this.validateForm(true);
                       }}
                     >
-                      Save
+                      Finish Later
                     </button>
 
                     <button

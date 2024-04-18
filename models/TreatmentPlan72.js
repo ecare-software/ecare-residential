@@ -476,6 +476,9 @@ const TreatmentPlan72Schema = new Schema({
   clientId: {
     type: String,
   },
+  status: {
+    type: String,
+  },
 });
 
 module.exports = TreatmentPlan72 = mongoose.model(

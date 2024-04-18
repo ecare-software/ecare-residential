@@ -48,6 +48,7 @@ class NightMonitoring extends Component {
       clientId: "",
       signature: [],
       createDate: new Date().toISOString(),
+      status: "IN PROGRESS",
     };
   }
 
@@ -90,6 +91,7 @@ class NightMonitoring extends Component {
       reason: "",
       signed: false,
       createDate: new Date(),
+      status: "IN PROGRESS",
     });
   };
   componentWillUnmount() {
@@ -150,7 +152,8 @@ class NightMonitoring extends Component {
     }
   };
 
-  submit = async () => {
+  submit = async (save) => {
+    if (!save) this.state.status = "COMPLETED";
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
     delete currentState.staff;
@@ -222,7 +225,7 @@ class NightMonitoring extends Component {
       });
     }
 
-    this.submit();
+    this.submit(save);
   };
 
   dateForDateTimeInputValue = () =>
@@ -392,7 +395,7 @@ class NightMonitoring extends Component {
                     this.validateForm(true);
                   }}
                 >
-                  Save
+                  Finish Later
                 </button>
 
                 <button

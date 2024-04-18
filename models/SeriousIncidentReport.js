@@ -124,6 +124,9 @@ const SeriousIncidentReportSchema = new Schema({
   clientId: {
     type: String,
   },
+  status: {
+    type: String,
+  },
 });
 
 module.exports = SeriousIncidentReport = mongoose.model(

@@ -70,6 +70,7 @@ router.post("/", (req, res) => {
     homeId: req.body.homeId,
 
     formType: "Serious Incident Report",
+    status: req.body.status,
   });
 
   newSeriousIncidentReport

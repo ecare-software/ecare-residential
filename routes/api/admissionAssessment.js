@@ -170,6 +170,7 @@ router.post("/", (req, res) => {
       : new Date().toISOString(),
 
     formType: "Admission Assessment",
+    status: req.body.status,
   });
   newAdmissionAssessment
     .save()
