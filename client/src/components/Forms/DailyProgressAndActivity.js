@@ -57,28 +57,18 @@ class DailyProgressAndActivity extends Component {
       therapeutic_recreational: "",
       therapeutic_value: "",
       phone_calls_or_visits: "",
-
       createdBy: this.props.valuesSet === true ? "" : this.props.userObj.email,
-
       createdByName:
         this.props.valuesSet === true
           ? ""
           : this.props.userObj.firstName + " " + this.props.userObj.lastName,
-
       lastEditDate: null,
-
       homeId: this.props.valuesSet === true ? "" : this.props.userObj.homeId,
-
       formHasError: false,
-
       formSubmitted: false,
-
       formErrorMessage: "",
-
       loadingClients: true,
-
       loadingSig: true,
-
       clients: [],
       clientId: "",
       createDate: new Date().toISOString(),
@@ -154,6 +144,7 @@ class DailyProgressAndActivity extends Component {
       clientId: "",
       createDate: new Date().toISOString(),
       status: "IN PROGRESS",
+      childSelected: false,
     });
   };
 
@@ -944,11 +935,13 @@ class DailyProgressAndActivity extends Component {
                   ></div>
                 </Col>
               </Row>
-              <Row style={{display:"flex", justifyContent:"space-between", paddingRight:"0px", marginLeft:"1px", marginRight:"1px"}}>
+              
+              <Row className="save-submit-row">
                 <div style={{display:"flex", width:"46%"}}>
                   <button
                       className="lightBtn hide hide-on-print save-submit-btn"
                       style={{width:"100%"}}
+                      disabled={this.state.childSelected ? false : true}
                       onClick={() => {
                         this.validateForm(true);
                       }}
@@ -960,6 +953,7 @@ class DailyProgressAndActivity extends Component {
                   <button
                       className="darkBtn hide hide-on-print save-submit-btn"
                       style={{width:"100%"}}
+                      disabled={this.state.childSelected ? false : true}
                       onClick={() => {
                         this.validateForm(false);
                       }}

@@ -21,83 +21,49 @@ class SeriousIncidentReport extends Component {
     super(props);
     this.state = {
       childMeta_name: "",
-
       childMeta_gender: "",
-
       childMeta_dob: "",
-
       childMeta_dateOfAdmission: "",
-
       dateOfIncident: "",
-
       staff_involved_name: "",
-
       staff_involved_gender: "",
-
       time_of_incident: "",
-
       staff_witness_name: "",
-
       staff_witness_gender: "",
-
       client_witness_name1: "",
-
       client_witness_gender1: "",
-
       client_witness_dob1: "",
-
       client_witness_doa1: "",
-
       client_witness_name2: "",
-
       client_witness_gender2: "",
-
       client_witness_dob2: "",
-
       client_witness_doa2: "",
-
       incident_explaination: "",
-
       seperation: "",
-
       result: "",
-
       able_to_prevent: "",
-
       notification_made_to: "",
-
       notification_made_date_time: "",
-
       notification_made_by: "",
-
       follow_up_results: "",
-
       createdBy: this.props.valuesSet === true ? "" : this.props.userObj.email,
-
       createdByName:
         this.props.valuesSet === true
           ? ""
           : this.props.userObj.firstName + " " + this.props.userObj.lastName,
-
       lastEditDate: null,
-
       homeId: this.props.valuesSet === true ? "" : this.props.userObj.homeId,
-
       formHasError: false,
-
       formSubmitted: false,
-
       formErrorMessage: "",
-
       loadingClients: true,
-
       loadingSig: true,
-
       clients: [],
       loadingStaff: true,
       staff: [],
       clientId: "",
-      status: "IN PROGRESS"
+      status: "IN PROGRESS",
+      childSelected: false,
     };
   }
 
@@ -133,58 +99,34 @@ class SeriousIncidentReport extends Component {
   resetForm = () => {
     this.setState({
       childMeta_name: "",
-
       childMeta_gender: "",
-
       childMeta_dob: "",
-
       childMeta_dateOfAdmission: "",
-
       dateOfIncident: "",
-
       staff_involved_name: "",
-
       staff_involved_gender: "",
-
       time_of_incident: "",
-
       staff_witness_name: "",
-
       staff_witness_gender: "",
-
       client_witness_name1: "",
-
       client_witness_gender1: "",
-
       client_witness_dob1: "",
-
       client_witness_doa1: "",
-
       client_witness_name2: "",
-
       client_witness_gender2: "",
-
       client_witness_dob2: "",
-
       client_witness_doa2: "",
-
       incident_explaination: "",
-
       seperation: "",
-
       result: "",
-
       able_to_prevent: "",
-
       notification_made_to: "",
-
       notification_made_date_time: "",
-
       notification_made_by: "",
-
       follow_up_results: "",
       clientId: "",
-      status: "IN PROGRESS"
+      status: "IN PROGRESS",
+      childSelected: false,
     });
   };
 
@@ -420,6 +362,7 @@ class SeriousIncidentReport extends Component {
   }
 
   handleClientSelect = async (event) => {
+    this.state.childSelected = true;
     if (event.target.value !== null) {
       const client = JSON.parse(event.target.value);
       const clonedState = { ...this.state };
@@ -521,8 +464,8 @@ class SeriousIncidentReport extends Component {
                   {`${new Date(this.state.lastEditDate)
                     .toTimeString()
                     .replace(/\s.*/, "")} - ${new Date(
-                    this.state.lastEditDate
-                  ).toDateString()}`}
+                      this.state.lastEditDate
+                    ).toDateString()}`}
                 </i>
               ) : (
                 "-"
@@ -579,6 +522,7 @@ class SeriousIncidentReport extends Component {
                     <label className="control-label">Child's Gender</label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.childMeta_gender}
                       id="childMeta_gender"
@@ -600,6 +544,7 @@ class SeriousIncidentReport extends Component {
                       id="childMeta_dob"
                       value={this.state.childMeta_dob}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="date"
                     />{" "}
                   </div>
@@ -614,6 +559,7 @@ class SeriousIncidentReport extends Component {
                       id="childMeta_dateOfAdmission"
                       value={this.state.childMeta_dateOfAdmission}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="date"
                     />{" "}
                   </div>
@@ -628,6 +574,7 @@ class SeriousIncidentReport extends Component {
                       id="dateOfIncident"
                       value={this.state.dateOfIncident}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="date"
                     />{" "}
                   </div>
@@ -639,6 +586,7 @@ class SeriousIncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       defaultValue={null}
                       onChange={(e) => {
                         this.handleStaffSelect(
@@ -663,6 +611,7 @@ class SeriousIncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.staff_involved_gender}
                       id="staff_involved_gender"
@@ -684,6 +633,7 @@ class SeriousIncidentReport extends Component {
                       id="time_of_incident"
                       value={this.state.time_of_incident}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="time"
                     />{" "}
                   </div>
@@ -695,6 +645,7 @@ class SeriousIncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       defaultValue={null}
                       onChange={(e) => {
                         this.handleStaffSelect(
@@ -719,6 +670,7 @@ class SeriousIncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.staff_witness_gender}
                       id="staff_witness_gender"
@@ -738,6 +690,7 @@ class SeriousIncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       defaultValue={null}
                       onChange={this.handleClientSelectWithness1}
                     >
@@ -757,6 +710,7 @@ class SeriousIncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.client_witness_gender1}
                       id="client_witness_gender1"
@@ -778,6 +732,7 @@ class SeriousIncidentReport extends Component {
                       id="client_witness_dob1"
                       value={this.state.client_witness_dob1}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="date"
                     />{" "}
                   </div>
@@ -792,6 +747,7 @@ class SeriousIncidentReport extends Component {
                       id="client_witness_doa1"
                       value={this.state.client_witness_doa1}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="date"
                     />{" "}
                   </div>
@@ -803,6 +759,7 @@ class SeriousIncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       defaultValue={null}
                       onChange={this.handleClientSelectWithness2}
                     >
@@ -822,6 +779,7 @@ class SeriousIncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.client_witness_gender2}
                       id="client_witness_gender2"
@@ -843,6 +801,7 @@ class SeriousIncidentReport extends Component {
                       id="client_witness_dob2"
                       value={this.state.client_witness_dob2}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="date"
                     />{" "}
                   </div>
@@ -857,6 +816,7 @@ class SeriousIncidentReport extends Component {
                       id="client_witness_doa2"
                       value={this.state.client_witness_doa2}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="date"
                     />{" "}
                   </div>
@@ -871,6 +831,7 @@ class SeriousIncidentReport extends Component {
                       id="incident_explaination"
                       value={this.state.incident_explaination}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
                 </Col>
@@ -886,6 +847,7 @@ class SeriousIncidentReport extends Component {
                       id="seperation"
                       value={this.state.seperation}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -900,6 +862,7 @@ class SeriousIncidentReport extends Component {
                       id="result"
                       value={this.state.result}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
 
@@ -913,6 +876,7 @@ class SeriousIncidentReport extends Component {
                       id="able_to_prevent"
                       value={this.state.able_to_prevent}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
 
@@ -926,6 +890,7 @@ class SeriousIncidentReport extends Component {
                       id="notification_made_to"
                       value={this.state.notification_made_to}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -940,6 +905,7 @@ class SeriousIncidentReport extends Component {
                       id="notification_made_date_time"
                       value={this.state.notification_made_date_time}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="datetime-local"
                     />{" "}
                   </div>
@@ -952,6 +918,7 @@ class SeriousIncidentReport extends Component {
                       id="notification_made_by"
                       value={this.state.notification_made_by}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -966,34 +933,40 @@ class SeriousIncidentReport extends Component {
                       id="follow_up_results"
                       value={this.state.follow_up_results}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
                 </Col>
               </Row>
 
               <FormError errorId={this.props.id + "-error"} />
-              <div
-                className="form-group logInInputField"
-                style={{ display: "flex", justifyContent: "space-between" }}
-              >
-                <button
-                  className="lightBtn hide-on-print"
-                  onClick={() => {
-                    this.validateForm(true);
-                  }}
-                >
-                  Finish Later
-                </button>
 
-                <button
-                  className="darkBtn hide-on-print"
-                  onClick={() => {
-                    this.validateForm(false);
-                  }}
-                >
-                  Submit
-                </button>
-              </div>
+              <Row style={{display:"flex", justifyContent:"space-between", paddingRight:"0px", marginLeft:"1px", marginRight:"1px"}}>
+                <div style={{display:"flex", width:"46%"}}>
+                  <button
+                      className="lightBtn hide hide-on-print save-submit-btn"
+                      style={{width:"100%"}}
+                      disabled={this.state.childSelected ? false : true}
+                      onClick={() => {
+                        this.validateForm(true);
+                      }}
+                    >
+                      Finish Later
+                    </button>
+                </div>
+                <div style={{display:"flex", width:"46%"}}>
+                  <button
+                      className="darkBtn hide hide-on-print save-submit-btn"
+                      style={{width:"100%"}}
+                      disabled={this.state.childSelected ? false : true}
+                      onClick={() => {
+                        this.validateForm(false);
+                      }}
+                    >
+                      Submit
+                  </button>
+                </div>
+              </Row>
             </Container>
           )}
         </div>
@@ -1068,6 +1041,7 @@ class SeriousIncidentReport extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
+                        disabled={this.state.childSelected ? false : true}
                         onChange={this.handleFieldInput}
                         value={this.state.childMeta_gender}
                         id="childMeta_gender"
@@ -1087,6 +1061,7 @@ class SeriousIncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.childMeta_dob}
                         className="form-control"
+                        disabled={this.state.childSelected ? false : true}
                         type="date"
                         id="childMeta_dob"
                       />{" "}
@@ -1100,6 +1075,7 @@ class SeriousIncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.childMeta_dateOfAdmission}
                         className="form-control"
+                        disabled={this.state.childSelected ? false : true}
                         type="date"
                         id="childMeta_dateOfAdmission"
                       />{" "}
@@ -1113,6 +1089,7 @@ class SeriousIncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.dateOfIncident}
                         className="form-control"
+                        disabled={this.state.childSelected ? false : true}
                         type="date"
                         id="dateOfIncident"
                       />{" "}
@@ -1127,6 +1104,7 @@ class SeriousIncidentReport extends Component {
                         value={this.state.staff_involved_name}
                         id="staff_involved_name"
                         className="form-control"
+                        disabled={this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -1137,6 +1115,7 @@ class SeriousIncidentReport extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
+                        disabled={this.state.childSelected ? false : true}
                         onChange={this.handleFieldInput}
                         value={this.state.staff_involved_gender}
                         id="staff_involved_gender"
@@ -1157,6 +1136,7 @@ class SeriousIncidentReport extends Component {
                         value={this.state.time_of_incident}
                         id="time_of_incident"
                         className="form-control"
+                        disabled={this.state.childSelected ? false : true}
                         type="time"
                       />{" "}
                     </div>
@@ -1170,6 +1150,7 @@ class SeriousIncidentReport extends Component {
                         value={this.state.staff_witness_name}
                         id="staff_witness_name"
                         className="form-control"
+                        disabled={this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -1182,6 +1163,7 @@ class SeriousIncidentReport extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
+                        disabled={this.state.childSelected ? false : true}
                         onChange={this.handleFieldInput}
                         value={this.state.staff_witness_gender}
                         id="staff_witness_gender"
@@ -1202,6 +1184,7 @@ class SeriousIncidentReport extends Component {
                         value={this.state.client_witness_name1}
                         id="client_witness_name1"
                         className="form-control"
+                        disabled={this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -1212,6 +1195,7 @@ class SeriousIncidentReport extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
+                        disabled={this.state.childSelected ? false : true}
                         onChange={this.handleFieldInput}
                         value={this.state.client_witness_gender1}
                         id="client_witness_gender1"
@@ -1231,6 +1215,7 @@ class SeriousIncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.client_witness_dob1}
                         className="form-control"
+                        disabled={this.state.childSelected ? false : true}
                         type="date"
                         id="client_witness_dob1"
                       />{" "}
@@ -1244,6 +1229,7 @@ class SeriousIncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.client_witness_doa1}
                         className="form-control"
+                        disabled={this.state.childSelected ? false : true}
                         type="date"
                         id="client_witness_doa1"
                       />{" "}
@@ -1258,6 +1244,7 @@ class SeriousIncidentReport extends Component {
                         value={this.state.client_witness_name2}
                         id="client_witness_name2"
                         className="form-control"
+                        disabled={this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -1268,6 +1255,7 @@ class SeriousIncidentReport extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
+                        disabled={this.state.childSelected ? false : true}
                         onChange={this.handleFieldInput}
                         value={this.state.client_witness_gender2}
                         id="client_witness_gender2"
@@ -1287,6 +1275,7 @@ class SeriousIncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.client_witness_dob2}
                         className="form-control"
+                        disabled={this.state.childSelected ? false : true}
                         type="date"
                         id="client_witness_dob2"
                       />{" "}
@@ -1300,6 +1289,7 @@ class SeriousIncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.client_witness_doa2}
                         className="form-control"
+                        disabled={this.state.childSelected ? false : true}
                         type="date"
                         id="client_witness_doa2"
                       />{" "}
@@ -1317,6 +1307,7 @@ class SeriousIncidentReport extends Component {
                           value={this.state.incident_explaination}
                           id="incident_explaination"
                           className="form-control"
+                          disabled={this.state.childSelected ? false : true}
                         ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
@@ -1334,6 +1325,7 @@ class SeriousIncidentReport extends Component {
                         value={this.state.seperation}
                         id="seperation"
                         className="form-control"
+                        disabled={this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -1348,6 +1340,7 @@ class SeriousIncidentReport extends Component {
                           value={this.state.result}
                           id="result"
                           className="form-control"
+                          disabled={this.state.childSelected ? false : true}
                         ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">{this.state.result}</p>
@@ -1363,6 +1356,7 @@ class SeriousIncidentReport extends Component {
                           value={this.state.able_to_prevent}
                           id="able_to_prevent"
                           className="form-control"
+                          disabled={this.state.childSelected ? false : true}
                         ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
@@ -1379,6 +1373,7 @@ class SeriousIncidentReport extends Component {
                         value={this.state.notification_made_to}
                         id="notification_made_to"
                         className="form-control"
+                        disabled={this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -1391,6 +1386,7 @@ class SeriousIncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.notification_made_date_time}
                         className="form-control"
+                        disabled={this.state.childSelected ? false : true}
                         type="datetime-local"
                         id="notification_made_date_time"
                       />{" "}
@@ -1403,6 +1399,7 @@ class SeriousIncidentReport extends Component {
                         value={this.state.notification_made_by}
                         id="notification_made_by"
                         className="form-control"
+                        disabled={this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -1417,6 +1414,7 @@ class SeriousIncidentReport extends Component {
                           value={this.state.follow_up_results}
                           id="follow_up_results"
                           className="form-control"
+                          disabled={this.state.childSelected ? false : true}
                         ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">

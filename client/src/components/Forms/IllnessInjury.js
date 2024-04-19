@@ -32,32 +32,23 @@ class IllnessInjury extends Component {
       lastMedicationGiven: "",
       otherActionsTreatment: "",
       treatmentAuthBy: "",
-
       createdBy: this.props.valuesSet === true ? "" : this.props.userObj.email,
-
       createdByName:
         this.props.valuesSet === true
           ? ""
           : this.props.userObj.firstName + " " + this.props.userObj.lastName,
-
       lastEditDate: null,
-
       homeId: this.props.valuesSet === true ? "" : this.props.userObj.homeId,
-
       formHasError: false,
-
       formSubmitted: false,
-
       formErrorMessage: "",
-
       loadingClients: true,
-
       loadingSig: true,
-
       clients: [],
       clientId: "",
       createDate: new Date().toISOString(),
       status: "IN PROGRESS",
+      childSelected: false,
     };
   }
 
@@ -108,6 +99,7 @@ class IllnessInjury extends Component {
       clientId: "",
       createDate: new Date().toISOString(),
       status: "IN PROGRESS",
+      childSelected: false,
     });
   };
 
@@ -318,6 +310,7 @@ class IllnessInjury extends Component {
   }
 
   handleClientSelect = async (event) => {
+    this.state.childSelected = true;
     if (event.target.value !== null) {
       const client = JSON.parse(event.target.value);
       const clonedState = { ...this.state };
@@ -432,6 +425,7 @@ class IllnessInjury extends Component {
                       id="dateTimeOccur"
                       value={this.state.dateTimeOccur}
                       className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                       type="datetime-local"
                     />{" "}
                   </div>
@@ -446,6 +440,7 @@ class IllnessInjury extends Component {
                       id="illnessInjury"
                       value={this.state.illnessInjury}
                       className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
 
@@ -459,6 +454,7 @@ class IllnessInjury extends Component {
                       id="initialResponse"
                       value={this.state.initialResponse}
                       className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
 
@@ -472,6 +468,7 @@ class IllnessInjury extends Component {
                       id="tempTaken"
                       value={this.state.tempTaken}
                       className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -484,6 +481,7 @@ class IllnessInjury extends Component {
                       id="tempMethodTaken"
                       value={this.state.tempMethodTaken}
                       className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -499,6 +497,7 @@ class IllnessInjury extends Component {
                       id="tempInitialReading"
                       value={this.state.tempInitialReading}
                       className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -513,6 +512,7 @@ class IllnessInjury extends Component {
                       id="supervisorNotified"
                       value={this.state.supervisorNotified}
                       className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -527,6 +527,7 @@ class IllnessInjury extends Component {
                       id="notifiedAt"
                       value={this.state.notifiedAt}
                       className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                       type="datetime-local"
                     />{" "}
                   </div>
@@ -541,6 +542,7 @@ class IllnessInjury extends Component {
                       id="notifiedBy"
                       value={this.state.notifiedBy}
                       className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -556,6 +558,7 @@ class IllnessInjury extends Component {
                       id="adminFollowUp"
                       value={this.state.adminFollowUp}
                       className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -570,6 +573,7 @@ class IllnessInjury extends Component {
                       id="lastMedicationGiven"
                       value={this.state.lastMedicationGiven}
                       className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
 
@@ -583,6 +587,7 @@ class IllnessInjury extends Component {
                       id="otherActionsTreatment"
                       value={this.state.otherActionsTreatment}
                       className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
 
@@ -596,34 +601,40 @@ class IllnessInjury extends Component {
                       id="treatmentAuthBy"
                       value={this.state.treatmentAuthBy}
                       className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
                 </Col>
               </Row>
 
               <FormError errorId={this.props.id + "-error"} />
-              <div
-                className="form-group logInInputField"
-                style={{ display: "flex", justifyContent: "space-between" }}
-              >
-                <button
-                  className="lightBtn hide-on-print"
-                  onClick={() => {
-                    this.validateForm(true);
-                  }}
-                >
-                  Finish Later
-                </button>
-
-                <button
-                  className="darkBtn hide-on-print"
-                  onClick={() => {
-                    this.validateForm(false);
-                  }}
-                >
-                  Submit
-                </button>
-              </div>
+   
+              <Row className="save-submit-row">
+                <div style={{display:"flex", width:"46%"}}>
+                  <button
+                      className="lightBtn hide hide-on-print save-submit-btn"
+                      style={{width:"100%"}}
+                      disabled={this.state.childSelected ? false : true}
+                      onClick={() => {
+                        this.validateForm(true);
+                      }}
+                    >
+                      Finish Later
+                    </button>
+                </div>
+                <div style={{display:"flex", width:"46%"}}>
+                  <button
+                      className="darkBtn hide hide-on-print save-submit-btn"
+                      style={{width:"100%"}}
+                      disabled={this.state.childSelected ? false : true}
+                      onClick={() => {
+                        this.validateForm(false);
+                      }}
+                    >
+                      Submit
+                  </button>
+                </div>
+              </Row>
             </Container>
           )}
         </div>
@@ -686,6 +697,7 @@ class IllnessInjury extends Component {
                     id="childMeta_name"
                     value={this.state.childMeta_name}
                     className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -701,6 +713,7 @@ class IllnessInjury extends Component {
                         id="dateTimeOccur"
                         value={this.state.dateTimeOccur}
                         className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                         type="datetime-local"
                       />{" "}
                     </div>
@@ -714,6 +727,7 @@ class IllnessInjury extends Component {
                         id="illnessInjury"
                         value={this.state.illnessInjury}
                         className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
@@ -726,6 +740,7 @@ class IllnessInjury extends Component {
                         id="initialResponse"
                         value={this.state.initialResponse}
                         className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
@@ -738,6 +753,7 @@ class IllnessInjury extends Component {
                         id="tempTaken"
                         value={this.state.tempTaken}
                         className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -749,6 +765,7 @@ class IllnessInjury extends Component {
                         id="tempMethodTaken"
                         value={this.state.tempMethodTaken}
                         className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -764,6 +781,7 @@ class IllnessInjury extends Component {
                         id="tempInitialReading"
                         value={this.state.tempInitialReading}
                         className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -777,6 +795,7 @@ class IllnessInjury extends Component {
                         id="supervisorNotified"
                         value={this.state.supervisorNotified}
                         className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -791,6 +810,7 @@ class IllnessInjury extends Component {
                         id="notifiedAt"
                         value={this.state.notifiedAt}
                         className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                         type="datetime-local"
                       />{" "}
                     </div>
@@ -804,6 +824,7 @@ class IllnessInjury extends Component {
                         id="notifiedBy"
                         value={this.state.notifiedBy}
                         className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -819,6 +840,7 @@ class IllnessInjury extends Component {
                         id="adminFollowUp"
                         value={this.state.adminFollowUp}
                         className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -832,6 +854,7 @@ class IllnessInjury extends Component {
                         id="lastMedicationGiven"
                         value={this.state.lastMedicationGiven}
                         className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
@@ -844,6 +867,7 @@ class IllnessInjury extends Component {
                         id="otherActionsTreatment"
                         value={this.state.otherActionsTreatment}
                         className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
@@ -856,6 +880,7 @@ class IllnessInjury extends Component {
                         id="treatmentAuthBy"
                         value={this.state.treatmentAuthBy}
                         className="form-control"
+                      disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                   </Col>

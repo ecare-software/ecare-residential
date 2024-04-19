@@ -9,6 +9,7 @@ import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
 import { FormSavedAlert } from "../../utils/FormSavedAlert";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 import { NightMonitoringChildRow } from "../NightMonitoringChildRow";
+import { Row } from "react-bootstrap";
 var interval = 0; // used for autosaving
 let initAutoSave = false;
 class NightMonitoring extends Component {
@@ -22,33 +23,24 @@ class NightMonitoring extends Component {
       reason: "",
       signed: false,
       childMeta_name: "",
-
       createdBy: this.props.valuesSet === true ? "" : this.props.userObj.email,
-
       createdByName:
         this.props.valuesSet === true
           ? ""
           : this.props.userObj.firstName + " " + this.props.userObj.lastName,
-
       lastEditDate: null,
-
       homeId: this.props.valuesSet === true ? "" : this.props.userObj.homeId,
-
       formHasError: false,
-
       formSubmitted: false,
-
       formErrorMessage: "",
-
       loadingClients: true,
-
       loadingSig: true,
-
       clients: [],
       clientId: "",
       signature: [],
       createDate: new Date().toISOString(),
       status: "IN PROGRESS",
+      childSelected: false,
     };
   }
 
@@ -92,6 +84,7 @@ class NightMonitoring extends Component {
       signed: false,
       createDate: new Date(),
       status: "IN PROGRESS",
+      childSelected: false,
     });
   };
   componentWillUnmount() {
@@ -284,6 +277,7 @@ class NightMonitoring extends Component {
   }
 
   handleClientSelect = async (event) => {
+    this.state.childSelected = true;
     if (event.target.value !== null) {
       const client = JSON.parse(event.target.value);
       const clonedState = { ...this.state };
@@ -385,28 +379,33 @@ class NightMonitoring extends Component {
                 signature={this.props.userObj.signature}
               />
               <FormError errorId={this.props.id + "-error"} />
-              <div
-                className="form-group logInInputField"
-                style={{ display: "flex", justifyContent: "space-between" }}
-              >
-                <button
-                  className="lightBtn hide-on-print"
-                  onClick={() => {
-                    this.validateForm(true);
-                  }}
-                >
-                  Finish Later
-                </button>
-
-                <button
-                  className="darkBtn hide-on-print"
-                  onClick={() => {
-                    this.validateForm(false);
-                  }}
-                >
-                  Submit
-                </button>
-              </div>
+              
+              <Row className="save-submit-row">
+                <div style={{display:"flex", width:"46%"}}>
+                  <button
+                      className="lightBtn hide hide-on-print save-submit-btn"
+                      style={{width:"100%"}}
+                      disabled={this.state.childSelected ? false : true}
+                      onClick={() => {
+                        this.validateForm(true);
+                      }}
+                    >
+                      Finish Later
+                    </button>
+                </div>
+                <div style={{display:"flex", width:"46%"}}>
+                  <button
+                      className="darkBtn hide hide-on-print save-submit-btn"
+                      style={{width:"100%"}}
+                      disabled={this.state.childSelected ? false : true}
+                      onClick={() => {
+                        this.validateForm(false);
+                      }}
+                    >
+                      Submit
+                  </button>
+                </div>
+              </Row>
             </div>
           )}
         </div>

@@ -73,6 +73,21 @@ input {
   width: 40%;
 }
 
+.save-submit-btn:disabled, 
+.save-submit-btn:disabled:hover {
+  background-color: #cccccc;
+  color: #666666;
+}
+
+.save-submit-row {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 0px;
+  margin-left: 1px;
+  margin-right: 1px;
+  padding-bottom: 20px;
+}
+
 .formSpinner {
   display: block;
   margin-left: 10px;
