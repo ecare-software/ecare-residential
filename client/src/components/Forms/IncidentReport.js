@@ -70,12 +70,14 @@ class IncidentReport extends Component {
 
   toggleSuccessAlert = () => {
     this.setState({
-      formSubmitted: !this.state.formSubmitted,      loadingClients: false,    });
+      formSubmitted: !this.state.formSubmitted, loadingClients: false,
+    });
   };
 
   toggleErrorAlert = () => {
     this.setState({
-      formHasError: !this.state.formHasError,      formErrorMessage: "",    });
+      formHasError: !this.state.formHasError, formErrorMessage: "",
+    });
   };
 
   handleFieldInput = (event) => {
@@ -124,7 +126,7 @@ class IncidentReport extends Component {
       clientId: "",
       createDate: new Date().toISOString(),
       status: "IN PROGRESS",
-      childSelected: false,  
+      childSelected: false,
     });
   };
 
@@ -146,17 +148,20 @@ class IncidentReport extends Component {
       console.log("updating existing form");
       try {
         const { data } = await Axios.put(
-          `/api/incidentReport/${this.state.homeId}/${this.state._id}`,          {
-            ...currentState,          }
+          `/api/incidentReport/${this.state.homeId}/${this.state._id}`, {
+          ...currentState,
+        }
         );
         this.setState({
-          ...this.state,          lastEditDate: data.lastEditDate,        });
+          ...this.state, lastEditDate: data.lastEditDate,
+        });
       } catch (e) {
         console.log(e);
         this.setState({
-          formHasError: true,          formErrorMessage: `Error Submitting Incident Report - ${JSON.stringify(
+          formHasError: true, formErrorMessage: `Error Submitting Incident Report - ${JSON.stringify(
             e
-          )}`,          loadingClients: false,        });
+          )}`, loadingClients: false,
+        });
       }
     } else {
       console.log("creating");
@@ -169,14 +174,16 @@ class IncidentReport extends Component {
           initAutoSave = true;
 
           this.setState({
-            ...this.state,            _id: res.data._id,          });
+            ...this.state, _id: res.data._id,
+          });
         })
         .catch((e) => {
           console.log(e);
           this.setState({
-            formHasError: true,            formErrorMessage: `Error Submitting Incident Report - ${JSON.stringify(
+            formHasError: true, formErrorMessage: `Error Submitting Incident Report - ${JSON.stringify(
               e
-            )}`,            loadingClients: false,          });
+            )}`, loadingClients: false,
+          });
         });
     }
   };
@@ -192,8 +199,9 @@ class IncidentReport extends Component {
     if (this.props.valuesSet || this.state._id) {
       try {
         const { data } = await Axios.put(
-          `/api/incidentReport/${this.state.homeId}/${this.state._id}`,          {
-            ...currentState,          }
+          `/api/incidentReport/${this.state.homeId}/${this.state._id}`, {
+          ...currentState,
+        }
         );
 
         this.setState({ ...this.state, ...data });
@@ -205,7 +213,8 @@ class IncidentReport extends Component {
       } catch (e) {
         console.log(e);
         this.setState({
-          formHasError: true,          formErrorMessage: `Error Submitting Incident Report - ${JSON.stringify(e)}`,          loadingClients: false,        });
+          formHasError: true, formErrorMessage: `Error Submitting Incident Report - ${JSON.stringify(e)}`, loadingClients: false,
+        });
       }
     } else {
       currentState.createdBy = this.props.userObj.email;
@@ -223,23 +232,27 @@ class IncidentReport extends Component {
         .catch((e) => {
           console.log(e);
           this.setState({
-            formHasError: true,            formErrorMessage: `Error Submitting Incident Report - ${JSON.stringify(e)}`,            loadingClients: false,          });
+            formHasError: true, formErrorMessage: `Error Submitting Incident Report - ${JSON.stringify(e)}`, loadingClients: false,
+          });
         });
     }
   };
 
   validateForm = async (save) => {
     this.setState({
-      ...this.state,      loadingClients: true,    });
+      ...this.state, loadingClients: true,
+    });
 
 
     if (!this.state.createDate) {
       this.setState({
-        formHasError: true,        formErrorMessage: `Please complete the following field(s): Create Date`,      });
+        formHasError: true, formErrorMessage: `Please complete the following field(s): Create Date`,
+      });
       return;
     } else {
       this.setState({
-        ...this.state,        createDate: new Date(this.state.createDate),      });
+        ...this.state, createDate: new Date(this.state.createDate),
+      });
     }
 
     this.submit(save);
@@ -258,7 +271,7 @@ class IncidentReport extends Component {
 
   createDateTimeStamp = () =>
     new Date(new Date(this.state.createDate).getTime()).toLocaleString(
-      "en-us",      { timeZone: "UTC" }
+      "en-us", { timeZone: "UTC" }
     );
 
   setSignature = (userObj) => {
@@ -269,12 +282,13 @@ class IncidentReport extends Component {
 
   setValues = async () => {
     const { data: createdUserData } = await GetUserSig(
-      this.props.formData.createdBy,      this.props.userObj.homeId
+      this.props.formData.createdBy, this.props.userObj.homeId
     );
     this.setSignature(createdUserData);
     this.sigCanvas.off();
     this.setState({
-      ...this.state,      ...this.props.formData,      loadingSig: false,      loadingClients: false,    });
+      ...this.state, ...this.props.formData, loadingSig: false, loadingClients: false,
+    });
   };
 
   getClients = async () => {
@@ -286,10 +300,11 @@ class IncidentReport extends Component {
       clients = clients.filter((client) => {
         return !client.hasOwnProperty("active") || client.active === true;
       });
-      
+
       setTimeout(() => {
         this.setState({
-          ...this.state,          clients,          loadingClients: false,        });
+          ...this.state, clients, loadingClients: false,
+        });
       }, 2000);
     } catch (e) {
       console.log(e);
@@ -309,7 +324,8 @@ class IncidentReport extends Component {
 
       setTimeout(() => {
         this.setState({
-          ...this.state,          staff,          loadingStaff: false,        });
+          ...this.state, staff, loadingStaff: false,
+        });
       }, 2000);
     } catch (e) {
       console.log(e);
@@ -342,7 +358,8 @@ class IncidentReport extends Component {
         }
       });
       await this.setState({
-        ...clonedState,        clientId: client._id,        _id: id,        lastEditDate,      });
+        ...clonedState, clientId: client._id, _id: id, lastEditDate,
+      });
     }
   };
 
@@ -351,7 +368,8 @@ class IncidentReport extends Component {
       try {
         const client = JSON.parse(event.target.value);
         await this.setState({
-          ...this.state,          client_witness_name1: client.childMeta_name,          client_witness_gender1: client.childMeta_gender,          client_witness_dob1: client.childMeta_dob,          client_witness_doa1: client.childMeta_dateOfAdmission,        });
+          ...this.state, client_witness_name1: client.childMeta_name, client_witness_gender1: client.childMeta_gender, client_witness_dob1: client.childMeta_dob, client_witness_doa1: client.childMeta_dateOfAdmission,
+        });
       } catch (e) {
         alert("Error parsing data");
         console.log(e);
@@ -364,7 +382,8 @@ class IncidentReport extends Component {
       try {
         const client = JSON.parse(event.target.value);
         await this.setState({
-          ...this.state,          client_witness_name2: client.childMeta_name,          client_witness_gender2: client.childMeta_gender,          client_witness_dob2: client.childMeta_dob,          client_witness_doa2: client.childMeta_dateOfAdmission,        });
+          ...this.state, client_witness_name2: client.childMeta_name, client_witness_gender2: client.childMeta_gender, client_witness_dob2: client.childMeta_dob, client_witness_doa2: client.childMeta_dateOfAdmission,
+        });
       } catch (e) {
         alert("Error parsing data");
         console.log(e);
@@ -418,8 +437,8 @@ class IncidentReport extends Component {
                   {`${new Date(this.state.lastEditDate)
                     .toTimeString()
                     .replace(/\s.*/, "")} - ${new Date(
-                    this.state.lastEditDate
-                  ).toDateString()}`}
+                      this.state.lastEditDate
+                    ).toDateString()}`}
                 </i>
               ) : (
                 "-"
@@ -470,7 +489,7 @@ class IncidentReport extends Component {
                       {[null, ...this.state.clients].map(
                         (client, idx) => (
                           <ClientOption key={`${idx}`} data={client} />
-                        ),                        []
+                        ), []
                       )}
                     </Form.Control>
                   </div>
@@ -481,7 +500,6 @@ class IncidentReport extends Component {
                     <label className="control-label">Child's Gender</label>{" "}
                     <Form.Control
                       as="select"
-                        disabled = {this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.childMeta_gender}
                       id="childMeta_gender"
@@ -502,7 +520,6 @@ class IncidentReport extends Component {
                       id="childMeta_dob"
                       value={this.state.childMeta_dob}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
                       type="date"
                     />{" "}
                   </div>
@@ -516,7 +533,6 @@ class IncidentReport extends Component {
                       id="childMeta_dateOfAdmission"
                       value={this.state.childMeta_dateOfAdmission}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
                       type="date"
                     />{" "}
                   </div>
@@ -532,18 +548,17 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                        disabled = {this.state.childSelected ? false : true}
                       defaultValue={null}
                       onChange={(e) => {
                         this.handleStaffSelect(
-                          e.target.value,                          "staff_involved_name"
+                          e.target.value, "staff_involved_name"
                         );
                       }}
                     >
                       {[null, ...this.state.staff].map(
                         (staff, idx) => (
                           <StaffOption key={`${idx}`} data={staff} />
-                        ),                        []
+                        ), []
                       )}
                     </Form.Control>
                   </div>
@@ -556,7 +571,6 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                        disabled = {this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.staff_involved_gender}
                       id="staff_involved_gender"
@@ -579,7 +593,6 @@ class IncidentReport extends Component {
                       id="time_of_incident"
                       value={this.state.time_of_incident}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
                       type="time"
                     />{" "}
                   </div>
@@ -595,7 +608,6 @@ class IncidentReport extends Component {
                       id="dateOfIncident"
                       value={this.state.dateOfIncident}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
                       type="date"
                     />{" "}
                   </div>
@@ -611,18 +623,17 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                        disabled = {this.state.childSelected ? false : true}
                       defaultValue={null}
                       onChange={(e) => {
                         this.handleStaffSelect(
-                          e.target.value,                          "staff_witness_name"
+                          e.target.value, "staff_witness_name"
                         );
                       }}
                     >
                       {[null, ...this.state.staff].map(
                         (staff) => (
                           <StaffOption data={staff} />
-                        ),                        []
+                        ), []
                       )}
                     </Form.Control>
                   </div>
@@ -635,7 +646,6 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                        disabled = {this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.staff_witness_gender}
                       id="staff_witness_gender"
@@ -658,14 +668,13 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                        disabled = {this.state.childSelected ? false : true}
                       defaultValue={null}
                       onChange={this.handleClientSelectWithness1}
                     >
                       {[null, ...this.state.clients].map(
                         (client, idx) => (
                           <ClientOption key={`${idx}`} data={client} />
-                        ),                        []
+                        ), []
                       )}
                     </Form.Control>
                   </div>
@@ -678,7 +687,6 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                        disabled = {this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.client_witness_gender1}
                       id="client_witness_gender1"
@@ -701,7 +709,6 @@ class IncidentReport extends Component {
                       id="client_witness_dob1"
                       value={this.state.client_witness_dob1}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
                       type="date"
                     />{" "}
                   </div>
@@ -717,7 +724,6 @@ class IncidentReport extends Component {
                       id="client_witness_doa1"
                       value={this.state.client_witness_doa1}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
                       type="date"
                     />{" "}
                   </div>
@@ -733,14 +739,13 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                        disabled = {this.state.childSelected ? false : true}
                       defaultValue={null}
                       onChange={this.handleClientSelectWithness2}
                     >
                       {[null, ...this.state.clients].map(
                         (client, idx) => (
                           <ClientOption key={`${idx}`} data={client} />
-                        ),                        []
+                        ), []
                       )}
                     </Form.Control>
                   </div>
@@ -753,7 +758,6 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                        disabled = {this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.client_witness_gender2}
                       id="client_witness_gender2"
@@ -776,7 +780,6 @@ class IncidentReport extends Component {
                       id="client_witness_dob2"
                       value={this.state.client_witness_dob2}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
                       type="date"
                     />{" "}
                   </div>
@@ -792,7 +795,6 @@ class IncidentReport extends Component {
                       id="client_witness_doa2"
                       value={this.state.client_witness_doa2}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
                       type="date"
                     />{" "}
                   </div>
@@ -811,7 +813,6 @@ class IncidentReport extends Component {
                       id="incident_explaination"
                       value={this.state.incident_explaination}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
                 </Col>
@@ -830,7 +831,6 @@ class IncidentReport extends Component {
                       id="seperation"
                       value={this.state.seperation}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -849,7 +849,6 @@ class IncidentReport extends Component {
                       id="result"
                       value={this.state.result}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
                 </Col>
@@ -867,7 +866,6 @@ class IncidentReport extends Component {
                       id="able_to_prevent"
                       value={this.state.able_to_prevent}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
                 </Col>
@@ -885,7 +883,6 @@ class IncidentReport extends Component {
                       id="notification_made_to"
                       value={this.state.notification_made_to}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -901,7 +898,6 @@ class IncidentReport extends Component {
                       id="notification_made_date_time"
                       value={this.state.notification_made_date_time}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
                       type="datetime-local"
                     />{" "}
                   </div>
@@ -915,7 +911,6 @@ class IncidentReport extends Component {
                       id="notification_made_by"
                       value={this.state.notification_made_by}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -934,7 +929,6 @@ class IncidentReport extends Component {
                       id="follow_up_results"
                       value={this.state.follow_up_results}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
                 </Col>
@@ -943,28 +937,28 @@ class IncidentReport extends Component {
               <FormError errorId={this.props.id + "-error"} />
 
               <Row className="save-submit-row">
-                <div style={{display:"flex", width:"46%"}}>
+                <div style={{ display: "flex", width: "46%" }}>
                   <button
-                      className="lightBtn hide hide-on-print save-submit-btn"
-                      style={{width:"100%"}}
-                      disabled={this.state.childSelected ? false : true}
-                      onClick={() => {
-                        this.validateForm(true);
-                      }}
-                    >
-                      Finish Later
-                    </button>
+                    className="lightBtn hide hide-on-print save-submit-btn"
+                    style={{ width: "100%" }}
+                    disabled={this.state.childSelected ? false : true}
+                    onClick={() => {
+                      this.validateForm(true);
+                    }}
+                  >
+                    Finish Later
+                  </button>
                 </div>
-                <div style={{display:"flex", width:"46%"}}>
+                <div style={{ display: "flex", width: "46%" }}>
                   <button
-                      className="darkBtn hide hide-on-print save-submit-btn"
-                      style={{width:"100%"}}
-                      disabled={this.state.childSelected ? false : true}
-                      onClick={() => {
-                        this.validateForm(false);
-                      }}
-                    >
-                      Submit
+                    className="darkBtn hide hide-on-print save-submit-btn"
+                    style={{ width: "100%" }}
+                    disabled={this.state.childSelected ? false : true}
+                    onClick={() => {
+                      this.validateForm(false);
+                    }}
+                  >
+                    Submit
                   </button>
                 </div>
               </Row>
@@ -1049,8 +1043,7 @@ class IncidentReport extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled = {this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.childMeta_gender}
                         id="childMeta_gender"
                       >
@@ -1069,8 +1062,7 @@ class IncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.childMeta_dob}
                         className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
-                        type="date"
+                          type="date"
                         id="childMeta_dob"
                       />{" "}
                     </div>
@@ -1083,8 +1075,7 @@ class IncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.childMeta_dateOfAdmission}
                         className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
-                        type="date"
+                          type="date"
                         id="childMeta_dateOfAdmission"
                       />{" "}
                     </div>
@@ -1103,8 +1094,7 @@ class IncidentReport extends Component {
                         value={this.state.staff_involved_name}
                         id="staff_involved_name"
                         className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
-                        type="text"
+                          type="text"
                       />{" "}
                     </div>
                   </Col>
@@ -1116,8 +1106,7 @@ class IncidentReport extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled = {this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.staff_involved_gender}
                         id="staff_involved_gender"
                       >
@@ -1139,8 +1128,7 @@ class IncidentReport extends Component {
                         value={this.state.time_of_incident}
                         id="time_of_incident"
                         className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
-                        type="time"
+                          type="time"
                       />{" "}
                     </div>
                   </Col>
@@ -1154,8 +1142,7 @@ class IncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.dateOfIncident}
                         className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
-                        type="date"
+                          type="date"
                         id="dateOfIncident"
                       />{" "}
                     </div>
@@ -1174,8 +1161,7 @@ class IncidentReport extends Component {
                         value={this.state.staff_witness_name}
                         id="staff_witness_name"
                         className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
-                        type="text"
+                          type="text"
                       />{" "}
                     </div>
                   </Col>
@@ -1187,8 +1173,7 @@ class IncidentReport extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled = {this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.staff_witness_gender}
                         id="staff_witness_gender"
                       >
@@ -1213,8 +1198,7 @@ class IncidentReport extends Component {
                         value={this.state.client_witness_name1}
                         id="client_witness_name1"
                         className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
-                        type="text"
+                          type="text"
                       />{" "}
                     </div>
                   </Col>
@@ -1226,8 +1210,7 @@ class IncidentReport extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled = {this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.client_witness_gender1}
                         id="client_witness_gender1"
                       >
@@ -1248,8 +1231,7 @@ class IncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.client_witness_dob1}
                         className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
-                        type="date"
+                          type="date"
                         id="client_witness_dob1"
                       />{" "}
                     </div>
@@ -1264,8 +1246,7 @@ class IncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.client_witness_doa1}
                         className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
-                        type="date"
+                          type="date"
                         id="client_witness_doa1"
                       />{" "}
                     </div>
@@ -1284,8 +1265,7 @@ class IncidentReport extends Component {
                         value={this.state.client_witness_name2}
                         id="client_witness_name2"
                         className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
-                        type="text"
+                          type="text"
                       />{" "}
                     </div>
                   </Col>
@@ -1297,8 +1277,7 @@ class IncidentReport extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled = {this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.client_witness_gender2}
                         id="client_witness_gender2"
                       >
@@ -1319,8 +1298,7 @@ class IncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.client_witness_dob2}
                         className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
-                        type="date"
+                          type="date"
                         id="client_witness_dob2"
                       />{" "}
                     </div>
@@ -1335,8 +1313,7 @@ class IncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.client_witness_doa2}
                         className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
-                        type="date"
+                          type="date"
                         id="client_witness_doa2"
                       />{" "}
                     </div>
@@ -1355,8 +1332,7 @@ class IncidentReport extends Component {
                         value={this.state.incident_explaination}
                         id="incident_explaination"
                         className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
-                      ></TextareaAutosize>
+                        ></TextareaAutosize>
                     </div>
                   </Col>
                 </Row>
@@ -1374,8 +1350,7 @@ class IncidentReport extends Component {
                         value={this.state.seperation}
                         id="seperation"
                         className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
-                        type="text"
+                          type="text"
                       />{" "}
                     </div>
                   </Col>
@@ -1393,8 +1368,7 @@ class IncidentReport extends Component {
                         value={this.state.result}
                         id="result"
                         className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
-                      ></TextareaAutosize>
+                        ></TextareaAutosize>
                     </div>
                   </Col>
                 </Row>
@@ -1411,8 +1385,7 @@ class IncidentReport extends Component {
                         value={this.state.able_to_prevent}
                         id="able_to_prevent"
                         className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
-                      ></TextareaAutosize>
+                        ></TextareaAutosize>
                       <p className="hide-on-non-print">
                         {this.state.able_to_prevent}
                       </p>
@@ -1432,8 +1405,7 @@ class IncidentReport extends Component {
                         value={this.state.notification_made_to}
                         id="notification_made_to"
                         className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
-                        type="text"
+                          type="text"
                       />{" "}
                     </div>
                   </Col>
@@ -1447,8 +1419,7 @@ class IncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.notification_made_date_time}
                         className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
-                        type="datetime-local"
+                          type="datetime-local"
                         id="notification_made_date_time"
                       />{" "}
                     </div>
@@ -1462,8 +1433,7 @@ class IncidentReport extends Component {
                         value={this.state.notification_made_by}
                         id="notification_made_by"
                         className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
-                        type="text"
+                          type="text"
                       />{" "}
                     </div>
                   </Col>
@@ -1481,7 +1451,6 @@ class IncidentReport extends Component {
                         value={this.state.follow_up_results}
                         id="follow_up_results"
                         className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                   </Col>
@@ -1495,7 +1464,8 @@ class IncidentReport extends Component {
                   <div className="sigSection">
                     <div
                       style={{
-                        width: "100%",                        display: "flex",                        maxHeight: "170",                        justifyContent: "center",                      }}
+                        width: "100%", display: "flex", maxHeight: "170", justifyContent: "center",
+                      }}
                     >
                       <SignatureCanvas
                         ref={(ref) => {
@@ -1505,7 +1475,8 @@ class IncidentReport extends Component {
                         penColor="black"
                         clearOnResize={false}
                         canvasProps={{
-                          width: 600,                          height: 100,                          className: "sigCanvas",                        }}
+                          width: 600, height: 100, className: "sigCanvas",
+                        }}
                         backgroundColor="#eeee"
                       />
                     </div>
@@ -1516,7 +1487,8 @@ class IncidentReport extends Component {
                   <div className="sigSection">
                     <div
                       style={{
-                        width: "100%",                        display: "flex",                        maxHeight: "170",                        justifyContent: "center",                      }}
+                        width: "100%", display: "flex", maxHeight: "170", justifyContent: "center",
+                      }}
                     >
                       {/* <SignatureCanvas
                         ref={(ref) => {

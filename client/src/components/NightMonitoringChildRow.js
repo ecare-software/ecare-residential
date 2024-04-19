@@ -46,6 +46,8 @@ export const NightMonitoringChildRow = ({
 
   useEffect(() => {
     console.log(rootState);
+    if (childMeta_name !== "") {setChildSelected(true)}
+    // if (childMeta_name) {childSelected = true}
     setRootState({
       date,
       roomNumber,
@@ -54,6 +56,7 @@ export const NightMonitoringChildRow = ({
       reason,
       signed,
       childMeta_name,
+      childSelected,
     });
   }, [
     date,
@@ -63,6 +66,7 @@ export const NightMonitoringChildRow = ({
     reason,
     signed,
     childMeta_name,
+    childSelected,
   ]);
 
   return (
@@ -117,6 +121,7 @@ export const NightMonitoringChildRow = ({
                 id="date"
                 defaultValue={date}
                 className="form-control"
+                disabled = {childSelected ? false : true}
                 type="date"
               />{" "}
             </div>

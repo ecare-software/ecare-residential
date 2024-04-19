@@ -510,7 +510,6 @@ class BodyCheck extends Component {
                     <label className="control-label">Child's Gender</label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.childMeta_gender}
                       id="childMeta_gender"
@@ -534,7 +533,6 @@ class BodyCheck extends Component {
                       id="injury"
                       value={this.state.injury}
                       className="form-control"
-                      disabled={this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -573,7 +571,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.head}
                       id="head"
@@ -599,7 +596,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.face}
                       id="face"
@@ -625,7 +621,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.left_ear}
                       id="left_ear"
@@ -651,7 +646,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.right_ear}
                       id="right_ear"
@@ -677,7 +671,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.left_eye}
                       id="left_eye"
@@ -703,7 +696,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.right_eye}
                       id="right_eye"
@@ -729,7 +721,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.nose}
                       id="nose"
@@ -755,7 +746,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.mouth}
                       id="mouth"
@@ -781,7 +771,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.chin}
                       id="chin"
@@ -807,7 +796,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.neck}
                       id="neck"
@@ -833,7 +821,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.left_shoulder}
                       id="left_shoulder"
@@ -861,7 +848,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.right_shoulder}
                       id="right_shoulder"
@@ -887,7 +873,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.left_arm}
                       id="left_arm"
@@ -913,7 +898,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.right_arm}
                       id="right_arm"
@@ -939,7 +923,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.left_hand}
                       id="left_hand"
@@ -965,7 +948,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.right_hand}
                       id="right_hand"
@@ -991,7 +973,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.chest}
                       id="chest"
@@ -1017,7 +998,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.back}
                       id="back"
@@ -1043,7 +1023,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.stomach}
                       id="stomach"
@@ -1069,7 +1048,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.left_hip}
                       id="left_hip"
@@ -1095,7 +1073,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.right_hip}
                       id="right_hip"
@@ -1121,7 +1098,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.left_leg}
                       id="left_leg"
@@ -1147,7 +1123,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.right_leg}
                       id="right_leg"
@@ -1175,7 +1150,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.left_knee}
                       id="left_knee"
@@ -1201,7 +1175,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.right_knee}
                       id="right_knee"
@@ -1227,7 +1200,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.left_ankle}
                       id="left_ankle"
@@ -1253,7 +1225,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.right_ankle}
                       id="right_ankle"
@@ -1279,7 +1250,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.left_foot}
                       id="left_foot"
@@ -1305,7 +1275,6 @@ class BodyCheck extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
-                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.right_foot}
                       id="right_foot"
@@ -1336,7 +1305,6 @@ class BodyCheck extends Component {
                       id="details"
                       value={this.state.details}
                       className="form-control"
-                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
 
@@ -1348,7 +1316,6 @@ class BodyCheck extends Component {
                       id="examiner_name"
                       value={this.state.examiner_name}
                       className="form-control"
-                      disabled={this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -1361,7 +1328,6 @@ class BodyCheck extends Component {
                       id="examiner_title"
                       value={this.state.examiner_title}
                       className="form-control"
-                      disabled={this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -1376,7 +1342,6 @@ class BodyCheck extends Component {
                       id="examin_date"
                       value={this.state.examin_date}
                       className="form-control"
-                      disabled={this.state.childSelected ? false : true}
                       type="datetime-local"
                     />{" "}
                   </div>
@@ -1391,7 +1356,6 @@ class BodyCheck extends Component {
                       id="nurse_designee_name"
                       value={this.state.nurse_designee_name}
                       className="form-control"
-                      disabled={this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -1406,7 +1370,6 @@ class BodyCheck extends Component {
                       id="nurse_designee_title"
                       value={this.state.nurse_designee_title}
                       className="form-control"
-                      disabled={this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -1421,7 +1384,6 @@ class BodyCheck extends Component {
                       id="nurse_designee_date"
                       value={this.state.nurse_designee_date}
                       className="form-control"
-                      disabled={this.state.childSelected ? false : true}
                       type="datetime-local"
                     />{" "}
                   </div>
@@ -1433,7 +1395,6 @@ class BodyCheck extends Component {
                   <button
                       className="lightBtn hide hide-on-print save-submit-btn"
                       style={{width:"100%"}}
-                      disabled={this.state.childSelected ? false : true}
                       onClick={() => {
                         this.validateForm(true);
                       }}
@@ -1445,7 +1406,6 @@ class BodyCheck extends Component {
                   <button
                       className="darkBtn hide hide-on-print save-submit-btn"
                       style={{width:"100%"}}
-                      disabled={this.state.childSelected ? false : true}
                       onClick={() => {
                         this.validateForm(false);
                       }}
@@ -1528,8 +1488,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.childMeta_gender}
                         id="childMeta_gender"
                       >
@@ -1552,8 +1511,7 @@ class BodyCheck extends Component {
                         id="injury"
                         value={this.state.injury}
                         className="form-control"
-                        disabled={this.state.childSelected ? false : true}
-                        type="text"
+                          type="text"
                       />{" "}
                     </div>
                   </Col>
@@ -1567,8 +1525,7 @@ class BodyCheck extends Component {
                         id="amPm"
                         value={this.state.amPm}
                         className="form-control"
-                        disabled={this.state.childSelected ? false : true}
-                        type="text"
+                          type="text"
                       />{" "}
                     </div>
                   </Col>
@@ -1594,8 +1551,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.head}
                         id="head"
                       >
@@ -1620,8 +1576,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.face}
                         id="face"
                       >
@@ -1646,8 +1601,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.left_ear}
                         id="left_ear"
                       >
@@ -1672,8 +1626,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.right_ear}
                         id="right_ear"
                       >
@@ -1698,8 +1651,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.left_eye}
                         id="left_eye"
                       >
@@ -1724,8 +1676,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.right_eye}
                         id="right_eye"
                       >
@@ -1750,8 +1701,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.nose}
                         id="nose"
                       >
@@ -1776,8 +1726,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.mouth}
                         id="mouth"
                       >
@@ -1802,8 +1751,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.chin}
                         id="chin"
                       >
@@ -1828,8 +1776,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.neck}
                         id="neck"
                       >
@@ -1854,8 +1801,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.left_shoulder}
                         id="left_shoulder"
                       >
@@ -1880,8 +1826,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.right_shoulder}
                         id="right_shoulder"
                       >
@@ -1908,8 +1853,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.left_arm}
                         id="left_arm"
                       >
@@ -1934,8 +1878,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.right_arm}
                         id="right_arm"
                       >
@@ -1960,8 +1903,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.left_hand}
                         id="left_hand"
                       >
@@ -1986,8 +1928,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.right_hand}
                         id="right_hand"
                       >
@@ -2012,8 +1953,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.chest}
                         id="chest"
                       >
@@ -2038,8 +1978,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.back}
                         id="back"
                       >
@@ -2064,8 +2003,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.stomach}
                         id="stomach"
                       >
@@ -2090,8 +2028,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.left_hip}
                         id="left_hip"
                       >
@@ -2116,8 +2053,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.right_hip}
                         id="right_hip"
                       >
@@ -2142,8 +2078,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.left_leg}
                         id="left_leg"
                       >
@@ -2168,8 +2103,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.right_leg}
                         id="right_leg"
                       >
@@ -2194,8 +2128,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.left_knee}
                         id="left_knee"
                       >
@@ -2222,8 +2155,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.right_knee}
                         id="right_knee"
                       >
@@ -2248,8 +2180,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.left_ankle}
                         id="left_ankle"
                       >
@@ -2274,8 +2205,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.right_ankle}
                         id="right_ankle"
                       >
@@ -2300,8 +2230,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.left_foot}
                         id="left_foot"
                       >
@@ -2326,8 +2255,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        disabled={this.state.childSelected ? false : true}
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.right_foot}
                         id="right_foot"
                       >
@@ -2356,8 +2284,7 @@ class BodyCheck extends Component {
                         id="details"
                         value={this.state.details}
                         className="form-control"
-                        disabled={this.state.childSelected ? false : true}
-                      ></TextareaAutosize>
+                        ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
                       {" "}
@@ -2369,8 +2296,7 @@ class BodyCheck extends Component {
                         id="examiner_name"
                         value={this.state.examiner_name}
                         className="form-control"
-                        disabled={this.state.childSelected ? false : true}
-                        type="text"
+                          type="text"
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -2383,8 +2309,7 @@ class BodyCheck extends Component {
                         id="examiner_title"
                         value={this.state.examiner_title}
                         className="form-control"
-                        disabled={this.state.childSelected ? false : true}
-                        type="text"
+                          type="text"
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -2397,8 +2322,7 @@ class BodyCheck extends Component {
                         id="examin_date"
                         value={this.state.examin_date}
                         className="form-control"
-                        disabled={this.state.childSelected ? false : true}
-                        type="datetime-local"
+                          type="datetime-local"
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -2411,8 +2335,7 @@ class BodyCheck extends Component {
                         id="nurse_designee_name"
                         value={this.state.nurse_designee_name}
                         className="form-control"
-                        disabled={this.state.childSelected ? false : true}
-                        type="text"
+                          type="text"
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -2425,8 +2348,7 @@ class BodyCheck extends Component {
                         id="nurse_designee_title"
                         value={this.state.nurse_designee_title}
                         className="form-control"
-                        disabled={this.state.childSelected ? false : true}
-                        type="text"
+                          type="text"
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -2439,8 +2361,7 @@ class BodyCheck extends Component {
                         id="nurse_designee_date"
                         value={this.state.nurse_designee_date}
                         className="form-control"
-                        disabled={this.state.childSelected ? false : true}
-                        type="datetime-local"
+                          type="datetime-local"
                       />{" "}
                     </div>
                   </Col>

@@ -2286,29 +2286,29 @@ class AdmissionAssessment extends Component {
 
               <FormError errorId={this.props.id + "-error"} />
 
-              <Row style={{display:"flex", justifyContent:"space-between", paddingRight:"0px", marginLeft:"1px", marginRight:"1px"}}>
-                <div style={{display:"flex", width:"46%"}}>
+              <Row style={{ display: "flex", justifyContent: "space-between", paddingRight: "0px", marginLeft: "1px", marginRight: "1px" }}>
+                <div style={{ display: "flex", width: "46%" }}>
                   <button
-                      className="lightBtn hide hide-on-print save-submit-btn"
-                      style={{width:"100%"}}
-                      onClick={() => {
-                        this.validateForm(true);
-                      }}
-                      disabled={this.state.childSelected ? false : true}
-                    >
-                      Finish Later
-                    </button>
+                    className="lightBtn hide hide-on-print save-submit-btn"
+                    style={{ width: "100%" }}
+                    onClick={() => {
+                      this.validateForm(true);
+                    }}
+                    disabled={this.state.childSelected ? false : true}
+                  >
+                    Finish Later
+                  </button>
                 </div>
-                <div style={{display:"flex", width:"46%"}}>
+                <div style={{ display: "flex", width: "46%" }}>
                   <button
-                      className="darkBtn hide hide-on-print save-submit-btn"
-                      style={{width:"100%"}}
-                      onClick={() => {
-                        this.validateForm(false);
-                      }}
-                      disabled={this.state.childSelected ? false : true}
-                    >
-                      Submit
+                    className="darkBtn hide hide-on-print save-submit-btn"
+                    style={{ width: "100%" }}
+                    onClick={() => {
+                      this.validateForm(false);
+                    }}
+                    disabled={this.state.childSelected ? false : true}
+                  >
+                    Submit
                   </button>
                 </div>
               </Row>
@@ -3328,7 +3328,6 @@ class AdmissionAssessment extends Component {
                         id="lastHearingExamination_date"
                         value={this.state.lastHearingExamination_date}
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="date"
                       />{" "}
                     </div>
@@ -3342,7 +3341,6 @@ class AdmissionAssessment extends Component {
                         id="lastHearingExamination_location"
                         value={this.state.lastHearingExamination_location}
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3356,7 +3354,6 @@ class AdmissionAssessment extends Component {
                         id="lastHearingExamination_monitoredBy"
                         value={this.state.lastHearingExamination_monitoredBy}
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3380,7 +3377,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms1_medication
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3397,7 +3393,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms1_dosage_frequency
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3412,7 +3407,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms1_purpose
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3429,7 +3423,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms1_possibleSideEffects
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3446,7 +3439,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms1_monitoredBy
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3463,7 +3455,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms2_medication
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3480,7 +3471,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms2_dosage_frequency
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3495,7 +3485,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms2_purpose
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3512,7 +3501,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms2_possibleSideEffects
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3529,7 +3517,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms2_monitoredBy
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3546,7 +3533,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms3_medication
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3563,7 +3549,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms3_dosage_frequency
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3578,7 +3563,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms3_purpose
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3595,7 +3579,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms3_possibleSideEffects
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3612,7 +3595,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms3_monitoredBy
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3629,7 +3611,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms4_medication
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3646,7 +3627,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms4_dosage_frequency
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3661,7 +3641,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms4_purpose
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3678,7 +3657,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms4_possibleSideEffects
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3695,7 +3673,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms4_monitoredBy
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3712,7 +3689,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms5_medication
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3729,7 +3705,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms5_dosage_frequency
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3744,7 +3719,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms5_purpose
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3761,7 +3735,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms5_possibleSideEffects
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3778,7 +3751,6 @@ class AdmissionAssessment extends Component {
                             .currentMedications_dosages_targetedSymptoms5_monitoredBy
                         }
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="text"
                       />{" "}
                     </div>
@@ -3792,7 +3764,6 @@ class AdmissionAssessment extends Component {
                         id="educationHistory"
                         value={this.state.educationHistory}
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
@@ -3805,7 +3776,6 @@ class AdmissionAssessment extends Component {
                         id="lastSchoolAttended"
                         value={this.state.lastSchoolAttended}
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
@@ -3818,7 +3788,6 @@ class AdmissionAssessment extends Component {
                         id="progressReportInfo"
                         value={this.state.progressReportInfo}
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
@@ -3832,7 +3801,6 @@ class AdmissionAssessment extends Component {
                         id="educationalLevel"
                         value={this.state.educationalLevel}
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
@@ -3843,7 +3811,6 @@ class AdmissionAssessment extends Component {
                         id="examiner"
                         value={this.state.examiner}
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
@@ -3856,7 +3823,6 @@ class AdmissionAssessment extends Component {
                         id="date_of_evaluation"
                         value={this.state.date_of_evaluation}
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                         type="date"
                       ></input>
                     </div>
@@ -3868,7 +3834,6 @@ class AdmissionAssessment extends Component {
                         id="diagnosis"
                         value={this.state.diagnosis}
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
@@ -3879,7 +3844,6 @@ class AdmissionAssessment extends Component {
                         id="stressors"
                         value={this.state.stressors}
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
@@ -3892,7 +3856,6 @@ class AdmissionAssessment extends Component {
                         id="healthIssues"
                         value={this.state.healthIssues}
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
@@ -3905,7 +3868,6 @@ class AdmissionAssessment extends Component {
                         id="supervisionStrategies"
                         value={this.state.supervisionStrategies}
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
@@ -3919,7 +3881,6 @@ class AdmissionAssessment extends Component {
                         id="effortsToObtainInfo"
                         value={this.state.effortsToObtainInfo}
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
@@ -3932,7 +3893,6 @@ class AdmissionAssessment extends Component {
                         id="rationl_admission"
                         value={this.state.rationl_admission}
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
@@ -3946,7 +3906,6 @@ class AdmissionAssessment extends Component {
                         id="parent_gaurdian_expectation"
                         value={this.state.parent_gaurdian_expectation}
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
@@ -3959,7 +3918,6 @@ class AdmissionAssessment extends Component {
                         id="objective"
                         value={this.state.objective}
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
@@ -3982,7 +3940,6 @@ class AdmissionAssessment extends Component {
                         id="shortTermGoals"
                         value={this.state.shortTermGoals}
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
@@ -3995,7 +3952,6 @@ class AdmissionAssessment extends Component {
                         id="longTermGoals"
                         value={this.state.longTermGoals}
                         className="form-control"
-                        disabled = {this.state.childSelected ? false : true}
                       ></TextareaAutosize>
                     </div>
                   </Col>

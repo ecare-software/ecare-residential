@@ -1256,7 +1256,6 @@ class DailyProgressAndActivity extends Component {
                         id="home_restrictions"
                         className="form-control"
                         type="text"
-                        disabled = {this.state.childSelected ? false : true}
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -1270,7 +1269,6 @@ class DailyProgressAndActivity extends Component {
                         id="restricted_leisure_activity"
                         className="form-control"
                         type="text"
-                        disabled = {this.state.childSelected ? false : true}
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -1282,7 +1280,6 @@ class DailyProgressAndActivity extends Component {
                         id="no_allowance"
                         className="form-control"
                         type="text"
-                        disabled = {this.state.childSelected ? false : true}
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -1296,7 +1293,6 @@ class DailyProgressAndActivity extends Component {
                         id="other2"
                         className="form-control"
                         type="text"
-                        disabled = {this.state.childSelected ? false : true}
                       />{" "}
                     </div>
                   </Col>
@@ -1316,7 +1312,6 @@ class DailyProgressAndActivity extends Component {
                         id="no_of_home_incidents"
                         className="form-control"
                         type="text"
-                        disabled = {this.state.childSelected ? false : true}
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -1330,7 +1325,6 @@ class DailyProgressAndActivity extends Component {
                         id="no_of_home_serious_incidents"
                         className="form-control"
                         type="text"
-                        disabled = {this.state.childSelected ? false : true}
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -1344,7 +1338,7 @@ class DailyProgressAndActivity extends Component {
                         id="no_of_home_restraints"
                         className="form-control"
                         type="text"
-                        disabled = {this.state.childSelected ? false : true}
+                        
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -1358,7 +1352,6 @@ class DailyProgressAndActivity extends Component {
                         id="no_of_school_incidents"
                         className="form-control"
                         type="text"
-                        disabled = {this.state.childSelected ? false : true}
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -1372,7 +1365,6 @@ class DailyProgressAndActivity extends Component {
                         id="no_of_school_restraints"
                         className="form-control"
                         type="text"
-                        disabled = {this.state.childSelected ? false : true}
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -1386,7 +1378,6 @@ class DailyProgressAndActivity extends Component {
                         id="illness_injury"
                         className="form-control"
                         type="text"
-                        disabled = {this.state.childSelected ? false : true}
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -1400,7 +1391,6 @@ class DailyProgressAndActivity extends Component {
                         id="level_of_supervison"
                         className="form-control"
                         type="text"
-                        disabled = {this.state.childSelected ? false : true}
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">

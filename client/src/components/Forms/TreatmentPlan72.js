@@ -751,8 +751,8 @@ class TreatmentPlan72 extends Component {
                   {`${new Date(this.state.lastEditDate)
                     .toTimeString()
                     .replace(/\s.*/, "")} - ${new Date(
-                    this.state.lastEditDate
-                  ).toDateString()}`}
+                      this.state.lastEditDate
+                    ).toDateString()}`}
                 </i>
               ) : (
                 "-"
@@ -811,7 +811,7 @@ class TreatmentPlan72 extends Component {
                     id="childMeta_dob"
                     value={this.state.childMeta_dob}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="date"
                   />{" "}
                 </div>
@@ -823,7 +823,7 @@ class TreatmentPlan72 extends Component {
                     id="childMeta_age"
                     value={this.state.childMeta_age}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="number"
                   />{" "}
                 </div>
@@ -835,7 +835,7 @@ class TreatmentPlan72 extends Component {
                     id="childMeta_ssn"
                     value={this.state.childMeta_ssn}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="number"
                   />{" "}
                 </div>
@@ -847,7 +847,7 @@ class TreatmentPlan72 extends Component {
                     onChange={this.handleFieldInput}
                     value={this.state.childMeta_gender}
                     id="childMeta_gender"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   >
                     <option>Male</option>
                     <option>Female</option>
@@ -865,7 +865,7 @@ class TreatmentPlan72 extends Component {
                     id="childMeta_medicaidNumber"
                     value={this.state.childMeta_medicaidNumber}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -879,7 +879,7 @@ class TreatmentPlan72 extends Component {
                     id="childMeta_county"
                     value={this.state.childMeta_county}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -893,7 +893,7 @@ class TreatmentPlan72 extends Component {
                     id="childMeta_placeOfBirth"
                     value={this.state.childMeta_placeOfBirth}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -928,7 +928,7 @@ class TreatmentPlan72 extends Component {
                     onChange={this.handleFieldInput}
                     value={this.state.childMeta_levelOfCare}
                     id="childMeta_levelOfCare"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   >
                     <option>Basic</option>
                     <option>Moderate</option>
@@ -946,7 +946,7 @@ class TreatmentPlan72 extends Component {
                     id="childMeta_religion"
                     value={this.state.childMeta_religion}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -960,7 +960,7 @@ class TreatmentPlan72 extends Component {
                     id="childMeta_managingConservator"
                     value={this.state.childMeta_managingConservator}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -974,7 +974,7 @@ class TreatmentPlan72 extends Component {
                     id="projectedDateForAchievingPermanency"
                     value={this.state.projectedDateForAchievingPermanency}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="date"
                   />{" "}
                 </div>
@@ -988,7 +988,7 @@ class TreatmentPlan72 extends Component {
                     id="legalStatus_PermancyGoal"
                     value={this.state.legalStatus_PermancyGoal}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -999,7 +999,7 @@ class TreatmentPlan72 extends Component {
                     id="fatherMeta_name"
                     value={this.state.fatherMeta_name}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1011,7 +1011,7 @@ class TreatmentPlan72 extends Component {
                     id="fatherMeta_address"
                     value={this.state.fatherMeta_address}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1025,7 +1025,7 @@ class TreatmentPlan72 extends Component {
                     id="fatherMeta_phoneNumber"
                     value={this.state.fatherMeta_phoneNumber}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="number"
                   />{" "}
                 </div>
@@ -1037,7 +1037,7 @@ class TreatmentPlan72 extends Component {
                     id="motherMeta_name"
                     value={this.state.motherMeta_name}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1049,7 +1049,7 @@ class TreatmentPlan72 extends Component {
                     id="motherMeta_address"
                     value={this.state.motherMeta_address}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1063,7 +1063,7 @@ class TreatmentPlan72 extends Component {
                     id="motherMeta_phoneNumber"
                     value={this.state.motherMeta_phoneNumber}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="number"
                   />{" "}
                 </div>
@@ -1075,7 +1075,7 @@ class TreatmentPlan72 extends Component {
                     id="legalStatus"
                     value={this.state.legalStatus}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1089,7 +1089,7 @@ class TreatmentPlan72 extends Component {
                     id="referringAgency_co"
                     value={this.state.referringAgency_co}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1103,7 +1103,7 @@ class TreatmentPlan72 extends Component {
                     id="agentOfReferringAgency_co_name"
                     value={this.state.agentOfReferringAgency_co_name}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1117,7 +1117,7 @@ class TreatmentPlan72 extends Component {
                     id="agentOfReferringAgency_co_address"
                     value={this.state.agentOfReferringAgency_co_address}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1131,7 +1131,7 @@ class TreatmentPlan72 extends Component {
                     id="reactionToPlacement"
                     value={this.state.reactionToPlacement}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -1144,7 +1144,7 @@ class TreatmentPlan72 extends Component {
                     id="interests"
                     value={this.state.interests}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -1166,7 +1166,7 @@ class TreatmentPlan72 extends Component {
                     id="otherMeta1_name"
                     value={this.state.otherMeta1_name}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1180,7 +1180,7 @@ class TreatmentPlan72 extends Component {
                     id="otherMeta1_relationship"
                     value={this.state.otherMeta1_relationship}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1194,7 +1194,7 @@ class TreatmentPlan72 extends Component {
                     id="otherMeta1_address"
                     value={this.state.otherMeta1_address}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1208,7 +1208,7 @@ class TreatmentPlan72 extends Component {
                     id="otherMeta1_phoneNumber"
                     value={this.state.otherMeta1_phoneNumber}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="number"
                   />{" "}
                 </div>
@@ -1222,7 +1222,7 @@ class TreatmentPlan72 extends Component {
                     id="otherMeta2_name"
                     value={this.state.otherMeta2_name}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1236,7 +1236,7 @@ class TreatmentPlan72 extends Component {
                     id="otherMeta2_relationship"
                     value={this.state.otherMeta2_relationship}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1250,7 +1250,7 @@ class TreatmentPlan72 extends Component {
                     id="otherMeta2_address"
                     value={this.state.otherMeta2_address}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1264,7 +1264,7 @@ class TreatmentPlan72 extends Component {
                     id="otherMeta2_phoneNumber"
                     value={this.state.otherMeta2_phoneNumber}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="number"
                   />{" "}
                 </div>
@@ -1278,7 +1278,7 @@ class TreatmentPlan72 extends Component {
                     id="otherMeta3_name"
                     value={this.state.otherMeta3_name}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1292,7 +1292,7 @@ class TreatmentPlan72 extends Component {
                     id="otherMeta3_relationship"
                     value={this.state.otherMeta3_relationship}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1306,7 +1306,7 @@ class TreatmentPlan72 extends Component {
                     id="otherMeta3_address"
                     value={this.state.otherMeta3_address}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1320,7 +1320,7 @@ class TreatmentPlan72 extends Component {
                     id="otherMeta3_phoneNumber"
                     value={this.state.otherMeta3_phoneNumber}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="number"
                   />{" "}
                 </div>
@@ -1334,7 +1334,7 @@ class TreatmentPlan72 extends Component {
                     id="otherMeta4_name"
                     value={this.state.otherMeta4_name}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1348,7 +1348,7 @@ class TreatmentPlan72 extends Component {
                     id="otherMeta4_relationship"
                     value={this.state.otherMeta4_relationship}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1362,7 +1362,7 @@ class TreatmentPlan72 extends Component {
                     id="otherMeta4_address"
                     value={this.state.otherMeta4_address}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1376,7 +1376,7 @@ class TreatmentPlan72 extends Component {
                     id="otherMeta4_phoneNumber"
                     value={this.state.otherMeta4_phoneNumber}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="number"
                   />{" "}
                 </div>
@@ -1393,7 +1393,7 @@ class TreatmentPlan72 extends Component {
                     id="currentMedicalInformation"
                     value={this.state.currentMedicalInformation}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -1406,7 +1406,7 @@ class TreatmentPlan72 extends Component {
                     id="developmental_medicalHistory"
                     value={this.state.developmental_medicalHistory}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -1417,7 +1417,7 @@ class TreatmentPlan72 extends Component {
                     id="drugAllergies"
                     value={this.state.drugAllergies}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -1428,7 +1428,7 @@ class TreatmentPlan72 extends Component {
                     id="food1"
                     value={this.state.food1}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -1439,7 +1439,7 @@ class TreatmentPlan72 extends Component {
                     id="allergies"
                     value={this.state.allergies}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -1450,7 +1450,7 @@ class TreatmentPlan72 extends Component {
                     id="chronicHealth"
                     value={this.state.chronicHealth}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1462,7 +1462,7 @@ class TreatmentPlan72 extends Component {
                     id="healthStrengths"
                     value={this.state.healthStrengths}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -1473,7 +1473,7 @@ class TreatmentPlan72 extends Component {
                     id="healthNeeds"
                     value={this.state.healthNeeds}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -1486,7 +1486,7 @@ class TreatmentPlan72 extends Component {
                     id="lastPhysicalExamination_date"
                     value={this.state.lastPhysicalExamination_date}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="date"
                   />{" "}
                 </div>
@@ -1500,7 +1500,7 @@ class TreatmentPlan72 extends Component {
                     id="lastPhysicalExamination_location"
                     value={this.state.lastPhysicalExamination_location}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1514,7 +1514,7 @@ class TreatmentPlan72 extends Component {
                     id="lastPhysicalExamination_monitoredBy"
                     value={this.state.lastPhysicalExamination_monitoredBy}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1528,7 +1528,7 @@ class TreatmentPlan72 extends Component {
                     id="lastDentalExamination_date"
                     value={this.state.lastDentalExamination_date}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="date"
                   />{" "}
                 </div>
@@ -1542,7 +1542,7 @@ class TreatmentPlan72 extends Component {
                     id="lastDentalExamination_location"
                     value={this.state.lastDentalExamination_location}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1556,7 +1556,7 @@ class TreatmentPlan72 extends Component {
                     id="lastDentalExamination_monitoredBy"
                     value={this.state.lastDentalExamination_monitoredBy}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1570,7 +1570,7 @@ class TreatmentPlan72 extends Component {
                     id="lastOpticalExamination_date"
                     value={this.state.lastOpticalExamination_date}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="date"
                   />{" "}
                 </div>
@@ -1584,7 +1584,7 @@ class TreatmentPlan72 extends Component {
                     id="lastOpticalExamination_location"
                     value={this.state.lastOpticalExamination_location}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1598,7 +1598,7 @@ class TreatmentPlan72 extends Component {
                     id="lastOpticalExamination_monitoredBy"
                     value={this.state.lastOpticalExamination_monitoredBy}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1620,7 +1620,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms1_medication
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1637,7 +1637,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms1_dosage_frequency
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1652,7 +1652,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms1_purpose
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1669,7 +1669,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms1_possibleSideEffects
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1684,7 +1684,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms1_monitoredBy
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1699,7 +1699,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms2_medication
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1716,7 +1716,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms2_dosage_frequency
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1731,7 +1731,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms2_purpose
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1748,7 +1748,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms2_possibleSideEffects
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1763,7 +1763,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms2_monitoredBy
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1778,7 +1778,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms3_medication
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1795,7 +1795,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms3_dosage_frequency
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1810,7 +1810,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms3_purpose
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1827,7 +1827,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms3_possibleSideEffects
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1842,7 +1842,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms3_monitoredBy
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1857,7 +1857,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms4_medication
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1874,7 +1874,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms4_dosage_frequency
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1889,7 +1889,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms4_purpose
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1906,7 +1906,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms4_possibleSideEffects
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1921,7 +1921,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms4_monitoredBy
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1936,7 +1936,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms5_medication
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1953,7 +1953,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms5_dosage_frequency
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1968,7 +1968,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms5_purpose
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -1985,7 +1985,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms5_possibleSideEffects
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2000,7 +2000,7 @@ class TreatmentPlan72 extends Component {
                         .currentMedications_dosages_targetedSymptoms5_monitoredBy
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2014,7 +2014,7 @@ class TreatmentPlan72 extends Component {
                     id="behavioralStrengths"
                     value={this.state.behavioralStrengths}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2025,7 +2025,7 @@ class TreatmentPlan72 extends Component {
                     id="behavioralNeeds"
                     value={this.state.behavioralNeeds}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2038,7 +2038,7 @@ class TreatmentPlan72 extends Component {
                     id="behavioralTreatmentServices"
                     value={this.state.behavioralTreatmentServices}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2051,7 +2051,7 @@ class TreatmentPlan72 extends Component {
                     id="emotionalStrengths"
                     value={this.state.emotionalStrengths}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2062,7 +2062,7 @@ class TreatmentPlan72 extends Component {
                     id="emotionalNeeds"
                     value={this.state.emotionalNeeds}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2075,7 +2075,7 @@ class TreatmentPlan72 extends Component {
                     id="emotionalTreatmentServices"
                     value={this.state.emotionalTreatmentServices}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2091,7 +2091,7 @@ class TreatmentPlan72 extends Component {
                     id="food2"
                     value={this.state.food2}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2103,7 +2103,7 @@ class TreatmentPlan72 extends Component {
                     id="eyeContact"
                     value={this.state.eyeContact}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2115,7 +2115,7 @@ class TreatmentPlan72 extends Component {
                     id="physicalTouch"
                     value={this.state.physicalTouch}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2129,7 +2129,7 @@ class TreatmentPlan72 extends Component {
                     id="personalProperty"
                     value={this.state.personalProperty}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2141,7 +2141,7 @@ class TreatmentPlan72 extends Component {
                     id="certainTopics"
                     value={this.state.certainTopics}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2157,7 +2157,7 @@ class TreatmentPlan72 extends Component {
                       this.state.knownContraindicationsToTheUuseOfRestraint
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2172,7 +2172,7 @@ class TreatmentPlan72 extends Component {
                       this.state.de_escalatingTechniquesToAvoidRestraints_ebi
                     }
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2185,7 +2185,7 @@ class TreatmentPlan72 extends Component {
                     id="child_de_escalator"
                     value={this.state.child_de_escalator}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2198,7 +2198,7 @@ class TreatmentPlan72 extends Component {
                     id="staff_de_escalator"
                     value={this.state.staff_de_escalator}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2211,7 +2211,7 @@ class TreatmentPlan72 extends Component {
                     id="therapist_de_escalator"
                     value={this.state.therapist_de_escalator}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2224,7 +2224,7 @@ class TreatmentPlan72 extends Component {
                     id="childPreferred_de_escalation"
                     value={this.state.childPreferred_de_escalation}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2237,7 +2237,7 @@ class TreatmentPlan72 extends Component {
                     id="interventionStrategies"
                     value={this.state.interventionStrategies}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2250,7 +2250,7 @@ class TreatmentPlan72 extends Component {
                     id="supervisionStrategies"
                     value={this.state.supervisionStrategies}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2263,7 +2263,7 @@ class TreatmentPlan72 extends Component {
                     id="social_recreationalStrengths"
                     value={this.state.social_recreationalStrengths}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2276,7 +2276,7 @@ class TreatmentPlan72 extends Component {
                     id="social_recreationalNeeds"
                     value={this.state.social_recreationalNeeds}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2287,7 +2287,7 @@ class TreatmentPlan72 extends Component {
                     id="familyStrengths"
                     value={this.state.familyStrengths}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2298,7 +2298,7 @@ class TreatmentPlan72 extends Component {
                     id="familyNeeds"
                     value={this.state.familyNeeds}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2311,7 +2311,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor1_name"
                     value={this.state.visitor1_name}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2325,7 +2325,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor1_relationship"
                     value={this.state.visitor1_relationship}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2339,7 +2339,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor1_frequency"
                     value={this.state.visitor1_frequency}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2353,7 +2353,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor1_supervisedBy"
                     value={this.state.visitor1_supervisedBy}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2367,7 +2367,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor1_location"
                     value={this.state.visitor1_location}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2381,7 +2381,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor1_length"
                     value={this.state.visitor1_length}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2395,7 +2395,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor2_name"
                     value={this.state.visitor2_name}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2409,7 +2409,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor2_relationship"
                     value={this.state.visitor2_relationship}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2423,7 +2423,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor2_frequency"
                     value={this.state.visitor2_frequency}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2437,7 +2437,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor2_supervisedBy"
                     value={this.state.visitor2_supervisedBy}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2451,7 +2451,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor2_location"
                     value={this.state.visitor2_location}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2465,7 +2465,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor2_length"
                     value={this.state.visitor2_length}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2479,7 +2479,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor3_name"
                     value={this.state.visitor3_name}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2493,7 +2493,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor3_relationship"
                     value={this.state.visitor3_relationship}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2507,7 +2507,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor3_frequency"
                     value={this.state.visitor3_frequency}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2521,7 +2521,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor3_supervisedBy"
                     value={this.state.visitor3_supervisedBy}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2535,7 +2535,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor3_location"
                     value={this.state.visitor3_location}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2549,7 +2549,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor3_length"
                     value={this.state.visitor3_length}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2563,7 +2563,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor4_name"
                     value={this.state.visitor4_name}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2577,7 +2577,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor4_relationship"
                     value={this.state.visitor4_relationship}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2591,7 +2591,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor4_frequency"
                     value={this.state.visitor4_frequency}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2605,7 +2605,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor4_supervisedBy"
                     value={this.state.visitor4_supervisedBy}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2619,7 +2619,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor4_location"
                     value={this.state.visitor4_location}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2633,7 +2633,7 @@ class TreatmentPlan72 extends Component {
                     id="visitor4_length"
                     value={this.state.visitor4_length}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                     type="text"
                   />{" "}
                 </div>
@@ -2647,7 +2647,7 @@ class TreatmentPlan72 extends Component {
                     id="educational_vacationalStrengths"
                     value={this.state.educational_vacationalStrengths}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2660,7 +2660,7 @@ class TreatmentPlan72 extends Component {
                     id="educational_vacationalNeeds"
                     value={this.state.educational_vacationalNeeds}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2673,7 +2673,7 @@ class TreatmentPlan72 extends Component {
                     id="transitionalLiving"
                     value={this.state.transitionalLiving}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2686,7 +2686,7 @@ class TreatmentPlan72 extends Component {
                     id="dischargePlanning"
                     value={this.state.dischargePlanning}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2697,7 +2697,7 @@ class TreatmentPlan72 extends Component {
                     id="longRangeGoals"
                     value={this.state.longRangeGoals}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <div className="form-group logInInputField">
@@ -2710,15 +2710,15 @@ class TreatmentPlan72 extends Component {
                     id="shortRangeGoals"
                     value={this.state.shortRangeGoals}
                     className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
+                    disabled={this.state.childSelected ? false : true}
                   ></TextareaAutosize>
                 </div>
                 <FormError errorId={this.props.id + "-error"} />
-                <Row style={{display:"flex", justifyContent:"space-between", paddingRight:"0px", marginLeft:"1px", marginRight:"1px"}}>
-                <div style={{display:"flex", width:"46%"}}>
-                  <button
+                <Row style={{ display: "flex", justifyContent: "space-between", paddingRight: "0px", marginLeft: "1px", marginRight: "1px" }}>
+                  <div style={{ display: "flex", width: "46%" }}>
+                    <button
                       className="lightBtn hide hide-on-print save-submit-btn"
-                      style={{width:"100%"}}
+                      style={{ width: "100%" }}
                       disabled={this.state.childSelected ? false : true}
                       onClick={() => {
                         this.validateForm(true);
@@ -2726,22 +2726,22 @@ class TreatmentPlan72 extends Component {
                     >
                       Finish Later
                     </button>
-                </div>
-                <div style={{display:"flex", width:"46%"}}>
-                  <button
+                  </div>
+                  <div style={{ display: "flex", width: "46%" }}>
+                    <button
                       className="darkBtn hide hide-on-print save-submit-btn"
-                      style={{width:"100%"}}
+                      style={{ width: "100%" }}
                       disabled={this.state.childSelected ? false : true}
                       onClick={() => {
                         this.validateForm(false);
                       }}
                     >
                       Submit
-                  </button>
-                </div>
+                    </button>
+                  </div>
 
 
-              </Row>
+                </Row>
               </div>
             )}
           </div>
@@ -2790,7 +2790,6 @@ class TreatmentPlan72 extends Component {
                   id="createDate"
                   value={this.dateForDateTimeInputValue()}
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="datetime-local"
                 />{" "}
               </div>
@@ -2802,7 +2801,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.childMeta_name}
                   id="childMeta_name"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -2815,7 +2813,6 @@ class TreatmentPlan72 extends Component {
                   onChange={this.handleFieldInput}
                   value={this.state.childMeta_dob}
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="string"
                 />{" "}
               </div>
@@ -2827,7 +2824,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.childMeta_age}
                   id="childMeta_age"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="number"
                 />{" "}
               </div>
@@ -2839,7 +2835,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.childMeta_ssn}
                   id="childMeta_ssn"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="number"
                 />{" "}
               </div>
@@ -2868,7 +2863,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.childMeta_medicaidNumber}
                   id="childMeta_medicaidNumber"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -2882,7 +2876,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.childMeta_county}
                   id="childMeta_county"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -2896,7 +2889,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.childMeta_placeOfBirth}
                   id="childMeta_placeOfBirth"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -2908,7 +2900,6 @@ class TreatmentPlan72 extends Component {
                   onChange={this.handleFieldInput}
                   value={this.state.childMeta_ethnicity}
                   id="childMeta_ethnicity"
-                  disabled = {this.state.childSelected ? false : true}
                 >
                   <option>Black</option>
                   <option>White</option>
@@ -2930,7 +2921,6 @@ class TreatmentPlan72 extends Component {
                   onChange={this.handleFieldInput}
                   value={this.state.childMeta_levelOfCare}
                   id="childMeta_levelOfCare"
-                  disabled = {this.state.childSelected ? false : true}
                 >
                   <option>Basic</option>
                   <option>Moderate</option>
@@ -2948,7 +2938,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.childMeta_religion}
                   id="childMeta_religion"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -2962,7 +2951,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.childMeta_managingConservator}
                   id="childMeta_managingConservator"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -2975,7 +2963,6 @@ class TreatmentPlan72 extends Component {
                   onChange={this.handleFieldInput}
                   value={this.state.projectedDateForAchievingPermanency}
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="string"
                 />{" "}
               </div>
@@ -2989,7 +2976,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.legalStatus_PermancyGoal}
                   id="legalStatus_PermancyGoal"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -3000,7 +2986,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.fatherMeta_name}
                   id="fatherMeta_name"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3012,7 +2997,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.fatherMeta_address}
                   id="fatherMeta_address"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3026,7 +3010,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.fatherMeta_phoneNumber}
                   id="fatherMeta_phoneNumber"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="number"
                 />{" "}
               </div>
@@ -3038,7 +3021,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.motherMeta_name}
                   id="motherMeta_name"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3050,7 +3032,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.motherMeta_address}
                   id="motherMeta_address"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3064,7 +3045,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.motherMeta_phoneNumber}
                   id="motherMeta_phoneNumber"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="number"
                 />{" "}
               </div>
@@ -3076,7 +3056,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.legalStatus}
                   id="legalStatus"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3090,7 +3069,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.referringAgency_co}
                   id="referringAgency_co"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3104,7 +3082,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.agentOfReferringAgency_co_name}
                   id="agentOfReferringAgency_co_name"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3118,7 +3095,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.agentOfReferringAgency_co_address}
                   id="agentOfReferringAgency_co_address"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3132,7 +3108,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.reactionToPlacement}
                   id="reactionToPlacement"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -3143,7 +3118,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.interests}
                   id="interests"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -3165,7 +3139,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.otherMeta1_name}
                   id="otherMeta1_name"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3179,7 +3152,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.otherMeta1_relationship}
                   id="otherMeta1_relationship"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3193,7 +3165,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.otherMeta1_address}
                   id="otherMeta1_address"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3207,7 +3178,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.otherMeta1_phoneNumber}
                   id="otherMeta1_phoneNumber"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="number"
                 />{" "}
               </div>
@@ -3221,7 +3191,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.otherMeta2_name}
                   id="otherMeta2_name"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3235,7 +3204,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.otherMeta2_relationship}
                   id="otherMeta2_relationship"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3249,7 +3217,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.otherMeta2_address}
                   id="otherMeta2_address"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3263,7 +3230,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.otherMeta2_phoneNumber}
                   id="otherMeta2_phoneNumber"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="number"
                 />{" "}
               </div>
@@ -3277,7 +3243,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.otherMeta3_name}
                   id="otherMeta3_name"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3291,7 +3256,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.otherMeta3_relationship}
                   id="otherMeta3_relationship"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3305,7 +3269,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.otherMeta3_address}
                   id="otherMeta3_address"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3319,7 +3282,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.otherMeta3_phoneNumber}
                   id="otherMeta3_phoneNumber"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="number"
                 />{" "}
               </div>
@@ -3333,7 +3295,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.otherMeta4_name}
                   id="otherMeta4_name"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3347,7 +3308,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.otherMeta4_relationship}
                   id="otherMeta4_relationship"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3361,7 +3321,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.otherMeta4_address}
                   id="otherMeta4_address"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3375,7 +3334,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.otherMeta4_phoneNumber}
                   id="otherMeta4_phoneNumber"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="number"
                 />{" "}
               </div>
@@ -3392,7 +3350,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.currentMedicalInformation}
                   id="currentMedicalInformation"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -3405,7 +3362,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.developmental_medicalHistory}
                   id="developmental_medicalHistory"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -3416,7 +3372,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.drugAllergies}
                   id="drugAllergies"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -3427,7 +3382,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.food1}
                   id="food1"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -3438,7 +3392,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.allergies}
                   id="allergies"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -3449,7 +3402,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.chronicHealth}
                   id="chronicHealth"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3461,7 +3413,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.healthStrengths}
                   id="healthStrengths"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -3472,7 +3423,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.healthNeeds}
                   id="healthNeeds"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -3484,7 +3434,6 @@ class TreatmentPlan72 extends Component {
                   onChange={this.handleFieldInput}
                   value={this.state.lastPhysicalExamination_date}
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="string"
                 />{" "}
               </div>
@@ -3498,7 +3447,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.lastPhysicalExamination_location}
                   id="lastPhysicalExamination_location"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3512,7 +3460,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.lastPhysicalExamination_monitoredBy}
                   id="lastPhysicalExamination_monitoredBy"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3525,7 +3472,6 @@ class TreatmentPlan72 extends Component {
                   onChange={this.handleFieldInput}
                   value={this.state.lastDentalExamination_date}
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="string"
                 />{" "}
               </div>
@@ -3539,7 +3485,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.lastDentalExamination_location}
                   id="lastDentalExamination_location"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3553,7 +3498,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.lastDentalExamination_monitoredBy}
                   id="lastDentalExamination_monitoredBy"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3566,7 +3510,6 @@ class TreatmentPlan72 extends Component {
                   onChange={this.handleFieldInput}
                   value={this.state.lastOpticalExamination_date}
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="string"
                 />{" "}
               </div>
@@ -3580,7 +3523,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.lastOpticalExamination_location}
                   id="lastOpticalExamination_location"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3594,7 +3536,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.lastOpticalExamination_monitoredBy}
                   id="lastOpticalExamination_monitoredBy"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3615,7 +3556,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms1_medication
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3631,7 +3571,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms1_dosage_frequency
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3645,7 +3584,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms1_purpose
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3661,7 +3599,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms1_possibleSideEffects
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3675,7 +3612,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms1_monitoredBy
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3689,7 +3625,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms2_medication
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3705,7 +3640,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms2_dosage_frequency
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3719,7 +3653,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms2_purpose
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3735,7 +3668,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms2_possibleSideEffects
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3749,7 +3681,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms2_monitoredBy
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3763,7 +3694,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms3_medication
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3779,7 +3709,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms3_dosage_frequency
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3793,7 +3722,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms3_purpose
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3809,7 +3737,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms3_possibleSideEffects
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3823,7 +3750,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms3_monitoredBy
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3837,7 +3763,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms4_medication
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3853,7 +3778,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms4_dosage_frequency
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3867,7 +3791,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms4_purpose
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3883,7 +3806,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms4_possibleSideEffects
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3897,7 +3819,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms4_monitoredBy
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3911,7 +3832,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms5_medication
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3927,7 +3847,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms5_dosage_frequency
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3941,7 +3860,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms5_purpose
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3957,7 +3875,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms5_possibleSideEffects
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3971,7 +3888,6 @@ class TreatmentPlan72 extends Component {
                       .currentMedications_dosages_targetedSymptoms5_monitoredBy
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -3985,7 +3901,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.behavioralStrengths}
                   id="behavioralStrengths"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -3996,7 +3911,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.behavioralNeeds}
                   id="behavioralNeeds"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4009,7 +3923,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.behavioralTreatmentServices}
                   id="behavioralTreatmentServices"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4022,7 +3935,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.emotionalStrengths}
                   id="emotionalStrengths"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4033,7 +3945,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.emotionalNeeds}
                   id="emotionalNeeds"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4046,7 +3957,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.emotionalTreatmentServices}
                   id="emotionalTreatmentServices"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4062,7 +3972,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.food2}
                   id="food2"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4074,7 +3983,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.eyeContact}
                   id="eyeContact"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4086,7 +3994,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.physicalTouch}
                   id="physicalTouch"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4098,7 +4005,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.personalProperty}
                   id="personalProperty"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4110,7 +4016,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.certainTopics}
                   id="certainTopics"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4123,7 +4028,6 @@ class TreatmentPlan72 extends Component {
                   onChange={this.handleFieldInput}
                   value={this.state.knownContraindicationsToTheUuseOfRestraint}
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4137,7 +4041,6 @@ class TreatmentPlan72 extends Component {
                     this.state.de_escalatingTechniquesToAvoidRestraints_ebi
                   }
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4150,7 +4053,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.child_de_escalator}
                   id="child_de_escalator"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4163,7 +4065,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.staff_de_escalator}
                   id="staff_de_escalator"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4176,7 +4077,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.therapist_de_escalator}
                   id="therapist_de_escalator"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4189,7 +4089,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.childPreferred_de_escalation}
                   id="childPreferred_de_escalation"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4202,7 +4101,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.interventionStrategies}
                   id="interventionStrategies"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4215,7 +4113,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.supervisionStrategies}
                   id="supervisionStrategies"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4228,7 +4125,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.social_recreationalStrengths}
                   id="social_recreationalStrengths"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4241,7 +4137,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.social_recreationalNeeds}
                   id="social_recreationalNeeds"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4252,7 +4147,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.familyStrengths}
                   id="familyStrengths"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4263,7 +4157,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.familyNeeds}
                   id="familyNeeds"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4276,7 +4169,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor1_name}
                   id="visitor1_name"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4290,7 +4182,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor1_relationship}
                   id="visitor1_relationship"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4304,7 +4195,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor1_frequency}
                   id="visitor1_frequency"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4318,7 +4208,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor1_supervisedBy}
                   id="visitor1_supervisedBy"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4332,7 +4221,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor1_location}
                   id="visitor1_location"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4346,7 +4234,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor1_length}
                   id="visitor1_length"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4360,7 +4247,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor2_name}
                   id="visitor2_name"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4374,7 +4260,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor2_relationship}
                   id="visitor2_relationship"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4388,7 +4273,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor2_frequency}
                   id="visitor2_frequency"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4402,7 +4286,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor2_supervisedBy}
                   id="visitor2_supervisedBy"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4416,7 +4299,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor2_location}
                   id="visitor2_location"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4430,7 +4312,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor2_length}
                   id="visitor2_length"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4444,7 +4325,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor3_name}
                   id="visitor3_name"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4458,7 +4338,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor3_relationship}
                   id="visitor3_relationship"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4472,7 +4351,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor3_frequency}
                   id="visitor3_frequency"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4486,7 +4364,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor3_supervisedBy}
                   id="visitor3_supervisedBy"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4500,7 +4377,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor3_location}
                   id="visitor3_location"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4514,7 +4390,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor3_length}
                   id="visitor3_length"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4528,7 +4403,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor4_name}
                   id="visitor4_name"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4542,7 +4416,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor4_relationship}
                   id="visitor4_relationship"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4556,7 +4429,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor4_frequency}
                   id="visitor4_frequency"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4570,7 +4442,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor4_supervisedBy}
                   id="visitor4_supervisedBy"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4584,7 +4455,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor4_location}
                   id="visitor4_location"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4598,7 +4468,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.visitor4_length}
                   id="visitor4_length"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -4612,7 +4481,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.educational_vacationalStrengths}
                   id="educational_vacationalStrengths"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4625,7 +4493,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.educational_vacationalNeeds}
                   id="educational_vacationalNeeds"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4638,7 +4505,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.transitionalLiving}
                   id="transitionalLiving"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4649,7 +4515,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.dischargePlanning}
                   id="dischargePlanning"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4660,7 +4525,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.longRangeGoals}
                   id="longRangeGoals"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
               <div className="form-group logInInputField">
@@ -4671,7 +4535,6 @@ class TreatmentPlan72 extends Component {
                   value={this.state.shortRangeGoals}
                   id="shortRangeGoals"
                   className="form-control"
-                    disabled = {this.state.childSelected ? false : true}
                 ></TextareaAutosize>
               </div>
             </div>
