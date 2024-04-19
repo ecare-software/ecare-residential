@@ -65,7 +65,6 @@ class FormSubmitterListContainer extends Component {
   }
 
   triggerPrint = () => {
-    console.log("triggered")
     /*
     1. change all of the listed forms to full view of forms
     */
@@ -93,7 +92,6 @@ class FormSubmitterListContainer extends Component {
     }, []);
     this.setState({ ...this.state, formsToPrint: allFormComps });
 
-   console.log("end of push")
     /*
     3. change the view back after set amount of time, showing list of filtered forms again
     */
