@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./ReportsContainer.css";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
-import { FromReports } from "./FormReports";
+import { FormReports } from "./FormReports";
 import { TrainingReports } from "./TrainingReports";
 
 class ReportsContainer extends Component {
@@ -78,7 +78,7 @@ class ReportsContainer extends Component {
       if (this.state.showForms) {
         return (
           <div>
-            <FromReports
+            <FormReports
               resetReports={() => {
                 this.resetReports();
               }}

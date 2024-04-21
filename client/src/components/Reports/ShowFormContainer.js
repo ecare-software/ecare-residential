@@ -19,6 +19,7 @@ import { FetchHomeData } from "../../utils/FetchHomeData";
 import { DoDeleteRecord } from "../../utils/DoDeleteRecord";
 import NightMonitoring from "../Forms/NightMonitoring";
 import ClipLoader from "react-spinners/ClipLoader";
+import "../../App.css";
 
 const needsNurseSig = ["Health Body Check", "Illness Injury"];
 
@@ -372,6 +373,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
           )}
         </div>
         <div>
+          {/* print home information at top of form */}
           {homeData && (
             <div>
               <h3 className="text-center">
@@ -601,6 +603,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
   );
 };
 
+// called for each form individually during printing
 const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
   const [updatedFormData, setFormData] = useState({});
 
@@ -843,6 +846,7 @@ const OtherShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
   };
 
   const displayComponent = (name) => {
+    console.log('display components')
     let comp = {};
 
     if (name === "72 Hour Treatment Plan") {

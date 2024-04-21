@@ -97,11 +97,11 @@ class FormSubmitterListContainer extends Component {
     */
     setTimeout(() => {
       window.print();
-    }, 5000);
+    }, 1200);
 
     setTimeout(() => {
       this.setState({ ...this.state, showFullForms: false, formsToPrint: [] });
-    }, 8000);
+    }, 1600);
   };
 
   render() {
@@ -139,7 +139,7 @@ class FormSubmitterListContainer extends Component {
     return (
       <ul style={{ listStyleType: "none", padding: "0px" }}>
         {/* home info printed on top of table */}
-        {this.state.homeData && (
+        {/* {this.state.homeData && (
         <div className="hide-on-non-print">
             <h3 className='text-center'>
               {this.state.homeData.name && `RTC - ${this.state.homeData.name}`}
@@ -159,12 +159,11 @@ class FormSubmitterListContainer extends Component {
               <p style={{paddingLeft:"50px"}}>Client Name - {this.state.searchObj.searchString}</p>
             )}
           </div>
-          )}
+          )} */}
         <div className="hide-on-print" style={{paddingBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <button onClick={this.triggerPrint} className='btn btn-link'>
               <span className='fa fa-print'></span> Print {this.props.formType} Forms
             </button>
-            
         </div>
         {this.props.submittions.length > 0 ? (
           this.props.submittions.map((form, formIndex) => (

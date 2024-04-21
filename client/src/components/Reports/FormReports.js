@@ -75,7 +75,7 @@ const getFilterText = (searchObj) => {
   return filterA.length > 0 ? filterA : ["No filters selected"];
 };
 
-export class FromReports extends Component {
+export class FormReports extends Component {
   constructor(props) {
     super(props);
     this.state = {
