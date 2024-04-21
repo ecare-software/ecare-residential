@@ -3336,28 +3336,31 @@ class AwakeNightStaffSignoff extends Component {
             </Row>
 
             <FormError errorId={this.props.id + "-error"} />
-            <div
-              className="form-group logInInputField"
-              style={{ display: "flex", justifyContent: "space-between" }}
-            >
-              <button
-                className="lightBtn hide-on-print"
-                onClick={() => {
-                  this.validateForm(true);
-                }}
-              >
-                Finish Later
-              </button>
 
-              <button
-                className="darkBtn hide-on-print"
-                onClick={() => {
-                  this.validateForm(false);
-                }}
-              >
-                Submit
-              </button>
-            </div>
+            <Row style={{display:"flex", justifyContent:"space-between", paddingRight:"0px", marginLeft:"1px", marginRight:"1px"}}>
+                <div style={{display:"flex", width:"46%"}}>
+                  <button
+                      className="lightBtn hide hide-on-print save-submit-btn"
+                      style={{width:"100%"}}
+                      onClick={() => {
+                        this.validateForm(true);
+                      }}
+                    >
+                      Finish Later
+                    </button>
+                </div>
+                <div style={{display:"flex", width:"46%"}}>
+                  <button
+                      className="darkBtn hide hide-on-print save-submit-btn"
+                      style={{width:"100%"}}
+                      onClick={() => {
+                        this.validateForm(false);
+                      }}
+                    >
+                      Submit
+                  </button>
+                </div>
+              </Row>
           </Container>
         </div>
       );

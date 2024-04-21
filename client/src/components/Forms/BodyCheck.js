@@ -39,10 +39,8 @@ class BodyCheck extends Component {
       nurse_designee_name: "",
       nurse_designee_title: "",
       nurse_designee_date: "",
-
       head: -1,
       face: -1,
-
       left_ear: -1,
       right_ear: -1,
 
@@ -62,57 +60,39 @@ class BodyCheck extends Component {
 
       left_arm: -1,
       right_arm: -1,
-
       left_hand: -1,
       right_hand: -1,
-
       chest: -1,
       back: -1,
       stomach: -1,
-
       left_hip: -1,
       right_hip: -1,
-
       left_leg: -1,
       right_leg: -1,
-
       left_knee: -1,
       right_knee: -1,
-
       left_ankle: -1,
       right_ankle: -1,
-
       left_foot: -1,
       right_foot: -1,
-
       details: null,
-
       createdBy: this.props.valuesSet === true ? "" : this.props.userObj.email,
-
       createdByName:
         this.props.valuesSet === true
           ? ""
           : this.props.userObj.firstName + " " + this.props.userObj.lastName,
-
       lastEditDate: null,
-
       homeId: this.props.valuesSet === true ? "" : this.props.userObj.homeId,
-
       formHasError: false,
-
       formSubmitted: false,
-
       formErrorMessage: "",
-
       clientId: "",
-
       loadingClients: true,
-
       loadingSig: true,
-
       clients: [],
       createDate: new Date().toISOString(),
       status: "IN PROGRESS",
+      childSelected: false,
     };
   }
 
@@ -207,6 +187,7 @@ class BodyCheck extends Component {
       clientId: "",
       createDate: new Date().toISOString(),
       status: "IN PROGRESS",
+      childSelected: false,
     });
   };
 
@@ -406,6 +387,7 @@ class BodyCheck extends Component {
   }
 
   handleClientSelect = async (event) => {
+    this.state.childSelected = true;
     if (event.target.value !== null) {
       const client = JSON.parse(event.target.value);
       const clonedState = { ...this.state };
@@ -469,8 +451,8 @@ class BodyCheck extends Component {
                   {`${new Date(this.state.lastEditDate)
                     .toTimeString()
                     .replace(/\s.*/, "")} - ${new Date(
-                    this.state.lastEditDate
-                  ).toDateString()}`}
+                      this.state.lastEditDate
+                    ).toDateString()}`}
                 </i>
               ) : (
                 "-"
@@ -565,6 +547,7 @@ class BodyCheck extends Component {
                   id="amPm"
                   value={this.state.amPm}
                   className="form-control"
+                  disabled={this.state.childSelected ? false : true}
                   type="text"
                 />{" "}
               </div>
@@ -1405,28 +1388,29 @@ class BodyCheck extends Component {
                     />{" "}
                   </div>
                 </Col>
-
-                <FormError errorId={this.props.id + "-error"} />
-                <div
-                  className="form-group logInInputField"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
+              </Row>
+              <FormError errorId={this.props.id + "-error"} />
+              <Row className="save-submit-row">
+                <div style={{display:"flex", width:"46%"}}>
                   <button
-                    className="lightBtn hide-on-print"
-                    onClick={() => {
-                      this.validateForm(true);
-                    }}
-                  >
-                    Finish Later
-                  </button>
-
+                      className="lightBtn hide hide-on-print save-submit-btn"
+                      style={{width:"100%"}}
+                      onClick={() => {
+                        this.validateForm(true);
+                      }}
+                    >
+                      Finish Later
+                    </button>
+                </div>
+                <div style={{display:"flex", width:"46%"}}>
                   <button
-                    className="darkBtn hide-on-print"
-                    onClick={() => {
-                      this.validateForm(false);
-                    }}
-                  >
-                    Submit
+                      className="darkBtn hide hide-on-print save-submit-btn"
+                      style={{width:"100%"}}
+                      onClick={() => {
+                        this.validateForm(false);
+                      }}
+                    >
+                      Submit
                   </button>
                 </div>
               </Row>
@@ -1504,7 +1488,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.childMeta_gender}
                         id="childMeta_gender"
                       >
@@ -1527,7 +1511,7 @@ class BodyCheck extends Component {
                         id="injury"
                         value={this.state.injury}
                         className="form-control"
-                        type="text"
+                          type="text"
                       />{" "}
                     </div>
                   </Col>
@@ -1541,7 +1525,7 @@ class BodyCheck extends Component {
                         id="amPm"
                         value={this.state.amPm}
                         className="form-control"
-                        type="text"
+                          type="text"
                       />{" "}
                     </div>
                   </Col>
@@ -1567,7 +1551,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.head}
                         id="head"
                       >
@@ -1592,7 +1576,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.face}
                         id="face"
                       >
@@ -1617,7 +1601,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.left_ear}
                         id="left_ear"
                       >
@@ -1642,7 +1626,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.right_ear}
                         id="right_ear"
                       >
@@ -1667,7 +1651,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.left_eye}
                         id="left_eye"
                       >
@@ -1692,7 +1676,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.right_eye}
                         id="right_eye"
                       >
@@ -1717,7 +1701,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.nose}
                         id="nose"
                       >
@@ -1742,7 +1726,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.mouth}
                         id="mouth"
                       >
@@ -1767,7 +1751,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.chin}
                         id="chin"
                       >
@@ -1792,7 +1776,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.neck}
                         id="neck"
                       >
@@ -1817,7 +1801,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.left_shoulder}
                         id="left_shoulder"
                       >
@@ -1842,7 +1826,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.right_shoulder}
                         id="right_shoulder"
                       >
@@ -1869,7 +1853,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.left_arm}
                         id="left_arm"
                       >
@@ -1894,7 +1878,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.right_arm}
                         id="right_arm"
                       >
@@ -1919,7 +1903,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.left_hand}
                         id="left_hand"
                       >
@@ -1944,7 +1928,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.right_hand}
                         id="right_hand"
                       >
@@ -1969,7 +1953,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.chest}
                         id="chest"
                       >
@@ -1994,7 +1978,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.back}
                         id="back"
                       >
@@ -2019,7 +2003,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.stomach}
                         id="stomach"
                       >
@@ -2044,7 +2028,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.left_hip}
                         id="left_hip"
                       >
@@ -2069,7 +2053,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.right_hip}
                         id="right_hip"
                       >
@@ -2094,7 +2078,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.left_leg}
                         id="left_leg"
                       >
@@ -2119,7 +2103,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.right_leg}
                         id="right_leg"
                       >
@@ -2144,7 +2128,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.left_knee}
                         id="left_knee"
                       >
@@ -2171,7 +2155,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.right_knee}
                         id="right_knee"
                       >
@@ -2196,7 +2180,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.left_ankle}
                         id="left_ankle"
                       >
@@ -2221,7 +2205,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.right_ankle}
                         id="right_ankle"
                       >
@@ -2246,7 +2230,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.left_foot}
                         id="left_foot"
                       >
@@ -2271,7 +2255,7 @@ class BodyCheck extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                        onChange={this.handleFieldInput}
+                          onChange={this.handleFieldInput}
                         value={this.state.right_foot}
                         id="right_foot"
                       >
@@ -2300,7 +2284,7 @@ class BodyCheck extends Component {
                         id="details"
                         value={this.state.details}
                         className="form-control"
-                      ></TextareaAutosize>
+                        ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
                       {" "}
@@ -2312,7 +2296,7 @@ class BodyCheck extends Component {
                         id="examiner_name"
                         value={this.state.examiner_name}
                         className="form-control"
-                        type="text"
+                          type="text"
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -2325,7 +2309,7 @@ class BodyCheck extends Component {
                         id="examiner_title"
                         value={this.state.examiner_title}
                         className="form-control"
-                        type="text"
+                          type="text"
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -2338,7 +2322,7 @@ class BodyCheck extends Component {
                         id="examin_date"
                         value={this.state.examin_date}
                         className="form-control"
-                        type="datetime-local"
+                          type="datetime-local"
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -2351,7 +2335,7 @@ class BodyCheck extends Component {
                         id="nurse_designee_name"
                         value={this.state.nurse_designee_name}
                         className="form-control"
-                        type="text"
+                          type="text"
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -2364,7 +2348,7 @@ class BodyCheck extends Component {
                         id="nurse_designee_title"
                         value={this.state.nurse_designee_title}
                         className="form-control"
-                        type="text"
+                          type="text"
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -2377,7 +2361,7 @@ class BodyCheck extends Component {
                         id="nurse_designee_date"
                         value={this.state.nurse_designee_date}
                         className="form-control"
-                        type="datetime-local"
+                          type="datetime-local"
                       />{" "}
                     </div>
                   </Col>

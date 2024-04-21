@@ -24,12 +24,14 @@ export const NightMonitoringChildRow = ({
   const [childMeta_name, setChildMeta_name] = useState(
     rootState?.childMeta_name
   );
+  const [childSelected, setChildSelected] = useState(rootState?.childSelected);
 
   let sigCanvas;
   const doFormatChildMetaName = (val) => {
     try {
       const { childMeta_name } = JSON.parse(val);
       setChildMeta_name(childMeta_name);
+      setChildSelected(true);
     } catch (e) {
       alert("Error fetching client data");
     }
@@ -44,6 +46,8 @@ export const NightMonitoringChildRow = ({
 
   useEffect(() => {
     console.log(rootState);
+    if (childMeta_name !== "") {setChildSelected(true)}
+    // if (childMeta_name) {childSelected = true}
     setRootState({
       date,
       roomNumber,
@@ -52,6 +56,7 @@ export const NightMonitoringChildRow = ({
       reason,
       signed,
       childMeta_name,
+      childSelected,
     });
   }, [
     date,
@@ -61,6 +66,7 @@ export const NightMonitoringChildRow = ({
     reason,
     signed,
     childMeta_name,
+    childSelected,
   ]);
 
   return (
@@ -115,6 +121,7 @@ export const NightMonitoringChildRow = ({
                 id="date"
                 defaultValue={date}
                 className="form-control"
+                disabled = {childSelected ? false : true}
                 type="date"
               />{" "}
             </div>
@@ -130,6 +137,7 @@ export const NightMonitoringChildRow = ({
                 id="roomNumber"
                 defaultValue={roomNumber}
                 className="form-control"
+                disabled = {childSelected ? false : true}
                 type="text"
               />{" "}
             </div>
@@ -146,6 +154,7 @@ export const NightMonitoringChildRow = ({
                 id="timeChildAwake"
                 defaultValue={timeChildAwake}
                 className="form-control"
+                disabled = {childSelected ? false : true}
                 type="time"
               />{" "}
             </div>
@@ -163,6 +172,7 @@ export const NightMonitoringChildRow = ({
                 id="timeChildReturnBed"
                 defaultValue={timeChildReturnBed}
                 className="form-control"
+                disabled = {childSelected ? false : true}
                 type="time"
               />{" "}
             </div>
@@ -180,6 +190,7 @@ export const NightMonitoringChildRow = ({
                 id="reason"
                 defaultValue={reason}
                 className="form-control"
+                disabled = {childSelected ? false : true}
                 type="text"
               ></TextareaAutosize>
             </div>

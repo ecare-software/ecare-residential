@@ -29,95 +29,55 @@ class RestraintReport extends Component {
       time_of_incident: "",
       staff_witness_name: "",
       staff_witness_gender: "",
-
       staff_witness_gender: "",
-
       client_witness_name1: "",
-
       client_witness_gender1: "",
-
       client_witness_dob1: "",
-
       client_witness_doa1: "",
-
       client_witness_name2: "",
-
       client_witness_gender2: "",
-
       client_witness_dob2: "",
-
       client_witness_doa2: "",
-
       risk_explaination: "",
-
       risk_alternative_strategies: "",
-
       type_of_restraint: "",
-
       risk_stategies_used: "",
-
       result_of_incident: "",
-
       injuries: "",
-
       action_taken: "",
-
       able_to_prevent: "",
-
       restraint_start_time: "",
-
       restraint_end_time: "",
-
       notification_made_to: "",
-
       notification_made_date_time: "",
-
       interviewer: "",
-
       date_of_interview: "",
-
       client_behavior: "",
-
       client_restraint_description: "",
-
       client_responce: "",
-
       procedural_approved_reason: "",
-
       procedural_approved_standards: "",
-
       procedural_any_injuries: "",
-
       procedural_comments: "",
-
       createdBy: this.props.valuesSet === true ? "" : this.props.userObj.email,
-
       createdByName:
         this.props.valuesSet === true
           ? ""
           : this.props.userObj.firstName + " " + this.props.userObj.lastName,
-
       lastEditDate: null,
-
       homeId: this.props.valuesSet === true ? "" : this.props.userObj.homeId,
-
       formHasError: false,
-
       formSubmitted: false,
-
       formErrorMessage: "",
-
       loadingClients: true,
-
       loadingStaff: true,
-
       loadingSig: true,
-
       clients: [],
       staff: [],
       clientId: "",
       createDate: new Date().toISOString(),
       status: "IN PROGRESS",
+      childSelected: false,
     };
   }
 
@@ -161,69 +121,40 @@ class RestraintReport extends Component {
       time_of_incident: "",
       staff_witness_name: "",
       staff_witness_gender: "",
-
       staff_witness_gender: "",
-
       client_witness_name1: "",
-
       client_witness_gender1: "",
-
       client_witness_dob1: "",
-
       client_witness_doa1: "",
-
       client_witness_name2: "",
-
       client_witness_gender2: "",
-
       client_witness_dob2: "",
-
       client_witness_doa2: "",
-
       risk_explaination: "",
-
       risk_alternative_strategies: "",
-
       type_of_restraint: "",
-
       risk_stategies_used: "",
-
       result_of_incident: "",
-
       injuries: "",
-
       action_taken: "",
-
       able_to_prevent: "",
-
       restraint_start_time: "",
-
       restraint_end_time: "",
-
       notification_made_to: "",
-
       notification_made_date_time: "",
-
       interviewer: "",
-
       date_of_interview: "",
-
       client_behavior: "",
-
       client_restraint_description: "",
-
       client_responce: "",
-
       procedural_approved_reason: "",
-
       procedural_approved_standards: "",
-
       procedural_any_injuries: "",
-
       procedural_comments: "",
       clientId: "",
       createDate: new Date().toISOString(),
       status: "IN PROGRESS",
+      childSelected: false,
     });
   };
 
@@ -458,6 +389,7 @@ class RestraintReport extends Component {
   }
 
   handleClientSelect = async (event) => {
+    this.state.childSelected = true;
     if (event.target.value !== null) {
       const client = JSON.parse(event.target.value);
       const clonedState = { ...this.state };
@@ -559,8 +491,8 @@ class RestraintReport extends Component {
                   {`${new Date(this.state.lastEditDate)
                     .toTimeString()
                     .replace(/\s.*/, "")} - ${new Date(
-                    this.state.lastEditDate
-                  ).toDateString()}`}
+                      this.state.lastEditDate
+                    ).toDateString()}`}
                 </i>
               ) : (
                 "-"
@@ -616,6 +548,7 @@ class RestraintReport extends Component {
                     <label className="control-label">Child's Gender</label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.childMeta_gender}
                       id="childMeta_gender"
@@ -636,6 +569,7 @@ class RestraintReport extends Component {
                       id="childMeta_dob"
                       value={this.state.childMeta_dob}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="date"
                     />{" "}
                   </div>
@@ -649,6 +583,7 @@ class RestraintReport extends Component {
                       id="childMeta_dateOfAdmission"
                       value={this.state.childMeta_dateOfAdmission}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="date"
                     />{" "}
                   </div>
@@ -659,6 +594,7 @@ class RestraintReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       defaultValue={null}
                       onChange={(e) => {
                         this.handleStaffSelect(
@@ -682,6 +618,7 @@ class RestraintReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.staff_involved_gender}
                       id="staff_involved_gender"
@@ -702,6 +639,7 @@ class RestraintReport extends Component {
                       id="time_of_incident"
                       value={this.state.time_of_incident}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="datetime-local"
                     />{" "}
                   </div>
@@ -712,6 +650,7 @@ class RestraintReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       defaultValue={null}
                       onChange={(e) => {
                         this.handleStaffSelect(
@@ -735,6 +674,7 @@ class RestraintReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.staff_witness_gender}
                       id="staff_witness_gender"
@@ -752,6 +692,7 @@ class RestraintReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       defaultValue={null}
                       onChange={this.handleClientSelectWithness1}
                     >
@@ -772,6 +713,7 @@ class RestraintReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.client_witness_gender1}
                       id="client_witness_gender1"
@@ -793,6 +735,7 @@ class RestraintReport extends Component {
                       id="client_witness_dob1"
                       value={this.state.client_witness_dob1}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="date"
                     />{" "}
                   </div>
@@ -807,6 +750,7 @@ class RestraintReport extends Component {
                       id="client_witness_doa1"
                       value={this.state.client_witness_doa1}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="date"
                     />{" "}
                   </div>
@@ -818,6 +762,7 @@ class RestraintReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       defaultValue={null}
                       onChange={this.handleClientSelectWithness2}
                     >
@@ -838,6 +783,7 @@ class RestraintReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.client_witness_gender2}
                       id="client_witness_gender2"
@@ -859,6 +805,7 @@ class RestraintReport extends Component {
                       id="client_witness_dob2"
                       value={this.state.client_witness_dob2}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="date"
                     />{" "}
                   </div>
@@ -873,6 +820,7 @@ class RestraintReport extends Component {
                       id="client_witness_doa2"
                       value={this.state.client_witness_doa2}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="date"
                     />{" "}
                   </div>
@@ -892,6 +840,7 @@ class RestraintReport extends Component {
                       id="risk_explaination"
                       value={this.state.risk_explaination}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
 
@@ -908,6 +857,7 @@ class RestraintReport extends Component {
                       id="risk_alternative_strategies"
                       value={this.state.risk_alternative_strategies}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
 
@@ -921,6 +871,7 @@ class RestraintReport extends Component {
                       id="type_of_restraint"
                       value={this.state.type_of_restraint}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
 
@@ -936,6 +887,7 @@ class RestraintReport extends Component {
                       id="risk_stategies_used"
                       value={this.state.risk_stategies_used}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
 
@@ -954,6 +906,7 @@ class RestraintReport extends Component {
                       id="result_of_incident"
                       value={this.state.result_of_incident}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
 
@@ -970,6 +923,7 @@ class RestraintReport extends Component {
                       id="injuries"
                       value={this.state.injuries}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
 
@@ -984,6 +938,7 @@ class RestraintReport extends Component {
                       id="action_taken"
                       value={this.state.action_taken}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
 
@@ -998,6 +953,7 @@ class RestraintReport extends Component {
                       id="able_to_prevent"
                       value={this.state.able_to_prevent}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
 
@@ -1011,6 +967,7 @@ class RestraintReport extends Component {
                       id="restraint_start_time"
                       value={this.state.restraint_start_time}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="datetime-local"
                     />{" "}
                   </div>
@@ -1026,6 +983,7 @@ class RestraintReport extends Component {
                       id="restraint_end_time"
                       value={this.state.restraint_end_time}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="datetime-local"
                     />{" "}
                   </div>
@@ -1040,6 +998,7 @@ class RestraintReport extends Component {
                       id="notification_made_to"
                       value={this.state.notification_made_to}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -1055,6 +1014,7 @@ class RestraintReport extends Component {
                       id="notification_made_date_time"
                       value={this.state.notification_made_date_time}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="datetime-local"
                     />{" "}
                   </div>
@@ -1069,6 +1029,7 @@ class RestraintReport extends Component {
                       id="interviewer"
                       value={this.state.interviewer}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -1083,6 +1044,7 @@ class RestraintReport extends Component {
                       id="date_of_interview"
                       value={this.state.date_of_interview}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="datetime-local"
                     />{" "}
                   </div>
@@ -1097,6 +1059,7 @@ class RestraintReport extends Component {
                       id="client_behavior"
                       value={this.state.client_behavior}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
 
@@ -1111,6 +1074,7 @@ class RestraintReport extends Component {
                       id="client_restraint_description"
                       value={this.state.client_restraint_description}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
 
@@ -1124,6 +1088,7 @@ class RestraintReport extends Component {
                       id="client_responce"
                       value={this.state.client_responce}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
 
@@ -1138,6 +1103,7 @@ class RestraintReport extends Component {
                       id="procedural_approved_reason"
                       value={this.state.procedural_approved_reason}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -1153,6 +1119,7 @@ class RestraintReport extends Component {
                       id="procedural_approved_standards"
                       value={this.state.procedural_approved_standards}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -1168,6 +1135,7 @@ class RestraintReport extends Component {
                       id="procedural_any_injuries"
                       value={this.state.procedural_any_injuries}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -1182,34 +1150,40 @@ class RestraintReport extends Component {
                       id="procedural_comments"
                       value={this.state.procedural_comments}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
                 </Col>
               </Row>
 
               <FormError errorId={this.props.id + "-error"} />
-              <div
-                className="form-group logInInputField"
-                style={{ display: "flex", justifyContent: "space-between" }}
-              >
-                <button
-                  className="lightBtn hide-on-print"
-                  onClick={() => {
-                    this.validateForm(true);
-                  }}
-                >
-                  Finish Later
-                </button>
 
-                <button
-                  className="darkBtn hide-on-print"
-                  onClick={() => {
-                    this.validateForm(false);
-                  }}
-                >
-                  Submit
-                </button>
-              </div>
+              <Row className="save-submit-row">
+                <div style={{ display: "flex", width: "46%" }}>
+                  <button
+                    className="lightBtn hide hide-on-print save-submit-btn"
+                    style={{ width: "100%" }}
+                    disabled={this.state.childSelected ? false : true}
+                    onClick={() => {
+                      this.validateForm(true);
+                    }}
+                  >
+                    Finish Later
+                  </button>
+                </div>
+                <div style={{ display: "flex", width: "46%" }}>
+                  <button
+                    className="darkBtn hide hide-on-print save-submit-btn"
+                    style={{ width: "100%" }}
+                    disabled={this.state.childSelected ? false : true}
+                    onClick={() => {
+                      this.validateForm(false);
+                    }}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </Row>
             </Container>
           )}
         </div>
@@ -1524,7 +1498,7 @@ class RestraintReport extends Component {
                           value={this.state.risk_explaination}
                           id="risk_explaination"
                           className="form-control"
-                        ></TextareaAutosize>
+                          ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.risk_explaination}
@@ -1544,7 +1518,7 @@ class RestraintReport extends Component {
                           value={this.state.risk_alternative_strategies}
                           id="risk_alternative_strategies"
                           className="form-control"
-                        ></TextareaAutosize>
+                          ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.risk_alternative_strategies}
@@ -1561,7 +1535,7 @@ class RestraintReport extends Component {
                           value={this.state.type_of_restraint}
                           id="type_of_restraint"
                           className="form-control"
-                        ></TextareaAutosize>
+                          ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.type_of_restraint}
@@ -1580,7 +1554,7 @@ class RestraintReport extends Component {
                           value={this.state.risk_stategies_used}
                           id="risk_stategies_used"
                           className="form-control"
-                        ></TextareaAutosize>
+                          ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.risk_stategies_used}
@@ -1602,7 +1576,7 @@ class RestraintReport extends Component {
                           value={this.state.result_of_incident}
                           id="result_of_incident"
                           className="form-control"
-                        ></TextareaAutosize>
+                          ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.result_of_incident}
@@ -1622,7 +1596,7 @@ class RestraintReport extends Component {
                           value={this.state.injuries}
                           id="injuries"
                           className="form-control"
-                        ></TextareaAutosize>
+                          ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.action_taken}
@@ -1640,7 +1614,7 @@ class RestraintReport extends Component {
                           value={this.state.action_taken}
                           id="action_taken"
                           className="form-control"
-                        ></TextareaAutosize>
+                          ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.action_taken}
@@ -1658,7 +1632,7 @@ class RestraintReport extends Component {
                           value={this.state.able_to_prevent}
                           id="able_to_prevent"
                           className="form-control"
-                        ></TextareaAutosize>
+                          ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.able_to_prevent}
@@ -1756,7 +1730,7 @@ class RestraintReport extends Component {
                           value={this.state.client_behavior}
                           id="client_behavior"
                           className="form-control"
-                        ></TextareaAutosize>
+                          ></TextareaAutosize>
                       </div>{" "}
                       <p className="hide-on-non-print">
                         {this.state.client_behavior}
@@ -1774,7 +1748,7 @@ class RestraintReport extends Component {
                           value={this.state.client_restraint_description}
                           id="client_restraint_description"
                           className="form-control"
-                        ></TextareaAutosize>
+                          ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.client_restraint_description}
@@ -1791,7 +1765,7 @@ class RestraintReport extends Component {
                           value={this.state.client_responce}
                           id="client_responce"
                           className="form-control"
-                        ></TextareaAutosize>
+                          ></TextareaAutosize>
                       </div>{" "}
                       <p className="hide-on-non-print">
                         {this.state.client_responce}
@@ -1850,7 +1824,7 @@ class RestraintReport extends Component {
                           value={this.state.procedural_comments}
                           id="procedural_comments"
                           className="form-control"
-                        ></TextareaAutosize>
+                          ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.procedural_comments}
