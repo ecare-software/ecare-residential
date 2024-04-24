@@ -698,6 +698,7 @@ class IllnessInjury extends Component {
                     value={this.state.childMeta_name}
                     className="form-control"
                     type="text"
+                    disabled
                   />{" "}
                 </div>
                 <Row>

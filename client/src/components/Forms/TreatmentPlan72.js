@@ -907,6 +907,7 @@ class TreatmentPlan72 extends Component {
                     onChange={this.handleFieldInput}
                     value={this.state.childMeta_ethnicity}
                     id="childMeta_ethnicity"
+                    disabled={this.state.childSelected ? false : true}
                   >
                     <option>Black</option>
                     <option>White</option>
@@ -2802,6 +2803,7 @@ class TreatmentPlan72 extends Component {
                   id="childMeta_name"
                   className="form-control"
                   type="text"
+                  disabled
                 />{" "}
               </div>
               <div className="form-group logInInputField">

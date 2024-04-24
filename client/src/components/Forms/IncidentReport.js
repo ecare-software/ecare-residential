@@ -500,6 +500,7 @@ class IncidentReport extends Component {
                     <label className="control-label">Child's Gender</label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.childMeta_gender}
                       id="childMeta_gender"
@@ -521,6 +522,7 @@ class IncidentReport extends Component {
                       value={this.state.childMeta_dob}
                       className="form-control"
                       type="date"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -534,6 +536,7 @@ class IncidentReport extends Component {
                       value={this.state.childMeta_dateOfAdmission}
                       className="form-control"
                       type="date"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -548,6 +551,7 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       defaultValue={null}
                       onChange={(e) => {
                         this.handleStaffSelect(
@@ -571,6 +575,7 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.staff_involved_gender}
                       id="staff_involved_gender"
@@ -594,6 +599,7 @@ class IncidentReport extends Component {
                       value={this.state.time_of_incident}
                       className="form-control"
                       type="time"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -609,6 +615,7 @@ class IncidentReport extends Component {
                       value={this.state.dateOfIncident}
                       className="form-control"
                       type="date"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -623,6 +630,7 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       defaultValue={null}
                       onChange={(e) => {
                         this.handleStaffSelect(
@@ -646,6 +654,7 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.staff_witness_gender}
                       id="staff_witness_gender"
@@ -668,6 +677,7 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       defaultValue={null}
                       onChange={this.handleClientSelectWithness1}
                     >
@@ -687,6 +697,7 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.client_witness_gender1}
                       id="client_witness_gender1"
@@ -710,6 +721,7 @@ class IncidentReport extends Component {
                       value={this.state.client_witness_dob1}
                       className="form-control"
                       type="date"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -725,6 +737,7 @@ class IncidentReport extends Component {
                       value={this.state.client_witness_doa1}
                       className="form-control"
                       type="date"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -739,6 +752,7 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       defaultValue={null}
                       onChange={this.handleClientSelectWithness2}
                     >
@@ -758,6 +772,7 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.client_witness_gender2}
                       id="client_witness_gender2"
@@ -781,6 +796,7 @@ class IncidentReport extends Component {
                       value={this.state.client_witness_dob2}
                       className="form-control"
                       type="date"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -796,6 +812,7 @@ class IncidentReport extends Component {
                       value={this.state.client_witness_doa2}
                       className="form-control"
                       type="date"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -811,6 +828,7 @@ class IncidentReport extends Component {
                     <TextareaAutosize
                       onChange={this.handleFieldInput}
                       id="incident_explaination"
+                      disabled={this.state.childSelected ? false : true}
                       value={this.state.incident_explaination}
                       className="form-control"
                     ></TextareaAutosize>
@@ -831,6 +849,7 @@ class IncidentReport extends Component {
                       id="seperation"
                       value={this.state.seperation}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -849,6 +868,7 @@ class IncidentReport extends Component {
                       id="result"
                       value={this.state.result}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
                 </Col>
@@ -866,6 +886,7 @@ class IncidentReport extends Component {
                       id="able_to_prevent"
                       value={this.state.able_to_prevent}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
                 </Col>
@@ -884,6 +905,7 @@ class IncidentReport extends Component {
                       value={this.state.notification_made_to}
                       className="form-control"
                       type="text"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -899,6 +921,7 @@ class IncidentReport extends Component {
                       value={this.state.notification_made_date_time}
                       className="form-control"
                       type="datetime-local"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -912,6 +935,7 @@ class IncidentReport extends Component {
                       value={this.state.notification_made_by}
                       className="form-control"
                       type="text"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -929,6 +953,7 @@ class IncidentReport extends Component {
                       id="follow_up_results"
                       value={this.state.follow_up_results}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
                 </Col>
@@ -1032,6 +1057,7 @@ class IncidentReport extends Component {
                         id={"childMeta_name"}
                         className="form-control"
                         type="text"
+                        disabled
                       />{" "}
                     </div>
                   </Col>

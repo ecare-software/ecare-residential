@@ -197,6 +197,9 @@ const BodyCheckSchema = new Schema({
   status: {
     type: String,
   },
+  details: {
+    type: String, 
+  }
 });
 
 module.exports = BodyCheck = mongoose.model("bodyCheck", BodyCheckSchema);

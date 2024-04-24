@@ -46,15 +46,12 @@ router.post("/", (req, res) => {
     right_foot: req.body.right_foot,
     createdBy: req.body.createdBy,
     createdByName: req.body.createdByName,
-
+    details: req.body.details,
     lastEditDate: new Date().toISOString(),
-
     createDate: req.body.createDate
       ? req.body.createDate
       : new Date().toISOString(),
-
     homeId: req.body.homeId,
-
     formType: "Health Body Check",
     status: req.body.status,
   });
