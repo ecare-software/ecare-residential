@@ -1031,6 +1031,7 @@ class SeriousIncidentReport extends Component {
                         id={"childMeta_name"}
                         className="form-control"
                         type="text"
+                        disabled
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">

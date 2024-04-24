@@ -1301,15 +1301,17 @@ function DisplayExtra({
                 }}
                 cols='1'
                 style={{
-                  height: '150px',
-                  width: '100%',
-                  flex: '1',
-                  borderColor: '#eee',
-                  margin: '0px 5px',
-                  resize: 'none',
-                  borderRight: 'none',
-                  borderTop: 'none',
-                  borderLeft: 'none',
+                  height: "150px",
+                  width: "100%",
+                  flex: "1",
+                  borderColor: "#ccc",
+                  margin: "0px 5px",
+                  resize: "none",
+                  borderWidth: ".5px",
+                  borderRadius: "9px",
+                  padding: "12px 20px",
+                  boxSizing: "border-box",
+                  border: "2px solid #ccc",
                 }}
                 placeholder='Type your message here..'
               ></textarea>

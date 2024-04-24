@@ -1246,6 +1246,7 @@ class RestraintReport extends Component {
                     id="childMeta_name"
                     className="form-control"
                     type="text"
+                    disabled
                   />{" "}
                 </div>
                 <Row>
