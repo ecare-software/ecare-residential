@@ -257,7 +257,7 @@ class IllnessInjury extends Component {
   createDateTimeStamp = () =>
     new Date(new Date(this.state.createDate).getTime()).toLocaleString(
       "en-us",
-      { timeZone: "UTC" }
+      { timeZone: "CST" }
     );
 
   setValues = async () => {
@@ -659,7 +659,6 @@ class IllnessInjury extends Component {
           )}
           <div className="formTitleDivReport">
             <h2 className="formTitle">Illness and Injury Report</h2>
-            <p>{this.createDateTimeStamp()}</p>
           </div>
 
           <div className="formFieldsMobileReport">
@@ -713,7 +712,7 @@ class IllnessInjury extends Component {
                         id="dateTimeOccur"
                         value={this.state.dateTimeOccur}
                         className="form-control"
-                            type="datetime-local"
+                        type="datetime-local"
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -726,7 +725,7 @@ class IllnessInjury extends Component {
                         id="illnessInjury"
                         value={this.state.illnessInjury}
                         className="form-control"
-                          ></TextareaAutosize>
+                      ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
                       {" "}
@@ -738,7 +737,7 @@ class IllnessInjury extends Component {
                         id="initialResponse"
                         value={this.state.initialResponse}
                         className="form-control"
-                          ></TextareaAutosize>
+                      ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
                       {" "}
@@ -750,7 +749,7 @@ class IllnessInjury extends Component {
                         id="tempTaken"
                         value={this.state.tempTaken}
                         className="form-control"
-                            type="text"
+                        type="text"
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -761,7 +760,7 @@ class IllnessInjury extends Component {
                         id="tempMethodTaken"
                         value={this.state.tempMethodTaken}
                         className="form-control"
-                            type="text"
+                        type="text"
                       />{" "}
                     </div>
                   </Col>
@@ -776,7 +775,7 @@ class IllnessInjury extends Component {
                         id="tempInitialReading"
                         value={this.state.tempInitialReading}
                         className="form-control"
-                            type="text"
+                        type="text"
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -789,7 +788,7 @@ class IllnessInjury extends Component {
                         id="supervisorNotified"
                         value={this.state.supervisorNotified}
                         className="form-control"
-                            type="text"
+                        type="text"
                       />{" "}
                     </div>
 
@@ -803,7 +802,7 @@ class IllnessInjury extends Component {
                         id="notifiedAt"
                         value={this.state.notifiedAt}
                         className="form-control"
-                            type="datetime-local"
+                        type="datetime-local"
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -816,7 +815,7 @@ class IllnessInjury extends Component {
                         id="notifiedBy"
                         value={this.state.notifiedBy}
                         className="form-control"
-                            type="text"
+                        type="text"
                       />{" "}
                     </div>
                   </Col>
@@ -831,7 +830,7 @@ class IllnessInjury extends Component {
                         id="adminFollowUp"
                         value={this.state.adminFollowUp}
                         className="form-control"
-                            type="text"
+                        type="text"
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -844,7 +843,7 @@ class IllnessInjury extends Component {
                         id="lastMedicationGiven"
                         value={this.state.lastMedicationGiven}
                         className="form-control"
-                          ></TextareaAutosize>
+                      ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
                       {" "}
@@ -856,7 +855,7 @@ class IllnessInjury extends Component {
                         id="otherActionsTreatment"
                         value={this.state.otherActionsTreatment}
                         className="form-control"
-                          ></TextareaAutosize>
+                      ></TextareaAutosize>
                     </div>
                     <div className="form-group logInInputField">
                       {" "}
@@ -868,20 +867,23 @@ class IllnessInjury extends Component {
                         id="treatmentAuthBy"
                         value={this.state.treatmentAuthBy}
                         className="form-control"
-                          ></TextareaAutosize>
+                      ></TextareaAutosize>
                     </div>
                   </Col>
                 </Row>
               </Container>
             )}
-            <label className="control-label">Signature</label>{" "}
-            <div className="sigSection">
+
+            <div className="sigSection"
+              style={{ display: this.state.status === 'IN PROGRESS' ? 'none' : 'block' }}
+            >
+              <label className="control-label">Signature</label>{" "}
               <div
                 style={{
                   width: "100%",
                   display: "flex",
                   maxHeight: "170",
-                  justifyContent: "center",
+                  paddingBottom: "20px",
                 }}
               >
                 <SignatureCanvas
@@ -903,28 +905,34 @@ class IllnessInjury extends Component {
             {!this.props.formData.approved && (
               <>
                 <FormError errorId={this.props.id + "-error"} />
-                <div
-                  className="form-group logInInputField"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <button
-                    className="lightBtn hide-on-print"
-                    onClick={() => {
-                      this.validateForm(true);
-                    }}
-                  >
-                    Save
-                  </button>
+                <Row style={{ display: "flex", justifyContent: "space-between", paddingRight: "0px", marginLeft: "1px", marginRight: "1px" }}>
+                    <div style={{ display: "flex", width: "46%" }}>
+                    <button
+                      className="lightBtn hide hide-on-print save-submit-btn"
+                      style={{ 
+                        width: "100%",
+                        display: this.state.status === 'COMPLETED' ? "none" : "block"
+                      }}
+                      onClick={() => {
+                        this.validateForm(true);
+                      }}
+                    >
+                      Finish Later
+                    </button>
+                  </div>
 
-                  {/* <button
-                    className="darkBtn"
+                <div style={{ display: "flex", width: "46%" }}>
+                  <button
+                    className="darkBtn hide hide-on-print save-submit-btn"
+                    style={{ width: "100%" }}
                     onClick={() => {
                       this.validateForm(false);
                     }}
                   >
                     Submit
-                  </button> */}
+                  </button>
                 </div>
+              </Row>
               </>
             )}
           </div>

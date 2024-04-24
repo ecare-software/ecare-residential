@@ -301,7 +301,7 @@ class RestraintReport extends Component {
   createDateTimeStamp = () =>
     new Date(new Date(this.state.createDate).getTime()).toLocaleString(
       "en-us",
-      { timeZone: "UTC" }
+      { timeZone: "CST" }
     );
 
   setSignature = (userObj) => {
@@ -1208,7 +1208,6 @@ class RestraintReport extends Component {
           )}
           <div className="formTitleDivReport">
             <h2 className="formTitle">Restraint Report</h2>
-            <p>{this.createDateTimeStamp()}</p>
           </div>
 
           <>
@@ -1499,7 +1498,7 @@ class RestraintReport extends Component {
                           value={this.state.risk_explaination}
                           id="risk_explaination"
                           className="form-control"
-                          ></TextareaAutosize>
+                        ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.risk_explaination}
@@ -1519,7 +1518,7 @@ class RestraintReport extends Component {
                           value={this.state.risk_alternative_strategies}
                           id="risk_alternative_strategies"
                           className="form-control"
-                          ></TextareaAutosize>
+                        ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.risk_alternative_strategies}
@@ -1536,7 +1535,7 @@ class RestraintReport extends Component {
                           value={this.state.type_of_restraint}
                           id="type_of_restraint"
                           className="form-control"
-                          ></TextareaAutosize>
+                        ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.type_of_restraint}
@@ -1555,7 +1554,7 @@ class RestraintReport extends Component {
                           value={this.state.risk_stategies_used}
                           id="risk_stategies_used"
                           className="form-control"
-                          ></TextareaAutosize>
+                        ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.risk_stategies_used}
@@ -1577,7 +1576,7 @@ class RestraintReport extends Component {
                           value={this.state.result_of_incident}
                           id="result_of_incident"
                           className="form-control"
-                          ></TextareaAutosize>
+                        ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.result_of_incident}
@@ -1597,7 +1596,7 @@ class RestraintReport extends Component {
                           value={this.state.injuries}
                           id="injuries"
                           className="form-control"
-                          ></TextareaAutosize>
+                        ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.action_taken}
@@ -1615,7 +1614,7 @@ class RestraintReport extends Component {
                           value={this.state.action_taken}
                           id="action_taken"
                           className="form-control"
-                          ></TextareaAutosize>
+                        ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.action_taken}
@@ -1633,7 +1632,7 @@ class RestraintReport extends Component {
                           value={this.state.able_to_prevent}
                           id="able_to_prevent"
                           className="form-control"
-                          ></TextareaAutosize>
+                        ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.able_to_prevent}
@@ -1731,7 +1730,7 @@ class RestraintReport extends Component {
                           value={this.state.client_behavior}
                           id="client_behavior"
                           className="form-control"
-                          ></TextareaAutosize>
+                        ></TextareaAutosize>
                       </div>{" "}
                       <p className="hide-on-non-print">
                         {this.state.client_behavior}
@@ -1749,7 +1748,7 @@ class RestraintReport extends Component {
                           value={this.state.client_restraint_description}
                           id="client_restraint_description"
                           className="form-control"
-                          ></TextareaAutosize>
+                        ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.client_restraint_description}
@@ -1766,7 +1765,7 @@ class RestraintReport extends Component {
                           value={this.state.client_responce}
                           id="client_responce"
                           className="form-control"
-                          ></TextareaAutosize>
+                        ></TextareaAutosize>
                       </div>{" "}
                       <p className="hide-on-non-print">
                         {this.state.client_responce}
@@ -1825,7 +1824,7 @@ class RestraintReport extends Component {
                           value={this.state.procedural_comments}
                           id="procedural_comments"
                           className="form-control"
-                          ></TextareaAutosize>
+                        ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.procedural_comments}
@@ -1835,14 +1834,17 @@ class RestraintReport extends Component {
                 </Row>
               </Container>
             )}
-            <label className="control-label">Signature</label>{" "}
-            <div className="sigSection">
+
+            <div className="sigSection"
+              style={{ display: this.state.status === 'IN PROGRESS' ? 'none' : 'block' }}
+            >
+              <label className="control-label">Signature</label>{" "}
               <div
                 style={{
                   width: "100%",
                   display: "flex",
                   maxHeight: "170",
-                  justifyContent: "center",
+                  paddingBottom: "20px",
                 }}
               >
                 <SignatureCanvas
@@ -1864,28 +1866,34 @@ class RestraintReport extends Component {
             {!this.props.formData.approved && (
               <>
                 <FormError errorId={this.props.id + "-error"} />
-                <div
-                  className="form-group logInInputField"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <button
-                    className="lightBtn hide-on-print"
-                    onClick={() => {
-                      this.validateForm(true);
-                    }}
-                  >
-                    Save
-                  </button>
+                <Row style={{ display: "flex", justifyContent: "space-between", paddingRight: "0px", marginLeft: "1px", marginRight: "1px" }}>
+                    <div style={{ display: "flex", width: "46%" }}>
+                      <button
+                        className="lightBtn hide hide-on-print save-submit-btn"
+                        style={{ 
+                          width: "100%",
+                          display: this.state.status === 'COMPLETED' ? "none" : "block"
+                        }}
+                        onClick={() => {
+                          this.validateForm(true);
+                        }}
+                      >
+                        Finish Later
+                      </button>
+                    </div>
 
-                  {/* <button
-                    className='darkBtn'
-                    onClick={() => {
-                      this.validateForm(false);
-                    }}
-                  >
-                    Submit
-                  </button> */}
-                </div>
+                  <div style={{ display: "flex", width: "46%" }}>
+                    <button
+                      className="darkBtn hide hide-on-print save-submit-btn"
+                      style={{ width: "100%" }}
+                      onClick={() => {
+                        this.validateForm(false);
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </Row>
               </>
             )}
           </>

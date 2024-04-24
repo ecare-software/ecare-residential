@@ -378,7 +378,7 @@ class DailyProgressAndActivity extends Component {
   createDateTimeStamp = () =>
     new Date(new Date(this.state.createDate).getTime()).toLocaleString(
       "en-us",
-      { timeZone: "UTC" }
+      { timeZone: "CST" }
     );
 
   render() {
@@ -989,7 +989,7 @@ class DailyProgressAndActivity extends Component {
           )}
           <div className="formTitleDivReport">
             <h2 className="formTitle">Daily Progress and Activity</h2>
-            <p>{this.createDateTimeStamp()}</p>
+            {/* <p>{this.createDateTimeStamp()}</p> */}
           </div>
 
           <div className="formFieldsMobileReport">
@@ -1497,14 +1497,17 @@ class DailyProgressAndActivity extends Component {
                 </Row>
               </Container>
             )}
-            <label className="control-label">Signature</label>{" "}
-            <div className="sigSection">
+            
+            <div className="sigSection"
+              style= {{ display: this.state.status === 'IN PROGRESS' ? 'none' : 'block' }}
+            >
+              <label className="control-label">Signature</label>{" "}
               <div
                 style={{
                   width: "100%",
                   display: "flex",
                   maxHeight: "170",
-                  justifyContent: "center",
+                  paddingBottom: "20px",
                 }}
               >
                 <SignatureCanvas
@@ -1526,28 +1529,34 @@ class DailyProgressAndActivity extends Component {
             {!this.props.formData.approved && (
               <>
                 <FormError errorId={this.props.id + "-error"} />
-                <div
-                  className="form-group logInInputField"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
+                <Row style={{ display: "flex", justifyContent: "space-between", paddingRight: "0px", marginLeft: "1px", marginRight: "1px" }}>
+                    <div style={{ display: "flex", width: "46%" }}>
+                    <button
+                      className="lightBtn hide hide-on-print save-submit-btn"
+                      style={{ 
+                        width: "100%",
+                        display: this.state.status === 'COMPLETED' ? "none" : "block",
+                      }}
+                      onClick={() => {
+                        this.validateForm(true);
+                      }}
+                    >
+                      Finish Later
+                    </button>
+                  </div>
+
+                <div style={{ display: "flex", width: "46%" }}>
                   <button
-                    className="lightBtn hide-on-print"
+                    className="darkBtn hide hide-on-print save-submit-btn"
+                    style={{ width: "100%" }}
                     onClick={() => {
-                      this.validateForm(true);
+                      this.validateForm(false);
                     }}
                   >
-                    Save
+                    Submit
                   </button>
-
-                  {/* <button
-                        className="darkBtn"
-                        onClick={() => {
-                          this.validateForm(false);
-                        }}
-                      >
-                        Submit
-                      </button> */}
                 </div>
+              </Row>
               </>
             )}
           </div>
