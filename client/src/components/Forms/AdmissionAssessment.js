@@ -2336,7 +2336,7 @@ class AdmissionAssessment extends Component {
           )}
           <div className="formTitleDivReport">
             <h2 className="formTitle"> Admission Assessment</h2>
-            <p>{this.createDateTimeStamp()}</p>
+            {/* <p>{this.createDateTimeStamp()}</p> */}
           </div>
 
           <div className="formFieldsMobileReport">

@@ -229,7 +229,7 @@ class NightMonitoring extends Component {
   createDateTimeStamp = () =>
     new Date(new Date(this.state.createDate).getTime()).toLocaleString(
       "en-us",
-      { timeZone: "UTC" }
+      { timeZone: "CST" }
     );
 
   setValues = async () => {
@@ -338,8 +338,8 @@ class NightMonitoring extends Component {
                   {`${new Date(this.state.lastEditDate)
                     .toTimeString()
                     .replace(/\s.*/, "")} - ${new Date(
-                    this.state.lastEditDate
-                  ).toDateString()}`}
+                      this.state.lastEditDate
+                    ).toDateString()}`}
                 </i>
               ) : (
                 "-"
@@ -379,30 +379,30 @@ class NightMonitoring extends Component {
                 signature={this.props.userObj.signature}
               />
               <FormError errorId={this.props.id + "-error"} />
-              
+
               <Row className="save-submit-row">
-                <div style={{display:"flex", width:"46%"}}>
+                <div style={{ display: "flex", width: "46%" }}>
                   <button
-                      className="lightBtn hide hide-on-print save-submit-btn"
-                      style={{width:"100%"}}
-                      disabled={this.state.childSelected ? false : true}
-                      onClick={() => {
-                        this.validateForm(true);
-                      }}
-                    >
-                      Finish Later
-                    </button>
+                    className="lightBtn hide hide-on-print save-submit-btn"
+                    style={{ width: "100%" }}
+                    disabled={this.state.childSelected ? false : true}
+                    onClick={() => {
+                      this.validateForm(true);
+                    }}
+                  >
+                    Finish Later
+                  </button>
                 </div>
-                <div style={{display:"flex", width:"46%"}}>
+                <div style={{ display: "flex", width: "46%" }}>
                   <button
-                      className="darkBtn hide hide-on-print save-submit-btn"
-                      style={{width:"100%"}}
-                      disabled={this.state.childSelected ? false : true}
-                      onClick={() => {
-                        this.validateForm(false);
-                      }}
-                    >
-                      Submit
+                    className="darkBtn hide hide-on-print save-submit-btn"
+                    style={{ width: "100%" }}
+                    disabled={this.state.childSelected ? false : true}
+                    onClick={() => {
+                      this.validateForm(false);
+                    }}
+                  >
+                    Submit
                   </button>
                 </div>
               </Row>
@@ -430,7 +430,6 @@ class NightMonitoring extends Component {
           )}
           <div className="formTitleDivReport">
             <h2 className="formTitle">Awake Night Monitoring</h2>
-            <p>{this.createDateTimeStamp()}</p>
           </div>
 
           <div className="formFieldsMobileReport">
@@ -498,28 +497,33 @@ maxHeight:"170",
             {!this.props.formData.approved && (
               <>
                 <FormError errorId={this.props.id + "-error"} />
-                <div
-                  className="form-group logInInputField"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <button
-                    className="lightBtn hide-on-print"
-                    onClick={() => {
-                      this.validateForm(true);
-                    }}
-                  >
-                    Save
-                  </button>
+                <Row style={{ display: "flex", justifyContent: "space-between", paddingRight: "0px", marginLeft: "1px", marginRight: "1px" }}>
+                  {(this.state.status !== 'COMPLETED') &&
+                    <div style={{ display: "flex", width: "46%" }}>
+                      <button
+                        className="lightBtn hide hide-on-print save-submit-btn"
+                        style={{ width: "100%" }}
+                        onClick={() => {
+                          this.validateForm(true);
+                        }}
+                      >
+                        Finish Later
+                      </button>
+                    </div>
+                  }
 
-                  {/* <button
-                    className="darkBtn"
-                    onClick={() => {
-                      this.validateForm(false);
-                    }}
-                  >
-                    Submit
-                  </button> */}
-                </div>
+                  <div style={{ display: "flex", width: "46%" }}>
+                    <button
+                      className="darkBtn hide hide-on-print save-submit-btn"
+                      style={{ width: "100%" }}
+                      onClick={() => {
+                        this.validateForm(false);
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </Row>
               </>
             )}
           </div>
