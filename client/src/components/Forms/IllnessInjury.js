@@ -882,7 +882,6 @@ class IllnessInjury extends Component {
                   width: "100%",
                   display: "flex",
                   maxHeight: "170",
-                  justifyContent: "center",
                   paddingBottom: "20px",
                 }}
               >
@@ -906,11 +905,13 @@ class IllnessInjury extends Component {
               <>
                 <FormError errorId={this.props.id + "-error"} />
                 <Row style={{ display: "flex", justifyContent: "space-between", paddingRight: "0px", marginLeft: "1px", marginRight: "1px" }}>
-                  {(this.state.status !== 'COMPLETED') && 
                     <div style={{ display: "flex", width: "46%" }}>
                     <button
                       className="lightBtn hide hide-on-print save-submit-btn"
-                      style={{ width: "100%" }}
+                      style={{ 
+                        width: "100%",
+                        display: this.state.status === 'COMPLETED' ? "none" : "block"
+                      }}
                       onClick={() => {
                         this.validateForm(true);
                       }}
@@ -918,7 +919,6 @@ class IllnessInjury extends Component {
                       Finish Later
                     </button>
                   </div>
-                  }
 
                 <div style={{ display: "flex", width: "46%" }}>
                   <button
