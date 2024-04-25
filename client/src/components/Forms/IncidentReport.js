@@ -62,11 +62,13 @@ class IncidentReport extends Component {
       clients: [],
       staff: [],
       clientId: "",
-      createDate: new Date().toISOString(),
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
       status: "IN PROGRESS",
       childSelected: false,
     };
   }
+
+
 
   toggleSuccessAlert = () => {
     this.setState({
@@ -124,7 +126,7 @@ class IncidentReport extends Component {
       notification_made_by: "",
       follow_up_results: "",
       clientId: "",
-      createDate: new Date().toISOString(),
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
       status: "IN PROGRESS",
       childSelected: false,
     });
@@ -133,7 +135,6 @@ class IncidentReport extends Component {
   // auto save
   autoSave = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-    // this.state.status = "IN PROGRESS"
     delete currentState.clients;
     delete currentState.staff;
     console.log("auto saving");
@@ -244,17 +245,6 @@ class IncidentReport extends Component {
     });
 
 
-    if (!this.state.createDate) {
-      this.setState({
-        formHasError: true, formErrorMessage: `Please complete the following field(s): Create Date`,
-      });
-      return;
-    } else {
-      this.setState({
-        ...this.state, createDate: new Date(this.state.createDate),
-      });
-    }
-
     this.submit(save);
   };
 
@@ -264,15 +254,7 @@ class IncidentReport extends Component {
     clearInterval(interval);
   }
 
-  dateForDateTimeInputValue = () =>
-    new Date(new Date(this.state.createDate).getTime())
-      .toISOString()
-      .slice(0, 19);
 
-  createDateTimeStamp = () =>
-    new Date(new Date(this.state.createDate).getTime()).toLocaleString(
-      "en-us", { timeZone: "CST" }
-    );
 
   setSignature = (userObj) => {
     if (userObj.signature && userObj.signature.length) {
@@ -425,7 +407,6 @@ class IncidentReport extends Component {
           )}
           <div className="formTitleDiv">
             <h4 className="formTitle">Incident Report</h4>
-            <p>{this.createDateTimeStamp()}</p>
             <h5
               className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}
@@ -468,7 +449,7 @@ class IncidentReport extends Component {
                     <input
                       onChange={this.handleFieldInput}
                       id="createDate"
-                      value={this.state.createDate}
+                      value={this.state.createDate.slice(0, -8)}
                       className="form-control hide-on-print"
                       type="datetime-local"
                     />{" "}
@@ -1011,7 +992,6 @@ class IncidentReport extends Component {
           )}
           <div className="formTitleDivReport">
             <h4 className="formTitle">Incident Report</h4>
-            {/* <p>{this.createDateTimeStamp()}</p> */}
           </div>
 
           <div className="formFieldsMobileReport">
@@ -1036,11 +1016,11 @@ class IncidentReport extends Component {
                         Create Date
                       </label>{" "}
                       <input
-                        onChange={this.handleFieldInput}
                         id="createDate"
-                        value={this.dateForDateTimeInputValue()}
+                        value={this.state.createDate.slice(0, -8)}
                         className="form-control hide-on-print"
                         type="datetime-local"
+                        disabled
                       />{" "}
                     </div>
                   </Col>
@@ -1484,38 +1464,38 @@ class IncidentReport extends Component {
               </Container>
             )}
 
-                  <div className="sigSection"
-                    style={{ display: this.state.status === 'IN PROGRESS' ? 'none' : 'block' }}
-                  >
-                    <label className="control-label">Signature</label>{" "}
-                    <div
-                      style={{
-                        width: "100%", display: "flex", maxHeight: "170", paddingBottom: "20px",
-                      }}
-                    >
-                      <SignatureCanvas
-                        ref={(ref) => {
-                          this.sigCanvas = ref;
-                        }}
-                        style={{ border: "solid" }}
-                        penColor="black"
-                        clearOnResize={false}
-                        canvasProps={{
-                          width: 600, height: 100, className: "sigCanvas",
-                        }}
-                        backgroundColor="#eeee"
-                      />
-                    </div>
-                  </div>
+            <div className="sigSection"
+              style={{ display: this.state.status === 'IN PROGRESS' ? 'none' : 'block' }}
+            >
+              <label className="control-label">Signature</label>{" "}
+              <div
+                style={{
+                  width: "100%", display: "flex", maxHeight: "170", paddingBottom: "20px",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600, height: 100, className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
+            </div>
 
             {!this.props.formData.approved && (
               <>
                 <FormError errorId={this.props.id + "-error"} />
                 <Row style={{ display: "flex", justifyContent: "space-between", paddingRight: "0px", marginLeft: "1px", marginRight: "1px" }}>
-                    <div style={{ display: "flex", width: "46%" }}>
+                  <div style={{ display: "flex", width: "46%" }}>
                     <button
                       className="lightBtn hide hide-on-print save-submit-btn"
-                      style={{ 
+                      style={{
                         width: "100%",
                         display: this.state.status === 'COMPLETED' ? "none" : "block"
                       }}
@@ -1527,18 +1507,18 @@ class IncidentReport extends Component {
                     </button>
                   </div>
 
-                <div style={{ display: "flex", width: "46%" }}>
-                  <button
-                    className="darkBtn hide hide-on-print save-submit-btn"
-                    style={{ width: "100%" }}
-                    onClick={() => {
-                      this.validateForm(false);
-                    }}
-                  >
-                    Submit
-                  </button>
-                </div>
-              </Row>
+                  <div style={{ display: "flex", width: "46%" }}>
+                    <button
+                      className="darkBtn hide hide-on-print save-submit-btn"
+                      style={{ width: "100%" }}
+                      onClick={() => {
+                        this.validateForm(false);
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </Row>
               </>
             )}
           </div>

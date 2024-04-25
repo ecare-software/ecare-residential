@@ -63,9 +63,9 @@ router.post("/", (req, res) => {
 
     lastEditDate: new Date().toISOString(),
 
-    createDate: req.body.createDate
-      ? req.body.createDate
-      : new Date().toISOString(),
+    createDate: req.body.createDate,
+      // ? req.body.createDate
+      // : new Date(new Date().getTime() - new Date().getTimezoneOffset()*60000).toISOString(),
 
     homeId: req.body.homeId,
 
