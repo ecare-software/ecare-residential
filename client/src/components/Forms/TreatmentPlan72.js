@@ -177,6 +177,7 @@ class TreatmentPlan72 extends Component {
       clientId: "",
       status: "IN PROGRESS",
       childSelected: false,
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
     };
   }
 
@@ -487,6 +488,7 @@ class TreatmentPlan72 extends Component {
       clientId: "",
       status: "IN PROGRESS",
       childSelected: false,
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
     });
   };
 
@@ -609,35 +611,12 @@ class TreatmentPlan72 extends Component {
     }
   };
 
-  dateForDateTimeInputValue = () =>
-    new Date(new Date(this.state.createDate).getTime())
-      .toISOString()
-      .slice(0, 19);
-
-  createDateTimeStamp = () =>
-    new Date(new Date(this.state.createDate).getTime()).toLocaleString(
-      "en-us",
-      { timeZone: "CST" }
-    );
 
   validateForm = async (save) => {
     this.setState({
       ...this.state,
       loadingClients: true,
     });
-
-    if (!this.state.createDate) {
-      this.setState({
-        formHasError: true,
-        formErrorMessage: `Please complete the following field(s): Create Date`,
-      });
-      return;
-    } else {
-      this.setState({
-        ...this.state,
-        createDate: new Date(this.state.createDate),
-      });
-    }
 
     this.submit(save);
   };
@@ -739,7 +718,6 @@ class TreatmentPlan72 extends Component {
           )}
           <div className="formTitleDiv">
             <h2 className="formTitle">72 Hour Treatment Plan</h2>
-            <p>{this.createDateTimeStamp()}</p>
             <h5
               className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}
@@ -780,7 +758,7 @@ class TreatmentPlan72 extends Component {
                   <input
                     onChange={this.handleFieldInput}
                     id="createDate"
-                    value={this.state.createDate}
+                    value={this.state.createDate.slice(0, -8)}
                     className="form-control"
                     type="datetime-local"
                   />{" "}
@@ -2715,7 +2693,8 @@ class TreatmentPlan72 extends Component {
                   ></TextareaAutosize>
                 </div>
                 <FormError errorId={this.props.id + "-error"} />
-                <Row style={{ display: "flex", justifyContent: "space-between", paddingRight: "0px", marginLeft: "1px", marginRight: "1px" }}>
+
+                <Row className="save-submit-row">
                   <div style={{ display: "flex", width: "46%" }}>
                     <button
                       className="lightBtn hide hide-on-print save-submit-btn"
@@ -2788,7 +2767,7 @@ class TreatmentPlan72 extends Component {
                 <input
                   onChange={this.handleFieldInput}
                   id="createDate"
-                  value={this.dateForDateTimeInputValue()}
+                  value={this.state.createDate.slice(0, -8)}
                   className="form-control"
                   type="datetime-local"
                 />{" "}
@@ -4573,20 +4552,20 @@ class TreatmentPlan72 extends Component {
             <>
               <FormError errorId={this.props.id + "-error"} />
               <Row style={{ display: "flex", justifyContent: "space-between", paddingRight: "0px", marginLeft: "1px", marginRight: "1px" }}>
-                  <div style={{ display: "flex", width: "46%" }}>
-                    <button
-                      className="lightBtn hide hide-on-print save-submit-btn"
-                      style={{ 
-                        width: "100%",
-                        display: this.state.status === 'COMPLETED' ? "none" : "block" 
-                      }}
-                      onClick={() => {
-                        this.validateForm(true);
-                      }}
-                    >
-                      Finish Later
-                    </button>
-                  </div>
+                <div style={{ display: "flex", width: "46%" }}>
+                  <button
+                    className="lightBtn hide hide-on-print save-submit-btn"
+                    style={{
+                      width: "100%",
+                      display: this.state.status === 'COMPLETED' ? "none" : "block"
+                    }}
+                    onClick={() => {
+                      this.validateForm(true);
+                    }}
+                  >
+                    Finish Later
+                  </button>
+                </div>
 
                 <div style={{ display: "flex", width: "46%" }}>
                   <button

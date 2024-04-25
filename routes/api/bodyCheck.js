@@ -48,9 +48,7 @@ router.post("/", (req, res) => {
     createdByName: req.body.createdByName,
     details: req.body.details,
     lastEditDate: new Date().toISOString(),
-    createDate: req.body.createDate
-      ? req.body.createDate
-      : new Date().toISOString(),
+    createDate: req.body.createDate,
     homeId: req.body.homeId,
     formType: "Health Body Check",
     status: req.body.status,

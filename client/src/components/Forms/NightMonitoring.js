@@ -38,7 +38,7 @@ class NightMonitoring extends Component {
       clients: [],
       clientId: "",
       signature: [],
-      createDate: new Date().toISOString(),
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
       status: "IN PROGRESS",
       childSelected: false,
     };
@@ -82,7 +82,7 @@ class NightMonitoring extends Component {
       timeChildReturnBed: "",
       reason: "",
       signed: false,
-      createDate: new Date(),
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
       status: "IN PROGRESS",
       childSelected: false,
     });
@@ -205,32 +205,10 @@ class NightMonitoring extends Component {
       loadingClients: true,
     });
 
-    if (!this.state.createDate) {
-      this.setState({
-        formHasError: true,
-        formErrorMessage: `Please complete the following field(s): Create Date`,
-      });
-      return;
-    } else {
-      this.setState({
-        ...this.state,
-        createDate: new Date(this.state.createDate),
-      });
-    }
 
     this.submit(save);
   };
 
-  dateForDateTimeInputValue = () =>
-    new Date(new Date(this.state.createDate).getTime())
-      .toISOString()
-      .slice(0, 19);
-
-  createDateTimeStamp = () =>
-    new Date(new Date(this.state.createDate).getTime()).toLocaleString(
-      "en-us",
-      { timeZone: "CST" }
-    );
 
   setValues = async () => {
     const { data: createdUserData } = await GetUserSig(
@@ -326,7 +304,6 @@ class NightMonitoring extends Component {
           )}
           <div className="formTitleDiv">
             <h2 className="formTitle">Awake Night Monitoring</h2>
-            <p>{this.createDateTimeStamp()}</p>
             <h5
               className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}
@@ -367,7 +344,7 @@ class NightMonitoring extends Component {
                 <input
                   onChange={this.handleFieldInput}
                   id="createDate"
-                  value={this.state.createDate}
+                  value={this.state.createDate.slice(0, -8)}
                   className="form-control hide-on-print"
                   type="datetime-local"
                 />{" "}
@@ -452,11 +429,11 @@ class NightMonitoring extends Component {
                     Create Date
                   </label>{" "}
                   <input
-                    onChange={this.handleFieldInput}
                     id="createDate"
-                    value={this.dateForDateTimeInputValue()}
+                    value={this.state.createDate.slice(0, -8)}
                     className="form-control hide-on-print"
                     type="datetime-local"
+                    disabled
                   />{" "}
                 </div>
                 <NightMonitoringChildRow

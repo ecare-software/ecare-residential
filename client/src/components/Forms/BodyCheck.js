@@ -90,7 +90,7 @@ class BodyCheck extends Component {
       loadingClients: true,
       loadingSig: true,
       clients: [],
-      createDate: new Date().toISOString(),
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
       status: "IN PROGRESS",
       childSelected: false,
     };
@@ -185,7 +185,7 @@ class BodyCheck extends Component {
 
       details: "",
       clientId: "",
-      createDate: new Date().toISOString(),
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
       status: "IN PROGRESS",
       childSelected: false,
     });
@@ -310,19 +310,6 @@ class BodyCheck extends Component {
       loadingClients: true,
     });
 
-    if (!this.state.createDate) {
-      this.setState({
-        formHasError: true,
-        formErrorMessage: `Please complete the following field(s): Create Date`,
-      });
-      return;
-    } else {
-      this.setState({
-        ...this.state,
-        createDate: new Date(this.state.createDate),
-      });
-    }
-
     this.submit(save);
   };
 
@@ -407,17 +394,6 @@ class BodyCheck extends Component {
     }
   };
 
-  dateForDateTimeInputValue = () =>
-    new Date(new Date(this.state.createDate).getTime())
-      .toISOString()
-      .slice(0, 19);
-
-  createDateTimeStamp = () =>
-    new Date(new Date(this.state.createDate).getTime()).toLocaleString(
-      "en-us",
-      { timeZone: "CST" }
-    );
-
   render() {
     if (!this.props.valuesSet) {
       return (
@@ -439,7 +415,6 @@ class BodyCheck extends Component {
           )}
           <div className="formTitleDiv">
             <h2 className="formTitle">Health Body Check</h2>
-            <p>{this.createDateTimeStamp()}</p>
             <h5
               className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}
@@ -479,7 +454,7 @@ class BodyCheck extends Component {
                 <input
                   onChange={this.handleFieldInput}
                   id="createDate"
-                  value={this.state.createDate}
+                  value={this.state.createDate.slice(0, -8)}
                   className="form-control hide-on-print"
                   type="datetime-local"
                 />{" "}
@@ -1478,7 +1453,6 @@ class BodyCheck extends Component {
           )}
           <div className="formTitleDivReport">
             <h2 className="formTitle">Health Body Check</h2>
-            {/* <p>{this.createDateTimeStamp()}</p> */}
           </div>
           <div className="formFieldsMobileReport">
             {this.state.loadingClients ? (
@@ -1499,11 +1473,11 @@ class BodyCheck extends Component {
                     Create Date
                   </label>{" "}
                   <input
-                    onChange={this.handleFieldInput}
                     id="createDate"
-                    value={this.dateForDateTimeInputValue()}
+                    value={this.state.createDate.slice(0, -8)}
                     className="form-control hide-on-print"
                     type="datetime-local"
+                    disabled
                   />{" "}
                 </div>
                 <Row>
@@ -2441,7 +2415,7 @@ class BodyCheck extends Component {
             {!this.props.formData.approved && (
               <>
                 <FormError errorId={this.props.id + "-error"} />
-                <Row style={{ display: "flex", justifyContent: "space-between", paddingRight: "0px", marginLeft: "1px", marginRight: "1px" }}>
+                <Row className="save-submit-row">
                     <div style={{ display: "flex", width: "46%" }}>
                       <button
                         className="lightBtn hide hide-on-print save-submit-btn"

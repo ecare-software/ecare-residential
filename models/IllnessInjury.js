@@ -139,7 +139,6 @@ const IllnessInjurySchema = new Schema({
 
   createDate: {
     type: Date,
-    default: new Date(),
   },
   clientId: {
     type: String,

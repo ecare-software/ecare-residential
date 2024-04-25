@@ -91,6 +91,7 @@ export const NightMonitoringChildRow = ({
                   defaultValue={childMeta_name}
                   className="form-control"
                   type="text"
+                  disabled = {childSelected ? true : false}
                 />
               ) : (
                 <Form.Control

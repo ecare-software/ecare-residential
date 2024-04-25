@@ -147,7 +147,7 @@ class AdmissionAssessment extends Component {
       loadingSig: true,
       clients: [],
       clientId: "",
-      createDate: new Date().toISOString(),
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
       status: "IN PROGRESS",
       childSelected: false,
     };
@@ -299,7 +299,7 @@ class AdmissionAssessment extends Component {
       shortTermGoals: "",
       longTermGoals: "",
       clientId: "",
-      createDate: new Date().toISOString(),
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
       status: "IN PROGRESS",
       childSelected: false,
     });
@@ -421,20 +421,7 @@ class AdmissionAssessment extends Component {
       ...this.state,
       loadingClients: true,
     });
-
-    if (!this.state.createDate) {
-      this.setState({
-        formHasError: true,
-        formErrorMessage: `Please complete the following field(s): Create Date`,
-      });
-      return;
-    } else {
-      this.setState({
-        ...this.state,
-        createDate: new Date(this.state.createDate),
-      });
-    }
-
+   
     this.submit(save);
   };
 
@@ -500,17 +487,6 @@ class AdmissionAssessment extends Component {
     }
   }
 
-  dateForDateTimeInputValue = () =>
-    new Date(new Date(this.state.createDate).getTime())
-      .toISOString()
-      .slice(0, 19);
-
-  createDateTimeStamp = () =>
-    new Date(new Date(this.state.createDate).getTime()).toLocaleString(
-      "en-us",
-      { timeZone: "CST" }
-    );
-
   handleClientSelect = async (event) => {
     this.state.childSelected = true;
     document.querySelector(".save-submit-btn").setAttribute('disabled', true);
@@ -554,7 +530,6 @@ class AdmissionAssessment extends Component {
           )}
           <div className="formTitleDiv">
             <h2 className="formTitle">Admission Assessment</h2>
-            <p>{this.createDateTimeStamp()}</p>
             <h5
               className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}
@@ -595,7 +570,7 @@ class AdmissionAssessment extends Component {
                 <input
                   onChange={this.handleFieldInput}
                   id="createDate"
-                  value={this.state.createDate}
+                  value={this.state.createDate.slice(0, -8)}
                   className="form-control hide-on-print"
                   type="datetime-local"
                 />{" "}
@@ -2336,7 +2311,6 @@ class AdmissionAssessment extends Component {
           )}
           <div className="formTitleDivReport">
             <h2 className="formTitle"> Admission Assessment</h2>
-            {/* <p>{this.createDateTimeStamp()}</p> */}
           </div>
 
           <div className="formFieldsMobileReport">
@@ -2359,11 +2333,11 @@ class AdmissionAssessment extends Component {
                     Create Date
                   </label>{" "}
                   <input
-                    onChange={this.handleFieldInput}
                     id="createDate"
-                    value={this.dateForDateTimeInputValue()}
+                    value={this.state.createDate.slice(0, -8)}
                     className="form-control hide-on-print"
                     type="datetime-local"
+                    disabled
                   />{" "}
                 </div>
                 <div className="form-group logInInputField">
@@ -3959,11 +3933,11 @@ class AdmissionAssessment extends Component {
                 </Row>
               </Container>
             )}
-            
+
             <div className="sigSection"
-              style= {{ display: this.state.status === 'IN PROGRESS' ? 'none' : 'block' }}
+              style={{ display: this.state.status === 'IN PROGRESS' ? 'none' : 'block' }}
             >
-            <label className="control-label">Signature</label>
+              <label className="control-label">Signature</label>
               <div
                 style={{
                   width: "100%",
@@ -3992,11 +3966,11 @@ class AdmissionAssessment extends Component {
               <>
                 <FormError errorId={this.props.id + "-error"} />
 
-                <Row style={{ display: "flex", justifyContent: "space-between", paddingRight: "0px", marginLeft: "1px", marginRight: "1px" }}>
-                    <div style={{ display: "flex", width: "46%" }}>
+                <Row className="save-submit-row">
+                  <div style={{ display: "flex", width: "46%" }}>
                     <button
                       className="lightBtn hide hide-on-print save-submit-btn"
-                      style={{ 
+                      style={{
                         width: "100%",
                         display: this.state.status === 'COMPLETED' ? "none" : "block"
                       }}
@@ -4007,19 +3981,19 @@ class AdmissionAssessment extends Component {
                       Finish Later
                     </button>
                   </div>
-                
-                <div style={{ display: "flex", width: "46%" }}>
-                  <button
-                    className="darkBtn hide hide-on-print save-submit-btn"
-                    style={{ width: "100%" }}
-                    onClick={() => {
-                      this.validateForm(false);
-                    }}
-                  >
-                    Submit
-                  </button>
-                </div>
-              </Row>
+
+                  <div style={{ display: "flex", width: "46%" }}>
+                    <button
+                      className="darkBtn hide hide-on-print save-submit-btn"
+                      style={{ width: "100%" }}
+                      onClick={() => {
+                        this.validateForm(false);
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </Row>
               </>
             )}
           </div>

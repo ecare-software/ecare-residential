@@ -75,7 +75,7 @@ class RestraintReport extends Component {
       clients: [],
       staff: [],
       clientId: "",
-      createDate: new Date().toISOString(),
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
       status: "IN PROGRESS",
       childSelected: false,
     };
@@ -152,7 +152,7 @@ class RestraintReport extends Component {
       procedural_any_injuries: "",
       procedural_comments: "",
       clientId: "",
-      createDate: new Date().toISOString(),
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
       status: "IN PROGRESS",
       childSelected: false,
     });
@@ -277,32 +277,8 @@ class RestraintReport extends Component {
       loadingClients: true,
     });
 
-    if (!this.state.createDate) {
-      this.setState({
-        formHasError: true,
-        formErrorMessage: `Please complete the following field(s): Create Date`,
-      });
-      return;
-    } else {
-      this.setState({
-        ...this.state,
-        createDate: new Date(this.state.createDate),
-      });
-    }
-
     this.submit(save);
   };
-
-  dateForDateTimeInputValue = () =>
-    new Date(new Date(this.state.createDate).getTime())
-      .toISOString()
-      .slice(0, 19);
-
-  createDateTimeStamp = () =>
-    new Date(new Date(this.state.createDate).getTime()).toLocaleString(
-      "en-us",
-      { timeZone: "CST" }
-    );
 
   setSignature = (userObj) => {
     if (userObj.signature && userObj.signature.length) {
@@ -479,7 +455,6 @@ class RestraintReport extends Component {
           )}
           <div className="formTitleDiv">
             <h2 className="formTitle">Restraint Report</h2>
-            <p>{this.createDateTimeStamp()}</p>
             <h5
               className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}
@@ -520,7 +495,7 @@ class RestraintReport extends Component {
                 <input
                   onChange={this.handleFieldInput}
                   id="createDate"
-                  value={this.state.createDate}
+                  value={this.state.createDate.slice(0, -8)}
                   className="form-control hide-on-print"
                   type="datetime-local"
                 />{" "}
@@ -1230,11 +1205,11 @@ class RestraintReport extends Component {
                     Create Date
                   </label>{" "}
                   <input
-                    onChange={this.handleFieldInput}
                     id="createDate"
-                    value={this.dateForDateTimeInputValue()}
+                    value={this.state.createDate.slice(0, -8)}
                     className="form-control hide-on-print"
                     type="datetime-local"
+                    disabled
                   />{" "}
                 </div>
                 <div className="form-group logInInputField">
@@ -1866,21 +1841,21 @@ class RestraintReport extends Component {
             {!this.props.formData.approved && (
               <>
                 <FormError errorId={this.props.id + "-error"} />
-                <Row style={{ display: "flex", justifyContent: "space-between", paddingRight: "0px", marginLeft: "1px", marginRight: "1px" }}>
-                    <div style={{ display: "flex", width: "46%" }}>
-                      <button
-                        className="lightBtn hide hide-on-print save-submit-btn"
-                        style={{ 
-                          width: "100%",
-                          display: this.state.status === 'COMPLETED' ? "none" : "block"
-                        }}
-                        onClick={() => {
-                          this.validateForm(true);
-                        }}
-                      >
-                        Finish Later
-                      </button>
-                    </div>
+                <Row className="save-submit-row">
+                  <div style={{ display: "flex", width: "46%" }}>
+                    <button
+                      className="lightBtn hide hide-on-print save-submit-btn"
+                      style={{
+                        width: "100%",
+                        display: this.state.status === 'COMPLETED' ? "none" : "block"
+                      }}
+                      onClick={() => {
+                        this.validateForm(true);
+                      }}
+                    >
+                      Finish Later
+                    </button>
+                  </div>
 
                   <div style={{ display: "flex", width: "46%" }}>
                     <button
