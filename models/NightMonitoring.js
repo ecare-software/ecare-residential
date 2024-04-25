@@ -61,7 +61,6 @@ const NightMonitoringSchema = new Schema({
   },
   createDate: {
     type: Date,
-    default: new Date(),
   },
   status: {
     type: String,

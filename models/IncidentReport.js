@@ -120,7 +120,7 @@ const IncidentReportSchema = new Schema({
 
   createDate: {
     type: Date,
-    default: new Date(),
+    // default: new Date(),
   },
   clientId: {
     type: String,

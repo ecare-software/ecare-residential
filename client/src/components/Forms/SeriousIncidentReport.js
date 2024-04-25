@@ -64,6 +64,7 @@ class SeriousIncidentReport extends Component {
       clientId: "",
       status: "IN PROGRESS",
       childSelected: false,
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
     };
   }
 
@@ -127,6 +128,7 @@ class SeriousIncidentReport extends Component {
       clientId: "",
       status: "IN PROGRESS",
       childSelected: false,
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
     });
   };
 
@@ -243,16 +245,7 @@ class SeriousIncidentReport extends Component {
     }
   };
 
-  dateForDateTimeInputValue = () =>
-    new Date(new Date(this.state.createDate).getTime())
-      .toISOString()
-      .slice(0, 19);
 
-  createDateTimeStamp = () =>
-    new Date(new Date(this.state.createDate).getTime()).toLocaleString(
-      "en-us",
-      { timeZone: "UTC" }
-    );
 
   validateForm = async (save) => {
     // save = true if 'save' btn, save = false if 'submit'
@@ -260,19 +253,6 @@ class SeriousIncidentReport extends Component {
       ...this.state,
       loadingClients: true,
     });
-
-    if (!this.state.createDate) {
-      this.setState({
-        formHasError: true,
-        formErrorMessage: `Please complete the following field(s): Create Date`,
-      });
-      return;
-    } else {
-      this.setState({
-        ...this.state,
-        createDate: new Date(this.state.createDate),
-      });
-    }
 
     this.submit(save);
   };
@@ -452,7 +432,6 @@ class SeriousIncidentReport extends Component {
           )}
           <div className="formTitleDiv">
             <h2 className="formTitle">Serious Incident Report</h2>
-            <p>{this.createDateTimeStamp()}</p>
             <h5
               className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}
@@ -493,7 +472,7 @@ class SeriousIncidentReport extends Component {
                 <input
                   onChange={this.handleFieldInput}
                   id="createDate"
-                  value={this.state.createDate}
+                  value={this.state.createDate.slice(0, -8)}
                   className="form-control hide-on-print"
                   type="datetime-local"
                 />{" "}
@@ -941,7 +920,7 @@ class SeriousIncidentReport extends Component {
 
               <FormError errorId={this.props.id + "-error"} />
 
-              <Row style={{ display: "flex", justifyContent: "space-between", paddingRight: "0px", marginLeft: "1px", marginRight: "1px" }}>
+              <Row className="save-submit-row">
                 <div style={{ display: "flex", width: "46%" }}>
                   <button
                     className="lightBtn hide hide-on-print save-submit-btn"
@@ -991,7 +970,6 @@ class SeriousIncidentReport extends Component {
           )}
           <div className="formTitleDivReport">
             <h2 className="formTitle">Serious Incident Report</h2>
-            <p>{this.createDateTimeStamp()}</p>
           </div>
 
           <div className="formFieldsMobileReport">
@@ -1014,11 +992,11 @@ class SeriousIncidentReport extends Component {
                     Create Date
                   </label>{" "}
                   <input
-                    onChange={this.handleFieldInput}
                     id="createDate"
-                    value={this.dateForDateTimeInputValue()}
+                    value={this.state.createDate.slice(0, -8)}
                     className="form-control hide-on-print"
                     type="datetime-local"
+                    disabled
                   />{" "}
                 </div>
                 <Row>
@@ -1032,6 +1010,7 @@ class SeriousIncidentReport extends Component {
                         id={"childMeta_name"}
                         className="form-control"
                         type="text"
+                        disabled
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -1290,7 +1269,7 @@ class SeriousIncidentReport extends Component {
                           value={this.state.incident_explaination}
                           id="incident_explaination"
                           className="form-control"
-                          ></TextareaAutosize>
+                        ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.incident_explaination}
@@ -1321,7 +1300,7 @@ class SeriousIncidentReport extends Component {
                           value={this.state.result}
                           id="result"
                           className="form-control"
-                          ></TextareaAutosize>
+                        ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">{this.state.result}</p>
                     </div>
@@ -1336,7 +1315,7 @@ class SeriousIncidentReport extends Component {
                           value={this.state.able_to_prevent}
                           id="able_to_prevent"
                           className="form-control"
-                          ></TextareaAutosize>
+                        ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.able_to_prevent}
@@ -1390,7 +1369,7 @@ class SeriousIncidentReport extends Component {
                           value={this.state.follow_up_results}
                           id="follow_up_results"
                           className="form-control"
-                          ></TextareaAutosize>
+                        ></TextareaAutosize>
                       </div>
                       <p className="hide-on-non-print">
                         {this.state.follow_up_results}
@@ -1400,14 +1379,17 @@ class SeriousIncidentReport extends Component {
                 </Row>
               </Container>
             )}
-            <label className="control-label">Signature</label>{" "}
-            <div className="sigSection">
+
+            <div className="sigSection"
+              style={{ display: this.state.status === 'IN PROGRESS' ? 'none' : 'block' }}
+            >
+              <label className="control-label">Signature</label>{" "}
               <div
                 style={{
                   width: "100%",
                   display: "flex",
                   maxHeight: "170",
-                  justifyContent: "center",
+                  paddingBottom: "20px",
                 }}
               >
                 <SignatureCanvas
@@ -1429,28 +1411,34 @@ class SeriousIncidentReport extends Component {
             {!this.props.formData.approved && (
               <>
                 <FormError errorId={this.props.id + "-error"} />
-                <div
-                  className="form-group logInInputField"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <button
-                    className="lightBtn hide-on-print"
-                    onClick={() => {
-                      this.validateForm(true);
-                    }}
-                  >
-                    Save
-                  </button>
+                <Row className="save-submit-row">
+                  <div style={{ display: "flex", width: "46%" }}>
+                    <button
+                      className="lightBtn hide hide-on-print save-submit-btn"
+                      style={{
+                        width: "100%",
+                        display: this.state.status === 'COMPLETED' ? "none" : "block",
+                      }}
+                      onClick={() => {
+                        this.validateForm(true);
+                      }}
+                    >
+                      Finish Later
+                    </button>
+                  </div>
 
-                  {/* <button
-                    className="darkBtn"
-                    onClick={() => {
-                      this.validateForm(false);
-                    }}
-                  >
-                    Submit
-                  </button> */}
-                </div>
+                  <div style={{ display: "flex", width: "46%" }}>
+                    <button
+                      className="darkBtn hide hide-on-print save-submit-btn"
+                      style={{ width: "100%" }}
+                      onClick={() => {
+                        this.validateForm(false);
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </Row>
               </>
             )}
           </div>

@@ -38,7 +38,7 @@ class NightMonitoring extends Component {
       clients: [],
       clientId: "",
       signature: [],
-      createDate: new Date().toISOString(),
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
       status: "IN PROGRESS",
       childSelected: false,
     };
@@ -82,7 +82,7 @@ class NightMonitoring extends Component {
       timeChildReturnBed: "",
       reason: "",
       signed: false,
-      createDate: new Date(),
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
       status: "IN PROGRESS",
       childSelected: false,
     });
@@ -205,32 +205,10 @@ class NightMonitoring extends Component {
       loadingClients: true,
     });
 
-    if (!this.state.createDate) {
-      this.setState({
-        formHasError: true,
-        formErrorMessage: `Please complete the following field(s): Create Date`,
-      });
-      return;
-    } else {
-      this.setState({
-        ...this.state,
-        createDate: new Date(this.state.createDate),
-      });
-    }
 
     this.submit(save);
   };
 
-  dateForDateTimeInputValue = () =>
-    new Date(new Date(this.state.createDate).getTime())
-      .toISOString()
-      .slice(0, 19);
-
-  createDateTimeStamp = () =>
-    new Date(new Date(this.state.createDate).getTime()).toLocaleString(
-      "en-us",
-      { timeZone: "UTC" }
-    );
 
   setValues = async () => {
     const { data: createdUserData } = await GetUserSig(
@@ -326,7 +304,6 @@ class NightMonitoring extends Component {
           )}
           <div className="formTitleDiv">
             <h2 className="formTitle">Awake Night Monitoring</h2>
-            <p>{this.createDateTimeStamp()}</p>
             <h5
               className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}
@@ -338,8 +315,8 @@ class NightMonitoring extends Component {
                   {`${new Date(this.state.lastEditDate)
                     .toTimeString()
                     .replace(/\s.*/, "")} - ${new Date(
-                    this.state.lastEditDate
-                  ).toDateString()}`}
+                      this.state.lastEditDate
+                    ).toDateString()}`}
                 </i>
               ) : (
                 "-"
@@ -367,7 +344,7 @@ class NightMonitoring extends Component {
                 <input
                   onChange={this.handleFieldInput}
                   id="createDate"
-                  value={this.state.createDate}
+                  value={this.state.createDate.slice(0, -8)}
                   className="form-control hide-on-print"
                   type="datetime-local"
                 />{" "}
@@ -379,30 +356,30 @@ class NightMonitoring extends Component {
                 signature={this.props.userObj.signature}
               />
               <FormError errorId={this.props.id + "-error"} />
-              
+
               <Row className="save-submit-row">
-                <div style={{display:"flex", width:"46%"}}>
+                <div style={{ display: "flex", width: "46%" }}>
                   <button
-                      className="lightBtn hide hide-on-print save-submit-btn"
-                      style={{width:"100%"}}
-                      disabled={this.state.childSelected ? false : true}
-                      onClick={() => {
-                        this.validateForm(true);
-                      }}
-                    >
-                      Finish Later
-                    </button>
+                    className="lightBtn hide hide-on-print save-submit-btn"
+                    style={{ width: "100%" }}
+                    disabled={this.state.childSelected ? false : true}
+                    onClick={() => {
+                      this.validateForm(true);
+                    }}
+                  >
+                    Finish Later
+                  </button>
                 </div>
-                <div style={{display:"flex", width:"46%"}}>
+                <div style={{ display: "flex", width: "46%" }}>
                   <button
-                      className="darkBtn hide hide-on-print save-submit-btn"
-                      style={{width:"100%"}}
-                      disabled={this.state.childSelected ? false : true}
-                      onClick={() => {
-                        this.validateForm(false);
-                      }}
-                    >
-                      Submit
+                    className="darkBtn hide hide-on-print save-submit-btn"
+                    style={{ width: "100%" }}
+                    disabled={this.state.childSelected ? false : true}
+                    onClick={() => {
+                      this.validateForm(false);
+                    }}
+                  >
+                    Submit
                   </button>
                 </div>
               </Row>
@@ -430,7 +407,6 @@ class NightMonitoring extends Component {
           )}
           <div className="formTitleDivReport">
             <h2 className="formTitle">Awake Night Monitoring</h2>
-            <p>{this.createDateTimeStamp()}</p>
           </div>
 
           <div className="formFieldsMobileReport">
@@ -453,11 +429,11 @@ class NightMonitoring extends Component {
                     Create Date
                   </label>{" "}
                   <input
-                    onChange={this.handleFieldInput}
                     id="createDate"
-                    value={this.dateForDateTimeInputValue()}
+                    value={this.state.createDate.slice(0, -8)}
                     className="form-control hide-on-print"
                     type="datetime-local"
+                    disabled
                   />{" "}
                 </div>
                 <NightMonitoringChildRow
@@ -498,28 +474,34 @@ maxHeight:"170",
             {!this.props.formData.approved && (
               <>
                 <FormError errorId={this.props.id + "-error"} />
-                <div
-                  className="form-group logInInputField"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <button
-                    className="lightBtn hide-on-print"
-                    onClick={() => {
-                      this.validateForm(true);
-                    }}
-                  >
-                    Save
-                  </button>
+                <Row style={{ display: "flex", justifyContent: "space-between", paddingRight: "0px", marginLeft: "1px", marginRight: "1px" }}>
+                    <div style={{ display: "flex", width: "46%" }}>
+                      <button
+                        className="lightBtn hide hide-on-print save-submit-btn"
+                        style={{ 
+                          width: "100%",
+                          display: this.state.status === 'COMPLETED' ? "none" : "block",
+                        }}
+                        onClick={() => {
+                          this.validateForm(true);
+                        }}
+                      >
+                        Finish Later
+                      </button>
+                    </div>
 
-                  {/* <button
-                    className="darkBtn"
-                    onClick={() => {
-                      this.validateForm(false);
-                    }}
-                  >
-                    Submit
-                  </button> */}
-                </div>
+                  <div style={{ display: "flex", width: "46%" }}>
+                    <button
+                      className="darkBtn hide hide-on-print save-submit-btn"
+                      style={{ width: "100%" }}
+                      onClick={() => {
+                        this.validateForm(false);
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </Row>
               </>
             )}
           </div>

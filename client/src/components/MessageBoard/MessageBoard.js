@@ -92,12 +92,16 @@ class MessageBoard extends Component {
                   cols="1"
                   style={{
                     height: "100px",
+                    width: "100%",
                     flex: "1",
                     borderColor: "#ccc",
                     margin: "0px 5px",
                     resize: "none",
                     borderWidth: ".5px",
                     borderRadius: "9px",
+                    padding: "12px 20px",
+                    boxSizing: "border-box",
+                    border: "2px solid #ccc",
                   }}
                   placeholder="Let everyone know what's going on or simply say hello! Information here will be display for all users to see."
                 ></textarea>

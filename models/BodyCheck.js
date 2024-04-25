@@ -189,7 +189,6 @@ const BodyCheckSchema = new Schema({
 
   createDate: {
     type: Date,
-    default: new Date(),
   },
   clientId: {
     type: String,
@@ -197,6 +196,9 @@ const BodyCheckSchema = new Schema({
   status: {
     type: String,
   },
+  details: {
+    type: String, 
+  }
 });
 
 module.exports = BodyCheck = mongoose.model("bodyCheck", BodyCheckSchema);

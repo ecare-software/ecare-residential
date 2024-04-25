@@ -71,7 +71,7 @@ class DailyProgressAndActivity extends Component {
       loadingSig: true,
       clients: [],
       clientId: "",
-      createDate: new Date().toISOString(),
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
       status: "IN PROGRESS",
       childSelected: false,
     };
@@ -142,7 +142,7 @@ class DailyProgressAndActivity extends Component {
       therapeutic_value: "",
       phone_calls_or_visits: "",
       clientId: "",
-      createDate: new Date().toISOString(),
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
       status: "IN PROGRESS",
       childSelected: false,
     });
@@ -270,19 +270,6 @@ class DailyProgressAndActivity extends Component {
       loadingClients: true,
     });
 
-    if (!this.state.createDate) {
-      this.setState({
-        formHasError: true,
-        formErrorMessage: `Please complete the following field(s): Create Date`,
-      });
-      return;
-    } else {
-      this.setState({
-        ...this.state,
-        createDate: new Date(this.state.createDate),
-      });
-    }
-
     this.submit(save);
   };
 
@@ -368,19 +355,6 @@ class DailyProgressAndActivity extends Component {
     }
   };
 
-  dateForDateTimeInputValue = () => {
-    console.log(new Date(this.state.createDate));
-    return new Date(new Date(this.state.createDate).getTime())
-      .toISOString()
-      .slice(0, 19);
-  };
-
-  createDateTimeStamp = () =>
-    new Date(new Date(this.state.createDate).getTime()).toLocaleString(
-      "en-us",
-      { timeZone: "UTC" }
-    );
-
   render() {
     if (!this.props.valuesSet) {
       return (
@@ -402,7 +376,6 @@ class DailyProgressAndActivity extends Component {
           )}
           <div className="formTitleDiv">
             <h2 className="formTitle">Daily Progress and Activity</h2>
-            <p>{this.createDateTimeStamp()}</p>
             <h5
               className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}
@@ -444,7 +417,7 @@ class DailyProgressAndActivity extends Component {
                 <input
                   onChange={this.handleFieldInput}
                   id="createDate"
-                  value={this.state.createDate}
+                  value={this.state.createDate.slice(0, -8)}
                   className="form-control"
                   type="datetime-local"
                 />{" "}
@@ -989,7 +962,6 @@ class DailyProgressAndActivity extends Component {
           )}
           <div className="formTitleDivReport">
             <h2 className="formTitle">Daily Progress and Activity</h2>
-            <p>{this.createDateTimeStamp()}</p>
           </div>
 
           <div className="formFieldsMobileReport">
@@ -1014,9 +986,10 @@ class DailyProgressAndActivity extends Component {
                   <input
                     onChange={this.handleFieldInput}
                     id="createDate"
-                    value={this.dateForDateTimeInputValue()}
+                    value={this.state.createDate.slice(0, -8)}
                     className="form-control hide-on-print"
                     type="datetime-local"
+                    disabled
                   />{" "}
                 </div>
                 <div className="form-group logInInputField">
@@ -1028,6 +1001,7 @@ class DailyProgressAndActivity extends Component {
                     id="childMeta_name"
                     className="form-control"
                     type="text"
+                    disabled
                   />{" "}
                 </div>
                 <Row>
@@ -1496,14 +1470,17 @@ class DailyProgressAndActivity extends Component {
                 </Row>
               </Container>
             )}
-            <label className="control-label">Signature</label>{" "}
-            <div className="sigSection">
+            
+            <div className="sigSection"
+              style= {{ display: this.state.status === 'IN PROGRESS' ? 'none' : 'block' }}
+            >
+              <label className="control-label">Signature</label>{" "}
               <div
                 style={{
                   width: "100%",
                   display: "flex",
                   maxHeight: "170",
-                  justifyContent: "center",
+                  paddingBottom: "20px",
                 }}
               >
                 <SignatureCanvas
@@ -1525,28 +1502,34 @@ class DailyProgressAndActivity extends Component {
             {!this.props.formData.approved && (
               <>
                 <FormError errorId={this.props.id + "-error"} />
-                <div
-                  className="form-group logInInputField"
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
+                <Row className="save-submit-row">
+                    <div style={{ display: "flex", width: "46%" }}>
+                    <button
+                      className="lightBtn hide hide-on-print save-submit-btn"
+                      style={{ 
+                        width: "100%",
+                        display: this.state.status === 'COMPLETED' ? "none" : "block",
+                      }}
+                      onClick={() => {
+                        this.validateForm(true);
+                      }}
+                    >
+                      Finish Later
+                    </button>
+                  </div>
+
+                <div style={{ display: "flex", width: "46%" }}>
                   <button
-                    className="lightBtn hide-on-print"
+                    className="darkBtn hide hide-on-print save-submit-btn"
+                    style={{ width: "100%" }}
                     onClick={() => {
-                      this.validateForm(true);
+                      this.validateForm(false);
                     }}
                   >
-                    Save
+                    Submit
                   </button>
-
-                  {/* <button
-                        className="darkBtn"
-                        onClick={() => {
-                          this.validateForm(false);
-                        }}
-                      >
-                        Submit
-                      </button> */}
                 </div>
+              </Row>
               </>
             )}
           </div>

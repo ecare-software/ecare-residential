@@ -62,11 +62,13 @@ class IncidentReport extends Component {
       clients: [],
       staff: [],
       clientId: "",
-      createDate: new Date().toISOString(),
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
       status: "IN PROGRESS",
       childSelected: false,
     };
   }
+
+
 
   toggleSuccessAlert = () => {
     this.setState({
@@ -124,7 +126,7 @@ class IncidentReport extends Component {
       notification_made_by: "",
       follow_up_results: "",
       clientId: "",
-      createDate: new Date().toISOString(),
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
       status: "IN PROGRESS",
       childSelected: false,
     });
@@ -133,7 +135,6 @@ class IncidentReport extends Component {
   // auto save
   autoSave = async () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-    // this.state.status = "IN PROGRESS"
     delete currentState.clients;
     delete currentState.staff;
     console.log("auto saving");
@@ -244,17 +245,6 @@ class IncidentReport extends Component {
     });
 
 
-    if (!this.state.createDate) {
-      this.setState({
-        formHasError: true, formErrorMessage: `Please complete the following field(s): Create Date`,
-      });
-      return;
-    } else {
-      this.setState({
-        ...this.state, createDate: new Date(this.state.createDate),
-      });
-    }
-
     this.submit(save);
   };
 
@@ -264,15 +254,7 @@ class IncidentReport extends Component {
     clearInterval(interval);
   }
 
-  dateForDateTimeInputValue = () =>
-    new Date(new Date(this.state.createDate).getTime())
-      .toISOString()
-      .slice(0, 19);
 
-  createDateTimeStamp = () =>
-    new Date(new Date(this.state.createDate).getTime()).toLocaleString(
-      "en-us", { timeZone: "UTC" }
-    );
 
   setSignature = (userObj) => {
     if (userObj.signature && userObj.signature.length) {
@@ -425,7 +407,6 @@ class IncidentReport extends Component {
           )}
           <div className="formTitleDiv">
             <h4 className="formTitle">Incident Report</h4>
-            <p>{this.createDateTimeStamp()}</p>
             <h5
               className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}
@@ -468,7 +449,7 @@ class IncidentReport extends Component {
                     <input
                       onChange={this.handleFieldInput}
                       id="createDate"
-                      value={this.state.createDate}
+                      value={this.state.createDate.slice(0, -8)}
                       className="form-control hide-on-print"
                       type="datetime-local"
                     />{" "}
@@ -500,6 +481,7 @@ class IncidentReport extends Component {
                     <label className="control-label">Child's Gender</label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.childMeta_gender}
                       id="childMeta_gender"
@@ -521,6 +503,7 @@ class IncidentReport extends Component {
                       value={this.state.childMeta_dob}
                       className="form-control"
                       type="date"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -534,6 +517,7 @@ class IncidentReport extends Component {
                       value={this.state.childMeta_dateOfAdmission}
                       className="form-control"
                       type="date"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -548,6 +532,7 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       defaultValue={null}
                       onChange={(e) => {
                         this.handleStaffSelect(
@@ -571,6 +556,7 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.staff_involved_gender}
                       id="staff_involved_gender"
@@ -594,6 +580,7 @@ class IncidentReport extends Component {
                       value={this.state.time_of_incident}
                       className="form-control"
                       type="time"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -609,6 +596,7 @@ class IncidentReport extends Component {
                       value={this.state.dateOfIncident}
                       className="form-control"
                       type="date"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -623,6 +611,7 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       defaultValue={null}
                       onChange={(e) => {
                         this.handleStaffSelect(
@@ -646,6 +635,7 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.staff_witness_gender}
                       id="staff_witness_gender"
@@ -668,6 +658,7 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       defaultValue={null}
                       onChange={this.handleClientSelectWithness1}
                     >
@@ -687,6 +678,7 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.client_witness_gender1}
                       id="client_witness_gender1"
@@ -710,6 +702,7 @@ class IncidentReport extends Component {
                       value={this.state.client_witness_dob1}
                       className="form-control"
                       type="date"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -725,6 +718,7 @@ class IncidentReport extends Component {
                       value={this.state.client_witness_doa1}
                       className="form-control"
                       type="date"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -739,6 +733,7 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       defaultValue={null}
                       onChange={this.handleClientSelectWithness2}
                     >
@@ -758,6 +753,7 @@ class IncidentReport extends Component {
                     </label>{" "}
                     <Form.Control
                       as="select"
+                      disabled={this.state.childSelected ? false : true}
                       onChange={this.handleFieldInput}
                       value={this.state.client_witness_gender2}
                       id="client_witness_gender2"
@@ -781,6 +777,7 @@ class IncidentReport extends Component {
                       value={this.state.client_witness_dob2}
                       className="form-control"
                       type="date"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -796,6 +793,7 @@ class IncidentReport extends Component {
                       value={this.state.client_witness_doa2}
                       className="form-control"
                       type="date"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -811,6 +809,7 @@ class IncidentReport extends Component {
                     <TextareaAutosize
                       onChange={this.handleFieldInput}
                       id="incident_explaination"
+                      disabled={this.state.childSelected ? false : true}
                       value={this.state.incident_explaination}
                       className="form-control"
                     ></TextareaAutosize>
@@ -831,6 +830,7 @@ class IncidentReport extends Component {
                       id="seperation"
                       value={this.state.seperation}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                       type="text"
                     />{" "}
                   </div>
@@ -849,6 +849,7 @@ class IncidentReport extends Component {
                       id="result"
                       value={this.state.result}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
                 </Col>
@@ -866,6 +867,7 @@ class IncidentReport extends Component {
                       id="able_to_prevent"
                       value={this.state.able_to_prevent}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
                 </Col>
@@ -884,6 +886,7 @@ class IncidentReport extends Component {
                       value={this.state.notification_made_to}
                       className="form-control"
                       type="text"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -899,6 +902,7 @@ class IncidentReport extends Component {
                       value={this.state.notification_made_date_time}
                       className="form-control"
                       type="datetime-local"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -912,6 +916,7 @@ class IncidentReport extends Component {
                       value={this.state.notification_made_by}
                       className="form-control"
                       type="text"
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -929,6 +934,7 @@ class IncidentReport extends Component {
                       id="follow_up_results"
                       value={this.state.follow_up_results}
                       className="form-control"
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
                 </Col>
@@ -986,7 +992,6 @@ class IncidentReport extends Component {
           )}
           <div className="formTitleDivReport">
             <h4 className="formTitle">Incident Report</h4>
-            <p>{this.createDateTimeStamp()}</p>
           </div>
 
           <div className="formFieldsMobileReport">
@@ -1011,11 +1016,11 @@ class IncidentReport extends Component {
                         Create Date
                       </label>{" "}
                       <input
-                        onChange={this.handleFieldInput}
                         id="createDate"
-                        value={this.dateForDateTimeInputValue()}
+                        value={this.state.createDate.slice(0, -8)}
                         className="form-control hide-on-print"
                         type="datetime-local"
+                        disabled
                       />{" "}
                     </div>
                   </Col>
@@ -1032,6 +1037,7 @@ class IncidentReport extends Component {
                         id={"childMeta_name"}
                         className="form-control"
                         type="text"
+                        disabled
                       />{" "}
                     </div>
                   </Col>
@@ -1043,7 +1049,7 @@ class IncidentReport extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                          onChange={this.handleFieldInput}
+                        onChange={this.handleFieldInput}
                         value={this.state.childMeta_gender}
                         id="childMeta_gender"
                       >
@@ -1062,7 +1068,7 @@ class IncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.childMeta_dob}
                         className="form-control"
-                          type="date"
+                        type="date"
                         id="childMeta_dob"
                       />{" "}
                     </div>
@@ -1075,7 +1081,7 @@ class IncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.childMeta_dateOfAdmission}
                         className="form-control"
-                          type="date"
+                        type="date"
                         id="childMeta_dateOfAdmission"
                       />{" "}
                     </div>
@@ -1094,7 +1100,7 @@ class IncidentReport extends Component {
                         value={this.state.staff_involved_name}
                         id="staff_involved_name"
                         className="form-control"
-                          type="text"
+                        type="text"
                       />{" "}
                     </div>
                   </Col>
@@ -1106,7 +1112,7 @@ class IncidentReport extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                          onChange={this.handleFieldInput}
+                        onChange={this.handleFieldInput}
                         value={this.state.staff_involved_gender}
                         id="staff_involved_gender"
                       >
@@ -1128,7 +1134,7 @@ class IncidentReport extends Component {
                         value={this.state.time_of_incident}
                         id="time_of_incident"
                         className="form-control"
-                          type="time"
+                        type="time"
                       />{" "}
                     </div>
                   </Col>
@@ -1142,7 +1148,7 @@ class IncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.dateOfIncident}
                         className="form-control"
-                          type="date"
+                        type="date"
                         id="dateOfIncident"
                       />{" "}
                     </div>
@@ -1161,7 +1167,7 @@ class IncidentReport extends Component {
                         value={this.state.staff_witness_name}
                         id="staff_witness_name"
                         className="form-control"
-                          type="text"
+                        type="text"
                       />{" "}
                     </div>
                   </Col>
@@ -1173,7 +1179,7 @@ class IncidentReport extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                          onChange={this.handleFieldInput}
+                        onChange={this.handleFieldInput}
                         value={this.state.staff_witness_gender}
                         id="staff_witness_gender"
                       >
@@ -1198,7 +1204,7 @@ class IncidentReport extends Component {
                         value={this.state.client_witness_name1}
                         id="client_witness_name1"
                         className="form-control"
-                          type="text"
+                        type="text"
                       />{" "}
                     </div>
                   </Col>
@@ -1210,7 +1216,7 @@ class IncidentReport extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                          onChange={this.handleFieldInput}
+                        onChange={this.handleFieldInput}
                         value={this.state.client_witness_gender1}
                         id="client_witness_gender1"
                       >
@@ -1231,7 +1237,7 @@ class IncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.client_witness_dob1}
                         className="form-control"
-                          type="date"
+                        type="date"
                         id="client_witness_dob1"
                       />{" "}
                     </div>
@@ -1246,7 +1252,7 @@ class IncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.client_witness_doa1}
                         className="form-control"
-                          type="date"
+                        type="date"
                         id="client_witness_doa1"
                       />{" "}
                     </div>
@@ -1265,7 +1271,7 @@ class IncidentReport extends Component {
                         value={this.state.client_witness_name2}
                         id="client_witness_name2"
                         className="form-control"
-                          type="text"
+                        type="text"
                       />{" "}
                     </div>
                   </Col>
@@ -1277,7 +1283,7 @@ class IncidentReport extends Component {
                       </label>{" "}
                       <Form.Control
                         as="select"
-                          onChange={this.handleFieldInput}
+                        onChange={this.handleFieldInput}
                         value={this.state.client_witness_gender2}
                         id="client_witness_gender2"
                       >
@@ -1298,7 +1304,7 @@ class IncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.client_witness_dob2}
                         className="form-control"
-                          type="date"
+                        type="date"
                         id="client_witness_dob2"
                       />{" "}
                     </div>
@@ -1313,7 +1319,7 @@ class IncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.client_witness_doa2}
                         className="form-control"
-                          type="date"
+                        type="date"
                         id="client_witness_doa2"
                       />{" "}
                     </div>
@@ -1332,7 +1338,7 @@ class IncidentReport extends Component {
                         value={this.state.incident_explaination}
                         id="incident_explaination"
                         className="form-control"
-                        ></TextareaAutosize>
+                      ></TextareaAutosize>
                     </div>
                   </Col>
                 </Row>
@@ -1350,7 +1356,7 @@ class IncidentReport extends Component {
                         value={this.state.seperation}
                         id="seperation"
                         className="form-control"
-                          type="text"
+                        type="text"
                       />{" "}
                     </div>
                   </Col>
@@ -1368,7 +1374,7 @@ class IncidentReport extends Component {
                         value={this.state.result}
                         id="result"
                         className="form-control"
-                        ></TextareaAutosize>
+                      ></TextareaAutosize>
                     </div>
                   </Col>
                 </Row>
@@ -1385,7 +1391,7 @@ class IncidentReport extends Component {
                         value={this.state.able_to_prevent}
                         id="able_to_prevent"
                         className="form-control"
-                        ></TextareaAutosize>
+                      ></TextareaAutosize>
                       <p className="hide-on-non-print">
                         {this.state.able_to_prevent}
                       </p>
@@ -1405,7 +1411,7 @@ class IncidentReport extends Component {
                         value={this.state.notification_made_to}
                         id="notification_made_to"
                         className="form-control"
-                          type="text"
+                        type="text"
                       />{" "}
                     </div>
                   </Col>
@@ -1419,7 +1425,7 @@ class IncidentReport extends Component {
                         onChange={this.handleFieldInput}
                         value={this.state.notification_made_date_time}
                         className="form-control"
-                          type="datetime-local"
+                        type="datetime-local"
                         id="notification_made_date_time"
                       />{" "}
                     </div>
@@ -1433,7 +1439,7 @@ class IncidentReport extends Component {
                         value={this.state.notification_made_by}
                         id="notification_made_by"
                         className="form-control"
-                          type="text"
+                        type="text"
                       />{" "}
                     </div>
                   </Col>
@@ -1457,83 +1463,63 @@ class IncidentReport extends Component {
                 </Row>
               </Container>
             )}
-            <Container>
-              <Row>
-                <Col xs={6}>
-                  <label className="control-label">Signature</label>{" "}
-                  <div className="sigSection">
-                    <div
-                      style={{
-                        width: "100%", display: "flex", maxHeight: "170", justifyContent: "center",
-                      }}
-                    >
-                      <SignatureCanvas
-                        ref={(ref) => {
-                          this.sigCanvas = ref;
-                        }}
-                        style={{ border: "solid" }}
-                        penColor="black"
-                        clearOnResize={false}
-                        canvasProps={{
-                          width: 600, height: 100, className: "sigCanvas",
-                        }}
-                        backgroundColor="#eeee"
-                      />
-                    </div>
-                  </div>
-                </Col>
-                <Col xs={6}>
-                  <label className="control-label">Admin Signature</label>{" "}
-                  <div className="sigSection">
-                    <div
-                      style={{
-                        width: "100%", display: "flex", maxHeight: "170", justifyContent: "center",
-                      }}
-                    >
-                      {/* <SignatureCanvas
-                        ref={(ref) => {
-                          this.sigCanvas = ref;
-                        }}
-                        style={{ border: "solid" }}
-                        penColor="black"
-                        clearOnResize={false}
-                        canvasProps={{
-                          width: 600,                          height: 100,                          className: "sigCanvas",                        }}
-                        backgroundColor="#eeee"
-                      /> */}
-                    </div>
-                  </div>
-                </Col>
-              </Row>
-            </Container>
+
+            <div className="sigSection"
+              style={{ display: this.state.status === 'IN PROGRESS' ? 'none' : 'block' }}
+            >
+              <label className="control-label">Signature</label>{" "}
+              <div
+                style={{
+                  width: "100%", display: "flex", maxHeight: "170", paddingBottom: "20px",
+                }}
+              >
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 600, height: 100, className: "sigCanvas",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
+            </div>
+
             {!this.props.formData.approved && (
-              <Row>
+              <>
                 <FormError errorId={this.props.id + "-error"} />
-                <Col xs={12}>
-                  <div
-                    className="form-group logInInputField"
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
+                <Row style={{ display: "flex", justifyContent: "space-between", paddingRight: "0px", marginLeft: "1px", marginRight: "1px" }}>
+                  <div style={{ display: "flex", width: "46%" }}>
                     <button
-                      className="lightBtn hide-on-print"
+                      className="lightBtn hide hide-on-print save-submit-btn"
+                      style={{
+                        width: "100%",
+                        display: this.state.status === 'COMPLETED' ? "none" : "block"
+                      }}
                       onClick={() => {
                         this.validateForm(true);
                       }}
                     >
-                      Save
+                      Finish Later
                     </button>
-
-                    {/* <button
-                    className="darkBtn"
-                    onClick={() => {
-                      this.validateForm(false);
-                    }}
-                  >
-                    Submit
-                  </button> */}
                   </div>
-                </Col>
-              </Row>
+
+                  <div style={{ display: "flex", width: "46%" }}>
+                    <button
+                      className="darkBtn hide hide-on-print save-submit-btn"
+                      style={{ width: "100%" }}
+                      onClick={() => {
+                        this.validateForm(false);
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </Row>
+              </>
             )}
           </div>
         </div>

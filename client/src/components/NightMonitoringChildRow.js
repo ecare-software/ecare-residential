@@ -70,7 +70,7 @@ export const NightMonitoringChildRow = ({
   ]);
 
   return (
-    <Row style={{ marginBottom: "50px" }}>
+    <Row style={{ marginBottom: "20px" }}>
       <Col sm={12}>
         <Row
           style={{
@@ -91,6 +91,7 @@ export const NightMonitoringChildRow = ({
                   defaultValue={childMeta_name}
                   className="form-control"
                   type="text"
+                  disabled = {childSelected ? true : false}
                 />
               ) : (
                 <Form.Control
@@ -230,8 +231,10 @@ export const NightMonitoringChildRow = ({
             style={{
               width: "100%",
               display: "flex",
+              maxHeight: "170",
               justifyContent: "center",
               display: signed ? "" : "none",
+              paddingRight: "15px",
             }}
           >
             <SignatureCanvas
@@ -242,7 +245,7 @@ export const NightMonitoringChildRow = ({
               penColor="black"
               clearOnResize={false}
               canvasProps={{
-                width: 300,
+                width: 600,
                 height: 100,
                 className: "sigCanvas",
               }}
