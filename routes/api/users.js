@@ -48,29 +48,47 @@ router.get("/:email/:password", (req, res) => {
 // @desc    GET all items
 // @access  Public
 router.get("/:homeId", (req, res) => {
+  const { isActive } = req.query;
+
   User.find({ homeId: req.params.homeId })
-    .then((Users) => res.json(Users))
+    .then((users) => {
+      if (isActive !== undefined) {
+        const isActiveBool = isActive === "true";
+        const filteredUsers = users.filter((u) => u.isActive === isActiveBool);
+        res.json(filteredUsers);
+      } else {
+        res.send(users);
+      }
+    })
     .catch((err) => res.status(404).json({ success: false }));
 });
 
-router.get("/", (req, res) => {
-  User.find().then((user) => {
-    res.json(
-      user.map((u) => {
-        return {
-          firstName: u.firstName,
-          lastName: u.lastName,
-          email: u.email,
-        };
-      })
-    );
-  });
+// active => use a queryString
+router.get("/", async (req, res) => {
+  const { isActive } = req.query;
+
+  try {
+    let users = await User.find();
+
+    if (isActive !== undefined) {
+      const isActiveBool = isActive === "true";
+      users = users.filter((u) => u.isActive === isActiveBool);
+    }
+
+    res.json(users.map(({ firstName, lastName, email, isActive }) => ({
+      firstName,
+      lastName,
+      email,
+      isActive,
+    })));
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 // @route   POST api/items
 // @desc    Create an item
 // @access  Public
-
 router.post("/", (req, res) => {
   const newUser = new User({
     firstName: req.body.firstName,
