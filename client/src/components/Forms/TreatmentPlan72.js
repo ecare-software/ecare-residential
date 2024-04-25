@@ -177,6 +177,7 @@ class TreatmentPlan72 extends Component {
       clientId: "",
       status: "IN PROGRESS",
       childSelected: false,
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
     };
   }
 
@@ -487,6 +488,7 @@ class TreatmentPlan72 extends Component {
       clientId: "",
       status: "IN PROGRESS",
       childSelected: false,
+      createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
     });
   };
 
@@ -609,35 +611,12 @@ class TreatmentPlan72 extends Component {
     }
   };
 
-  dateForDateTimeInputValue = () =>
-    new Date(new Date(this.state.createDate).getTime())
-      .toISOString()
-      .slice(0, 19);
-
-  createDateTimeStamp = () =>
-    new Date(new Date(this.state.createDate).getTime()).toLocaleString(
-      "en-us",
-      { timeZone: "UTC" }
-    );
 
   validateForm = async (save) => {
     this.setState({
       ...this.state,
       loadingClients: true,
     });
-
-    if (!this.state.createDate) {
-      this.setState({
-        formHasError: true,
-        formErrorMessage: `Please complete the following field(s): Create Date`,
-      });
-      return;
-    } else {
-      this.setState({
-        ...this.state,
-        createDate: new Date(this.state.createDate),
-      });
-    }
 
     this.submit(save);
   };
@@ -739,7 +718,6 @@ class TreatmentPlan72 extends Component {
           )}
           <div className="formTitleDiv">
             <h2 className="formTitle">72 Hour Treatment Plan</h2>
-            <p>{this.createDateTimeStamp()}</p>
             <h5
               className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}
@@ -780,7 +758,7 @@ class TreatmentPlan72 extends Component {
                   <input
                     onChange={this.handleFieldInput}
                     id="createDate"
-                    value={this.state.createDate}
+                    value={this.state.createDate.slice(0, -8)}
                     className="form-control"
                     type="datetime-local"
                   />{" "}
@@ -907,6 +885,7 @@ class TreatmentPlan72 extends Component {
                     onChange={this.handleFieldInput}
                     value={this.state.childMeta_ethnicity}
                     id="childMeta_ethnicity"
+                    disabled={this.state.childSelected ? false : true}
                   >
                     <option>Black</option>
                     <option>White</option>
@@ -2714,7 +2693,8 @@ class TreatmentPlan72 extends Component {
                   ></TextareaAutosize>
                 </div>
                 <FormError errorId={this.props.id + "-error"} />
-                <Row style={{ display: "flex", justifyContent: "space-between", paddingRight: "0px", marginLeft: "1px", marginRight: "1px" }}>
+
+                <Row className="save-submit-row">
                   <div style={{ display: "flex", width: "46%" }}>
                     <button
                       className="lightBtn hide hide-on-print save-submit-btn"
@@ -2767,7 +2747,6 @@ class TreatmentPlan72 extends Component {
           )}
           <div className="formTitleDivReport">
             <h2 className="formTitle">72 Hour Treatment Plan</h2>
-            <p>{this.createDateTimeStamp()}</p>
           </div>
           {this.state.loadingClients ? (
             <div className="formLoadingDiv">
@@ -2788,7 +2767,7 @@ class TreatmentPlan72 extends Component {
                 <input
                   onChange={this.handleFieldInput}
                   id="createDate"
-                  value={this.dateForDateTimeInputValue()}
+                  value={this.state.createDate.slice(0, -8)}
                   className="form-control"
                   type="datetime-local"
                 />{" "}
@@ -2802,6 +2781,7 @@ class TreatmentPlan72 extends Component {
                   id="childMeta_name"
                   className="form-control"
                   type="text"
+                  disabled
                 />{" "}
               </div>
               <div className="form-group logInInputField">
@@ -4539,13 +4519,17 @@ class TreatmentPlan72 extends Component {
               </div>
             </div>
           )}
-          <label className="control-label">Signature</label>{" "}
-          <div className="sigSection">
+
+          <div className="sigSection"
+            style={{ display: this.state.status === 'IN PROGRESS' ? 'none' : 'block' }}
+          >
+            <label className="control-label">Signature</label>{" "}
             <div
               style={{
                 width: "100%",
                 display: "flex",
-                justifyContent: "center",
+                maxHeight: "170",
+                paddingBottom: "20px",
               }}
             >
               <SignatureCanvas
@@ -4556,7 +4540,7 @@ class TreatmentPlan72 extends Component {
                 penColor="black"
                 clearOnResize={false}
                 canvasProps={{
-                  width: 300,
+                  width: 600,
                   height: 100,
                   className: "sigCanvas",
                 }}
@@ -4567,28 +4551,34 @@ class TreatmentPlan72 extends Component {
           {!this.props.formData.approved && (
             <>
               <FormError errorId={this.props.id + "-error"} />
-              <div
-                className="form-group logInInputField"
-                style={{ display: "flex", justifyContent: "space-between" }}
-              >
-                <button
-                  className="lightBtn"
-                  onClick={() => {
-                    this.validateForm(true);
-                  }}
-                >
-                  Save
-                </button>
+              <Row style={{ display: "flex", justifyContent: "space-between", paddingRight: "0px", marginLeft: "1px", marginRight: "1px" }}>
+                <div style={{ display: "flex", width: "46%" }}>
+                  <button
+                    className="lightBtn hide hide-on-print save-submit-btn"
+                    style={{
+                      width: "100%",
+                      display: this.state.status === 'COMPLETED' ? "none" : "block"
+                    }}
+                    onClick={() => {
+                      this.validateForm(true);
+                    }}
+                  >
+                    Finish Later
+                  </button>
+                </div>
 
-                {/* <button
-                  className="darkBtn"
-                  onClick={() => {
-                    this.validateForm(false);
-                  }}
-                >
-                  Submit
-                </button> */}
-              </div>
+                <div style={{ display: "flex", width: "46%" }}>
+                  <button
+                    className="darkBtn hide hide-on-print save-submit-btn"
+                    style={{ width: "100%" }}
+                    onClick={() => {
+                      this.validateForm(false);
+                    }}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </Row>
             </>
           )}
         </div>

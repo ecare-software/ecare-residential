@@ -471,7 +471,6 @@ const TreatmentPlan72Schema = new Schema({
   },
   createDate: {
     type: Date,
-    default: new Date(),
   },
   clientId: {
     type: String,
