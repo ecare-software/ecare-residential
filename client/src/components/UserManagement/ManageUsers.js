@@ -6,7 +6,7 @@ import DeactivateUser from "./DeactivateUser";
 import ActivateUser from "./ActivateUser";
 import axios from "axios";
 
-const ManageUsers = ({ userObj, toggleShow, doShow }) => {
+const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
   const [resetting, setResetting] = useState(-1);
   const [newPassword, setNewPassword] = useState("");
   const [newPassword2, setNewPassword2] = useState("");
@@ -21,6 +21,7 @@ const ManageUsers = ({ userObj, toggleShow, doShow }) => {
       const { data } = await axios("/api/users/" + userObj.homeId, {
         method: "GET",
       });
+      getAllUsers()
       setUsers(data);
       setActiveUsers(data.filter((user) => user.isActive));
       setInactiveUsers(data.filter((user) => !user.isActive));
@@ -32,9 +33,10 @@ const ManageUsers = ({ userObj, toggleShow, doShow }) => {
   };
 
   useEffect(() => {
+    console.log("test")
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userObj.homeId, users]);
+  }, []);
 
   const openNewPassword = (index) => {
     if (resetting === index) {
@@ -124,11 +126,9 @@ const ManageUsers = ({ userObj, toggleShow, doShow }) => {
                   <thead>
                     <tr>
                       <th></th>
-                      <th></th>
+                      <th style={{ width: 10 }}></th>
                       <th>Name</th>
-                      <th>Last Logged In</th>
-                      <th>Role</th>
-                      <th>Email</th>
+                      <th style={{ width: "auto" }}>Role/Email</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -151,22 +151,21 @@ const ManageUsers = ({ userObj, toggleShow, doShow }) => {
                             Reset Password
                           </button>
                         </td>
-                        <td>
+                        <td style={{ width: 10 }}>
                           {item.isActive ? (
                             <DeactivateUser
                               id={item._id}
-                              fetchData={fetchData}
+                              fetchData={() => fetchData()}
+                              getAllUsers={getAllUsers}
                             />
                           ) : (
-                            <ActivateUser id={item._id} fetchData={fetchData} />
+                            <ActivateUser getAllUsers={getAllUsers} id={item._id} fetchData={() => fetchData()} />
                           )}
                         </td>
-                        <td>
+                        <td >
                           {item.firstName}, {item.lastName}
                         </td>
-                        <td>{new Date(item.lastLogIn).toLocaleString()}</td>
-                        <td>{item.jobTitle}</td>
-                        <td>{item.email}</td>
+                        <td style={{ width: "auto" }}>{item.email}<br />{item.jobTitle}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -177,11 +176,9 @@ const ManageUsers = ({ userObj, toggleShow, doShow }) => {
                   <thead>
                     <tr>
                       <th></th>
-                      <th></th>
+                      <th style={{ width: 20 }}></th>
                       <th>Name</th>
-                      <th>Last Logged In</th>
-                      <th>Role</th>
-                      <th>Email</th>
+                      <th style={{ width: "auto" }}>Role/Email</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -204,7 +201,7 @@ const ManageUsers = ({ userObj, toggleShow, doShow }) => {
                             Reset Password
                           </button>
                         </td>
-                        <td>
+                        <td style={{ width: 20 }}>
                           {item.isActive ? (
                             <DeactivateUser
                               id={item._id}
@@ -217,9 +214,7 @@ const ManageUsers = ({ userObj, toggleShow, doShow }) => {
                         <td>
                           {item.firstName}, {item.lastName}
                         </td>
-                        <td>{new Date(item.lastLogIn).toLocaleString()}</td>
-                        <td>{item.jobTitle}</td>
-                        <td>{item.email}</td>
+                        <td style={{ width: "auto" }}>{item.email}<br />{item.jobTitle}</td>
                       </tr>
                     ))}
                   </tbody>

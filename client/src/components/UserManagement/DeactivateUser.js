@@ -34,6 +34,8 @@ export default function DeactivateUser({ id, fetchData }) {
 
       // Success Alert Popup
       setShowSuccess(true);
+
+      fetchData(data);
     } catch (e) {
       setIsLoading(false);
 
@@ -45,11 +47,6 @@ export default function DeactivateUser({ id, fetchData }) {
       console.error(e);
     }
   };
-
-  // Table state update on submit
-  useEffect(() => {
-    fetchData(data);
-  }, [data]);
 
   const deactivateUserModal = (
     <Modal show={showDeactivation} backdrop="static" onHide={handleClose}>
