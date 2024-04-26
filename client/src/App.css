@@ -69,6 +69,28 @@ input {
   border-color: black;
 }
 
+.btn-red {
+  background-color: #5f000026;
+  border-color: black;
+}
+
+.btn-red:hover {
+  background-color: #FF1744; 
+  border-color: #5f000026;
+  color: #fff;
+}
+
+.btn-green {
+  background-color: #5f000026;
+  border-color: black;
+}
+
+.btn-green:hover {
+  background-color: #00E676; 
+  border-color: #5f000026;
+  color: #fff;
+}
+
 .save-submit-btn {
   width: 40%;
 }

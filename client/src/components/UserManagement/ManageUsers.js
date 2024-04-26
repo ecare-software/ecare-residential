@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { Table, Modal, Tab, Nav } from "react-bootstrap";
 import "../../App.css";
+import UpdateUser from "./UpdateUser";
 import DeactivateUser from "./DeactivateUser";
 import ActivateUser from "./ActivateUser";
 import axios from "axios";
@@ -21,7 +22,7 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
       const { data } = await axios("/api/users/" + userObj.homeId, {
         method: "GET",
       });
-      getAllUsers()
+      getAllUsers();
       setUsers(data);
       setActiveUsers(data.filter((user) => user.isActive));
       setInactiveUsers(data.filter((user) => !user.isActive));
@@ -33,7 +34,6 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
   };
 
   useEffect(() => {
-    console.log("test")
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -125,10 +125,11 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
                 <Table>
                   <thead>
                     <tr>
-                      <th></th>
-                      <th style={{ width: 10 }}></th>
-                      <th>Name</th>
-                      <th style={{ width: "auto" }}>Role/Email</th>
+                      <th style={{ width: 5 }}></th>
+                      <th style={{ width: 5 }}></th>
+                      <th style={{ width: 5 }}>Name</th>
+                      <th style={{ width: "auto" }}>Email/Role</th>
+                      <th style={{ width: 5 }}></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -141,7 +142,37 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
                     )}
                     {activeUsers.map((item, index) => (
                       <tr key={index + "-" + "user"}>
+                        <td style={{ width: 5 }}>
+                          <UpdateUser
+                            id={item._id}
+                            fetchData={() => fetchData()}
+                            item={item}
+                          />
+                        </td>
+                        <td style={{ width: 5 }}>
+                          {item.isActive ? (
+                            <DeactivateUser
+                              id={item._id}
+                              fetchData={() => fetchData()}
+                              getAllUsers={getAllUsers}
+                            />
+                          ) : (
+                            <ActivateUser
+                              getAllUsers={getAllUsers}
+                              id={item._id}
+                              fetchData={() => fetchData()}
+                            />
+                          )}
+                        </td>
                         <td>
+                          {item.firstName}, {item.lastName}
+                        </td>
+                        <td style={{ width: "auto" }}>
+                          {item.email}
+                          <br />
+                          {item.jobTitle}
+                        </td>
+                        <td style={{ width: 5 }}>
                           <button
                             className="btn btn-light extraInfoButton"
                             onClick={() =>
@@ -151,21 +182,6 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
                             Reset Password
                           </button>
                         </td>
-                        <td style={{ width: 10 }}>
-                          {item.isActive ? (
-                            <DeactivateUser
-                              id={item._id}
-                              fetchData={() => fetchData()}
-                              getAllUsers={getAllUsers}
-                            />
-                          ) : (
-                            <ActivateUser getAllUsers={getAllUsers} id={item._id} fetchData={() => fetchData()} />
-                          )}
-                        </td>
-                        <td >
-                          {item.firstName}, {item.lastName}
-                        </td>
-                        <td style={{ width: "auto" }}>{item.email}<br />{item.jobTitle}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -175,10 +191,11 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
                 <Table>
                   <thead>
                     <tr>
-                      <th></th>
-                      <th style={{ width: 20 }}></th>
-                      <th>Name</th>
-                      <th style={{ width: "auto" }}>Role/Email</th>
+                      <th style={{ width: 5 }}></th>
+                      <th style={{ width: 5 }}></th>
+                      <th style={{ width: 5 }}>Name</th>
+                      <th style={{ width: "auto" }}>Email/Role</th>
+                      <th style={{ width: 5 }}></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -191,17 +208,14 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
                     )}
                     {inactiveUsers.map((item, index) => (
                       <tr key={index + "-" + "user"}>
-                        <td>
-                          <button
-                            className="btn btn-light extraInfoButton"
-                            onClick={() =>
-                              setShowPasswordModal(true, setResetting(index))
-                            }
-                          >
-                            Reset Password
-                          </button>
+                        <td style={{ width: 5 }}>
+                          <UpdateUser
+                            id={item._id}
+                            fetchData={() => fetchData()}
+                            item={item}
+                          />
                         </td>
-                        <td style={{ width: 20 }}>
+                        <td style={{ width: 5 }}>
                           {item.isActive ? (
                             <DeactivateUser
                               id={item._id}
@@ -214,7 +228,21 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
                         <td>
                           {item.firstName}, {item.lastName}
                         </td>
-                        <td style={{ width: "auto" }}>{item.email}<br />{item.jobTitle}</td>
+                        <td style={{ width: "auto" }}>
+                          {item.email}
+                          <br />
+                          {item.jobTitle}
+                        </td>
+                        <td style={{ width: 5 }}>
+                          <button
+                            className="btn btn-light extraInfoButton"
+                            onClick={() =>
+                              setShowPasswordModal(true, setResetting(index))
+                            }
+                          >
+                            Reset Password
+                          </button>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
