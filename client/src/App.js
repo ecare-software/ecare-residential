@@ -254,7 +254,7 @@ class App extends Component {
   };
 
   getAllUsers = () => {
-    Axios.get('/api/users/' + this.state.userObj.homeId).then((allUsers) => {
+    Axios.get(`/api/users/${this.state.userObj.homeId}?isActive`).then((allUsers) => {
       this.setState({ allUsers: allUsers.data, allUsersSet: true });
     });
   };

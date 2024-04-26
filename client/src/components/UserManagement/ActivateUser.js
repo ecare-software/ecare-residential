@@ -34,6 +34,8 @@ export default function ActivateUser({ id, fetchData }) {
 
       // Success Alert Popup
       setShowSuccess(true);
+
+      fetchData(data);
     } catch (e) {
       setIsLoading(false);
 
@@ -45,11 +47,6 @@ export default function ActivateUser({ id, fetchData }) {
       console.error(e);
     }
   };
-
-  // Table state update on submit
-  useEffect(() => {
-    fetchData(data);
-  }, [data]);
 
   const activateUserModal = (
     <Modal show={showActivation} backdrop="static" onHide={handleClose}>
@@ -90,7 +87,7 @@ export default function ActivateUser({ id, fetchData }) {
         style={{ backgroundColor: "#00E676" }}
       >{"Success!"}</Modal.Header>
       <Modal.Body style={{ backgroundColor: "#fff" }}>
-      {"User was successfully activated"}
+        {"User was successfully activated"}
       </Modal.Body>
     </Modal>
   );
@@ -108,8 +105,8 @@ export default function ActivateUser({ id, fetchData }) {
         closeButton
         style={{ backgroundColor: "#FF1744" }}
       >{"Error!"}</Modal.Header>
-       <Modal.Body style={{ backgroundColor: "#fff" }}>
-       {"There was an error activating the user."}
+      <Modal.Body style={{ backgroundColor: "#fff" }}>
+        {"There was an error activating the user."}
       </Modal.Body>
     </Modal>
   );
