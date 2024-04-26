@@ -63,7 +63,6 @@ router.get("/:homeId", (req, res) => {
     .catch((err) => res.status(404).json({ success: false }));
 });
 
-// active => use a queryString
 router.get("/", async (req, res) => {
   const { isActive } = req.query;
 

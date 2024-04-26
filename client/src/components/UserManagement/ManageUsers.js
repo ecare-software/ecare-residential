@@ -1,204 +1,280 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import Axios from "axios";
-
+import { Table, Modal, Tab, Nav } from "react-bootstrap";
 import "../../App.css";
+import DeactivateUser from "./DeactivateUser";
+import ActivateUser from "./ActivateUser";
+import axios from "axios";
 
-const headerRow = {
-  fontWeight: 400,
-};
+const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
+  const [resetting, setResetting] = useState(-1);
+  const [newPassword, setNewPassword] = useState("");
+  const [newPassword2, setNewPassword2] = useState("");
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [activeUsers, setActiveUsers] = useState([]);
+  const [inactiveUsers, setInactiveUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-class ManageUsers extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      resetting: -1,
-      newPassword: "",
-      newPassword2: "",
-      allUsers: [],
-    };
-  }
-
-  openNewPassword = (index) => {
-    let resettingCurrent = this.state.resetting;
-    if (resettingCurrent === index) {
-      this.setState({ resetting: -1, newPassword: "", newPassword2: "" });
-      return;
+  const fetchData = async () => {
+    try {
+      const { data } = await axios("/api/users/" + userObj.homeId, {
+        method: "GET",
+      });
+      getAllUsers()
+      setUsers(data);
+      setActiveUsers(data.filter((user) => user.isActive));
+      setInactiveUsers(data.filter((user) => !user.isActive));
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      alert("error fetching data");
     }
-    this.setState({ resetting: index, newPassword: "", newPassword2: "" });
   };
 
-  toggleCreatedPassword = async () => {
-    await this.setState({ newPassword: "", newPassword2: "" });
-    await this.setState({ resetting: -1 });
+  useEffect(() => {
+    console.log("test")
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const openNewPassword = (index) => {
+    if (resetting === index) {
+      setResetting(-1);
+      setNewPassword("");
+      setNewPassword2("");
+    } else {
+      setResetting(index);
+      setNewPassword("");
+      setNewPassword2("");
+    }
   };
 
-  handleFieldInput = (event) => {
-    var isReenter = event.target.id.split("-")[0];
+  const toggleCreatedPassword = async () => {
+    setNewPassword("");
+    setNewPassword2("");
+    setResetting(-1);
+  };
+
+  const handleFieldInput = (event) => {
+    const isReenter = event.target.id.split("-")[0];
 
     if (isReenter === "reenterpassword") {
-      this.setState({ newPassword2: event.target.value });
+      setNewPassword2(event.target.value);
     } else {
-      this.setState({ newPassword: event.target.value });
+      setNewPassword(event.target.value);
     }
   };
 
-  saveNewPassword = async (id, index) => {
-    if (/^\s+$/.test(this.state.newPassword)) {
+  const saveNewPassword = async (id, index) => {
+    if (/^\s+$/.test(newPassword)) {
       alert("Password is not valid");
       return;
     }
 
-    if (this.state.newPassword !== this.state.newPassword2) {
-      alert("Passwords do no match1");
+    if (newPassword !== newPassword2) {
+      alert("Passwords do not match");
       return;
     }
+
     try {
       const { data } = await Axios({
         method: "put",
         url: "/api/users/" + id,
         data: {
-          password: this.state.newPassword,
+          password: newPassword,
           newUser: false,
         },
       });
-      if (id === this.props.userObj._id) {
+      if (id === userObj._id) {
         console.log("is logged in user");
-        await this.props.updateUserData(data);
       }
       alert("password has been reset");
-      this.toggleCreatedPassword();
+      toggleCreatedPassword();
     } catch (e) {
       alert("Error updating password");
       console.log(e);
     }
   };
 
-  componentDidMount() {
-    Axios.get("/api/users/" + this.props.userObj.homeId).then((allUsers) => {
-      this.setState({ ...this.state, allUsers: allUsers.data });
-    });
-  }
-
-  render() {
-    if (this.props.allUsers) {
-      return (
-        <div className='managementElement' id='manageUsersContainer'>
-          <h4
-            className='defaultLabel pointer'
-            onClick={this.props.toggleShow.bind({}, "Manage User")}
-          >
-            Manage Users{" "}
-            <span
-              style={{ fontSize: "15px" }}
-              className={
-                this.props.doShow ? "fa fa-chevron-down" : "fa fa-chevron-right"
-              }
-            ></span>
-          </h4>
-          <div className={this.props.doShow ? "formFields" : "hideIt"}>
-            {this.state.allUsers.map((item, index) => (
-              <div key={index + "-" + "user"} style={{ margin: "50px 0px" }}>
-                <table style={{ width: "100%" }}>
-                  <tbody>
+  return (
+    <>
+      <div className="managementElement" id="manageUsersContainer">
+        <h4
+          className="defaultLabel pointer"
+          onClick={toggleShow.bind({}, "Manage User")}
+        >
+          Manage Users{" "}
+          <span
+            style={{ fontSize: "15px" }}
+            className={doShow ? "fa fa-chevron-down" : "fa fa-chevron-right"}
+          ></span>
+        </h4>
+        <div className={doShow ? "formFields" : "hideIt"}>
+          <Tab.Container defaultActiveKey="active-users">
+            <Nav variant="tabs">
+              <Nav.Item>
+                <Nav.Link eventKey="active-users">Active</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="inactive-users">Inactive</Nav.Link>
+              </Nav.Item>
+            </Nav>
+            <Tab.Content>
+              <Tab.Pane eventKey="active-users">
+                <Table>
+                  <thead>
                     <tr>
-                      <td style={{ width: "50%" }}>
-                        <p>
-                          {item.firstName}, {item.lastName}
-                          {" - "}
-                          <span
-                            onClick={this.openNewPassword.bind("", index)}
-                            style={{ cursor: "pointer", color: "maroon" }}
+                      <th></th>
+                      <th style={{ width: 10 }}></th>
+                      <th>Name</th>
+                      <th style={{ width: "auto" }}>Role/Email</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {activeUsers.length === 0 && (
+                      <tr>
+                        <td colSpan="6">
+                          No active users available at this time.
+                        </td>
+                      </tr>
+                    )}
+                    {activeUsers.map((item, index) => (
+                      <tr key={index + "-" + "user"}>
+                        <td>
+                          <button
+                            className="btn btn-light extraInfoButton"
+                            onClick={() =>
+                              setShowPasswordModal(true, setResetting(index))
+                            }
                           >
                             Reset Password
-                          </span>
-                        </p>
-                      </td>
-                    </tr>
+                          </button>
+                        </td>
+                        <td style={{ width: 10 }}>
+                          {item.isActive ? (
+                            <DeactivateUser
+                              id={item._id}
+                              fetchData={() => fetchData()}
+                              getAllUsers={getAllUsers}
+                            />
+                          ) : (
+                            <ActivateUser getAllUsers={getAllUsers} id={item._id} fetchData={() => fetchData()} />
+                          )}
+                        </td>
+                        <td >
+                          {item.firstName}, {item.lastName}
+                        </td>
+                        <td style={{ width: "auto" }}>{item.email}<br />{item.jobTitle}</td>
+                      </tr>
+                    ))}
                   </tbody>
-                </table>
-                <div
-                  className={
-                    this.state.resetting === index
-                      ? "flexNewPassword row"
-                      : "hideIt"
-                  }
-                >
-                  <div className='form-group' style={{ margin: "5px" }}>
-                    <label className='control-label'>New Password</label>
-                    <input
-                      onChange={this.handleFieldInput}
-                      className='form-control'
-                      id={"password-" + index}
-                      type='text'
-                    />
-                  </div>
-                  <div className='form-group' style={{ margin: "5px" }}>
-                    <label className='control-label'>
-                      Re-enter New Password
-                    </label>
-                    <input
-                      onChange={this.handleFieldInput}
-                      id={"reenterpassword-" + index}
-                      className='form-control'
-                      type='text'
-                    />
-                  </div>
-                  <div
-                    className='form-group'
-                    style={{
-                      display: "flex",
-                      flexDirection: "column-reverse",
-
-                      margin: "5px",
-                    }}
-                  >
-                    <button
-                      onClick={this.saveNewPassword.bind("", item._id, index)}
-                      className='btn btn-default'
-                    >
-                      Save
-                    </button>
-                  </div>
-                </div>
-                <table
-                  style={{
-                    fontWeight: "200",
-                    width: "-webkit-fill-available",
-                  }}
-                >
+                </Table>
+              </Tab.Pane>
+              <Tab.Pane eventKey="inactive-users">
+                <Table>
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th style={{ width: 20 }}></th>
+                      <th>Name</th>
+                      <th style={{ width: "auto" }}>Role/Email</th>
+                    </tr>
+                  </thead>
                   <tbody>
-                    <tr>
-                      <td>
-                        <span style={headerRow}>Last Logged In</span>
-                        <span>
-                          {" "}
-                          - {new Date(item.lastLogIn).toLocaleString()}
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span style={headerRow}>Role</span>
-                        <span> - {item.jobTitle}</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span style={headerRow}>Email</span> -{" "}
-                        <span>{item.email}</span>
-                      </td>
-                    </tr>
+                    {inactiveUsers.length === 0 && (
+                      <tr>
+                        <td colSpan="6">
+                          No inactive users available at this time.
+                        </td>
+                      </tr>
+                    )}
+                    {inactiveUsers.map((item, index) => (
+                      <tr key={index + "-" + "user"}>
+                        <td>
+                          <button
+                            className="btn btn-light extraInfoButton"
+                            onClick={() =>
+                              setShowPasswordModal(true, setResetting(index))
+                            }
+                          >
+                            Reset Password
+                          </button>
+                        </td>
+                        <td style={{ width: 20 }}>
+                          {item.isActive ? (
+                            <DeactivateUser
+                              id={item._id}
+                              fetchData={fetchData}
+                            />
+                          ) : (
+                            <ActivateUser id={item._id} fetchData={fetchData} />
+                          )}
+                        </td>
+                        <td>
+                          {item.firstName}, {item.lastName}
+                        </td>
+                        <td style={{ width: "auto" }}>{item.email}<br />{item.jobTitle}</td>
+                      </tr>
+                    ))}
                   </tbody>
-                </table>
-              </div>
-            ))}
-          </div>
+                </Table>
+              </Tab.Pane>
+            </Tab.Content>
+          </Tab.Container>
         </div>
-      );
-    } else {
-      return <div></div>;
-    }
-  }
-}
+      </div>
+
+      {/* Update Password Modal */}
+      <Modal
+        show={showPasswordModal}
+        onHide={() => setShowPasswordModal(false)}
+      >
+        <Modal.Header closeButton style={{ backgroundColor: "#fff" }}>
+          <Modal.Title style={{ backgroundColor: "#fff" }}>
+            Reset Password for {users[resetting]?.firstName}{" "}
+            {users[resetting]?.lastName}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ backgroundColor: "#fff" }}>
+          <div className={resetting !== -1 ? "flexNewPassword row" : "hideIt"}>
+            <div className="form-group" style={{ margin: "5px" }}>
+              <label className="control-label">New Password</label>
+              <input
+                onChange={handleFieldInput}
+                className="form-control"
+                id={"password-" + resetting}
+                type="password"
+              />
+            </div>
+            <div className="form-group" style={{ margin: "5px" }}>
+              <label className="control-label">Re-enter New Password</label>
+              <input
+                onChange={handleFieldInput}
+                id={"reenterpassword-" + resetting}
+                className="form-control"
+                type="password"
+              />
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer style={{ backgroundColor: "#fff" }}>
+          <button
+            onClick={() => saveNewPassword(users[resetting]?._id, resetting)}
+            className="btn btn-default"
+          >
+            Save
+          </button>
+          <button
+            onClick={() => setShowPasswordModal(false, setResetting(-1))}
+            className="btn btn-default"
+          >
+            Cancel
+          </button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+};
 
 export default ManageUsers;
