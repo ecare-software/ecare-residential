@@ -111,145 +111,154 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
           ></span>
         </h4>
         <div className={doShow ? "formFields" : "hideIt"}>
-          <Tab.Container defaultActiveKey="active-users">
-            <Nav variant="tabs">
-              <Nav.Item>
-                <Nav.Link eventKey="active-users">Active</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey="inactive-users">Inactive</Nav.Link>
-              </Nav.Item>
-            </Nav>
-            <Tab.Content>
-              <Tab.Pane eventKey="active-users">
-                <Table>
-                  <thead>
-                    <tr>
-                      <th style={{ width: 5 }}></th>
-                      <th style={{ width: 5 }}></th>
-                      <th style={{ width: 5 }}>Name</th>
-                      <th style={{ width: "auto" }}>Email/Role</th>
-                      <th style={{ width: 5 }}></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {activeUsers.length === 0 && (
+        {userObj.isAdmin ? (
+            <Tab.Container defaultActiveKey="active-users">
+              <Nav variant="tabs">
+                <Nav.Item>
+                  <Nav.Link eventKey="active-users">Active</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="inactive-users">Inactive</Nav.Link>
+                </Nav.Item>
+              </Nav>
+              <Tab.Content>
+                <Tab.Pane eventKey="active-users">
+                  <Table>
+                    <thead>
                       <tr>
-                        <td colSpan="6">
-                          No active users available at this time.
-                        </td>
+                        <th style={{ width: 5 }}></th>
+                        <th style={{ width: 5 }}></th>
+                        <th style={{ width: 5 }}>Name</th>
+                        <th style={{ width: "auto" }}>Email/Role</th>
+                        <th style={{ width: 5 }}></th>
                       </tr>
-                    )}
-                    {activeUsers.map((item, index) => (
-                      <tr key={index + "-" + "user"}>
-                        <td style={{ width: 5 }}>
-                          <UpdateUser
-                            id={item._id}
-                            fetchData={() => fetchData()}
-                            item={item}
-                          />
-                        </td>
-                        <td style={{ width: 5 }}>
-                          {item.isActive ? (
-                            <DeactivateUser
+                    </thead>
+                    <tbody>
+                      {activeUsers.length === 0 && (
+                        <tr>
+                          <td colSpan="6">
+                            No active users available at this time.
+                          </td>
+                        </tr>
+                      )}
+                      {activeUsers.map((item, index) => (
+                        <tr key={index + "-" + "user"}>
+                          <td style={{ width: 5 }}>
+                            <UpdateUser
                               id={item._id}
                               fetchData={() => fetchData()}
-                              getAllUsers={getAllUsers}
+                              item={item}
                             />
-                          ) : (
-                            <ActivateUser
-                              getAllUsers={getAllUsers}
+                          </td>
+                          <td style={{ width: 5 }}>
+                            {item.isActive ? (
+                              <DeactivateUser
+                                id={item._id}
+                                fetchData={() => fetchData()}
+                                getAllUsers={getAllUsers}
+                              />
+                            ) : (
+                              <ActivateUser
+                                getAllUsers={getAllUsers}
+                                id={item._id}
+                                fetchData={() => fetchData()}
+                              />
+                            )}
+                          </td>
+                          <td>
+                            {item.firstName}, {item.lastName}
+                          </td>
+                          <td style={{ width: "auto" }}>
+                            {item.email}
+                            <br />
+                            {item.jobTitle}
+                          </td>
+                          <td style={{ width: 5 }}>
+                            <button
+                              className="btn btn-light extraInfoButton"
+                              onClick={() =>
+                                setShowPasswordModal(true, setResetting(index))
+                              }
+                            >
+                              Reset Password
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </Tab.Pane>
+                <Tab.Pane eventKey="inactive-users">
+                  <Table>
+                    <thead>
+                      <tr>
+                        <th style={{ width: 5 }}></th>
+                        <th style={{ width: 5 }}></th>
+                        <th style={{ width: 5 }}>Name</th>
+                        <th style={{ width: "auto" }}>Email/Role</th>
+                        <th style={{ width: 5 }}></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {inactiveUsers.length === 0 && (
+                        <tr>
+                          <td colSpan="6">
+                            No inactive users available at this time.
+                          </td>
+                        </tr>
+                      )}
+                      {inactiveUsers.map((item, index) => (
+                        <tr key={index + "-" + "user"}>
+                          <td style={{ width: 5 }}>
+                            <UpdateUser
                               id={item._id}
                               fetchData={() => fetchData()}
+                              item={item}
                             />
-                          )}
-                        </td>
-                        <td>
-                          {item.firstName}, {item.lastName}
-                        </td>
-                        <td style={{ width: "auto" }}>
-                          {item.email}
-                          <br />
-                          {item.jobTitle}
-                        </td>
-                        <td style={{ width: 5 }}>
-                          <button
-                            className="btn btn-light extraInfoButton"
-                            onClick={() =>
-                              setShowPasswordModal(true, setResetting(index))
-                            }
-                          >
-                            Reset Password
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              </Tab.Pane>
-              <Tab.Pane eventKey="inactive-users">
-                <Table>
-                  <thead>
-                    <tr>
-                      <th style={{ width: 5 }}></th>
-                      <th style={{ width: 5 }}></th>
-                      <th style={{ width: 5 }}>Name</th>
-                      <th style={{ width: "auto" }}>Email/Role</th>
-                      <th style={{ width: 5 }}></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {inactiveUsers.length === 0 && (
-                      <tr>
-                        <td colSpan="6">
-                          No inactive users available at this time.
-                        </td>
-                      </tr>
-                    )}
-                    {inactiveUsers.map((item, index) => (
-                      <tr key={index + "-" + "user"}>
-                        <td style={{ width: 5 }}>
-                          <UpdateUser
-                            id={item._id}
-                            fetchData={() => fetchData()}
-                            item={item}
-                          />
-                        </td>
-                        <td style={{ width: 5 }}>
-                          {item.isActive ? (
-                            <DeactivateUser
-                              id={item._id}
-                              fetchData={fetchData}
-                            />
-                          ) : (
-                            <ActivateUser id={item._id} fetchData={fetchData} />
-                          )}
-                        </td>
-                        <td>
-                          {item.firstName}, {item.lastName}
-                        </td>
-                        <td style={{ width: "auto" }}>
-                          {item.email}
-                          <br />
-                          {item.jobTitle}
-                        </td>
-                        <td style={{ width: 5 }}>
-                          <button
-                            className="btn btn-light extraInfoButton"
-                            onClick={() =>
-                              setShowPasswordModal(true, setResetting(index))
-                            }
-                          >
-                            Reset Password
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              </Tab.Pane>
-            </Tab.Content>
-          </Tab.Container>
+                          </td>
+                          <td style={{ width: 5 }}>
+                            {item.isActive ? (
+                              <DeactivateUser
+                                id={item._id}
+                                fetchData={fetchData}
+                              />
+                            ) : (
+                              <ActivateUser
+                                id={item._id}
+                                fetchData={fetchData}
+                              />
+                            )}
+                          </td>
+                          <td>
+                            {item.firstName}, {item.lastName}
+                          </td>
+                          <td style={{ width: "auto" }}>
+                            {item.email}
+                            <br />
+                            {item.jobTitle}
+                          </td>
+                          <td style={{ width: 5 }}>
+                            <button
+                              className="btn btn-light extraInfoButton"
+                              onClick={() =>
+                                setShowPasswordModal(true, setResetting(index))
+                              }
+                            >
+                              Reset Password
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </Tab.Pane>
+              </Tab.Content>
+            </Tab.Container>
+        ) : (
+          <h5 className="defaultLabel pointer">
+            You do not have admin privileges.
+          </h5>
+        )}
         </div>
       </div>
 
