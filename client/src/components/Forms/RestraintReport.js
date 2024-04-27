@@ -347,7 +347,7 @@ class RestraintReport extends Component {
   getStaff = async () => {
     try {
       let { data: staff } = await Axios.get(
-        `/api/users/${this.props.userObj.homeId}`
+        `/api/users/${this.props.userObj.homeId}?isActive=true`
       );
 
       staff = staff.filter((staff) => {

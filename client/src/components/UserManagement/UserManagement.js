@@ -33,6 +33,7 @@ class UserManagement extends Component {
           <ManageUsers
             id='manageUsers'
             allUsers={this.props.allUsers}
+            getAllUsers={this.props.getAllUsers}
             toggleShow={this.toggleShow}
             doShow={this.state.showManageUsers}
             userObj={this.props.userObj}
