@@ -46,7 +46,7 @@ class NightMonitoring extends Component {
 
   toggleSuccessAlert = () => {
     this.setState({
-      formSubmitted: !this.state.formSubmitted,
+      formSubmitted: true,
       loadingClients: false,
     });
   };
@@ -69,6 +69,21 @@ class NightMonitoring extends Component {
       stateObj[level1Obj] = nestedProperty;
     } else {
       stateObj[event.target.id] = event.target.value;
+    }
+    this.setState(stateObj);
+  };
+
+  handleFieldInputDate = (event) => {
+    var stateObj = {};
+    if (event.target.id.indexOf(".") > -1) {
+      let level1Obj = event.target.id.split(".")[0];
+      let level2Obj = event.target.id.split(".")[1];
+
+      let nestedProperty = { ...this.state[level1Obj] };
+      nestedProperty[level2Obj] = event.target.value;
+      stateObj[level1Obj] = nestedProperty;
+    } else {
+      stateObj[event.target.id] = event.target.value.concat(':00.000Z');
     }
     this.setState(stateObj);
   };
@@ -163,6 +178,9 @@ class NightMonitoring extends Component {
 
         this.setState({ ...this.state, ...data });
         window.scrollTo(0, 0);
+        this.setState({
+          formSubmitted: true,
+        });
         this.toggleSuccessAlert();
         // setTimeout(() => {
         //   this.toggleSuccessAlert();
@@ -342,7 +360,7 @@ class NightMonitoring extends Component {
                   Create Date
                 </label>{" "}
                 <input
-                  onChange={this.handleFieldInput}
+                  onChange={this.handleFieldInputDate}
                   id="createDate"
                   value={this.state.createDate.slice(0, -8)}
                   className="form-control hide-on-print"

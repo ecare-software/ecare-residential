@@ -106,6 +106,21 @@ class DailyProgressAndActivity extends Component {
     this.setState(stateObj);
   };
 
+  handleFieldInputDate = (event) => {
+    var stateObj = {};
+    if (event.target.id.indexOf(".") > -1) {
+      let level1Obj = event.target.id.split(".")[0];
+      let level2Obj = event.target.id.split(".")[1];
+
+      let nestedProperty = { ...this.state[level1Obj] };
+      nestedProperty[level2Obj] = event.target.value;
+      stateObj[level1Obj] = nestedProperty;
+    } else {
+      stateObj[event.target.id] = event.target.value.concat(':00.000Z');
+    }
+    this.setState(stateObj);
+  };
+
   resetForm = () => {
     this.setState({
       childMeta_name: "",
@@ -415,7 +430,7 @@ class DailyProgressAndActivity extends Component {
                   Create Date
                 </label>{" "}
                 <input
-                  onChange={this.handleFieldInput}
+                  onChange={this.handleFieldInputDate}
                   id="createDate"
                   value={this.state.createDate.slice(0, -8)}
                   className="form-control"
