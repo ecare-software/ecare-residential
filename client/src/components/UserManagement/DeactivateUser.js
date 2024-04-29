@@ -111,7 +111,7 @@ export default function DeactivateUser({ id, fetchData }) {
 
   return (
     <>
-      <button className="btn btn-link extraInfoButton" onClick={handleShow}>
+      <button className="btn btn-red extraInfoButton" onClick={handleShow}>
         {"Deactivate"}
       </button>
       {deactivateUserModal}

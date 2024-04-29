@@ -113,7 +113,7 @@ export default function ActivateUser({ id, fetchData }) {
 
   return (
     <>
-      <button className="btn btn-link extraInfoButton" onClick={handleShow}>
+      <button className="btn btn-green extraInfoButton" onClick={handleShow}>
         {"Activate"}
       </button>
       {activateUserModal}

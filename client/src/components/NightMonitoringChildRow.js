@@ -25,6 +25,7 @@ export const NightMonitoringChildRow = ({
     rootState?.childMeta_name
   );
   const [childSelected, setChildSelected] = useState(rootState?.childSelected);
+  const [formSubmitted, setFormSubmitted] = useState(rootState?.formSubmitted);
 
   let sigCanvas;
   const doFormatChildMetaName = (val) => {
@@ -45,9 +46,9 @@ export const NightMonitoringChildRow = ({
   }, [signature]);
 
   useEffect(() => {
-    console.log(rootState);
-    if (childMeta_name !== "") {setChildSelected(true)}
-    // if (childMeta_name) {childSelected = true}
+    if (childMeta_name !== "") {
+      setChildSelected(true);
+    }
     setRootState({
       date,
       roomNumber,
@@ -57,6 +58,7 @@ export const NightMonitoringChildRow = ({
       signed,
       childMeta_name,
       childSelected,
+      formSubmitted,
     });
   }, [
     date,
@@ -67,6 +69,7 @@ export const NightMonitoringChildRow = ({
     signed,
     childMeta_name,
     childSelected,
+    formSubmitted,
   ]);
 
   return (
