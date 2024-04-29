@@ -581,18 +581,6 @@ class AdmissionAssessment extends Component {
           ) : (
             <Container className="print-container">
               <div className="form-group logInInputField">
-                <label className="control-label hide-on-print">
-                  Create Date
-                </label>{" "}
-                <input
-                  onChange={this.handleFieldInputDate}
-                  id="createDate"
-                  value={this.state.createDate.slice(0, -8)}
-                  className="form-control hide-on-print"
-                  type="datetime-local"
-                />{" "}
-              </div>
-              <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Child's Name</label>{" "}
                 <Form.Control
@@ -608,6 +596,19 @@ class AdmissionAssessment extends Component {
                   )}
                 </Form.Control>
               </div>
+              <div className="form-group logInInputField">
+                <label className="control-label hide-on-print">
+                  Create Date
+                </label>{" "}
+                <input
+                  onChange={this.handleFieldInputDate}
+                  id="createDate"
+                  value={this.state.createDate.slice(0, -8)}
+                  className="form-control hide-on-print"
+                  type="datetime-local"
+                />{" "}
+              </div>
+              
               <Row>
                 <Col md={3} className="print-column">
                   <div className="form-group logInInputField">
@@ -2346,18 +2347,6 @@ class AdmissionAssessment extends Component {
             ) : (
               <Container className="print-container">
                 <div className="form-group logInInputField">
-                  <label className="control-label hide-on-print">
-                    Create Date
-                  </label>{" "}
-                  <input
-                    id="createDate"
-                    value={this.state.createDate.slice(0, -8)}
-                    className="form-control hide-on-print"
-                    type="datetime-local"
-                    disabled
-                  />{" "}
-                </div>
-                <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">Child's Name</label>{" "}
                   <input
@@ -2369,6 +2358,18 @@ class AdmissionAssessment extends Component {
                     disabled
                   />{" "}
                 </div>
+                <div className="form-group logInInputField">
+                  <label className="control-label hide-on-print">
+                    Create Date
+                  </label>{" "}
+                  <input
+                    id="createDate"
+                    value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
+                    className="form-control hide-on-print"
+                    type="datetime-local"
+                  />{" "}
+                </div>
+                
                 <Row>
                   <Col md={3} className="print-column">
                     <div className="form-group logInInputField">
