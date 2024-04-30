@@ -463,6 +463,22 @@ class BodyCheck extends Component {
           ) : (
             <Container className="print-container">
               <div className="form-group logInInputField">
+                {" "}
+                <label className="control-label">Child's Name</label>{" "}
+                <Form.Control
+                  as="select"
+                  defaultValue={null}
+                  onChange={this.handleClientSelect}
+                >
+                  {[null, ...this.state.clients].map(
+                    (client) => (
+                      <ClientOption data={client} />
+                    ),
+                    []
+                  )}
+                </Form.Control>
+              </div>
+              <div className="form-group logInInputField">
                 <label className="control-label hide-on-print">
                   Create Date
                 </label>{" "}
@@ -475,24 +491,6 @@ class BodyCheck extends Component {
                 />{" "}
               </div>
               <Row>
-                <Col>
-                  <div className="form-group logInInputField">
-                    {" "}
-                    <label className="control-label">Child's Name</label>{" "}
-                    <Form.Control
-                      as="select"
-                      defaultValue={null}
-                      onChange={this.handleClientSelect}
-                    >
-                      {[null, ...this.state.clients].map(
-                        (client) => (
-                          <ClientOption data={client} />
-                        ),
-                        []
-                      )}
-                    </Form.Control>
-                  </div>
-                </Col>
 
                 <Col>
                   <div className="form-group logInInputField">
@@ -529,20 +527,21 @@ class BodyCheck extends Component {
                     />{" "}
                   </div>
                 </Col>
-              </Row>
 
-              <div className="form-group logInInputField">
-                {" "}
-                <label className="control-label">AM / PM</label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id="amPm"
-                  value={this.state.amPm}
-                  className="form-control"
-                  disabled={this.state.childSelected ? false : true}
-                  type="text"
-                />{" "}
-              </div>
+
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">AM / PM</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    id="amPm"
+                    value={this.state.amPm}
+                    className="form-control"
+                    disabled={this.state.childSelected ? false : true}
+                    type="text"
+                  />{" "}
+                </div>
+              </Row>
               <Row>
                 <Col md={4} className="print-column">
                   <div className="form-group logInInputField">
@@ -1484,32 +1483,31 @@ class BodyCheck extends Component {
             ) : (
               <Container className="print-container">
                 <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">Child's Name</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    id="childMeta_name"
+                    value={this.state.childMeta_name}
+                    className="form-control"
+                    type="text"
+                    disabled
+                  />{" "}
+                </div>
+
+                <div className="form-group logInInputField">
                   <label className="control-label hide-on-print">
                     Create Date
                   </label>{" "}
                   <input
                     id="createDate"
-                    value={this.state.createDate.slice(0, -8)}
+                    value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
                     className="form-control hide-on-print"
                     type="datetime-local"
-                    disabled
                   />{" "}
                 </div>
                 <Row>
-                  <Col>
-                    <div className="form-group logInInputField">
-                      {" "}
-                      <label className="control-label">Child's Name</label>{" "}
-                      <input
-                        onChange={this.handleFieldInput}
-                        id="childMeta_name"
-                        value={this.state.childMeta_name}
-                        className="form-control"
-                        type="text"
-                        disabled
-                      />{" "}
-                    </div>
-                  </Col>
+
                   <Col>
                     <div className="form-group logInInputField">
                       {" "}
@@ -2431,20 +2429,20 @@ class BodyCheck extends Component {
               <>
                 <FormError errorId={this.props.id + "-error"} />
                 <Row className="save-submit-row">
-                    <div style={{ display: "flex", width: "46%" }}>
-                      <button
-                        className="lightBtn hide hide-on-print save-submit-btn"
-                        style={{ 
-                          width: "100%",
-                          display: this.state.status === 'COMPLETED' ? "none" : "block"
-                        }}
-                        onClick={() => {
-                          this.validateForm(true);
-                        }}
-                      >
-                        Finish Later
-                      </button>
-                    </div>
+                  <div style={{ display: "flex", width: "46%" }}>
+                    <button
+                      className="lightBtn hide hide-on-print save-submit-btn"
+                      style={{
+                        width: "100%",
+                        display: this.state.status === 'COMPLETED' ? "none" : "block"
+                      }}
+                      onClick={() => {
+                        this.validateForm(true);
+                      }}
+                    >
+                      Finish Later
+                    </button>
+                  </div>
 
                   <div style={{ display: "flex", width: "46%" }}>
                     <button
