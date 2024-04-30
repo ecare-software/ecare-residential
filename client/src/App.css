@@ -29,14 +29,16 @@
 
   .meta-details-content {
     margin: 0px !important;
+    /* page-break-before: always !important; */
   }
 
-.formComp {
+ .formComp {
   page-break-after: always;
 }
-.formComp:last-child {
+.print:last-child {
   page-break-after: avoid;
 }
+
 }
 
 td{

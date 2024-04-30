@@ -97,11 +97,11 @@ class FormSubmitterListContainer extends Component {
     */
     setTimeout(() => {
       window.print();
-    }, 1200);
+    }, 12000);
 
     setTimeout(() => {
       this.setState({ ...this.state, showFullForms: false, formsToPrint: [] });
-    }, 1600);
+    }, 16000);
   };
 
   render() {
