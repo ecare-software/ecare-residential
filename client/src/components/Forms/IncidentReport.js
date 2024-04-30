@@ -456,25 +456,6 @@ class IncidentReport extends Component {
           ) : (
             <Container className="print-container">
               <Row>
-              <Col xs={12} className="print-column">
-                  <div className="form-group logInInputField">
-                    {" "}
-                    <label className="control-label">Child's Name</label>{" "}
-                    <Form.Control
-                      as="select"
-                      defaultValue={null}
-                      onChange={this.handleClientSelect}
-                    >
-                      {[null, ...this.state.clients].map(
-                        (client, idx) => (
-                          <ClientOption key={`${idx}`} data={client} />
-                        ), []
-                      )}
-                    </Form.Control>
-                  </div>
-                </Col>
-              </Row>
-              <Row>
                 <Col xs={12} className="print-column">
                   <div className="form-group logInInputField">
                     <label className="control-label hide-on-print">
@@ -492,6 +473,23 @@ class IncidentReport extends Component {
               </Row>
 
               <Row>
+                <Col xs={3} className="print-column">
+                  <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">Child's Name</label>{" "}
+                    <Form.Control
+                      as="select"
+                      defaultValue={null}
+                      onChange={this.handleClientSelect}
+                    >
+                      {[null, ...this.state.clients].map(
+                        (client, idx) => (
+                          <ClientOption key={`${idx}`} data={client} />
+                        ), []
+                      )}
+                    </Form.Control>
+                  </div>
+                </Col>
                 <Col xs={3} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
@@ -1027,7 +1025,24 @@ class IncidentReport extends Component {
             ) : (
               <Container className="print-container">
                 <Row>
-                <Col xs={12} className="print-column">
+                  <Col xs={12}>
+                    <div className="form-group logInInputField">
+                      <label className="control-label hide-on-print">
+                        Create Date
+                      </label>{" "}
+                      <input
+                        id="createDate"
+                        value={this.state.createDate.slice(0, -8)}
+                        className="form-control hide-on-print"
+                        type="datetime-local"
+                        disabled
+                      />{" "}
+                    </div>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col xs={3} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">Child's Name</label>{" "}
@@ -1041,24 +1056,6 @@ class IncidentReport extends Component {
                       />{" "}
                     </div>
                   </Col>
-                </Row>
-                <Row>
-                  <Col xs={12}>
-                    <div className="form-group logInInputField">
-                      <label className="control-label hide-on-print">
-                        Create Date
-                      </label>{" "}
-                      <input
-                        id="createDate"
-                        value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
-                        className="form-control hide-on-print"
-                        type="datetime-local"
-                      />{" "}
-                    </div>
-                  </Col>
-                </Row>
-
-                <Row>
                   <Col xs={3} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}

@@ -480,7 +480,19 @@ class SeriousIncidentReport extends Component {
             </div>
           ) : (
             <Container className="print-container">
-               <div className="form-group logInInputField">
+              <div className="form-group logInInputField">
+                <label className="control-label hide-on-print">
+                  Create Date
+                </label>{" "}
+                <input
+                  onChange={this.handleFieldInputDate}
+                  id="createDate"
+                  value={this.state.createDate.slice(0, -8)}
+                  className="form-control hide-on-print"
+                  type="datetime-local"
+                />{" "}
+              </div>
+              <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Child's Name</label>{" "}
                 <Form.Control
@@ -496,18 +508,7 @@ class SeriousIncidentReport extends Component {
                   )}
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label hide-on-print">
-                  Create Date
-                </label>{" "}
-                <input
-                  onChange={this.handleFieldInputDate}
-                  id="createDate"
-                  value={this.state.createDate.slice(0, -8)}
-                  className="form-control hide-on-print"
-                  type="datetime-local"
-                />{" "}
-              </div>
+
               <Row>
                 <Col md={4} className="print-column">
                   <div className="form-group logInInputField">
@@ -1002,6 +1003,20 @@ class SeriousIncidentReport extends Component {
             ) : (
               <Container>
                 <div className="form-group logInInputField">
+                  <label className="control-label hide-on-print">
+                    Create Date
+                  </label>{" "}
+                  <input
+                    id="createDate"
+                    value={this.state.createDate.slice(0, -8)}
+                    className="form-control hide-on-print"
+                    type="datetime-local"
+                    disabled
+                  />{" "}
+                </div>
+                <Row>
+                  <Col md={4} className="print-column">
+                    <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">Child's Name</label>{" "}
                       <input
@@ -1013,20 +1028,6 @@ class SeriousIncidentReport extends Component {
                         disabled
                       />{" "}
                     </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label hide-on-print">
-                    Create Date
-                  </label>{" "}
-                  <input
-                    id="createDate"
-                    value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
-                    className="form-control hide-on-print"
-                    type="datetime-local"
-                  />{" "}
-                </div>
-                <Row>
-                  <Col md={4} className="print-column">
-                    
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">

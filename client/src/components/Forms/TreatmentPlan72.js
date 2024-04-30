@@ -770,6 +770,16 @@ class TreatmentPlan72 extends Component {
             ) : (
               <div>
                 <div className="form-group logInInputField">
+                  <label className="control-label">Create Date</label>{" "}
+                  <input
+                    onChange={this.handleFieldInputDate}
+                    id="createDate"
+                    value={this.state.createDate.slice(0, -8)}
+                    className="form-control"
+                    type="datetime-local"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">Child's Name</label>{" "}
                   <Form.Control
@@ -785,17 +795,6 @@ class TreatmentPlan72 extends Component {
                     )}
                   </Form.Control>
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label">Create Date</label>{" "}
-                  <input
-                    onChange={this.handleFieldInputDate}
-                    id="createDate"
-                    value={this.state.createDate.slice(0, -8)}
-                    className="form-control"
-                    type="datetime-local"
-                  />{" "}
-                </div>
-
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
@@ -2780,6 +2779,16 @@ class TreatmentPlan72 extends Component {
           ) : (
             <div className="formFieldsMobileReport">
               <div className="form-group logInInputField">
+                <label className="control-label">Create Date</label>{" "}
+                <input
+                  onChange={this.handleFieldInput}
+                  id="createDate"
+                  value={this.state.createDate.slice(0, -8)}
+                  className="form-control"
+                  type="datetime-local"
+                />{" "}
+              </div>
+              <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Child's Name</label>{" "}
                 <input
@@ -2788,19 +2797,9 @@ class TreatmentPlan72 extends Component {
                   id="childMeta_name"
                   className="form-control"
                   type="text"
+                  disabled
                 />{" "}
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label">Create Date</label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id="createDate"
-                  value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
-                  className="form-control"
-                  type="datetime-local"
-                />{" "}
-              </div>
-
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">

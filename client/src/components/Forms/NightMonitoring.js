@@ -448,9 +448,10 @@ class NightMonitoring extends Component {
                   </label>{" "}
                   <input
                     id="createDate"
-                    value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
+                    value={this.state.createDate.slice(0, -8)}
                     className="form-control hide-on-print"
                     type="datetime-local"
+                    disabled
                   />{" "}
                 </div>
                 <NightMonitoringChildRow
