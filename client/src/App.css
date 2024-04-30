@@ -1,4 +1,8 @@
 @media print {
+  * {
+    page-break-inside: avoid !important; 
+    page-break-before: avoid !important;
+  }
   .hide-on-print {
     display: none !important;
   }
@@ -29,16 +33,11 @@
 
   .meta-details-content {
     margin: 0px !important;
-    /* page-break-before: always !important; */
   }
 
- .formComp {
-  page-break-after: always;
-}
-.print:last-child {
-  page-break-after: avoid;
-}
-
+  .sigSection {
+    page-break-after: always !important;
+  }
 }
 
 td{
