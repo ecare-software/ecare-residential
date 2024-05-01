@@ -111,7 +111,7 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
           ></span>
         </h4>
         <div className={doShow ? "formFields" : "hideIt"}>
-        {userObj.isAdmin ? (
+          {userObj.isAdmin ? (
             <Tab.Container defaultActiveKey="active-users">
               <Nav variant="tabs">
                 <Nav.Item>
@@ -155,11 +155,11 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
                               <DeactivateUser
                                 id={item._id}
                                 fetchData={() => fetchData()}
-                                getAllUsers={getAllUsers}
+                                getAllUsers={() => getAllUsers()}
                               />
                             ) : (
                               <ActivateUser
-                                getAllUsers={getAllUsers}
+                                getAllUsers={() => getAllUsers()}
                                 id={item._id}
                                 fetchData={() => fetchData()}
                               />
@@ -254,11 +254,11 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
                 </Tab.Pane>
               </Tab.Content>
             </Tab.Container>
-        ) : (
-          <h5 className="defaultLabel pointer">
-            You do not have admin privileges.
-          </h5>
-        )}
+          ) : (
+            <h5 className="defaultLabel pointer">
+              You do not have admin privileges.
+            </h5>
+          )}
         </div>
       </div>
 
