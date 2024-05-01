@@ -46,7 +46,7 @@ class FormSubmitterListContainer extends Component {
     };
   }
 
- 
+
 
   selectUser = (userId) => {
     if (this.state.selectedUser === userId) {
@@ -65,6 +65,7 @@ class FormSubmitterListContainer extends Component {
   }
 
   triggerPrint = () => {
+    this.state.formsLoaded = false;
     /*
     1. change all of the listed forms to full view of forms
     */
@@ -76,39 +77,43 @@ class FormSubmitterListContainer extends Component {
     // 2.1 list forms (loop)
     const allForms = this.props.submittions;
 
-    //2.2 display all of the forms
+    //2.2 display all of the forms if status = complete
     const allFormComps = allForms.reduce((acc, form) => {
-      form = { ...form, name: form.formType };
-      acc.push(
-        <ShowFormContainer
-          valuesSet='true'
-          userObj={this.state.userObj}
-          formData={form}
-          form={form}
-          isAdminRole={isAdminUser(this.state.userObj)}
-        />
-      );
+      form = { ...form, name: form.formType, status: form.status };
+      if (form.status === "COMPLETED") {
+        acc.push(
+          <ShowFormContainer
+            valuesSet='true'
+            userObj={this.state.userObj}
+            formData={form}
+            form={form}
+            isAdminRole={isAdminUser(this.state.userObj)}
+          />
+        );
+      }
+
       return acc;
     }, []);
     this.setState({ ...this.state, formsToPrint: allFormComps });
+    console.log('all form comps, type', allFormComps)
 
     /*
     3. change the view back after set amount of time, showing list of filtered forms again
     */
     setTimeout(() => {
       window.print();
-    }, 1200);
+    }, 12000);
 
     setTimeout(() => {
       this.setState({ ...this.state, showFullForms: false, formsToPrint: [] });
-    }, 1600);
+    }, 16000);
   };
 
   render() {
     if (this.state.formsToPrint.length > 0) {
       return (
-        <div className="container">
-          <div 
+        <div className="container" style={{pageBreakBefore:"avoid", pageBreakInside:"avoid"}}>
+          <div
             style={{
               display: "flex",
               flexDirection: "row",
@@ -124,11 +129,11 @@ class FormSubmitterListContainer extends Component {
               <ClipLoader className='formSpinner' size={40} color={"#ffc107"} />
             </div>
             <div className="col-xs-8">
-              <h1 style={{fontSize:"1.2rem", paddingLeft:"10px", paddingTop:"5px"}}>Printing {this.state.formType} Forms. Please wait...</h1>
+              <h1 style={{ fontSize: "1.2rem", paddingLeft: "10px", paddingTop: "5px" }}>Printing {this.state.formType} Forms. Please wait...</h1>
             </div>
-            
+
           </div>
-          <div className='hide-on-non-print'>
+          <div className='hide-on-non-print' style={{pageBreakBefore:"avoid", pageBreakInside:"avoid"}}>
             {this.state.formsToPrint.map((form, idx) => (
               <div key={`print-form-${idx}`}>{form}</div>
             ))}
@@ -160,10 +165,14 @@ class FormSubmitterListContainer extends Component {
             )}
           </div>
           )} */}
-        <div className="hide-on-print" style={{paddingBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            <button onClick={this.triggerPrint} className='btn btn-link'>
-              <span className='fa fa-print'></span> Print {this.props.formType} Forms
-            </button>
+        <div className="hide-on-print" style={{ paddingBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', pageBreakBefore:"avoid", pageBreakInside:"avoid"}}>
+          <button onClick={this.triggerPrint}
+            className='btn btn-link'
+            // disable button if no completed forms
+            disabled={(this.props.submittions.find(submission => submission.status === 'COMPLETED')) !== undefined ? false : true}
+          >
+            <span className='fa fa-print'></span> Print {this.props.formType} Forms
+          </button>
         </div>
         {this.props.submittions.length > 0 ? (
           this.props.submittions.map((form, formIndex) => (
@@ -176,53 +185,53 @@ class FormSubmitterListContainer extends Component {
               }
               key={formIndex}
             >
-              <Table hover id="report-table" style={{width: "90%", marginBottom:"0px"}}>
-                  {formIndex === 0 && (
-                     <thead>
-                      <tr>
-                          <th>
-                            Status
-                          </th>
-                          <th>
-                            Created
-                          </th>
-                          <th>
-                            Client
-                          </th>
-                          <th>
-                            Submitter
-                          </th>
-                          {(this.state.formType === "Incident Report" || this.state.formType === "Serious Incident Report" || this.state.formType === "Restraint Report") && (
-                            <th>
-                             Occured
-                           </th>
-                          )}                        
-                      </tr>
-                     </thead>
-                    )}               
+              <Table hover id="report-table" style={{ width: "90%", marginBottom: "0px" }}>
+                {formIndex === 0 && (
+                  <thead>
+                    <tr>
+                      <th>
+                        Status
+                      </th>
+                      <th>
+                        Created
+                      </th>
+                      <th>
+                        Client
+                      </th>
+                      <th>
+                        Submitter
+                      </th>
+                      {(this.state.formType === "Incident Report" || this.state.formType === "Serious Incident Report" || this.state.formType === "Restraint Report") && (
+                        <th>
+                          Occured
+                        </th>
+                      )}
+                    </tr>
+                  </thead>
+                )}
                 <tbody>
                   <tr>
                     <td>
                       {/* display status as "IN PROGRESS" if form created before status attribute was added */}
-                      {(form.status === "" || !form.status) ? "IN PROGRESS" : form.status}                  
+                      {(form.status === "" || !form.status) ? "IN PROGRESS" : form.status}
                     </td>
                     <td>
-                      {new Date(form.createDate).toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric'})}                    
+                      {new Date(form.createDate).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}
                     </td>
                     <td>
-                        {form.childMeta_name}
+                      {form.childMeta_name}
                     </td>
                     <td>
-                        {form.createdByName}
+                      {form.createdByName}
                     </td>
                     {(this.state.formType === "Incident Report" || this.state.formType === "Serious Incident Report") && (
-                        <td>
-                          {form.dateOfIncident === "" ? " " : new Date(form.dateOfIncident).toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric'})}
-                        </td>
+                      <td>
+                        {form.dateOfIncident === "" ? " " : new Date(form.dateOfIncident).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}
+                      </td>
                     )}
                     {this.state.formType === ("Restraint Report") && (
                       <td>
-                        {form.time_of_incident === "" ? " " : new Date(form.time_of_incident).toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric'})}
+                        {form.time_of_incident === "" ? " " : new Date(form.time_of_incident).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}
                       </td>
                     )}
                   </tr>

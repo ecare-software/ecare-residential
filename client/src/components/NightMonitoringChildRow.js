@@ -199,7 +199,7 @@ export const NightMonitoringChildRow = ({
               ></TextareaAutosize>
             </div>
           </Col>
-          <Col md="6" className="control-label text-center">
+          <Col md="6" className="control-label text-center sigSection">
             {signed ? (
               <div className="mb-2 d-flex align-items-center">
                 {

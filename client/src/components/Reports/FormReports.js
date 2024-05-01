@@ -315,29 +315,33 @@ export class FormReports extends Component {
       return acc;
     }, []);
 
-    //2.2 display all of the forms
+    //2.2 display all of the forms if status = complete
     const allFormComps = allForms.reduce((acc, form) => {
-      form = { ...form, name: form.formType };
-      acc.push(
-        <ShowFormContainer
-          valuesSet='true'
-          userObj={this.props.userObj}
-          formData={form}
-          form={form}
-          isAdminRole={isAdminUser(this.props.userObj)}
-        />
-      );
+      form = { ...form, name: form.formType, status: form.status };
+      if (form.status === "COMPLETED") {
+        acc.push(
+          <ShowFormContainer
+            valuesSet='true'
+            userObj={this.props.userObj}
+            formData={form}
+            form={form}
+            isAdminRole={isAdminUser(this.props.userObj)}
+          />
+        );
+      }
       return acc;
     }, []);
     this.setState({ ...this.state, formsToPrint: allFormComps });
+    console.log('all form comps, all type', allFormComps)
 
-       /*
-      3. change the view back after set amount of time, showing list of filtered forms again
-      */
-      { !this.state.isLoading &&
+    /*
+   3. change the view back after set amount of time, showing list of filtered forms again
+   */
+    {
+      !this.state.isLoading &&
       setTimeout(() => {
         window.print();
-      }, 100000) 
+      }, 100000)
 
       setTimeout(() => {
         this.setState({ ...this.state, showFullForms: false, formsToPrint: [] });
@@ -365,7 +369,7 @@ export class FormReports extends Component {
         setSelectedUser={this.setSelectedUser}
         formObjs={this.state.forms}
         userObj={this.props.userObj}
-        searchObj= {this.state.searchObj}
+        searchObj={this.state.searchObj}
       />
     );
   };
@@ -1060,15 +1064,15 @@ export class FormReports extends Component {
             }}
             className='hide-on-print row'
           >
-             <div className="col-4" style={{textAlign:"end"}}>
+            <div className="col-4" style={{ textAlign: "end" }}>
               <ClipLoader className='formSpinner' size={"4rem"} color={"#ffc107"} />
             </div>
             <div className="col-8">
-              <h1 style={{fontSize:"1.5rem", paddingLeft:"10px", paddingTop:"5px"}}>Printing Forms. Please wait...</h1>
+              <h1 style={{ fontSize: "1.5rem", paddingLeft: "10px", paddingTop: "5px" }}>Printing Forms. Please wait...</h1>
             </div>
-            
 
-              {/* <button
+
+            {/* <button
                 onClick={() => {
                   this.doPrintResultsView()
                 }}
@@ -1078,13 +1082,13 @@ export class FormReports extends Component {
               </button> */}
           </div>
           <button
-                onClick={() => {
-                  this.doClosePrintView()
-                }}
-                className="btn btn-light hide-on-print"
-              >
-                Close <i className="fas fa-times"></i>
-              </button>
+            onClick={() => {
+              this.doClosePrintView()
+            }}
+            className="btn btn-light hide-on-print"
+          >
+            Close <i className="fas fa-times"></i>
+          </button>
           <div className='hide-on-non-print'>
             {this.state.formsToPrint.map((form, idx) => (
               <div key={`print-form-${idx}`}>{form}</div>
@@ -1240,7 +1244,7 @@ export class FormReports extends Component {
             <p>Loading...</p>
           </div>
         ) : this.state.doShowFilters === false && !this.state.isLoading ? (
-          <div className='row' style={{ paddingBottom: "100px", justifyContent: "center", alignItems: "center"}}>
+          <div className='row' style={{ paddingBottom: "100px", justifyContent: "center", alignItems: "center" }}>
             <div style={{ marginTop: "5px" }} className='col-md-12'>
               <div
                 className={
