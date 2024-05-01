@@ -9,7 +9,7 @@
     "axios": "^1.6.0",
     "bootstrap": "^4.5.3",
     "http-proxy-middleware": "^2.0.6",
-    "npm": "^9.4.2",
+    "npm": "^10.5.2",
     "react": "^16.14.0",
     "react-async": "^10.0.1",
     "react-bootstrap": "^1.4.0",
