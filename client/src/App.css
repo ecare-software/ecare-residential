@@ -1,4 +1,8 @@
 @media print {
+  * {
+    page-break-inside: avoid !important; 
+    page-break-before: avoid !important;
+  }
   .hide-on-print {
     display: none !important;
   }
@@ -31,12 +35,9 @@
     margin: 0px !important;
   }
 
-.formComp {
-  page-break-after: always;
-}
-.formComp:last-child {
-  page-break-after: avoid;
-}
+  .sigSection {
+    page-break-after: always !important;
+  }
 }
 
 td{

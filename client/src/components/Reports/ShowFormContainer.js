@@ -425,8 +425,8 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
             <p>Updating...</p>
           </div>
         )}
-        <Form.Row>
-          <Col xs="auto">
+        <Form.Row style={{pageBreakAfter: "avoid"}}>
+          <Col xs="auto" style={{pageBreakAfter: "avoid"}}>
             <div
               style={{
                 width: "100%",
@@ -434,6 +434,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
                 maxHeight: "170",
                 justifyContent: "center",
                 display: !isSavingSigCanvasAdmin && isApproved ? "" : "none",
+                pageBreakAfter: "avoid"
               }}
             >
               <SignatureCanvas
