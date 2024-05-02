@@ -5,6 +5,8 @@ import "./MessageBoard.css";
 import "../../App.css";
 import ClipLoader from "react-spinners/ClipLoader";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
+import Pagination from "./Pagination";
+
 
 const ContentAfterLoad = ({ messages, isLoading, removeMessage, userObj }) => {
   const [currentMessages, setCurrentMessage] = useState(messages);
@@ -34,6 +36,7 @@ const ContentAfterLoad = ({ messages, isLoading, removeMessage, userObj }) => {
           {item.message}
         </MessagePost>
       ))}
+
     </div>
   );
 };
@@ -44,8 +47,19 @@ class MessageBoard extends Component {
     this.state = {
       showModal: "",
       messageText: "",
-    };
+      postsPerPage: 20,
+      currentPage: 1,
+      indexOfFirstPost: 0,
+      indexOfLastPost: 19,
+       };
   }
+
+  handlePagination = (pageNumber) => {
+    let firstIndex = (((this.state.currentPage) - 1) * 20);
+    this.setState({currentPage: pageNumber});
+    this.setState({indexOfFirstPost: firstIndex})
+    this.setState({indexOfLastPost: (this.state.currentPage*20) - 1 })
+  };
 
   openModal = (modalName) => {
     this.setState({ showModal: modalName });
@@ -125,9 +139,15 @@ class MessageBoard extends Component {
             </div>
           </>
         )}
+        <Pagination
+          length={this.props.messages.length}
+          postsPerPage={this.state.postsPerPage}
+          handlePagination={this.handlePagination}
+          currentPage={this.state.currentPage}
+        />
         <ContentAfterLoad
           removeMessage={this.props.removeMessage}
-          messages={this.props.messages}
+          messages={this.props.messages.slice(((this.state.currentPage-1)*20), ((this.state.currentPage*20)-1))}
           isLoading={this.props.discussionMessagesLoading}
           userObj={this.props.userObj}
         />

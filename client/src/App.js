@@ -37,6 +37,7 @@ import ManageTraining from './components/ManageTraining/ManageTraining';
 import { isAdminUser } from './utils/AdminReportingRoles';
 import NightMonitoring from './components/Forms/NightMonitoring';
 
+
 const hideStyle = {
   display: 'none',
 };
@@ -77,7 +78,12 @@ class App extends Component {
     },
     flip: false,
     showMessageSent: false,
+    loading: false,
+    
   };
+  
+
+
 
   doFetchFormApprovalCount = async () => {
     try {
@@ -177,13 +183,17 @@ class App extends Component {
     }
   };
 
-  componentDidUpdate = () => {
+  callGetAllUsers = () => {
     if (
       this.state.loggedIn &&
       (this.state.allUsersSet === false || this.state.allUsers.length === 0)
     ) {
       this.getAllUsers();
     }
+  }
+
+  componentDidUpdate = () => {
+    setTimeout((callGetAllUsers) => {}, 10000)
 
     if (
       !this.state.messagesInitLoad &&
@@ -201,13 +211,13 @@ class App extends Component {
     });
     Axios.get(`/api/discussionMessages/${userObj.homeId}`)
       .then((response) => {
-        setTimeout(() => {
+        // setTimeout(() => {
           this.setState({
             discussionMessages: response.data,
             messagesInitLoad: true,
             discussionMessagesLoading: false,
           });
-        }, 1000);
+        // }, 1000);
       })
       .catch((error) => {
         this.setState({
@@ -216,7 +226,6 @@ class App extends Component {
         alert(error);
       });
   };
-
   appendMessage = async (message) => {
     let newMessage = {
       message: message,
@@ -695,6 +704,7 @@ function ToggleScreen({
   if (name === 'Dashboard') {
     return (
       <div>
+        
         <MessageBoard
           discussionMessagesLoading={discussionMessagesLoading}
           messages={appState.discussionMessages}
@@ -702,7 +712,9 @@ function ToggleScreen({
           toggleDisplay={toggleDisplay}
           userObj={appState.userObj}
           removeMessage={removeMessage}
+          postsPerPage={20}
         />
+        
       </div>
     );
   }

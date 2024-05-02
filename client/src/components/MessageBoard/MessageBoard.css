@@ -1,3 +1,13 @@
+.page-link {
+  height: auto;
+  width: 50px;
+  margin: 3px;
+  color: black;
+}
+.active {
+  background-color: maroon;
+  color: white;
+}
 /* desktop */
 @media only screen and (min-width: 1226px) {
   #messageBoard {
