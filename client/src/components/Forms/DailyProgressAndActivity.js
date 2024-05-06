@@ -398,6 +398,8 @@ class DailyProgressAndActivity extends Component {
                     .replace(/\s.*/, "")} - ${new Date(
                       this.state.lastEditDate
                     ).toDateString()}`}
+                      this.state.lastEditDate
+                    ).toDateString()}`}
                 </i>
               ) : (
                 "-"

@@ -346,7 +346,7 @@ class NightMonitoring extends Component {
                 </label>{" "}
                 <input
                   id="createDate"
-                  value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
+                  value={this.state.createDate ? this.state.createDate !== null ? this.state.createDate.slice(0, -8) : null : ""}
                   className="form-control hide-on-print"
                   type="datetime-local"
                 />{" "}
@@ -431,6 +431,17 @@ class NightMonitoring extends Component {
                   rootState={this.state}
                 />
 
+                <div className="form-group logInInputField">
+                  <label className="control-label hide-on-print">
+                    Create Date
+                  </label>{" "}
+                  <input
+                    id="createDate"
+                    value={this.state.createDate !== null ? this.state.createDate ? this.state.createDate.slice(0, -8) : null : ""}
+                    className="form-control hide-on-print"
+                    type="datetime-local"
+                  />{" "}
+                </div>
                 <NightMonitoringChildRow
                   propsSet={true}
                   setRootState={this.setRootState}
@@ -470,6 +481,20 @@ maxHeight:"170",
               <>
                 <FormError errorId={this.props.id + "-error"} />
                 <Row style={{ display: "flex", justifyContent: "space-between", paddingRight: "0px", marginLeft: "1px", marginRight: "1px" }}>
+                  <div style={{ display: "flex", width: "46%" }}>
+                    <button
+                      className="lightBtn hide hide-on-print save-submit-btn"
+                      style={{
+                        width: "100%",
+                        display: this.state.status === 'COMPLETED' ? "none" : "block",
+                      }}
+                      onClick={() => {
+                        this.validateForm(true);
+                      }}
+                    >
+                      Finish Later
+                    </button>
+                  </div>
                   <div style={{ display: "flex", width: "46%" }}>
                     <button
                       className="lightBtn hide hide-on-print save-submit-btn"
