@@ -485,7 +485,7 @@ class BodyCheck extends Component {
                 <input
                   onChange={this.handleFieldInputDate}
                   id="createDate"
-                  value={this.state.createDate.slice(0, -8)}
+                  value={this.state.createDate ? this.state.createDate.slice(0, -8) : null}
                   className="form-control hide-on-print"
                   type="datetime-local"
                 />{" "}
@@ -1501,7 +1501,7 @@ class BodyCheck extends Component {
                   </label>{" "}
                   <input
                     id="createDate"
-                    value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
+                    value={this.state.createDate !== null ? this.state.createDate ? this.state.createDate.slice(0, -8) : null : ""}
                     className="form-control hide-on-print"
                     type="datetime-local"
                   />{" "}

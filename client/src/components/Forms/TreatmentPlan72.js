@@ -790,7 +790,7 @@ class TreatmentPlan72 extends Component {
                   <input
                     onChange={this.handleFieldInputDate}
                     id="createDate"
-                    value={this.state.createDate.slice(0, -8)}
+                    value={this.state.createDate ? this.state.createDate.slice(0, -8) : null}
                     className="form-control"
                     type="datetime-local"
                   />{" "}
@@ -2795,7 +2795,7 @@ class TreatmentPlan72 extends Component {
                 <input
                   onChange={this.handleFieldInput}
                   id="createDate"
-                  value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
+                  value={this.state.createDate !== null ? this.state.createDate ? this.state.createDate.slice(0, -8) : null : ""}
                   className="form-control"
                   type="datetime-local"
                 />{" "}

@@ -203,7 +203,7 @@ class FormSubmitterListContainer extends Component {
                       </th>
                       {(this.state.formType === "Incident Report" || this.state.formType === "Serious Incident Report" || this.state.formType === "Restraint Report") && (
                         <th>
-                          Occured
+                          Occurred
                         </th>
                       )}
                     </tr>
@@ -213,7 +213,7 @@ class FormSubmitterListContainer extends Component {
                   <tr>
                     <td>
                       {/* display status as "IN PROGRESS" if form created before status attribute was added */}
-                      {(form.status === "" || !form.status) ? "IN PROGRESS" : "SUBMITTED"}
+                      {(form.status === "" || !form.status) ? "IN PROGRESS" : form.status === 'COMPLETED' ? "SUBMITTED" : form.status}
                     </td>
                     <td>
                       {new Date(form.createDate).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}

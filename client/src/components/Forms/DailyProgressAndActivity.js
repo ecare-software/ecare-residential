@@ -402,8 +402,8 @@ class DailyProgressAndActivity extends Component {
                   {`${new Date(this.state.lastEditDate)
                     .toTimeString()
                     .replace(/\s.*/, "")} - ${new Date(
-                    this.state.lastEditDate
-                  ).toDateString()}`}
+                      this.state.lastEditDate
+                    ).toDateString()}`}
                 </i>
               ) : (
                 "-"
@@ -425,7 +425,7 @@ class DailyProgressAndActivity extends Component {
           ) : (
 
             <Container className="print-container">
-               <div className="form-group logInInputField">
+              <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Child's Name</label>{" "}
                 <Form.Control
@@ -448,12 +448,12 @@ class DailyProgressAndActivity extends Component {
                 <input
                   onChange={this.handleFieldInputDate}
                   id="createDate"
-                  value={this.state.createDate.slice(0, -8)}
+                  value={this.state.createDate ? this.state.createDate.slice(0, -8) : null}
                   className="form-control"
                   type="datetime-local"
                 />{" "}
-              </div> 
-             
+              </div>
+
               <Row>
                 <Col md={4} className="print-column">
                   <div className="form-group input-header">
@@ -477,7 +477,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.personal_hygiene}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -489,7 +489,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.dressing}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -501,7 +501,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.table_mannders}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -515,7 +515,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.clothes_maintenace}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -527,7 +527,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.self_feeding}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -541,7 +541,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.care_of_property}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -555,7 +555,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.maintenace_of_personal_space}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -569,7 +569,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.household_chorse}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -592,7 +592,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.informal_counseling}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -606,7 +606,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.verbal_redirection}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -618,7 +618,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.modeling}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -632,7 +632,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.supervised_separation}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -646,7 +646,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.provider_feedback_to_client}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -660,7 +660,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.positive_reinforcement}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -674,7 +674,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.other}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group input-header">
@@ -693,7 +693,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.home_restrictions}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -707,7 +707,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.restricted_leisure_activity}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -719,7 +719,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.no_allowance}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -733,7 +733,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.other2}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                 </Col>
@@ -752,7 +752,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.no_of_home_incidents}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -766,7 +766,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.no_of_home_serious_incidents}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -780,7 +780,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.no_of_home_restraints}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -794,7 +794,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.no_of_school_incidents}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -808,7 +808,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.no_of_school_restraints}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -822,7 +822,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.illness_injury}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -836,7 +836,7 @@ class DailyProgressAndActivity extends Component {
                       value={this.state.level_of_supervison}
                       className="form-control"
                       type="text"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
                   <div className="form-group logInInputField">
@@ -849,7 +849,7 @@ class DailyProgressAndActivity extends Component {
                       id="summary_of_daily_schedule"
                       value={this.state.summary_of_daily_schedule}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
                   <div className="form-group logInInputField">
@@ -862,7 +862,7 @@ class DailyProgressAndActivity extends Component {
                       id="summary_of_behavior_at_school"
                       value={this.state.summary_of_behavior_at_school}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
                   <div className="form-group logInInputField">
@@ -875,7 +875,7 @@ class DailyProgressAndActivity extends Component {
                       id="summary_of_behavior_at_home"
                       value={this.state.summary_of_behavior_at_home}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
                   <div className="form-group logInInputField">
@@ -888,7 +888,7 @@ class DailyProgressAndActivity extends Component {
                       id="therapeutic_recreational"
                       value={this.state.therapeutic_recreational}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
                   <div className="form-group logInInputField">
@@ -901,7 +901,7 @@ class DailyProgressAndActivity extends Component {
                       id="therapeutic_value"
                       value={this.state.therapeutic_value}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
                   <div className="form-group logInInputField">
@@ -914,7 +914,7 @@ class DailyProgressAndActivity extends Component {
                       id="phone_calls_or_visits"
                       value={this.state.phone_calls_or_visits}
                       className="form-control"
-                      disabled = {this.state.childSelected ? false : true}
+                      disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
                   </div>
                   <FormError errorId={this.props.id + "-error"} />
@@ -924,36 +924,36 @@ class DailyProgressAndActivity extends Component {
                   ></div>
                 </Col>
               </Row>
-              
+
               <Row className="save-submit-row">
-                <div style={{display:"flex", width:"46%"}}>
+                <div style={{ display: "flex", width: "46%" }}>
                   <button
-                      className="lightBtn hide hide-on-print save-submit-btn"
-                      style={{width:"100%"}}
-                      disabled={this.state.childSelected ? false : true}
-                      onClick={() => {
-                        this.validateForm(true);
-                      }}
-                    >
-                      Finish Later
-                    </button>
+                    className="lightBtn hide hide-on-print save-submit-btn"
+                    style={{ width: "100%" }}
+                    disabled={this.state.childSelected ? false : true}
+                    onClick={() => {
+                      this.validateForm(true);
+                    }}
+                  >
+                    Finish Later
+                  </button>
                 </div>
-                <div style={{display:"flex", width:"46%"}}>
+                <div style={{ display: "flex", width: "46%" }}>
                   <button
-                      className="darkBtn hide hide-on-print save-submit-btn"
-                      style={{width:"100%"}}
-                      disabled={this.state.childSelected ? false : true}
-                      onClick={() => {
-                        this.validateForm(false);
-                      }}
-                    >
-                      Submit
+                    className="darkBtn hide hide-on-print save-submit-btn"
+                    style={{ width: "100%" }}
+                    disabled={this.state.childSelected ? false : true}
+                    onClick={() => {
+                      this.validateForm(false);
+                    }}
+                  >
+                    Submit
                   </button>
                 </div>
 
-                 
+
               </Row>
-              
+
             </Container>
           )}
         </div>
@@ -1014,7 +1014,7 @@ class DailyProgressAndActivity extends Component {
                   <input
                     onChange={this.handleFieldInput}
                     id="createDate"
-                    value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
+                    value={this.state.createDate !== null ? this.state.createDate ? this.state.createDate.slice(0, -8) : null : ""}
                     className="form-control hide-on-print"
                     type="datetime-local"
                   />{" "}
@@ -1327,7 +1327,7 @@ class DailyProgressAndActivity extends Component {
                         id="no_of_home_restraints"
                         className="form-control"
                         type="text"
-                        
+
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
@@ -1485,9 +1485,9 @@ class DailyProgressAndActivity extends Component {
                 </Row>
               </Container>
             )}
-            
+
             <div className="sigSection"
-              style= {{ display: this.state.status === 'IN PROGRESS' ? 'none' : 'block' }}
+              style={{ display: this.state.status === 'IN PROGRESS' ? 'none' : 'block' }}
             >
               <label className="control-label">Signature</label>{" "}
               <div
@@ -1518,10 +1518,10 @@ class DailyProgressAndActivity extends Component {
               <>
                 <FormError errorId={this.props.id + "-error"} />
                 <Row className="save-submit-row">
-                    <div style={{ display: "flex", width: "46%" }}>
+                  <div style={{ display: "flex", width: "46%" }}>
                     <button
                       className="lightBtn hide hide-on-print save-submit-btn"
-                      style={{ 
+                      style={{
                         width: "100%",
                         display: this.state.status === 'COMPLETED' ? "none" : "block",
                       }}
@@ -1533,18 +1533,18 @@ class DailyProgressAndActivity extends Component {
                     </button>
                   </div>
 
-                <div style={{ display: "flex", width: "46%" }}>
-                  <button
-                    className="darkBtn hide hide-on-print save-submit-btn"
-                    style={{ width: "100%" }}
-                    onClick={() => {
-                      this.validateForm(false);
-                    }}
-                  >
-                    Submit
-                  </button>
-                </div>
-              </Row>
+                  <div style={{ display: "flex", width: "46%" }}>
+                    <button
+                      className="darkBtn hide hide-on-print save-submit-btn"
+                      style={{ width: "100%" }}
+                      onClick={() => {
+                        this.validateForm(false);
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </Row>
               </>
             )}
           </div>

@@ -456,7 +456,7 @@ class IncidentReport extends Component {
           ) : (
             <Container className="print-container">
               <Row>
-              <Col xs={12} className="print-column">
+                <Col xs={12} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">Child's Name</label>{" "}
@@ -483,7 +483,7 @@ class IncidentReport extends Component {
                     <input
                       onChange={this.handleFieldInputDate}
                       id="createDate"
-                      value={this.state.createDate.slice(0, -8)}
+                      value={this.state.createDate ? this.state.createDate.slice(0, -8) : null}
                       className="form-control hide-on-print"
                       type="datetime-local"
                     />{" "}
@@ -1027,7 +1027,7 @@ class IncidentReport extends Component {
             ) : (
               <Container className="print-container">
                 <Row>
-                <Col xs={12} className="print-column">
+                  <Col xs={12} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">Child's Name</label>{" "}
@@ -1050,7 +1050,7 @@ class IncidentReport extends Component {
                       </label>{" "}
                       <input
                         id="createDate"
-                        value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
+                        value={this.state.createDate !== null ? this.state.createDate ? this.state.createDate.slice(0, -8) : null : ""}
                         className="form-control hide-on-print"
                         type="datetime-local"
                       />{" "}

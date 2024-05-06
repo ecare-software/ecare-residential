@@ -399,12 +399,12 @@ class IllnessInjury extends Component {
                 <input
                   onChange={this.handleFieldInputDate}
                   id="createDate"
-                  value={this.state.createDate.slice(0, -8)}
+                  value={this.state.createDate ? this.state.createDate.slice(0, -8) : null}
                   className="form-control hide-on-print"
                   type="datetime-local"
                 />{" "}
               </div>
-              
+
               <Row>
                 <Col md={4} className="print-column">
                   <div className="form-group logInInputField">
@@ -668,7 +668,7 @@ class IllnessInjury extends Component {
               </div>
             ) : (
               <Container className="print-container">
-                 <div className="form-group logInInputField">
+                <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">Child's Name</label>{" "}
                   <input
@@ -686,7 +686,7 @@ class IllnessInjury extends Component {
                   </label>{" "}
                   <input
                     id="createDate"
-                    value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
+                    value={this.state.createDate !== null ? this.state.createDate ? this.state.createDate.slice(0, -8) : null : ""}
                     className="form-control hide-on-print"
                     type="datetime-local"
                   />{" "}
@@ -897,10 +897,10 @@ class IllnessInjury extends Component {
               <>
                 <FormError errorId={this.props.id + "-error"} />
                 <Row className="save-submit-row">
-                    <div style={{ display: "flex", width: "46%" }}>
+                  <div style={{ display: "flex", width: "46%" }}>
                     <button
                       className="lightBtn hide hide-on-print save-submit-btn"
-                      style={{ 
+                      style={{
                         width: "100%",
                         display: this.state.status === 'COMPLETED' ? "none" : "block"
                       }}
@@ -912,18 +912,18 @@ class IllnessInjury extends Component {
                     </button>
                   </div>
 
-                <div style={{ display: "flex", width: "46%" }}>
-                  <button
-                    className="darkBtn hide hide-on-print save-submit-btn"
-                    style={{ width: "100%" }}
-                    onClick={() => {
-                      this.validateForm(false);
-                    }}
-                  >
-                    Submit
-                  </button>
-                </div>
-              </Row>
+                  <div style={{ display: "flex", width: "46%" }}>
+                    <button
+                      className="darkBtn hide hide-on-print save-submit-btn"
+                      style={{ width: "100%" }}
+                      onClick={() => {
+                        this.validateForm(false);
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </Row>
               </>
             )}
           </div>

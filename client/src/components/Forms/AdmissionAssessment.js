@@ -438,7 +438,7 @@ class AdmissionAssessment extends Component {
       ...this.state,
       loadingClients: true,
     });
-   
+
     this.submit(save);
   };
 
@@ -603,12 +603,12 @@ class AdmissionAssessment extends Component {
                 <input
                   onChange={this.handleFieldInputDate}
                   id="createDate"
-                  value={this.state.createDate.slice(0, -8)}
+                  value={this.state.createDate ? this.state.createDate.slice(0, -8) : null}
                   className="form-control hide-on-print"
                   type="datetime-local"
                 />{" "}
               </div>
-              
+
               <Row>
                 <Col md={3} className="print-column">
                   <div className="form-group logInInputField">
@@ -2364,12 +2364,12 @@ class AdmissionAssessment extends Component {
                   </label>{" "}
                   <input
                     id="createDate"
-                    value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
+                    value={this.state.createDate !== null ? this.state.createDate ? this.state.createDate.slice(0, -8) : null : ""}
                     className="form-control hide-on-print"
                     type="datetime-local"
                   />{" "}
                 </div>
-                
+
                 <Row>
                   <Col md={3} className="print-column">
                     <div className="form-group logInInputField">
