@@ -13,6 +13,7 @@ import { FormSavedAlert } from "../../utils/FormSavedAlert";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 import TextareaAutosize from "react-textarea-autosize";
 import { Container, Row, Col } from "react-bootstrap";
+import { HandleFieldInputDate } from "../../utils/HandleFieldInputDate";
 /*
   missing from form
     "incident"
@@ -121,21 +122,6 @@ class BodyCheck extends Component {
       stateObj[level1Obj] = nestedProperty;
     } else {
       stateObj[event.target.id] = event.target.value;
-    }
-    this.setState(stateObj);
-  };
-
-  handleFieldInputDate = (event) => {
-    var stateObj = {};
-    if (event.target.id.indexOf(".") > -1) {
-      let level1Obj = event.target.id.split(".")[0];
-      let level2Obj = event.target.id.split(".")[1];
-
-      let nestedProperty = { ...this.state[level1Obj] };
-      nestedProperty[level2Obj] = event.target.value;
-      stateObj[level1Obj] = nestedProperty;
-    } else {
-      stateObj[event.target.id] = event.target.value.concat(':00.000Z');
     }
     this.setState(stateObj);
   };
@@ -409,6 +395,13 @@ class BodyCheck extends Component {
     }
   };
 
+  setRootState = (body) => {
+    const stateCopy = { ...this.state, ...body };
+    this.setState({
+      ...stateCopy,
+    });
+  };
+
   render() {
     if (!this.props.valuesSet) {
       return (
@@ -462,18 +455,10 @@ class BodyCheck extends Component {
             </div>
           ) : (
             <Container className="print-container">
-              <div className="form-group logInInputField">
-                <label className="control-label hide-on-print">
-                  Create Date
-                </label>{" "}
-                <input
-                  onChange={this.handleFieldInputDate}
-                  id="createDate"
-                  value={this.state.createDate.slice(0, -8)}
-                  className="form-control hide-on-print"
-                  type="datetime-local"
-                />{" "}
-              </div>
+              <HandleFieldInputDate
+                setRootState={this.setRootState}
+                rootState={this.state}
+              />
               <Row>
                 <Col>
                   <div className="form-group logInInputField">
@@ -1492,7 +1477,6 @@ class BodyCheck extends Component {
                     value={this.state.createDate.slice(0, -8)}
                     className="form-control hide-on-print"
                     type="datetime-local"
-                    disabled
                   />{" "}
                 </div>
                 <Row>
@@ -2431,20 +2415,20 @@ class BodyCheck extends Component {
               <>
                 <FormError errorId={this.props.id + "-error"} />
                 <Row className="save-submit-row">
-                    <div style={{ display: "flex", width: "46%" }}>
-                      <button
-                        className="lightBtn hide hide-on-print save-submit-btn"
-                        style={{ 
-                          width: "100%",
-                          display: this.state.status === 'COMPLETED' ? "none" : "block"
-                        }}
-                        onClick={() => {
-                          this.validateForm(true);
-                        }}
-                      >
-                        Finish Later
-                      </button>
-                    </div>
+                  <div style={{ display: "flex", width: "46%" }}>
+                    <button
+                      className="lightBtn hide hide-on-print save-submit-btn"
+                      style={{
+                        width: "100%",
+                        display: this.state.status === 'COMPLETED' ? "none" : "block"
+                      }}
+                      onClick={() => {
+                        this.validateForm(true);
+                      }}
+                    >
+                      Finish Later
+                    </button>
+                  </div>
 
                   <div style={{ display: "flex", width: "46%" }}>
                     <button

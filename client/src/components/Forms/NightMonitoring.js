@@ -10,6 +10,7 @@ import { FormSavedAlert } from "../../utils/FormSavedAlert";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 import { NightMonitoringChildRow } from "../NightMonitoringChildRow";
 import { Row } from "react-bootstrap";
+import { HandleFieldInputDate } from "../../utils/HandleFieldInputDate";
 var interval = 0; // used for autosaving
 let initAutoSave = false;
 class NightMonitoring extends Component {
@@ -69,21 +70,6 @@ class NightMonitoring extends Component {
       stateObj[level1Obj] = nestedProperty;
     } else {
       stateObj[event.target.id] = event.target.value;
-    }
-    this.setState(stateObj);
-  };
-
-  handleFieldInputDate = (event) => {
-    var stateObj = {};
-    if (event.target.id.indexOf(".") > -1) {
-      let level1Obj = event.target.id.split(".")[0];
-      let level2Obj = event.target.id.split(".")[1];
-
-      let nestedProperty = { ...this.state[level1Obj] };
-      nestedProperty[level2Obj] = event.target.value;
-      stateObj[level1Obj] = nestedProperty;
-    } else {
-      stateObj[event.target.id] = event.target.value.concat(':00.000Z');
     }
     this.setState(stateObj);
   };
@@ -295,7 +281,6 @@ class NightMonitoring extends Component {
 
   setRootState = (body) => {
     const stateCopy = { ...this.state, ...body };
-    console.log(stateCopy);
     this.setState({
       ...stateCopy,
     });
@@ -355,18 +340,10 @@ class NightMonitoring extends Component {
             </div>
           ) : (
             <div className="formFieldsMobile">
-              <div className="form-group logInInputField">
-                <label className="control-label hide-on-print">
-                  Create Date
-                </label>{" "}
-                <input
-                  onChange={this.handleFieldInputDate}
-                  id="createDate"
-                  value={this.state.createDate.slice(0, -8)}
-                  className="form-control hide-on-print"
-                  type="datetime-local"
-                />{" "}
-              </div>
+              <HandleFieldInputDate
+                setRootState={this.setRootState}
+                rootState={this.state}
+              />
               <NightMonitoringChildRow
                 setRootState={this.setRootState}
                 rootState={this.state}
@@ -451,7 +428,6 @@ class NightMonitoring extends Component {
                     value={this.state.createDate.slice(0, -8)}
                     className="form-control hide-on-print"
                     type="datetime-local"
-                    disabled
                   />{" "}
                 </div>
                 <NightMonitoringChildRow
@@ -493,20 +469,20 @@ maxHeight:"170",
               <>
                 <FormError errorId={this.props.id + "-error"} />
                 <Row style={{ display: "flex", justifyContent: "space-between", paddingRight: "0px", marginLeft: "1px", marginRight: "1px" }}>
-                    <div style={{ display: "flex", width: "46%" }}>
-                      <button
-                        className="lightBtn hide hide-on-print save-submit-btn"
-                        style={{ 
-                          width: "100%",
-                          display: this.state.status === 'COMPLETED' ? "none" : "block",
-                        }}
-                        onClick={() => {
-                          this.validateForm(true);
-                        }}
-                      >
-                        Finish Later
-                      </button>
-                    </div>
+                  <div style={{ display: "flex", width: "46%" }}>
+                    <button
+                      className="lightBtn hide hide-on-print save-submit-btn"
+                      style={{
+                        width: "100%",
+                        display: this.state.status === 'COMPLETED' ? "none" : "block",
+                      }}
+                      onClick={() => {
+                        this.validateForm(true);
+                      }}
+                    >
+                      Finish Later
+                    </button>
+                  </div>
 
                   <div style={{ display: "flex", width: "46%" }}>
                     <button
