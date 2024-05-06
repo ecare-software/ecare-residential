@@ -1457,6 +1457,7 @@ class DailyProgressAndActivity extends Component {
                   </Col>
                   </Row>
                   <Row>
+                    <Col md={12} className="print-column">
                   <div className="form-group logInInputField" >
                       {" "}
                       <label className="control-label">
@@ -1474,6 +1475,7 @@ class DailyProgressAndActivity extends Component {
                         {this.state.summary_of_daily_schedule}
                       </p>
                     </div>
+                    </Col>
                   </Row>
               </Container>
             )}
