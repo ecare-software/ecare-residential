@@ -14,6 +14,7 @@ import { isAdminUser } from "../../utils/AdminReportingRoles";
 import TextareaAutosize from "react-textarea-autosize";
 import StaffOption from "../../utils/StaffOption.util";
 import { Container, Col, Row } from "react-bootstrap";
+import { HandleFieldInputDate } from "../../utils/HandleFieldInputDate";
 var interval = 0; // used for autosaving
 let initAutoSave = false;
 class SeriousIncidentReport extends Component {
@@ -93,21 +94,6 @@ class SeriousIncidentReport extends Component {
       stateObj[level1Obj] = nestedProperty;
     } else {
       stateObj[event.target.id] = event.target.value;
-    }
-    this.setState(stateObj);
-  };
-
-  handleFieldInputDate = (event) => {
-    var stateObj = {};
-    if (event.target.id.indexOf(".") > -1) {
-      let level1Obj = event.target.id.split(".")[0];
-      let level2Obj = event.target.id.split(".")[1];
-
-      let nestedProperty = { ...this.state[level1Obj] };
-      nestedProperty[level2Obj] = event.target.value;
-      stateObj[level1Obj] = nestedProperty;
-    } else {
-      stateObj[event.target.id] = event.target.value.concat(':00.000Z');
     }
     this.setState(stateObj);
   };
@@ -426,6 +412,13 @@ class SeriousIncidentReport extends Component {
     }
   };
 
+  setRootState = (body) => {
+    const stateCopy = { ...this.state, ...body };
+    this.setState({
+      ...stateCopy,
+    });
+  };
+
   render() {
     if (!this.props.valuesSet) {
       return (
@@ -481,6 +474,17 @@ class SeriousIncidentReport extends Component {
           ) : (
             <Container className="print-container">
               <div className="form-group logInInputField">
+                <label className="control-label hide-on-print">
+                  Create Date
+                </label>{" "}
+                <input
+                  id="createDate"
+                  value={this.state.createDate.slice(0, -8)}
+                  className="form-control hide-on-print"
+                  type="datetime-local"
+                />{" "}
+              </div>
+              <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Child's Name</label>{" "}
                 <Form.Control
@@ -496,18 +500,7 @@ class SeriousIncidentReport extends Component {
                   )}
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label hide-on-print">
-                  Create Date
-                </label>{" "}
-                <input
-                  onChange={this.handleFieldInputDate}
-                  id="createDate"
-                  value={this.state.createDate ? this.state.createDate.slice(0, -8) : null}
-                  className="form-control hide-on-print"
-                  type="datetime-local"
-                />{" "}
-              </div>
+
               <Row>
                 <Col md={4} className="print-column">
                   <div className="form-group logInInputField">
@@ -1001,32 +994,25 @@ class SeriousIncidentReport extends Component {
               </div>
             ) : (
               <Container>
-                <div className="form-group logInInputField">
-                  {" "}
-                  <label className="control-label">Child's Name</label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    value={this.state.childMeta_name}
-                    id={"childMeta_name"}
-                    className="form-control"
-                    type="text"
-                    disabled
-                  />{" "}
-                </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label hide-on-print">
-                    Create Date
-                  </label>{" "}
-                  <input
-                    id="createDate"
-                    value={this.state.createDate !== null ? this.state.createDate ? this.state.createDate.slice(0, -8) : null : ""}
-                    className="form-control hide-on-print"
-                    type="datetime-local"
-                  />{" "}
-                </div>
+                <HandleFieldInputDate
+                  setRootState={this.setRootState}
+                  rootState={this.state}
+                />
+
                 <Row>
                   <Col md={4} className="print-column">
-
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">Child's Name</label>{" "}
+                      <input
+                        onChange={this.handleFieldInput}
+                        value={this.state.childMeta_name}
+                        id={"childMeta_name"}
+                        className="form-control"
+                        type="text"
+                        disabled
+                      />{" "}
+                    </div>
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">

@@ -13,6 +13,7 @@ import { FormSavedAlert } from "../../utils/FormSavedAlert";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 import TextareaAutosize from "react-textarea-autosize";
 import { Container, Row, Col } from "react-bootstrap";
+import { HandleFieldInputDate } from "../../utils/HandleFieldInputDate";
 /*
   missing from form
     "Restricted field Trip"
@@ -106,20 +107,6 @@ class DailyProgressAndActivity extends Component {
     this.setState(stateObj);
   };
 
-  handleFieldInputDate = (event) => {
-    var stateObj = {};
-    if (event.target.id.indexOf(".") > -1) {
-      let level1Obj = event.target.id.split(".")[0];
-      let level2Obj = event.target.id.split(".")[1];
-
-      let nestedProperty = { ...this.state[level1Obj] };
-      nestedProperty[level2Obj] = event.target.value;
-      stateObj[level1Obj] = nestedProperty;
-    } else {
-      stateObj[event.target.id] = event.target.value.concat(':00.000Z');
-    }
-    this.setState(stateObj);
-  };
 
   resetForm = () => {
     this.setState({
@@ -370,6 +357,13 @@ class DailyProgressAndActivity extends Component {
     }
   };
 
+  setRootState = (body) => {
+    const stateCopy = { ...this.state, ...body };
+    this.setState({
+      ...stateCopy,
+    });
+  };
+
   render() {
     if (!this.props.valuesSet) {
       return (
@@ -425,6 +419,19 @@ class DailyProgressAndActivity extends Component {
           ) : (
 
             <Container className="print-container">
+               <div className="form-group logInInputField">
+                  <label className="control-label hide-on-print">
+                    Create Date
+                  </label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    id="createDate"
+                    value={this.state.createDate.slice(0, -8)}
+                    className="form-control hide-on-print"
+                    type="datetime-local"
+                  />{" "}
+                </div>
+              
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Child's Name</label>{" "}
@@ -441,19 +448,6 @@ class DailyProgressAndActivity extends Component {
                   )}
                 </Form.Control>
               </div>
-              <div className="form-group logInInputField">
-                <label className="control-label hide hide-on-print">
-                  Create Date
-                </label>{" "}
-                <input
-                  onChange={this.handleFieldInputDate}
-                  id="createDate"
-                  value={this.state.createDate ? this.state.createDate.slice(0, -8) : null}
-                  className="form-control"
-                  type="datetime-local"
-                />{" "}
-              </div>
-
               <Row>
                 <Col md={4} className="print-column">
                   <div className="form-group input-header">
@@ -995,6 +989,12 @@ class DailyProgressAndActivity extends Component {
               </div>
             ) : (
               <Container className="print-container">
+                <Row>
+                  <Col md={12} className="print-column">
+                <HandleFieldInputDate
+                setRootState={this.setRootState}
+                rootState={this.state}
+              />
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">Child's Name</label>{" "}
@@ -1007,18 +1007,8 @@ class DailyProgressAndActivity extends Component {
                     disabled
                   />{" "}
                 </div>
-                <div className="form-group logInInputField">
-                  <label className="control-label hide-on-print">
-                    Create Date
-                  </label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    id="createDate"
-                    value={this.state.createDate !== null ? this.state.createDate ? this.state.createDate.slice(0, -8) : null : ""}
-                    className="form-control hide-on-print"
-                    type="datetime-local"
-                  />{" "}
-                </div>
+                </Col>
+                </Row>
                 <Row>
                   <Col md={4} className="print-column">
                     <div className="form-group input-header">
@@ -1385,23 +1375,6 @@ class DailyProgressAndActivity extends Component {
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
-                        Summary of Daily Schedule
-                      </label>{" "}
-                      <div className="hide-on-print">
-                        <TextareaAutosize
-                          onChange={this.handleFieldInput}
-                          value={this.state.summary_of_daily_schedule}
-                          id="summary_of_daily_schedule"
-                          className="form-control"
-                        ></TextareaAutosize>
-                      </div>
-                      <p className="hide-on-non-print">
-                        {this.state.summary_of_daily_schedule}
-                      </p>
-                    </div>
-                    <div className="form-group logInInputField">
-                      {" "}
-                      <label className="control-label">
                         Summary of Behavior at School
                       </label>{" "}
                       <div className="hide-on-print">
@@ -1482,7 +1455,28 @@ class DailyProgressAndActivity extends Component {
                       </p>
                     </div>
                   </Col>
-                </Row>
+                  </Row>
+                  <Row>
+                    <Col md={12} className="print-column">
+                  <div className="form-group logInInputField" >
+                      {" "}
+                      <label className="control-label">
+                        Summary of Daily Schedule
+                      </label>{" "}
+                      <div className="hide-on-print">
+                        <TextareaAutosize
+                          onChange={this.handleFieldInput}
+                          value={this.state.summary_of_daily_schedule}
+                          id="summary_of_daily_schedule"
+                          className="form-control"
+                        ></TextareaAutosize>
+                      </div>
+                      <p className="hide-on-non-print">
+                        {this.state.summary_of_daily_schedule}
+                      </p>
+                    </div>
+                    </Col>
+                  </Row>
               </Container>
             )}
 
