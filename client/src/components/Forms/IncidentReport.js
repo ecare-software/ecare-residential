@@ -450,10 +450,17 @@ class IncidentReport extends Component {
             <Container className="print-container">
               <Row>
                 <Col xs={12} className="print-column">
-                  <HandleFieldInputDate
-                    setRootState={this.setRootState}
-                    rootState={this.state}
-                  />
+                  <div className="form-group logInInputField">
+                    <label className="control-label hide-on-print">
+                      Create Date
+                    </label>{" "}
+                    <input
+                      id="createDate"
+                      value={this.state.createDate.slice(0, -8)}
+                      className="form-control hide-on-print"
+                      type="datetime-local"
+                    />{" "}
+                  </div>
                 </Col>
               </Row>
 
@@ -1011,17 +1018,10 @@ class IncidentReport extends Component {
               <Container className="print-container">
                 <Row>
                   <Col xs={12}>
-                    <div className="form-group logInInputField">
-                      <label className="control-label hide-on-print">
-                        Create Date
-                      </label>{" "}
-                      <input
-                        id="createDate"
-                        value={this.state.createDate.slice(0, -8)}
-                        className="form-control hide-on-print"
-                        type="datetime-local"
-                      />{" "}
-                    </div>
+                    <HandleFieldInputDate
+                      setRootState={this.setRootState}
+                      rootState={this.state}
+                    />
                   </Col>
                 </Row>
 

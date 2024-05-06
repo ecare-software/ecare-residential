@@ -455,10 +455,17 @@ class BodyCheck extends Component {
             </div>
           ) : (
             <Container className="print-container">
-              <HandleFieldInputDate
-                setRootState={this.setRootState}
-                rootState={this.state}
-              />
+              <div className="form-group logInInputField">
+                <label className="control-label hide-on-print">
+                  Create Date
+                </label>{" "}
+                <input
+                  id="createDate"
+                  value={this.state.createDate.slice(0, -8)}
+                  className="form-control hide-on-print"
+                  type="datetime-local"
+                />{" "}
+              </div>
               <Row>
                 <Col>
                   <div className="form-group logInInputField">
@@ -1468,17 +1475,10 @@ class BodyCheck extends Component {
               </div>
             ) : (
               <Container className="print-container">
-                <div className="form-group logInInputField">
-                  <label className="control-label hide-on-print">
-                    Create Date
-                  </label>{" "}
-                  <input
-                    id="createDate"
-                    value={this.state.createDate.slice(0, -8)}
-                    className="form-control hide-on-print"
-                    type="datetime-local"
-                  />{" "}
-                </div>
+                <HandleFieldInputDate
+                  setRootState={this.setRootState}
+                  rootState={this.state}
+                />
                 <Row>
                   <Col>
                     <div className="form-group logInInputField">
@@ -2386,6 +2386,7 @@ class BodyCheck extends Component {
             <div className="sigSection"
               style={{ display: this.state.status === 'IN PROGRESS' ? 'none' : 'block' }}
             >
+              <label className="control-label">Signature</label>{" "}
               <div
                 style={{
                   width: "100%",
@@ -2394,7 +2395,6 @@ class BodyCheck extends Component {
                   paddingBottom: "20px",
                 }}
               >
-                <label className="control-label">Signature</label>{" "}
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas = ref;

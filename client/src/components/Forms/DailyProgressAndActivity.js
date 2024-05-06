@@ -419,10 +419,19 @@ class DailyProgressAndActivity extends Component {
           ) : (
 
             <Container className="print-container">
-              <HandleFieldInputDate
-                setRootState={this.setRootState}
-                rootState={this.state}
-              />
+               <div className="form-group logInInputField">
+                  <label className="control-label hide-on-print">
+                    Create Date
+                  </label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    id="createDate"
+                    value={this.state.createDate.slice(0, -8)}
+                    className="form-control hide-on-print"
+                    type="datetime-local"
+                  />{" "}
+                </div>
+              
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Child's Name</label>{" "}
@@ -980,18 +989,12 @@ class DailyProgressAndActivity extends Component {
               </div>
             ) : (
               <Container className="print-container">
-                <div className="form-group logInInputField">
-                  <label className="control-label hide-on-print">
-                    Create Date
-                  </label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    id="createDate"
-                    value={this.state.createDate.slice(0, -8)}
-                    className="form-control hide-on-print"
-                    type="datetime-local"
-                  />{" "}
-                </div>
+                <Row>
+                  <Col md={12} className="print-column">
+                <HandleFieldInputDate
+                setRootState={this.setRootState}
+                rootState={this.state}
+              />
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">Child's Name</label>{" "}
@@ -1004,6 +1007,8 @@ class DailyProgressAndActivity extends Component {
                     disabled
                   />{" "}
                 </div>
+                </Col>
+                </Row>
                 <Row>
                   <Col md={4} className="print-column">
                     <div className="form-group input-header">
@@ -1370,23 +1375,6 @@ class DailyProgressAndActivity extends Component {
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
-                        Summary of Daily Schedule
-                      </label>{" "}
-                      <div className="hide-on-print">
-                        <TextareaAutosize
-                          onChange={this.handleFieldInput}
-                          value={this.state.summary_of_daily_schedule}
-                          id="summary_of_daily_schedule"
-                          className="form-control"
-                        ></TextareaAutosize>
-                      </div>
-                      <p className="hide-on-non-print">
-                        {this.state.summary_of_daily_schedule}
-                      </p>
-                    </div>
-                    <div className="form-group logInInputField">
-                      {" "}
-                      <label className="control-label">
                         Summary of Behavior at School
                       </label>{" "}
                       <div className="hide-on-print">
@@ -1467,7 +1455,26 @@ class DailyProgressAndActivity extends Component {
                       </p>
                     </div>
                   </Col>
-                </Row>
+                  </Row>
+                  <Row>
+                  <div className="form-group logInInputField" >
+                      {" "}
+                      <label className="control-label">
+                        Summary of Daily Schedule
+                      </label>{" "}
+                      <div className="hide-on-print">
+                        <TextareaAutosize
+                          onChange={this.handleFieldInput}
+                          value={this.state.summary_of_daily_schedule}
+                          id="summary_of_daily_schedule"
+                          className="form-control"
+                        ></TextareaAutosize>
+                      </div>
+                      <p className="hide-on-non-print">
+                        {this.state.summary_of_daily_schedule}
+                      </p>
+                    </div>
+                  </Row>
               </Container>
             )}
 

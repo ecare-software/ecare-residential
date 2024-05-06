@@ -6,7 +6,6 @@ export const HandleFieldInputDate = ({
 }) => {
     const [createDate, setCreateDate] = useState(rootState?.createDate);
 
-
     const handleFieldInputDate = (event) => {
         var stateObj = {};
         if (event.target.id.indexOf(".") > -1) {
@@ -28,15 +27,15 @@ export const HandleFieldInputDate = ({
     )
 
     return (
-        <div className="form-group logInInputField">
+        <div className="form-group logInInputField createDate">
             <label className="control-label">
                 Create Date
             </label>{" "}
             <input
                 onChange={handleFieldInputDate}
                 id="createDate"
-                value={rootState.createDate.slice(0, -8)}
-                className="form-control hide-on-print"
+                value={createDate === null ? "" : createDate.slice(0, -8)}
+                className="form-control"
                 type="datetime-local"
             />{" "}
         </div>

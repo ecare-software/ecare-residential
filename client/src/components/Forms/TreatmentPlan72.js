@@ -761,10 +761,16 @@ class TreatmentPlan72 extends Component {
               </div>
             ) : (
               <div>
-                <HandleFieldInputDate
-                  setRootState={this.setRootState}
-                  rootState={this.state}
-                />
+                <div className="form-group logInInputField">
+                  <label className="control-label">Create Date</label>{" "}
+                  <input
+                    onChange={this.handleFieldInput}
+                    id="createDate"
+                    value={this.state.createDate.slice(0, -8)}
+                    className="form-control"
+                    type="datetime-local"
+                  />{" "}
+                </div>
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">Child's Name</label>{" "}
@@ -2764,16 +2770,10 @@ class TreatmentPlan72 extends Component {
             </div>
           ) : (
             <div className="formFieldsMobileReport">
-              <div className="form-group logInInputField">
-                <label className="control-label">Create Date</label>{" "}
-                <input
-                  onChange={this.handleFieldInput}
-                  id="createDate"
-                  value={this.state.createDate.slice(0, -8)}
-                  className="form-control"
-                  type="datetime-local"
-                />{" "}
-              </div>
+              <HandleFieldInputDate
+                setRootState={this.setRootState}
+                rootState={this.state}
+              />
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Child's Name</label>{" "}

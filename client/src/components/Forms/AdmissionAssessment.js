@@ -573,10 +573,17 @@ class AdmissionAssessment extends Component {
             </div>
           ) : (
             <Container className="print-container">
-              <HandleFieldInputDate
-                setRootState={this.setRootState}
-                rootState={this.state}
-              />
+              <div className="form-group logInInputField">
+                <label className="control-label hide-on-print">
+                  Create Date
+                </label>{" "}
+                <input
+                  id="createDate"
+                  value={this.state.createDate.slice(0, -8)}
+                  className="form-control hide-on-print"
+                  type="datetime-local"
+                />{" "}
+              </div>
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Child's Name</label>{" "}
@@ -2330,29 +2337,26 @@ class AdmissionAssessment extends Component {
               </div>
             ) : (
               <Container className="print-container">
-                <div className="form-group logInInputField">
-                  <label className="control-label hide-on-print">
-                    Create Date
-                  </label>{" "}
-                  <input
-                    id="createDate"
-                    value={this.state.createDate.slice(0, -8)}
-                    className="form-control hide-on-print"
-                    type="datetime-local"
-                  />{" "}
-                </div>
-                <div className="form-group logInInputField">
-                  {" "}
-                  <label className="control-label">Child's Name</label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    id="childMeta_name"
-                    value={this.state.childMeta_name}
-                    className="form-control"
-                    type="text"
-                    disabled
-                  />{" "}
-                </div>
+                <Row>
+                  <Col md={12} className="print-column">
+                  <HandleFieldInputDate
+                  setRootState={this.setRootState}
+                  rootState={this.state}
+                />
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">Child's Name</label>{" "}
+                      <input
+                        onChange={this.handleFieldInput}
+                        id="childMeta_name"
+                        value={this.state.childMeta_name}
+                        className="form-control"
+                        type="text"
+                        disabled
+                      />{" "}
+                    </div>
+                  </Col>
+                </Row>
                 <Row>
                   <Col md={3} className="print-column">
                     <div className="form-group logInInputField">
