@@ -112,7 +112,7 @@ class FormSubmitterListContainer extends Component {
   render() {
     if (this.state.formsToPrint.length > 0) {
       return (
-        <div className="container" style={{pageBreakBefore:"avoid", pageBreakInside:"avoid"}}>
+        <div className="container" style={{ pageBreakBefore: "avoid", pageBreakInside: "avoid" }}>
           <div
             style={{
               display: "flex",
@@ -133,7 +133,7 @@ class FormSubmitterListContainer extends Component {
             </div>
 
           </div>
-          <div className='hide-on-non-print' style={{pageBreakBefore:"avoid", pageBreakInside:"avoid"}}>
+          <div className='hide-on-non-print' style={{ pageBreakBefore: "avoid", pageBreakInside: "avoid" }}>
             {this.state.formsToPrint.map((form, idx) => (
               <div key={`print-form-${idx}`}>{form}</div>
             ))}
@@ -165,7 +165,7 @@ class FormSubmitterListContainer extends Component {
             )}
           </div>
           )} */}
-        <div className="hide-on-print" style={{ paddingBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', pageBreakBefore:"avoid", pageBreakInside:"avoid"}}>
+        <div className="hide-on-print" style={{ paddingBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', pageBreakBefore: "avoid", pageBreakInside: "avoid" }}>
           <button onClick={this.triggerPrint}
             className='btn btn-link'
             // disable button if no completed forms
@@ -213,7 +213,7 @@ class FormSubmitterListContainer extends Component {
                   <tr>
                     <td>
                       {/* display status as "IN PROGRESS" if form created before status attribute was added */}
-                      {(form.status === "" || !form.status) ? "IN PROGRESS" : form.status}
+                      {(form.status === "" || !form.status) ? "IN PROGRESS" : "SUBMITTED"}
                     </td>
                     <td>
                       {new Date(form.createDate).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}
