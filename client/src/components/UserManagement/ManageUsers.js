@@ -6,6 +6,7 @@ import UpdateUser from "./UpdateUser";
 import DeactivateUser from "./DeactivateUser";
 import ActivateUser from "./ActivateUser";
 import axios from "axios";
+import { isAdminUser } from "../../utils/AdminReportingRoles";
 
 const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
   const [resetting, setResetting] = useState(-1);
@@ -111,7 +112,7 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
           ></span>
         </h4>
         <div className={doShow ? "formFields" : "hideIt"}>
-          {userObj.isAdmin ? (
+          {isAdminUser(userObj) ? (
             <Tab.Container defaultActiveKey="active-users">
               <Nav variant="tabs">
                 <Nav.Item>
