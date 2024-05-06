@@ -139,15 +139,19 @@ class MessageBoard extends Component {
             </div>
           </>
         )}
+        {/* hide pagination on load */}
+        {!this.props.discussionMessagesLoading && 
         <Pagination
-          length={this.props.messages.length}
-          postsPerPage={this.state.postsPerPage}
-          handlePagination={this.handlePagination}
-          currentPage={this.state.currentPage}
-        />
+        length={this.props.messages.length}
+        postsPerPage={this.state.postsPerPage}
+        handlePagination={this.handlePagination}
+        currentPage={this.state.currentPage}
+      />
+        }
+        
         <ContentAfterLoad
           removeMessage={this.props.removeMessage}
-          messages={this.props.messages.slice(((this.state.currentPage-1)*20), ((this.state.currentPage*20)-1))}
+          messages={this.props.messages.slice(((this.state.currentPage-1)*this.state.postsPerPage), ((this.state.currentPage*this.state.postsPerPage)-1))}
           isLoading={this.props.discussionMessagesLoading}
           userObj={this.props.userObj}
         />

@@ -60,7 +60,7 @@ const Pagination = ({
                 <li className="page-item">
                     <a
                         onClick={() => nextPage()}
-                        className={'btn btn-light page-link'}
+                        className={pageButtonTotal <= pageButtonCount ? 'btn btn-light page-link disabled' : 'btn btn-light page-link'}
                         id={'nextPageBtn'}
                     >
                         &rarr;
