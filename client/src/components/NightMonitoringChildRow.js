@@ -230,7 +230,7 @@ export const NightMonitoringChildRow = ({
               />
             )}
           </Col>
-          <div
+          <div 
             style={{
               width: "100%",
               display: "flex",
@@ -238,13 +238,14 @@ export const NightMonitoringChildRow = ({
               justifyContent: "center",
               display: signed ? "" : "none",
               paddingRight: "15px",
+              
             }}
           >
             <SignatureCanvas
               ref={(ref) => {
                 sigCanvas = ref;
               }}
-              style={{ border: "solid" }}
+              style={{ border: "solid",}}
               penColor="black"
               clearOnResize={false}
               canvasProps={{
