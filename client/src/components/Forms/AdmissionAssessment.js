@@ -12,7 +12,6 @@ import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
 import { FormSavedAlert } from "../../utils/FormSavedAlert";
 import TextareaAutosize from "react-textarea-autosize";
 import { Container, Row, Col } from "react-bootstrap";
-import { HandleFieldInputDate } from "../../utils/HandleFieldInputDate";
 
 var interval = 0; // used for autosaving
 let initAutoSave = false;
@@ -182,6 +181,22 @@ class AdmissionAssessment extends Component {
     }
     this.setState(stateObj);
   };
+
+  handleFieldInputDate = (event) => {
+    var stateObj = {};
+    if (event.target.id.indexOf(".") > -1) {
+      let level1Obj = event.target.id.split(".")[0];
+      let level2Obj = event.target.id.split(".")[1];
+
+      let nestedProperty = { ...this.state[level1Obj] };
+      nestedProperty[level2Obj] = event.target.value;
+      stateObj[level1Obj] = nestedProperty;
+    } else {
+      stateObj[event.target.id] = event.target.value.concat(':00.000Z');
+    }
+    this.setState(stateObj);
+  };
+
 
   resetForm = () => {
     this.setState({
@@ -512,13 +527,6 @@ class AdmissionAssessment extends Component {
     }
   };
 
-  setRootState = (body) => {
-    const stateCopy = { ...this.state, ...body };
-    this.setState({
-      ...stateCopy,
-    });
-  };
-
   render() {
     if (!this.props.valuesSet) {
       return (
@@ -574,13 +582,14 @@ class AdmissionAssessment extends Component {
           ) : (
             <Container className="print-container">
               <div className="form-group logInInputField">
-                <label className="control-label hide-on-print">
+                <label className="control-label">
                   Create Date
                 </label>{" "}
                 <input
+                  onChange={this.handleFieldInputDate}
                   id="createDate"
                   value={this.state.createDate.slice(0, -8)}
-                  className="form-control hide-on-print"
+                  className="form-control"
                   type="datetime-local"
                 />{" "}
               </div>
@@ -2339,10 +2348,18 @@ class AdmissionAssessment extends Component {
               <Container className="print-container">
                 <Row>
                   <Col md={12} className="print-column">
-                  <HandleFieldInputDate
-                  setRootState={this.setRootState}
-                  rootState={this.state}
-                />
+                    <div className="form-group logInInputField">
+                      <label className="control-label">
+                        Create Date
+                      </label>{" "}
+                      <input
+                        onChange={this.handleFieldInputDate}
+                        id="createDate"
+                        value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
+                        className="form-control"
+                        type="datetime-local"
+                      />{" "}
+                    </div>
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">Child's Name</label>{" "}
