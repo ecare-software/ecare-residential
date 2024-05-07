@@ -10,7 +10,7 @@ import ModalBody from "react-bootstrap/ModalBody";
 import ModalHeader from "react-bootstrap/ModalHeader";
 
 const imageStyle = {
-  // height: "80vh"
+  
 };
 
 class Header extends Component {
@@ -77,7 +77,7 @@ class Header extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{display:'flex', justifyContent:'flex-end', backgroundColor:'maroon'}}>
         <Modal show={this.state.showLearnMore} onHide={this.toggleLearnMore}>
           <ModalHeader
             closeButton
@@ -160,7 +160,7 @@ class Header extends Component {
           <Carousel.Item>
             <img
               className="d-block w-100 headerImg"
-              src={require("../../images/child4.jpeg")}
+              src={require("../../images/children_pile.png")}
               style={imageStyle}
               alt="First slide"
             />
@@ -169,7 +169,15 @@ class Header extends Component {
             <img
               className="d-block w-100 headerImg"
               style={imageStyle}
-              src={require("../../images/child1.jpeg")}
+              src={require("../../images/children_huddle.png")}
+              alt="Two slide"
+            />
+          </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block w-100 headerImg"
+              style={imageStyle}
+              src={require("../../images/children_above.png")}
               alt="Two slide"
             />
           </Carousel.Item>
@@ -186,7 +194,7 @@ class Header extends Component {
           ) : (
             <React.Fragment />
           )}
-          <h1 className="headerMainText">Residential Care System</h1>
+          <h1 className="headerMainText">Residential <br/> Care System</h1>
           <p className="headerSubText">
             Health care system of today <br />
             and tomorrow.
@@ -209,9 +217,9 @@ class Header extends Component {
               placeholder="youremail@example.com"
             /> */}
             <button
-              style={{ marginTop: "10px", float: "right", marginRight: "10px" }}
               onClick={this.toggleLearnMore}
-              className="btn  lightBtn"
+              className="btn lightBtn"
+              id='learnMoreHeaderBtn'
             >
               Learn More
             </button>
@@ -227,15 +235,15 @@ class Header extends Component {
               Log In
             </button>
           </div>
-          <div className="mobileLearnMore" style={{}}>
+          {/* <div className="mobileLearnMore" style={{}}>
             <button
               style={{ marginTop: "10px", fontWeight: 200 }}
               onClick={this.toggleLearnMore}
-              className="btn  lightBtn"
+              className="btn lightBtn"
             >
               Learn More
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     );

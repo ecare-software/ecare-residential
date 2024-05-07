@@ -144,15 +144,19 @@ input {
 }
 
 .nav-link-not-logged-in {
-  background-color: #ffffff31 !important;
+  background-color: maroon !important;
+  border-color: white;
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .nav-link-not-logged-in:hover {
   background-color: white !important;
   color: maroon !important;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-.nav-link-not-logged-in-fill {
+/* .nav-link-not-logged-in-fill {
   background-color: maroon !important;
   color: white !important;
   border: solid 0.5px maroon !important;
@@ -162,7 +166,7 @@ input {
   color: maroon !important;
   background-color: white !important;
   border: solid 0.5px white !important;
-}
+} */
 
 .nav-link.active {
   background-color: #5e0000;
@@ -253,7 +257,7 @@ label {
   font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
   padding: 10px 20px;
   transition: all 0.3s;
-  box-shadow: 0px 6px 23px 0px rgba(37, 37, 37, 0.459);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .mainFont {
@@ -269,7 +273,7 @@ label {
   font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
   padding: 10px 20px;
   transition: all 0.3s;
-  box-shadow: 0px 6px 23px 0px rgba(37, 37, 37, 0.459);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .lightBtnSimple {
@@ -292,7 +296,7 @@ label {
   font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
   padding: 10px 20px;
   transition: all 0.3s;
-  box-shadow: 0px 6px 23px 0px rgba(37, 37, 37, 0.459);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .darkBtn:hover {
@@ -304,7 +308,7 @@ label {
   font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
   padding: 10px 20px;
   transition: all 0.3s;
-  box-shadow: 0px 6px 23px 0px rgba(37, 37, 37, 0.459);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .darkBtnSimple {
@@ -475,7 +479,7 @@ html {
   }
 
   #greetingRow {
-    margin: 100px 200px 0px 200px;
+    margin: 100px 20px 0px 20px;
   }
 
   #greetingRowRight {
@@ -488,7 +492,7 @@ html {
     line-height: 70px;
     color: maroon;
     font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
-    text-shadow: 0px 1px 2px #707070e7;
+    /* text-shadow: 0px 1px 2px #707070e7; */
   }
 
   #greetingRowRightPContainer {
@@ -503,9 +507,9 @@ html {
   }
 
   #greetingRowRightBtnContainer {
-    margin-top: 20px;
+    margin-top: 5vh;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     margin-right: 150px;
   }
 

@@ -1,10 +1,15 @@
+/* .carousel {
+  height: 100px;
+  width: auto;
+} */
+
 .headerMainText {
   color: white;
-  text-shadow: 0px 2px 6px #000000;
+  /* text-shadow: 0px 2px 6px #000000; */
 }
 
 .headerSubText {
-  color: maroon;
+  color: white;
   /* text-shadow: 0px 2px 6px #9f9f9ff5; */
   letter-spacing: 2px;
 }
@@ -13,19 +18,49 @@
 }
 /* desktop */
 @media only screen and (min-width: 1226px) {
-  .headerImg {
+  .carousel {
     /* background: url("./images/Caregiver-Assistance.jpg") no-repeat; */
-    background-size: cover;
+    /* background-size: cover; */
 
     /* height: 900px; */
-    height: 100vh;
+    height: auto;
+    max-height: 100vh;
+    max-width: 100vh;
     width: 100%;
+    padding-top: 5%;
+    padding-right: 5%;
+    padding-bottom: 5%;
+  }
+
+.carousel-inner {
+  /* box-shadow: -10px 6px 5px 5px #800000; */
+}
+
+#loginNavBtn {
+  border-color: white;
+}
+
+#learnMoreHeaderBtn {
+  margin-top: 10px;
+  float: right;
+  margin-right: 10vw; 
+}
+
+#learnMoreHeaderBtn:hover {
+  border-color: white;
+  background-color: maroon;
+}
+
+img {
+    border-radius: 6%;
+    /* box-shadow: 12px 12px 5px 100px #800000 */
+    ;
   }
 
   .headerTextContainer {
     position: absolute;
-    top: 40vh;
-    left: 15%;
+    top: 20vh;
+    left: 10vw;
     width: 600px;
     /* font-family: "Google Sans Display",Arial,Helvetica,sans-serif; */
   }
@@ -38,7 +73,7 @@
     font-size: 1.5rem;
     line-height: 35px;
     font-weight: 300;
-    text-shadow: 0px 2px 2px #1c1c1c;
+    /* text-shadow: 0px 2px 2px #1c1c1c; */
   }
 
   #headerDemoBtn {
@@ -77,7 +112,7 @@
     margin-top: 25px;
     font-size: 1.8rem;
     line-height: 35px;
-    text-shadow: 0px 2px 2px #1c1c1c;
+    /* text-shadow: 0px 2px 2px #1c1c1c; */
   }
   #headerDemoBtn {
     position: relative;
@@ -134,7 +169,7 @@
     margin-top: 25px;
     font-size: 1.5em;
     line-height: 35px;
-    text-shadow: 0px 2px 2px #1c1c1c;
+    /* text-shadow: 0px 2px 2px #1c1c1c; */
     color: #1111;
   }
   #headerDemoBtn {
