@@ -203,7 +203,7 @@ class FormSubmitterListContainer extends Component {
                       </th>
                       {(this.state.formType === "Incident Report" || this.state.formType === "Serious Incident Report" || this.state.formType === "Restraint Report") && (
                         <th>
-                          Occured
+                          Occurred
                         </th>
                       )}
                     </tr>

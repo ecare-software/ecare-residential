@@ -195,21 +195,6 @@ class TreatmentPlan72 extends Component {
     });
   };
 
-  handleFieldInput = (event) => {
-    var stateObj = {};
-    if (event.target.id.indexOf(".") > -1) {
-      let level1Obj = event.target.id.split(".")[0];
-      let level2Obj = event.target.id.split(".")[1];
-
-      let nestedProperty = { ...this.state[level1Obj] };
-      nestedProperty[level2Obj] = event.target.value;
-      stateObj[level1Obj] = nestedProperty;
-    } else {
-      stateObj[event.target.id] = event.target.value;
-    }
-    this.setState(stateObj);
-  };
-
   handleFieldInputDate = (event) => {
     var stateObj = {};
     if (event.target.id.indexOf(".") > -1) {
@@ -225,6 +210,20 @@ class TreatmentPlan72 extends Component {
     this.setState(stateObj);
   };
 
+  handleFieldInput = (event) => {
+    var stateObj = {};
+    if (event.target.id.indexOf(".") > -1) {
+      let level1Obj = event.target.id.split(".")[0];
+      let level2Obj = event.target.id.split(".")[1];
+
+      let nestedProperty = { ...this.state[level1Obj] };
+      nestedProperty[level2Obj] = event.target.value;
+      stateObj[level1Obj] = nestedProperty;
+    } else {
+      stateObj[event.target.id] = event.target.value;
+    }
+    this.setState(stateObj);
+  };
 
   resetForm = () => {
     this.setState({
@@ -2779,11 +2778,13 @@ class TreatmentPlan72 extends Component {
           ) : (
             <div className="formFieldsMobileReport">
               <div className="form-group logInInputField">
-                <label className="control-label">Create Date</label>{" "}
+                <label className="control-label">
+                  Create Date
+                </label>{" "}
                 <input
-                  onChange={this.handleFieldInput}
+                  onChange={this.handleFieldInputDate}
                   id="createDate"
-                  value={this.state.createDate.slice(0, -8)}
+                  value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
                   className="form-control"
                   type="datetime-local"
                 />{" "}

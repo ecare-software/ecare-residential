@@ -14,6 +14,7 @@ import { isAdminUser } from "../../utils/AdminReportingRoles";
 import TextareaAutosize from "react-textarea-autosize";
 import StaffOption from "../../utils/StaffOption.util";
 import { Container, Col, Row } from "react-bootstrap";
+
 var interval = 0; // used for autosaving
 let initAutoSave = false;
 class IncidentReport extends Component {
@@ -82,21 +83,6 @@ class IncidentReport extends Component {
     });
   };
 
-  handleFieldInput = (event) => {
-    var stateObj = {};
-    if (event.target.id.indexOf(".") > -1) {
-      let level1Obj = event.target.id.split(".")[0];
-      let level2Obj = event.target.id.split(".")[1];
-
-      let nestedProperty = { ...this.state[level1Obj] };
-      nestedProperty[level2Obj] = event.target.value;
-      stateObj[level1Obj] = nestedProperty;
-    } else {
-      stateObj[event.target.id] = event.target.value;
-    }
-    this.setState(stateObj);
-  };
-
   handleFieldInputDate = (event) => {
     var stateObj = {};
     if (event.target.id.indexOf(".") > -1) {
@@ -108,6 +94,21 @@ class IncidentReport extends Component {
       stateObj[level1Obj] = nestedProperty;
     } else {
       stateObj[event.target.id] = event.target.value.concat(':00.000Z');
+    }
+    this.setState(stateObj);
+  };
+
+  handleFieldInput = (event) => {
+    var stateObj = {};
+    if (event.target.id.indexOf(".") > -1) {
+      let level1Obj = event.target.id.split(".")[0];
+      let level2Obj = event.target.id.split(".")[1];
+
+      let nestedProperty = { ...this.state[level1Obj] };
+      nestedProperty[level2Obj] = event.target.value;
+      stateObj[level1Obj] = nestedProperty;
+    } else {
+      stateObj[event.target.id] = event.target.value;
     }
     this.setState(stateObj);
   };
@@ -458,14 +459,14 @@ class IncidentReport extends Component {
               <Row>
                 <Col xs={12} className="print-column">
                   <div className="form-group logInInputField">
-                    <label className="control-label hide-on-print">
+                    <label className="control-label">
                       Create Date
                     </label>{" "}
                     <input
-                      onChange={this.handleFieldInputDate}
                       id="createDate"
+                      onChange={this.handleFieldInputDate}
                       value={this.state.createDate.slice(0, -8)}
-                      className="form-control hide-on-print"
+                      className="form-control"
                       type="datetime-local"
                     />{" "}
                   </div>
@@ -1027,15 +1028,15 @@ class IncidentReport extends Component {
                 <Row>
                   <Col xs={12}>
                     <div className="form-group logInInputField">
-                      <label className="control-label hide-on-print">
+                      <label className="control-label">
                         Create Date
                       </label>{" "}
                       <input
+                        onChange={this.handleFieldInputDate}
                         id="createDate"
-                        value={this.state.createDate.slice(0, -8)}
-                        className="form-control hide-on-print"
+                        value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
+                        className="form-control"
                         type="datetime-local"
-                        disabled
                       />{" "}
                     </div>
                   </Col>

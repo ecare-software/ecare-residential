@@ -12,6 +12,7 @@ import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
 import { FormSavedAlert } from "../../utils/FormSavedAlert";
 import TextareaAutosize from "react-textarea-autosize";
 import { Container, Row, Col } from "react-bootstrap";
+
 var interval = 0; // used for autosaving
 let initAutoSave = false;
 class IllnessInjury extends Component {
@@ -377,14 +378,14 @@ class IllnessInjury extends Component {
           ) : (
             <Container className="print-container">
               <div className="form-group logInInputField">
-                <label className="control-label hide-on-print">
+                <label className="control-label">
                   Create Date
                 </label>{" "}
                 <input
-                  onChange={this.handleFieldInputDate}
                   id="createDate"
+                  onChange={this.handleFieldInputDate}
                   value={this.state.createDate.slice(0, -8)}
-                  className="form-control hide-on-print"
+                  className="form-control"
                   type="datetime-local"
                 />{" "}
               </div>
@@ -667,30 +668,34 @@ class IllnessInjury extends Component {
               </div>
             ) : (
               <Container className="print-container">
-                <div className="form-group logInInputField">
-                  <label className="control-label hide-on-print">
-                    Create Date
-                  </label>{" "}
-                  <input
-                    id="createDate"
-                    value={this.state.createDate.slice(0, -8)}
-                    className="form-control hide-on-print"
-                    type="datetime-local"
-                    disabled
-                  />{" "}
-                </div>
-                <div className="form-group logInInputField">
-                  {" "}
-                  <label className="control-label">Child's Name</label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    id="childMeta_name"
-                    value={this.state.childMeta_name}
-                    className="form-control"
-                    type="text"
-                    disabled
-                  />{" "}
-                </div>
+                <Row>
+                  <Col md={12} className="print-column">
+                    <div className="form-group logInInputField">
+                      <label className="control-label">
+                        Create Date
+                      </label>{" "}
+                      <input
+                        onChange={this.handleFieldInputDate}
+                        id="createDate"
+                        value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
+                        className="form-control"
+                        type="datetime-local"
+                      />{" "}
+                    </div>
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">Child's Name</label>{" "}
+                      <input
+                        onChange={this.handleFieldInput}
+                        id="childMeta_name"
+                        value={this.state.childMeta_name}
+                        className="form-control"
+                        type="text"
+                        disabled
+                      />{" "}
+                    </div>
+                  </Col>
+                </Row>
                 <Row>
                   <Col md={4} className="print-column">
                     <div className="form-group logInInputField">
@@ -897,10 +902,10 @@ class IllnessInjury extends Component {
               <>
                 <FormError errorId={this.props.id + "-error"} />
                 <Row className="save-submit-row">
-                    <div style={{ display: "flex", width: "46%" }}>
+                  <div style={{ display: "flex", width: "46%" }}>
                     <button
                       className="lightBtn hide hide-on-print save-submit-btn"
-                      style={{ 
+                      style={{
                         width: "100%",
                         display: this.state.status === 'COMPLETED' ? "none" : "block"
                       }}
@@ -912,18 +917,18 @@ class IllnessInjury extends Component {
                     </button>
                   </div>
 
-                <div style={{ display: "flex", width: "46%" }}>
-                  <button
-                    className="darkBtn hide hide-on-print save-submit-btn"
-                    style={{ width: "100%" }}
-                    onClick={() => {
-                      this.validateForm(false);
-                    }}
-                  >
-                    Submit
-                  </button>
-                </div>
-              </Row>
+                  <div style={{ display: "flex", width: "46%" }}>
+                    <button
+                      className="darkBtn hide hide-on-print save-submit-btn"
+                      style={{ width: "100%" }}
+                      onClick={() => {
+                        this.validateForm(false);
+                      }}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </Row>
               </>
             )}
           </div>
