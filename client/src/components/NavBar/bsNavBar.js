@@ -10,7 +10,7 @@ import { isAdminUser } from "../../utils/AdminReportingRoles";
 import { FormCountContext } from "../../context";
 
 const navBarStyleNotLoggedIn = {
-  backgroundColor: "transparent",
+  backgroundColor: "maroon",
   color: "white",
 };
 

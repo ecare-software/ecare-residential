@@ -77,7 +77,7 @@ class Header extends Component {
 
   render() {
     return (
-      <div style={{display:'flex', justifyContent:'flex-end', backgroundColor:'maroon'}}>
+      <div className="flex-container" id='headerDiv'>
         <Modal show={this.state.showLearnMore} onHide={this.toggleLearnMore}>
           <ModalHeader
             closeButton
@@ -199,23 +199,7 @@ class Header extends Component {
             Health care system of today <br />
             and tomorrow.
           </p>
-          <div className="desktopLearnMore" style={{ marginRight: "200px" }}>
-            {/* <input
-              id="name"
-              onChange={this.handleFieldInput}
-              value={this.state.name}
-              style={{ width: "100%", margin: "5px 10px", float: "right" }}
-              className="form-control"
-              placeholder="Name / Organization"
-            />
-            <input
-              id="emailTo"
-              onChange={this.handleFieldInput}
-              value={this.state.emailTo}
-              style={{ width: "100%", margin: "5px 10px", float: "right" }}
-              className="form-control"
-              placeholder="youremail@example.com"
-            /> */}
+          <div className="desktopLearnMore">
             <button
               onClick={this.toggleLearnMore}
               className="btn lightBtn"
@@ -235,15 +219,6 @@ class Header extends Component {
               Log In
             </button>
           </div>
-          {/* <div className="mobileLearnMore" style={{}}>
-            <button
-              style={{ marginTop: "10px", fontWeight: 200 }}
-              onClick={this.toggleLearnMore}
-              className="btn lightBtn"
-            >
-              Learn More
-            </button>
-          </div> */}
         </div>
       </div>
     );

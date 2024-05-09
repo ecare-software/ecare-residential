@@ -582,7 +582,7 @@ html {
 }
 
 /* ipad */
-@media only screen and (min-width: 768px) and (max-width: 1225px) {
+@media only screen and (min-width: 481px) and (max-width: 1024px) {
   .mobileLearnMore {
     display: none;
   }
@@ -754,9 +754,6 @@ html {
     left: 0px !important;
   }
 
-  .desktopLearnMore {
-    display: none;
-  }
 
   .filterSection {
     margin: 15px 0px 15px 0px;
@@ -878,7 +875,7 @@ html {
   }
 
   #greetingRow {
-    margin: 50px 20px 0px 20px;
+    margin: 20px 20px 0px 20px;
   }
 
   #greetingRowRightHeader {
@@ -897,13 +894,15 @@ html {
   }
 
   #greetingRowRightBtnContainer {
-    margin-top: 70px;
+    margin-top: 40px;
     display: flex;
+    justify-content: center;
   }
 
   #iPhoneContainer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    height: 200px;
   }
 
   #homeiPhone {
@@ -912,6 +911,7 @@ html {
     background-size: contain;
     height: 200px;
     width: 100px;
+    margin-top: 0px;
   }
 
   .modal-dialog {
