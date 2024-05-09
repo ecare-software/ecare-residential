@@ -867,7 +867,7 @@ html {
   #greetingContainer {
     padding: 0px;
     border-bottom: 15px solid maroon;
-    padding-bottom: 50px;
+    padding-bottom: 20px;
   }
 
   #greetingColRight {
@@ -894,7 +894,7 @@ html {
   }
 
   #greetingRowRightBtnContainer {
-    margin-top: 40px;
+    margin-top: 0px;
     display: flex;
     justify-content: center;
   }
