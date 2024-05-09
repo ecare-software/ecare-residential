@@ -343,15 +343,15 @@ export class FormReports extends Component {
     /*
    3. change the view back after set amount of time, showing list of filtered forms again
    */
-    {
-      !this.state.isLoading &&
+
+    if (!this.state.isLoading) {
       setTimeout(() => {
         window.print();
-      }, 100000)
+      }, 10000);
 
       setTimeout(() => {
         this.setState({ ...this.state, showFullForms: false, formsToPrint: [] });
-      }, 120000);
+      }, 12000);
     }
   };
 

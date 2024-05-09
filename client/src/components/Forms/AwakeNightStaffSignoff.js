@@ -145,6 +145,21 @@ class AwakeNightStaffSignoff extends Component {
     });
   };
 
+  handleFieldInputDate = (event) => {
+    var stateObj = {};
+    if (event.target.id.indexOf(".") > -1) {
+      let level1Obj = event.target.id.split(".")[0];
+      let level2Obj = event.target.id.split(".")[1];
+
+      let nestedProperty = { ...this.state[level1Obj] };
+      nestedProperty[level2Obj] = event.target.value;
+      stateObj[level1Obj] = nestedProperty;
+    } else {
+      stateObj[event.target.id] = event.target.value.concat(':00.000Z');
+    }
+    this.setState(stateObj);
+  };
+
   handleFieldInput = async (event) => {
     const id = event.target.id;
     const cloneState = { ...this.state };
@@ -3331,7 +3346,7 @@ class AwakeNightStaffSignoff extends Component {
 
             <FormError errorId={this.props.id + "-error"} />
 
-            <Row className="save-submit-row" style={{paddingTop: "20px"}}>
+            <Row className="save-submit-row" style={{ paddingTop: "20px" }}>
               <div style={{ display: "flex", width: "46%" }}>
                 <button
                   className="lightBtn hide hide-on-print save-submit-btn"
@@ -3381,6 +3396,22 @@ class AwakeNightStaffSignoff extends Component {
           </div>
 
           <Container className="print-container">
+          <Row>
+              <Col md={12} className="print-column">
+                <div className="form-group logInInputField">
+                  <label className="control-label">
+                    Create Date
+                  </label>{" "}
+                  <input
+                    id="createDate"
+                    value={this.state.createDate === null ? "" : this.state.createDate.slice(0, -8)}
+                    onChange={this.handleFieldInputDate}
+                    className="form-control"
+                    type="datetime-local"
+                  />{" "}
+                </div>
+              </Col>
+            </Row>
             <Row>
               <Col xs={6}>
                 <Row>
@@ -6292,20 +6323,21 @@ class AwakeNightStaffSignoff extends Component {
             {!this.props.formData.approved && (
               <>
                 <FormError errorId={this.props.id + "-error"} />
-                <Row className="save-submit-row" style={{paddingTop: "20px"}}>
-                    <div style={{ display: "flex", width: "46%" }}>
-                      <button
-                        className="lightBtn hide hide-on-print save-submit-btn"
-                        style={{ 
-                          width: "100%",
-                          display: this.state.status === 'COMPLETED' ? "none" : "block" }}
-                        onClick={() => {
-                          this.validateForm(true);
-                        }}
-                      >
-                        Finish Later
-                      </button>
-                    </div>
+                <Row className="save-submit-row" style={{ paddingTop: "20px" }}>
+                  <div style={{ display: "flex", width: "46%" }}>
+                    <button
+                      className="lightBtn hide hide-on-print save-submit-btn"
+                      style={{
+                        width: "100%",
+                        display: this.state.status === 'COMPLETED' ? "none" : "block"
+                      }}
+                      onClick={() => {
+                        this.validateForm(true);
+                      }}
+                    >
+                      Finish Later
+                    </button>
+                  </div>
 
                   <div style={{ display: "flex", width: "46%" }}>
                     <button

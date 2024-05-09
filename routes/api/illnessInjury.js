@@ -45,7 +45,7 @@ router.post("/", (req, res) => {
 
 router.get("/:homeId", (req, res) => {
   IllnessInjury.find({ homeId: req.params.homeId })
-    .sort({ createDate: -1 })
+    .sort({ createDate: -1 }).setOptions({ allowDiskUse: true })
     .exec()
     .then((illnessInjury) => res.json(illnessInjury))
     .catch((err) => res.status(404).json({ success: false }));
@@ -53,12 +53,12 @@ router.get("/:homeId", (req, res) => {
 
 router.get(
   "/:homeId/:searchString" +
-    "/:lastEditDateAfter/:lastEditDateBefore" +
-    "/:childDOBAfter/:childDOBBefore" +
-    "/:childDOAAfter/:childDOABefore" +
-    "/:ethnicityA" +
-    "/:submittedByA" +
-    "/:approved",
+  "/:lastEditDateAfter/:lastEditDateBefore" +
+  "/:childDOBAfter/:childDOBBefore" +
+  "/:childDOAAfter/:childDOABefore" +
+  "/:ethnicityA" +
+  "/:submittedByA" +
+  "/:approved",
   (req, res) => {
     var findObj = {
       homeId: req.params.homeId,
@@ -146,7 +146,7 @@ router.get(
     }
 
     IllnessInjury.find(findObj)
-      .sort({ createDate: -1 })
+      .sort({ createDate: -1 }).setOptions({ allowDiskUse: true })
       .exec()
       .then((illnessInjury) => res.json(illnessInjury))
       .catch((err) => res.status(404).json({ success: err }));
