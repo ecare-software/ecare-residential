@@ -13,7 +13,7 @@ import { FormSavedAlert } from "../../utils/FormSavedAlert";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 import TextareaAutosize from "react-textarea-autosize";
 import { Container, Row, Col } from "react-bootstrap";
-import { HandleFieldInputDate } from "../../utils/HandleFieldInputDate";
+
 /*
   missing from form
     "Restricted field Trip"
@@ -90,6 +90,21 @@ class DailyProgressAndActivity extends Component {
       formHasError: !this.state.formHasError,
       formErrorMessage: "",
     });
+  };
+
+  handleFieldInputDate = (event) => {
+    var stateObj = {};
+    if (event.target.id.indexOf(".") > -1) {
+      let level1Obj = event.target.id.split(".")[0];
+      let level2Obj = event.target.id.split(".")[1];
+
+      let nestedProperty = { ...this.state[level1Obj] };
+      nestedProperty[level2Obj] = event.target.value;
+      stateObj[level1Obj] = nestedProperty;
+    } else {
+      stateObj[event.target.id] = event.target.value.concat(':00.000Z');
+    }
+    this.setState(stateObj);
   };
 
   handleFieldInput = (event) => {
@@ -357,13 +372,6 @@ class DailyProgressAndActivity extends Component {
     }
   };
 
-  setRootState = (body) => {
-    const stateCopy = { ...this.state, ...body };
-    this.setState({
-      ...stateCopy,
-    });
-  };
-
   render() {
     if (!this.props.valuesSet) {
       return (
@@ -419,19 +427,19 @@ class DailyProgressAndActivity extends Component {
           ) : (
 
             <Container className="print-container">
-               <div className="form-group logInInputField">
-                  <label className="control-label hide-on-print">
-                    Create Date
-                  </label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    id="createDate"
-                    value={this.state.createDate.slice(0, -8)}
-                    className="form-control hide-on-print"
-                    type="datetime-local"
-                  />{" "}
-                </div>
-              
+              <div className="form-group logInInputField">
+                <label className="control-label">
+                  Create Date
+                </label>{" "}
+                <input
+                  onChange={this.handleFieldInputDate}
+                  id="createDate"
+                  value={this.state.createDate.slice(0, -8)}
+                  className="form-control"
+                  type="datetime-local"
+                />{" "}
+              </div>
+
               <div className="form-group logInInputField">
                 {" "}
                 <label className="control-label">Child's Name</label>{" "}
@@ -991,23 +999,31 @@ class DailyProgressAndActivity extends Component {
               <Container className="print-container">
                 <Row>
                   <Col md={12} className="print-column">
-                <HandleFieldInputDate
-                setRootState={this.setRootState}
-                rootState={this.state}
-              />
-                <div className="form-group logInInputField">
-                  {" "}
-                  <label className="control-label">Child's Name</label>{" "}
-                  <input
-                    onChange={this.handleFieldInput}
-                    value={this.state.childMeta_name}
-                    id="childMeta_name"
-                    className="form-control"
-                    type="text"
-                    disabled
-                  />{" "}
-                </div>
-                </Col>
+                    <div className="form-group logInInputField">
+                      <label className="control-label">
+                        Create Date
+                      </label>{" "}
+                      <input
+                        onChange={this.handleFieldInputDate}
+                        id="createDate"
+                        value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
+                        className="form-control"
+                        type="datetime-local"
+                      />{" "}
+                    </div>
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">Child's Name</label>{" "}
+                      <input
+                        onChange={this.handleFieldInput}
+                        value={this.state.childMeta_name}
+                        id="childMeta_name"
+                        className="form-control"
+                        type="text"
+                        disabled
+                      />{" "}
+                    </div>
+                  </Col>
                 </Row>
                 <Row>
                   <Col md={4} className="print-column">
@@ -1455,10 +1471,10 @@ class DailyProgressAndActivity extends Component {
                       </p>
                     </div>
                   </Col>
-                  </Row>
-                  <Row>
-                    <Col md={12} className="print-column">
-                  <div className="form-group logInInputField" >
+                </Row>
+                <Row>
+                  <Col md={12} className="print-column">
+                    <div className="form-group logInInputField" >
                       {" "}
                       <label className="control-label">
                         Summary of Daily Schedule
@@ -1475,8 +1491,8 @@ class DailyProgressAndActivity extends Component {
                         {this.state.summary_of_daily_schedule}
                       </p>
                     </div>
-                    </Col>
-                  </Row>
+                  </Col>
+                </Row>
               </Container>
             )}
 

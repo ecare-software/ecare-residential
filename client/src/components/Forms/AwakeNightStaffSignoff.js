@@ -145,6 +145,21 @@ class AwakeNightStaffSignoff extends Component {
     });
   };
 
+  handleFieldInputDate = (event) => {
+    var stateObj = {};
+    if (event.target.id.indexOf(".") > -1) {
+      let level1Obj = event.target.id.split(".")[0];
+      let level2Obj = event.target.id.split(".")[1];
+
+      let nestedProperty = { ...this.state[level1Obj] };
+      nestedProperty[level2Obj] = event.target.value;
+      stateObj[level1Obj] = nestedProperty;
+    } else {
+      stateObj[event.target.id] = event.target.value.concat(':00.000Z');
+    }
+    this.setState(stateObj);
+  };
+
   handleFieldInput = async (event) => {
     const id = event.target.id;
     const cloneState = { ...this.state };
@@ -3390,6 +3405,7 @@ class AwakeNightStaffSignoff extends Component {
                   <input
                     id="createDate"
                     value={this.state.createDate === null ? "" : this.state.createDate.slice(0, -8)}
+                    onChange={this.handleFieldInputDate}
                     className="form-control"
                     type="datetime-local"
                   />{" "}
