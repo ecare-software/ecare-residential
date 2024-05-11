@@ -582,7 +582,7 @@ html {
 }
 
 /* ipad */
-@media only screen and (min-width: 481px) and (max-width: 1024px) {
+@media only screen and (min-width: 481px) and (max-width: 1226px){
   .mobileLearnMore {
     display: none;
   }
@@ -906,7 +906,7 @@ html {
   }
 
   #homeiPhone {
-    margin-top: -90px;
+    /* margin-top: -90px; */
     background: url("../src/images/iphone.gif") no-repeat;
     background-size: contain;
     height: 200px;
