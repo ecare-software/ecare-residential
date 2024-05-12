@@ -10,7 +10,7 @@ import { isAdminUser } from "../../utils/AdminReportingRoles";
 import { FormCountContext } from "../../context";
 
 const navBarStyleNotLoggedIn = {
-  backgroundColor: "transparent",
+  backgroundColor: "maroon",
   color: "white",
 };
 
@@ -32,7 +32,7 @@ const navBrandStyleNotLoggedIn = {
   fontWeight: "300",
   paddingLeft: "20px",
   margin: "0px -5px",
-  textShadow: "1px 1px 2px #000000",
+  // textShadow: "1px 1px 2px #000000",
 };
 
 const navItemStyle = {
@@ -41,13 +41,13 @@ const navItemStyle = {
   paddingRight: "5px",
 };
 const navItemStyleBig = {
-  color: "black",
+  color: "white",
   paddingLeft: "20px",
   paddingRight: "20px",
   margin: "5px 5px",
-  borderRadius: "9px",
-  fontWeight: "500",
-  border: "solid .5px white",
+  borderRadius: "12px",
+  fontWeight: "600",
+  border: "solid 1px white",
 };
 
 const navItemStyleBigFill = {
@@ -227,6 +227,7 @@ class NavBar extends React.Component {
               <Nav className="ml-auto">
                 <React.Fragment>
                   <Nav.Link
+                    id='loginNavBtn'
                     eventKey="link-1"
                     style={navItemStyleBig}
                     className="nav-link-not-logged-in"
@@ -234,14 +235,14 @@ class NavBar extends React.Component {
                   >
                     Log In
                   </Nav.Link>
-                  <Nav.Link
+                  {/* <Nav.Link
                     eventKey="link-3"
                     style={navItemStyleBigFill}
                     className="nav-link-not-logged-in-fill"
                     onClick={this.toggleLearnMore}
                   >
                     Learn More
-                  </Nav.Link>
+                  </Nav.Link> */}
                 </React.Fragment>
               </Nav>
             </Navbar.Collapse>
