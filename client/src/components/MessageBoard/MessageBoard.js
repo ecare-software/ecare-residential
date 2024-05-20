@@ -55,10 +55,12 @@ class MessageBoard extends Component {
   }
 
   handlePagination = (pageNumber) => {
-    let firstIndex = (((this.state.currentPage) - 1) * 20);
-    this.setState({currentPage: pageNumber});
+    this.state.currentPage = pageNumber;
+    this.props.loadMessage(this.props.userObj, pageNumber)
+    let firstIndex = (((this.props.currentPage) - 1) * 20);
+    // this.setState({currentPage: pageNumber});
     this.setState({indexOfFirstPost: firstIndex})
-    this.setState({indexOfLastPost: (this.state.currentPage*20) - 1 })
+    this.setState({indexOfLastPost: (this.props.currentPage*20) - 1 })
   };
 
   openModal = (modalName) => {
@@ -145,13 +147,15 @@ class MessageBoard extends Component {
         length={this.props.messages.length}
         postsPerPage={this.state.postsPerPage}
         handlePagination={this.handlePagination}
-        currentPage={this.state.currentPage}
+        currentPage={this.props.currentPage}
+        loadMessage={this.props.loadMessage}
+        userObj={this.props.userObj}
       />
         }
         
         <ContentAfterLoad
           removeMessage={this.props.removeMessage}
-          messages={this.props.messages.slice(((this.state.currentPage-1)*this.state.postsPerPage), ((this.state.currentPage*this.state.postsPerPage)-1))}
+          messages={this.props.messages.slice(((this.props.currentPage-1)*this.state.postsPerPage), ((this.props.currentPage*this.state.postsPerPage)-1))}
           isLoading={this.props.discussionMessagesLoading}
           userObj={this.props.userObj}
         />

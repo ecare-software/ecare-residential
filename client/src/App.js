@@ -79,6 +79,7 @@ class App extends Component {
     flip: false,
     showMessageSent: false,
     loading: false,
+    currentPage: 1,
     
   };
   
@@ -204,11 +205,41 @@ class App extends Component {
     }
   };
 
-  loadMessage = (userObj) => {
+  // loadMessage = (userObj) => {
+    loadMessage = (userObj, pageNumber) => {
+    if (pageNumber === undefined) {pageNumber = 1};
+    // const pageNumber = pageNumber;
+    // console.log('pagenumber', pageNumber)
+    const limit = 20;
     this.setState({
       ...this.state,
       discussionMessagesLoading: true,
     });
+    Axios.get(`/api/discussionMessages/${userObj.homeId}?page=${pageNumber}&limit=60`)
+    // Axios.get(`/api/discussionMessages/${userObj.homeId}`)
+      .then((response) => {
+        // setTimeout(() => {
+          this.setState({
+            discussionMessages: response.data,
+            messagesInitLoad: true,
+            discussionMessagesLoading: false,
+          });
+        // }, 1000);
+      })
+      .catch((error) => {
+        this.setState({
+          discussionMessagesLoading: false,
+        });
+        alert(error);
+      });
+  };
+
+  loadNextMessage = (userObj) => {
+    this.setState({
+      ...this.state,
+      discussionMessagesLoading: true,
+    });
+    // Axios.get(`/api/discussionMessages/${userObj.homeId}?page=${}`)
     Axios.get(`/api/discussionMessages/${userObj.homeId}`)
       .then((response) => {
         // setTimeout(() => {
@@ -226,6 +257,7 @@ class App extends Component {
         alert(error);
       });
   };
+
   appendMessage = async (message) => {
     let newMessage = {
       message: message,
@@ -527,6 +559,7 @@ class App extends Component {
                       setDMs={this.setDMs}
                       updateUserData={this.updateUserData}
                       getAllUsers={this.getAllUsers}
+                      loadMessage={this.loadMessage}
                     />
                   </div>
                 </div>
@@ -700,6 +733,7 @@ function ToggleScreen({
   setDMs,
   updateUserData,
   getAllUsers,
+  loadMessage,
 }) {
   if (name === 'Dashboard') {
     return (
@@ -713,6 +747,9 @@ function ToggleScreen({
           userObj={appState.userObj}
           removeMessage={removeMessage}
           postsPerPage={20}
+          currentPage={appState.currentPage}
+          // onPageChange={this.onChange}
+          loadMessage={loadMessage}
         />
         
       </div>

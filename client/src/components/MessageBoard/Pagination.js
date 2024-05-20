@@ -7,6 +7,8 @@ const Pagination = ({
     length,
     handlePagination,
     currentPage,
+    loadMessage,
+    userObj
 }) => {
     let pageButtonCount = 5;
     let pageButtonTotal = length / postsPerPage;
