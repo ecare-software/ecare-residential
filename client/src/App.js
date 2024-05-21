@@ -721,7 +721,6 @@ function ToggleScreen({
           removeMessage={removeMessage}
           postsPerPage={20}
           currentPage={appState.currentPage}
-          // currentPage={1}
           loadMessage={loadMessage}
         />
         
