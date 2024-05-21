@@ -592,6 +592,11 @@ class App extends Component {
           )}
           <div className='container-fluid' id='greetingContainer'>
             <div className='row' id='greetingRow'>
+            <div className='col-sm-5' id='iPhoneContainer'>
+                <Fade bottom>
+                  <div id='homeiPhone' />
+                </Fade>
+              </div>
               <div className='col-sm-7' id='greetingColRight'>
                 <div id='greetingRowRight'>
                   <div id='greetingRowRightHeaderContainer'>
@@ -620,11 +625,7 @@ class App extends Component {
                   </div>
                 </div>
               </div>
-              <div className='col-sm-5' id='iPhoneContainer'>
-                <Fade bottom>
-                  <div id='homeiPhone' />
-                </Fade>
-              </div>
+              
             </div>
           </div>
           <Modal show={this.state.showLearnMore} onHide={this.toggleLearnMore}>
