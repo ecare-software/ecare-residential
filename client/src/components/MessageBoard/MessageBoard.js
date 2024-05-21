@@ -63,6 +63,21 @@ class MessageBoard extends Component {
     this.setState({indexOfLastPost: (this.props.currentPage*20) - 1 })
   };
 
+  recentPageMessage = () => {
+    this.state.currentPage = 1;
+    this.props.loadMessage(this.props.userObj, this.state.currentPage)
+  }
+
+  nextPageMessage = () => {
+    this.state.currentPage += 1;
+    this.props.loadMessage(this.props.userObj, this.state.currentPage)
+  }
+
+  prevPageMessage = () => {
+    this.state.currentPage -= 1;
+    this.props.loadMessage(this.props.userObj, this.state.currentPage)
+  }
+
   openModal = (modalName) => {
     this.setState({ showModal: modalName });
   };
@@ -146,8 +161,10 @@ class MessageBoard extends Component {
         <Pagination
         length={this.props.messages.length}
         postsPerPage={this.state.postsPerPage}
-        handlePagination={this.handlePagination}
-        currentPage={this.props.currentPage}
+        prevPageMessage = {this.prevPageMessage}
+        nextPageMessage = {this.nextPageMessage}
+        recentPageMessage = {this.recentPageMessage}
+        currentPage={this.state.currentPage}
         loadMessage={this.props.loadMessage}
         userObj={this.props.userObj}
       />

@@ -205,26 +205,19 @@ class App extends Component {
     }
   };
 
-  // loadMessage = (userObj) => {
     loadMessage = (userObj, pageNumber) => {
     if (pageNumber === undefined) {pageNumber = 1};
-    // const pageNumber = pageNumber;
-    // console.log('pagenumber', pageNumber)
-    const limit = 20;
     this.setState({
       ...this.state,
       discussionMessagesLoading: true,
     });
-    Axios.get(`/api/discussionMessages/${userObj.homeId}?page=${pageNumber}&limit=60`)
-    // Axios.get(`/api/discussionMessages/${userObj.homeId}`)
+    Axios.get(`/api/discussionMessages/${userObj.homeId}?page=${pageNumber}&limit=20`)
       .then((response) => {
-        // setTimeout(() => {
           this.setState({
             discussionMessages: response.data,
             messagesInitLoad: true,
             discussionMessagesLoading: false,
           });
-        // }, 1000);
       })
       .catch((error) => {
         this.setState({
@@ -234,29 +227,6 @@ class App extends Component {
       });
   };
 
-  loadNextMessage = (userObj) => {
-    this.setState({
-      ...this.state,
-      discussionMessagesLoading: true,
-    });
-    // Axios.get(`/api/discussionMessages/${userObj.homeId}?page=${}`)
-    Axios.get(`/api/discussionMessages/${userObj.homeId}`)
-      .then((response) => {
-        // setTimeout(() => {
-          this.setState({
-            discussionMessages: response.data,
-            messagesInitLoad: true,
-            discussionMessagesLoading: false,
-          });
-        // }, 1000);
-      })
-      .catch((error) => {
-        this.setState({
-          discussionMessagesLoading: false,
-        });
-        alert(error);
-      });
-  };
 
   appendMessage = async (message) => {
     let newMessage = {
@@ -559,6 +529,7 @@ class App extends Component {
                       setDMs={this.setDMs}
                       updateUserData={this.updateUserData}
                       getAllUsers={this.getAllUsers}
+                      currentPage={this.currentPage}
                       loadMessage={this.loadMessage}
                     />
                   </div>
@@ -733,6 +704,7 @@ function ToggleScreen({
   setDMs,
   updateUserData,
   getAllUsers,
+  currentPage,
   loadMessage,
 }) {
   if (name === 'Dashboard') {
@@ -747,8 +719,8 @@ function ToggleScreen({
           userObj={appState.userObj}
           removeMessage={removeMessage}
           postsPerPage={20}
-          currentPage={appState.currentPage}
-          // onPageChange={this.onChange}
+          // currentPage={appState.currentPage}
+          currentPage={1}
           loadMessage={loadMessage}
         />
         

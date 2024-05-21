@@ -9,7 +9,6 @@ router.get("/:homeId", (req, res) => {
   const limit = req.query.limit;
   const startIndex = (page-1)*limit;
   const endIndex = page*limit;
-  // const result = discussionMessage.slice(startIndex, endIndex)
   if (req.params.homeId) {
     console.log(
       `Get Discussion Messages for home ${req.params.homeId} - start`
