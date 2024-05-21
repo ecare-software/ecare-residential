@@ -720,8 +720,8 @@ function ToggleScreen({
           userObj={appState.userObj}
           removeMessage={removeMessage}
           postsPerPage={20}
-          // currentPage={appState.currentPage}
-          currentPage={1}
+          currentPage={appState.currentPage}
+          // currentPage={1}
           loadMessage={loadMessage}
         />
         
