@@ -4,6 +4,8 @@ import FormAlert from "../Forms/FormAlert";
 import { Form, Col } from "react-bootstrap";
 import "../../App.css";
 import Axios from "axios";
+import placeholder from '../../images/placeholder.jpeg'
+// /Users/annastasiablack/Desktop/Desktop/ecare/ecare-residential/client/src/images/placeholder.jpeg
 
 class FaceSheet extends Component {
   constructor(props) {
@@ -612,9 +614,13 @@ class FaceSheet extends Component {
             <React.Fragment />
           )}
           <div className="formTitleDivReport">
-            <h2 className="formTitle">Face Sheet</h2>
+            <h2 className="formTitle">Face Sheet</h2> 
+            {/* this one */}
           </div>
           <div className="formFieldsMobileReport">
+          <div id="photoDiv">
+            <img id="placeholderImg" src={placeholder} alt='placeholder' />
+          </div>
             <div className="form-group logInInputField">
               {" "}
               <label className="control-label">Name</label>{" "}
