@@ -7,6 +7,20 @@ import Axios from "axios";
 import placeholder from '../../images/placeholder.jpeg'
 // /Users/annastasiablack/Desktop/Desktop/ecare/ecare-residential/client/src/images/placeholder.jpeg
 
+const ImgUpload =({
+  onChange,
+  src
+})=> {
+  return (
+      <label htmlFor="photo-upload" className="custom-file-upload fas">
+    <div className="img-wrap img-upload" >
+      <img for="photo-upload" src={src}/>
+    </div>
+    <input id="photo-upload" type="file" onChange={onChange}/> 
+  </label>
+  )
+}
+
 class FaceSheet extends Component {
   constructor(props) {
     super(props);
@@ -55,7 +69,22 @@ class FaceSheet extends Component {
       formSubmitted: false,
 
       formErrorMessage: "",
+      file: "",
+      imagePreviewUrl: 'https://github.com/OlgaKoplik/CodePen/blob/master/profile.jpg?raw=true',
     };
+  }
+
+  photoUpload = e =>{
+    e.preventDefault();
+    const reader = new FileReader();
+    const file = e.target.files[0];
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result
+      });
+    }
+    reader.readAsDataURL(file);
   }
 
   toggleSuccessAlert = () => {
@@ -112,6 +141,8 @@ class FaceSheet extends Component {
       drugAllergies: "",
       allergies: "",
       chronicHealthConditions: "",
+      file: "",
+      imagePreviewUrl: 'https://github.com/OlgaKoplik/CodePen/blob/master/profile.jpg?raw=true',
     });
   };
 
@@ -619,8 +650,9 @@ class FaceSheet extends Component {
           </div>
           <div className="formFieldsMobileReport">
           <div id="photoDiv">
-            <img id="placeholderImg" src={placeholder} alt='placeholder' />
+            <ImgUpload id="imgDiv" onChange={this.photoUpload} src={this.state.imagePreviewUrl}/>
           </div>
+           
             <div className="form-group logInInputField">
               {" "}
               <label className="control-label">Name</label>{" "}

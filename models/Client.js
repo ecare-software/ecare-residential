@@ -105,6 +105,9 @@ const ClientSchema = new Schema({
     type: Boolean,
     default: true,
   },
+  file: {
+    type: Buffer,
+  },
 });
 
 module.exports = Client = mongoose.model("client", ClientSchema);

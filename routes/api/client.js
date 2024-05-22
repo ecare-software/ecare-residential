@@ -40,6 +40,7 @@ router.post("/", (req, res) => {
     createDate: new Date().toISOString(),
 
     homeId: req.body.homeId,
+    file: req.body.file,
   });
 
   newClient
