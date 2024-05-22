@@ -464,32 +464,7 @@ class NightMonitoring extends Component {
                 />
               </div>
             )}
-            {/* <label className="control-label">Signature</label>{" "}
-            <div className="sigSection">
-              <div
-                style={{
-                 width: "100%",
-                  display: "flex",
-maxHeight:"170",
-                  justifyContent: "center",
-                }}
-              >
-                <SignatureCanvas
-                  ref={(ref) => {
-                    this.sigCanvas = ref;
-                  }}
-                  style={{ border: "solid" }}
-                  penColor="black"
-                  clearOnResize={false}
-                  canvasProps={{
-                    width: 600,
-                    height: 100,
-                    className: "sigCanvas",
-                  }}
-                  backgroundColor="#eeee"
-                />
-              </div>
-            </div> */}
+
             {!this.props.formData.approved && (
               <>
                 <FormError errorId={this.props.id + "-error"} />

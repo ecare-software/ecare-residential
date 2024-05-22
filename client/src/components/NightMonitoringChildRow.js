@@ -26,6 +26,7 @@ export const NightMonitoringChildRow = ({
   );
   const [childSelected, setChildSelected] = useState(rootState?.childSelected);
   const [formSubmitted, setFormSubmitted] = useState(rootState?.formSubmitted);
+  const [status, setStatus] = useState(rootState?.status);
 
   let sigCanvas;
   const doFormatChildMetaName = (val) => {
@@ -59,6 +60,7 @@ export const NightMonitoringChildRow = ({
       childMeta_name,
       childSelected,
       formSubmitted,
+      status
     });
   }, [
     date,
@@ -70,6 +72,7 @@ export const NightMonitoringChildRow = ({
     childMeta_name,
     childSelected,
     formSubmitted,
+    status
   ]);
 
   return (
@@ -94,7 +97,7 @@ export const NightMonitoringChildRow = ({
                   defaultValue={childMeta_name}
                   className="form-control"
                   type="text"
-                  disabled = {childSelected ? true : false}
+                  disabled={childSelected ? true : false}
                 />
               ) : (
                 <Form.Control
@@ -125,7 +128,7 @@ export const NightMonitoringChildRow = ({
                 id="date"
                 defaultValue={date}
                 className="form-control"
-                disabled = {childSelected ? false : true}
+                disabled={childSelected ? false : true}
                 type="date"
               />{" "}
             </div>
@@ -141,7 +144,7 @@ export const NightMonitoringChildRow = ({
                 id="roomNumber"
                 defaultValue={roomNumber}
                 className="form-control"
-                disabled = {childSelected ? false : true}
+                disabled={childSelected ? false : true}
                 type="text"
               />{" "}
             </div>
@@ -158,7 +161,7 @@ export const NightMonitoringChildRow = ({
                 id="timeChildAwake"
                 defaultValue={timeChildAwake}
                 className="form-control"
-                disabled = {childSelected ? false : true}
+                disabled={childSelected ? false : true}
                 type="time"
               />{" "}
             </div>
@@ -176,7 +179,7 @@ export const NightMonitoringChildRow = ({
                 id="timeChildReturnBed"
                 defaultValue={timeChildReturnBed}
                 className="form-control"
-                disabled = {childSelected ? false : true}
+                disabled={childSelected ? false : true}
                 type="time"
               />{" "}
             </div>
@@ -194,68 +197,33 @@ export const NightMonitoringChildRow = ({
                 id="reason"
                 defaultValue={reason}
                 className="form-control"
-                disabled = {childSelected ? false : true}
+                disabled={childSelected ? false : true}
                 type="text"
               ></TextareaAutosize>
             </div>
           </Col>
-          <Col md="6" className="control-label text-center sigSection">
-            {signed ? (
-              <div className="mb-2 d-flex align-items-center">
-                {
-                  <a
-                    href="javascript:void(0)"
-                    className="hide-on-print"
-                    onClick={() => {
-                      setSigned(false);
-                    }}
-                  >
-                    Signed. Remove signature?
-                  </a>
-                }
-              </div>
-            ) : (
-              <Form.Check
-                type="checkbox"
-                className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
-                label={valuesSet ? "Not Completed or Signed" : "Click to sign"}
-                onClick={() => {
-                  setSigned(true);
-                  console.log(sigCanvas);
-                  if (signature && signature.length) {
-                    sigCanvas.fromData(signature);
-                    sigCanvas.off();
-                  }
-                }}
-              />
-            )}
-          </Col>
-          <div 
-            style={{
-              width: "100%",
-              display: "flex",
-              maxHeight: "170",
-              justifyContent: "center",
-              display: signed ? "" : "none",
-              paddingRight: "15px",
-              
-            }}
+          <div className="sigSection"
+            style={{ display: status === 'IN PROGRESS' ? 'none' : 'block' }}
           >
-            <SignatureCanvas
-              ref={(ref) => {
-                sigCanvas = ref;
-              }}
-              style={{ border: "solid",}}
-              penColor="black"
-              clearOnResize={false}
-              canvasProps={{
-                width: 600,
-                height: 100,
-                className: "sigCanvas",
-              }}
-              backgroundColor="#eeee"
-            />
-          </div>
+          <label className="control-label">Signature</label>{" "}
+          <div id='sigCanvasDiv'>
+              <SignatureCanvas
+                ref={(ref) => {
+                  sigCanvas = ref;
+                }}
+                style={{ border: "solid", }}
+                penColor="black"
+                clearOnResize={false}
+                canvasProps={{
+                  width: 300,
+                  height: 100,
+                  className: "sigCanvas",
+                }}
+                backgroundColor="#eeee"
+              />
+              </div>
+            </div>
+          {/* </div> */}
         </Row>
       </Col>
     </Row>
