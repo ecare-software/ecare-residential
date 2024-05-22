@@ -45,6 +45,10 @@
     text-align: left;
     width: 250px
   }
+  
+  #summary_of_daily_schedule-row {
+    margin-top: -30px;
+  }
 }
 
 #sigCanvasDiv {
