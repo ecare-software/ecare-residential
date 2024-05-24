@@ -45,6 +45,20 @@
     text-align: left;
     width: 250px
   }
+  
+  #summary_of_daily_schedule-row {
+    margin-top: -30px;
+  }
+}
+
+#sigCanvasDiv {
+  height: 100px;
+  display: flex;
+  padding-bottom: 20px;
+}
+
+.sigSection {
+  padding-left: 15px;
 }
 
 td{
@@ -173,10 +187,11 @@ input {
   border-radius: 11px;
 }
 
-.sigCanvas {
-  width: 90%;
-  padding-bottom: 10px;
-}
+/* .sigCanvas {
+  width: 300px;
+  padding-bottom: 0px;
+  height: 50px;
+} */
 
 .extraInfoMainTitle {
   font-weight: 300;
@@ -579,6 +594,10 @@ html {
     font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
     font-size: 2em;
   }
+
+  #summary_of_daily_schedule-row {
+    margin-top: -30px;
+  }
 }
 
 /* ipad */
@@ -738,6 +757,10 @@ html {
     height: 400px;
     width: 300px;
     position: relative;
+  }
+
+  #summary_of_daily_schedule-row {
+    margin-top: -30px;
   }
 }
 

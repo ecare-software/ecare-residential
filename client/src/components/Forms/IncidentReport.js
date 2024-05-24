@@ -1349,12 +1349,17 @@ class IncidentReport extends Component {
                       <label className="control-label">
                         Explain the Incident
                       </label>{" "}
-                      <TextareaAutosize
-                        onChange={this.handleFieldInput}
-                        value={this.state.incident_explaination}
-                        id="incident_explaination"
-                        className="form-control"
-                      ></TextareaAutosize>
+                      <div className='hide-on-print'>
+                        <TextareaAutosize
+                          onChange={this.handleFieldInput}
+                          value={this.state.incident_explaination}
+                          id="incident_explaination"
+                          className="form-control"
+                        ></TextareaAutosize>
+                      </div>
+                      <p className="hide-on-non-print">
+                        {this.state.incident_explaination}
+                      </p>
                     </div>
                   </Col>
                 </Row>
@@ -1484,11 +1489,7 @@ class IncidentReport extends Component {
               style={{ display: this.state.status === 'IN PROGRESS' ? 'none' : 'block' }}
             >
               <label className="control-label">Signature</label>{" "}
-              <div
-                style={{
-                  width: "100%", display: "flex", maxHeight: "170", paddingBottom: "20px",
-                }}
-              >
+              <div id='sigCanvasDiv'>
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas = ref;
@@ -1497,7 +1498,7 @@ class IncidentReport extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600, height: 100, className: "sigCanvas",
+                    width: 300, height: 100, className: "sigCanvas",
                   }}
                   backgroundColor="#eeee"
                 />
