@@ -822,20 +822,6 @@ class SeriousIncidentReport extends Component {
                       type="date"
                     />{" "}
                   </div>
-
-                  <div className="form-group logInInputField">
-                    {" "}
-                    <label className="control-label">
-                      Explain the Incident
-                    </label>{" "}
-                    <TextareaAutosize
-                      onChange={this.handleFieldInput}
-                      id="incident_explaination"
-                      value={this.state.incident_explaination}
-                      className="form-control"
-                      disabled={this.state.childSelected ? false : true}
-                    ></TextareaAutosize>
-                  </div>
                 </Col>
                 <Col md={4} className="print-column">
                   <div className="form-group logInInputField">
@@ -857,21 +843,7 @@ class SeriousIncidentReport extends Component {
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
-                      Result of the incident
-                    </label>{" "}
-                    <TextareaAutosize
-                      onChange={this.handleFieldInput}
-                      id="result"
-                      value={this.state.result}
-                      className="form-control"
-                      disabled={this.state.childSelected ? false : true}
-                    ></TextareaAutosize>
-                  </div>
-
-                  <div className="form-group logInInputField">
-                    {" "}
-                    <label className="control-label">
-                      Were you able to prevent a more serious incident ?
+                      Were you able to prevent a more serious incident?
                     </label>{" "}
                     <TextareaAutosize
                       onChange={this.handleFieldInput}
@@ -900,7 +872,7 @@ class SeriousIncidentReport extends Component {
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
-                      When was the notification made ?
+                      When was the notification made?
                     </label>{" "}
                     <input
                       onChange={this.handleFieldInput}
@@ -914,7 +886,7 @@ class SeriousIncidentReport extends Component {
 
                   <div className="form-group logInInputField">
                     {" "}
-                    <label className="control-label">By who ?</label>{" "}
+                    <label className="control-label">By who?</label>{" "}
                     <input
                       onChange={this.handleFieldInput}
                       id="notification_made_by"
@@ -934,6 +906,36 @@ class SeriousIncidentReport extends Component {
                       onChange={this.handleFieldInput}
                       id="follow_up_results"
                       value={this.state.follow_up_results}
+                      className="form-control"
+                      disabled={this.state.childSelected ? false : true}
+                    ></TextareaAutosize>
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+              <Col md={12} className="print-column" style={{marginTop:"-15px"}}>
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Explain the Incident
+                  </label>{" "}
+                  <TextareaAutosize
+                    onChange={this.handleFieldInput}
+                    id="incident_explaination"
+                    value={this.state.incident_explaination}
+                    className="form-control"
+                    disabled={this.state.childSelected ? false : true}
+                  ></TextareaAutosize>
+                </div>
+                <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">
+                      Result of the incident
+                    </label>{" "}
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      id="result"
+                      value={this.state.result}
                       className="form-control"
                       disabled={this.state.childSelected ? false : true}
                     ></TextareaAutosize>
@@ -1011,17 +1013,17 @@ class SeriousIncidentReport extends Component {
             ) : (
               <Container>
                 <div className="form-group logInInputField">
-                      <label className="control-label">
-                        Create Date
-                      </label>{" "}
-                      <input
-                        onChange={this.handleFieldInputDate}
-                        id="createDate"
-                        value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
-                        className="form-control"
-                        type="datetime-local"
-                      />{" "}
-                    </div>
+                  <label className="control-label">
+                    Create Date
+                  </label>{" "}
+                  <input
+                    onChange={this.handleFieldInputDate}
+                    id="createDate"
+                    value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
+                    className="form-control"
+                    type="datetime-local"
+                  />{" "}
+                </div>
                 <Row>
                   <Col md={4} className="print-column">
                     <div className="form-group logInInputField">
@@ -1281,23 +1283,7 @@ class SeriousIncidentReport extends Component {
                     </div>
                   </Col>
                   <Col md={4} className="print-column">
-                    <div className="form-group logInInputField">
-                      {" "}
-                      <label className="control-label">
-                        Explain the Incident
-                      </label>{" "}
-                      <div className="hide-on-print">
-                        <TextareaAutosize
-                          onChange={this.handleFieldInput}
-                          value={this.state.incident_explaination}
-                          id="incident_explaination"
-                          className="form-control"
-                        ></TextareaAutosize>
-                      </div>
-                      <p className="hide-on-non-print">
-                        {this.state.incident_explaination}
-                      </p>
-                    </div>
+
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -1312,25 +1298,11 @@ class SeriousIncidentReport extends Component {
                         type="text"
                       />{" "}
                     </div>
+
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
-                        Result of the incident
-                      </label>{" "}
-                      <div className="hide-on-print">
-                        <TextareaAutosize
-                          onChange={this.handleFieldInput}
-                          value={this.state.result}
-                          id="result"
-                          className="form-control"
-                        ></TextareaAutosize>
-                      </div>
-                      <p className="hide-on-non-print">{this.state.result}</p>
-                    </div>
-                    <div className="form-group logInInputField">
-                      {" "}
-                      <label className="control-label">
-                        Were you able to prevent a more serious incident ?
+                        Were you able to prevent a more serious incident?
                       </label>{" "}
                       <div className="hide-on-print">
                         <TextareaAutosize
@@ -1360,7 +1332,7 @@ class SeriousIncidentReport extends Component {
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
-                        When was the notification made ?
+                        When was the notification made?
                       </label>{" "}
                       <input
                         onChange={this.handleFieldInput}
@@ -1372,7 +1344,7 @@ class SeriousIncidentReport extends Component {
                     </div>
                     <div className="form-group logInInputField">
                       {" "}
-                      <label className="control-label">By who ?</label>{" "}
+                      <label className="control-label">By who?</label>{" "}
                       <input
                         onChange={this.handleFieldInput}
                         value={this.state.notification_made_by}
@@ -1400,6 +1372,41 @@ class SeriousIncidentReport extends Component {
                     </div>
                   </Col>
                 </Row>
+
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Explain the Incident
+                  </label>{" "}
+                  <div className="hide-on-print">
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.incident_explaination}
+                      id="incident_explaination"
+                      className="form-control"
+                    ></TextareaAutosize>
+                  </div>
+                  <p className="hide-on-non-print">
+                    {this.state.incident_explaination}
+                  </p>
+                </div>
+
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                    Result of the incident
+                  </label>{" "}
+                  <div className="hide-on-print">
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      value={this.state.result}
+                      id="result"
+                      className="form-control"
+                    ></TextareaAutosize>
+                  </div>
+                  <p className="hide-on-non-print">{this.state.result}</p>
+                </div>
+
               </Container>
             )}
 

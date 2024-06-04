@@ -844,45 +844,6 @@ class DailyProgressAndActivity extends Component {
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
-                      Summary of Daily Schedule
-                    </label>{" "}
-                    <TextareaAutosize
-                      onChange={this.handleFieldInput}
-                      id="summary_of_daily_schedule"
-                      value={this.state.summary_of_daily_schedule}
-                      className="form-control"
-                      disabled={this.state.childSelected ? false : true}
-                    ></TextareaAutosize>
-                  </div>
-                  <div className="form-group logInInputField">
-                    {" "}
-                    <label className="control-label">
-                      Summary of Behavior at School
-                    </label>{" "}
-                    <TextareaAutosize
-                      onChange={this.handleFieldInput}
-                      id="summary_of_behavior_at_school"
-                      value={this.state.summary_of_behavior_at_school}
-                      className="form-control"
-                      disabled={this.state.childSelected ? false : true}
-                    ></TextareaAutosize>
-                  </div>
-                  <div className="form-group logInInputField">
-                    {" "}
-                    <label className="control-label">
-                      Summary of Behavior at Home
-                    </label>{" "}
-                    <TextareaAutosize
-                      onChange={this.handleFieldInput}
-                      id="summary_of_behavior_at_home"
-                      value={this.state.summary_of_behavior_at_home}
-                      className="form-control"
-                      disabled={this.state.childSelected ? false : true}
-                    ></TextareaAutosize>
-                  </div>
-                  <div className="form-group logInInputField">
-                    {" "}
-                    <label className="control-label">
                       Therapeutic / Recreational
                     </label>{" "}
                     <TextareaAutosize
@@ -926,6 +887,50 @@ class DailyProgressAndActivity extends Component {
                   ></div>
                 </Col>
               </Row>
+              <Row>
+                <Col md={12} className="print-column">
+                  <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">
+                      Summary of Behavior at School
+                    </label>{" "}
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      id="summary_of_behavior_at_school"
+                      value={this.state.summary_of_behavior_at_school}
+                      className="form-control"
+                      disabled={this.state.childSelected ? false : true}
+                    ></TextareaAutosize>
+                  </div>
+                  <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">
+                      Summary of Behavior at Home
+                    </label>{" "}
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      id="summary_of_behavior_at_home"
+                      value={this.state.summary_of_behavior_at_home}
+                      className="form-control"
+                      disabled={this.state.childSelected ? false : true}
+                    ></TextareaAutosize>
+                  </div>
+                  <div className="form-group logInInputField">
+                    {" "}
+                    <label className="control-label">
+                      Summary of Daily Schedule
+                    </label>{" "}
+                    <TextareaAutosize
+                      onChange={this.handleFieldInput}
+                      id="summary_of_daily_schedule"
+                      value={this.state.summary_of_daily_schedule}
+                      className="form-control"
+                      disabled={this.state.childSelected ? false : true}
+                    ></TextareaAutosize>
+                  </div>
+                </Col>
+              </Row>
+
 
               <Row className="save-submit-row">
                 <div style={{ display: "flex", width: "46%" }}>
@@ -1367,13 +1372,17 @@ class DailyProgressAndActivity extends Component {
                       <label className="control-label">
                         Illnesses / Injuries
                       </label>{" "}
-                      <input
-                        onChange={this.handleFieldInput}
-                        value={this.state.illness_injury}
-                        id="illness_injury"
-                        className="form-control"
-                        type="text"
-                      />{" "}
+                      <div className="hide-on-print">
+                        <TextareaAutosize
+                          onChange={this.handleFieldInput}
+                          value={this.state.illness_injury}
+                          id="illness_injury"
+                          className="form-control"
+                        ></TextareaAutosize>
+                      </div>
+                      <p className="hide-on-non-print">
+                        {this.state.illness_injury}
+                      </p>
                     </div>
                     <div className="form-group logInInputField">
                       {" "}
@@ -1387,40 +1396,6 @@ class DailyProgressAndActivity extends Component {
                         className="form-control"
                         type="text"
                       />{" "}
-                    </div>
-                    <div className="form-group logInInputField">
-                      {" "}
-                      <label className="control-label">
-                        Summary of Behavior at School
-                      </label>{" "}
-                      <div className="hide-on-print">
-                        <TextareaAutosize
-                          onChange={this.handleFieldInput}
-                          value={this.state.summary_of_behavior_at_school}
-                          id="summary_of_behavior_at_school"
-                          className="form-control"
-                        ></TextareaAutosize>
-                      </div>
-                      <p className="hide-on-non-print">
-                        {this.state.summary_of_behavior_at_school}
-                      </p>
-                    </div>
-                    <div className="form-group logInInputField">
-                      {" "}
-                      <label className="control-label">
-                        Summary of Behavior at Home
-                      </label>{" "}
-                      <div className="hide-on-print">
-                        <TextareaAutosize
-                          onChange={this.handleFieldInput}
-                          value={this.state.summary_of_behavior_at_home}
-                          id="summary_of_behavior_at_home"
-                          className="form-control"
-                        ></TextareaAutosize>
-                      </div>
-                      <p className="hide-on-non-print">
-                        {this.state.summary_of_behavior_at_home}
-                      </p>
                     </div>
                     <div className="form-group logInInputField">
                       {" "}
@@ -1474,6 +1449,40 @@ class DailyProgressAndActivity extends Component {
                 </Row>
                 <Row id='summary_of_daily_schedule-row'>
                   <Col md={12} className="print-column">
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">
+                        Summary of Behavior at School
+                      </label>{" "}
+                      <div className="hide-on-print">
+                        <TextareaAutosize
+                          onChange={this.handleFieldInput}
+                          value={this.state.summary_of_behavior_at_school}
+                          id="summary_of_behavior_at_school"
+                          className="form-control"
+                        ></TextareaAutosize>
+                      </div>
+                      <p className="hide-on-non-print">
+                        {this.state.summary_of_behavior_at_school}
+                      </p>
+                    </div>
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">
+                        Summary of Behavior at Home
+                      </label>{" "}
+                      <div className="hide-on-print">
+                        <TextareaAutosize
+                          onChange={this.handleFieldInput}
+                          value={this.state.summary_of_behavior_at_home}
+                          id="summary_of_behavior_at_home"
+                          className="form-control"
+                        ></TextareaAutosize>
+                      </div>
+                      <p className="hide-on-non-print">
+                        {this.state.summary_of_behavior_at_home}
+                      </p>
+                    </div>
                     <div className="form-group logInInputField" >
                       {" "}
                       <label className="control-label">
