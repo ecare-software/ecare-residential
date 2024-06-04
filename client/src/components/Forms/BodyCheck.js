@@ -564,16 +564,16 @@ class BodyCheck extends Component {
                       value={this.state.head}
                       id="head"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -590,16 +590,16 @@ class BodyCheck extends Component {
                       value={this.state.face}
                       id="face"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -616,16 +616,16 @@ class BodyCheck extends Component {
                       value={this.state.left_ear}
                       id="left_ear"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -642,16 +642,16 @@ class BodyCheck extends Component {
                       value={this.state.right_ear}
                       id="right_ear"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -668,16 +668,16 @@ class BodyCheck extends Component {
                       value={this.state.left_eye}
                       id="left_eye"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -694,16 +694,16 @@ class BodyCheck extends Component {
                       value={this.state.right_eye}
                       id="right_eye"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -720,16 +720,16 @@ class BodyCheck extends Component {
                       value={this.state.nose}
                       id="nose"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -746,16 +746,16 @@ class BodyCheck extends Component {
                       value={this.state.mouth}
                       id="mouth"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -772,16 +772,16 @@ class BodyCheck extends Component {
                       value={this.state.chin}
                       id="chin"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -798,16 +798,16 @@ class BodyCheck extends Component {
                       value={this.state.neck}
                       id="neck"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -824,16 +824,16 @@ class BodyCheck extends Component {
                       value={this.state.left_shoulder}
                       id="left_shoulder"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -852,16 +852,16 @@ class BodyCheck extends Component {
                       value={this.state.right_shoulder}
                       id="right_shoulder"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -878,16 +878,16 @@ class BodyCheck extends Component {
                       value={this.state.left_arm}
                       id="left_arm"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -904,16 +904,16 @@ class BodyCheck extends Component {
                       value={this.state.right_arm}
                       id="right_arm"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -930,16 +930,16 @@ class BodyCheck extends Component {
                       value={this.state.left_hand}
                       id="left_hand"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -956,16 +956,16 @@ class BodyCheck extends Component {
                       value={this.state.right_hand}
                       id="right_hand"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -982,16 +982,16 @@ class BodyCheck extends Component {
                       value={this.state.chest}
                       id="chest"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -1008,16 +1008,16 @@ class BodyCheck extends Component {
                       value={this.state.back}
                       id="back"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -1034,16 +1034,16 @@ class BodyCheck extends Component {
                       value={this.state.stomach}
                       id="stomach"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -1060,16 +1060,16 @@ class BodyCheck extends Component {
                       value={this.state.left_hip}
                       id="left_hip"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -1086,16 +1086,16 @@ class BodyCheck extends Component {
                       value={this.state.right_hip}
                       id="right_hip"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -1112,16 +1112,16 @@ class BodyCheck extends Component {
                       value={this.state.left_leg}
                       id="left_leg"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -1138,16 +1138,16 @@ class BodyCheck extends Component {
                       value={this.state.right_leg}
                       id="right_leg"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -1166,16 +1166,16 @@ class BodyCheck extends Component {
                       value={this.state.left_knee}
                       id="left_knee"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -1192,16 +1192,16 @@ class BodyCheck extends Component {
                       value={this.state.right_knee}
                       id="right_knee"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -1218,16 +1218,16 @@ class BodyCheck extends Component {
                       value={this.state.left_ankle}
                       id="left_ankle"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -1244,16 +1244,16 @@ class BodyCheck extends Component {
                       value={this.state.right_ankle}
                       id="right_ankle"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -1270,16 +1270,16 @@ class BodyCheck extends Component {
                       value={this.state.left_foot}
                       id="left_foot"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
@@ -1296,34 +1296,20 @@ class BodyCheck extends Component {
                       value={this.state.right_foot}
                       id="right_foot"
                     >
-                      <option>Bruise</option>
-                      <option>Abrasion</option>
-                      <option>Scratch/Scratches</option>
-                      <option>Scar</option>
-                      <option>Scab</option>
-                      <option>Rash</option>
-                      <option>Cut/Cuts</option>
-                      <option>Sore</option>
-                      <option>Birth Mark</option>
-                      <option>Insect Bite</option>
+                      <option value={1}>Bruise</option>
+                      <option value={2}>Abrasion</option>
+                      <option value={3}>Scratch/Scratches</option>
+                      <option value={4}>Scar</option>
+                      <option value={5}>Scab</option>
+                      <option value={6}>Rash</option>
+                      <option value={7}>Cut/Cuts</option>
+                      <option value={8}>Sore</option>
+                      <option value={9}>Birth Mark</option>
+                      <option value={10}>Insect Bite</option>
 
                       <option>Other</option>
                       <option value={-1}>N/A</option>
                     </Form.Control>
-                  </div>
-
-                  <div className="form-group logInInputField">
-                    {" "}
-                    <label className="control-label">
-                      Additional Details
-                    </label>{" "}
-                    <TextareaAutosize
-                      onChange={this.handleFieldInput}
-                      id="details"
-                      value={this.state.details}
-                      className="form-control"
-                      disabled={this.state.childSelected ? false : true}
-                    ></TextareaAutosize>
                   </div>
 
                   <div className="form-group logInInputField">
@@ -1413,6 +1399,22 @@ class BodyCheck extends Component {
                   </div>
                 </Col>
               </Row>
+              <div className="form-group logInInputField">
+                {" "}
+                <label className="control-label">
+                  Additional Details
+                </label>{" "}
+                <TextareaAutosize
+                  onChange={this.handleFieldInput}
+                  id="details"
+                  value={this.state.details}
+                  className="form-control"
+                  disabled={this.state.childSelected ? false : true}
+                ></TextareaAutosize>
+              </div>
+
+
+
               <FormError errorId={this.props.id + "-error"} />
               <Row className="save-submit-row">
                 <div style={{ display: "flex", width: "46%" }}>
@@ -1580,16 +1582,16 @@ class BodyCheck extends Component {
                         value={this.state.head}
                         id="head"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -1605,16 +1607,16 @@ class BodyCheck extends Component {
                         value={this.state.face}
                         id="face"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -1630,16 +1632,16 @@ class BodyCheck extends Component {
                         value={this.state.left_ear}
                         id="left_ear"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -1655,16 +1657,16 @@ class BodyCheck extends Component {
                         value={this.state.right_ear}
                         id="right_ear"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -1680,16 +1682,16 @@ class BodyCheck extends Component {
                         value={this.state.left_eye}
                         id="left_eye"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -1705,16 +1707,16 @@ class BodyCheck extends Component {
                         value={this.state.right_eye}
                         id="right_eye"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -1730,16 +1732,16 @@ class BodyCheck extends Component {
                         value={this.state.nose}
                         id="nose"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -1755,16 +1757,16 @@ class BodyCheck extends Component {
                         value={this.state.mouth}
                         id="mouth"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -1780,16 +1782,16 @@ class BodyCheck extends Component {
                         value={this.state.chin}
                         id="chin"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -1805,16 +1807,16 @@ class BodyCheck extends Component {
                         value={this.state.neck}
                         id="neck"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -1830,16 +1832,16 @@ class BodyCheck extends Component {
                         value={this.state.left_shoulder}
                         id="left_shoulder"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -1855,16 +1857,16 @@ class BodyCheck extends Component {
                         value={this.state.right_shoulder}
                         id="right_shoulder"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -1882,16 +1884,16 @@ class BodyCheck extends Component {
                         value={this.state.left_arm}
                         id="left_arm"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -1907,16 +1909,16 @@ class BodyCheck extends Component {
                         value={this.state.right_arm}
                         id="right_arm"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -1932,16 +1934,16 @@ class BodyCheck extends Component {
                         value={this.state.left_hand}
                         id="left_hand"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -1957,16 +1959,16 @@ class BodyCheck extends Component {
                         value={this.state.right_hand}
                         id="right_hand"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -1982,16 +1984,16 @@ class BodyCheck extends Component {
                         value={this.state.chest}
                         id="chest"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -2007,16 +2009,16 @@ class BodyCheck extends Component {
                         value={this.state.back}
                         id="back"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -2032,16 +2034,16 @@ class BodyCheck extends Component {
                         value={this.state.stomach}
                         id="stomach"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -2057,16 +2059,16 @@ class BodyCheck extends Component {
                         value={this.state.left_hip}
                         id="left_hip"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -2082,16 +2084,16 @@ class BodyCheck extends Component {
                         value={this.state.right_hip}
                         id="right_hip"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -2107,16 +2109,16 @@ class BodyCheck extends Component {
                         value={this.state.left_leg}
                         id="left_leg"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -2132,16 +2134,16 @@ class BodyCheck extends Component {
                         value={this.state.right_leg}
                         id="right_leg"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -2157,16 +2159,16 @@ class BodyCheck extends Component {
                         value={this.state.left_knee}
                         id="left_knee"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -2184,16 +2186,16 @@ class BodyCheck extends Component {
                         value={this.state.right_knee}
                         id="right_knee"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -2209,16 +2211,16 @@ class BodyCheck extends Component {
                         value={this.state.left_ankle}
                         id="left_ankle"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -2234,16 +2236,16 @@ class BodyCheck extends Component {
                         value={this.state.right_ankle}
                         id="right_ankle"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -2259,16 +2261,16 @@ class BodyCheck extends Component {
                         value={this.state.left_foot}
                         id="left_foot"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -2284,16 +2286,16 @@ class BodyCheck extends Component {
                         value={this.state.right_foot}
                         id="right_foot"
                       >
-                        <option>Bruise</option>
-                        <option>Abrasion</option>
-                        <option>Scratch/Scratches</option>
-                        <option>Scar</option>
-                        <option>Scab</option>
-                        <option>Rash</option>
-                        <option>Cut/Cuts</option>
-                        <option>Sore</option>
-                        <option>Birth Mark</option>
-                        <option>Insect Bite</option>
+                        <option value={1}>Bruise</option>
+                        <option value={2}>Abrasion</option>
+                        <option value={3}>Scratch/Scratches</option>
+                        <option value={4}>Scar</option>
+                        <option value={5}>Scab</option>
+                        <option value={6}>Rash</option>
+                        <option value={7}>Cut/Cuts</option>
+                        <option value={8}>Sore</option>
+                        <option value={9}>Birth Mark</option>
+                        <option value={10}>Insect Bite</option>
 
                         <option>Other</option>
                         <option value={-1}>N/A</option>
@@ -2380,24 +2382,24 @@ class BodyCheck extends Component {
                   </Col>
                 </Row>
                 <Row>
-                <Col md={12} className="print-column">
-                  <div className="form-group logInInputField">
-                    {" "}
-                    <label className="control-label">
-                      Additional Details
-                    </label>{" "}
-                    <div className='hide-on-print'>
-                      <TextareaAutosize
-                        onChange={this.handleFieldInput}
-                        id="details"
-                        value={this.state.details}
-                        className="form-control"
-                      ></TextareaAutosize>
+                  <Col md={12} className="print-column">
+                    <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">
+                        Additional Details
+                      </label>{" "}
+                      <div className='hide-on-print'>
+                        <TextareaAutosize
+                          onChange={this.handleFieldInput}
+                          id="details"
+                          value={this.state.details}
+                          className="form-control"
+                        ></TextareaAutosize>
+                      </div>
+                      <p className="hide-on-non-print">
+                        {this.state.details}
+                      </p>
                     </div>
-                    <p className="hide-on-non-print">
-                      {this.state.details}
-                    </p>
-                  </div>
                   </Col>
                 </Row>
               </Container>
