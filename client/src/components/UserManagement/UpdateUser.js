@@ -131,14 +131,29 @@ export default function UpdateUser({ fetchData, id, item }) {
             <Form.Label>Job Title</Form.Label>
             <Form.Control
               ref={inputRef}
-              type="text"
+              as={"select"}
               name="jobTitle"
               placeholder="Job Title"
               autoFocus
               onChange={handleChange}
               defaultValue={item.jobTitle}
               onKeyDown={handleEnable}
-            />
+            >
+              <option value=''>Choose...</option>
+              <option value='Owner/CEO'>Owner/CEO</option>
+              <option value='Executive/Director'>Executive Director</option>
+              <option value='Administrator'>Administrator</option>
+              <option value='Supervisor'>Supervisor</option>
+              <option value='Administrative/Assistant'>Administrative Assistant</option>
+              <option value='Lead/Staff'>Lead Staff</option>
+              <option value='Medical/Coordinator'>Medical Coordinator</option>
+              <option value='Therapist'>Therapist</option>
+              <option value='Case/Manager'>Case Manager</option>
+              <option value='Direct/Care/Staff'>Direct Care Staff</option>
+              <option value='Awake/Night/Staff'>Awake Night Staff</option>
+              <option value='Volunteer/Staff'>Volunteer Staff</option>
+
+            </Form.Control>
           </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Email</Form.Label>
