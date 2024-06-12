@@ -427,12 +427,8 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
         )}
         <Form.Row style={{pageBreakAfter: "avoid"}}>
           <Col xs="auto" style={{pageBreakAfter: "avoid"}}>
-            <div
+            <div id='sigCanvasDiv'
               style={{
-                width: "100%",
-                display: "flex",
-                maxHeight: "170",
-                justifyContent: "center",
                 display: !isSavingSigCanvasAdmin && isApproved ? "" : "none",
                 pageBreakAfter: "avoid"
               }}
@@ -445,7 +441,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
                 penColor="black"
                 clearOnResize={false}
                 canvasProps={{
-                  width: 600,
+                  width: 300,
                   height: 100,
                   className: "sigCanvasAdmin",
                 }}

@@ -457,7 +457,7 @@ class AwakeNightStaffSignoff extends Component {
                     md="6"
                     className="control-label d-flex align-items-center justify-content-center"
                   >
-                    <label>8:00pm- 8:15pm</label>
+                    <label>8:00pm- 8:15pm!</label>
                   </Col>
                   <Col md="6" className="control-label text-center">
                     {this.state.ts1Approval ? (
@@ -490,10 +490,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts1Approval ? "visible" : "hidden",
                     }}
                   >
@@ -505,7 +504,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -553,10 +552,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts2Approval ? "visible" : "hidden",
                     }}
                   >
@@ -568,7 +566,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -586,6 +584,7 @@ class AwakeNightStaffSignoff extends Component {
                     md="6"
                     className="control-label d-flex align-items-center justify-content-center"
                   >
+                    {/* create form */}
                     <label>8:30pm - 8:45pm</label>
                   </Col>
                   <Col md="6" className="control-label text-center">
@@ -619,10 +618,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts3Approval ? "visible" : "hidden",
                     }}
                   >
@@ -634,7 +632,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -682,10 +680,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts4Approval ? "visible" : "hidden",
                     }}
                   >
@@ -697,7 +694,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -747,10 +744,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts5Approval ? "visible" : "hidden",
                     }}
                   >
@@ -762,7 +758,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -810,10 +806,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts6Approval ? "visible" : "hidden",
                     }}
                   >
@@ -825,7 +820,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -875,10 +870,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts7Approval ? "visible" : "hidden",
                     }}
                   >
@@ -890,7 +884,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -938,10 +932,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts8Approval ? "visible" : "hidden",
                     }}
                   >
@@ -953,7 +946,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -1003,10 +996,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts9Approval ? "visible" : "hidden",
                     }}
                   >
@@ -1018,7 +1010,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -1066,10 +1058,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts10Approval
                         ? "visible"
                         : "hidden",
@@ -1083,7 +1074,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -1133,10 +1124,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts11Approval
                         ? "visible"
                         : "hidden",
@@ -1150,7 +1140,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -1198,10 +1188,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts12Approval
                         ? "visible"
                         : "hidden",
@@ -1215,7 +1204,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -1265,10 +1254,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts13Approval
                         ? "visible"
                         : "hidden",
@@ -1282,7 +1270,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -1330,10 +1318,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts14Approval
                         ? "visible"
                         : "hidden",
@@ -1347,7 +1334,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -1397,10 +1384,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts15Approval
                         ? "visible"
                         : "hidden",
@@ -1414,7 +1400,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -1462,10 +1448,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts16Approval
                         ? "visible"
                         : "hidden",
@@ -1479,7 +1464,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -1529,10 +1514,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts17Approval
                         ? "visible"
                         : "hidden",
@@ -1546,7 +1530,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -1594,10 +1578,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts18Approval
                         ? "visible"
                         : "hidden",
@@ -1611,7 +1594,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -1661,10 +1644,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts19Approval
                         ? "visible"
                         : "hidden",
@@ -1678,7 +1660,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -1726,10 +1708,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts20Approval
                         ? "visible"
                         : "hidden",
@@ -1743,7 +1724,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -1793,10 +1774,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts21Approval
                         ? "visible"
                         : "hidden",
@@ -1810,7 +1790,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -1858,10 +1838,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts22Approval
                         ? "visible"
                         : "hidden",
@@ -1875,7 +1854,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -1925,10 +1904,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts23Approval
                         ? "visible"
                         : "hidden",
@@ -1942,7 +1920,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -1990,10 +1968,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts24Approval
                         ? "visible"
                         : "hidden",
@@ -2007,7 +1984,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -2057,10 +2034,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts25Approval
                         ? "visible"
                         : "hidden",
@@ -2074,7 +2050,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -2122,10 +2098,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts26Approval
                         ? "visible"
                         : "hidden",
@@ -2139,7 +2114,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -2189,10 +2164,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts27Approval
                         ? "visible"
                         : "hidden",
@@ -2206,7 +2180,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -2254,10 +2228,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts28Approval
                         ? "visible"
                         : "hidden",
@@ -2271,7 +2244,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -2322,10 +2295,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts29Approval
                         ? "visible"
                         : "hidden",
@@ -2339,7 +2311,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -2387,10 +2359,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts30Approval
                         ? "visible"
                         : "hidden",
@@ -2404,7 +2375,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -2455,10 +2426,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts31Approval
                         ? "visible"
                         : "hidden",
@@ -2472,7 +2442,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -2520,10 +2490,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts32Approval
                         ? "visible"
                         : "hidden",
@@ -2537,7 +2506,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -2588,10 +2557,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts33Approval
                         ? "visible"
                         : "hidden",
@@ -2605,7 +2573,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -2653,10 +2621,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts34Approval
                         ? "visible"
                         : "hidden",
@@ -2670,7 +2637,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -2720,10 +2687,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts35Approval
                         ? "visible"
                         : "hidden",
@@ -2737,7 +2703,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -2785,10 +2751,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts36Approval
                         ? "visible"
                         : "hidden",
@@ -2802,7 +2767,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -2852,10 +2817,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts37Approval
                         ? "visible"
                         : "hidden",
@@ -2869,7 +2833,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -2917,10 +2881,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts38Approval
                         ? "visible"
                         : "hidden",
@@ -2934,7 +2897,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -2985,10 +2948,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts39Approval
                         ? "visible"
                         : "hidden",
@@ -3002,7 +2964,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -3050,10 +3012,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts40Approval
                         ? "visible"
                         : "hidden",
@@ -3067,7 +3028,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -3118,10 +3079,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts41Approval
                         ? "visible"
                         : "hidden",
@@ -3135,7 +3095,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -3183,10 +3143,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts42Approval
                         ? "visible"
                         : "hidden",
@@ -3200,7 +3159,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -3251,10 +3210,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts43Approval
                         ? "visible"
                         : "hidden",
@@ -3268,7 +3226,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -3316,10 +3274,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "15px",
                       visibility: this.state.ts44Approval
                         ? "visible"
                         : "hidden",
@@ -3333,7 +3290,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -3396,7 +3353,7 @@ class AwakeNightStaffSignoff extends Component {
           </div>
 
           <Container className="print-container">
-          <Row>
+            <Row>
               <Col md={12} className="print-column">
                 <div className="form-group logInInputField">
                   <label className="control-label">
@@ -3452,10 +3409,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts1Approval ? "visible" : "hidden",
                     }}
                   >
@@ -3467,7 +3423,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -3514,12 +3470,11 @@ class AwakeNightStaffSignoff extends Component {
                     )}
                   </Col>
                   <div
-                    style={{
-                      width: "100%",
+                    style={{ 
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
-                      visibility: this.state.ts2Approval ? "visible" : "hidden",
+                      height: "50px",
+                      paddingLeft: "60px",
+                      visibility: this.state.ts1Approval ? "visible" : "hidden", 
                     }}
                   >
                     <SignatureCanvas
@@ -3530,7 +3485,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -3548,6 +3503,7 @@ class AwakeNightStaffSignoff extends Component {
                     md="6"
                     className="control-label d-flex align-items-center justify-content-center"
                   >
+                    {/* edit form */}
                     <label>8:30pm - 8:45pm</label>
                   </Col>
                   <Col md="6" className="control-label text-center">
@@ -3581,10 +3537,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts3Approval ? "visible" : "hidden",
                     }}
                   >
@@ -3596,7 +3551,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -3644,10 +3599,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts4Approval ? "visible" : "hidden",
                     }}
                   >
@@ -3659,7 +3613,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -3710,10 +3664,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts5Approval ? "visible" : "hidden",
                     }}
                   >
@@ -3725,7 +3678,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -3773,10 +3726,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts6Approval ? "visible" : "hidden",
                     }}
                   >
@@ -3788,7 +3740,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -3839,10 +3791,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts7Approval ? "visible" : "hidden",
                     }}
                   >
@@ -3854,7 +3805,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -3902,10 +3853,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts8Approval ? "visible" : "hidden",
                     }}
                   >
@@ -3917,7 +3867,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -3968,10 +3918,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts9Approval ? "visible" : "hidden",
                     }}
                   >
@@ -3983,7 +3932,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -4031,10 +3980,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts10Approval
                         ? "visible"
                         : "hidden",
@@ -4048,7 +3996,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -4099,10 +4047,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts11Approval
                         ? "visible"
                         : "hidden",
@@ -4116,7 +4063,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -4164,10 +4111,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts12Approval
                         ? "visible"
                         : "hidden",
@@ -4181,7 +4127,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -4232,10 +4178,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts13Approval
                         ? "visible"
                         : "hidden",
@@ -4249,7 +4194,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -4297,10 +4242,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts14Approval
                         ? "visible"
                         : "hidden",
@@ -4314,7 +4258,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -4365,10 +4309,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts15Approval
                         ? "visible"
                         : "hidden",
@@ -4382,7 +4325,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -4430,10 +4373,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts16Approval
                         ? "visible"
                         : "hidden",
@@ -4447,7 +4389,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -4498,10 +4440,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts17Approval
                         ? "visible"
                         : "hidden",
@@ -4515,7 +4456,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -4563,10 +4504,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts18Approval
                         ? "visible"
                         : "hidden",
@@ -4580,7 +4520,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -4631,10 +4571,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts19Approval
                         ? "visible"
                         : "hidden",
@@ -4648,7 +4587,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -4696,10 +4635,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts20Approval
                         ? "visible"
                         : "hidden",
@@ -4713,7 +4651,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -4764,10 +4702,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts21Approval
                         ? "visible"
                         : "hidden",
@@ -4781,7 +4718,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -4829,10 +4766,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts22Approval
                         ? "visible"
                         : "hidden",
@@ -4846,7 +4782,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -4897,10 +4833,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts23Approval
                         ? "visible"
                         : "hidden",
@@ -4914,7 +4849,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -4962,10 +4897,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts24Approval
                         ? "visible"
                         : "hidden",
@@ -4979,7 +4913,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -5030,10 +4964,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts25Approval
                         ? "visible"
                         : "hidden",
@@ -5047,7 +4980,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -5095,10 +5028,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts26Approval
                         ? "visible"
                         : "hidden",
@@ -5112,7 +5044,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -5163,10 +5095,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts27Approval
                         ? "visible"
                         : "hidden",
@@ -5180,7 +5111,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -5228,10 +5159,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts28Approval
                         ? "visible"
                         : "hidden",
@@ -5245,7 +5175,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -5296,10 +5226,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts29Approval
                         ? "visible"
                         : "hidden",
@@ -5313,7 +5242,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -5361,10 +5290,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts30Approval
                         ? "visible"
                         : "hidden",
@@ -5378,7 +5306,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -5429,10 +5357,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts31Approval
                         ? "visible"
                         : "hidden",
@@ -5446,7 +5373,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -5494,10 +5421,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts32Approval
                         ? "visible"
                         : "hidden",
@@ -5511,7 +5437,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -5562,10 +5488,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts33Approval
                         ? "visible"
                         : "hidden",
@@ -5579,7 +5504,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -5627,10 +5552,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts34Approval
                         ? "visible"
                         : "hidden",
@@ -5644,7 +5568,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -5695,10 +5619,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts35Approval
                         ? "visible"
                         : "hidden",
@@ -5712,7 +5635,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -5760,10 +5683,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts36Approval
                         ? "visible"
                         : "hidden",
@@ -5777,7 +5699,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -5828,10 +5750,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts37Approval
                         ? "visible"
                         : "hidden",
@@ -5845,7 +5766,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -5893,10 +5814,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts38Approval
                         ? "visible"
                         : "hidden",
@@ -5910,7 +5830,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -5961,10 +5881,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts39Approval
                         ? "visible"
                         : "hidden",
@@ -5978,7 +5897,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -6026,10 +5945,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts40Approval
                         ? "visible"
                         : "hidden",
@@ -6043,7 +5961,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -6094,10 +6012,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts41Approval
                         ? "visible"
                         : "hidden",
@@ -6111,7 +6028,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -6159,10 +6076,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts42Approval
                         ? "visible"
                         : "hidden",
@@ -6176,7 +6092,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -6227,10 +6143,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts43Approval
                         ? "visible"
                         : "hidden",
@@ -6244,7 +6159,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}
@@ -6292,10 +6207,9 @@ class AwakeNightStaffSignoff extends Component {
                   </Col>
                   <div
                     style={{
-                      width: "100%",
                       display: "flex",
-                      maxHeight: "170",
-                      justifyContent: "center",
+                      height: "50px",
+                      paddingLeft: "60px",
                       visibility: this.state.ts44Approval
                         ? "visible"
                         : "hidden",
@@ -6309,7 +6223,7 @@ class AwakeNightStaffSignoff extends Component {
                       penColor="black"
                       clearOnResize={false}
                       canvasProps={{
-                        width: 600,
+                        width: 300,
                         height: 100,
                         className: "sigCanvas",
                       }}

@@ -1835,14 +1835,7 @@ class RestraintReport extends Component {
               style={{ display: this.state.status === 'IN PROGRESS' ? 'none' : 'block' }}
             >
               <label className="control-label">Signature</label>{" "}
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  maxHeight: "170",
-                  paddingBottom: "20px",
-                }}
-              >
+              <div id='sigCanvasDiv'>
                 <SignatureCanvas
                   ref={(ref) => {
                     this.sigCanvas = ref;
@@ -1851,7 +1844,7 @@ class RestraintReport extends Component {
                   penColor="black"
                   clearOnResize={false}
                   canvasProps={{
-                    width: 600,
+                    width: 300,
                     height: 100,
                     className: "sigCanvas",
                   }}
