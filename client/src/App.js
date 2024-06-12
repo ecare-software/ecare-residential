@@ -1075,11 +1075,6 @@ function DisplayExtra({
             bruises, discolorations or disfigurements and any other questionable
             or abnormal markings.
           </p>
-
-          <p>
-            1=Bruise 2=Abrasion 3=Scratch(es) 4=Scar 5=Scab 6=Rash 7=Cut(s)
-            8=Sore 9=Birth Mark 10=Insect Bite(s)
-          </p>
           <div
             style={{
               height: '550px',
