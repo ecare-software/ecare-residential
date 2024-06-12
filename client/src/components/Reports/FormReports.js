@@ -111,6 +111,7 @@ export class FormReports extends Component {
       showFullForms: false,
       formsToPrint: [],
       formsLoaded: false,
+      disablePrint: true,
     };
   }
   openPrintModal = () => {
@@ -196,6 +197,7 @@ export class FormReports extends Component {
     var startBarChartData = this.state.barChartData;
     data.forEach((formData) => {
       if (formData.length > 0) {
+        var statusByFormType = formData.map((status) => status.status)
         //add to form state
         let nestedFormObj = {
           name: formData[0].formType,
@@ -208,6 +210,10 @@ export class FormReports extends Component {
           name: formData[0].formType,
           submittions: formData.length,
         });
+        // if at least one form with completed status, enable print button
+        if (this.state.disablePrint === true && statusByFormType.find((status)=>status === 'COMPLETED')) {
+          this.setState({disablePrint: false}) 
+        }
       }
       count++;
       if (count === promiseCount) {
@@ -1199,9 +1205,26 @@ export class FormReports extends Component {
                   </button>
                 )}
                 {!this.state.doShowFilters && (
-                  <button onClick={this.triggerPrint} className='btn btn-link'>
+                  !this.state.disablePrint ?
+                  <button 
+                    onClick={this.triggerPrint} 
+                    className='btn btn-link'
+                  >
                     <span className='fa fa-print'></span> Print Results
                   </button>
+                  :
+                  // show tooltip if print button disabled
+                  <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="No completed forms to print."
+                    style={{display: this.state.disablePrint ? "none" : "block"}}> 
+                  <button 
+                    onClick={this.triggerPrint} 
+                    className='btn btn-link'
+                    // disable button if no completed forms
+                    disabled={this.state.disablePrint ? true : false}
+                  >
+                    <span className='fa fa-print'></span> Print Results
+                  </button>
+                  </span>
                 )}
               </div>
             </h2>

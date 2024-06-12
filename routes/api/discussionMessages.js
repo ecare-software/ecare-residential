@@ -5,6 +5,10 @@ const router = express.Router();
 const DiscussionMessage = require("../../models/DiscussionMessage");
 
 router.get("/:homeId", (req, res) => {
+  const page = req.query.page;
+  const limit = req.query.limit;
+  const startIndex = (page-1)*limit;
+  const endIndex = page*limit;
   if (req.params.homeId) {
     console.log(
       `Get Discussion Messages for home ${req.params.homeId} - start`
@@ -15,7 +19,7 @@ router.get("/:homeId", (req, res) => {
         console.log(
           `getting Discussion Messages for home - ${req.params.homeId} - end`
         );
-        res.json(discussionMessage);
+        res.json(discussionMessage.slice(startIndex, endIndex));
       });
   } else {
     console.log(`Getting Discussion Messages for every home - start`);
@@ -23,7 +27,7 @@ router.get("/:homeId", (req, res) => {
       .sort({ date: -1 })
       .then((discussionMessage) => {
         console.log(`Discussion Messages for every home - end `);
-        res.json(discussionMessage);
+        res.json(discussionMessage.slice(startIndex, endIndex));
       });
   }
 });

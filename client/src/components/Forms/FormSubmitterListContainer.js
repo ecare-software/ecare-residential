@@ -64,6 +64,11 @@ class FormSubmitterListContainer extends Component {
     }
   }
 
+  disablePrint() {
+    console.log('submissions', this.props.submittions)
+    return (this.props.submittions.find(submission => submission.status === 'COMPLETED')) !== undefined
+  }
+
   triggerPrint = () => {
     this.state.formsLoaded = false;
     /*
@@ -166,13 +171,25 @@ class FormSubmitterListContainer extends Component {
           </div>
           )} */}
         <div className="hide-on-print" style={{ paddingBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', pageBreakBefore: "avoid", pageBreakInside: "avoid" }}>
-          <button onClick={this.triggerPrint}
-            className='btn btn-link'
-            // disable button if no completed forms
-            disabled={(this.props.submittions.find(submission => submission.status === 'COMPLETED')) !== undefined ? false : true}
-          >
-            <span className='fa fa-print'></span> Print {this.props.formType} Forms
-          </button>
+          {this.props.submittions.find(submission => submission.status === 'COMPLETED') ?
+            <button onClick={this.triggerPrint}
+              className='btn btn-link'
+            >
+              <span className='fa fa-print'></span> Print {this.props.formType} Forms
+            </button>
+            :
+            // show tooltip if print button disabled
+            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="No completed forms to print." style={{ display: "none" }}>
+              <button onClick={this.triggerPrint}
+                className='btn btn-link'
+                // disable button if no completed forms
+                disabled={(this.props.submittions.find(submission => submission.status === 'COMPLETED')) !== undefined ? false : true}
+              >
+                <span className='fa fa-print'></span> Print {this.props.formType} Forms
+              </button>
+            </span>
+          }
+
         </div>
         {this.props.submittions.length > 0 ? (
           this.props.submittions.map((form, formIndex) => (

@@ -5,6 +5,8 @@ import "./MessageBoard.css";
 import "../../App.css";
 import ClipLoader from "react-spinners/ClipLoader";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
+import Pagination from "./Pagination";
+
 
 const ContentAfterLoad = ({ messages, isLoading, removeMessage, userObj }) => {
   const [currentMessages, setCurrentMessage] = useState(messages);
@@ -34,6 +36,7 @@ const ContentAfterLoad = ({ messages, isLoading, removeMessage, userObj }) => {
           {item.message}
         </MessagePost>
       ))}
+
     </div>
   );
 };
@@ -44,7 +47,35 @@ class MessageBoard extends Component {
     this.state = {
       showModal: "",
       messageText: "",
-    };
+      postsPerPage: 20,
+      currentPage: 1,
+      indexOfFirstPost: 0,
+      indexOfLastPost: 19,
+       };
+  }
+
+  handlePagination = (pageNumber) => {
+    this.state.currentPage = pageNumber;
+    this.props.loadMessage(this.props.userObj, pageNumber)
+    let firstIndex = (((this.props.currentPage) - 1) * 20);
+    // this.setState({currentPage: pageNumber});
+    this.setState({indexOfFirstPost: firstIndex})
+    this.setState({indexOfLastPost: (this.props.currentPage*20) - 1 })
+  };
+
+  recentPageMessage = () => {
+    this.state.currentPage = 1;
+    this.props.loadMessage(this.props.userObj, this.state.currentPage)
+  }
+
+  nextPageMessage = () => {
+    this.state.currentPage += 1;
+    this.props.loadMessage(this.props.userObj, this.state.currentPage)
+  }
+
+  prevPageMessage = () => {
+    this.state.currentPage -= 1;
+    this.props.loadMessage(this.props.userObj, this.state.currentPage)
   }
 
   openModal = (modalName) => {
@@ -125,9 +156,23 @@ class MessageBoard extends Component {
             </div>
           </>
         )}
+        {/* hide pagination on load */}
+        {!this.props.discussionMessagesLoading && 
+        <Pagination
+        length={this.props.messages.length}
+        postsPerPage={this.state.postsPerPage}
+        prevPageMessage = {this.prevPageMessage}
+        nextPageMessage = {this.nextPageMessage}
+        recentPageMessage = {this.recentPageMessage}
+        currentPage={this.state.currentPage}
+        loadMessage={this.props.loadMessage}
+        userObj={this.props.userObj}
+      />
+        }
+        
         <ContentAfterLoad
           removeMessage={this.props.removeMessage}
-          messages={this.props.messages}
+          messages={this.props.messages.slice(((this.props.currentPage-1)*this.state.postsPerPage), ((this.props.currentPage*this.state.postsPerPage)-1))}
           isLoading={this.props.discussionMessagesLoading}
           userObj={this.props.userObj}
         />

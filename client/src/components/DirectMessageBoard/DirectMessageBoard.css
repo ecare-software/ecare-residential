@@ -1,7 +1,7 @@
 /* desktop */
 @media only screen and (min-width: 1226px) {
   #messageBoard {
-    margin-top: 50px;
+    margin-top: 10px;
     width: 100%;
     background-color: white;
 
@@ -38,7 +38,7 @@
 /* ipad */
 @media only screen and (min-width: 768px) and (max-width: 1225px) {
   #messageBoard {
-    margin-top: 50px;
+    margin-top: 10px;
     width: 100%;
     background-color: white;
 
