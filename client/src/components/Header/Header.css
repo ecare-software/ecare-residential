@@ -206,7 +206,7 @@
     display: flex;
     justify-content: flex-end;
     background-color: maroon;
-    height: 250px;
+    height: 400px;
   }
 
   .carousel {
@@ -215,7 +215,7 @@
 
   .headerTextContainer {
     position: absolute;
-    top: 80px;
+    top: 120px;
     margin-right: 125px;
     font-family: "Google Sans Display", Arial, Helvetica, sans-serif;
   }
@@ -238,8 +238,11 @@
 
   #learnMoreHeaderBtn {
     float: right;
-    margin-right: -80px;
-    margin-top: -25px;
+    margin-right: 20px;
+  }
+
+  #desktopLearnMore {
+    padding-top: 50px;
   }
 
 }
