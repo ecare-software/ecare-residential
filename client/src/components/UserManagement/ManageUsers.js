@@ -123,7 +123,7 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
                 </Nav.Item>
               </Nav>
               <Tab.Content>
-                <Tab.Pane eventKey="active-users">
+                <Tab.Pane eventKey="active-users" style={{backgroundColor: "white"}}>
                   <Table>
                     <thead>
                       <tr>

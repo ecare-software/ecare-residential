@@ -36,6 +36,7 @@ import Fade from 'react-reveal/Fade';
 import ManageTraining from './components/ManageTraining/ManageTraining';
 import { isAdminUser } from './utils/AdminReportingRoles';
 import NightMonitoring from './components/Forms/NightMonitoring';
+import { FetchHomeData } from './utils/FetchHomeData';
 
 
 const hideStyle = {
@@ -80,11 +81,17 @@ class App extends Component {
     showMessageSent: false,
     loading: false,
     currentPage: 1,
-    
+    homeName: "",
   };
-  
 
-
+  doGetHomeInfo = async () => {
+    try {
+      const { data } = await FetchHomeData(this.state.userObj.homeId);
+      this.state.homeName = data[0].name;
+    } catch (e) {
+      console.log("Error fetching home info");
+    }
+  };
 
   doFetchFormApprovalCount = async () => {
     try {
@@ -173,6 +180,7 @@ class App extends Component {
         this.loadMessage(updatedUserData);
         await this.getAllUsers();
         await this.getMyMessages();
+        await this.doGetHomeInfo();
       } catch (e) {
         console.log(e);
         await this.setState({
@@ -1174,6 +1182,9 @@ function DisplayExtra({
           <h4 className='extraInfoMainTitle'>
             {userObj.firstName + ' ' + userObj.lastName}
           </h4>
+          <h5 className='extraInfoMainTitle'>
+            {appState.homeName}
+          </h5>
           <h6 className='extraInfoSubTitle'>
             {userObj.jobTitle.replace(/\//gm, ' ')}
           </h6>
