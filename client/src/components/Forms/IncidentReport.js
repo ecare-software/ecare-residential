@@ -925,7 +925,7 @@ class IncidentReport extends Component {
                 <Col xs={4} className="print-column">
                   <div className="form-group logInInputField">
                     {" "}
-                    <label className="control-label">By who ?</label>{" "}
+                    <label className="control-label">By who?</label>{" "}
                     <input
                       onChange={this.handleFieldInput}
                       id="notification_made_by"
@@ -1361,35 +1361,40 @@ class IncidentReport extends Component {
                         {this.state.incident_explaination}
                       </p>
                     </div>
-                  </Col>
-                </Row>
+                  {/* </Col>
+                </Row> */}
 
-                <Row>
-                  <Col xs={12} className="print-column">
+                {/* <Row>
+                  <Col xs={12} className="print-column"> */}
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
-                        If supervised seperation was used, how long was the
+                      If supervised seperation was used, how long was the
                         student seperated?
                       </label>{" "}
-                      <input
-                        onChange={this.handleFieldInput}
-                        value={this.state.seperation}
-                        id="seperation"
-                        className="form-control"
-                        type="text"
-                      />{" "}
+                      <div className='hide-on-print'>
+                        <TextareaAutosize
+                          onChange={this.handleFieldInput}
+                          value={this.state.seperation}
+                          id="seperation"
+                          className="form-control"
+                        ></TextareaAutosize>
+                      </div>
+                      <p className="hide-on-non-print">
+                        {this.state.seperation}
+                      </p>
                     </div>
-                  </Col>
-                </Row>
+                  {/* </Col>
+                </Row> */}
 
-                <Row>
-                  <Col xs={12} className="print-column">
+                {/* <Row>
+                  <Col xs={12} className="print-column"> */}
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
                         Result of the incident
                       </label>{" "}
+                      <div className='hide-on-print'>
                       <TextareaAutosize
                         onChange={this.handleFieldInput}
                         value={this.state.result}
@@ -1397,22 +1402,28 @@ class IncidentReport extends Component {
                         className="form-control"
                       ></TextareaAutosize>
                     </div>
-                  </Col>
-                </Row>
+                    <p className="hide-on-non-print">
+                        {this.state.result}
+                      </p>
+                    </div>
+                  {/* </Col>
+                </Row> */}
 
-                <Row>
-                  <Col xs={12} className="print-column">
+                {/* <Row>
+                  <Col xs={12} className="print-column"> */}
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
-                        Were you able to prevent a more serious incident ?
+                        Were you able to prevent a more serious incident?
                       </label>{" "}
+                      <div className='hide-on-print'>
                       <TextareaAutosize
                         onChange={this.handleFieldInput}
                         value={this.state.able_to_prevent}
                         id="able_to_prevent"
                         className="form-control"
                       ></TextareaAutosize>
+                      </div>
                       <p className="hide-on-non-print">
                         {this.state.able_to_prevent}
                       </p>
@@ -1440,7 +1451,7 @@ class IncidentReport extends Component {
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
-                        When was the notification made ?
+                        When was the notification made?
                       </label>{" "}
                       <input
                         onChange={this.handleFieldInput}
@@ -1454,7 +1465,8 @@ class IncidentReport extends Component {
                   <Col xs={4} className="print-column">
                     <div className="form-group logInInputField">
                       {" "}
-                      <label className="control-label">By who ?</label>{" "}
+                      <label className="control-label">By who?</label>{" "}
+                      <div className='hide-on-print'>
                       <input
                         onChange={this.handleFieldInput}
                         value={this.state.notification_made_by}
@@ -1462,6 +1474,10 @@ class IncidentReport extends Component {
                         className="form-control"
                         type="text"
                       />{" "}
+                    </div>
+                    <p className="hide-on-non-print">
+                        {this.state.notification_made_by}
+                      </p>
                     </div>
                   </Col>
                 </Row>
@@ -1473,12 +1489,17 @@ class IncidentReport extends Component {
                       <label className="control-label">
                         Results After Following Up
                       </label>{" "}
+                      <div className='hide-on-print'>
                       <TextareaAutosize
-                        onChange={this.handleFieldInput}
-                        value={this.state.follow_up_results}
-                        id="follow_up_results"
-                        className="form-control"
-                      ></TextareaAutosize>
+                          onChange={this.handleFieldInput}
+                          value={this.state.follow_up_results}
+                          id="follow_up_results"
+                          className="form-control"
+                        ></TextareaAutosize>
+                      </div>
+                      <p className="hide-on-non-print">
+                        {this.state.follow_up_results}
+                      </p>
                     </div>
                   </Col>
                 </Row>
