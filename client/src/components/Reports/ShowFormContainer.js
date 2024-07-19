@@ -342,7 +342,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
         </h6>
       </div>
       <div className="d-flex align-items-center hide-on-print">
-        <h6 style={{ fontWeight: 400, marginRight: 5 }}>Created Date</h6>{" "}
+        <h6 style={{ fontWeight: 400, marginRight: 5 }}>Created</h6>{" "}
         <h6 style={{ fontWeight: 300 }}>
           {` ${formData.createdByName}, ${
             formData.createdByName
