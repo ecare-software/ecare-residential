@@ -43,7 +43,6 @@ export const NightMonitoringChildRow = ({
     if (signature && signature.length) {
       sigCanvas.fromData(signature);
       sigCanvas.off();
-      console.log('sig & sig.length')
     }
   }, [signature]);
 
