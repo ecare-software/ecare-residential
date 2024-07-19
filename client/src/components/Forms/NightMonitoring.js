@@ -240,7 +240,7 @@ class NightMonitoring extends Component {
       ...this.props.formData,
       loadingSig: false,
       loadingClients: false,
-      signature: this.props.userObj.signature,
+      signature: createdUserData.signature,
     });
   };
 
@@ -371,7 +371,7 @@ class NightMonitoring extends Component {
                 setRootState={this.setRootState}
                 rootState={this.state}
                 clients={this.state.clients}
-                signature={this.props.userObj.signature}
+                signature={this.state.signature}
               />
               <FormError errorId={this.props.id + "-error"} />
 
