@@ -36,6 +36,7 @@ import Fade from 'react-reveal/Fade';
 import ManageTraining from './components/ManageTraining/ManageTraining';
 import { isAdminUser } from './utils/AdminReportingRoles';
 import NightMonitoring from './components/Forms/NightMonitoring';
+// import { FetchHomeData } from './utils/FetchHomeData';
 
 
 const hideStyle = {
@@ -80,11 +81,27 @@ class App extends Component {
     showMessageSent: false,
     loading: false,
     currentPage: 1,
-    
+    homeData: '',
   };
   
 
-
+  doGetHomeInfo = async () => {
+    try {
+      const { data } = await Axios.get(
+        `/api/home/${this.state.userObj.homeId}`
+      );
+      this.setState({homeData: data[0].name})
+      console.log('homename', this.state.homeData)
+      return (this.state.homeData)
+    // try {
+    //   const { data } = await FetchHomeData(this.state.userObj.homeId);
+    //   this.state.homeData = data[0];
+    //   console.log('data', this.state.homeData)
+    } catch (e) {
+      console.log("Error fetching home info");
+    // }
+  };
+}
 
   doFetchFormApprovalCount = async () => {
     try {
@@ -195,7 +212,6 @@ class App extends Component {
 
   componentDidUpdate = () => {
     setTimeout((callGetAllUsers) => {}, 10000)
-
     if (
       !this.state.messagesInitLoad &&
       !this.state.blockCompUpdates &&
@@ -206,10 +222,15 @@ class App extends Component {
   };
 
     loadMessage = (userObj, pageNumber) => {
+      Axios.put(`/api/home/home-1234/twoSignatures`, {
+        twoSignatures: true,
+      })
+      this.doGetHomeInfo()
     if (pageNumber === undefined) {pageNumber = 1};
     this.setState({
       ...this.state,
       discussionMessagesLoading: true,
+      homeData: this.state.homeData
     });
     Axios.get(`/api/discussionMessages/${userObj.homeId}?page=${pageNumber}&limit=20`)
       .then((response) => {
@@ -978,6 +999,7 @@ function DisplayExtra({
   showClients,
   showTrainings,
   loadMessage,
+  homeData,
 }) {
   if (name === 'TreatmentPlan72') {
     return (
@@ -1177,11 +1199,14 @@ function DisplayExtra({
           <h6 className='extraInfoSubTitle'>
             {userObj.jobTitle.replace(/\//gm, ' ')}
           </h6>
+          <h6>
+            {homeData}
+          </h6>
         </div>
         <div className='extraInfoNavDiv'>
           <p className='extraInfoNavSubTitle'>
             <i>
-              This is the first screen users will see when they log in.
+              {/* This is the first screen users will see when they log in. */}
             </i>
           </p>
         </div>
