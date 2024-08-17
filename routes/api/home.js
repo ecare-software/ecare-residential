@@ -9,4 +9,15 @@ router.get("/:homeId", (req, res) => {
     .catch((err) => res.status(404).json({ success: false }));
 });
 
+router.put("/:homeId/twoSignatures", (req, res) => {
+  const twoSignaturesTrue = {...req.body, twoSignatures: true };
+  Home.updateOne({_id: req.params.homeId}, twoSignaturesTrue)
+  .then((data) => {
+    res.json(twoSignaturesTrue)
+  })
+  .catch((e) => {
+    console.log(e);
+  });
+})
+
 module.exports = router;
