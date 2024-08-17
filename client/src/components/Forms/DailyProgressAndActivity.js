@@ -231,9 +231,7 @@ class DailyProgressAndActivity extends Component {
   };
 
   submit = async (save) => {
-    // if (!save) this.state.status = "COMPLETED";
-    // if (this.sigCanvas1 != undefined  && this.sigCanvas2 != undefined) this.state.status = 'COMPLETED';
-    // else {this.state.status = 'COMPLETED'}
+    if (this.props.formData.signature1[0].length > 0 && this.props.formData.signature2[0].length > 0) this.state.status = 'COMPLETED';
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
     delete currentState.staff;
@@ -287,18 +285,13 @@ class DailyProgressAndActivity extends Component {
 
   validateForm = async (save) => {
     if (this.props.valuesSet) {
-    // if (this.state.signature1[0].length > 0 && this.state.signature2 === "") {
-      // if (!this.sigCanvas1._sigPad._isEmpty && this.sigCanvas2._sigPad._isEmpty ) {
       const { data: createdUserData } =
        await GetUserSig(
         this.props.userObj.email,
         this.props.userObj.homeId
       );
       console.log('sig2 test', createdUserData)
-      // this.setSignature2(createdUserData);
-      // if (userObj.signature && userObj.signature.length) {
         this.sigCanvas2.fromData(createdUserData.signature);
-        // this.sigCanvas2.fromData(userObj.signature);
         this.setState({
           ...this.state,
           signature2: createdUserData.signature,
@@ -315,25 +308,15 @@ class DailyProgressAndActivity extends Component {
   };
 
   setSignature = (userObj) => {
-    // if (this.sigCanvas1._sigPad._isEmpty && this.sigCanvas2._sigPad._isEmpty ) {
-    //   if (userObj.signature && userObj.signature.length) {
-    //     this.sigCanvas1.fromData(userObj.signature);
-    //   }
-    // }  
-    
-    // else if (!this.sigCanvas1._sigPad._isEmpty && this.sigCanvas2._sigPad._isEmpty) {
       if (userObj.signature && userObj.signature.length) {
         console.log('set sig1', userObj.signature)
         this.sigCanvas1.fromData(userObj.signature);
-        // this.signature1 = this.sigCanvas1.toData;
         this.setState({
           ...this.state,
           signature1: userObj.signature
         })
         console.log('test sig 1', userObj.signature)
-        // this.sigCanvas2.fromData(userObj.signature);
       }
-    // 
 
     if (this.props.formData.signature2[0].length > 0) this.sigCanvas2.fromData(this.props.formData.signature2)
     
@@ -343,15 +326,11 @@ class DailyProgressAndActivity extends Component {
     console.log(this.sigCanvas2)
     console.log(this.sigCanvas1.length)
     console.log(this.sigCanvas2.length)
-    // console.log(this.sigCanvas1._sigPad._isEmpty)
-    // console.log(this.sigCanvas2._sigPad._isEmpty)
-    // console.log(this.props.formData.signature2[0].length)
   };
 
   setSignature2 = (userObj) => {
     if (userObj.signature && userObj.signature.length) {
       this.sigCanvas2.fromData(userObj.signature);
-      // this.sigCanvas2.fromData(userObj.signature);
       console.log('sig 2 in setSig2', userObj.signature
       )
       this.setState({
@@ -371,9 +350,7 @@ class DailyProgressAndActivity extends Component {
       this.props.formData.createdBy,
       this.props.userObj.homeId
     );
-    // if (this.state.signature1.length === 0 ) {
       this.setSignature(createdUserData);
-    // }
     console.log('merp')
     this.sigCanvas1.off();
     this.sigCanvas2.off();
