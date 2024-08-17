@@ -75,6 +75,8 @@ class DailyProgressAndActivity extends Component {
       createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
       status: "IN PROGRESS",
       childSelected: false,
+      signature1: this.props.valuesSet === true ? "" : this.props.userObj.signature,
+      signature2: "",
     };
   }
 
@@ -229,7 +231,9 @@ class DailyProgressAndActivity extends Component {
   };
 
   submit = async (save) => {
-    if (!save) this.state.status = "COMPLETED";
+    // if (!save) this.state.status = "COMPLETED";
+    // if (this.sigCanvas1 != undefined  && this.sigCanvas2 != undefined) this.state.status = 'COMPLETED';
+    // else {this.state.status = 'COMPLETED'}
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
     delete currentState.staff;
@@ -282,6 +286,26 @@ class DailyProgressAndActivity extends Component {
   };
 
   validateForm = async (save) => {
+    if (this.props.valuesSet) {
+    // if (this.state.signature1[0].length > 0 && this.state.signature2 === "") {
+      // if (!this.sigCanvas1._sigPad._isEmpty && this.sigCanvas2._sigPad._isEmpty ) {
+      const { data: createdUserData } =
+       await GetUserSig(
+        this.props.userObj.email,
+        this.props.userObj.homeId
+      );
+      console.log('sig2 test', createdUserData)
+      // this.setSignature2(createdUserData);
+      // if (userObj.signature && userObj.signature.length) {
+        this.sigCanvas2.fromData(createdUserData.signature);
+        // this.sigCanvas2.fromData(userObj.signature);
+        this.setState({
+          ...this.state,
+          signature2: createdUserData.signature,
+        })
+      // }
+    }
+
     this.setState({
       ...this.state,
       loadingClients: true,
@@ -291,10 +315,50 @@ class DailyProgressAndActivity extends Component {
   };
 
   setSignature = (userObj) => {
-    if (userObj.signature && userObj.signature.length) {
-      this.sigCanvas.fromData(userObj.signature);
-    }
+    // if (this.sigCanvas1._sigPad._isEmpty && this.sigCanvas2._sigPad._isEmpty ) {
+    //   if (userObj.signature && userObj.signature.length) {
+    //     this.sigCanvas1.fromData(userObj.signature);
+    //   }
+    // }  
+    
+    // else if (!this.sigCanvas1._sigPad._isEmpty && this.sigCanvas2._sigPad._isEmpty) {
+      if (userObj.signature && userObj.signature.length) {
+        console.log('set sig1', userObj.signature)
+        this.sigCanvas1.fromData(userObj.signature);
+        // this.signature1 = this.sigCanvas1.toData;
+        this.setState({
+          ...this.state,
+          signature1: userObj.signature
+        })
+        console.log('test sig 1', userObj.signature)
+        // this.sigCanvas2.fromData(userObj.signature);
+      }
+    // 
+
+    if (this.props.formData.signature2[0].length > 0) this.sigCanvas2.fromData(this.props.formData.signature2)
+    
+    console.log(this.sigCanvas1.toData())
+    console.log(this.sigCanvas2.toData())
+    console.log(this.sigCanvas1)
+    console.log(this.sigCanvas2)
+    console.log(this.sigCanvas1.length)
+    console.log(this.sigCanvas2.length)
+    // console.log(this.sigCanvas1._sigPad._isEmpty)
+    // console.log(this.sigCanvas2._sigPad._isEmpty)
+    // console.log(this.props.formData.signature2[0].length)
   };
+
+  setSignature2 = (userObj) => {
+    if (userObj.signature && userObj.signature.length) {
+      this.sigCanvas2.fromData(userObj.signature);
+      // this.sigCanvas2.fromData(userObj.signature);
+      console.log('sig 2 in setSig2', userObj.signature
+      )
+      this.setState({
+        signature2: userObj.signature
+      })
+    }
+  }
 
   componentWillUnmount() {
     console.log("clearing auto save interval");
@@ -307,14 +371,21 @@ class DailyProgressAndActivity extends Component {
       this.props.formData.createdBy,
       this.props.userObj.homeId
     );
-    this.setSignature(createdUserData);
-    this.sigCanvas.off();
+    // if (this.state.signature1.length === 0 ) {
+      this.setSignature(createdUserData);
+    // }
+    console.log('merp')
+    this.sigCanvas1.off();
+    this.sigCanvas2.off();
     this.setState({
       ...this.state,
       ...this.props.formData,
       loadingSig: false,
       loadingClients: false,
     });
+    console.log('createdUserData', createdUserData)
+    console.log('state', this.state)
+    console.log('props', this.props.formData)
   };
 
   getClients = async () => {
@@ -343,7 +414,9 @@ class DailyProgressAndActivity extends Component {
   async componentDidMount() {
     if (this.props.valuesSet) {
       this.setValues();
+      console.log('set values')
     } else {
+      console.log('dont set values')
       await this.getClients();
       interval = setInterval(() => {
         this.autoSave();
@@ -957,6 +1030,7 @@ class DailyProgressAndActivity extends Component {
                     Submit
                   </button>
                 </div>
+             
 
 
               </Row>
@@ -1506,13 +1580,13 @@ class DailyProgressAndActivity extends Component {
             )}
 
             <div className="sigSection"
-              style={{ display: this.state.status === 'IN PROGRESS' ? 'none' : 'block' }}
+              // style={{ display: this.state.status === 'IN PROGRESS' ? 'none' : 'block' }}
             >
-              <label className="control-label">Signature</label>{" "}
+              <label className="control-label">Signature #1</label>{" "}
               <div id='sigCanvasDiv'>
                 <SignatureCanvas
                   ref={(ref) => {
-                    this.sigCanvas = ref;
+                    this.sigCanvas1 = ref;
                   }}
                   style={{ border: "solid" }}
                   penColor="black"
@@ -1520,7 +1594,24 @@ class DailyProgressAndActivity extends Component {
                   canvasProps={{
                     width: 300,
                     height: 100,
-                    className: "sigCanvas",
+                    className: "sigCanvas1",
+                  }}
+                  backgroundColor="#eeee"
+                />
+              </div>
+              <label className="control-label">Signature #2</label>{" "}
+              <div id='sigCanvasDiv'>
+                <SignatureCanvas
+                  ref={(ref) => {
+                    this.sigCanvas2 = ref;
+                  }}
+                  style={{ border: "solid" }}
+                  penColor="black"
+                  clearOnResize={false}
+                  canvasProps={{
+                    width: 300,
+                    height: 100,
+                    className: "sigCanvas2",
                   }}
                   backgroundColor="#eeee"
                 />
@@ -1535,7 +1626,7 @@ class DailyProgressAndActivity extends Component {
                       className="lightBtn hide hide-on-print save-submit-btn"
                       style={{
                         width: "100%",
-                        display: this.state.status === 'COMPLETED' ? "none" : "block",
+                        // display: this.state.status === 'COMPLETED' ? "none" : "block",
                       }}
                       onClick={() => {
                         this.validateForm(true);
@@ -1556,6 +1647,7 @@ class DailyProgressAndActivity extends Component {
                       Submit
                     </button>
                   </div>
+                  
                 </Row>
               </>
             )}
