@@ -346,11 +346,12 @@ class DailyProgressAndActivity extends Component {
     console.log('sig2 info', typeof this.state.signature2)
     // if (userObj.signature && userObj.signature.length) {
     //   console.log('set sig1', userObj.signature)
-this.sigCanvas1.fromData(userObj.signature);
-    //   this.setState({
-    //     ...this.state,
-    //     signature1: userObj.signature[0],
-    //   })
+    // console.log('sig1 from canvas', this.sigCanvas1.toData())
+  this.sigCanvas1.fromData(userObj.signature);
+      //  this.setState({
+      //   ...this.state,
+      //    signature1: userObj.signature,
+      //  })
     //   console.log('test sig 1', this.state.signature1)
     // }
     console.log('work', this.props.formData.status === "COMPLETED")
@@ -365,6 +366,9 @@ this.sigCanvas1.fromData(userObj.signature);
 
     console.log('sigcanvas1.toData()', this.sigCanvas1.toData())
     console.log('sigcanvas1', this.sigCanvas1)
+    // this.setState({
+    //   signature1: this.sigCanvas1.toData(),
+    // })
     
   };
 
@@ -380,6 +384,7 @@ this.sigCanvas1.fromData(userObj.signature);
       this.props.userObj.homeId
     );
     this.setSignature(createdUserData);
+    // console.log('sig1 from canvas', this.sigCanvas1.toData())
     console.log('merp')
     this.sigCanvas1.off();
     if (this.state.twoSignaturesRequired = true) this.sigCanvas2.off();
@@ -388,6 +393,7 @@ this.sigCanvas1.fromData(userObj.signature);
       ...this.props.formData,
       loadingSig: false,
       loadingClients: false,
+      signature1: createdUserData.signature,
     });
     console.log('createdUserData', createdUserData)
     console.log('state', this.state)
