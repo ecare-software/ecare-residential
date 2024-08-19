@@ -54,6 +54,7 @@ router.post("/", (req, res) => {
     status: req.body.status,
     signature1: req.body.signature1,
     signature2: req.body.signature2,
+    twoSignaturesRequired: req.body.twoSignaturesRequired,
   });
 
   newDailyProgressAndActivity
