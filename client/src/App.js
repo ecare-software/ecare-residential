@@ -36,7 +36,6 @@ import Fade from 'react-reveal/Fade';
 import ManageTraining from './components/ManageTraining/ManageTraining';
 import { isAdminUser } from './utils/AdminReportingRoles';
 import NightMonitoring from './components/Forms/NightMonitoring';
-// import { FetchHomeData } from './utils/FetchHomeData';
 
 
 const hideStyle = {
@@ -81,7 +80,6 @@ class App extends Component {
     showMessageSent: false,
     loading: false,
     currentPage: 1,
-    homeData: '',
   };
 
 
@@ -231,7 +229,6 @@ class App extends Component {
     this.setState({
       ...this.state,
       discussionMessagesLoading: true,
-      homeData: this.state.homeData
     });
     Axios.get(`/api/discussionMessages/${userObj.homeId}?page=${pageNumber}&limit=20`)
       .then((response) => {
@@ -1000,7 +997,6 @@ function DisplayExtra({
   showClients,
   showTrainings,
   loadMessage,
-  homeData,
 }) {
   if (name === 'TreatmentPlan72') {
     return (
@@ -1199,9 +1195,6 @@ function DisplayExtra({
           </h4>
           <h6 className='extraInfoSubTitle'>
             {userObj.jobTitle.replace(/\//gm, ' ')}
-          </h6>
-          <h6>
-            {homeData}
           </h6>
         </div>
         <div className='extraInfoNavDiv'>
