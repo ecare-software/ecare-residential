@@ -348,7 +348,15 @@ class DailyProgressAndActivity extends Component {
   };
 
   setSignature = (userObj) => {
-    // this.sigCanvas1.fromData(userObj.signature);
+    console.log('is array?', typeof this.props.formData.signature1, this.props.formData.signature1, this.props.formData.signature1.length)
+    console.log('createdate', this.props.formData.createDate < '2024-08-18T00:23:52.160Z')
+    if (this.props.formData.createDate < '2024-08-18T00:23:52.160Z' && this.state.status === 'COMPLETED') {
+      this.sigCanvas1.fromData(userObj.signature);
+      this.setState({
+        signature1: userObj.signature,
+      })
+    }
+    if (this.props.formData.signature1.length > 0) this.sigCanvas1.fromData(this.props.formData.signature1);
     console.log('work', this.props.formData.status === "COMPLETED")
       if (this.state.twoSignaturesRequired && this.props.formData.status === "COMPLETED") {
         this.sigCanvas2.fromData(this.props.formData.signature2)
@@ -367,7 +375,7 @@ class DailyProgressAndActivity extends Component {
   }
 
   setValues = async () => {
-    if (this.props.formData.signature1 !== "") this.sigCanvas1.fromData(this.state.signature1)
+    // this.sigCanvas1.fromData(this.state.signature1)
     const { data: createdUserData } = await GetUserSig(
       this.props.formData.createdBy,
       this.props.userObj.homeId
