@@ -305,6 +305,11 @@ class DailyProgressAndActivity extends Component {
 
   validateForm = async (save) => {
     console.log('save', save)
+    if (save && !this.props.valuesSet) {
+      this.setState({
+        signature1: "",
+      })
+    }
     if (this.state.signature1 === "" && !save) {
       const { data: createdUserData } =
           await GetUserSig(
@@ -343,33 +348,16 @@ class DailyProgressAndActivity extends Component {
   };
 
   setSignature = (userObj) => {
-    console.log('sig2 info', typeof this.state.signature2)
-    // if (userObj.signature && userObj.signature.length) {
-    //   console.log('set sig1', userObj.signature)
-    // console.log('sig1 from canvas', this.sigCanvas1.toData())
-  this.sigCanvas1.fromData(userObj.signature);
-      //  this.setState({
-      //   ...this.state,
-      //    signature1: userObj.signature,
-      //  })
-    //   console.log('test sig 1', this.state.signature1)
-    // }
+    // this.sigCanvas1.fromData(userObj.signature);
     console.log('work', this.props.formData.status === "COMPLETED")
-    // if (this.state.twoSignaturesRequired && this.state.signature2 !== "") {
       if (this.state.twoSignaturesRequired && this.props.formData.status === "COMPLETED") {
-      // if (!this.props.formData.signature2 === undefined || this.props.formData.signature2.length !== 0) {
         this.sigCanvas2.fromData(this.props.formData.signature2)
         console.log('sigcanvas2.toData()', this.sigCanvas2.toData())
         console.log('sigcanvas2', this.sigCanvas2)
-      // }
     }
 
     console.log('sigcanvas1.toData()', this.sigCanvas1.toData())
     console.log('sigcanvas1', this.sigCanvas1)
-    // this.setState({
-    //   signature1: this.sigCanvas1.toData(),
-    // })
-    
   };
 
   componentWillUnmount() {
@@ -379,6 +367,7 @@ class DailyProgressAndActivity extends Component {
   }
 
   setValues = async () => {
+    if (this.props.formData.signature1 !== "") this.sigCanvas1.fromData(this.state.signature1)
     const { data: createdUserData } = await GetUserSig(
       this.props.formData.createdBy,
       this.props.userObj.homeId
@@ -393,7 +382,7 @@ class DailyProgressAndActivity extends Component {
       ...this.props.formData,
       loadingSig: false,
       loadingClients: false,
-      signature1: createdUserData.signature,
+      // signature1: createdUserData.signature,
     });
     console.log('createdUserData', createdUserData)
     console.log('state', this.state)
