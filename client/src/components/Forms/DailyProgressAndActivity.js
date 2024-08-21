@@ -314,12 +314,12 @@ class DailyProgressAndActivity extends Component {
   };
 
   validateForm = async (save) => {
+    const { data: createdUserData } =
+      await GetUserSig(
+        this.props.userObj.email,
+        this.props.userObj.homeId
+      );
     if (this.state.signature1.length === 0 && !save) {
-      const { data: createdUserData } =
-        await GetUserSig(
-          this.props.userObj.email,
-          this.props.userObj.homeId
-        );
       this.setState({
         ...this.state,
         signature1: createdUserData.signature,
@@ -330,11 +330,6 @@ class DailyProgressAndActivity extends Component {
     else if (this.state.twoSignaturesRequired && this.state.signature1.length > 0 && !save) {
       this.sigCanvas1.fromData(this.props.formData.signature1);
       if (this.props.valuesSet) {
-        const { data: createdUserData } =
-          await GetUserSig(
-            this.props.userObj.email,
-            this.props.userObj.homeId
-          );
         this.sigCanvas2.fromData(createdUserData.signature);
         this.setState({
           ...this.state,
@@ -355,6 +350,7 @@ class DailyProgressAndActivity extends Component {
     console.log('createdate before update, status', this.props.formData.createDate < '2024-08-18T00:23:52.160Z', this.props.formData.status)
     console.log('signature1 in setSignature, props: ', this.props.formData.signature1, 'length: ', this.props.formData.signature1.length)
     console.log('signature2 in setSignature, props: ', this.props.formData.signature2, 'length: ', this.props.formData.signature2.length)
+
     if (this.props.formData.createDate < '2024-08-18T00:23:52.160Z' && this.props.formData.status === 'COMPLETED') {
       this.sigCanvas1.fromData(userObj.signature);
       this.setState({
@@ -1586,7 +1582,7 @@ class DailyProgressAndActivity extends Component {
             )}
 
             <div className="sigSection">
-              <div
+              <div id='signature1'
                 style={{ display: this.props.formData.signature1.length > 0 ? 'block' : 'none' }}
               >
                 <label className="control-label">Signature</label>{" "}
@@ -1608,12 +1604,12 @@ class DailyProgressAndActivity extends Component {
                 </div>
               </div>
 
-              <div
+              <div id='signature2'
                 style={{
                   display:
                     (this.props.userObj.homeId === 'home-3' || this.props.userObj.homeId === 'home-1234') && this.props.formData.signature2.length > 0
-                    // remove comment below & add comment out above to test Demo home without two signature requirement
-                    // (this.props.userObj.homeId === 'home-3') && this.props.formData.signature2.length > 0
+                      // remove comment below & add comment out above to test Demo home without two signature requirement
+                      // (this.props.userObj.homeId === 'home-3') && this.props.formData.signature2.length > 0
                       ? 'block' : 'none'
                 }}
               >
