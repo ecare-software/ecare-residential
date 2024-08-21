@@ -77,8 +77,8 @@ class DailyProgressAndActivity extends Component {
       createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
       status: "IN PROGRESS",
       childSelected: false,
-      signature1: "",
-      signature2: "",
+      signature1: [],
+      signature2: [],
       twoSignaturesRequired: false,
     };
   }
@@ -127,15 +127,17 @@ class DailyProgressAndActivity extends Component {
     this.setState(stateObj);
   };
 
+  //TODO add twoSignatureRequired to home API
   doGetHomeInfo = async () => {
     try {
       const { data } = await FetchHomeData(this.props.userObj.homeId);
-      console.log('doGetHomeInfo', data[0])
       if (data[0].homeId === 'home-3' || this.props.userObj.homeId === 'home-1234') this.state.twoSignaturesRequired = true;
+      // remove comment below & add comment out above to test Demo home without two signature requirement
+      // if (data[0].homeId === 'home-3') this.state.twoSignaturesRequired = true;
+      else this.state.twoSignaturesRequired = false;
       return (data)
     } catch (e) {
       console.log("Error fetching home info");
-      // }
     };
   }
 
@@ -245,13 +247,21 @@ class DailyProgressAndActivity extends Component {
   };
 
   submit = async (save) => {
-    console.log('test test', this.state.signature1 !== "")
-    if (this.state.twoSignaturesRequired && this.props.valuesSet && this.state.signature1 !== "" && this.state.signature2 !== "" && !save) {
+    if (this.props.valuesSet) {
+      console.log('signature1 in submit, state:', this.state.signature1, 'props:', this.props.formData.signature1);
+      console.log('signature2 in submit, state:', this.state.signature2, 'props:', this.props.formData.signature2);
+    }
+    else {
+      console.log('signature1 in submit, state:', this.state.signature1);
+      console.log('signature2 in submit, state:', this.state.signature2);
+    }
+
+    if (this.state.twoSignaturesRequired && this.props.valuesSet && this.state.signature1.length > 0 && this.state.signature2.length > 0 && !save) {
       this.state.status = 'COMPLETED'
     }
-    else if (this.state.twoSignaturesRequired === false) {
-      if (!save) this.state.status = "COMPLETED";
-    }
+    else if (!this.state.twoSignaturesRequired && !save) this.state.status = "COMPLETED";
+    console.log('status after submitted', this.state.status)
+
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
     delete currentState.staff;
@@ -304,38 +314,40 @@ class DailyProgressAndActivity extends Component {
   };
 
   validateForm = async (save) => {
-    console.log('save', save)
-    if (save && !this.props.valuesSet) {
-      this.setState({
-        signature1: "",
-      })
-    }
-    if (this.state.signature1 === "" && !save) {
+    if (this.state.signature1.length === 0 && !save) {
       const { data: createdUserData } =
-          await GetUserSig(
-            this.props.userObj.email,
-            this.props.userObj.homeId
-          );
-        console.log('sig1 test AGAIN', createdUserData)
-        this.setState({
-          ...this.state,
-          signature1: createdUserData.signature,
-        })
+        await GetUserSig(
+          this.props.userObj.email,
+          this.props.userObj.homeId
+        );
+      this.setState({
+        ...this.state,
+        signature1: createdUserData.signature,
+      })
+      console.log('this.state.signature1.length === 0 && !save... setting state of sig1')
+      if (this.props.valuesSet) this.sigCanvas1.fromData(createdUserData.signature);
+
     }
-    console.log("TESTTTTTT", this.state.twoSignaturesRequired && this.state.signature1 !== "" && !save && this.props.valuesSet)
-    if (this.state.twoSignaturesRequired && this.state.signature1 !== "" && !save) {
+    // else if (this.state.signature2.length === 0 && !save) {
+    //   this.sigCanvas1.fromData(this.props.formData.signature1);
+    // }
+
+    else if (this.state.twoSignaturesRequired && this.state.signature1.length > 0 && !save) {
+      this.sigCanvas1.fromData(this.props.formData.signature1);
+      console.log('display sig1 from props')
       if (this.props.valuesSet) {
         const { data: createdUserData } =
           await GetUserSig(
             this.props.userObj.email,
             this.props.userObj.homeId
           );
-        console.log('sig2 test', createdUserData)
         this.sigCanvas2.fromData(createdUserData.signature);
+        console.log('display sig2 from createdUserData')
         this.setState({
           ...this.state,
           signature2: createdUserData.signature,
         })
+        console.log('this.state.twoSignaturesRequired && this.state.signature1.length > 0 && !save... setting state of sig2')
       }
     }
 
@@ -348,24 +360,25 @@ class DailyProgressAndActivity extends Component {
   };
 
   setSignature = (userObj) => {
-    console.log('is array?', typeof this.props.formData.signature1, this.props.formData.signature1, this.props.formData.signature1.length)
-    console.log('createdate', this.props.formData.createDate < '2024-08-18T00:23:52.160Z')
-    if (this.props.formData.createDate < '2024-08-18T00:23:52.160Z' && this.state.status === 'COMPLETED') {
+    console.log('createdate before update, status', this.props.formData.createDate < '2024-08-18T00:23:52.160Z', this.props.formData.status)
+    console.log('signature1 in setSignature, props: ', this.props.formData.signature1, 'length: ', this.props.formData.signature1.length)
+    console.log('signature2 in setSignature, props: ', this.props.formData.signature2, 'length: ', this.props.formData.signature2.length)
+    if (this.props.formData.createDate < '2024-08-18T00:23:52.160Z' && this.props.formData.status === 'COMPLETED') {
       this.sigCanvas1.fromData(userObj.signature);
       this.setState({
         signature1: userObj.signature,
       })
     }
-    if (this.props.formData.signature1.length > 0) this.sigCanvas1.fromData(this.props.formData.signature1);
-    console.log('work', this.props.formData.status === "COMPLETED")
-      if (this.state.twoSignaturesRequired && this.props.formData.status === "COMPLETED") {
-        this.sigCanvas2.fromData(this.props.formData.signature2)
-        console.log('sigcanvas2.toData()', this.sigCanvas2.toData())
-        console.log('sigcanvas2', this.sigCanvas2)
+    if (this.props.formData.createDate < '2024-08-18T00:23:52.160Z' && this.props.formData.signature1.length > 0) {
+      this.sigCanvas1.fromData(this.props.formData.signature1);
     }
 
-    console.log('sigcanvas1.toData()', this.sigCanvas1.toData())
-    console.log('sigcanvas1', this.sigCanvas1)
+    if (this.props.formData.signature1.length > 0) {
+      this.sigCanvas1.fromData(this.props.formData.signature1);
+    }
+    if (this.state.twoSignaturesRequired && this.props.formData.status === "COMPLETED") {
+      this.sigCanvas2.fromData(this.props.formData.signature2)
+    }
   };
 
   componentWillUnmount() {
@@ -375,14 +388,11 @@ class DailyProgressAndActivity extends Component {
   }
 
   setValues = async () => {
-    // this.sigCanvas1.fromData(this.state.signature1)
     const { data: createdUserData } = await GetUserSig(
       this.props.formData.createdBy,
       this.props.userObj.homeId
     );
     this.setSignature(createdUserData);
-    // console.log('sig1 from canvas', this.sigCanvas1.toData())
-    console.log('merp')
     this.sigCanvas1.off();
     if (this.state.twoSignaturesRequired = true) this.sigCanvas2.off();
     this.setState({
@@ -390,13 +400,7 @@ class DailyProgressAndActivity extends Component {
       ...this.props.formData,
       loadingSig: false,
       loadingClients: false,
-      // signature1: createdUserData.signature,
     });
-    console.log('createdUserData', createdUserData)
-    console.log('state', this.state)
-    console.log('props', this.props.formData)
-    console.log('sig1 in setValues on load', this.state.signature1 !== "")
-    console.log('sig2 in setValues on load', this.state.signature2 !== "")
   };
 
   getClients = async () => {
@@ -423,15 +427,9 @@ class DailyProgressAndActivity extends Component {
   };
 
   async componentDidMount() {
-    console.log('typeof', typeof this.state.signature1)
-    console.log('value of sig1', this.state.signature1.valueOf())
-    console.log('sig1 empty string', this.state.signature1 === "")
-    console.log('sig1 is string', typeof this.state.signature1 === "string")
     if (this.props.valuesSet) {
       this.setValues();
-      console.log('set values')
     } else {
-      console.log('dont set values')
       await this.getClients();
       interval = setInterval(() => {
         this.autoSave();
@@ -1595,59 +1593,53 @@ class DailyProgressAndActivity extends Component {
               </Container>
             )}
 
-            <div className="sigSection"
-            // style={{ display: this.state.status === 'IN PROGRESS' && (this.state.twoSignaturesRequired === false || this.state.signature1.length === 0) ? 'block' : 'none' }}
-            // style={{ display: this.state.status === 'IN PROGRESS' ? 'none' : 'block' }}
-            >
-              
-              <div id='sigCanvasDiv'
-              // style={{ display: 
-              //   (this.state.status === 'IN PROGRESS' && this.state.twoSignaturesRequired === false) 
-              //   || 
-              //   (this.state.twoSignaturesRequired && (this.props.formData.signature1 === undefined)) 
-              //     ? 'none' : 'block' }}
+            <div className="sigSection">
+              <div
+                style={{ display: this.props.formData.signature1.length > 0 ? 'block' : 'none' }}
               >
-                <label className="control-label">Signature #1</label>{" "}
+                <label className="control-label">Signature</label>{" "}
                 <div id='sigCanvasDiv'>
-                <SignatureCanvas
-                  ref={(ref) => {
-                    this.sigCanvas1 = ref;
-                  }}
-                  style={{ border: "solid" }}
-                  penColor="black"
-                  clearOnResize={false}
-                  canvasProps={{
-                    width: 300,
-                    height: 100,
-                    className: "sigCanvas1",
-                  }}
-                  backgroundColor="#eeee"
-                />
+                  <SignatureCanvas
+                    ref={(ref) => {
+                      this.sigCanvas1 = ref;
+                    }}
+                    style={{ border: "solid" }}
+                    penColor="black"
+                    clearOnResize={false}
+                    canvasProps={{
+                      width: 300,
+                      height: 100,
+                      className: "sigCanvas1",
+                    }}
+                    backgroundColor="#eeee"
+                  />
+                </div>
               </div>
-              </div>
-              
-              <div id='sigCanvasDiv'
-              // style={{ display: 
-              //   this.state.twoSignaturesRequired === true && this.state.status === 'COMPLETED' 
-              //   ? 'block' : 'none'}}
+
+              <div
+                style={{
+                  display:
+                    (this.props.userObj.homeId === 'home-3' || this.props.userObj.homeId === 'home-1234') && this.props.formData.signature2.length > 0
+                      ? 'block' : 'none'
+                }}
               >
-                <label className="control-label">Signature #2</label>{" "}
+                <label className="control-label">Signature</label>{" "}
                 <div id='sigCanvasDiv'>
-                <SignatureCanvas
-                  ref={(ref) => {
-                    this.sigCanvas2 = ref;
-                  }}
-                  style={{ border: "solid" }}
-                  penColor="black"
-                  clearOnResize={false}
-                  canvasProps={{
-                    width: 300,
-                    height: 100,
-                    className: "sigCanvas2",
-                  }}
-                  backgroundColor="#eeee"
-                />
-              </div>
+                  <SignatureCanvas
+                    ref={(ref) => {
+                      this.sigCanvas2 = ref;
+                    }}
+                    style={{ border: "solid" }}
+                    penColor="black"
+                    clearOnResize={false}
+                    canvasProps={{
+                      width: 300,
+                      height: 100,
+                      className: "sigCanvas2",
+                    }}
+                    backgroundColor="#eeee"
+                  />
+                </div>
               </div>
             </div>
             {!this.props.formData.approved && (
@@ -1659,7 +1651,7 @@ class DailyProgressAndActivity extends Component {
                       className="lightBtn hide hide-on-print save-submit-btn"
                       style={{
                         width: "100%",
-                        // display: this.state.status === 'COMPLETED' ? "none" : "block",
+                        display: this.state.status === 'COMPLETED' ? "none" : "block",
                       }}
                       onClick={() => {
                         this.validateForm(true);
