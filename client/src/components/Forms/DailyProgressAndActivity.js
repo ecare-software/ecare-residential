@@ -324,17 +324,11 @@ class DailyProgressAndActivity extends Component {
         ...this.state,
         signature1: createdUserData.signature,
       })
-      console.log('this.state.signature1.length === 0 && !save... setting state of sig1')
       if (this.props.valuesSet) this.sigCanvas1.fromData(createdUserData.signature);
-
     }
-    // else if (this.state.signature2.length === 0 && !save) {
-    //   this.sigCanvas1.fromData(this.props.formData.signature1);
-    // }
 
     else if (this.state.twoSignaturesRequired && this.state.signature1.length > 0 && !save) {
       this.sigCanvas1.fromData(this.props.formData.signature1);
-      console.log('display sig1 from props')
       if (this.props.valuesSet) {
         const { data: createdUserData } =
           await GetUserSig(
@@ -342,12 +336,10 @@ class DailyProgressAndActivity extends Component {
             this.props.userObj.homeId
           );
         this.sigCanvas2.fromData(createdUserData.signature);
-        console.log('display sig2 from createdUserData')
         this.setState({
           ...this.state,
           signature2: createdUserData.signature,
         })
-        console.log('this.state.twoSignaturesRequired && this.state.signature1.length > 0 && !save... setting state of sig2')
       }
     }
 
@@ -1620,6 +1612,8 @@ class DailyProgressAndActivity extends Component {
                 style={{
                   display:
                     (this.props.userObj.homeId === 'home-3' || this.props.userObj.homeId === 'home-1234') && this.props.formData.signature2.length > 0
+                    // remove comment below & add comment out above to test Demo home without two signature requirement
+                    // (this.props.userObj.homeId === 'home-3') && this.props.formData.signature2.length > 0
                       ? 'block' : 'none'
                 }}
               >
