@@ -229,7 +229,7 @@ class FormSubmitterListContainer extends Component {
                 <tbody>
                   <tr>
                   {(this.state.formType === "Daily Activity" && (this.state.userObj.homeId === 'home-3' || this.state.userObj.homeId === 'home-1234')) && (
-                    <td style={{color: form.signature1 !== undefined && form.status === "IN PROGRESS" ? "red" : "black"}}>
+                    <td style={{color: form.signature1.length > 0 && form.status === "IN PROGRESS" ? "red" : "black"}}>
                     {/* <td style={{color: "red"}}> */}
                       {(form.status === "" || !form.status) ? "IN PROGRESS" : form.status}
                     </td>
