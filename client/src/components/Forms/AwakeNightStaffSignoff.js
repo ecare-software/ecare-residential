@@ -457,7 +457,7 @@ class AwakeNightStaffSignoff extends Component {
                     md="6"
                     className="control-label d-flex align-items-center justify-content-center"
                   >
-                    <label>8:00pm- 8:15pm!</label>
+                    <label>8:00pm- 8:15pm</label>
                   </Col>
                   <Col md="6" className="control-label text-center">
                     {this.state.ts1Approval ? (
