@@ -174,19 +174,37 @@ export class FormReports extends Component {
     });
   };
 
+  //HERE!//
   setFormsData = (results) => {
     var data = results.map((res) => res.data);
-    if (!isAdminUser(this.props.userObj)) {
+    console.log('data:', data)
+    // if (!isAdminUser(this.props.userObj)) {
+   // if user is NOT an admin, only show forms they created
+   // UNLESS the user's home = 'RIGHT AT HOME' and the formType = 'Daily Activity'
+  //  data = data.reduce((acc, cur) => {
+  //   const formHasUserArray = cur.filter((formType) => {
+
+
+    // if (!isAdminUser(this.props.userObj)) {
       data = data.reduce((acc, cur) => {
+        console.log('acc - ', acc)
+        console.log('cur - ', cur)
+        // if not home-1234 & daily progress
+        // if (cur)
         const formHasUserArray = cur.filter((formType) => {
-          return formType.createdBy === this.props.userObj.email;
+            return formType.createdBy === this.props.userObj.email;
         });
-        if (formHasUserArray.length > 0) {
+        console.log('formhasuserarray', formHasUserArray)
+        if (this.props.userObj.homeId === 'home-1234' && cur[0].formType === 'Daily Progress') acc.push(cur)
+        else if (formHasUserArray.length > 0) {
           acc.push(formHasUserArray);
         }
+        console.log('formhasuserarray final', formHasUserArray)
         return acc;
       }, []);
-    }
+    // }
+    
+    
 
     if (data.length === 0) {
       this.setState({ isLoading: false });
@@ -240,6 +258,7 @@ export class FormReports extends Component {
         this.setState({ isLoading: false });
       }
     });
+    console.log('test', this.state.forms)
   };
 
   getForms = () => {
