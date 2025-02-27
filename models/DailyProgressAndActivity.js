@@ -180,6 +180,15 @@ const DailyProgressAndActivitySchema = new Schema({
   status: {
     type: String,
   },
+  signature1: {
+    type: Array,
+  },
+  signature2: {
+    type: Array,
+  },
+  twoSignaturesRequired: {
+    type: Boolean,
+  },
 });
 
 module.exports = DailyProgressAndActivity = mongoose.model(

@@ -24,9 +24,10 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
         method: "GET",
       });
       getAllUsers();
-      setUsers(data);
-      setActiveUsers(data.filter((user) => user.isActive));
-      setInactiveUsers(data.filter((user) => !user.isActive));
+      const sortedData = data.sort((a, b) => a.index - b.index); // Sort by index
+      setUsers(sortedData);
+      setActiveUsers(sortedData.filter((user) => user.isActive));
+      setInactiveUsers(sortedData.filter((user) => !user.isActive));
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -39,16 +40,14 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const openNewPassword = (index) => {
-    if (resetting === index) {
-      setResetting(-1);
-      setNewPassword("");
-      setNewPassword2("");
+  const openNewPassword = (user) => {
+    if (resetting === user._id) {
+      setResetting(null);
     } else {
-      setResetting(index);
-      setNewPassword("");
-      setNewPassword2("");
+      setResetting(user._id);
     }
+    setNewPassword("");
+    setNewPassword2("");
   };
 
   const toggleCreatedPassword = async () => {
@@ -144,6 +143,7 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
                       )}
                       {activeUsers.map((item, index) => (
                         <tr key={index + "-" + "user"}>
+                          {/* {console.log('index of tr:', item, '  ', index)} */}
                           <td style={{ width: 5 }}>
                             <UpdateUser
                               id={item._id}
@@ -177,9 +177,10 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
                           <td style={{ width: 5 }}>
                             <button
                               className="btn btn-light extraInfoButton"
-                              onClick={() =>
-                                setShowPasswordModal(true, setResetting(index))
-                              }
+                              onClick={() => {
+                                setShowPasswordModal(true);
+                                openNewPassword(item);
+                              }}
                             >
                               Reset Password
                             </button>
@@ -189,7 +190,7 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
                     </tbody>
                   </Table>
                 </Tab.Pane>
-                <Tab.Pane eventKey="inactive-users">
+                <Tab.Pane eventKey="inactive-users"  style={{ backgroundColor: "white" }}>
                   <Table>
                     <thead>
                       <tr>
@@ -241,9 +242,10 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
                           <td style={{ width: 5 }}>
                             <button
                               className="btn btn-light extraInfoButton"
-                              onClick={() =>
-                                setShowPasswordModal(true, setResetting(index))
-                              }
+                              onClick={() => {
+                                setShowPasswordModal(true);
+                                openNewPassword(item);
+                              }}
                             >
                               Reset Password
                             </button>
@@ -270,12 +272,12 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
       >
         <Modal.Header closeButton style={{ backgroundColor: "#fff" }}>
           <Modal.Title style={{ backgroundColor: "#fff" }}>
-            Reset Password for {users[resetting]?.firstName}{" "}
-            {users[resetting]?.lastName}
+          Reset Password for {users.find(user => user._id === resetting)?.firstName}{" "}
+      {users.find(user => user._id === resetting)?.lastName}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ backgroundColor: "#fff" }}>
-          <div className={resetting !== -1 ? "flexNewPassword row" : "hideIt"}>
+          <div className={resetting !== null ? "flexNewPassword row" : "hideIt"}>
             <div className="form-group" style={{ margin: "5px" }}>
               <label className="control-label">New Password</label>
               <input
@@ -283,6 +285,8 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
                 className="form-control"
                 id={"password-" + resetting}
                 type="password"
+                value={newPassword} 
+                autoComplete="new-password" // Prevent autofill
               />
             </div>
             <div className="form-group" style={{ margin: "5px" }}>
@@ -292,19 +296,21 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
                 id={"reenterpassword-" + resetting}
                 className="form-control"
                 type="password"
+                value={newPassword2} // Set value to newPassword2 state
+                autoComplete="new-password" // Prevent autofill
               />
             </div>
           </div>
         </Modal.Body>
         <Modal.Footer style={{ backgroundColor: "#fff" }}>
           <button
-            onClick={() => saveNewPassword(users[resetting]?._id, resetting)}
+             onClick={() => saveNewPassword(resetting)}
             className="btn btn-default"
           >
             Save
           </button>
           <button
-            onClick={() => setShowPasswordModal(false, setResetting(-1))}
+            onClick={() => setShowPasswordModal(false, setResetting(null))}
             className="btn btn-default"
           >
             Cancel

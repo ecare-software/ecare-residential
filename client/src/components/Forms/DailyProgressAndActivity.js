@@ -13,6 +13,8 @@ import { FormSavedAlert } from "../../utils/FormSavedAlert";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 import TextareaAutosize from "react-textarea-autosize";
 import { Container, Row, Col } from "react-bootstrap";
+import { FetchHomeData } from "../../utils/FetchHomeData";
+
 
 /*
   missing from form
@@ -75,6 +77,9 @@ class DailyProgressAndActivity extends Component {
       createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
       status: "IN PROGRESS",
       childSelected: false,
+      signature1: [],
+      signature2: [],
+      twoSignaturesRequired: false,
     };
   }
 
@@ -122,6 +127,19 @@ class DailyProgressAndActivity extends Component {
     this.setState(stateObj);
   };
 
+  //TODO add twoSignatureRequired to home API
+  doGetHomeInfo = async () => {
+    try {
+      const { data } = await FetchHomeData(this.props.userObj.homeId);
+      if (data[0].homeId === 'home-3' || this.props.userObj.homeId === 'home-1234') this.state.twoSignaturesRequired = true;
+      // remove comment below & add comment out above to test Demo home without two signature requirement
+      // if (data[0].homeId === 'home-3') this.state.twoSignaturesRequired = true;
+      else this.state.twoSignaturesRequired = false;
+      return (data)
+    } catch (e) {
+      console.log("Error fetching home info");
+    };
+  }
 
   resetForm = () => {
     this.setState({
@@ -229,7 +247,21 @@ class DailyProgressAndActivity extends Component {
   };
 
   submit = async (save) => {
-    if (!save) this.state.status = "COMPLETED";
+    if (this.props.valuesSet) {
+      console.log('signature1 in submit, state:', this.state.signature1, 'props:', this.props.formData.signature1);
+      console.log('signature2 in submit, state:', this.state.signature2, 'props:', this.props.formData.signature2);
+    }
+    else {
+      console.log('signature1 in submit, state:', this.state.signature1);
+      console.log('signature2 in submit, state:', this.state.signature2);
+    }
+
+    if (this.state.twoSignaturesRequired && this.props.valuesSet && this.state.signature1.length > 0 && this.state.signature2.length > 0 && !save) {
+      this.state.status = 'COMPLETED'
+    }
+    else if (!this.state.twoSignaturesRequired && !save) this.state.status = "COMPLETED";
+    console.log('status after submitted', this.state.status)
+
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
     delete currentState.staff;
@@ -282,6 +314,30 @@ class DailyProgressAndActivity extends Component {
   };
 
   validateForm = async (save) => {
+    const { data: createdUserData } =
+      await GetUserSig(
+        this.props.userObj.email,
+        this.props.userObj.homeId
+      );
+    if (this.state.signature1.length === 0 && !save) {
+      this.setState({
+        ...this.state,
+        signature1: createdUserData.signature,
+      })
+      if (this.props.valuesSet) this.sigCanvas1.fromData(createdUserData.signature);
+    }
+
+    else if (this.state.twoSignaturesRequired && this.state.signature1.length > 0 && !save) {
+      this.sigCanvas1.fromData(this.props.formData.signature1);
+      if (this.props.valuesSet) {
+        this.sigCanvas2.fromData(createdUserData.signature);
+        this.setState({
+          ...this.state,
+          signature2: createdUserData.signature,
+        })
+      }
+    }
+
     this.setState({
       ...this.state,
       loadingClients: true,
@@ -291,8 +347,25 @@ class DailyProgressAndActivity extends Component {
   };
 
   setSignature = (userObj) => {
-    if (userObj.signature && userObj.signature.length) {
-      this.sigCanvas.fromData(userObj.signature);
+    console.log('createdate before update, status', this.props.formData.createDate < '2024-08-18T00:23:52.160Z', this.props.formData.status)
+    console.log('signature1 in setSignature, props: ', this.props.formData.signature1, 'length: ', this.props.formData.signature1.length)
+    console.log('signature2 in setSignature, props: ', this.props.formData.signature2, 'length: ', this.props.formData.signature2.length)
+
+    if (this.props.formData.createDate < '2024-08-18T00:23:52.160Z' && this.props.formData.status === 'COMPLETED') {
+      this.sigCanvas1.fromData(userObj.signature);
+      this.setState({
+        signature1: userObj.signature,
+      })
+    }
+    if (this.props.formData.createDate < '2024-08-18T00:23:52.160Z' && this.props.formData.signature1.length > 0) {
+      this.sigCanvas1.fromData(this.props.formData.signature1);
+    }
+
+    if (this.props.formData.signature1.length > 0) {
+      this.sigCanvas1.fromData(this.props.formData.signature1);
+    }
+    if (this.state.twoSignaturesRequired && this.props.formData.status === "COMPLETED") {
+      this.sigCanvas2.fromData(this.props.formData.signature2)
     }
   };
 
@@ -308,7 +381,8 @@ class DailyProgressAndActivity extends Component {
       this.props.userObj.homeId
     );
     this.setSignature(createdUserData);
-    this.sigCanvas.off();
+    this.sigCanvas1.off();
+    if (this.state.twoSignaturesRequired = true) this.sigCanvas2.off();
     this.setState({
       ...this.state,
       ...this.props.formData,
@@ -373,6 +447,7 @@ class DailyProgressAndActivity extends Component {
   };
 
   render() {
+    this.doGetHomeInfo();
     if (!this.props.valuesSet) {
       return (
         <div className="formComp">
@@ -959,6 +1034,7 @@ class DailyProgressAndActivity extends Component {
                 </div>
 
 
+
               </Row>
 
             </Container>
@@ -1505,25 +1581,55 @@ class DailyProgressAndActivity extends Component {
               </Container>
             )}
 
-            <div className="sigSection"
-              style={{ display: this.state.status === 'IN PROGRESS' ? 'none' : 'block' }}
-            >
-              <label className="control-label">Signature</label>{" "}
-              <div id='sigCanvasDiv'>
-                <SignatureCanvas
-                  ref={(ref) => {
-                    this.sigCanvas = ref;
-                  }}
-                  style={{ border: "solid" }}
-                  penColor="black"
-                  clearOnResize={false}
-                  canvasProps={{
-                    width: 300,
-                    height: 100,
-                    className: "sigCanvas",
-                  }}
-                  backgroundColor="#eeee"
-                />
+            <div className="sigSection">
+              <div id='signature1'
+                style={{ display: this.props.formData.signature1.length > 0 ? 'block' : 'none' }}
+              >
+                <label className="control-label">Signature</label>{" "}
+                <div id='sigCanvasDiv'>
+                  <SignatureCanvas
+                    ref={(ref) => {
+                      this.sigCanvas1 = ref;
+                    }}
+                    style={{ border: "solid" }}
+                    penColor="black"
+                    clearOnResize={false}
+                    canvasProps={{
+                      width: 300,
+                      height: 100,
+                      className: "sigCanvas1",
+                    }}
+                    backgroundColor="#eeee"
+                  />
+                </div>
+              </div>
+
+              <div id='signature2'
+                style={{
+                  display:
+                    (this.props.userObj.homeId === 'home-3' || this.props.userObj.homeId === 'home-1234') && this.props.formData.signature2.length > 0
+                      // remove comment below & add comment out above to test Demo home without two signature requirement
+                      // (this.props.userObj.homeId === 'home-3') && this.props.formData.signature2.length > 0
+                      ? 'block' : 'none'
+                }}
+              >
+                <label className="control-label">Signature</label>{" "}
+                <div id='sigCanvasDiv'>
+                  <SignatureCanvas
+                    ref={(ref) => {
+                      this.sigCanvas2 = ref;
+                    }}
+                    style={{ border: "solid" }}
+                    penColor="black"
+                    clearOnResize={false}
+                    canvasProps={{
+                      width: 300,
+                      height: 100,
+                      className: "sigCanvas2",
+                    }}
+                    backgroundColor="#eeee"
+                  />
+                </div>
               </div>
             </div>
             {!this.props.formData.approved && (
@@ -1556,6 +1662,7 @@ class DailyProgressAndActivity extends Component {
                       Submit
                     </button>
                   </div>
+
                 </Row>
               </>
             )}
