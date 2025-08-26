@@ -46,6 +46,12 @@ const AwakeNightStaffSignoffSchema = new Schema({
   ts42Approval: { type: Boolean, default: false },
   ts43Approval: { type: Boolean, default: false },
   ts44Approval: { type: Boolean, default: false },
+  ts45Approval: { type: Boolean, default: false },
+  ts46Approval: { type: Boolean, default: false },
+  ts47Approval: { type: Boolean, default: false },
+  ts48Approval: { type: Boolean, default: false },
+  ts49Approval: { type: Boolean, default: false },
+  ts50Approval: { type: Boolean, default: false },
   createdBy: {
     type: String,
     required: false,

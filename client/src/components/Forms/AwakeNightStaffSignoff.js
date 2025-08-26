@@ -60,6 +60,12 @@ class AwakeNightStaffSignoff extends Component {
       ts42Approval: false,
       ts43Approval: false,
       ts44Approval: false,
+      ts45Approval: false,
+      ts46Approval: false,
+      ts47Approval: false,
+      ts48Approval: false,
+      ts49Approval: false,
+      ts50Approval: false,
 
       sigCanvas1: null,
       sigCanvas2: null,
@@ -105,6 +111,12 @@ class AwakeNightStaffSignoff extends Component {
       sigCanvas42: null,
       sigCanvas43: null,
       sigCanvas44: null,
+      sigCanvas45: null,
+      sigCanvas46: null,
+      sigCanvas47: null,
+      sigCanvas48: null,
+      sigCanvas49: null,
+      sigCanvas50: null,
 
       createdBy: this.props.valuesSet === true ? "" : this.props.userObj.email,
 
@@ -219,6 +231,12 @@ class AwakeNightStaffSignoff extends Component {
       ts42Approval: false,
       ts43Approval: false,
       ts44Approval: false,
+      ts45Approval: false,
+      ts46Approval: false,
+      ts47Approval: false,
+      ts48Approval: false,
+      ts49Approval: false,
+      ts50Approval: false,
       status: "IN PROGRESS",
       createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
     });
@@ -351,12 +369,14 @@ class AwakeNightStaffSignoff extends Component {
   };
 
   setSignatures = async (email, homeId) => {
-    let i = 44;
+    let i = 50;
     const { data: userSig } = await GetUserSig(email, homeId);
     if (userSig.signature) {
       for (let x = 1; x <= i; x++) {
-        this[`sigCanvas${x}`].fromData(userSig.signature);
-        this[`sigCanvas${x}`].off();
+        if (this[`sigCanvas${x}`]) {
+          this[`sigCanvas${x}`].fromData(userSig.signature);
+          this[`sigCanvas${x}`].off();
+        }
       }
     }
     this.setState({
@@ -367,15 +387,17 @@ class AwakeNightStaffSignoff extends Component {
   };
 
   setValues = async () => {
-    let i = 44;
+    let i = 50;
     const { data: createdUserData } = await GetUserSig(
       this.props.formData.createdBy,
       this.props.userObj.homeId
     );
     if (createdUserData.signature) {
       for (let x = 1; x <= i; x++) {
-        this[`sigCanvas${x}`].fromData(createdUserData.signature);
-        this[`sigCanvas${x}`].off();
+        if (this[`sigCanvas${x}`]) {
+          this[`sigCanvas${x}`].fromData(createdUserData.signature);
+          this[`sigCanvas${x}`].off();
+        }
       }
     }
 
@@ -457,7 +479,7 @@ class AwakeNightStaffSignoff extends Component {
                     md="6"
                     className="control-label d-flex align-items-center justify-content-center"
                   >
-                    <label>8:00pm- 8:15pm!</label>
+                    <label>8:00pm- 8:15pm</label>
                   </Col>
                   <Col md="6" className="control-label text-center">
                     {this.state.ts1Approval ? (
@@ -3301,6 +3323,133 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
             </Row>
 
+            <Row>
+              <Col xs={6}>
+                <Row>
+                  <Col
+                    md="6"
+                    className="control-label d-flex align-items-center justify-content-center"
+                  >
+                    <label>8:00am - 8:15am</label>
+                  </Col>
+                  <Col md="6" className="control-label text-center">
+                    {this.state.ts49Approval ? (
+                      <div className="mb-2 d-flex align-items-center">
+                        {
+                          <a
+                            href="javascript:void(0)"
+                            className="hide-on-print"
+                            onClick={() => {
+                              this.clearFieldInput("ts49Approval");
+                            }}
+                          >
+                            Signed. Remove signature?
+                          </a>
+                        }
+                      </div>
+                    ) : (
+                      <Form.Check
+                        type="checkbox"
+                        id="ts49Approval"
+                        className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
+                        label={
+                          this.props.valuesSet
+                            ? "Not Completed or Signed"
+                            : "Click to sign"
+                        }
+                        onClick={this.handleFieldInput}
+                      />
+                    )}
+                  </Col>
+                  <div
+                    style={{
+                      display: "flex",
+                      height: "50px",
+                      paddingLeft: "15px",
+                      visibility: this.state.ts49Approval ? "visible" : "hidden",
+                    }}
+                  >
+                    <SignatureCanvas
+                      ref={(ref) => {
+                        this.sigCanvas49 = ref;
+                      }}
+                      style={{ border: "solid" }}
+                      penColor="black"
+                      clearOnResize={false}
+                      canvasProps={{
+                        width: 300,
+                        height: 100,
+                        className: "sigCanvas",
+                      }}
+                      backgroundColor="#eeee"
+                    />
+                  </div>
+                </Row>
+              </Col>
+              <Col xs={6}>
+                <Row>
+                  <Col
+                    md="6"
+                    className="control-label d-flex align-items-center justify-content-center"
+                  >
+                    <label>8:15am - 8:30am</label>
+                  </Col>
+                  <Col md="6" className="control-label text-center">
+                    {this.state.ts50Approval ? (
+                      <div className="mb-2 d-flex align-items-center">
+                        {
+                          <a
+                            href="javascript:void(0)"
+                            className="hide-on-print"
+                            onClick={() => {
+                              this.clearFieldInput("ts50Approval");
+                            }}
+                          >
+                            Signed. Remove signature?
+                          </a>
+                        }
+                      </div>
+                    ) : (
+                      <Form.Check
+                        type="checkbox"
+                        id="ts50Approval"
+                        className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
+                        label={
+                          this.props.valuesSet
+                            ? "Not Completed or Signed"
+                            : "Click to sign"
+                        }
+                        onClick={this.handleFieldInput}
+                      />
+                    )}
+                  </Col>
+                  <div
+                    style={{
+                      display: "flex",
+                      height: "50px",
+                      paddingLeft: "15px",
+                      visibility: this.state.ts50Approval ? "visible" : "hidden",
+                    }}
+                  >
+                    <SignatureCanvas
+                      ref={(ref) => {
+                        this.sigCanvas50 = ref;
+                      }}
+                      style={{ border: "solid" }}
+                      penColor="black"
+                      clearOnResize={false}
+                      canvasProps={{
+                        width: 300,
+                        height: 100,
+                        className: "sigCanvas",
+                      }}
+                      backgroundColor="#eeee"
+                    />
+                  </div>
+                </Row>
+              </Col>
+            </Row>
+
             <FormError errorId={this.props.id + "-error"} />
 
             <Row className="save-submit-row" style={{ paddingTop: "20px" }}>
@@ -3470,11 +3619,11 @@ class AwakeNightStaffSignoff extends Component {
                     )}
                   </Col>
                   <div
-                    style={{ 
+                    style={{
                       display: "flex",
                       height: "50px",
                       paddingLeft: "60px",
-                      visibility: this.state.ts1Approval ? "visible" : "hidden", 
+                      visibility: this.state.ts1Approval ? "visible" : "hidden",
                     }}
                   >
                     <SignatureCanvas
@@ -6103,6 +6252,7 @@ class AwakeNightStaffSignoff extends Component {
               </Col>
             </Row>
 
+            {/* {extend} */}
             <Row>
               <Col xs={6}>
                 <Row>
@@ -6218,6 +6368,399 @@ class AwakeNightStaffSignoff extends Component {
                     <SignatureCanvas
                       ref={(ref) => {
                         this.sigCanvas44 = ref;
+                      }}
+                      style={{ border: "solid" }}
+                      penColor="black"
+                      clearOnResize={false}
+                      canvasProps={{
+                        width: 300,
+                        height: 100,
+                        className: "sigCanvas",
+                      }}
+                      backgroundColor="#eeee"
+                    />
+                  </div>
+                </Row>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col xs={6}>
+                <Row>
+                  <Col
+                    md="6"
+                    className="control-label d-flex align-items-center justify-content-center"
+                  >
+                    <label>7:00am - 7:15am</label>
+                  </Col>
+                  <Col md="6" className="control-label text-center">
+                    {this.state.ts45Approval ? (
+                      <div className="mb-2 d-flex align-items-center">
+                        {
+                          <a
+                            href="javascript:void(0)"
+                            className="hide-on-print"
+                            onClick={() => {
+                              this.clearFieldInput("ts45Approval");
+                            }}
+                          >
+                            Signed. Remove signature?
+                          </a>
+                        }
+                      </div>
+                    ) : (
+                      <Form.Check
+                        type="checkbox"
+                        id="ts45Approval"
+                        className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
+                        label={
+                          this.props.valuesSet
+                            ? "Not Completed or Signed"
+                            : "Click to sign"
+                        }
+                        onClick={this.handleFieldInput}
+                      />
+                    )}
+                  </Col>
+                  <div
+                    style={{
+                      display: "flex",
+                      height: "50px",
+                      paddingLeft: "60px",
+                      visibility: this.state.ts45Approval
+                        ? "visible"
+                        : "hidden",
+                    }}
+                  >
+                    <SignatureCanvas
+                      ref={(ref) => {
+                        this.sigCanvas45 = ref;
+                      }}
+                      style={{ border: "solid" }}
+                      penColor="black"
+                      clearOnResize={false}
+                      canvasProps={{
+                        width: 300,
+                        height: 100,
+                        className: "sigCanvas",
+                      }}
+                      backgroundColor="#eeee"
+                    />
+                  </div>
+                </Row>
+              </Col>
+              <Col xs={6}>
+                <Row>
+                  <Col
+                    md="6"
+                    className="control-label d-flex align-items-center justify-content-center"
+                  >
+                    <label>7:15am - 7:30am</label>
+                  </Col>
+                  <Col md="6" className="control-label text-center">
+                    {this.state.ts46Approval ? (
+                      <div className="mb-2 d-flex align-items-center">
+                        {
+                          <a
+                            href="javascript:void(0)"
+                            className="hide-on-print"
+                            onClick={() => {
+                              this.clearFieldInput("ts46Approval");
+                            }}
+                          >
+                            Signed. Remove signature?
+                          </a>
+                        }
+                      </div>
+                    ) : (
+                      <Form.Check
+                        type="checkbox"
+                        id="ts46Approval"
+                        className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
+                        label={
+                          this.props.valuesSet
+                            ? "Not Completed or Signed"
+                            : "Click to sign"
+                        }
+                        onClick={this.handleFieldInput}
+                      />
+                    )}
+                  </Col>
+                  <div
+                    style={{
+                      display: "flex",
+                      height: "50px",
+                      paddingLeft: "60px",
+                      visibility: this.state.ts46Approval
+                        ? "visible"
+                        : "hidden",
+                    }}
+                  >
+                    <SignatureCanvas
+                      ref={(ref) => {
+                        this.sigCanvas46 = ref;
+                      }}
+                      style={{ border: "solid" }}
+                      penColor="black"
+                      clearOnResize={false}
+                      canvasProps={{
+                        width: 300,
+                        height: 100,
+                        className: "sigCanvas",
+                      }}
+                      backgroundColor="#eeee"
+                    />
+                  </div>
+                </Row>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col xs={6}>
+                <Row>
+                  <Col
+                    md="6"
+                    className="control-label d-flex align-items-center justify-content-center"
+                  >
+                    <label>7:30am - 7:45am</label>
+                  </Col>
+                  <Col md="6" className="control-label text-center">
+                    {this.state.ts47Approval ? (
+                      <div className="mb-2 d-flex align-items-center">
+                        {
+                          <a
+                            href="javascript:void(0)"
+                            className="hide-on-print"
+                            onClick={() => {
+                              this.clearFieldInput("ts47Approval");
+                            }}
+                          >
+                            Signed. Remove signature?
+                          </a>
+                        }
+                      </div>
+                    ) : (
+                      <Form.Check
+                        type="checkbox"
+                        id="ts47Approval"
+                        className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
+                        label={
+                          this.props.valuesSet
+                            ? "Not Completed or Signed"
+                            : "Click to sign"
+                        }
+                        onClick={this.handleFieldInput}
+                      />
+                    )}
+                  </Col>
+                  <div
+                    style={{
+                      display: "flex",
+                      height: "50px",
+                      paddingLeft: "60px",
+                      visibility: this.state.ts47Approval
+                        ? "visible"
+                        : "hidden",
+                    }}
+                  >
+                    <SignatureCanvas
+                      ref={(ref) => {
+                        this.sigCanvas47 = ref;
+                      }}
+                      style={{ border: "solid" }}
+                      penColor="black"
+                      clearOnResize={false}
+                      canvasProps={{
+                        width: 300,
+                        height: 100,
+                        className: "sigCanvas",
+                      }}
+                      backgroundColor="#eeee"
+                    />
+                  </div>
+                </Row>
+              </Col>
+              <Col xs={6}>
+                <Row>
+                  <Col
+                    md="6"
+                    className="control-label d-flex align-items-center justify-content-center"
+                  >
+                    <label>7:45am - 8:00am</label>
+                  </Col>
+                  <Col md="6" className="control-label text-center">
+                    {this.state.ts48Approval ? (
+                      <div className="mb-2 d-flex align-items-center">
+                        {
+                          <a
+                            href="javascript:void(0)"
+                            className="hide-on-print"
+                            onClick={() => {
+                              this.clearFieldInput("ts48Approval");
+                            }}
+                          >
+                            Signed. Remove signature?
+                          </a>
+                        }
+                      </div>
+                    ) : (
+                      <Form.Check
+                        type="checkbox"
+                        id="ts48Approval"
+                        className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
+                        label={
+                          this.props.valuesSet
+                            ? "Not Completed or Signed"
+                            : "Click to sign"
+                        }
+                        onClick={this.handleFieldInput}
+                      />
+                    )}
+                  </Col>
+                  <div
+                    style={{
+                      display: "flex",
+                      height: "50px",
+                      paddingLeft: "60px",
+                      visibility: this.state.ts48Approval
+                        ? "visible"
+                        : "hidden",
+                    }}
+                  >
+                    <SignatureCanvas
+                      ref={(ref) => {
+                        this.sigCanvas48 = ref;
+                      }}
+                      style={{ border: "solid" }}
+                      penColor="black"
+                      clearOnResize={false}
+                      canvasProps={{
+                        width: 300,
+                        height: 100,
+                        className: "sigCanvas",
+                      }}
+                      backgroundColor="#eeee"
+                    />
+                  </div>
+                </Row>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col xs={6}>
+                <Row>
+                  <Col
+                    md="6"
+                    className="control-label d-flex align-items-center justify-content-center"
+                  >
+                    <label>8:00am - 8:15am</label>
+                  </Col>
+                  <Col md="6" className="control-label text-center">
+                    {this.state.ts49Approval ? (
+                      <div className="mb-2 d-flex align-items-center">
+                        {
+                          <a
+                            href="javascript:void(0)"
+                            className="hide-on-print"
+                            onClick={() => {
+                              this.clearFieldInput("ts49Approval");
+                            }}
+                          >
+                            Signed. Remove signature?
+                          </a>
+                        }
+                      </div>
+                    ) : (
+                      <Form.Check
+                        type="checkbox"
+                        id="ts49Approval"
+                        className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
+                        label={
+                          this.props.valuesSet
+                            ? "Not Completed or Signed"
+                            : "Click to sign"
+                        }
+                        onClick={this.handleFieldInput}
+                      />
+                    )}
+                  </Col>
+                  <div
+                    style={{
+                      display: "flex",
+                      height: "50px",
+                      paddingLeft: "60px",
+                      visibility: this.state.ts49Approval
+                        ? "visible"
+                        : "hidden",
+                    }}
+                  >
+                    <SignatureCanvas
+                      ref={(ref) => {
+                        this.sigCanvas49 = ref;
+                      }}
+                      style={{ border: "solid" }}
+                      penColor="black"
+                      clearOnResize={false}
+                      canvasProps={{
+                        width: 300,
+                        height: 100,
+                        className: "sigCanvas",
+                      }}
+                      backgroundColor="#eeee"
+                    />
+                  </div>
+                </Row>
+              </Col>
+              <Col xs={6}>
+                <Row>
+                  <Col
+                    md="6"
+                    className="control-label d-flex align-items-center justify-content-center"
+                  >
+                    <label>8:15am - 8:30am</label>
+                  </Col>
+                  <Col md="6" className="control-label text-center">
+                    {this.state.ts50Approval ? (
+                      <div className="mb-2 d-flex align-items-center">
+                        {
+                          <a
+                            href="javascript:void(0)"
+                            className="hide-on-print"
+                            onClick={() => {
+                              this.clearFieldInput("ts50Approval");
+                            }}
+                          >
+                            Signed. Remove signature?
+                          </a>
+                        }
+                      </div>
+                    ) : (
+                      <Form.Check
+                        type="checkbox"
+                        id="ts50Approval"
+                        className="mb-2 hide-on-print d-flex align-items-center justify-content-space-between"
+                        label={
+                          this.props.valuesSet
+                            ? "Not Completed or Signed"
+                            : "Click to sign"
+                        }
+                        onClick={this.handleFieldInput}
+                      />
+                    )}
+                  </Col>
+                  <div
+                    style={{
+                      display: "flex",
+                      height: "50px",
+                      paddingLeft: "60px",
+                      visibility: this.state.ts50Approval
+                        ? "visible"
+                        : "hidden",
+                    }}
+                  >
+                    <SignatureCanvas
+                      ref={(ref) => {
+                        this.sigCanvas50 = ref;
                       }}
                       style={{ border: "solid" }}
                       penColor="black"

@@ -49,6 +49,12 @@ router.post("/", (req, res) => {
     ts42Approval: req.body.ts42Approval,
     ts43Approval: req.body.ts43Approval,
     ts44Approval: req.body.ts44Approval,
+    ts45Approval: req.body.ts45Approval,
+    ts46Approval: req.body.ts46Approval,
+    ts47Approval: req.body.ts47Approval,
+    ts48Approval: req.body.ts48Approval,
+    ts49Approval: req.body.ts49Approval,
+    ts50Approval: req.body.ts50Approval,
 
     createdBy: req.body.createdBy,
 
@@ -92,12 +98,12 @@ router.get("/:homeId/:email", (req, res) => {
 
 router.get(
   "/:homeId/:searchString" +
-    "/:lastEditDateAfter/:lastEditDateBefore" +
-    "/:childDOBAfter/:childDOBBefore" +
-    "/:childDOAAfter/:childDOABefore" +
-    "/:ethnicityA" +
-    "/:submittedByA" +
-    "/:approved",
+  "/:lastEditDateAfter/:lastEditDateBefore" +
+  "/:childDOBAfter/:childDOBBefore" +
+  "/:childDOAAfter/:childDOABefore" +
+  "/:ethnicityA" +
+  "/:submittedByA" +
+  "/:approved",
   (req, res) => {
     var findObj = {
       homeId: req.params.homeId,
