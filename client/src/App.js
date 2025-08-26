@@ -80,12 +80,8 @@ class App extends Component {
     showMessageSent: false,
     loading: false,
     currentPage: 1,
-    
   };
   
-
-
-
   doFetchFormApprovalCount = async () => {
     try {
       this.setState({
@@ -195,7 +191,6 @@ class App extends Component {
 
   componentDidUpdate = () => {
     setTimeout((callGetAllUsers) => {}, 10000)
-
     if (
       !this.state.messagesInitLoad &&
       !this.state.blockCompUpdates &&
@@ -1181,7 +1176,7 @@ function DisplayExtra({
         <div className='extraInfoNavDiv'>
           <p className='extraInfoNavSubTitle'>
             <i>
-              This is the first screen users will see when they log in.
+              {/* This is the first screen users will see when they log in. */}
             </i>
           </p>
         </div>
