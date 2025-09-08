@@ -12,6 +12,9 @@ const DirectMessageGroup = ({ dmData, setSelectedUser, allUsers }) => {
       : "";
   };
 
+  console.log(dmData)
+
+
   return (
     <div
       className="MessagePost"
@@ -27,13 +30,13 @@ const DirectMessageGroup = ({ dmData, setSelectedUser, allUsers }) => {
           </span>
           <p className="MessagePostTime">
             {new Date(
-              dmData.messages[dmData.messages.length - 1].date
+              dmData.messages[0].date
             ).toLocaleString()}
           </p>
         </div>
       </div>
       <div className="MessagePostTextDiv">
-        <p>{dmData.messages[0].messages}</p>
+        <p>{dmData.messages[0].message}</p>
       </div>
     </div>
   );

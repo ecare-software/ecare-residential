@@ -80,11 +80,8 @@ class App extends Component {
     showMessageSent: false,
     loading: false,
     currentPage: 1,
-    
+
   };
-  
-
-
 
   doFetchFormApprovalCount = async () => {
     try {
@@ -173,6 +170,7 @@ class App extends Component {
         this.loadMessage(updatedUserData);
         await this.getAllUsers();
         await this.getMyMessages();
+
       } catch (e) {
         console.log(e);
         await this.setState({
@@ -194,8 +192,7 @@ class App extends Component {
   }
 
   componentDidUpdate = () => {
-    setTimeout((callGetAllUsers) => {}, 10000)
-
+    setTimeout((callGetAllUsers) => { }, 10000)
     if (
       !this.state.messagesInitLoad &&
       !this.state.blockCompUpdates &&
@@ -205,19 +202,19 @@ class App extends Component {
     }
   };
 
-    loadMessage = (userObj, pageNumber) => {
-    if (pageNumber === undefined) {pageNumber = 1};
+  loadMessage = (userObj, pageNumber) => {
+    if (pageNumber === undefined) { pageNumber = 1 };
     this.setState({
       ...this.state,
       discussionMessagesLoading: true,
     });
     Axios.get(`/api/discussionMessages/${userObj.homeId}?page=${pageNumber}&limit=20`)
       .then((response) => {
-          this.setState({
-            discussionMessages: response.data,
-            messagesInitLoad: true,
-            discussionMessagesLoading: false,
-          });
+        this.setState({
+          discussionMessages: response.data,
+          messagesInitLoad: true,
+          discussionMessagesLoading: false,
+        });
       })
       .catch((error) => {
         this.setState({
@@ -592,7 +589,7 @@ class App extends Component {
           )}
           <div className='container-fluid' id='greetingContainer'>
             <div className='row' id='greetingRow'>
-            <div className='col-sm-5' id='iPhoneContainer'>
+              <div className='col-sm-5' id='iPhoneContainer'>
                 <Fade bottom>
                   <div id='homeiPhone' />
                 </Fade>
@@ -625,7 +622,7 @@ class App extends Component {
                   </div>
                 </div>
               </div>
-              
+
             </div>
           </div>
           <Modal show={this.state.showLearnMore} onHide={this.toggleLearnMore}>
@@ -711,7 +708,7 @@ function ToggleScreen({
   if (name === 'Dashboard') {
     return (
       <div>
-        
+
         <MessageBoard
           discussionMessagesLoading={discussionMessagesLoading}
           messages={appState.discussionMessages}
@@ -723,7 +720,7 @@ function ToggleScreen({
           currentPage={appState.currentPage}
           loadMessage={loadMessage}
         />
-        
+
       </div>
     );
   }

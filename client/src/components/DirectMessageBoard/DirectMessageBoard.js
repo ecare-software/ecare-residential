@@ -3,6 +3,9 @@ import DirectMessage from "./DirectMessage";
 import DirectMessageGroup from "./DirectMessageGroup";
 import "./DirectMessageBoard.css";
 import "../../App.css";
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 const DirectMessageBoard = ({ messagesInit, userObj, allUsers, setDMs }) => {
   const [selectedUser, setSelectedUser] = useState(null);
@@ -10,6 +13,20 @@ const DirectMessageBoard = ({ messagesInit, userObj, allUsers, setDMs }) => {
 
   useEffect(() => {
     setMessages(messagesInit);
+  }, [messagesInit]);
+
+  // Update cookie when component mounts to clear notification icon
+  useEffect(() => {
+    if (messagesInit && messagesInit.length > 0) {
+      const current = new Date();
+      const nextYear = new Date();
+      nextYear.setFullYear(current.getFullYear() + 1);
+
+      // Update the cookie with the current message count
+      cookies.set(`messageCount-${userObj.email}`, JSON.stringify(messagesInit.length), {
+        expires: nextYear,
+      });
+    }
   }, [messagesInit]);
 
   const DisplayGroupUserName = () => {
@@ -38,64 +55,37 @@ const DirectMessageBoard = ({ messagesInit, userObj, allUsers, setDMs }) => {
     if (selectedUserMessages.length === 0) setSelectedUser(null);
   };
   const FromUsersList = () => {
-    const fromObj = messages.reduce((acc, cur) => {
-      if (cur.fromID !== userObj.email) {
-        if (acc.length == 0) {
-          acc.push({
-            user: cur.fromObj.email,
-            messages: [cur],
-          });
-        } else {
-          if (
-            acc
-              .map((messageObj) => {
-                return messageObj.user;
-              })
-              .includes(cur.fromObj.email)
-          ) {
-            let toReplaceIdx = -1;
-            const toUpdate = acc.filter((messageObj, idx) => {
-              toReplaceIdx = idx;
-              return messageObj.user === cur.fromObj.email;
-            });
-            acc[toReplaceIdx].messages.push(cur);
-          } else {
-            acc.push({
-              user: cur.fromObj.email,
-              messages: [cur],
-            });
-          }
-        }
+    // First, sort messages by date (newest first)
+    const sortedMessages = [...messages].sort((a, b) =>
+      new Date(b.date) - new Date(a.date)
+    );
+
+    const fromObj = sortedMessages.reduce((acc, cur) => {
+      // Determine the other user in the conversation
+      const otherUser = cur.fromID !== userObj.email ? cur.fromObj.email : cur.toObj.email;
+
+      // Find if we already have a group for this user
+      const existingGroupIndex = acc.findIndex(group => group.user === otherUser);
+
+      if (existingGroupIndex === -1) {
+        // Create a new group if one doesn't exist
+        acc.push({
+          user: otherUser,
+          messages: [cur],
+        });
       } else {
-        if (acc.length == 0) {
-          acc.push({
-            user: cur.toObj.email,
-            messages: [cur],
-          });
-        } else {
-          if (
-            acc
-              .map((messageObj) => {
-                return messageObj.user;
-              })
-              .includes(cur.toObj.email)
-          ) {
-            acc.forEach((messageObj, idx) => {
-              if (messageObj.user === cur.toObj.email) {
-                acc[idx].messages.push(cur);
-              }
-              return messageObj.user === cur.toObj.email;
-            });
-          } else {
-            acc.push({
-              user: cur.toObj.email,
-              messages: [cur],
-            });
-          }
-        }
+        // Add to existing group
+        acc[existingGroupIndex].messages.push(cur);
+
+        // Re-sort messages in this group by date (newest first)
+        acc[existingGroupIndex].messages.sort((a, b) =>
+          new Date(b.date) - new Date(a.date)
+        );
       }
+
       return acc;
     }, []);
+
     return fromObj;
   };
 

@@ -8,6 +8,9 @@ import Axios from "axios";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 import { FormCountContext } from "../../context";
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 const navBarStyleNotLoggedIn = {
   backgroundColor: "maroon",
@@ -71,6 +74,7 @@ class NavBar extends React.Component {
       namebs: "",
       organizationbs: "",
       emailSent: false,
+      unreadMessageCount: 0
     };
   }
 
@@ -98,8 +102,7 @@ class NavBar extends React.Component {
       return;
     }
     Axios.post(
-      `/api/email/${this.state.emailTobs}/${this.state.namebs}/${
-        this.state.organizationbs ? this.state.organizationbs : "null"
+      `/api/email/${this.state.emailTobs}/${this.state.namebs}/${this.state.organizationbs ? this.state.organizationbs : "null"
       }`
     )
       .then(function (response) {
@@ -124,7 +127,25 @@ class NavBar extends React.Component {
     this.setState({ showLearnMore: !this.state.showLearnMore });
   };
 
-  toggleActive = () => {};
+  showNoticeIcon = () => {
+    let messageCountCookies = cookies.get(`messageCount-${this.props.appState.userObj.email}`);
+    if (messageCountCookies) {
+      if (this.props.appState.messages.length !== messageCountCookies) {
+        // Return the count of unread messages
+        return this.props.appState.messages.length - messageCountCookies;
+      } else {
+        return 0;
+      }
+    } else {
+      const current = new Date();
+      const nextYear = new Date();
+      nextYear.setFullYear(current.getFullYear() + 1);
+      cookies.set(`messageCount-${this.props.appState.userObj.email}`, JSON.stringify(this.props.appState.messages.length), {
+        expires: nextYear,
+      });
+      return 0;
+    }
+  }
 
   render() {
     let formContext = this.context;
@@ -303,7 +324,17 @@ class NavBar extends React.Component {
                     this.props.toggleDisplay("Direct Message");
                   }}
                 >
-                  Messages
+                  Messages {this.showNoticeIcon() > 0 && <span
+                    style={{
+                      backgroundColor: "white",
+                      borderRadius: "9px",
+                      color: "#5e0000",
+                      padding: "5px 10px",
+                      margin: "0px 5px",
+                    }}
+                  >
+                    {this.showNoticeIcon()}
+                  </span>}
                 </Nav.Link>
                 <Nav.Link
                   eventKey="link-88"
