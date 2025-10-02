@@ -1,28 +1,32 @@
 import React, { useState, useEffect } from "react";
-import Axios from "axios";
-import { Table, Modal, Tab, Nav } from "react-bootstrap";
+import axios from "axios";
+import { Table, Modal, Tab, Nav, Form, Button, Alert } from "react-bootstrap";
 import "../../App.css";
 import UpdateUser from "./UpdateUser";
 import DeactivateUser from "./DeactivateUser";
 import ActivateUser from "./ActivateUser";
-import axios from "axios";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 
 const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
-  const [resetting, setResetting] = useState(-1);
-  const [newPassword, setNewPassword] = useState("");
-  const [newPassword2, setNewPassword2] = useState("");
-  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  // User state
   const [users, setUsers] = useState([]);
   const [activeUsers, setActiveUsers] = useState([]);
   const [inactiveUsers, setInactiveUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Password reset state
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordSuccess, setPasswordSuccess] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
+
+  // Fetch users data
   const fetchData = async () => {
     try {
-      const { data } = await axios("/api/users/" + userObj.homeId, {
-        method: "GET",
-      });
+      const { data } = await axios.get(`/api/users/${userObj.homeId}`);
       getAllUsers();
       setUsers(data);
       setActiveUsers(data.filter((user) => user.isActive));
@@ -30,7 +34,8 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
-      alert("error fetching data");
+      console.error("Error fetching users:", e);
+      alert("Error fetching data. Please try again.");
     }
   };
 
@@ -39,62 +44,90 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const openNewPassword = (index) => {
-    if (resetting === index) {
-      setResetting(-1);
-      setNewPassword("");
-      setNewPassword2("");
-    } else {
-      setResetting(index);
-      setNewPassword("");
-      setNewPassword2("");
-    }
-  };
-
-  const toggleCreatedPassword = async () => {
+  // Open password reset modal for a specific user
+  const openPasswordResetModal = (user) => {
+    setSelectedUser(user);
     setNewPassword("");
-    setNewPassword2("");
-    setResetting(-1);
+    setConfirmPassword("");
+    setPasswordError("");
+    setPasswordSuccess(false);
+    setShowPasswordModal(true);
   };
 
-  const handleFieldInput = (event) => {
-    const isReenter = event.target.id.split("-")[0];
+  // Close password reset modal and reset state
+  const closePasswordResetModal = () => {
+    setShowPasswordModal(false);
+    setSelectedUser(null);
+    setNewPassword("");
+    setConfirmPassword("");
+    setPasswordError("");
+    setPasswordSuccess(false);
+  };
 
-    if (isReenter === "reenterpassword") {
-      setNewPassword2(event.target.value);
+  // Handle password input changes
+  const handlePasswordChange = (e) => {
+    setPasswordError("");
+    if (e.target.name === "newPassword") {
+      setNewPassword(e.target.value);
     } else {
-      setNewPassword(event.target.value);
+      setConfirmPassword(e.target.value);
     }
   };
 
-  const saveNewPassword = async (id, index) => {
-    if (/^\s+$/.test(newPassword)) {
-      alert("Password is not valid");
+  // Validate password
+  const validatePassword = () => {
+    // Reset previous errors
+    setPasswordError("");
+
+    // Check if password is empty or just whitespace
+    if (!newPassword || newPassword.trim() === "") {
+      setPasswordError("Password cannot be empty");
+      return false;
+    }
+
+    // Check if password is too short (minimum 6 characters)
+    if (newPassword.length < 6) {
+      setPasswordError("Password must be at least 6 characters long");
+      return false;
+    }
+
+    // Check if passwords match
+    if (newPassword !== confirmPassword) {
+      setPasswordError("Passwords do not match");
+      return false;
+    }
+
+    return true;
+  };
+
+  // Save new password
+  const saveNewPassword = async () => {
+    // Validate password before submission
+    if (!validatePassword()) {
       return;
     }
 
-    if (newPassword !== newPassword2) {
-      alert("Passwords do not match");
-      return;
-    }
+    setIsResetting(true);
 
     try {
-      const { data } = await Axios({
-        method: "put",
-        url: "/api/users/" + id,
-        data: {
-          password: newPassword,
-          newUser: false,
-        },
+      await axios.put(`/api/users/${selectedUser._id}`, {
+        password: newPassword,
+        newUser: false,
       });
-      if (id === userObj._id) {
-        console.log("is logged in user");
-      }
-      alert("password has been reset");
-      toggleCreatedPassword();
+
+      // Show success message
+      setPasswordSuccess(true);
+      setIsResetting(false);
+
+      // Close modal after 2 seconds
+      setTimeout(() => {
+        closePasswordResetModal();
+      }, 2000);
+
     } catch (e) {
-      alert("Error updating password");
-      console.log(e);
+      console.error("Error resetting password:", e);
+      setPasswordError("Error updating password. Please try again.");
+      setIsResetting(false);
     }
   };
 
@@ -142,47 +175,38 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
                           </td>
                         </tr>
                       )}
-                      {activeUsers.map((item, index) => (
-                        <tr key={index + "-" + "user"}>
+                      {activeUsers.map((user) => (
+                        <tr key={`active-${user._id}`}>
                           <td style={{ width: 5 }}>
                             <UpdateUser
-                              id={item._id}
-                              fetchData={() => fetchData()}
-                              item={item}
+                              id={user._id}
+                              fetchData={fetchData}
+                              item={user}
                             />
                           </td>
                           <td style={{ width: 5 }}>
-                            {item.isActive ? (
-                              <DeactivateUser
-                                id={item._id}
-                                fetchData={() => fetchData()}
-                                getAllUsers={() => getAllUsers()}
-                              />
-                            ) : (
-                              <ActivateUser
-                                getAllUsers={() => getAllUsers()}
-                                id={item._id}
-                                fetchData={() => fetchData()}
-                              />
-                            )}
+                            <DeactivateUser
+                              id={user._id}
+                              fetchData={fetchData}
+                              getAllUsers={getAllUsers}
+                            />
                           </td>
                           <td>
-                            {item.firstName}, {item.lastName}
+                            {user.firstName}, {user.lastName}
                           </td>
                           <td style={{ width: "auto" }}>
-                            {item.email}
+                            {user.email}
                             <br />
-                            {item.jobTitle}
+                            {user.jobTitle}
                           </td>
                           <td style={{ width: 5 }}>
-                            <button
-                              className="btn btn-light extraInfoButton"
-                              onClick={() =>
-                                setShowPasswordModal(true, setResetting(index))
-                              }
+                            <Button
+                              variant="light"
+                              className="extraInfoButton"
+                              onClick={() => openPasswordResetModal(user)}
                             >
                               Reset Password
-                            </button>
+                            </Button>
                           </td>
                         </tr>
                       ))}
@@ -208,45 +232,38 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
                           </td>
                         </tr>
                       )}
-                      {inactiveUsers.map((item, index) => (
-                        <tr key={index + "-" + "user"}>
+                      {inactiveUsers.map((user) => (
+                        <tr key={`inactive-${user._id}`}>
                           <td style={{ width: 5 }}>
                             <UpdateUser
-                              id={item._id}
-                              fetchData={() => fetchData()}
-                              item={item}
+                              id={user._id}
+                              fetchData={fetchData}
+                              item={user}
                             />
                           </td>
                           <td style={{ width: 5 }}>
-                            {item.isActive ? (
-                              <DeactivateUser
-                                id={item._id}
-                                fetchData={fetchData}
-                              />
-                            ) : (
-                              <ActivateUser
-                                id={item._id}
-                                fetchData={fetchData}
-                              />
-                            )}
+                            <ActivateUser
+                              id={user._id}
+                              fetchData={fetchData}
+                              getAllUsers={getAllUsers}
+                            />
                           </td>
                           <td>
-                            {item.firstName}, {item.lastName}
+                            {user.firstName}, {user.lastName}
                           </td>
                           <td style={{ width: "auto" }}>
-                            {item.email}
+                            {user.email}
                             <br />
-                            {item.jobTitle}
+                            {user.jobTitle}
                           </td>
                           <td style={{ width: 5 }}>
-                            <button
-                              className="btn btn-light extraInfoButton"
-                              onClick={() =>
-                                setShowPasswordModal(true, setResetting(index))
-                              }
+                            <Button
+                              variant="light"
+                              className="extraInfoButton"
+                              onClick={() => openPasswordResetModal(user)}
                             >
                               Reset Password
-                            </button>
+                            </Button>
                           </td>
                         </tr>
                       ))}
@@ -263,52 +280,73 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
         </div>
       </div>
 
-      {/* Update Password Modal */}
+      {/* Password Reset Modal */}
       <Modal
         show={showPasswordModal}
-        onHide={() => setShowPasswordModal(false)}
+        onHide={closePasswordResetModal}
+        backdrop="static"
+        keyboard={false}
+        centered
       >
         <Modal.Header closeButton style={{ backgroundColor: "#fff" }}>
           <Modal.Title style={{ backgroundColor: "#fff" }}>
-            Reset Password for {users[resetting]?.firstName}{" "}
-            {users[resetting]?.lastName}
+            {selectedUser && `Reset Password for ${selectedUser.firstName} ${selectedUser.lastName}`}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ backgroundColor: "#fff" }}>
-          <div className={resetting !== -1 ? "flexNewPassword row" : "hideIt"}>
-            <div className="form-group" style={{ margin: "5px" }}>
-              <label className="control-label">New Password</label>
-              <input
-                onChange={handleFieldInput}
-                className="form-control"
-                id={"password-" + resetting}
-                type="password"
-              />
-            </div>
-            <div className="form-group" style={{ margin: "5px" }}>
-              <label className="control-label">Re-enter New Password</label>
-              <input
-                onChange={handleFieldInput}
-                id={"reenterpassword-" + resetting}
-                className="form-control"
-                type="password"
-              />
-            </div>
-          </div>
+          {passwordSuccess ? (
+            <Alert variant="success">
+              Password has been successfully reset!
+            </Alert>
+          ) : (
+            <Form>
+              {passwordError && (
+                <Alert variant="danger">{passwordError}</Alert>
+              )}
+              <Form.Group className="mb-3">
+                <Form.Label>New Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  name="newPassword"
+                  value={newPassword}
+                  onChange={handlePasswordChange}
+                  placeholder="Enter new password"
+                  autoComplete="new-password"
+                />
+                <Form.Text className="text-muted">
+                  Password must be at least 6 characters long.
+                </Form.Text>
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label>Confirm Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  name="confirmPassword"
+                  value={confirmPassword}
+                  onChange={handlePasswordChange}
+                  placeholder="Confirm new password"
+                  autoComplete="new-password"
+                />
+              </Form.Group>
+            </Form>
+          )}
         </Modal.Body>
         <Modal.Footer style={{ backgroundColor: "#fff" }}>
-          <button
-            onClick={() => saveNewPassword(users[resetting]?._id, resetting)}
-            className="btn btn-default"
-          >
-            Save
-          </button>
-          <button
-            onClick={() => setShowPasswordModal(false, setResetting(-1))}
-            className="btn btn-default"
-          >
-            Cancel
-          </button>
+          {!passwordSuccess && (
+            <>
+              <Button variant="secondary" onClick={closePasswordResetModal}>
+                Cancel
+              </Button>
+              <Button
+                variant="primary"
+                onClick={saveNewPassword}
+                disabled={isResetting}
+              >
+                {isResetting ? "Resetting..." : "Reset Password"}
+              </Button>
+            </>
+          )}
         </Modal.Footer>
       </Modal>
     </>
