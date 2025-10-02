@@ -9,6 +9,9 @@ const ClientSchema = new Schema({
   homeId: {
     type: String,
   },
+  twoSignatures: {
+    type: Boolean,
+  }
 });
 
 module.exports = Client = mongoose.model("Home", ClientSchema);

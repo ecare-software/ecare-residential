@@ -80,8 +80,26 @@ class App extends Component {
     showMessageSent: false,
     loading: false,
     currentPage: 1,
-
   };
+
+
+  doGetHomeInfo = async () => {
+    try {
+      const { data } = await Axios.get(
+        `/api/home/${this.state.userObj.homeId}`
+      );
+      this.setState({ homeData: data[0].name })
+      console.log('homename', this.state.homeData)
+      return (this.state.homeData)
+      // try {
+      //   const { data } = await FetchHomeData(this.state.userObj.homeId);
+      //   this.state.homeData = data[0];
+      //   console.log('data', this.state.homeData)
+    } catch (e) {
+      console.log("Error fetching home info");
+      // }
+    };
+  }
 
   doFetchFormApprovalCount = async () => {
     try {
@@ -203,6 +221,10 @@ class App extends Component {
   };
 
   loadMessage = (userObj, pageNumber) => {
+    Axios.put(`/api/home/home-1234/twoSignatures`, {
+      twoSignatures: true,
+    })
+    this.doGetHomeInfo()
     if (pageNumber === undefined) { pageNumber = 1 };
     this.setState({
       ...this.state,
@@ -1178,7 +1200,7 @@ function DisplayExtra({
         <div className='extraInfoNavDiv'>
           <p className='extraInfoNavSubTitle'>
             <i>
-              This is the first screen users will see when they log in.
+              {/* This is the first screen users will see when they log in. */}
             </i>
           </p>
         </div>
