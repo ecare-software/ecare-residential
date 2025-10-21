@@ -457,6 +457,25 @@ class NavBar extends React.Component {
                   >
                     Daily Progress
                   </NavDropdown.Item>
+
+                  <NavDropdown.Item
+                    eventKey="link-942"
+                    onClick={() => {
+                      document
+                        .querySelector(".Submit-a-Form-nav > a")
+                        .classList.add("active");
+                      document
+                        .querySelector(".Manage-Account-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Training-nav > a")
+                        .classList.remove("active");
+                      this.props.toggleDisplay("DailyProgressTwo")
+                    }}
+                  >
+                    Daily Progress Note Two
+                  </NavDropdown.Item>  
+
                   <NavDropdown.Item
                     eventKey="link-24"
                     onClick={() => {

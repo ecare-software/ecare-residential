@@ -36,6 +36,7 @@ import Fade from 'react-reveal/Fade';
 import ManageTraining from './components/ManageTraining/ManageTraining';
 import { isAdminUser } from './utils/AdminReportingRoles';
 import NightMonitoring from './components/Forms/NightMonitoring';
+import DailyProgressTwo from './components/Forms/DailyProgressTwo';
 
 
 const hideStyle = {
@@ -921,6 +922,18 @@ function ToggleScreen({
       </div>
     );
   }
+
+  if (name === 'DailyProgressTwo') {
+    return (
+      <div>
+        <DailyProgressTwo
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="dailyProgressTwo"
+        />
+      </div>
+    )
+  };
 
   if (name === 'IllnessInjury') {
     return (
