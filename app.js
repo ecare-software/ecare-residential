@@ -15,6 +15,7 @@ const incidentReport = require("./routes/api/incidentReport");
 const seriousIncidentReport = require("./routes/api/seriousIncidentReport");
 const restraintReport = require("./routes/api/restraintReport");
 const dailyProgressAndActivity = require("./routes/api/dailyProgressAndActivity");
+const dailyProgressNoteTwo = require("./routes/api/dailyProgressNotwTwo"); //new route 
 const directMessages = require("./routes/api/directMessages");
 const discussionMessages = require("./routes/api/discussionMessages");
 const illnessInjury = require("./routes/api/illnessInjury");
@@ -36,6 +37,7 @@ const homes = require("./routes/api/home");
 const awakeNightStaffSignoff = require("./routes/api/awakeNightStaffSignoff");
 const nightMonitoring = require("./routes/api/nightMonitoring");
 const coinbase = require("./routes/api/coinbase");
+
 
 //user express
 const app = express();
@@ -75,6 +77,7 @@ app.use("/api/incidentReport", incidentReport);
 app.use("/api/seriousIncidentReport", seriousIncidentReport);
 app.use("/api/restraintReport", restraintReport);
 app.use("/api/dailyProgressAndActivity", dailyProgressAndActivity);
+app.use("/api/dailyProgressNoteTwo", dailyProgressNoteTwo); // <-- NEW ROUTE
 app.use("/api/directMessages", directMessages);
 app.use("/api/discussionMessages", discussionMessages);
 app.use("/api/illnessInjury", illnessInjury);

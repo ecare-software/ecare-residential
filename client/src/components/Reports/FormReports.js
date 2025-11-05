@@ -175,7 +175,9 @@ export class FormReports extends Component {
   };
 
   setFormsData = (results) => {
+    console.log("Raw Axios results:", results);
     var data = results.map((res) => res.data);
+    console.log("Mapped data:", data);
     if (!isAdminUser(this.props.userObj)) {
       data = data.reduce((acc, cur) => {
         const formHasUserArray = cur.filter((formType) => {
@@ -230,6 +232,7 @@ export class FormReports extends Component {
               "72 Hour Treatment Plan",
               "Awake Night Staff Signoff",
               "Night Monitoring",
+              "Daily Progress Note Two"
             ],
           });
           this.setState({ formNamesReady: true });
@@ -243,8 +246,14 @@ export class FormReports extends Component {
   };
 
   getForms = () => {
+    console.log("Fetching all forms for homeId:", this.props.userObj.homeId);
     this.flushFormStateData();
     var formRequests = [
+      Axios.get(
+        "/api/dailyProgressNoteTwo/" +
+          this.props.userObj.homeId +
+          "/none/none/none/none/false"
+      ),
       Axios.get(
         "/api/dailyProgressAndActivity/" +
         this.props.userObj.homeId +
@@ -410,6 +419,11 @@ export class FormReports extends Component {
         this.props.userObj.homeId +
         "/none/none/none/none/none/none/none/none/none/false"
       ),
+       Axios.get(
+        "/api/dailyProgressNoteTwo/" +
+          this.props.userObj.homeId +
+          "/none/none/none/none/false"
+      ),
       Axios.get(
         "/api/incidentReport/" +
         this.props.userObj.homeId +
@@ -519,6 +533,24 @@ export class FormReports extends Component {
               doaBefore +
               "/" +
               ethnicityA +
+              "/" +
+              submittedByA +
+              "/" +
+              approved
+            )
+          );
+        }
+        if (formName === "Daily Progress Note Two") {
+          formRequests.push(
+            Axios.get(
+              "/api/dailyProgressNoteTwo/" +
+              this.props.userObj.homeId +
+              "/" +
+              searchString +
+              "/" +
+              submittedAfter +
+              "/" +
+              submittedBefore +
               "/" +
               submittedByA +
               "/" +
@@ -814,6 +846,20 @@ export class FormReports extends Component {
           submittedByA +
           "/" +
           approved
+        ),
+        Axios.get(
+          "/api/dailyProgressNoteTwo/" +
+          this.props.userObj.homeId +
+            "/" +
+            searchString +
+            "/" +
+            submittedAfter +
+            "/" +
+            submittedBefore +
+            "/" +
+            submittedByA +
+            "/" +
+            approved
         ),
         Axios.get(
           "/api/bodyCheck/" +

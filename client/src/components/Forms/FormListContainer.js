@@ -115,6 +115,7 @@ class FormListContainer extends Component {
               <div
                 className={this.state.selectedForm === index ? "" : "hideIt"}
               >
+                {console.log("FormListContainer item:", item)}
                 <FormSubmitterListContainer
                   reset={this.state.selectedForm === index ? false : true}
                   setSelectedUser={this.props.setSelectedUser}

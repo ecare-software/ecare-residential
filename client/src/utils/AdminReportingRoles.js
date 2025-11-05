@@ -13,4 +13,3 @@ export const AdminReportingRoles = [
 export const isAdminUser = (userObj) => {
   return AdminReportingRoles.includes(userObj?.jobTitle);
 };
-
