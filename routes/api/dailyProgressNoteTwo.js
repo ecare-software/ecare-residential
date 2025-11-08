@@ -155,55 +155,32 @@ router.get("/report/:reportId", async (req, res) => {
 
 
 // UPDATE DAILY REPORT
-// router.put("/:reportId", async (req, res) => {
-//   try {
-//     const updatedReport = await DailyReport.findByIdAndUpdate(
-//       req.params.reportId,
-//       { ...req.body, lastEditDate: new Date() },
-//       { new: true }
-//     );
-//     res.json(updatedReport);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "Failed to update Daily Report" });
-//   }
-// });
-
-router.post("/", async (req, res) => {
+// PUT route to update a report by homeId and reportId
+router.put("/:homeId/:reportId", async (req, res) => {
   try {
-    const newReport = new DailyReport({
-      createDate: req.body.createDate || new Date(),
-      child: req.body.child || {},
-      childMeta_name: req.body.childMeta_name || req.body.child?.name || "",
-      homeId: req.body.homeId || null,
-      formType: req.body.formType || "Daily Progress Note Two",
-      createdBy: req.body.createdBy || "unknown",
-      createdByName: req.body.createdByName || "",
-      status: req.body.status || "IN_PROGRESS",
-      lastEditDate: req.body.lastEditDate || new Date(),
-      approved: req.body.approved || false,
+    console.log(`Updating report: homeId=${req.params.homeId}, reportId=${req.params.reportId}`);
+    console.log("Update payload:", req.body);
 
-      // Other sections
-      levelOfPrecaution: req.body.levelOfPrecaution || {},
-      hygieneCompleted: req.body.hygieneCompleted || {},
-      dailyChoresCompleted: req.body.dailyChoresCompleted || {},
-      medicationCompliance: req.body.medicationCompliance || {},
-      dailyIntake: req.body.dailyIntake || {},
-      staffIntervention: req.body.staffIntervention || {},
-      residentBehaviorPerformance: req.body.residentBehaviorPerformance || {},
-      recTherapeuticActivity: req.body.recTherapeuticActivity || {},
-      timeline: req.body.timeline || [],
-      shiftSummary: req.body.shiftSummary || {},
-      clothingDescription: req.body.clothingDescription || {},
-    });
+    const updatedReport = await DailyReport.findByIdAndUpdate(
+      req.params.reportId,
+      { ...req.body, lastEditDate: new Date() },
+      { new: true }
+    );
 
-    const savedReport = await newReport.save();
-    res.json(savedReport);
+    if (!updatedReport) {
+      console.error("Report not found for update");
+      return res.status(404).json({ error: "Report not found" });
+    }
+
+    console.log("Report updated successfully:", updatedReport._id);
+    res.json(updatedReport);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to create Daily Report" });
+    console.error("Error updating report:", err);
+    res.status(500).json({ error: "Failed to update Daily Report" });
   }
 });
+
+// This is a duplicate POST route and should be removed
 
 
 // DELETE DAILY REPORT

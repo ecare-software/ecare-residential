@@ -181,7 +181,7 @@ export class FormReports extends Component {
     if (!isAdminUser(this.props.userObj)) {
       data = data.reduce((acc, cur) => {
         const formHasUserArray = cur.filter((formType) => {
-          return formType.createdBy === this.props.userObj.email;
+          return formType.createdBy === this.props.userObj.email || formType.formType == 'Daily Progress Note Two';
         });
         if (formHasUserArray.length > 0) {
           acc.push(formHasUserArray);
@@ -213,8 +213,8 @@ export class FormReports extends Component {
           submittions: formData.length,
         });
         // if at least one form with completed status, enable print button
-        if (this.state.disablePrint === true && statusByFormType.find((status)=>status === 'COMPLETED')) {
-          this.setState({disablePrint: false}) 
+        if (this.state.disablePrint === true && statusByFormType.find((status) => status === 'COMPLETED')) {
+          this.setState({ disablePrint: false })
         }
       }
       count++;
@@ -251,8 +251,8 @@ export class FormReports extends Component {
     var formRequests = [
       Axios.get(
         "/api/dailyProgressNoteTwo/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/false"
       ),
       Axios.get(
         "/api/dailyProgressAndActivity/" +
@@ -419,10 +419,10 @@ export class FormReports extends Component {
         this.props.userObj.homeId +
         "/none/none/none/none/none/none/none/none/none/false"
       ),
-       Axios.get(
+      Axios.get(
         "/api/dailyProgressNoteTwo/" +
-          this.props.userObj.homeId +
-          "/none/none/none/none/false"
+        this.props.userObj.homeId +
+        "/none/none/none/none/false"
       ),
       Axios.get(
         "/api/incidentReport/" +
@@ -850,16 +850,16 @@ export class FormReports extends Component {
         Axios.get(
           "/api/dailyProgressNoteTwo/" +
           this.props.userObj.homeId +
-            "/" +
-            searchString +
-            "/" +
-            submittedAfter +
-            "/" +
-            submittedBefore +
-            "/" +
-            submittedByA +
-            "/" +
-            approved
+          "/" +
+          searchString +
+          "/" +
+          submittedAfter +
+          "/" +
+          submittedBefore +
+          "/" +
+          submittedByA +
+          "/" +
+          approved
         ),
         Axios.get(
           "/api/bodyCheck/" +
@@ -1252,25 +1252,25 @@ export class FormReports extends Component {
                 )}
                 {!this.state.doShowFilters && (
                   !this.state.disablePrint ?
-                  <button 
-                    onClick={this.triggerPrint} 
-                    className='btn btn-link'
-                  >
-                    <span className='fa fa-print'></span> Print Results
-                  </button>
-                  :
-                  // show tooltip if print button disabled
-                  <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="No completed forms to print."
-                    style={{display: this.state.disablePrint ? "none" : "block"}}> 
-                  <button 
-                    onClick={this.triggerPrint} 
-                    className='btn btn-link'
-                    // disable button if no completed forms
-                    disabled={this.state.disablePrint ? true : false}
-                  >
-                    <span className='fa fa-print'></span> Print Results
-                  </button>
-                  </span>
+                    <button
+                      onClick={this.triggerPrint}
+                      className='btn btn-link'
+                    >
+                      <span className='fa fa-print'></span> Print Results
+                    </button>
+                    :
+                    // show tooltip if print button disabled
+                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="No completed forms to print."
+                      style={{ display: this.state.disablePrint ? "none" : "block" }}>
+                      <button
+                        onClick={this.triggerPrint}
+                        className='btn btn-link'
+                        // disable button if no completed forms
+                        disabled={this.state.disablePrint ? true : false}
+                      >
+                        <span className='fa fa-print'></span> Print Results
+                      </button>
+                    </span>
                 )}
               </div>
             </h2>
