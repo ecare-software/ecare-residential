@@ -36,6 +36,7 @@ import Fade from 'react-reveal/Fade';
 import ManageTraining from './components/ManageTraining/ManageTraining';
 import { isAdminUser } from './utils/AdminReportingRoles';
 import NightMonitoring from './components/Forms/NightMonitoring';
+import DailyProgressTwo from './components/Forms/DailyProgressTwo';
 
 
 const hideStyle = {
@@ -80,8 +81,26 @@ class App extends Component {
     showMessageSent: false,
     loading: false,
     currentPage: 1,
-
   };
+
+
+  doGetHomeInfo = async () => {
+    try {
+      const { data } = await Axios.get(
+        `/api/home/${this.state.userObj.homeId}`
+      );
+      this.setState({ homeData: data[0].name })
+      console.log('homename', this.state.homeData)
+      return (this.state.homeData)
+      // try {
+      //   const { data } = await FetchHomeData(this.state.userObj.homeId);
+      //   this.state.homeData = data[0];
+      //   console.log('data', this.state.homeData)
+    } catch (e) {
+      console.log("Error fetching home info");
+      // }
+    };
+  }
 
   doFetchFormApprovalCount = async () => {
     try {
@@ -203,6 +222,7 @@ class App extends Component {
   };
 
   loadMessage = (userObj, pageNumber) => {
+    this.doGetHomeInfo()
     if (pageNumber === undefined) { pageNumber = 1 };
     this.setState({
       ...this.state,
@@ -900,6 +920,18 @@ function ToggleScreen({
     );
   }
 
+  if (name === 'DailyProgressTwo') {
+    return (
+      <div>
+        <DailyProgressTwo
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="dailyProgressTwo"
+        />
+      </div>
+    )
+  };
+
   if (name === 'IllnessInjury') {
     return (
       <div>
@@ -1178,7 +1210,7 @@ function DisplayExtra({
         <div className='extraInfoNavDiv'>
           <p className='extraInfoNavSubTitle'>
             <i>
-              This is the first screen users will see when they log in.
+              {/* This is the first screen users will see when they log in. */}
             </i>
           </p>
         </div>

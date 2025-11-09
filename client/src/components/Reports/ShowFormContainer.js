@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import TreatmentPlan72 from "../Forms/TreatmentPlan72";
 import IncidentReport from "../Forms/IncidentReport";
 import SeriousIncidentReport from "../Forms/SeriousIncidentReport";
@@ -19,6 +19,7 @@ import { FetchHomeData } from "../../utils/FetchHomeData";
 import { DoDeleteRecord } from "../../utils/DoDeleteRecord";
 import NightMonitoring from "../Forms/NightMonitoring";
 import ClipLoader from "react-spinners/ClipLoader";
+import DailyProgressTwo from "../Forms/DailyProgressTwo";
 import "../../App.css";
 
 const needsNurseSig = ["Health Body Check", "Illness Injury"];
@@ -602,7 +603,13 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
 
 // called for each form individually during printing
 const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
+  console.log("Incoming formData:", formData);
+  console.log("Incoming form:", form);
+  console.log("formData keys:", Reflect.ownKeys(formData));
   const [updatedFormData, setFormData] = useState({});
+  // const [updatedFormData, setFormData] = useState(
+  //   form.name === "Daily Progress Note Two" ? formData : {}
+  // );
 
   const [route, setRoute] = useState("");
 
@@ -613,8 +620,11 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     ) {
       doSetRoute(form.name);
       setFormData(formData);
+      console.log("Updated formData set:", formData);
+      console.log("Route set to:", form.name);
     }
   });
+
 
   const doSetRoute = (name) => {
     let droute = "";
@@ -642,9 +652,12 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
       droute = "awakeNightStaffSignoff";
     } else if (name === "Night Monitoring") {
       droute = "nightMonitoring";
+    } else if (name === "Daily Progress Note Two") {
+      droute = "dailyProgressNoteTwo";
     }
 
     setRoute(droute);
+    console.log(`doSetRoute: name="${name}", route="${droute}"`);
   };
 
   const doUpdateFormDates = async (createDate) => {
@@ -666,6 +679,8 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
 
   const displayComponent = (name) => {
     let comp = {};
+    console.log("Display component for name:", name);
+    console.log("updatedFormData keys:", Reflect.ownKeys(updatedFormData));
 
     if (name === "72 Hour Treatment Plan") {
       comp = (
@@ -674,6 +689,15 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
           userObj={userObj}
           formData={updatedFormData}
           doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    } else if (name === "Daily Progress Note Two") {
+      comp = (
+        <DailyProgressTwo
+            valuesSet="true"
+            userObj={userObj}
+            formData={updatedFormData}
+            doUpdateFormDates={doUpdateFormDates}
         />
       );
     } else if (name === "Incident Report") {
@@ -861,6 +885,15 @@ const OtherShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
         //   doUpdateFormDates={doUpdateFormDates}
         // />
       );
+    } else if(name === "Daily Progress Note Two") {
+        comp = (
+          <DailyProgressTwo
+            valuesSet="true"
+            userObj={userObj}
+            formData={updatedFormData}
+            doUpdateFormDates={doUpdateFormDates}
+          />
+        );
     } else if (name === "Incident Report") {
       comp = (
         <IncidentReport

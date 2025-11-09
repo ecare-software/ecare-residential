@@ -28,9 +28,10 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
     try {
       const { data } = await axios.get(`/api/users/${userObj.homeId}`);
       getAllUsers();
-      setUsers(data);
-      setActiveUsers(data.filter((user) => user.isActive));
-      setInactiveUsers(data.filter((user) => !user.isActive));
+      const sortedData = data.sort((a, b) => a.index - b.index); // Sort by index
+      setUsers(sortedData);
+      setActiveUsers(sortedData.filter((user) => user.isActive));
+      setInactiveUsers(sortedData.filter((user) => !user.isActive));
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
@@ -156,7 +157,7 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
                 </Nav.Item>
               </Nav>
               <Tab.Content>
-                <Tab.Pane eventKey="active-users">
+                <Tab.Pane eventKey="active-users" style={{ backgroundColor: "white" }}>
                   <Table>
                     <thead>
                       <tr>
@@ -213,7 +214,7 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
                     </tbody>
                   </Table>
                 </Tab.Pane>
-                <Tab.Pane eventKey="inactive-users">
+                <Tab.Pane eventKey="inactive-users" style={{ backgroundColor: "white" }}>
                   <Table>
                     <thead>
                       <tr>
