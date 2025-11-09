@@ -21,7 +21,7 @@ jobs:
       - name: npm install, build, and test
         run: |
           echo "📦 Installing server dependencies..."
-          npm ci
+          npm install
 
           echo "🏗️ Building server..."
           npm run build --if-present
@@ -29,7 +29,7 @@ jobs:
 
           echo "🧱 Building client app..."
           cd client
-          npm ci
+          npm install
           CI=false npm run build
           cd ..
 
@@ -39,7 +39,7 @@ jobs:
           rm -f .DS_Store
 
           echo "📦 Reinstalling production dependencies..."
-          npm ci --production
+          npm install --production
 
       - name: 🚀 Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
