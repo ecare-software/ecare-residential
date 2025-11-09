@@ -11,31 +11,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v4
 
       - name: Set up Node.js version
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: "16.x"
+          node-version: "18.x"
 
       - name: npm install, build, and test
         run: |
-          npm install
+          echo "📦 Installing server dependencies..."
+          npm ci
+
+          echo "🏗️ Building server..."
           npm run build --if-present
           npm run test --if-present
-          cd client 
-          npm install 
-          CI=false
-          npm run build
+
+          echo "🧱 Building client app..."
+          cd client
+          npm ci
+          CI=false npm run build
           cd ..
 
-          # 🧹 add this cleanup to prevent large ZIPs
+          echo "🧹 Cleaning up unnecessary files..."
           rm -rf node_modules
           rm -rf client/node_modules
           rm -f .DS_Store
 
-      - name: "Deploy to Azure Web App"
-        uses: azure/webapps-deploy@v2
+          echo "📦 Reinstalling production dependencies..."
+          npm ci --production
+
+      - name: 🚀 Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
         with:
           app-name: "ecare-residential-prod"
           slot-name: "Production"
