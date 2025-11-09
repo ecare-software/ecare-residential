@@ -11,6 +11,7 @@ const router = express.Router();
 //   next();
 // });
 
+
 router.post("/", async (req, res) => {
   try {
     const newReport = new DailyReport({
