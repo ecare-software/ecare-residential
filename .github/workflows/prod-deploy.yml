@@ -13,33 +13,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js version
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "18.x"
+          cache: "npm"
 
-      - name: npm install, build, and test
+      - name: Install and build
         run: |
           echo "📦 Installing server dependencies..."
-          npm install
+          npm ci
 
-          echo "🏗️ Building server..."
-          npm run build --if-present
-          npm run test --if-present
-
-          echo "🧱 Building client app..."
+          echo "🧱 Building React client..."
           cd client
-          npm install
+          npm ci
           CI=false npm run build
           cd ..
 
-          echo "🧹 Cleaning up unnecessary files..."
-          rm -rf node_modules
+          echo "🧹 Cleaning up unneeded files..."
           rm -rf client/node_modules
-          rm -f .DS_Store
-
-          echo "📦 Reinstalling production dependencies..."
-          npm install --production
+          rm -rf .DS_Store
 
       - name: 🚀 Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
@@ -48,3 +41,4 @@ jobs:
           slot-name: "Production"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_EF21F2D29DD14A878D1C31198F3AB108 }}
           package: .
+        timeout-minutes: 15
