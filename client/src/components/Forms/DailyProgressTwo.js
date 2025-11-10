@@ -4,7 +4,7 @@ import "../../App.css";
 import ClientOption from "../../utils/ClientOption.util";
 import axios from "axios";
 import Cookies from "universal-cookie";
-import ReactSignatureCanvas from "react-signature-canvas";
+import SignatureCanvas from "react-signature-canvas";
 import { GetUserSig } from "../../utils/GetUserSig";
 import {
   mapDailyIntake,
@@ -1581,7 +1581,6 @@ const SignatureSection = ({
   const shiftLabels = ["1st", "2nd", "3rd"];
 
   // Debug form status - removed to prevent excessive logging
-
   return (
     <div className="d-flex justify-content-center" style={{ width: "100%" }}>
       <div style={{ border: "1px solid #ccc", borderRadius: "4px", padding: "15px", width: "650px", backgroundColor: "#f8f9fa", marginTop: "20px" }}>
@@ -1594,70 +1593,6 @@ const SignatureSection = ({
                 : "⚠️ Both AM and PM signatures required before submission"}
             </div>
           )}
-          {/* <div className="mt-2">
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-secondary me-1"
-              onClick={() => {
-                alert(`Form Status: ${formData.status}\nCurrent Shift: ${currentShift}`);
-              }}
-              style={{ fontSize: '10px' }}
-            >
-              Debug
-            </button>
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-success me-1"
-              onClick={() => {
-                // Force form status to IN_PROGRESS
-                setFormData(prev => ({ ...prev, status: "IN_PROGRESS" }));
-                alert("Form status set to IN_PROGRESS");
-              }}
-              style={{ fontSize: '10px' }}
-            >
-              Force Editable
-            </button>
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-danger"
-              onClick={() => {
-                // Reset signature section in propFormData
-                if (propFormData && propFormData.signatureSection) {
-                  propFormData.signatureSection = {
-                    signatures: ["", "", ""],
-                    initials: ["", "", ""],
-                    titles: ["", "", ""],
-                    selectedShifts: ["", "", ""]
-                  };
-
-                  // Also reset in formData
-                  setFormData(prev => ({
-                    ...prev,
-                    signatureSection: {
-                      signatures: ["", "", ""],
-                      initials: ["", "", ""],
-                      titles: ["", "", ""],
-                      selectedShifts: ["", "", ""]
-                    }
-                  }));
-
-                  // Reset state variables
-                  setInitials(["", "", ""]);
-                  setTitles(["", "", ""]);
-                  setSelectedShifts(["", "", ""]);
-
-                  // Clear signature canvases
-                  sigRefs.current.forEach(sig => {
-                    if (sig) sig.clear();
-                  });
-                }
-                alert("Signature section reset");
-              }}
-              style={{ fontSize: '10px' }}
-            >
-              Reset Signatures
-            </button>
-          </div> */}
         </div>
         {shiftLabels.map((shiftLabel, idx) => (
           <div key={idx} className="mb-4">
@@ -1689,7 +1624,7 @@ const SignatureSection = ({
                       color: isSignatureValid && isSignatureValid(idx) ? "green" : "red",
                       fontSize: "12px"
                     }}>
-                      {isSignatureValid && isSignatureValid(idx) ? "✓" : "⚠️"}
+                      {typeof isSignatureValid === 'function' ? (isSignatureValid(idx) ? "✓" : "⚠️") : "⚠️"}
                     </span>
                   )}
                 </label>
@@ -1730,42 +1665,46 @@ const SignatureSection = ({
                     <div style={{ flexShrink: 0, width: "100%" }}>
                       <div>
                         {/* Signature canvas is disabled when form is completed or signature exists */}
-                        <ReactSignatureCanvas
-                          penColor="black"
-                          canvasProps={{
-                            width: 300,
-                            height: 100,
-                            className: "sigCanvas",
-                            style: {
-                              border: "1px solid #ccc",
-                              width: "100%",
-                              maxWidth: "300px",
-                              height: "100px",
-                              backgroundColor: "#f9f9f9",
-                              borderRadius: "4px",
-                              opacity: (formData.status === "COMPLETED" ||
-                                (propFormData?.signatureSection?.signatures &&
-                                  propFormData.signatureSection.signatures[idx] &&
-                                  typeof propFormData.signatureSection.signatures[idx] === 'string' &&
-                                  propFormData.signatureSection.signatures[idx].startsWith('data:image/') &&
-                                  propFormData.signatureSection.signatures[idx].length > 100)) ? "0.7" : "1"
-                            }
-                          }}
-                          ref={(el) => {
-                            sigRefs.current[idx] = el;
-                            // Disable signature canvas if form is completed or this specific signature is already set
-                            if (el && (
-                              formData.status === "COMPLETED" ||
-                              (propFormData?.signatureSection?.signatures &&
-                                propFormData.signatureSection.signatures[idx] &&
-                                typeof propFormData.signatureSection.signatures[idx] === 'string' &&
-                                propFormData.signatureSection.signatures[idx].startsWith('data:image/') &&
-                                propFormData.signatureSection.signatures[idx].length > 100)
-                            )) {
-                              el.off();
-                            }
-                          }}
-                        />
+                        {showSignature[idx] && (
+                          <div className="signature-canvas-wrapper">
+                            <SignatureCanvas
+                              penColor="black"
+                              canvasProps={{
+                                width: 300,
+                                height: 100,
+                                className: "sigCanvas",
+                                style: {
+                                  border: "1px solid #ccc",
+                                  width: "100%",
+                                  maxWidth: "300px",
+                                  height: "100px",
+                                  backgroundColor: "#f9f9f9",
+                                  borderRadius: "4px",
+                                  opacity: (formData.status === "COMPLETED" ||
+                                    (propFormData?.signatureSection?.signatures &&
+                                      propFormData.signatureSection.signatures[idx] &&
+                                      typeof propFormData.signatureSection.signatures[idx] === 'string' &&
+                                      propFormData.signatureSection.signatures[idx].startsWith('data:image/') &&
+                                      propFormData.signatureSection.signatures[idx].length > 100)) ? "0.7" : "1"
+                                }
+                              }}
+                              ref={(el) => {
+                                sigRefs.current[idx] = el;
+                                // Disable signature canvas if form is completed or this specific signature is already set
+                                if (el && (
+                                  formData.status === "COMPLETED" ||
+                                  (propFormData?.signatureSection?.signatures &&
+                                    propFormData.signatureSection.signatures[idx] &&
+                                    typeof propFormData.signatureSection.signatures[idx] === 'string' &&
+                                    propFormData.signatureSection.signatures[idx].startsWith('data:image/') &&
+                                    propFormData.signatureSection.signatures[idx].length > 100)
+                                )) {
+                                  el.off();
+                                }
+                              }}
+                            />
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div style={{ marginTop: "10px", width: "100%" }}>
