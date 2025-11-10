@@ -41,4 +41,4 @@ jobs:
           slot-name: "Production"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_EF21F2D29DD14A878D1C31198F3AB108 }}
           package: .
-        timeout-minutes: 15
+        timeout-minutes: 60
