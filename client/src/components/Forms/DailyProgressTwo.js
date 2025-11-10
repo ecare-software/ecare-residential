@@ -716,22 +716,14 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
       let reportId = formData._id;
       const effectiveHomeId = propUserObj?.homeId || userObj?.homeId;
 
-      // Try to fetch latest draft if no reportId exists
-      if (!reportId && formData.clientId) {
-        try {
-          const { data: latestDraft } = await axios.get(
-            `/api/dailyProgressNoteTwo/latest/${formData.clientId}`
-          );
-          if (latestDraft) reportId = latestDraft._id;
-        } catch (err) {
-          if (err.response && err.response.status === 404) {
-            // No draft exists yet — that's fine, will create a new one
-            reportId = undefined;
-          } else {
-            alert("Error fetching latest draft");
-            return; // stop saving if other errors occur
-          }
-        }
+      // REMOVED: No longer trying to fetch latest draft at all
+      // This completely eliminates the API call that was causing issues
+
+      // If we don't have a reportId, always create a new form
+      // This applies to both "submit" and "draft" actions
+      if (!reportId) {
+        console.log("No reportId found, creating new form");
+        reportId = undefined; // Explicitly set to undefined to create new form
       }
 
       const safeEnum = (val) => (val === "" ? undefined : val);
@@ -781,9 +773,31 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
         shiftSummary: removeIds(shiftSummary),
         clothingDescription: removeIds(clothingDescription),
         signatureSection: {
-          signatures: sigRefs.current.map((sig) =>
-            sig ? sig.getTrimmedCanvas().toDataURL() : ""
-          ),
+          signatures: sigRefs.current.map((sig) => {
+            if (!sig) return "";
+            try {
+              // First try toDataURL directly if it exists
+              if (typeof sig.toDataURL === 'function') {
+                return sig.toDataURL();
+              }
+
+              // Then try getTrimmedCanvas
+              if (typeof sig.getTrimmedCanvas === 'function' && sig.getTrimmedCanvas()) {
+                return sig.getTrimmedCanvas().toDataURL();
+              }
+
+              // Finally try getCanvas as last resort
+              if (typeof sig.getCanvas === 'function' && sig.getCanvas()) {
+                return sig.getCanvas().toDataURL();
+              }
+
+              // If none of the methods work, return empty string
+              return "";
+            } catch (error) {
+              console.error("Error getting signature canvas data:", error);
+              return "";
+            }
+          }),
           initials,
           titles,
           selectedShifts: selectedShifts || ["", "", ""],
@@ -907,6 +921,7 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
       // Return true to indicate success
       return true;
     } catch (err) {
+      console.log(err)
       alert("Error saving form.");
       return false;
     }
