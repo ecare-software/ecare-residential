@@ -223,9 +223,6 @@ class App extends Component {
   };
 
   loadMessage = (userObj, pageNumber) => {
-    Axios.put(`/api/home/home-1234/twoSignatures`, {
-      twoSignatures: true,
-    })
     this.doGetHomeInfo()
     if (pageNumber === undefined) { pageNumber = 1 };
     this.setState({
