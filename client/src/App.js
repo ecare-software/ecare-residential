@@ -37,6 +37,7 @@ import ManageTraining from './components/ManageTraining/ManageTraining';
 import { isAdminUser } from './utils/AdminReportingRoles';
 import NightMonitoring from './components/Forms/NightMonitoring';
 import DailyProgressTwo from './components/Forms/DailyProgressTwo';
+import MedicationLog from './components/Forms/MedicationLog';
 
 
 const hideStyle = {
@@ -927,6 +928,18 @@ function ToggleScreen({
           valuesSet={false}
           userObj={appState.userObj}
           id="dailyProgressTwo"
+        />
+      </div>
+    )
+  };
+
+  if (name === 'MedicationLog') {
+    return (
+      <div>
+        <MedicationLog
+          valuesSet={false}
+          userObj={appState.userObj}
+          id="medicationLog"
         />
       </div>
     )

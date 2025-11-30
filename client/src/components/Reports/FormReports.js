@@ -181,7 +181,9 @@ export class FormReports extends Component {
     if (!isAdminUser(this.props.userObj)) {
       data = data.reduce((acc, cur) => {
         const formHasUserArray = cur.filter((formType) => {
-          return formType.createdBy === this.props.userObj.email || formType.formType == 'Daily Progress Note Two';
+          return formType.createdBy === this.props.userObj.email || 
+          formType.formType == 'Daily Progress Note Two' ||
+          formType.formType === 'Medication Log'
         });
         if (formHasUserArray.length > 0) {
           acc.push(formHasUserArray);
@@ -232,7 +234,8 @@ export class FormReports extends Component {
               "72 Hour Treatment Plan",
               "Awake Night Staff Signoff",
               "Night Monitoring",
-              "Daily Progress Note Two"
+              "Daily Progress Note Two", 
+              "Medication Log"
             ],
           });
           this.setState({ formNamesReady: true });
@@ -251,6 +254,11 @@ export class FormReports extends Component {
     var formRequests = [
       Axios.get(
         "/api/dailyProgressNoteTwo/" +
+        this.props.userObj.homeId +
+        "/none/none/none/none/false"
+      ),
+      Axios.get(
+        "/api/medication/" +
         this.props.userObj.homeId +
         "/none/none/none/none/false"
       ),
@@ -425,6 +433,11 @@ export class FormReports extends Component {
         "/none/none/none/none/false"
       ),
       Axios.get(
+        "/api/medication/" +
+        this.props.userObj.homeId +
+        "/none/none/none/none/false"
+      ),
+      Axios.get(
         "/api/incidentReport/" +
         this.props.userObj.homeId +
         "/none/none/none/none/none/none/none/none/none/false"
@@ -544,6 +557,24 @@ export class FormReports extends Component {
           formRequests.push(
             Axios.get(
               "/api/dailyProgressNoteTwo/" +
+              this.props.userObj.homeId +
+              "/" +
+              searchString +
+              "/" +
+              submittedAfter +
+              "/" +
+              submittedBefore +
+              "/" +
+              submittedByA +
+              "/" +
+              approved
+            )
+          );
+        }
+        if (formName === "Medication Log") {
+          formRequests.push(
+            Axios.get(
+              "/api/medication/" +
               this.props.userObj.homeId +
               "/" +
               searchString +
@@ -849,6 +880,20 @@ export class FormReports extends Component {
         ),
         Axios.get(
           "/api/dailyProgressNoteTwo/" +
+          this.props.userObj.homeId +
+          "/" +
+          searchString +
+          "/" +
+          submittedAfter +
+          "/" +
+          submittedBefore +
+          "/" +
+          submittedByA +
+          "/" +
+          approved
+        ),
+        Axios.get(
+          "/api/medication/" +
           this.props.userObj.homeId +
           "/" +
           searchString +

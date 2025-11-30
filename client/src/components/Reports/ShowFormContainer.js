@@ -20,6 +20,7 @@ import { DoDeleteRecord } from "../../utils/DoDeleteRecord";
 import NightMonitoring from "../Forms/NightMonitoring";
 import ClipLoader from "react-spinners/ClipLoader";
 import DailyProgressTwo from "../Forms/DailyProgressTwo";
+import MedicationLog from "../Forms/MedicationLog";
 import "../../App.css";
 
 const needsNurseSig = ["Health Body Check", "Illness Injury"];
@@ -728,6 +729,8 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
       droute = "nightMonitoring";
     } else if (name === "Daily Progress Note Two") {
       droute = "dailyProgressNoteTwo";
+    } else if (name === "Medication Log") {
+      droute = "medication"
     }
 
     setRoute(droute);
@@ -775,6 +778,18 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     if (name === "Daily Progress Note Two") {
       return (
         <DailyProgressTwo
+          valuesSet="true"
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    }
+
+    if (name === "Medication Log") {
+      console.log("MedicationLog formData:", formData);
+      return (
+        <MedicationLog
           valuesSet="true"
           userObj={userObj}
           formData={updatedFormData}
