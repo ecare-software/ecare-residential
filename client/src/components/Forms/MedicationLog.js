@@ -13,6 +13,7 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
   const effectiveUserObj = propEffectiveUserObj || cookieUser || null;
   const [currentFormId, setCurrentFormId] = useState(formData?._id || null);
   const [caregiverNames, setCaregiverNames] = useState(["", ""]);
+  const [customMedication, setCustomMedication] = useState("");
 
   const [clients, setClients] = useState([]);
   const [selectedChild, setSelectedChild] = useState({ id: "", name: "" });
@@ -483,7 +484,7 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
               ))}
             </SelectedValues>
 
-            <Select
+            {/* <Select
               onChange={(e) => {
                 const value = e.target.value;
                 if (!value) return;
@@ -496,7 +497,40 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
               {medicationOptions.map((opt) => (
                 <option key={opt} value={opt}>{opt}</option>
               ))}
+            </Select> */}
+            <Select
+              onChange={(e) => {
+                const value = e.target.value;
+                if (!value) return;
+                addMedicationByName(value);
+              }}
+            >
+              <option value="">Select medication...</option>
+              {medicationOptions.map((opt) => (
+                <option key={opt} value={opt}>{opt}</option>
+              ))}
             </Select>
+
+            {/* ---- NEW CUSTOM MEDICATION FIELD ---- */}
+            <CustomAddContainer>
+              <Input
+                type="text"
+                placeholder="Add custom medication..."
+                value={customMedication}
+                onChange={(e) => setCustomMedication(e.target.value)}
+              />
+
+              <AddButton
+                type="button"
+                onClick={() => {
+                  if (!customMedication.trim()) return;
+                  addMedicationByName(customMedication.trim());
+                  setCustomMedication("");
+                }}
+              >
+                Add
+              </AddButton>
+            </CustomAddContainer>
           </MultiSelectContainer>
         </FormRow>
 
@@ -950,4 +984,23 @@ const Toggle = styled.div`
 const MedBody = styled.div`
   padding: 12px;
   background: #fff;
+`;
+
+const CustomAddContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+`;
+
+const AddButton = styled.button`
+  padding: 8px 12px;
+  background: #4a9;
+  color: white;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background: #3a8;
+  }
 `;
