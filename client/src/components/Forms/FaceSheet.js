@@ -9,6 +9,7 @@ class FaceSheet extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      childMeta_photo: "",
       childMeta_name: "",
       childMeta_gender: "",
       childMeta_dob: "",
@@ -83,6 +84,7 @@ class FaceSheet extends Component {
   };
   resetForm = () => {
     this.setState({
+      childMeta_photo: "",
       childMeta_name: "",
       childMeta_gender: "",
       childMeta_dob: "",
@@ -224,6 +226,17 @@ class FaceSheet extends Component {
     }
   }
 
+  handlePhotoUpload = (event) => {
+    const file = event.target.files[0];
+    if(!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      this.setState({childMeta_photo: reader.result});
+    };
+    reader.readAsDataURL(file);
+  };
+
   render() {
     if (!this.props.valuesSet) {
       return (
@@ -251,6 +264,46 @@ class FaceSheet extends Component {
             <h2 className="formTitle">Face Sheet</h2>
           </div>
           <div className="formFieldsMobile">
+            <div className="form-group logInInputField" style={{display:"flex", flexDirection:"column"}}>
+              <label className="control-label">Upload Child Photo</label>
+               <button
+                  type="button"
+                  onClick={() => document.getElementById("childPhotoUpload").click()}
+                  style={{
+                    padding: "10px 15px",
+                    borderRadius: "6px",
+                    border: "1px solid #ccc",
+                    backgroundColor: "#f8f8f8",
+                    cursor: "pointer",
+                    fontSize: "14px",
+                  }}
+                >
+                  Choose File
+                </button>
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="childPhotoUpload"
+                  onChange={this.handlePhotoUpload}
+                  style={{ display: "none" }}
+                />
+            </div>
+            {this.state.childMeta_photo && (
+              <div style={{marginBottom:"15px", textAlign:"center"}}>
+                <img
+                  src={this.state.childMeta_photo}
+                  alt="Child"
+                  style={{
+                    width:"150px",
+                    height:"150px",
+                    objectFit:"cover",
+                    borderRadius:"10px",
+                    border:"1px solid #ccc",
+                  }}
+                />
+              </div>
+            )}
             <div className="form-group logInInputField">
               {" "}
               <label className="control-label">Name</label>{" "}
@@ -615,6 +668,45 @@ class FaceSheet extends Component {
             <h2 className="formTitle">Face Sheet</h2>
           </div>
           <div className="formFieldsMobileReport">
+            <div className="form-group logInInputField" style={{ display: "flex", flexDirection: "column" }}>
+              <label className="control-label">Upload Child Photo</label>
+              <button
+                type="button"
+                onClick={() => document.getElementById("childPhotoUpload").click()}
+                style={{
+                    padding: "10px 15px",
+                    borderRadius: "6px",
+                    border: "1px solid #ccc",
+                    backgroundColor: "#f8f8f8",
+                    cursor: "pointer",
+                    fontSize: "14px",
+                  }}
+              >
+                {this.state.childMeta_photo ? "Change Photo" : "Upload Photo"}
+              </button>
+              <input
+                type="file"
+                accept="image/*"
+                id="childPhotoUpload"
+                onChange={this.handlePhotoUpload}
+                style={{ display: "none" }}
+              />
+              {this.state.childMeta_photo && (
+                <div style={{ marginTop: "10px", textAlign: "center" }}>
+                  <img
+                    src={this.state.childMeta_photo}
+                    alt="Child"
+                    style={{
+                      width:"150px",
+                      height:"150px",
+                      objectFit:"cover",
+                      borderRadius:"10px",
+                      border:"1px solid #ccc",
+                    }}
+                  />
+                </div>
+              )}
+            </div>
             <div className="form-group logInInputField">
               {" "}
               <label className="control-label">Name</label>{" "}

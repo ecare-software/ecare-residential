@@ -6,6 +6,9 @@ const ClientSchema = new Schema({
   childMeta_name: {
     type: String,
   },
+  childMeta_photo: {
+    type: String
+  },
   childMeta_gender: {
     type: String,
   },

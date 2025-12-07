@@ -6,6 +6,7 @@ const Client = require("../../models/Client");
 router.post("/", (req, res) => {
   const newClient = new Client({
     childMeta_name: req.body.childMeta_name,
+    childMeta_photo: req.body.childMeta_photo,
     childMeta_gender: req.body.childMeta_gender,
     childMeta_dob: req.body.childMeta_dob,
     childMeta_age: req.body.childMeta_age,
