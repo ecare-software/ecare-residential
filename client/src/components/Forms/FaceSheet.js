@@ -290,7 +290,7 @@ class FaceSheet extends Component {
                 />
             </div>
             {this.state.childMeta_photo && (
-              <div style={{marginBottom:"15px", textAlign:"center"}}>
+              <div style={{marginBottom:"15px", textAlign:"center", display:"flex", flexDirection:"column", alignItems:'center'}}>
                 <img
                   src={this.state.childMeta_photo}
                   alt="Child"
@@ -302,6 +302,24 @@ class FaceSheet extends Component {
                     border:"1px solid #ccc",
                   }}
                 />
+                <button
+                  type="button"
+                  onClick={() => {
+                    this.setState({childMeta_photo: ""});
+                    document.getElementById("childPhotoUpload").value = null
+                  }}
+                  style={{
+                    marginTop:"10px",
+                    padding:"5px 10px",
+                    borderRadius:"6px",
+                    border:"1px solid #ccc",
+                    backgroundColor:"#f8f8f8",
+                    cursor:"pointer",
+                    fontSize:"12px"
+                  }}
+                >
+                  Remove Photo
+                </button>
               </div>
             )}
             <div className="form-group logInInputField">
@@ -668,7 +686,7 @@ class FaceSheet extends Component {
             <h2 className="formTitle">Face Sheet</h2>
           </div>
           <div className="formFieldsMobileReport">
-            <div className="form-group logInInputField" style={{ display: "flex", flexDirection: "column" }}>
+            <div className="form-group logInInputField" style={{ display: "flex", flexDirection: "column", }}>
               <label className="control-label">Upload Child Photo</label>
               <button
                 type="button"
@@ -692,7 +710,7 @@ class FaceSheet extends Component {
                 style={{ display: "none" }}
               />
               {this.state.childMeta_photo && (
-                <div style={{ marginTop: "10px", textAlign: "center" }}>
+                <div style={{ marginTop: "10px", textAlign: "center", display:"flex", flexDirection:"column", alignItems:'center' }}>
                   <img
                     src={this.state.childMeta_photo}
                     alt="Child"
@@ -704,6 +722,24 @@ class FaceSheet extends Component {
                       border:"1px solid #ccc",
                     }}
                   />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      this.setState({childMeta_photo: ""});
+                      document.getElementById("childPhotoUpload").value = null
+                    }}
+                    style={{
+                      marginTop:"10px",
+                      padding:"5px 10px",
+                      borderRadius:"6px",
+                      border:"1px solid #ccc",
+                      backgroundColor:"#f8f8f8",
+                      cursor:"pointer",
+                      fontSize:"12px"
+                    }}
+                  >
+                    Remove Photo
+                  </button>
                 </div>
               )}
             </div>
