@@ -21,12 +21,70 @@ import { FetchHomeData } from "../../utils/FetchHomeData";
     "Restricted field Trip"
 
 */
+
+const standardIncidentOptions = [
+  "Cussing",
+  "Encopresis",
+  "Hallucinations (v)",
+  "Horse-playing",
+  "Night Terrors",
+  "Poss. of Contraband",
+  "Suicidal (gesture)",
+  "Vandalism",
+  "Defiance",
+  "Enuresis",
+  "Hallucinations (a)",
+  "Non-compliance",
+  "Yelling/Screaming",
+  "Aggression (physical)",
+  "Disrespecting Others",
+  "Fighting",
+  "Hospitalization (psych)",
+  "Out-of-Area",
+  "Property Destruction",
+  "Skipping School",
+  "Suspension",
+  "Aggression (verbal)",
+  "Gang Activity",
+  "Homicidal (ideations)",
+  "Poor Soc. Interaction",
+  "School Problems",
+  "Social Isolation",
+  "Bullying",
+  "D/A possession",
+  "Grooming",
+  "Homicidal (threats)",
+  "Lying",
+  "Poor Boundaries",
+  "Theft/Stealing",
+  "Other",
+  "Illness/Injury"
+];
+
+const seriousIncidentOptions = [
+  "Awol",
+  "Hospitalization (med)",
+  "Homicidal (attempt/gesture)",
+  "SAO (victim)",
+  "Poss. of a Weapon",
+  "Drug/Alcohol Use",
+  "Arrest",
+  "SAO (self)",
+  "Illness/Injury",
+  "SAO (aggressor)",
+  "Suicidal (threat)",
+  "Terroristic Threat",
+  "Suicidal (attempt)"
+];
+
 var interval = 0; // used for autosaving
 let initAutoSave = false;
 class DailyProgressAndActivity extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      incident_type: "",
+      nature_of_incident: "",
       childMeta_name: "",
       personal_hygiene: "",
       dressing: "",
@@ -143,6 +201,8 @@ class DailyProgressAndActivity extends Component {
 
   resetForm = () => {
     this.setState({
+      incident_type:"",
+      nature_of_incident:"",
       childMeta_name: "",
       personal_hygiene: "",
       dressing: "",
@@ -342,6 +402,22 @@ class DailyProgressAndActivity extends Component {
       ...this.state,
       loadingClients: true,
     });
+
+    if (this.state.incident_type === "Serious Incident" && !save) {
+      alert("Please remember to complete Serious Incident Report");
+    }
+
+    if (this.state.incident_type === "Standard Incident" && !save) {
+      alert("Please remember to complete Incident Report");
+    }
+
+    if (this.state.incident_type === "Serious Incident" && save) {
+      alert("You selected Serious Incident. Please Remember to complete Serious Incident Report.");
+    }
+
+    if (this.state.incident_type === "Standard Incident" && save) {
+      alert("You selected Standard Incident. Please Remember to complete Incident Report.");
+    }
 
     this.submit(save);
   };
@@ -813,6 +889,20 @@ class DailyProgressAndActivity extends Component {
                       disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
+                  <div className="form-group logInputField">
+                    <label className="control-label">Incident Type</label>
+                    <Form.Control
+                      as="select"
+                      id="incident_type"
+                      value={this.state.incident_type}
+                      onChange={this.handleFieldInput}
+                      disabled={this.state.childSelected ? false : true}
+                    >
+                      <option value="">Select Incident</option>
+                      <option value="Standard Incident">Standard Incident</option>
+                      <option value="Serious Incident">Serious Incident</option>
+                    </Form.Control>
+                  </div>
                 </Col>
 
                 <Col md={4} className="print-column">
@@ -964,6 +1054,27 @@ class DailyProgressAndActivity extends Component {
               </Row>
               <Row>
                 <Col md={12} className="print-column">
+                  <div className="form-group logInputField">
+                    <label className="control-label">Nature of Incident</label>
+                    <Form.Control
+                      as="select"
+                      id="nature_of_incident"
+                      value={this.state.nature_of_incident}
+                      onChange={this.handleFieldInput}
+                      disabled={this.state.childSelected ? false : true}
+                    >
+                      <option value="">Select Nature of Incident</option>
+                      {this.state.incident_type === "Standard Incident" && 
+                        standardIncidentOptions.map((opt) => (
+                          <option value={opt}>{opt}</option>
+                      ))}
+
+                      {this.state.incident_type === "Serious Incident" &&
+                        seriousIncidentOptions.map((opt) => (
+                          <option value={opt}>{opt}</option>
+                        ))}
+                    </Form.Control>
+                  </div>
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -1371,6 +1482,20 @@ class DailyProgressAndActivity extends Component {
                         type="text"
                       />{" "}
                     </div>
+                    <div className="form-group logInInputField">
+                      <label className="control-label">Incident Type</label>
+                      <Form.Control
+                        as="select"
+                        id="incident_type"
+                        value={this.state.incident_type}
+                        onChange={this.handleFieldInput}
+                        disabled={this.state.childSelected ? false : true}
+                      >
+                        <option value="">Select Incident</option>
+                        <option value="Standard Incident">Standard Incident</option>
+                        <option value="Serious Incident">Serious Incident</option>
+                      </Form.Control>
+                    </div>
                   </Col>
 
                   <Col md={4} className="print-column">
@@ -1525,6 +1650,27 @@ class DailyProgressAndActivity extends Component {
                 </Row>
                 <Row id='summary_of_daily_schedule-row'>
                   <Col md={12} className="print-column">
+                    <div className="form-group logInputField">
+                      <label className="control-label">Nature of Incident</label>
+                      <Form.Control
+                        as="select"
+                        id="nature_of_incident"
+                        value={this.state.nature_of_incident}
+                        onChange={this.handleFieldInput}
+                        disabled={this.state.childSelected ? false : true}
+                      >
+                        <option value="">Select Nature of Incident</option>
+                        {this.state.incident_type === "Standard Incident" && 
+                          standardIncidentOptions.map((opt) => (
+                            <option value={opt}>{opt}</option>
+                        ))}
+
+                        {this.state.incident_type === "Serious Incident" &&
+                          seriousIncidentOptions.map((opt) => (
+                            <option value={opt}>{opt}</option>
+                          ))}
+                      </Form.Control>
+                    </div>
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">

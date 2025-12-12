@@ -7,6 +7,8 @@ router.post("/", (req, res) => {
   const newDailyProgressAndActivity = new DailyProgressAndActivity({
     childMeta_name: req.body.childMeta_name,
 
+    incident_type: req.body.incident_type,
+    nature_of_incident: req.body.nature_of_incident,
     personal_hygiene: req.body.personal_hygiene,
     dressing: req.body.dressing,
     table_mannders: req.body.table_mannders,
