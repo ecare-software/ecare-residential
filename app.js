@@ -44,6 +44,9 @@ const medication = require("./routes/api/medicationRouter");
 const app = express();
 // email test
 
+app.use(express.json({ limit: "25mb" }));
+app.use(express.urlencoded({ extended: true, limit: "25mb" }));
+
 //  Body Parser middleware
 app.use(bodyParser.json());
 app.use(methodOverride("_method"));
@@ -58,8 +61,8 @@ mongoose
   });
 
 app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, "client/build"))); //new
