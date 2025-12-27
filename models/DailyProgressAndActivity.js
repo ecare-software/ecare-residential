@@ -90,6 +90,10 @@ const DailyProgressAndActivitySchema = new Schema({
     type: String,
     required: false,
   },
+  other_incident_description:{
+    type: String,
+    required: false
+  },
   no_of_home_incidents: {
     type: String,
     required: false,

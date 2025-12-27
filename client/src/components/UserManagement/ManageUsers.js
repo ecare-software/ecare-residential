@@ -4,7 +4,8 @@ import { Table, Modal, Tab, Nav, Form, Button, Alert } from "react-bootstrap";
 import "../../App.css";
 import UpdateUser from "./UpdateUser";
 import DeactivateUser from "./DeactivateUser";
-import ActivateUser from "./ActivateUser";
+// import ActivateUser from "./ActivateUser";
+import DeleteUser from "./DeleteUser";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 
 const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
@@ -242,8 +243,15 @@ const ManageUsers = ({ userObj, toggleShow, doShow, getAllUsers }) => {
                               item={user}
                             />
                           </td>
-                          <td style={{ width: 5 }}>
+                          {/* <td style={{ width: 5 }}>
                             <ActivateUser
+                              id={user._id}
+                              fetchData={fetchData}
+                              getAllUsers={getAllUsers}
+                            />
+                          </td> */}
+                          <td style={{width:5}}>
+                            <DeleteUser
                               id={user._id}
                               fetchData={fetchData}
                               getAllUsers={getAllUsers}

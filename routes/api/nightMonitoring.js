@@ -8,6 +8,7 @@ router.post("/", (req, res) => {
     roomNumber: req.body.roomNumber,
     timeChildAwake: req.body.timeChildAwake,
     timeChildReturnBed: req.body.timeChildReturnBed,
+    youthStatus: req.body.youthStatus,
     reason: req.body.reason,
     childMeta_name: req.body.childMeta_name,
     signed: req.body.signed,

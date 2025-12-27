@@ -14,6 +14,9 @@ const NightMonitoringSchema = new Schema({
   timeChildReturnBed: {
     type: String,
   },
+  youthStatus: {
+    type: String,
+  },
   reason: {
     type: String,
   },

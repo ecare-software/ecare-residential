@@ -4,7 +4,7 @@ import FormAlert from "../Forms/FormAlert";
 import "../../App.css";
 import Axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
-import { Form } from "react-bootstrap";
+import { Form, Modal, Button } from "react-bootstrap";
 import ClientOption from "../../utils/ClientOption.util";
 import SignatureCanvas from "react-signature-canvas";
 import { GetUserSig } from "../../utils/GetUserSig";
@@ -23,6 +23,7 @@ import { FetchHomeData } from "../../utils/FetchHomeData";
 */
 
 const standardIncidentOptions = [
+  "Other",
   "Cussing",
   "Encopresis",
   "Hallucinations (v)",
@@ -57,11 +58,11 @@ const standardIncidentOptions = [
   "Lying",
   "Poor Boundaries",
   "Theft/Stealing",
-  "Other",
   "Illness/Injury"
 ];
 
 const seriousIncidentOptions = [
+  "Other",
   "Awol",
   "Hospitalization (med)",
   "Homicidal (attempt/gesture)",
@@ -85,6 +86,7 @@ class DailyProgressAndActivity extends Component {
     this.state = {
       incident_type: "",
       nature_of_incident: "",
+      other_incident_description:"",
       childMeta_name: "",
       personal_hygiene: "",
       dressing: "",
@@ -138,6 +140,9 @@ class DailyProgressAndActivity extends Component {
       signature1: [],
       signature2: [],
       twoSignaturesRequired: false,
+      showIncidentModal: false,
+      incidentModalMessage: "",
+      pendingSuccessAlert: false,
     };
   }
 
@@ -171,7 +176,17 @@ class DailyProgressAndActivity extends Component {
   };
 
   handleFieldInput = (event) => {
+    const {id, value} = event.target;
     var stateObj = {};
+
+    // 👇 Special handling for Incident Type
+    if (id === "incident_type") {
+      stateObj.incident_type = value;
+      stateObj.nature_of_incident = value === "No Incident" ? "No Incident" : "";
+      this.setState(stateObj);
+      return;
+    }
+    
     if (event.target.id.indexOf(".") > -1) {
       let level1Obj = event.target.id.split(".")[0];
       let level2Obj = event.target.id.split(".")[1];
@@ -203,6 +218,7 @@ class DailyProgressAndActivity extends Component {
     this.setState({
       incident_type:"",
       nature_of_incident:"",
+      other_incident_description:"",
       childMeta_name: "",
       personal_hygiene: "",
       dressing: "",
@@ -338,7 +354,12 @@ class DailyProgressAndActivity extends Component {
 
         this.setState({ ...this.state, ...data });
         window.scrollTo(0, 0);
-        this.toggleSuccessAlert();
+        // this.toggleSuccessAlert();
+         if (this.state.showIncidentModal) {
+            this.setState({pendingSuccessAlert: true});
+          } else {
+            this.toggleSuccessAlert();
+          }
       } catch (e) {
         console.log(e);
         this.setState({
@@ -356,7 +377,12 @@ class DailyProgressAndActivity extends Component {
       Axios.post("/api/dailyProgressAndActivity", currentState)
         .then((res) => {
           window.scrollTo(0, 0);
-          this.toggleSuccessAlert();
+          // this.toggleSuccessAlert();
+          if (this.state.showIncidentModal) {
+            this.setState({pendingSuccessAlert: true});
+          } else {
+            this.toggleSuccessAlert();
+          }
           if (!this.props.valuesSet) {
             this.resetForm();
           }
@@ -403,23 +429,27 @@ class DailyProgressAndActivity extends Component {
       loadingClients: true,
     });
 
-    if (this.state.incident_type === "Serious Incident" && !save) {
-      alert("Please remember to complete Serious Incident Report");
+    let message = "";
+
+    if(this.state.incident_type === "Serious Incident") {
+      message = "You selected Serious Incident. Please remember to complete the Serious Incident Report.";
     }
 
-    if (this.state.incident_type === "Standard Incident" && !save) {
-      alert("Please remember to complete Incident Report");
+    if (this.state.incident_type === "Standard Incident") {
+      message = "you selected Standard Incident. Please remember to complete the Incident Report."
     }
 
-    if (this.state.incident_type === "Serious Incident" && save) {
-      alert("You selected Serious Incident. Please Remember to complete Serious Incident Report.");
+    if(message) {
+      this.setState(
+        {
+          showIncidentModal: true,
+          incidentModalMessage: message,
+        },
+        () => this.submit(save)
+      );
+    } else {
+      this.submit(save);
     }
-
-    if (this.state.incident_type === "Standard Incident" && save) {
-      alert("You selected Standard Incident. Please Remember to complete Incident Report.");
-    }
-
-    this.submit(save);
   };
 
   setSignature = (userObj) => {
@@ -526,6 +556,43 @@ class DailyProgressAndActivity extends Component {
     this.doGetHomeInfo();
     if (!this.props.valuesSet) {
       return (
+      <>
+        <Modal
+          show={this.state.showIncidentModal}
+          onHide={() => this.setState({showIncidentModal: false})}
+          centered
+          contentClassName="custom-modal-content"
+          dialogClassName="custom-modal-dialog"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title className="custom-modal-title">Reminder</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            {this.state.incidentModalMessage}
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button
+              variant="primary"
+              // onClick={() => this.setState({showIncidentModal: false})}
+              onClick={() =>
+                this.setState(
+                  {showIncidentModal: false},
+                  () => {
+                    if(this.state.pendingSuccessAlert) {
+                      this.toggleSuccessAlert();
+                      this.setState({pendingSuccessAlert: false});
+                    }
+                  }
+                )
+              }
+            >
+              OK
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
         <div className="formComp">
           {this.state.formSubmitted || this.state.formHasError ? (
             <React.Fragment>
@@ -889,20 +956,6 @@ class DailyProgressAndActivity extends Component {
                       disabled={this.state.childSelected ? false : true}
                     />{" "}
                   </div>
-                  <div className="form-group logInputField">
-                    <label className="control-label">Incident Type</label>
-                    <Form.Control
-                      as="select"
-                      id="incident_type"
-                      value={this.state.incident_type}
-                      onChange={this.handleFieldInput}
-                      disabled={this.state.childSelected ? false : true}
-                    >
-                      <option value="">Select Incident</option>
-                      <option value="Standard Incident">Standard Incident</option>
-                      <option value="Serious Incident">Serious Incident</option>
-                    </Form.Control>
-                  </div>
                 </Col>
 
                 <Col md={4} className="print-column">
@@ -1055,6 +1108,21 @@ class DailyProgressAndActivity extends Component {
               <Row>
                 <Col md={12} className="print-column">
                   <div className="form-group logInputField">
+                    <label className="control-label">Incident Type</label>
+                    <Form.Control
+                      as="select"
+                      id="incident_type"
+                      value={this.state.incident_type}
+                      onChange={this.handleFieldInput}
+                      disabled={this.state.childSelected ? false : true}
+                    >
+                      <option value="">Select Incident</option>
+                      <option value="No Incident">No Incident</option>
+                      <option value="Standard Incident">Standard Incident</option>
+                      <option value="Serious Incident">Serious Incident</option>
+                    </Form.Control>
+                  </div>
+                  <div className="form-group logInputField">
                     <label className="control-label">Nature of Incident</label>
                     <Form.Control
                       as="select"
@@ -1064,6 +1132,10 @@ class DailyProgressAndActivity extends Component {
                       disabled={this.state.childSelected ? false : true}
                     >
                       <option value="">Select Nature of Incident</option>
+                      {this.state.incident_type === "No Incident" && (
+                        <option value='No Incident'>No Incident</option>
+                      )}
+
                       {this.state.incident_type === "Standard Incident" && 
                         standardIncidentOptions.map((opt) => (
                           <option value={opt}>{opt}</option>
@@ -1075,6 +1147,20 @@ class DailyProgressAndActivity extends Component {
                         ))}
                     </Form.Control>
                   </div>
+                  {this.state.nature_of_incident === "Other" && (
+                    <div className="form-group logInoutField mt-2">
+                      <label className="control-label">
+                        Please describe the nature of the incident
+                      </label>
+                      <Form.Control
+                        type="text"
+                        id="other_incident_description"
+                        value={this.state.other_incident_description}
+                        onChange={this.handleFieldInput}
+                        placeholder="Enter incident details"
+                      />
+                    </div>
+                  )}
                   <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
@@ -1151,9 +1237,46 @@ class DailyProgressAndActivity extends Component {
             </Container>
           )}
         </div>
+      </>
       );
     } else {
       return (
+        <>
+        <Modal
+          show={this.state.showIncidentModal}
+          onHide={() => this.setState({showIncidentModal: false})}
+          centered
+          contentClassName="custom-modal-content"
+          dialogClassName="custom-modal-dialog"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title className="custom-modal-title">Reminder</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            {this.state.incidentModalMessage}
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button
+              variant="primary"
+              // onClick={() => this.setState({showIncidentModal: false})}
+              onClick={() =>
+                this.setState(
+                  {showIncidentModal: false},
+                  () => {
+                    if(this.state.pendingSuccessAlert) {
+                      this.toggleSuccessAlert();
+                      this.setState({pendingSuccessAlert: false});
+                    }
+                  }
+                )
+              }
+            >
+              OK
+            </Button>
+          </Modal.Footer>
+        </Modal>
         <div className="formComp">
           {this.state.formSubmitted || this.state.formHasError ? (
             <React.Fragment>
@@ -1482,20 +1605,6 @@ class DailyProgressAndActivity extends Component {
                         type="text"
                       />{" "}
                     </div>
-                    <div className="form-group logInInputField">
-                      <label className="control-label">Incident Type</label>
-                      <Form.Control
-                        as="select"
-                        id="incident_type"
-                        value={this.state.incident_type}
-                        onChange={this.handleFieldInput}
-                        disabled={this.state.childSelected ? false : true}
-                      >
-                        <option value="">Select Incident</option>
-                        <option value="Standard Incident">Standard Incident</option>
-                        <option value="Serious Incident">Serious Incident</option>
-                      </Form.Control>
-                    </div>
                   </Col>
 
                   <Col md={4} className="print-column">
@@ -1651,15 +1760,32 @@ class DailyProgressAndActivity extends Component {
                 <Row id='summary_of_daily_schedule-row'>
                   <Col md={12} className="print-column">
                     <div className="form-group logInputField">
+                      <label className="control-label">Incident Type</label>
+                      <Form.Control
+                        as="select"
+                        id="incident_type"
+                        value={this.state.incident_type}
+                        onChange={this.handleFieldInput}
+                      >
+                        <option value="">Select Incident</option>
+                        <option value="No Incident">No Incident</option>
+                        <option value="Standard Incident">Standard Incident</option>
+                        <option value="Serious Incident">Serious Incident</option>
+                      </Form.Control>
+                    </div>
+                    <div className="form-group logInputField">
                       <label className="control-label">Nature of Incident</label>
                       <Form.Control
                         as="select"
                         id="nature_of_incident"
                         value={this.state.nature_of_incident}
                         onChange={this.handleFieldInput}
-                        disabled={this.state.childSelected ? false : true}
                       >
                         <option value="">Select Nature of Incident</option>
+                        {this.state.incident_type === "No Incident" && (
+                          <option value='No Incident'>No Incident</option>
+                        )}
+
                         {this.state.incident_type === "Standard Incident" && 
                           standardIncidentOptions.map((opt) => (
                             <option value={opt}>{opt}</option>
@@ -1671,6 +1797,20 @@ class DailyProgressAndActivity extends Component {
                           ))}
                       </Form.Control>
                     </div>
+                    {this.state.nature_of_incident === "Other" && (
+                      <div className="form-group logInoutField mt-2">
+                        <label className="control-label">
+                          Please describe the nature of the incident
+                        </label>
+                        <Form.Control
+                          type="text"
+                          id="other_incident_description"
+                          value={this.state.other_incident_description}
+                          onChange={this.handleFieldInput}
+                          placeholder="Enter incident details"
+                        />
+                      </div>
+                    )}
                     <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">
@@ -1814,6 +1954,7 @@ class DailyProgressAndActivity extends Component {
             )}
           </div>
         </div>
+        </>
       );
     }
   }
