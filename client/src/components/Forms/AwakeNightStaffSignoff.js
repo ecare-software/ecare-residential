@@ -17,55 +17,105 @@ class AwakeNightStaffSignoff extends Component {
     super(props);
     this.state = {
       ts1Approval: false,
+      ts1YouthStatus:"",
       ts2Approval: false,
+      ts2YouthStatus:"",
       ts3Approval: false,
+      ts3YouthStatus:"",
       ts4Approval: false,
+      ts4YouthStatus:"",
       ts5Approval: false,
+      ts5YouthStatus:"",
       ts6Approval: false,
+      ts6YouthStatus:"",
       ts7Approval: false,
+      ts7YouthStatus:"",
       ts8Approval: false,
+      ts8YouthStatus:"",
       ts9Approval: false,
+      ts9YouthStatus:"",
       ts10Approval: false,
+      ts10YouthStatus:"",
       ts11Approval: false,
+      ts11YouthStatus:"",
       ts12Approval: false,
+      ts12YouthStatus:"",
       ts13Approval: false,
+      ts13YouthStatus:"",
       ts14Approval: false,
+      ts14YouthStatus:"",
       ts15Approval: false,
+      ts15YouthStatus:"",
       ts16Approval: false,
+      ts16YouthStatus:"",
       ts17Approval: false,
+      ts17YouthStatus:"",
       ts18Approval: false,
+      ts18YouthStatus:"",
       ts19Approval: false,
+      ts19YouthStatus:"",
       ts20Approval: false,
+      ts20YouthStatus:"",
       ts21Approval: false,
+      ts21YouthStatus:"",
       ts22Approval: false,
+      ts22YouthStatus:"",
       ts23Approval: false,
+      ts23YouthStatus:"",
       ts24Approval: false,
+      ts24YouthStatus:"",
       ts25Approval: false,
+      ts25YouthStatus:"",
       ts26Approval: false,
+      ts26YouthStatus:"",
       ts27Approval: false,
+      ts27YouthStatus:"",
       ts28Approval: false,
+      ts28YouthStatus:"",
       ts29Approval: false,
+      ts29YouthStatus:"",
       ts30Approval: false,
+      ts30YouthStatus:"",
       ts31Approval: false,
+      ts31YouthStatus:"",
       ts32Approval: false,
+      ts32YouthStatus:"",
       ts33Approval: false,
+      ts33YouthStatus:"",
       ts34Approval: false,
+      ts34YouthStatus:"",
       ts35Approval: false,
+      ts35YouthStatus:"",
       ts36Approval: false,
+      ts36YouthStatus:"",
       ts37Approval: false,
+      ts37YouthStatus:"",
       ts38Approval: false,
+      ts38YouthStatus:"",
       ts39Approval: false,
+      ts39YouthStatus:"",
       ts40Approval: false,
+      ts40YouthStatus:"",
       ts41Approval: false,
+      ts41YouthStatus:"",
       ts42Approval: false,
+      ts42YouthStatus:"",
       ts43Approval: false,
+      ts43YouthStatus:"",
       ts44Approval: false,
+      ts44YouthStatus:"",
       ts45Approval: false,
+      ts45YouthStatus:"",
       ts46Approval: false,
+      ts46YouthStatus:"",
       ts47Approval: false,
+      ts47YouthStatus:"",
       ts48Approval: false,
+      ts48YouthStatus:"",
       ts49Approval: false,
+      ts49YouthStatus:"",
       ts50Approval: false,
+      ts50YouthStatus:"",
 
       sigCanvas1: null,
       sigCanvas2: null,
@@ -188,55 +238,105 @@ class AwakeNightStaffSignoff extends Component {
   resetForm = () => {
     this.setState({
       ts1Approval: false,
+      ts1YouthStatus:"",
       ts2Approval: false,
+      ts2YouthStatus:"",
       ts3Approval: false,
+      ts3YouthStatus:"",
       ts4Approval: false,
+      ts4YouthStatus:"",
       ts5Approval: false,
+      ts5YouthStatus:"",
       ts6Approval: false,
+      ts6YouthStatus:"",
       ts7Approval: false,
+      ts7YouthStatus:"",
       ts8Approval: false,
+      ts8YouthStatus:"",
       ts9Approval: false,
+      ts9YouthStatus:"",
       ts10Approval: false,
+      ts10YouthStatus:"",
       ts11Approval: false,
+      ts11YouthStatus:"",
       ts12Approval: false,
+      ts12YouthStatus:"",
       ts13Approval: false,
+      ts13YouthStatus:"",
       ts14Approval: false,
+      ts14YouthStatus:"",
       ts15Approval: false,
+      ts15YouthStatus:"",
       ts16Approval: false,
+      ts16YouthStatus:"",
       ts17Approval: false,
+      ts17YouthStatus:"",
       ts18Approval: false,
+      ts18YouthStatus:"",
       ts19Approval: false,
+      ts19YouthStatus:"",
       ts20Approval: false,
+      ts20YouthStatus:"",
       ts21Approval: false,
+      ts21YouthStatus:"",
       ts22Approval: false,
+      ts22YouthStatus:"",
       ts23Approval: false,
+      ts23YouthStatus:"",
       ts24Approval: false,
+      ts24YouthStatus:"",
       ts25Approval: false,
+      ts25YouthStatus:"",
       ts26Approval: false,
+      ts26thYouthStatus:"",
       ts27Approval: false,
+      ts27YouthStatus:"",
       ts28Approval: false,
+      ts28YouthStatus:"",
       ts29Approval: false,
+      ts29YouthStatus:"",
       ts30Approval: false,
+      ts30YouthStatus:"",
       ts31Approval: false,
+      ts31YouthStatus:"",
       ts32Approval: false,
+      ts32YouthStatus:"",
       ts33Approval: false,
+      ts33YouthStatus:"",
       ts34Approval: false,
+      ts34YouthStatus:"",
       ts35Approval: false,
+      ts35YouthStatus:"",
       ts36Approval: false,
+      ts36YouthStatus:"",
       ts37Approval: false,
+      ts37YouthStatus:"",
       ts38Approval: false,
+      ts38YouthStatus:"",
       ts39Approval: false,
+      ts39YouthStatus:"",
       ts40Approval: false,
+      ts40YouthStatus:"",
       ts41Approval: false,
+      ts41YouthStatus:"",
       ts42Approval: false,
+      ts42YouthStatus:"",
       ts43Approval: false,
+      ts43YouthStatus:"",
       ts44Approval: false,
+      ts44YouthStatus:"",
       ts45Approval: false,
+      ts45YouthStatus:"",
       ts46Approval: false,
+      ts46YouthStatus:"",
       ts47Approval: false,
+      ts47YouthStatus:"",
       ts48Approval: false,
+      ts48YouthStatus:"",
       ts49Approval: false,
+      ts49YouthStatus:"",
       ts50Approval: false,
+      ts50YouthStatus:"",
       status: "IN PROGRESS",
       createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
     });
@@ -417,6 +517,12 @@ class AwakeNightStaffSignoff extends Component {
     }
   }
 
+  handleSelectChange = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value,
+    });
+  };
+
   render() {
     if (!this.props.valuesSet) {
       return (
@@ -510,29 +616,62 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts1Approval ? "visible" : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas1 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                 
+                  {this.state.ts1Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas1 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts1YouthStatus"
+                            value={this.state.ts1YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -572,29 +711,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts2Approval ? "visible" : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas2 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts2Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas2 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts2YouthStatus"
+                            value={this.state.ts2YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -638,29 +809,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts3Approval ? "visible" : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas3 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts3Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas3 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts3YouthStatus"
+                            value={this.state.ts3YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -700,29 +903,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts4Approval ? "visible" : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas4 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts4Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas4 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="t41YouthStatus"
+                            value={this.state.ts4YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -764,29 +999,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts5Approval ? "visible" : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas5 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                   {this.state.ts5Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas5 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts5YouthStatus"
+                            value={this.state.ts5YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -826,29 +1093,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts6Approval ? "visible" : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas6 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts6Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas6 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts6YouthStatus"
+                            value={this.state.ts6YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -890,29 +1189,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts7Approval ? "visible" : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas7 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts7Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas7 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts7YouthStatus"
+                            value={this.state.ts7YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -952,29 +1283,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts8Approval ? "visible" : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas8 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts8Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas8 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts8YouthStatus"
+                            value={this.state.ts8YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -1016,29 +1379,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts9Approval ? "visible" : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas9 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts9Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas9 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts9YouthStatus"
+                            value={this.state.ts9YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -1078,31 +1473,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts10Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas10 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts10Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas10 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts10YouthStatus"
+                            value={this.state.ts10YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -1144,31 +1569,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts11Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas11 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts11Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas11 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts11YouthStatus"
+                            value={this.state.ts11YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -1208,31 +1663,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts12Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas12 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts12Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas12 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts12YouthStatus"
+                            value={this.state.ts12YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -1274,31 +1759,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts13Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas13 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts13Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas13 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts13YouthStatus"
+                            value={this.state.ts13YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -1338,31 +1853,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts14Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas14 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts14Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas14 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts14YouthStatus"
+                            value={this.state.ts14YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -1404,31 +1949,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts15Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas15 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts15Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas15 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts15YouthStatus"
+                            value={this.state.ts15YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -1468,31 +2043,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts16Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas16 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts16Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas16 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts16YouthStatus"
+                            value={this.state.ts16YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -1534,31 +2139,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts17Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas17 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts17Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas17 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts17YouthStatus"
+                            value={this.state.ts17YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -1598,31 +2233,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts18Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas18 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                   {this.state.ts18Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas18 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts18YouthStatus"
+                            value={this.state.ts18YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -1664,31 +2329,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts19Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas19 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts19Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas19 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts19YouthStatus"
+                            value={this.state.ts19YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -1728,31 +2423,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts20Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas20 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts20Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas20 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts20YouthStatus"
+                            value={this.state.ts20YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -1794,31 +2519,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts21Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas21 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts21Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas21 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts21YouthStatus"
+                            value={this.state.ts21YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -1858,31 +2613,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts22Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas22 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts22Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas22 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts22YouthStatus"
+                            value={this.state.ts22YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -1924,31 +2709,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts23Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas23 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                   {this.state.ts23Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas23 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts23YouthStatus"
+                            value={this.state.ts23YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -1988,31 +2803,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts24Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas24 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts24Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas24 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts24YouthStatus"
+                            value={this.state.ts24YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -2054,31 +2899,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts25Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas25 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts25Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas25 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts25YouthStatus"
+                            value={this.state.ts25YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -2118,31 +2993,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts26Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas26 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts26Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas26 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts26YouthStatus"
+                            value={this.state.ts26YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -2184,31 +3089,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts27Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas27 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts27Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas27 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts27YouthStatus"
+                            value={this.state.ts27YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -2248,31 +3183,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts28Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas28 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                 {this.state.ts28Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas28 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts28YouthStatus"
+                            value={this.state.ts28YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -2315,31 +3280,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts29Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas29 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts29Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas29 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts29YouthStatus"
+                            value={this.state.ts29YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -2379,31 +3374,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts30Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas30 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts30Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas30 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts30YouthStatus"
+                            value={this.state.ts30YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -2446,31 +3471,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts31Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas31 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts31Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas31 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts31YouthStatus"
+                            value={this.state.ts31YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -2510,31 +3565,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts32Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas32 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts32Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas32 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts32YouthStatus"
+                            value={this.state.ts32YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -2577,31 +3662,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts33Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas33 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                   {this.state.ts33Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas33 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts33YouthStatus"
+                            value={this.state.ts33YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -2641,31 +3756,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts34Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas34 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts34Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas34 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts34YouthStatus"
+                            value={this.state.ts34YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -2707,31 +3852,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts35Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas35 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts35Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas35 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts35YouthStatus"
+                            value={this.state.ts35YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -2771,31 +3946,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts36Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas36 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts36Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas36 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts36YouthStatus"
+                            value={this.state.ts36YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -2837,31 +4042,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts37Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas37 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts37Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas37 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts37YouthStatus"
+                            value={this.state.ts37YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -2901,31 +4136,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts38Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas38 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                   {this.state.ts38Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas38 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts38YouthStatus"
+                            value={this.state.ts38YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -2968,31 +4233,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts39Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas39 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts39Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas39 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts39YouthStatus"
+                            value={this.state.ts39YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -3032,31 +4327,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts40Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas40 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts40Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas40 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts40YouthStatus"
+                            value={this.state.ts40YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -3099,31 +4424,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts41Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas41 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts41Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas41 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts41YouthStatus"
+                            value={this.state.ts41YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -3163,31 +4518,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts42Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas42 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts42Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas42 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts42YouthStatus"
+                            value={this.state.ts42YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -3230,31 +4615,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts43Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas43 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts43Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas43 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts43YouthStatus"
+                            value={this.state.ts43YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -3294,31 +4709,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts44Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas44 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                   {this.state.ts44Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas44 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts44YouthStatus"
+                            value={this.state.ts44YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -3361,29 +4806,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts49Approval ? "visible" : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas49 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                   {this.state.ts49Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas49 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts49YouthStatus"
+                            value={this.state.ts49YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -3423,29 +4900,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "15px",
-                      visibility: this.state.ts50Approval ? "visible" : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas50 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts50Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas50 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts50YouthStatus"
+                            value={this.state.ts50YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -3556,29 +5065,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts1Approval ? "visible" : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas1 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts1Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas1 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts1YouthStatus"
+                            value={this.state.ts1YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -3618,29 +5159,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts1Approval ? "visible" : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas2 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts2Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas2 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts2YouthStatus"
+                            value={this.state.ts2YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -3684,29 +5257,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts3Approval ? "visible" : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas3 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                   {this.state.ts3Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas3 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts3YouthStatus"
+                            value={this.state.ts3YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -3746,29 +5351,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts4Approval ? "visible" : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas4 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts4Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas4 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts4YouthStatus"
+                            value={this.state.ts4YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -3811,29 +5448,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts5Approval ? "visible" : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas5 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                   {this.state.ts5Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas5 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts5YouthStatus"
+                            value={this.state.ts5YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -3873,29 +5542,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts6Approval ? "visible" : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas6 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts6Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas6 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts6YouthStatus"
+                            value={this.state.ts6YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -3938,29 +5639,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts7Approval ? "visible" : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas7 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts7Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas7 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts7YouthStatus"
+                            value={this.state.ts7YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -4000,29 +5733,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts8Approval ? "visible" : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas8 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts8Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas8 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts8YouthStatus"
+                            value={this.state.ts8YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -4065,29 +5830,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts9Approval ? "visible" : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas9 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts9Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas9 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts9YouthStatus"
+                            value={this.state.ts9YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -4127,31 +5924,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts10Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas10 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts10Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas10 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts10YouthStatus"
+                            value={this.state.ts10YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -4194,31 +6021,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts11Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas11 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts11Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas11 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts11YouthStatus"
+                            value={this.state.ts11YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -4258,31 +6115,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts12Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas12 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts12Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas12 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts12YouthStatus"
+                            value={this.state.ts12YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -4325,31 +6212,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts13Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas13 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts13Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas13 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts13YouthStatus"
+                            value={this.state.ts13YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -4389,31 +6306,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts14Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas14 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts14Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas14 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts14YouthStatus"
+                            value={this.state.ts14YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -4456,31 +6403,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts15Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas15 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                   {this.state.ts15Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas15 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts15YouthStatus"
+                            value={this.state.ts15YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -4520,31 +6497,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts16Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas16 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts16Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas16 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts16YouthStatus"
+                            value={this.state.ts16YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -4587,31 +6594,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts17Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas17 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                   {this.state.ts17Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas17 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts17YouthStatus"
+                            value={this.state.ts17YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -4651,31 +6688,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts18Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas18 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts18Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas18 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts18YouthStatus"
+                            value={this.state.ts18YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -4718,31 +6785,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts19Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas19 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts19Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas19 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts19YouthStatus"
+                            value={this.state.ts19YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -4782,31 +6879,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts20Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas20 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts20Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas20 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts20YouthStatus"
+                            value={this.state.ts20YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -4849,31 +6976,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts21Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas21 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts21Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas21 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts21YouthStatus"
+                            value={this.state.ts21YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -4913,31 +7070,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts22Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas22 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts22Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas22 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts22YouthStatus"
+                            value={this.state.ts22YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -4980,31 +7167,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts23Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas23 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts23Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas23 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts23YouthStatus"
+                            value={this.state.ts23YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -5044,31 +7261,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts24Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas24 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts24Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas24 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts24YouthStatus"
+                            value={this.state.ts24YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -5111,31 +7358,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts25Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas25 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts25Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas25 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts25YouthStatus"
+                            value={this.state.ts25YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -5175,31 +7452,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts26Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas26 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts26Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas26 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts26YouthStatus"
+                            value={this.state.ts26YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -5242,31 +7549,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts27Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas27 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts27Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas27 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts27YouthStatus"
+                            value={this.state.ts27YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -5306,31 +7643,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts28Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas28 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts28Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas28 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts28YouthStatus"
+                            value={this.state.ts28YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -5373,31 +7740,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts29Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas29 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts29Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas29 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts29YouthStatus"
+                            value={this.state.ts29YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -5437,31 +7834,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts30Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas30 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts30Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas30 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts30YouthStatus"
+                            value={this.state.ts30YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -5504,31 +7931,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts31Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas31 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts31Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas31 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts31YouthStatus"
+                            value={this.state.ts31YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -5568,31 +8025,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts32Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas32 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts32Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas32 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts32YouthStatus"
+                            value={this.state.ts32YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -5635,31 +8122,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts33Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas33 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts33Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas33 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts33YouthStatus"
+                            value={this.state.ts33YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -5699,31 +8216,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts34Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas34 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts34Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas34 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts34YouthStatus"
+                            value={this.state.ts34YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -5766,31 +8313,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts35Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas35 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts35Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas35 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts35YouthStatus"
+                            value={this.state.ts35YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -5830,31 +8407,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts36Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas36 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                   {this.state.ts36Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas36 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts36YouthStatus"
+                            value={this.state.ts36YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -5897,31 +8504,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts37Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas37 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts37Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas37 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts37YouthStatus"
+                            value={this.state.ts37YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -5961,31 +8598,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts38Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas38 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                   {this.state.ts38Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas38 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts38YouthStatus"
+                            value={this.state.ts38YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -6028,31 +8695,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts39Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas39 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                   {this.state.ts39Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas39 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts39YouthStatus"
+                            value={this.state.ts39YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -6092,31 +8789,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts40Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas40 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts40Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas40 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts40YouthStatus"
+                            value={this.state.ts40YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -6159,31 +8886,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts41Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas41 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts41Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas41 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts41YouthStatus"
+                            value={this.state.ts41YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -6223,31 +8980,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts42Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas42 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts42Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas42 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts42YouthStatus"
+                            value={this.state.ts42YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -6291,31 +9078,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts43Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas43 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts43Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas43 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts43YouthStatus"
+                            value={this.state.ts43YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -6355,31 +9172,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts44Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas44 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                   {this.state.ts44Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas44 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts44YouthStatus"
+                            value={this.state.ts44YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -6422,31 +9269,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts45Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas45 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                   {this.state.ts45Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas45 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts45YouthStatus"
+                            value={this.state.ts45YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -6486,31 +9363,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts46Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas46 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts46Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas46 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts46YouthStatus"
+                            value={this.state.ts46YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -6553,31 +9460,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts47Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas47 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts47Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas47 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts47YouthStatus"
+                            value={this.state.ts47YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -6617,31 +9554,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts48Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas48 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts48Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas48 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts48YouthStatus"
+                            value={this.state.ts48YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>
@@ -6684,31 +9651,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts49Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas49 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts49Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas49 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts49YouthStatus"
+                            value={this.state.ts49YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
               <Col xs={6}>
@@ -6748,31 +9745,61 @@ class AwakeNightStaffSignoff extends Component {
                       />
                     )}
                   </Col>
-                  <div
-                    style={{
-                      display: "flex",
-                      height: "50px",
-                      paddingLeft: "60px",
-                      visibility: this.state.ts50Approval
-                        ? "visible"
-                        : "hidden",
-                    }}
-                  >
-                    <SignatureCanvas
-                      ref={(ref) => {
-                        this.sigCanvas50 = ref;
-                      }}
-                      style={{ border: "solid" }}
-                      penColor="black"
-                      clearOnResize={false}
-                      canvasProps={{
-                        width: 300,
-                        height: 100,
-                        className: "sigCanvas",
-                      }}
-                      backgroundColor="#eeee"
-                    />
-                  </div>
+                  {this.state.ts50Approval && (
+                    <>
+                      {/* Signature (exact same as later time slots) */}
+                      <div
+                        style={{
+                          display: "flex",
+                          height: "50px",
+                          paddingLeft: "15px",
+                          visibility: "visible",
+                        }}
+                      >
+                        <SignatureCanvas
+                          ref={(ref) => {
+                            if (ref) {
+                              this.sigCanvas50 = ref;
+
+                              if (this.state.userSig?.length) {
+                                ref.fromData(this.state.userSig);
+                                ref.off();
+                              }
+                            }
+                          }}
+                          style={{ border: "solid" }}
+                          penColor="black"
+                          clearOnResize={false}
+                          canvasProps={{
+                            width: 300,
+                            height: 100,
+                            className: "sigCanvas",
+                          }}
+                          backgroundColor="#eeee"
+                        />
+                      </div>
+
+                      {/* Youth Status BELOW the signature */}
+                      <div style={{ paddingLeft: "15px", marginBottom: "20px" }}>
+                        <Form.Group style={{ maxWidth: "300px" }}>
+                          <Form.Label className="fw-bold">Youth Status</Form.Label>
+                          <Form.Control
+                            as="select"
+                            id="ts50YouthStatus"
+                            value={this.state.ts50YouthStatus}
+                            onChange={this.handleSelectChange}
+                          >
+                            <option value="">Select Status</option>
+                            <option value="Awake">Awake</option>
+                            <option value="Sleep">Sleep</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Other">Other</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </div>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Row>

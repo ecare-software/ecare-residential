@@ -2,6 +2,12 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const SeriousIncidentReportSchema = new Schema({
+  nature_of_incident: {
+    type: String,
+  },
+  other_incident_description:{
+    type: String,
+  },
   childMeta_name: {
     type: String,
   },

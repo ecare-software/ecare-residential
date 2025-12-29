@@ -401,6 +401,24 @@ html {
   scroll-behavior: smooth;
 }
 
+.custom-modal-dialog {
+  max-width: 400px; /* box width */
+  margin: auto;
+  }
+
+  .custom-modal-content {
+    background-color: #fff;      /* white background */
+    border: 2px solid #ccc;      /* visible border */
+    border-radius: 10px;         /* rounded corners */
+    padding: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* subtle shadow for "popup" feel */
+  }
+
+  .custom-modal-title {
+    font-weight: bold;
+    color: red;  /* title in red */
+  }
+
 /* desktop */
 @media only screen and (min-width: 1226px) {
   .mobileLearnMore {

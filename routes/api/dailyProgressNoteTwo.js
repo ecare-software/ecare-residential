@@ -184,15 +184,14 @@ router.put("/:homeId/:reportId", async (req, res) => {
 // This is a duplicate POST route and should be removed
 
 
-// DELETE DAILY REPORT
-router.delete("/:reportId", async (req, res) => {
-  try {
-    const deleted = await DailyReport.findByIdAndDelete(req.params.reportId);
-    res.json(deleted);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to delete Daily Report" });
-  }
+router.delete("/:homeId/:formId/", (req, res) => {
+  DailyReport.deleteOne({ _id: req.params.formId })
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
 });
 
 module.exports = router;
