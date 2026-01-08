@@ -15,12 +15,54 @@ import TextareaAutosize from "react-textarea-autosize";
 import StaffOption from "../../utils/StaffOption.util";
 import { Container, Col, Row } from "react-bootstrap";
 
+const standardIncidentOptions = [
+  "Other",
+  "Cussing",
+  "Encopresis",
+  "Hallucinations (v)",
+  "Horse-playing",
+  "Night Terrors",
+  "Poss. of Contraband",
+  "Suicidal (gesture)",
+  "Vandalism",
+  "Defiance",
+  "Enuresis",
+  "Hallucinations (a)",
+  "Non-compliance",
+  "Yelling/Screaming",
+  "Aggression (physical)",
+  "Disrespecting Others",
+  "Fighting",
+  "Hospitalization (psych)",
+  "Out-of-Area",
+  "Property Destruction",
+  "Skipping School",
+  "Suspension",
+  "Aggression (verbal)",
+  "Gang Activity",
+  "Homicidal (ideations)",
+  "Poor Soc. Interaction",
+  "School Problems",
+  "Social Isolation",
+  "Bullying",
+  "D/A possession",
+  "Grooming",
+  "Homicidal (threats)",
+  "Lying",
+  "Poor Boundaries",
+  "Theft/Stealing",
+  "Other",
+  "Illness/Injury"
+];
+
 var interval = 0; // used for autosaving
 let initAutoSave = false;
 class IncidentReport extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      nature_of_incident:"",
+      other_incident_description:"",
       childMeta_name: "",
       childMeta_gender: "",
       childMeta_dob: "",
@@ -115,6 +157,8 @@ class IncidentReport extends Component {
 
   resetForm = () => {
     this.setState({
+      nature_of_incident:"",
+      other_incident_description:"",
       childMeta_name: "",
       childMeta_gender: "",
       childMeta_dob: "",
@@ -818,6 +862,46 @@ class IncidentReport extends Component {
               <Row>
                 <Col xs={12} className="print-column">
                   <div className="form-group logInInputField">
+                      {" "}
+                      <label className="control-label">
+                        Nature of Incident
+                      </label>
+                      <Form.Control
+                        as="select"
+                        id="nature_of_incident"
+                        value={this.state.nature_of_incident}
+                        onChange={this.handleFieldInput}
+                        disabled={this.state.childSelected ? false : true}
+                      >
+                        <option value="">Select Nature of Incident</option>
+
+                        {standardIncidentOptions.map((option, index) => (
+                          <option key={index} value={option}>
+                            {option}
+                          </option>
+                        ))}          
+                      </Form.Control>
+                  </div>
+                  {this.state.nature_of_incident === "Other" && (
+                    <div className="form-group logInoutField mt-2">
+                      <label className="control-label">
+                        Please describe the nature of the incident
+                      </label>
+                      <Form.Control
+                        type="text"
+                        id="other_incident_description"
+                        value={this.state.other_incident_description}
+                        onChange={this.handleFieldInput}
+                        placeholder="Enter incident details"
+                      />
+                    </div>
+                  )}
+                </Col>
+              </Row>
+
+              <Row>
+                <Col xs={12} className="print-column">
+                  <div className="form-group logInInputField">
                     {" "}
                     <label className="control-label">
                       Explain the Incident
@@ -1339,6 +1423,46 @@ class IncidentReport extends Component {
                         id="client_witness_doa2"
                       />{" "}
                     </div>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col xs={12} className="print-column">
+                    <div className="form-group logInInputField">
+                        {" "}
+                        <label className="control-label">
+                          Nature of Incident
+                        </label>
+                        <Form.Control
+                          as="select"
+                          id="nature_of_incident"
+                          value={this.state.nature_of_incident}
+                          onChange={this.handleFieldInput}
+                          // disabled={this.state.childSelected ? false : true}
+                        >
+                          <option value="">Select Nature of Incident</option>
+
+                          {standardIncidentOptions.map((option, index) => (
+                            <option key={index} value={option}>
+                              {option}
+                            </option>
+                          ))}          
+                        </Form.Control>
+                    </div>
+                    {this.state.nature_of_incident === "Other" && (
+                      <div className="form-group logInoutField mt-2">
+                        <label className="control-label">
+                          Please describe the nature of the incident
+                        </label>
+                        <Form.Control
+                          type="text"
+                          id="other_incident_description"
+                          value={this.state.other_incident_description}
+                          onChange={this.handleFieldInput}
+                          placeholder="Enter incident details"
+                        />
+                      </div>
+                    )}
                   </Col>
                 </Row>
 

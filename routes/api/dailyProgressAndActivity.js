@@ -9,6 +9,7 @@ router.post("/", (req, res) => {
 
     incident_type: req.body.incident_type,
     nature_of_incident: req.body.nature_of_incident,
+    other_incident_description: req.body.other_incident_description,
     personal_hygiene: req.body.personal_hygiene,
     dressing: req.body.dressing,
     table_mannders: req.body.table_mannders,

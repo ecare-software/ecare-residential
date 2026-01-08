@@ -15,12 +15,31 @@ import TextareaAutosize from "react-textarea-autosize";
 import StaffOption from "../../utils/StaffOption.util";
 import { Container, Col, Row } from "react-bootstrap";
 
+const seriousIncidentOptions = [
+  "Other",
+  "Awol",
+  "Hospitalization (med)",
+  "Homicidal (attempt/gesture)",
+  "SAO (victim)",
+  "Poss. of a Weapon",
+  "Drug/Alcohol Use",
+  "Arrest",
+  "SAO (self)",
+  "Illness/Injury",
+  "SAO (aggressor)",
+  "Suicidal (threat)",
+  "Terroristic Threat",
+  "Suicidal (attempt)"
+];
+
 var interval = 0; // used for autosaving
 let initAutoSave = false;
 class SeriousIncidentReport extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      nature_of_incident:"",
+      other_incident_description:"",
       childMeta_name: "",
       childMeta_gender: "",
       childMeta_dob: "",
@@ -115,6 +134,8 @@ class SeriousIncidentReport extends Component {
 
   resetForm = () => {
     this.setState({
+      nature_of_incident:"",
+      other_incident_description:"",
       childMeta_name: "",
       childMeta_gender: "",
       childMeta_dob: "",
@@ -917,6 +938,41 @@ class SeriousIncidentReport extends Component {
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">
+                      Nature of Incident 
+                  </label>
+                  <Form.Control
+                    as="select"
+                    id="nature_of_incident"
+                    value={this.state.nature_of_incident}
+                    onChange={this.handleFieldInput}
+                    disabled={this.state.childSelected ? false : true}
+                  >
+                    <option value="">Select Nature of Incident</option>
+
+                    {seriousIncidentOptions.map((option, index) => (
+                      <option key={index} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </div>
+                {this.state.nature_of_incident === "Other" && (
+                  <div className="form-group logInoutField mt-2">
+                    <label className="control-label">
+                      Please describe the nature of the incident
+                    </label>
+                    <Form.Control
+                      type="text"
+                      id="other_incident_description"
+                      value={this.state.other_incident_description}
+                      onChange={this.handleFieldInput}
+                      placeholder="Enter incident details"
+                    />
+                  </div>
+                )}
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
                     Explain the Incident
                   </label>{" "}
                   <TextareaAutosize
@@ -1373,6 +1429,41 @@ class SeriousIncidentReport extends Component {
                   </Col>
                 </Row>
 
+                <div className="form-group logInInputField">
+                  {" "}
+                  <label className="control-label">
+                      Nature of Incident 
+                  </label>
+                  <Form.Control
+                    as="select"
+                    id="nature_of_incident"
+                    value={this.state.nature_of_incident}
+                    onChange={this.handleFieldInput}
+                    // disabled={this.state.childSelected ? false : true}
+                  >
+                    <option value="">Select Nature of Incident</option>
+
+                    {seriousIncidentOptions.map((option, index) => (
+                      <option key={index} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </div>
+                {this.state.nature_of_incident === "Other" && (
+                  <div className="form-group logInoutField mt-2">
+                    <label className="control-label">
+                      Please describe the nature of the incident
+                    </label>
+                    <Form.Control
+                      type="text"
+                      id="other_incident_description"
+                      value={this.state.other_incident_description}
+                      onChange={this.handleFieldInput}
+                      placeholder="Enter incident details"
+                    />
+                  </div>
+                )}
                 <div className="form-group logInInputField">
                   {" "}
                   <label className="control-label">

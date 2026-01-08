@@ -24,6 +24,8 @@ export const NightMonitoringChildRow = ({
   const [childMeta_name, setChildMeta_name] = useState(
     rootState?.childMeta_name
   );
+
+  const [youthStatus, setYouthStatus] = useState(rootState?.youthStatus);
   const [childSelected, setChildSelected] = useState(rootState?.childSelected);
   const [formSubmitted, setFormSubmitted] = useState(rootState?.formSubmitted);
   const [status, setStatus] = useState(rootState?.status);
@@ -55,6 +57,7 @@ export const NightMonitoringChildRow = ({
       roomNumber,
       timeChildAwake,
       timeChildReturnBed,
+      youthStatus,
       reason,
       signed,
       childMeta_name,
@@ -67,6 +70,7 @@ export const NightMonitoringChildRow = ({
     roomNumber,
     timeChildAwake,
     timeChildReturnBed,
+    youthStatus,
     reason,
     signed,
     childMeta_name,
@@ -182,6 +186,24 @@ export const NightMonitoringChildRow = ({
                 disabled={childSelected ? false : true}
                 type="time"
               />{" "}
+            </div>
+          </Col>
+          <Col sm={4}>
+            <div className="form-group logInInputField">
+              <label className="control-label">Youth Status</label>
+              <Form.Control
+                as="select"
+                id="youthStatus"
+                value={youthStatus || ""}
+                onChange={(e) => setYouthStatus(e.target.value)}
+                disabled={childSelected ? false : true}
+              >
+                <option value="">Select status</option>
+                <option value="Awake">Awake</option>
+                <option value="Sick">Sick</option>
+                <option value="Bathroom">Bathroom</option>
+                <option value="Other">Other</option>
+              </Form.Control>
             </div>
           </Col>
           <Col sm={12}>

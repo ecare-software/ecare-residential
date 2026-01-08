@@ -5,6 +5,10 @@ const IncidentReport = require("../../models/IncidentReport");
 
 router.post("/", (req, res) => {
   const newIncidentReport = new IncidentReport({
+    nature_of_incident: req.body.nature_of_incident,
+
+    other_incident_description: req.body.other_incident_description,
+
     childMeta_name: req.body.childMeta_name,
 
     childMeta_gender: req.body.childMeta_gender,
