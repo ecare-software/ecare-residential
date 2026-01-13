@@ -927,11 +927,13 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
     }
   };
 
+  const isLocked = !formData.childSelected;
+
   return (
     <Container fluid className="formComp d-flex justify-content-center" style={{ minHeight: "100vh", padding: "40px 0" }}>
       <div style={{ width: "100%", maxWidth: "1000px" }}>
         <div className="text-center mb-4">
-          <h3 className="fw-bold mb-0">Saving Home RTC</h3>
+          {/* <h3 className="fw-bold mb-0">Saving Home RTC</h3> */}
           <h4 className="fw-semibold">Daily Progress Note</h4>
         </div>
 
@@ -946,6 +948,7 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
               className="form-control"
               type="datetime-local"
               style={{ height: "43px", boxSizing: "border-box" }}
+              disabled={isLocked}
             />
           </div>
         </div>
@@ -994,13 +997,21 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
           ].map((section, idx) => (
             <div key={idx} className="d-flex justify-content-center" style={{ width: "100%" }}>
               <div style={{ width: "650px" }}>
-                <ShiftTable {...section} onRadioChange={section.onRadioChange} recActivityRadios={recActivityRadios} setRecActivityRadios={setRecActivityRadios} timeline={timeline} setTimeline={setTimeline} />
+                <ShiftTable 
+                  {...section} 
+                  onRadioChange={section.onRadioChange} 
+                  recActivityRadios={recActivityRadios} 
+                  setRecActivityRadios={setRecActivityRadios} 
+                  timeline={timeline} 
+                  setTimeline={setTimeline} 
+                  isLocked={isLocked}
+                />
               </div>
             </div>
           ))}
 
-          <ShiftSummary shiftSummary={shiftSummary} setShiftSummary={setShiftSummary} />
-          <ClothingDescription clothingDescription={clothingDescription} setClothingDescription={setClothingDescription} />
+          <ShiftSummary shiftSummary={shiftSummary} setShiftSummary={setShiftSummary} isLocked={isLocked} />
+          <ClothingDescription clothingDescription={clothingDescription} setClothingDescription={setClothingDescription} isLocked={isLocked}/>
           <SignatureSection
             sigRefs={sigRefs}
             initials={initials}
@@ -1019,6 +1030,7 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
             areAllSignaturesValid={areAllSignaturesValid}
             effectiveUserObj={effectiveUserObj}
             currentShift={currentShift}
+            isLocked={isLocked}
           />
 
           <div className="d-flex justify-content-between" style={{ marginTop: "30px", width: "650px" }}>
@@ -1054,7 +1066,7 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
 };
 
 // ---- ShiftTable ----
-const ShiftTable = ({ labels, checkState, toggleFn, isRadio = false, options = [], onRadioChange, recActivityRadios, setRecActivityRadios, timeline, setTimeline }) => {
+const ShiftTable = ({ labels, checkState, toggleFn, isRadio = false, options = [], onRadioChange, recActivityRadios, setRecActivityRadios, timeline, setTimeline, isLocked }) => {
   const rowRefs = useRef([]);
   const [rowHeights, setRowHeights] = useState([]);
 
@@ -1186,11 +1198,13 @@ const ShiftTable = ({ labels, checkState, toggleFn, isRadio = false, options = [
                 if (labels[0] === "9:00PM") {
                   return (
                     <input
+                      disabled={isLocked}
                       key={colIndex}
                       type="text"
                       style={sharedStyle}
                       value={timeline[rowIndex]?.[colIndex] || ""}
                       onChange={(e) => {
+                        if(isLocked) return;
                         const val = e.target.value;
                         setTimeline((prev) => {
                           const updated = [...prev];
@@ -1211,9 +1225,12 @@ const ShiftTable = ({ labels, checkState, toggleFn, isRadio = false, options = [
                   const intakeRowIndex = rowIndex - 1; // subtract 1 because first row is header
                   return (
                     <select
+                      disabled={isLocked}
                       key={colIndex}
                       value={checkState[intakeRowIndex]?.[colIndex] || ""}
-                      onChange={(e) => onRadioChange(intakeRowIndex, colIndex, e.target.value)}
+                      onChange={(e) => {
+                        if(isLocked) return; 
+                        onRadioChange(intakeRowIndex, colIndex, e.target.value)}}
                       style={{ ...sharedStyle, backgroundColor: "#fff" }}
                     >
                       <option value="">Select</option>
@@ -1255,9 +1272,12 @@ const ShiftTable = ({ labels, checkState, toggleFn, isRadio = false, options = [
 
                 return (
                   <select
+                    disabled={isLocked}
                     key={colIndex}
                     value={valueArray?.[colIndex] || ""}
-                    onChange={(e) => setterFn && setterFn(colIndex, e.target.value)}
+                    onChange={(e) => {
+                      if(isLocked) return;
+                      setterFn && setterFn(colIndex, e.target.value)}}
                     style={{ ...sharedStyle, backgroundColor: "#fff" }}
                   >
                     <option value="">Select</option>
@@ -1273,13 +1293,14 @@ const ShiftTable = ({ labels, checkState, toggleFn, isRadio = false, options = [
               return (
                 <div
                   key={colIndex}
-                  onClick={() => toggleFn && toggleFn(rowIndex - 1, colIndex)}
+                  onClick={() => { if (isLocked) return; toggleFn && toggleFn(rowIndex - 1, colIndex)}}
                   style={{
                     ...sharedStyle,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    cursor: toggleFn ? "pointer" : "default",
+                    cursor: isLocked ? "not-allowed" : "pointer",
+                    opacity: isLocked ? 0.5 : 1,
                     backgroundColor: isChecked ? "#d4edda" : "#fff",
                     fontSize: "18px",
                   }}
@@ -1296,7 +1317,7 @@ const ShiftTable = ({ labels, checkState, toggleFn, isRadio = false, options = [
 };
 
 // ---- ShiftSummary ----
-const ShiftSummary = ({ shiftSummary, setShiftSummary }) => {
+const ShiftSummary = ({ shiftSummary, setShiftSummary, isLocked }) => {
   const shiftKeys = { "1st": "shift1", "2nd": "shift2", "3rd": "shift3" };
   return (
     <div className="d-flex justify-content-center" style={{ width: "100%" }}>
@@ -1305,10 +1326,18 @@ const ShiftSummary = ({ shiftSummary, setShiftSummary }) => {
         {["1st", "2nd", "3rd"].map((shift) => (
           <div key={shift} style={{ marginBottom: "10px" }}>
             <label style={{ fontWeight: "500", marginBottom: "5px" }}>{shift} Shift:</label>
-            <input type="text" className="form-control" value={shiftSummary ? shiftSummary[shiftKeys[shift]] || "" : ""} onChange={(e) => {
-              const val = e?.target?.value || "";
-              setShiftSummary((prev) => ({ ...(prev || { shift1: "", shift2: "", shift3: "" }), [shiftKeys[shift]]: val }));
-            }} />
+            <textarea 
+              row={2} 
+              style={{resize:"vertical", minHeight:"60px"}} 
+              className="form-control" 
+              value={shiftSummary ? shiftSummary[shiftKeys[shift]] || "" : ""} 
+              disabled={isLocked}
+              onChange={(e) => {
+                if (isLocked) return;
+                const val = e?.target?.value || "";
+                setShiftSummary((prev) => ({ ...(prev || { shift1: "", shift2: "", shift3: "" }), [shiftKeys[shift]]: val }));
+              }} 
+            />
           </div>
         ))}
       </div>
@@ -1317,7 +1346,7 @@ const ShiftSummary = ({ shiftSummary, setShiftSummary }) => {
 };
 
 // ---- ClothingDescription ----
-const ClothingDescription = ({ clothingDescription, setClothingDescription }) => (
+const ClothingDescription = ({ clothingDescription, setClothingDescription, isLocked }) => (
   <div className="d-flex justify-content-center" style={{ width: "100%" }}>
     <div style={{ border: "1px solid #ccc", borderRadius: "4px", padding: "15px", width: "650px", backgroundColor: "#f8f9fa", marginTop: "20px" }}>
       <div style={{ fontWeight: "600", fontSize: "16px", marginBottom: "10px", textAlign: "center" }}>Clothing Description</div>
@@ -1328,10 +1357,17 @@ const ClothingDescription = ({ clothingDescription, setClothingDescription }) =>
           .map((key) => (
             <div key={key} style={{ marginBottom: "10px" }}>
               <label style={{ fontWeight: "500", marginBottom: "5px" }}>{key.replace(/([A-Z])/g, " $1").toLocaleLowerCase()}</label>
-              <input type="text" className="form-control" value={clothingDescription ? clothingDescription[key] || "" : ""} onChange={(e) => {
-                const val = e?.target?.value || "";
-                setClothingDescription((prev) => ({ ...(prev || {}), [key]: val }));
-              }} />
+              <input 
+                type="text" 
+                className="form-control" 
+                value={clothingDescription ? clothingDescription[key] || "" : ""} 
+                disabled={isLocked}
+                onChange={(e) => {
+                  if(isLocked) return;
+                  const val = e?.target?.value || "";
+                  setClothingDescription((prev) => ({ ...(prev || {}), [key]: val }));
+                }} 
+              />
             </div>
           )) : null}
     </div>
@@ -1356,7 +1392,8 @@ const SignatureSection = ({
   isSignatureValid,
   areAllSignaturesValid,
   effectiveUserObj,
-  currentShift
+  currentShift,
+  isLocked
 }) => {
   // Use the currentShift prop passed from parent component
 
@@ -1628,7 +1665,7 @@ const SignatureSection = ({
                       propFormData.signatureSection.signatures[idx].startsWith('data:image/') &&
                       propFormData.signatureSection.signatures[idx].length > 100) ||
                     // Or if the entire form is completed
-                    formData.status === "COMPLETED"
+                    isLocked || formData.status === "COMPLETED"
                   }
                 />
                 <label className="form-check-label" htmlFor={`shift-${idx}`}>
@@ -1658,7 +1695,7 @@ const SignatureSection = ({
                       propFormData.signatureSection.signatures[idx].startsWith('data:image/') &&
                       propFormData.signatureSection.signatures[idx].length > 100) ||
                     // Or if the entire form is completed
-                    formData.status === "COMPLETED"
+                     isLocked || formData.status === "COMPLETED"
                   }
                 >
                   Clear
@@ -1681,7 +1718,7 @@ const SignatureSection = ({
                       <div>
                         {/* Signature canvas is disabled when form is completed or signature exists */}
                         {showSignature[idx] && (
-                          <div className="signature-canvas-wrapper">
+                          <div className="signature-canvas-wrapper" style={{ pointerEvents: isLocked ? "none" : "auto", opacity: isLocked ? 0.5 : 1 }}>
                             <SignatureCanvas
                               penColor="black"
                               canvasProps={{
@@ -1759,7 +1796,7 @@ const SignatureSection = ({
                             propFormData.signatureSection.signatures[idx].startsWith('data:image/') &&
                             propFormData.signatureSection.signatures[idx].length > 100) ||
                           // Or if the entire form is completed
-                          formData.status === "COMPLETED"
+                           isLocked || formData.status === "COMPLETED"
                         }
                       >
                         Set Signature
@@ -1798,7 +1835,7 @@ const SignatureSection = ({
                         propFormData.signatureSection.signatures[idx].startsWith('data:image/') &&
                         propFormData.signatureSection.signatures[idx].length > 100) ||
                       // Or if the entire form is completed
-                      formData.status === "COMPLETED"
+                       isLocked || formData.status === "COMPLETED"
                     }
                   />
                   <input
