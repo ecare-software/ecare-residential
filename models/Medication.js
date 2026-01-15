@@ -8,28 +8,43 @@ const caregiverSchema = new mongoose.Schema({
   title: { type: String, default: "" },
 });
 
-const dailyLogEntrySchema = new mongoose.Schema({
-  day: { type: Number, required: true },
-  time: { type: String, default: "" },
-  initials: { type: String, default: "" },
-  amountRemaining: { type: String, default: "" },
-});
+const doseSchema = new mongoose.Schema(
+  {
+    time: { type: String, default: "" },
+    initials: { type: String, default: "" },
+    amountRemaining: { type: String, default: "" }
+  },
+  { _id: false }
+);
 
-const logTableSchema = new mongoose.Schema({
-  entries: { type: [dailyLogEntrySchema], default: [] },
-});
+const logDaySchema = new mongoose.Schema(
+  {
+    day: { type: Number, required: true },
+    doses: { type: [doseSchema], default: [] }
+  },
+  { _id: false }
+);
+
+const logTableSchema = new mongoose.Schema(
+  {
+    days: { type: [logDaySchema], default: [] }
+  },
+  { _id: false }
+);
+
 
 const singleMedicationSchema = new mongoose.Schema({
-  medicationId: { type: String },       
-  name: { type: String, default: "" },  
+  medicationId: { type: String },
+  id: { type: String },          // <-- frontend ID
+  name: { type: String, default: "" },
   dosage: { type: String, default: "" },
   strength: { type: String, default: "" },
-  frequency: { type: String, default: "" },      
-  otherFrequency: { type: String, default: "" },  
+  frequency: { type: String, default: "" },
+  otherFrequency: { type: String, default: "" },
   reasonPrescribed: { type: String, default: "" },
   prnReasonDetails: { type: String, default: "" },
 
-  logTable: { type: logTableSchema, default: () => ({}) },
+  logTable: { type: logTableSchema, default: () => ({ days: [] }) }
 });
 
 const medicationLogSchema = new mongoose.Schema({
