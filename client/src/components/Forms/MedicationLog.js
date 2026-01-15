@@ -30,9 +30,6 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
   const today = new Date().toISOString().split("T")[0];
 
-  // const makeEmptyEntries = () => days.map((d) => ({ day: d, time: "", initials: "", amountRemaining: "" }));
-  // const makeSingleLogTable = () => ({ tableNumber: 1, entries: makeEmptyEntries() });
-
   const makeLogTableForFrequency = (frequency) => {
     const doseCount = getDoseCount(frequency);
 
@@ -42,7 +39,9 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
         initials: "",
         amountRemaining: "",
         doses: Array.from({ length: doseCount }, () => ({
-          time: ""
+          time: "",
+          amountRemaining: "",
+          initials: ""
         }))
       }))
     };
@@ -110,7 +109,6 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
         otherFrequency: m.otherFrequency || "",
         reasonPrescribed: m.reasonPrescribed || "",
         prnReasonDetails: m.prnReasonDetails || "",
-        // logTable: m.logTable || makeSingleLogTable()
         logTable: m.logTable || makeLogTableForFrequency(m.frequency || "Daily")
       }));
       setMedications(meds);
@@ -131,7 +129,6 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
         otherFrequency: formData.otherFrequency || "",
         reasonPrescribed: formData.reasonPrescribed || "",
         prnReasonDetails: formData.prnReasonDetails || "",
-        // logTable: (formData.logTables && formData.logTables[idx]) ? formData.logTables[idx] : makeSingleLogTable()
         logTable:
           (formData.logTables && formData.logTables[idx])
             ? formData.logTables[idx]
@@ -287,7 +284,6 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
       otherFrequency: "",
       reasonPrescribed: "",
       prnReasonDetails: "",
-      // logTable: makeSingleLogTable()
       logTable: makeLogTableForFrequency(defaultFrequency),
     };
     setMedications(prev => {
@@ -306,14 +302,6 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
     });
   };
 
-  // const updateMedicationField = (medIndex, field, value) => {
-  //   setMedications(prev => {
-  //     const next = [...prev];
-  //     next[medIndex] = { ...next[medIndex], [field]: value };
-  //     return next;
-  //   });
-  // };
-
   const updateMedicationField = (medIndex, field, value) => {
     setMedications(prev => {
       const next = [...prev];
@@ -329,19 +317,6 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
       return next;
     });
   };
-
-  // const handleMedLogChange = (medIndex, entryIndex, field, value) => {
-  //   setMedications(prev => {
-  //     const next = [...prev];
-  //     const med = { ...next[medIndex] };
-  //     const log = { ...med.logTable };
-  //     const entries = log.entries.map((en, ei) => ei === entryIndex ? { ...en, [field]: value } : en);
-  //     log.entries = entries;
-  //     med.logTable = log;
-  //     next[medIndex] = med;
-  //     return next;
-  //   });
-  // };
 
   const handleDoseChange = (medIndex, dayIndex, doseIndex, field, value) => {
     setMedications(prev => {
@@ -629,20 +604,6 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
               ))}
             </SelectedValues>
 
-            {/* <Select
-              onChange={(e) => {
-                const value = e.target.value;
-                if (!value) return;
-                addMedicationByName(value);
-                // reset select to placeholder
-                e.target.value = "";
-              }}
-            >
-              <option value="">Select medication</option>
-              {medicationOptions.map((opt) => (
-                <option key={opt} value={opt}>{opt}</option>
-              ))}
-            </Select> */}
             <Select
               onChange={(e) => {
                 const value = e.target.value;
@@ -746,15 +707,6 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
 
                 <LogSection>
                   <LogTable>
-                    {/* <thead>
-                      <tr>
-                        <th>Date</th>
-                        {med.logTable.entries.map((entry) => (
-                          <th key={`day-${med.id}-${entry.day}`}>{entry.day}</th>
-                        ))}
-                      </tr>
-                    </thead> */}
-
                     <thead>
                       <tr>
                         <th>Date</th>
@@ -763,47 +715,6 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
                         ))}
                       </tr>
                     </thead>
-
-                    {/* <tbody>
-                      <tr>
-                        <td>Time</td>
-                        {med.logTable.entries.map((entry, entryIndex) => (
-                          <td key={`time-${med.id}-${entry.day}`}>
-                            <SmallInput
-                              type="text"
-                              value={entry.time}
-                              onChange={(e) => handleMedLogChange(medIndex, entryIndex, "time", e.target.value)}
-                            />
-                          </td>
-                        ))}
-                      </tr>
-
-                      <tr>
-                        <td>Initials</td>
-                        {med.logTable.entries.map((entry, entryIndex) => (
-                          <td key={`init-${med.id}-${entry.day}`}>
-                            <SmallInput
-                              type="text"
-                              value={entry.initials}
-                              onChange={(e) => handleMedLogChange(medIndex, entryIndex, "initials", e.target.value)}
-                            />
-                          </td>
-                        ))}
-                      </tr>
-
-                      <tr>
-                        <td>Amount Remaining</td>
-                        {med.logTable.entries.map((entry, entryIndex) => (
-                          <td key={`amt-${med.id}-${entry.day}`}>
-                            <SmallInput
-                              type="text"
-                              value={entry.amountRemaining}
-                              onChange={(e) => handleMedLogChange(medIndex, entryIndex, "amountRemaining", e.target.value)}
-                            />
-                          </td>
-                        ))}
-                      </tr>
-                    </tbody> */}
                     <tbody>
                       {/* PRN MODE */}
                       {med.frequency === "PRN (as Needed)" || med.frequency === "Other" ? (
@@ -936,18 +847,37 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
                                   </td>
                                 ))}
                               </tr>
-
                               <tr>
                                 <td>Amount Remaining</td>
                                 {med.logTable.days.map((dayObj, dayIndex) => (
                                   <td key={`amt-${dayIndex}-${doseIndex}`}>
                                     <SmallInput
-                                      value={dayObj.amountRemaining || ""}
+                                      value={dayObj.doses[doseIndex]?.amountRemaining || ""}
                                       onChange={(e) =>
-                                        handleDayFieldChange(
+                                        handleDoseChange(
                                           medIndex,
                                           dayIndex,
+                                          doseIndex,
                                           "amountRemaining",
+                                          e.target.value
+                                        )
+                                      }
+                                    />
+                                  </td>
+                                ))}
+                              </tr>
+                              <tr>
+                                <td>Initials</td>
+                                {med.logTable.days.map((dayObj, dayIndex) => (
+                                  <td key={`init-${dayIndex}`}>
+                                    <SmallInput
+                                      value={dayObj.doses[doseIndex]?.initials || ""}
+                                      onChange={(e) =>
+                                        handleDoseChange(
+                                          medIndex,
+                                          dayIndex,
+                                          doseIndex,
+                                          "initials",
                                           e.target.value
                                         )
                                       }
@@ -957,25 +887,6 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
                               </tr>
                             </React.Fragment>
                           ))}
-
-                          <tr>
-                            <td>Initials</td>
-                            {med.logTable.days.map((dayObj, dayIndex) => (
-                              <td key={`init-${dayIndex}`}>
-                                <SmallInput
-                                  value={dayObj.initials || ""}
-                                  onChange={(e) =>
-                                    handleDayFieldChange(
-                                      medIndex,
-                                      dayIndex,
-                                      "initials",
-                                      e.target.value
-                                    )
-                                  }
-                                />
-                              </td>
-                            ))}
-                          </tr>
                         </>
                       )}
                     </tbody>
