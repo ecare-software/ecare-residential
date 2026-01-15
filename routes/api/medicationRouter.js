@@ -3,6 +3,30 @@ const MedicationLog = require("../../models/Medication");
 
 const router = express.Router();
 
+function migrateOldLogTable(med) {
+  if (med?.logTable?.entries && !med.logTable.days) {
+    const map = {};
+
+    for (const entry of med.logTable.entries) {
+      if (!map[entry.day]) {
+        map[entry.day] = {
+          day: entry.day,
+          doses: []
+        };
+      }
+
+      map[entry.day].doses.push({
+        time: entry.time || "",
+        initials: entry.initials || "",
+        amountRemaining: entry.amountRemaining || ""
+      });
+    }
+
+    med.logTable = { days: Object.values(map) };
+    delete med.logTable.entries;
+  }
+}
+
 router.post("/", async (req, res) => {
   try {
     const body = req.body;
@@ -30,7 +54,7 @@ router.post("/", async (req, res) => {
       medications: Array.isArray(body.medications)
         ? body.medications.map((m) => ({
             medicationId: m.medicationId || String(Date.now()) + Math.random(),
-
+            id: m.id,                           // preserve frontend ID
             name: m.name || "",
             dosage: m.dosage || "",
             strength: m.strength || "",
@@ -38,11 +62,9 @@ router.post("/", async (req, res) => {
             otherFrequency: m.otherFrequency || "",
             reasonPrescribed: m.reasonPrescribed || "",
             prnReasonDetails: m.prnReasonDetails || "",
-
             logTable: {
-              entries:
-                Array.isArray(m.logTable?.entries) ? m.logTable.entries : [],
-            },
+              days: Array.isArray(m.logTable?.days) ? m.logTable.days : []
+            }
           }))
         : [],
 
@@ -81,11 +103,8 @@ router.post("/", async (req, res) => {
 
 router.get("/:homeId", async (req, res) => {
   try {
-    const medicationLogs = await MedicationLog.find({
-      homeId: req.params.homeId,
-    })
-      .sort({ createDate: -1 })
-      .lean();
+    const medicationLogs = await MedicationLog.find({ homeId: req.params.homeId })
+      .sort({ createDate: -1 });
 
     const flattened = medicationLogs.map((log) => ({
       ...log,
@@ -134,12 +153,24 @@ router.get(
         query.approved = approved === "true";
       }
 
-      const logs = await MedicationLog.find(query)
-        .sort({ createDate: -1 })
-        .lean();
+      const medicationLogs = await MedicationLog.find({ homeId: req.params.homeId })
+        .sort({ createDate: -1 });
 
-      const flattened = logs.map((log) => ({
-        ...log,
+        for (const log of medicationLogs) {
+          let changed = false;
+
+          log.medications.forEach(med => {
+            if (med.logTable?.entries && !med.logTable.days) {
+              migrateOldLogTable(med);
+              changed = true;
+            }
+          });
+
+          if (changed) await log.save();
+        }
+
+      const flattened = medicationLogs.map(log => ({
+        ...log.toObject(),
         childName: log.child?.name || "",
         childId: log.child?.childId || "",
       }));
@@ -162,6 +193,7 @@ router.put("/:id", async (req, res) => {
     if (updates.medications) {
       updates.medications = updates.medications.map((m) => ({
         medicationId: m.medicationId,
+        id: m.id,
         name: m.name || "",
         dosage: m.dosage || "",
         strength: m.strength || "",
@@ -170,8 +202,8 @@ router.put("/:id", async (req, res) => {
         reasonPrescribed: m.reasonPrescribed || "",
         prnReasonDetails: m.prnReasonDetails || "",
         logTable: {
-          entries: Array.isArray(m.logTable?.entries) ? m.logTable.entries : [],
-        },
+          days: Array.isArray(m.logTable?.days) ? m.logTable.days : []
+        }
       }));
     }
 
