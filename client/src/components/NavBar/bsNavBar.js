@@ -716,19 +716,21 @@ class NavBar extends React.Component {
                   )}
                 </Nav.Link>
 
-                <Nav.Link
-                  eventKey="link-1882"
-                  style={navItemStyle}
-                  onClick={() => {
-                    document.querySelector(".Submit-a-Form-nav > a").classList.remove("active");
-                    document.querySelector(".Training-nav > a").classList.remove("active");
-                    document.querySelector(".nav-link").classList.remove("active");
-                    document.querySelector(".Manage-Account-nav > a")?.classList.remove("active");
-                    this.props.toggleDisplay("Clients");
-                  }}
-                >
-                  Manage Clients
-                </Nav.Link>
+                {isAdminUser(this.props.userObj) && (
+                  <Nav.Link
+                    eventKey="link-1882"
+                    style={navItemStyle}
+                    onClick={() => {
+                      document.querySelector(".Submit-a-Form-nav > a").classList.remove("active");
+                      document.querySelector(".Training-nav > a").classList.remove("active");
+                      document.querySelector(".nav-link").classList.remove("active");
+                      document.querySelector(".Manage-Account-nav > a")?.classList.remove("active");
+                      this.props.toggleDisplay("Clients");
+                    }}
+                  >
+                    Manage Clients
+                  </Nav.Link>
+                )}
               </Nav>
               <Nav className="ml-auto">
                 <NavDropdown
