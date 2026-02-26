@@ -228,19 +228,19 @@ class FormSubmitterListContainer extends Component {
                 )}
                 <tbody>
                   <tr>
-                  {(this.state.formType === "Daily Activity" && (this.state.userObj.homeId === 'home-3' || this.state.userObj.homeId === 'home-1234')) && (
-                    <td style={{
-                      color: form.signature1.length > 0 && form.status === "IN PROGRESS" ? "#F6C324" : "black",
-                      fontWeight: form.signature1.length > 0 && form.status === "IN PROGRESS" ? "bold" : "normal"
+                    {(this.state.formType === "Daily Activity" && (
+                      <td style={{
+                        color: form.signature1.length > 0 && form.status === "IN PROGRESS" ? "#F6C324" : "black",
+                        fontWeight: form.signature1.length > 0 && form.status === "IN PROGRESS" ? "bold" : "normal"
                       }}>
-                      {(form.status === "" || !form.status) ? "IN PROGRESS" : form.status}
-                    </td>
-                  )}
-                  {(this.state.formType !== "Daily Activity") && (
-                  <td>
-                    {(form.status === "" || !form.status) ? "IN PROGRESS" : form.status}
-                  </td>
-                  )}
+                        {(form.status === "" || !form.status) ? "IN PROGRESS" : form.status}
+                      </td>
+                    ))}
+                    {(this.state.formType !== "Daily Activity") && (
+                      <td>
+                        {(form.status === "" || !form.status) ? "IN PROGRESS" : form.status}
+                      </td>
+                    )}
                     <td>
                       {new Date(form.createDate).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}
                     </td>
