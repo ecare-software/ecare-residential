@@ -1275,7 +1275,7 @@ function DisplayExtra({
               }}
               className='btn btn-light extraInfoButton'
             >
-              Show All Clients
+              Back
             </button>
           )}
         </div>

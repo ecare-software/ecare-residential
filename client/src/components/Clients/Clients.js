@@ -4,6 +4,7 @@ import "../../App.css";
 import "../LogInContainer/LogInContainer.css";
 import Axios from "axios";
 import FaceSheet from "../Forms/FaceSheet";
+import FosterChecklist from "./FosterChecklist";
 import { Col } from "react-bootstrap";
 
 const fetchAllClientsInit = async ({ homeId }) => {
@@ -22,6 +23,7 @@ const fetchAllClients = async ([homeId]) => {
 
 const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
   const [showClients, setShowClients] = useState(showClientForm);
+  const [selectedView, setSelectedView] = useState("facesheet");
   const [isClientSelected, setIsClientSelected] = useState(false);
   const [isInit, setIsInit] = useState(true);
   const [selectedClient, setSelectedClient] = useState(null);
@@ -74,10 +76,17 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
     },
   });
 
-  const setClient = (value) => {
+  // const setClient = (value) => {
+  //   setIsClientSelected(true);
+  //   doToggleClientDisplay(false);
+  //   setSelectedClient(value);
+  // };
+
+  const setClient = (value, view) => {
     setIsClientSelected(true);
     doToggleClientDisplay(false);
     setSelectedClient(value);
+    setSelectedView(view);
   };
 
   const deleteClientCall = async (value, active) => {
@@ -143,7 +152,9 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
             {/* </div> */}
           </div>
           <div className="form-group logInInputField d-flex mt-3 border-bottom">
-            <Col className="control-label"></Col>
+            <Col className="control-label">
+               <label style={{ fontWeight: "bold" }}>Actions</label>
+            </Col>
             <Col className="control-label">
               <label>Name</label>
             </Col>
@@ -157,10 +168,18 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
                 <button
                   className="btn btn-light extraInfoButton"
                   onClick={() => {
-                    setClient(client);
+                    setClient(client, "facesheet");
                   }}
                 >
                   Edit
+                </button>
+                <button
+                  className="btn btn-light extraInfoButton ml-2"
+                  onClick={() => {
+                    setClient(client, "checklist");
+                  }}
+                >
+                  Checklist
                 </button>
                 <button
                   className="btn btn-link extraInfoButton"
@@ -204,13 +223,33 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
         <IfPending state={getAllClients}>
           <p>Loading...</p>
         </IfPending>
-        <IfFulfilled state={getAllClients}>
+        {/* <IfFulfilled state={getAllClients}>
           <FaceSheet
             valuesSet={isClientSelected}
             userObj={userObj}
             id="facesheet"
             formData={selectedClient}
           />
+        </IfFulfilled> */}
+        <IfFulfilled state={getAllClients}>
+          <>
+            {selectedView === "facesheet" && (
+              <FaceSheet
+                valuesSet={isClientSelected}
+                userObj={userObj}
+                id="facesheet"
+                formData={selectedClient}
+              />
+            )}
+
+            {selectedView === "checklist" && (
+              <FosterChecklist
+                valuesSet={isClientSelected}
+                userObj={userObj}
+                formData={selectedClient}
+              />
+            )}
+          </>
         </IfFulfilled>
       </div>
     );
