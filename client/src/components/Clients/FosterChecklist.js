@@ -93,8 +93,8 @@ function FosterChecklist({ formData }) {
     courtSummaries: null,
     admissionTreatmentPlan: null,
     monthlyTherapyNotes: {},
-    cansAssessments: {},
-    psychologicalEvaluations: {},
+    childAdolescent: {},
+    psychologicalPsychiatric: {},
   });
 
   useEffect(() => {
@@ -177,6 +177,12 @@ function FosterChecklist({ formData }) {
           : [tempFileObj],
       },
     }));
+
+    // ✅ AUTO CHECK CHECKBOX
+    setChecklist((prev) => ({
+      ...prev,
+      [fieldName]: true,
+    }));
   };
 
   const getCurrentMonth = () => {
@@ -209,6 +215,12 @@ function FosterChecklist({ formData }) {
           : [tempFileObj],
       },
     }));
+
+    // ✅ AUTO CHECK CHECKBOX
+    setChecklist((prev) => ({
+      ...prev,
+      [fieldName]: true,
+    }));
   };
 
   // Modal state
@@ -239,6 +251,12 @@ function FosterChecklist({ formData }) {
     setUploadedFiles((prev) => ({
       ...prev,
       [fieldName]: [tempFileObj],
+    }));
+
+    // ✅ AUTO CHECK CHECKBOX
+    setChecklist((prev) => ({
+      ...prev,
+      [fieldName]: true,
     }));
   };
 
@@ -281,8 +299,8 @@ function FosterChecklist({ formData }) {
 
       // 3. Upload recurring
       await uploadRecurringFiles(uploadedFiles.monthlyTherapyNotes, "monthlyTherapyNotes", id);
-      await uploadRecurringFiles(uploadedFiles.cansAssessments, "cansAssessments", id);
-      await uploadRecurringFiles(uploadedFiles.psychologicalEvaluations, "psychologicalEvaluations", id);
+      await uploadRecurringFiles(uploadedFiles.childAdolescent, "childAdolescent", id);
+      await uploadRecurringFiles(uploadedFiles.psychologicalPsychiatric, "psychologicalPsychiatric", id);
 
       // 4. OPTIONAL (important): update checklist with file references
       await axios.put(`${API_URL}/${id}`, {
@@ -1204,13 +1222,13 @@ function FosterChecklist({ formData }) {
             <input
               type="file"
               onChange={(e) =>
-                handleRecurringUpload(e, "cansAssessments")
+                handleRecurringUpload(e, "childAdolescent")
               }
             />
 
             <div style={{ marginTop: "20px" }}>
               {Object.entries(
-                uploadedFiles.cansAssessments || {}
+                uploadedFiles.childAdolescent || {}
               ).map(([date, files]) => (
                 <div
                   key={date}
@@ -1276,14 +1294,14 @@ function FosterChecklist({ formData }) {
             onChange={(e) =>
               handleRecurringUpload(
                 e,
-                "psychologicalEvaluations"
+                "psychologicalPsychiatric"
               )
             }
           />
 
           <div style={{ marginTop: "20px" }}>
             {Object.entries(
-              uploadedFiles.psychologicalEvaluations || {}
+              uploadedFiles.psychologicalPsychiatric || {}
             ).map(([date, files]) => (
               <div
                 key={date}

@@ -403,11 +403,11 @@ const fosterChecklistSchema = new Schema(
                 type: [recurringFileSchema],
                 default: [],
             },
-            cansAssessments: {
+            childAdolescent: {
                 type: [recurringFileSchema],
                 default: [],
             },
-            psychologicalEvaluations: {
+            psychologicalPsychiatric: {
                 type: [recurringFileSchema],
                 default: [],
             },
