@@ -38,6 +38,7 @@ const awakeNightStaffSignoff = require("./routes/api/awakeNightStaffSignoff");
 const nightMonitoring = require("./routes/api/nightMonitoring");
 const coinbase = require("./routes/api/coinbase");
 const medication = require("./routes/api/medicationRouter");
+const fosterChecklist = require("./routes/api/fosterChecklist");
 
 
 //user express
@@ -65,6 +66,8 @@ app.use(logger("dev"));
 // app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 app.use(express.static(path.join(__dirname, "client/build"))); //new
 
 app.get("/", (req, res) => {
@@ -72,6 +75,15 @@ app.get("/", (req, res) => {
 });
 app.get("/reports", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
+});
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+app.get("/debug-files", (req, res) => {
+  const fs = require("fs");
+  const dir = path.join(__dirname, "uploads/foster-checklists");
+
+  res.json(fs.readdirSync(dir));
 });
 
 //use routes
@@ -98,13 +110,14 @@ app.use("/api/annualTrainingMod", annualTrainingMod);
 app.use("/api/client", client);
 app.use("/api/email", email);
 app.use("/api/uploadDocument", uploadDocument);
-app.use("/uploads", express.static("uploads"));
+// app.use("/uploads", express.static("uploads"));
 app.use("/api/forms", allForms);
 app.use("/api/home", homes);
 app.use("/api/awakeNightStaffSignoff", awakeNightStaffSignoff);
 app.use("/api/nightMonitoring", nightMonitoring);
 app.use("/api/coinbase", coinbase);
 app.use("/api/medication", medication);
+app.use("/api/fosterChecklist", fosterChecklist);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

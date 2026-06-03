@@ -33,11 +33,16 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
   useEffect(() => {
     if (showClientForm) {
       setIsClientSelected(false);
+      setSelectedClient(null);
+      setSelectedView("facesheet");
     }
+
     setShowClients(showClientForm);
+
     if (showClientForm && !isInit) {
       getAllClients.run([userObj.homeId]);
     }
+
     setIsInit(false);
   }, [showClientForm]);
 
@@ -171,7 +176,7 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
                     setClient(client, "facesheet");
                   }}
                 >
-                  Edit
+                  Open
                 </button>
                 <button
                   className="btn btn-light extraInfoButton ml-2"
