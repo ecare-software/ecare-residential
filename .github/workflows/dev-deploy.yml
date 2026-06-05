@@ -26,10 +26,12 @@ jobs:
         npm install
         npm run build --if-present
         npm run test --if-present
-        cd client 
-        npm install 
-        CI=false
-        npm run build
+        cd client
+        npm install
+        CI=false npm run build
+        cd ..
+        rm -rf client/node_modules
+        npm prune --omit=dev
 
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
