@@ -85,7 +85,10 @@ function FosterChecklist({ formData }) {
   const [checklistId, setChecklistId] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
-  const API_URL = "/api/fosterChecklist";
+
+  const API_BASE = process.env.REACT_APP_API_BASE_URL || "http://localhost:3001";
+  // const API_URL = "/api/fosterChecklist";
+  const API_URL = `${API_BASE}/api/fosterChecklist`;
 
   // Store uploaded files
   const [uploadedFiles, setUploadedFiles] = useState({
@@ -349,9 +352,13 @@ function FosterChecklist({ formData }) {
       return;
     }
 
+    // const fullUrl = url.startsWith("http")
+    //   ? url
+    //   : `http://localhost:3001${url}`;
+
     const fullUrl = url.startsWith("http")
       ? url
-      : `http://localhost:3001${url}`;
+      : `${API_BASE}${url}`;
 
       console.log("🟢 FINAL URL OPENED:", fullUrl);
 

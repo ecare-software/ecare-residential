@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const methodOverride = require("method-override");
+const cors = require("cors");
 
 //routes
 const users = require("./routes/api/users");
@@ -45,6 +46,13 @@ const fosterChecklist = require("./routes/api/fosterChecklist");
 const app = express();
 // email test
 
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
+
 app.use(express.json({ limit: "25mb" }));
 app.use(express.urlencoded({ extended: true, limit: "25mb" }));
 
@@ -79,11 +87,23 @@ app.get("/reports", (req, res) => {
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+// app.get("/debug-files", (req, res) => {
+//   const fs = require("fs");
+//   const dir = path.join(__dirname, "uploads/foster-checklists");
+
+//   res.json(fs.readdirSync(dir));
+// });
+
 app.get("/debug-files", (req, res) => {
   const fs = require("fs");
   const dir = path.join(__dirname, "uploads/foster-checklists");
 
-  res.json(fs.readdirSync(dir));
+  try {
+    const files = fs.existsSync(dir) ? fs.readdirSync(dir) : [];
+    res.json(files);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 //use routes
