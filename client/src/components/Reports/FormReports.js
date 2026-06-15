@@ -15,6 +15,12 @@ function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
 }
 
+function getFortyFiveDaysAgo() {
+  const d = new Date();
+  d.setDate(d.getDate() - 45);
+  return d.toISOString().split("T")[0];
+}
+
 const getFilterText = (searchObj) => {
   const filterA = Reflect.ownKeys(searchObj).reduce((acc, key) => {
     if (
@@ -89,7 +95,7 @@ export class FormReports extends Component {
       searchObj: {
         approved: false,
         searchString: "",
-        submittedAfter: "",
+        submittedAfter: getFortyFiveDaysAgo(),
         submittedBefore: "",
         dobAfter: "",
         dobBefore: "",
@@ -251,66 +257,67 @@ export class FormReports extends Component {
   getForms = () => {
     console.log("Fetching all forms for homeId:", this.props.userObj.homeId);
     this.flushFormStateData();
+    const fortyFiveDaysAgo = getFortyFiveDaysAgo();
     var formRequests = [
       Axios.get(
         "/api/dailyProgressNoteTwo/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/false"
       ),
       Axios.get(
         "/api/medication/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/false"
       ),
       Axios.get(
         "/api/dailyProgressAndActivity/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/none/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/incidentReport/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/none/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/seriousIncidentReport/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/none/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/restraintReport/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/none/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/treatmentPlans72/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/none/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/illnessInjury/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/none/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/admissionAssessment/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/none/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/bodyCheck/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/none/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/awakeNightStaffSignoff/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/none/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/nightMonitoring/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/none/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
       ),
     ];
 
@@ -421,66 +428,67 @@ export class FormReports extends Component {
       isLoading: true,
     });
 
+    const fortyFiveDaysAgo = getFortyFiveDaysAgo();
     var formRequests = [
       Axios.get(
         "/api/dailyProgressAndActivity/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/none/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/dailyProgressNoteTwo/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/false"
       ),
       Axios.get(
         "/api/medication/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/false"
       ),
       Axios.get(
         "/api/incidentReport/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/none/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/seriousIncidentReport/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/none/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/restraintReport/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/none/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/treatmentPlans72/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/none/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/illnessInjury/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/none/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/admissionAssessment/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/none/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/bodyCheck/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/none/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/awakeNightStaffSignoff/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/none/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
       ),
       Axios.get(
         "/api/nightMonitoring/" +
         this.props.userObj.homeId +
-        "/none/none/none/none/none/none/none/none/none/false"
+        "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
       ),
     ];
 
