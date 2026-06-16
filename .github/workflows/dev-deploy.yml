@@ -13,6 +13,9 @@ jobs:
   build-and-deploy-dev:
     runs-on: ubuntu-latest
 
+    env:
+      REACT_APP_API_BASE_URL: https://ecare-residential-dev.azurewebsites.net
+
     steps:
     - uses: actions/checkout@master
 
@@ -26,12 +29,11 @@ jobs:
         npm install
         npm run build --if-present
         npm run test --if-present
-        cd client
-        npm install
-        CI=false npm run build
-        cd ..
-        rm -rf client/node_modules
-        npm prune --omit=dev
+        cd client 
+        npm install 
+        CI=false
+        echo "REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL"
+        npm run build
 
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
