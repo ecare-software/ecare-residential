@@ -22,6 +22,7 @@
   .logInInputField {
     margin-bottom: 15px;
   }
+
 }
 
 /* ipad */
@@ -77,4 +78,24 @@
   .logInContainer {
     /* display: none; */
   }
+}
+
+.passwordInputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordInputContainer input {
+  width: 100%;
+  padding-right: 40px; /* space for icon */
+}
+
+.passwordToggleIcon {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  user-select: none;
+  color: #666;
 }

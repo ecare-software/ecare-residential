@@ -94,7 +94,9 @@ function FosterChecklist({ formData }) {
   const [uploadedFiles, setUploadedFiles] = useState({
     courtOrders: null,
     courtSummaries: null,
+    admissionAssessment: null,
     admissionTreatmentPlan: null,
+    servicePlanReview: {},
     monthlyTherapyNotes: {},
     childAdolescent: {},
     psychologicalPsychiatric: {},
@@ -300,10 +302,17 @@ function FosterChecklist({ formData }) {
         id
       );
 
+      const admissionAssessmentFile = await uploadSingleFile(
+        uploadedFiles.admissionAssessment,
+        "admissionAssessment",
+        id
+      );
+
       // 3. Upload recurring
       await uploadRecurringFiles(uploadedFiles.monthlyTherapyNotes, "monthlyTherapyNotes", id);
       await uploadRecurringFiles(uploadedFiles.childAdolescent, "childAdolescent", id);
       await uploadRecurringFiles(uploadedFiles.psychologicalPsychiatric, "psychologicalPsychiatric", id);
+      await uploadRecurringFiles(uploadedFiles.servicePlanReview, "servicePlanReview", id);
 
       // 4. OPTIONAL (important): update checklist with file references
       await axios.put(`${API_URL}/${id}`, {
@@ -315,6 +324,7 @@ function FosterChecklist({ formData }) {
           courtOrders: courtOrdersFile,
           courtSummaries: courtSummariesFile,
           admissionTreatmentPlan: admissionPlanFile,
+          admissionAssessment: admissionAssessmentFile,
         },
       });
 
@@ -980,6 +990,43 @@ function FosterChecklist({ formData }) {
             Admission/Diagnostic/Intake Assessment
           </label>
 
+          <div style={{marginLeft:"30px", marginBottom:"15px"}}>
+            <input
+              type="file"
+              onChange={(e) => 
+                handleFileUpload(e, "admissionAssessment")
+              }
+            />
+
+            {uploadedFiles.admissionAssessment?.[0] && (
+              <div
+                style={{
+                  marginTop:"10px",
+                  display:"flex",
+                  alignitems:"center",
+                  gap:"10px",
+                  border:"1px, solid, #ddd",
+                  borderRadius:"8px",
+                  padding:"10px",
+                }}
+              >
+                <span style={{fontWeight:"bold"}}>
+                  {uploadedFiles.admissionAssessment[0].fileName ||
+                    uploadedFiles.admissionAssessment[0].name}
+                </span>
+
+                <button
+                  type="button"
+                  onClick={() => 
+                    handleViewFile(uploadedFiles.admissionAssessment[0])
+                  }
+                >
+                  View
+                </button>
+              </div>
+            )}
+          </div>
+
           {/* Main Parent Checkbox */}
           <label
             style={{
@@ -1086,6 +1133,59 @@ function FosterChecklist({ formData }) {
             />
             Service Plan Review
           </label>
+
+          <div
+            style={{
+              marginLeft:"30px",
+              marginTop:"10px",
+            }}
+          >
+            <input
+              type="file"
+              onChange={(e) => 
+                handleRecurringUpload(e, "servicePlanReview")
+              }
+            />
+
+            <div style={{marginTop: "20px"}}>
+              {Object.entries(
+                uploadedFiles.servicePlanReview || {}
+              ).map(([date, files]) => (
+                <div
+                  key={date}
+                  style={{
+                    border:"1px solid #ddd",
+                    borderRadius:"8px",
+                    padding:"10px",
+                    marginBottom:"15px",
+                  }}
+                >
+                  <h5>{date}</h5>
+
+                  {files.map((file, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        display:"flex",
+                        alignItems:"center",
+                        gap:"10px",
+                        marginBottom:"10px",
+                      }}
+                    >
+                      <span style={{fontWeight:"bold"}}>{file.fileName || file.name}</span>
+
+                      <button
+                        type="button"
+                        onClick={() => handleViewFile(file)}
+                      >
+                        View
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
 
           <label
             style={{
