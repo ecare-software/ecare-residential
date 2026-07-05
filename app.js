@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const methodOverride = require("method-override");
+const cors = require("cors");
 
 //routes
 const users = require("./routes/api/users");
@@ -38,11 +39,19 @@ const awakeNightStaffSignoff = require("./routes/api/awakeNightStaffSignoff");
 const nightMonitoring = require("./routes/api/nightMonitoring");
 const coinbase = require("./routes/api/coinbase");
 const medication = require("./routes/api/medicationRouter");
+const fosterChecklist = require("./routes/api/fosterChecklist");
 
 
 //user express
 const app = express();
 // email test
+
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 app.use(express.json({ limit: "25mb" }));
 app.use(express.urlencoded({ extended: true, limit: "25mb" }));
@@ -65,6 +74,8 @@ app.use(logger("dev"));
 // app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 app.use(express.static(path.join(__dirname, "client/build"))); //new
 
 app.get("/", (req, res) => {
@@ -72,6 +83,27 @@ app.get("/", (req, res) => {
 });
 app.get("/reports", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
+});
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// app.get("/debug-files", (req, res) => {
+//   const fs = require("fs");
+//   const dir = path.join(__dirname, "uploads/foster-checklists");
+
+//   res.json(fs.readdirSync(dir));
+// });
+
+app.get("/debug-files", (req, res) => {
+  const fs = require("fs");
+  const dir = path.join(__dirname, "uploads/foster-checklists");
+
+  try {
+    const files = fs.existsSync(dir) ? fs.readdirSync(dir) : [];
+    res.json(files);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 //use routes
@@ -98,13 +130,14 @@ app.use("/api/annualTrainingMod", annualTrainingMod);
 app.use("/api/client", client);
 app.use("/api/email", email);
 app.use("/api/uploadDocument", uploadDocument);
-app.use("/uploads", express.static("uploads"));
+// app.use("/uploads", express.static("uploads"));
 app.use("/api/forms", allForms);
 app.use("/api/home", homes);
 app.use("/api/awakeNightStaffSignoff", awakeNightStaffSignoff);
 app.use("/api/nightMonitoring", nightMonitoring);
 app.use("/api/coinbase", coinbase);
 app.use("/api/medication", medication);
+app.use("/api/fosterChecklist", fosterChecklist);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
