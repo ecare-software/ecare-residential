@@ -96,6 +96,7 @@ function FosterChecklist({ formData }) {
     courtSummaries: null,
     admissionAssessment: null,
     admissionTreatmentPlan: null,
+    initialServicePlan: null,
     servicePlanReview: {},
     monthlyTherapyNotes: {},
     childAdolescent: {},
@@ -308,6 +309,12 @@ function FosterChecklist({ formData }) {
         id
       );
 
+      const initialServicePlanFile = await uploadSingleFile(
+        uploadedFiles.initialServicePlan,
+        "initialServicePlan",
+        id
+      );
+
       // 3. Upload recurring
       await uploadRecurringFiles(uploadedFiles.monthlyTherapyNotes, "monthlyTherapyNotes", id);
       await uploadRecurringFiles(uploadedFiles.childAdolescent, "childAdolescent", id);
@@ -325,6 +332,7 @@ function FosterChecklist({ formData }) {
           courtSummaries: courtSummariesFile,
           admissionTreatmentPlan: admissionPlanFile,
           admissionAssessment: admissionAssessmentFile,
+          initialServicePlan: initialServicePlanFile,
         },
       });
 
@@ -1001,14 +1009,14 @@ function FosterChecklist({ formData }) {
             {uploadedFiles.admissionAssessment?.[0] && (
               <div
                 style={{
-                  marginTop:"10px",
-                  display:"flex",
-                  alignitems:"center",
-                  gap:"10px",
-                  border:"1px, solid, #ddd",
-                  borderRadius:"8px",
-                  padding:"10px",
-                }}
+                    marginTop: "10px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    border: "1px solid #ddd",
+                    borderRadius: "8px",
+                    padding: "10px",
+                  }}
               >
                 <span style={{fontWeight:"bold"}}>
                   {uploadedFiles.admissionAssessment[0].fileName ||
@@ -1075,6 +1083,43 @@ function FosterChecklist({ formData }) {
               />
               Initial Service Plan (within 30 days of placement)
             </label>
+
+            <div style={{ marginLeft: "30px", marginBottom: "15px" }}>
+              <input
+                type="file"
+                onChange={(e) =>
+                  handleFileUpload(e, "initialServicePlan")
+                }
+              />
+
+              {uploadedFiles.initialServicePlan?.[0] && (
+                <div
+                  style={{
+                    marginTop: "10px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    border: "1px solid #ddd",
+                    borderRadius: "8px",
+                    padding: "10px",
+                  }}
+                >
+                  <span style={{ fontWeight: "bold" }}>
+                    {uploadedFiles.initialServicePlan[0].fileName ||
+                      uploadedFiles.initialServicePlan[0].name}
+                  </span>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      handleViewFile(uploadedFiles.initialServicePlan[0])
+                    }
+                  >
+                    View
+                  </button>
+                </div>
+              )}
+            </div>
 
             <label
               style={{
