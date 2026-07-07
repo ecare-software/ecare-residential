@@ -400,6 +400,10 @@ const fosterChecklistSchema = new Schema(
                 type: [fileSchema],
                 default: [],
             },
+            initialServicePlan: {
+                type: [fileSchema],
+                default:[],
+            },
         },
         
         recurringUploads: {
