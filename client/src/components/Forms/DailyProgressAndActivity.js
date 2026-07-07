@@ -610,7 +610,7 @@ class DailyProgressAndActivity extends Component {
             <React.Fragment />
           )}
           <div className="formTitleDiv">
-            <h2 className="formTitle">Daily Progress and Activity</h2>
+            <h2 className="formTitle">Daily Progress 1</h2>
             <h5
               className="text-center"
               style={{ color: "rgb(119 119 119 / 93%)" }}

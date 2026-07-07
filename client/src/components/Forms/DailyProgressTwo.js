@@ -932,54 +932,56 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
   return (
     <Container fluid className="formComp d-flex justify-content-center" style={{ minHeight: "100vh", padding: "40px 0" }}>
       <div style={{ width: "100%", maxWidth: "1000px" }}>
-        <div className="text-center mb-4">
-          {/* <h3 className="fw-bold mb-0">Saving Home RTC</h3> */}
-          <h4 className="fw-semibold">Daily Progress Note</h4>
-        </div>
-
-        {/* Date/Time */}
-        <div className="form-group logInInputField d-flex justify-content-center">
-          <div style={{ width: "650px" }}>
-            <label className="control-label">Create Date</label>
-            <input
-              onChange={handleFieldInputDate}
-              id="createDate"
-              value={formData.createDate ? formData.createDate.slice(0, -8) : ""}
-              className="form-control"
-              type="datetime-local"
-              style={{ height: "43px", boxSizing: "border-box" }}
-              disabled={isLocked}
-            />
+        <div  className="formTitleDiv">
+          <div className="text-center mb-4">
+            {/* <h3 className="fw-bold mb-0">Saving Home RTC</h3> */}
+            <h4 className="formTitle">Daily Progress 2</h4>
           </div>
         </div>
 
-        {/* Child Selector */}
-        <div className="form-group logInInputField d-flex justify-content-center">
-          <div style={{ width: "650px" }}>
-            <label className="control-label">Child's Name</label>
-            {valuesSet ? (
+          {/* Date/Time */}
+          <div className="form-group logInInputField d-flex justify-content-center">
+            <div style={{ width: "650px" }}>
+              <label className="control-label">Create Date</label>
               <input
-                type="text"
-                value={formData.childMeta_name || (formData.child && formData.child.name) || ""}
+                onChange={handleFieldInputDate}
+                id="createDate"
+                value={formData.createDate ? formData.createDate.slice(0, -8) : ""}
                 className="form-control"
-                disabled
+                type="datetime-local"
                 style={{ height: "43px", boxSizing: "border-box" }}
+                disabled={isLocked}
               />
-            ) : (
-              <Form.Control
-                as="select"
-                value={formData.clientSelectedValue || ""}
-                onChange={handleClientSelect}
-                style={{ height: "43px", boxSizing: "border-box" }}
-              >
-                <option value="">Select Child</option>
-                {Array.isArray(formData.clients) ? formData.clients.map((client, index) => (
-                  <ClientOption key={index} data={client} />
-                )) : null}
-              </Form.Control>
-            )}
+            </div>
           </div>
-        </div>
+
+          {/* Child Selector */}
+          <div className="form-group logInInputField d-flex justify-content-center">
+            <div style={{ width: "650px" }}>
+              <label className="control-label">Child's Name</label>
+              {valuesSet ? (
+                <input
+                  type="text"
+                  value={formData.childMeta_name || (formData.child && formData.child.name) || ""}
+                  className="form-control"
+                  disabled
+                  style={{ height: "43px", boxSizing: "border-box" }}
+                />
+              ) : (
+                <Form.Control
+                  as="select"
+                  value={formData.clientSelectedValue || ""}
+                  onChange={handleClientSelect}
+                  style={{ height: "43px", boxSizing: "border-box" }}
+                >
+                  <option value="">Select Child</option>
+                  {Array.isArray(formData.clients) ? formData.clients.map((client, index) => (
+                    <ClientOption key={index} data={client} />
+                  )) : null}
+                </Form.Control>
+              )}
+            </div>
+          </div>
 
         {/* Main Form Sections */}
         <Form className="d-flex flex-column align-items-center">
