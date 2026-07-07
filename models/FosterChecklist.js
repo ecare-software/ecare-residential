@@ -396,6 +396,10 @@ const fosterChecklistSchema = new Schema(
                 type: [fileSchema],
                 default: [],
             },
+            admissionAssessment: {
+                type: [fileSchema],
+                default: [],
+            },
         },
         
         recurringUploads: {
@@ -411,6 +415,10 @@ const fosterChecklistSchema = new Schema(
                 type: [recurringFileSchema],
                 default: [],
             },
+            servicePlanReview: {
+                type:[recurringFileSchema],
+                default: [],
+            }
         },
     },
     {

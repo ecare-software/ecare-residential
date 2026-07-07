@@ -455,7 +455,7 @@ class NavBar extends React.Component {
                       this.props.toggleDisplay("DailyProgress");
                     }}
                   >
-                    Daily Progress
+                    Daily Progress 1
                   </NavDropdown.Item>
 
                   <NavDropdown.Item
@@ -473,7 +473,7 @@ class NavBar extends React.Component {
                       this.props.toggleDisplay("DailyProgressTwo")
                     }}
                   >
-                    Daily Progress Note Two
+                    Daily Progress 2
                   </NavDropdown.Item>  
 
                    <NavDropdown.Item

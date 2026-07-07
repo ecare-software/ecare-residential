@@ -17,16 +17,24 @@ class LogInContainer extends Component {
       password2: "",
       title: "",
       signUp: false,
+      showPassword: false,
     };
 
     this.handleFieldInput = this.handleFieldInput.bind(this);
     this.submit = this.submit.bind(this);
     this.validateForm = this.validateForm.bind(this);
     this.toggleSignUp = this.toggleSignUp.bind(this);
+    this.togglePasswordVisibility = this.togglePasswordVisibility.bind(this);
   }
 
   toggleSignUp() {
     this.setState({ signUp: !this.state.signUp });
+  }
+
+  togglePasswordVisibility() {
+    this.setState((prev) => ({
+      showPassword: !prev.showPassword,
+    }));
   }
 
   handleFieldInput(event) {
@@ -95,7 +103,11 @@ class LogInContainer extends Component {
 
     Object.keys(simpleState).forEach(function (k) {
       let value = simpleState[k];
-      if (value === "" || value.includes(" ")) {
+      // if (value === "" || value.includes(" ")) {
+      if (
+        value === "" ||
+        (typeof value === "string" && value.includes(" "))
+      ) {
         console.log(k);
         validForm = false;
       }
@@ -157,7 +169,7 @@ class LogInContainer extends Component {
               type="text"
             />
           </div>
-          <div className="form-group logInInputField">
+          {/* <div className="form-group logInInputField">
             <label className="control-label">Password</label>
             <input
               onChange={this.handleFieldInput}
@@ -165,6 +177,26 @@ class LogInContainer extends Component {
               className="form-control"
               type="password"
             />
+          </div> */}
+
+          <div className="form-group logInInputField passwordWrapper">
+            <label className="control-label">Password</label>
+
+            <div className="passwordInputContainer">
+              <input
+                onChange={this.handleFieldInput}
+                id="password"
+                className="form-control"
+                type={this.state.showPassword ? "text" : "password"}
+              />
+
+              <span
+                className="passwordToggleIcon"
+                onClick={this.togglePasswordVisibility}
+              >
+                {this.state.showPassword ? "🙈" : "👁️"}
+              </span>
+            </div>
           </div>
 
           <FormError errorId={this.props.id + "-error"}></FormError>
