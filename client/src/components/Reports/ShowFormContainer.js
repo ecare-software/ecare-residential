@@ -22,6 +22,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import DailyProgressTwo from "../Forms/DailyProgressTwo";
 import MedicationLog from "../Forms/MedicationLog";
 import "../../App.css";
+import FormActionButtons from "../Common/FormActionButtons";
 
 const needsNurseSig = ["Health Body Check", "Illness Injury"];
 
@@ -84,6 +85,16 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
 
   const doPrint = async () => {
     window.print();
+  };
+
+  const doDelete = async () => {
+    DoDeleteRecord(
+      "Are you sure you want to delete this message? This cannot be undone.",
+      `/api/${route}/${formData.homeId}/${formData._id}`,
+      () => {
+        document.getElementById("form-reports-back-btn").click();
+      }
+    );
   };
 
   const setApprovedLabel = (approved, label) => {
@@ -393,16 +404,6 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
     }
   };
 
-  const doDelete = async () => {
-    DoDeleteRecord(
-      "Are you sure you want to delete this message? This cannot be undone.",
-      `/api/${route}/${formData.homeId}/${formData._id}`,
-      () => {
-        document.getElementById("form-reports-back-btn").click();
-      }
-    );
-  };
-
   return (
     <div className="meta-details-content">
       <div className="d-flex align-items-center hide-on-print">
@@ -428,26 +429,11 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
         </h6>
       </div>
       <div>
-        <div className="hide-on-print">
-          <button
-            onClick={() => {
-              doPrint();
-            }}
-            className="mr-3 btn btn-light hide-on-print"
-          >
-            Print <i className="fas fa-print"></i>
-          </button>
-          {isAdminRole && (
-            <button
-              onClick={() => {
-                doDelete();
-              }}
-              className="btn btn-light hide-on-print"
-            >
-              Delete Form <i className="fas fa-trash"></i>
-            </button>
-          )}
-        </div>
+        <FormActionButtons
+          onPrint={doPrint}
+          onDelete={doDelete}
+          showDelete={isAdminRole}
+        />
         <div>
           {/* print home information at top of form */}
           {homeData && (
