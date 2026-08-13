@@ -704,8 +704,8 @@ class FaceSheet extends Component {
             <React.Fragment />
           )}
           
-          {/* FormActionButtons with 15px padding */}
-          <div style={{ padding: "15px" }}>
+          {/* FormActionButtons with 15px padding - hidden in print */}
+          <div style={{ padding: "15px" }} className="no-print">
             <FormActionButtons
               onPrint={this.handlePrint}
               onDelete={this.handleDelete}
