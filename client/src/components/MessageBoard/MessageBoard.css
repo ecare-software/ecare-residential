@@ -1,6 +1,9 @@
 #recentPageBtn {
   width:100px;
 }
+.MessagePostTextDiv p {
+  white-space: pre-line;
+}
 .page-link {
   height: auto;
   width: 50px;
