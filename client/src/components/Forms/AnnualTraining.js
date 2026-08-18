@@ -263,7 +263,13 @@ class AnnualTraining extends Component {
   };
 
   submit = () => {
+    // Clone state but exclude uploadedCertificates with File objects
     let currentState = JSON.parse(JSON.stringify(this.state));
+    
+    // Remove uploadedCertificates from submission (Files can't be JSON stringified)
+    delete currentState.uploadedCertificates;
+    delete currentState.editingExpiration;
+    
     if (this.state.doUpdate) {
       Axios.put(`/api/annualTraining/${this.state._id}`, currentState)
         .then((res) => {
