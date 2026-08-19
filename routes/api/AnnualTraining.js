@@ -76,16 +76,45 @@ router.post("/", (req, res) => {
     T31: req.body.T31,
     T32: req.body.T32,
 
+    // ADD THESE: Expiration dates
+    T1Expiration: req.body.T1Expiration,
+    T2Expiration: req.body.T2Expiration,
+    T3Expiration: req.body.T3Expiration,
+    T4Expiration: req.body.T4Expiration,
+    T5Expiration: req.body.T5Expiration,
+    T6Expiration: req.body.T6Expiration,
+    T7Expiration: req.body.T7Expiration,
+    T8Expiration: req.body.T8Expiration,
+    T9Expiration: req.body.T9Expiration,
+    T10Expiration: req.body.T10Expiration,
+    T11Expiration: req.body.T11Expiration,
+    T12Expiration: req.body.T12Expiration,
+    T13Expiration: req.body.T13Expiration,
+    T14Expiration: req.body.T14Expiration,
+    T15Expiration: req.body.T15Expiration,
+    T16Expiration: req.body.T16Expiration,
+    T17Expiration: req.body.T17Expiration,
+    T18Expiration: req.body.T18Expiration,
+    T19Expiration: req.body.T19Expiration,
+    T20Expiration: req.body.T20Expiration,
+    T21Expiration: req.body.T21Expiration,
+    T22Expiration: req.body.T22Expiration,
+    T23Expiration: req.body.T23Expiration,
+    T24Expiration: req.body.T24Expiration,
+    T25Expiration: req.body.T25Expiration,
+    T26Expiration: req.body.T26Expiration,
+    T27Expiration: req.body.T27Expiration,
+    T28Expiration: req.body.T28Expiration,
+    T29Expiration: req.body.T29Expiration,
+    T30Expiration: req.body.T30Expiration,
+    T31Expiration: req.body.T31Expiration,
+    T32Expiration: req.body.T32Expiration,
+
     createdBy: req.body.createdBy,
-
     createdByName: req.body.createdByName,
-
     lastEditDate: new Date().toISOString(),
-
     createDate: new Date().toISOString(),
-
     homeId: req.body.homeId,
-
     formType: "Annual Training",
   });
 
@@ -93,7 +122,8 @@ router.post("/", (req, res) => {
     .save()
     .then((annualTraining) => res.json(annualTraining))
     .catch((e) => {
-      e;
+      console.error("Error saving annual training:", e);
+      res.status(500).json({ error: e.message });
     });
 });
 
