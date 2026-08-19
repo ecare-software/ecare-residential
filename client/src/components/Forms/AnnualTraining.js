@@ -50,6 +50,9 @@ const CertificateColTitle = styled.div`
   text-align: center;
 `;
 
+const API_BASE = process.env.REACT_APP_API_BASE_URL || "http://localhost:3001";
+const API_URL = `${API_BASE}/api/annualTraining`;
+
 const fetchTrainingModal = async (homeId) => {
   return await Axios.get(`/api/annualTrainingMod/${homeId}`);
 };
@@ -172,7 +175,7 @@ class AnnualTraining extends Component {
       // Track which expiration dates are being edited
       editingExpiration: {},
 
-      // Certificate uploads storage
+      // Certificate uploads storage (local preview)
       uploadedCertificates: {},
 
       createdBy: this.props.valuesSet === true ? "" : this.props.userObj.email,
@@ -241,22 +244,78 @@ class AnnualTraining extends Component {
     });
   };
 
-  // Handler for certificate uploads
-  handleCertificateUpload = (event, key) => {
+  // Handler for certificate uploads - now uploads to server
+  handleCertificateUpload = async (event, key) => {
     const file = event.target.files[0];
     if (!file) return;
 
+    // Show local preview immediately
     const uploaded = { ...this.state.uploadedCertificates };
     uploaded[key] = {
       fileName: file.name,
       fileUrl: URL.createObjectURL(file),
       rawFile: file,
+      _isLocal: true,
     };
     this.setState({ uploadedCertificates: uploaded });
+
+    // Upload to server if we have a training ID
+    if (this.state._id) {
+      try {
+        await this.uploadCertificateToServer(key, file);
+      } catch (error) {
+        console.error("Upload failed:", error);
+        alert("Failed to upload certificate");
+        // Remove from local state on error
+        const updated = { ...this.state.uploadedCertificates };
+        delete updated[key];
+        this.setState({ uploadedCertificates: updated });
+      }
+    }
+  };
+
+  // Upload certificate to server
+  uploadCertificateToServer = async (fieldName, file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await Axios.post(
+      `${API_URL}/upload/${this.state._id}/${fieldName}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    // Update local state with server response
+    const uploaded = { ...this.state.uploadedCertificates };
+    uploaded[fieldName] = {
+      ...response.data.file,
+      _isLocal: false,
+    };
+    this.setState({ uploadedCertificates: uploaded });
+
+    return response.data.file;
   };
 
   // Remove certificate
-  removeCertificate = (key) => {
+  removeCertificate = async (key) => {
+    const certificate = this.state.uploadedCertificates[key];
+    
+    // If it's a server file, delete from server
+    if (certificate && !certificate._isLocal && this.state._id) {
+      try {
+        await Axios.delete(`${API_URL}/certificate/${this.state._id}/${key}`);
+      } catch (error) {
+        console.error("Delete failed:", error);
+        alert("Failed to delete certificate");
+        return;
+      }
+    }
+
+    // Remove from local state
     const uploaded = { ...this.state.uploadedCertificates };
     delete uploaded[key];
     this.setState({ uploadedCertificates: uploaded });
@@ -297,7 +356,25 @@ class AnnualTraining extends Component {
   };
 
   setValues = () => {
-    this.setState({ ...this.state, ...this.props.formData });
+    const { uploadedCertificates, editingExpiration, ...formValues } = this.props.formData;
+    
+    // Load certificates from database
+    const certs = {};
+    for (let i = 1; i <= 32; i++) {
+      const certField = `T${i}Certificate`;
+      if (this.props.formData[certField]) {
+        certs[`T${i}`] = {
+          ...this.props.formData[certField],
+          _isLocal: false,
+        };
+      }
+    }
+    
+    this.setState({ 
+      ...this.state, 
+      ...formValues,
+      uploadedCertificates: certs,
+    });
   };
 
   getModal = async () => {
@@ -335,7 +412,24 @@ class AnnualTraining extends Component {
           `/api/annualTraining/${this.props.userObj.homeId}/${this.props.userObj.email}`
         );
         if (data.length !== 0) {
-          this.setState({ ...data[0], doUpdate: true, isLoading: false });
+          // Load certificates from database
+          const certs = {};
+          for (let i = 1; i <= 32; i++) {
+            const certField = `T${i}Certificate`;
+            if (data[0][certField]) {
+              certs[`T${i}`] = {
+                ...data[0][certField],
+                _isLocal: false,
+              };
+            }
+          }
+          
+          this.setState({ 
+            ...data[0], 
+            doUpdate: true, 
+            isLoading: false,
+            uploadedCertificates: certs,
+          });
         }
         this.setState({ ...this.state, isLoading: false });
       }
@@ -485,7 +579,7 @@ class AnnualTraining extends Component {
                   </div>
                   <div style={{ display: "flex", gap: "5px", justifyContent: "center" }}>
                     <a
-                      href={certificate.fileUrl}
+                      href={certificate._isLocal ? certificate.fileUrl : `${API_BASE}${certificate.fileUrl}`}
                       target="_blank"
                       rel="noreferrer"
                       style={{

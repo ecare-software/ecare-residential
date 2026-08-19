@@ -1,7 +1,45 @@
 const express = require("express");
 const router = express.Router();
-
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 const AnnualTraining = require("../../models/AnnualTraining");
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, res, cb) {
+    const uploadDir = "./uploads/annualTraining";
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(
+      null,
+      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
+    );
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = /jpeg|jpg|png|pdf|gif/;
+    const extname = allowedTypes.test(
+      path.extname(file.originalname).toLowerCase()
+    );
+    const mimetype = allowedTypes.test(file.mimetype);
+
+    if (mimetype && extname) {
+      return cb(null, true);
+    } else {
+      cb(new Error("Only images and PDFs are allowed"));
+    }
+  },
+});
 
 router.post("/", (req, res) => {
   const newAnnualTraining = new AnnualTraining({
@@ -114,6 +152,84 @@ router.put("/:homeId/:formId/", (req, res) => {
     .catch((e) => {
       console.log(e);
     });
+});
+
+// Upload certificate for a specific training
+router.post("/upload/:id/:fieldName", upload.single("file"), async (req, res) => {
+  try {
+    console.log("Upload request received");
+    console.log("ID:", req.params.id);
+    console.log("Field:", req.params.fieldName);
+    console.log("File:", req.file);
+
+    const { id, fieldName } = req.params;
+    const file = req.file;
+
+    if (!file) {
+      console.error("No file in request");
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+
+    const fileData = {
+      fileName: file.originalname,
+      fileUrl: `/uploads/annualTraining/${file.filename}`,
+      mimeType: file.mimetype,
+      uploadedAt: new Date(),
+    };
+
+    // Find the training record and update the certificate field
+    const training = await AnnualTraining.findById(id);
+    if (!training) {
+      console.error("Training not found:", id);
+      return res.status(404).json({ error: "Training record not found" });
+    }
+
+    // Store certificate data in the field (e.g., T1Certificate, T2Certificate, etc.)
+    const certificateField = `${fieldName}Certificate`;
+    training[certificateField] = fileData;
+    training.lastEditDate = new Date();
+
+    await training.save();
+    console.log("Certificate saved successfully");
+
+    res.json({ success: true, file: fileData });
+  } catch (error) {
+    console.error("Upload error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Delete certificate for a specific training
+router.delete("/certificate/:id/:fieldName", async (req, res) => {
+  try {
+    const { id, fieldName } = req.params;
+
+    const training = await AnnualTraining.findById(id);
+    if (!training) {
+      return res.status(404).json({ error: "Training record not found" });
+    }
+
+    const certificateField = `${fieldName}Certificate`;
+    const certificate = training[certificateField];
+
+    // Delete the file from the filesystem
+    if (certificate && certificate.fileUrl) {
+      const filePath = path.join(__dirname, "../..", certificate.fileUrl);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+    }
+
+    // Remove certificate data from database
+    training[certificateField] = null;
+    training.lastEditDate = new Date();
+    await training.save();
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Delete error:", error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 module.exports = router;
