@@ -1262,9 +1262,9 @@ function DisplayExtra({
 
   if (name === 'Clients') {
     return (
-      <div id='extraInfo'>
+      <div>
         <div className='extraInfoNavDiv'></div>
-        <div className='extraInfoButtonDiv'>
+        <div className='extraInfoButtonDiv hide-on-print'>
           {showClients ? (
             <button
               onClick={() => {
