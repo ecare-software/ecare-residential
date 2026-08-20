@@ -4,6 +4,7 @@ import Axios from "axios";
 import { Form } from "react-bootstrap";
 import styled from "styled-components";
 import { useAsync, IfRejected, IfPending, IfFulfilled } from "react-async";
+import { getTrainingModType } from "../../utils/TrainingModTypes";
 
 const SmallCol = styled.div`
   width: 100px;
@@ -22,38 +23,43 @@ const SmallColRightTitle = styled.div`
   text-align: center;
 `;
 
-const postTraining = async (formId, data, formType) => {
-  let subString;
-  switch (formType) {
-    case "Pre Service Training":
-      subString = `preServiceTrainingMod`;
-      break;
-    case "First aid CPR Training":
-      subString = `firstAidCprTrainingMod`;
-      break;
-    case "Annual Training":
-      subString = `annualTrainingMod`;
-      break;
-    default:
-      subString = `orientationTrainingMod`;
+const postTraining = async (formId, data, formType, homeId, userObj) => {
+  const { apiPath } = getTrainingModType(formType);
+
+  if (formId) {
+    return await Axios.put(`/api/${apiPath}/${formId}`, {
+      ...data,
+    });
   }
-  return await Axios.put(`/api/${subString}/${formId}`, {
+
+  return await Axios.post(`/api/${apiPath}`, {
     ...data,
+    homeId,
+    createdBy: userObj?.email,
+    createdByName: `${userObj?.firstName} ${userObj?.lastName}`,
   });
 };
 
-const getEditRowsModal = (obj) => {
-  const reducedObj = { ...obj };
-  delete reducedObj.createdBy;
-  delete reducedObj.createdByName;
-  delete reducedObj.lastEditDate;
-  delete reducedObj.formType;
-  delete reducedObj.homeId;
-  delete reducedObj.createDate;
-  delete reducedObj._id;
-  delete reducedObj.approved;
+const getBlankRows = (rowCount) => {
+  return Array.from({ length: rowCount }, (_, i) => i + 1).reduce(
+    (acc, idx) => {
+      acc[`T${idx}`] = { title: "", hours: "", presenter: "" };
+      return acc;
+    },
+    {}
+  );
+};
 
-  return Reflect.ownKeys(reducedObj).reduce((acc, cur) => {
+const getEditRowsModal = (obj, rowCount) => {
+  if (!obj || !obj._id) {
+    return getBlankRows(rowCount);
+  }
+
+  const rowKeys = Reflect.ownKeys(obj).filter((key) =>
+    /^T\d+(Title|Hours|Presenter)$/.test(key)
+  );
+
+  return rowKeys.reduce((acc, cur) => {
     const idx = cur.match(/\d+/g)[0];
     if (!acc.hasOwnProperty(`T${idx}`)) {
       acc[`T${idx}`] = {
@@ -64,11 +70,11 @@ const getEditRowsModal = (obj) => {
     }
 
     if (cur.includes("Presenter")) {
-      acc[`T${idx}`].presenter = reducedObj[cur];
+      acc[`T${idx}`].presenter = obj[cur];
     } else if (cur.includes("Title")) {
-      acc[`T${idx}`].title = reducedObj[cur];
+      acc[`T${idx}`].title = obj[cur];
     } else {
-      acc[`T${idx}`].hours = reducedObj[cur];
+      acc[`T${idx}`].hours = obj[cur];
     }
 
     return acc;
@@ -91,18 +97,16 @@ const getHours = (rows) => {
   }, 0);
 };
 
-const TrainingMod = ({ data, doToggleTrainingDisplay }) => {
-  const [rows, setRows] = useState(getEditRowsModal(data));
+const TrainingMod = ({ data, doToggleTrainingDisplay, userObj }) => {
+  const formType = data?.formType || "";
+  const { rowCount } = getTrainingModType(formType);
+  const homeId = data?.homeId || "";
+  const _id = data?._id || "";
+  const isNew = !_id;
+
+  const [rows, setRows] = useState(getEditRowsModal(data, rowCount));
   const [hours, setHours] = useState(getHours(rows));
   const [isSaving, isSetSaving] = useState(false);
-  let formType = "";
-  let homeId = "";
-  let _id = "";
-  if (data) {
-    formType = data.formType;
-    homeId = data.homeId;
-    _id = data._id;
-  }
 
   const handleFieldInput = (e) => {
     const acc = { ...rows };
@@ -137,7 +141,7 @@ const TrainingMod = ({ data, doToggleTrainingDisplay }) => {
         return acc1;
       }, {});
 
-      await postTraining(_id, flatValues, formType);
+      await postTraining(_id, flatValues, formType, homeId, userObj);
       doToggleTrainingDisplay(true);
     } catch (e) {
       alert(e);
@@ -149,7 +153,10 @@ const TrainingMod = ({ data, doToggleTrainingDisplay }) => {
   return (
     <div className="formComp">
       <div className="formTitleDiv">
-        <h2 className="formTitle">{formType}</h2>
+        <h2 className="formTitle">
+          {formType}
+          {isNew ? " (New Template)" : ""}
+        </h2>
       </div>
       <div className="formFieldsMobile">
         <div className="form-group logInInputField d-flex border-bottom">
