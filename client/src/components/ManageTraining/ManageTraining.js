@@ -7,6 +7,8 @@ import FaceSheet from "../Forms/FaceSheet";
 import styled from "styled-components";
 import { Col } from "react-bootstrap";
 import TrainingMod from "../Forms/TrainingMod";
+import { isAdminUser } from "../../utils/AdminReportingRoles";
+import { TRAINING_MOD_TYPES } from "../../utils/TrainingModTypes";
 
 const SmallCol = styled.div`
   width: 100px;
@@ -25,31 +27,25 @@ const SmallColRightTitle = styled.div`
   text-align: center;
 `;
 
-const formModsApis = [
-  "orientationTrainingMod",
-  "preServiceTrainingMod",
-  "firstAidCprTrainingMod",
-  "annualTrainingMod",
-];
-
 const fetchTrainingMods = async (homeId) => {
-  let promises = [];
-
-  formModsApis.forEach((pathname) => {
-    promises.push(Axios.get(`/api/${pathname}/${homeId}`));
-  });
+  const promises = TRAINING_MOD_TYPES.map((type) =>
+    Axios.get(`/api/${type.apiPath}/${homeId}`)
+  );
 
   const data = await Promise.allSettled(promises);
 
-  const settledModels = data
-    .filter((promObj) => {
-      return promObj.status === "fulfilled";
-    })
-    .map((promObj) => {
-      return promObj.value.data[0];
-    });
+  return TRAINING_MOD_TYPES.map((type, idx) => {
+    const result = data[idx];
+    const existing =
+      result.status === "fulfilled" ? result.value.data[0] : undefined;
 
-  return settledModels;
+    return (
+      existing || {
+        formType: type.formType,
+        homeId,
+      }
+    );
+  });
 };
 
 const fetchAllTrainingsInit = async ({ homeId }) => {
@@ -92,6 +88,10 @@ const ManageTraining = ({
     doToggleTrainingDisplay(false);
   };
 
+  if (!isAdminUser(userObj)) {
+    return null;
+  }
+
   if (showTrainings) {
     return (
       <div className='formCompNoBg'>
@@ -115,7 +115,7 @@ const ManageTraining = ({
                       setTraining(training);
                     }}
                   >
-                    Edit
+                    {training?._id ? "Edit" : "Create"}
                   </button>
                 </Col>
                 <Col className='control-label'>
@@ -142,6 +142,7 @@ const ManageTraining = ({
           <TrainingMod
             doToggleTrainingDisplay={doToggleTrainingDisplay}
             data={selectedTraining}
+            userObj={userObj}
           />
         </IfFulfilled>
       </div>
