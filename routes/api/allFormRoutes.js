@@ -41,7 +41,7 @@ const getApprovalFilter = (status) => {
     };
   }
 };
-router.get("/count/:status/:homeId", async (req, res) => {
+router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
   const approved =
     (req.params.status && req.params.status == "true") ||
     req.params.status == "false"
@@ -51,11 +51,17 @@ router.get("/count/:status/:homeId", async (req, res) => {
   const formPromises = [];
   const homeId = req.params.homeId;
 
+  const dateFilter =
+    req.params.lastEditDateAfter !== "none"
+      ? { lastEditDate: { $gte: new Date(req.params.lastEditDateAfter) } }
+      : {};
+
   try {
     formPromises.push(
       AdmissionAssessment.find({
         homeId: req.params.homeId,
         approved,
+        ...dateFilter,
       })
     );
   } catch (e) {
@@ -67,6 +73,7 @@ router.get("/count/:status/:homeId", async (req, res) => {
       AwakeNightStaffSignoff.find({
         homeId: req.params.homeId,
         approved,
+        ...dateFilter,
       })
     );
   } catch (e) {
@@ -78,6 +85,7 @@ router.get("/count/:status/:homeId", async (req, res) => {
       NightMonitoring.find({
         homeId: req.params.homeId,
         approved,
+        ...dateFilter,
       })
     );
   } catch (e) {
@@ -89,6 +97,7 @@ router.get("/count/:status/:homeId", async (req, res) => {
       BodyCheck.find({
         homeId: req.params.homeId,
         approved,
+        ...dateFilter,
       })
     );
   } catch (e) {
@@ -100,6 +109,7 @@ router.get("/count/:status/:homeId", async (req, res) => {
       DailyProgressAndActivity.find({
         homeId: req.params.homeId,
         approved,
+        ...dateFilter,
       })
     );
   } catch (e) {
@@ -111,6 +121,7 @@ router.get("/count/:status/:homeId", async (req, res) => {
       IllnessInjury.find({
         homeId: req.params.homeId,
         approved,
+        ...dateFilter,
       })
     );
   } catch (e) {
@@ -122,6 +133,7 @@ router.get("/count/:status/:homeId", async (req, res) => {
       IncidentReport.find({
         homeId: req.params.homeId,
         approved,
+        ...dateFilter,
       })
     );
   } catch (e) {
@@ -133,6 +145,7 @@ router.get("/count/:status/:homeId", async (req, res) => {
       RestraintReport.find({
         homeId: req.params.homeId,
         approved,
+        ...dateFilter,
       })
     );
   } catch (e) {
@@ -144,6 +157,7 @@ router.get("/count/:status/:homeId", async (req, res) => {
       SeriousIncidentReport.find({
         homeId: req.params.homeId,
         approved,
+        ...dateFilter,
       })
     );
   } catch (e) {
@@ -155,6 +169,7 @@ router.get("/count/:status/:homeId", async (req, res) => {
       TreatmentPlan72.find({
         homeId: req.params.homeId,
         approved,
+        ...dateFilter,
       })
     );
   } catch (e) {

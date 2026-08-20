@@ -113,8 +113,11 @@ class App extends Component {
         },
         nonApprovedFormCountSet: false,
       });
+      const ninetyDaysAgo = new Date();
+      ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 60);
+      const dateStr = ninetyDaysAgo.toISOString().split("T")[0];
       const { data } = await Axios.get(
-        `/api/forms/count/false/${this.state.userObj.homeId}`
+        `/api/forms/count/false/${this.state.userObj.homeId}/${dateStr}`
       );
 
       const { count: nonApprovedFormCount } = data;
@@ -126,8 +129,11 @@ class App extends Component {
           ...this.state.formCountState,
           count: nonApprovedFormCount,
           updateCount: async () => {
+            const d = new Date();
+            d.setDate(d.getDate() - 60);
+            const ds = d.toISOString().split("T")[0];
             const { data } = await Axios.get(
-              `/api/forms/count/false/${this.state.userObj.homeId}`
+              `/api/forms/count/false/${this.state.userObj.homeId}/${ds}`
             );
             const { count: nonApprovedFormCount } = data;
             this.setState({
