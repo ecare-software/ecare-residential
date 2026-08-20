@@ -1,6 +1,7 @@
 # eCare Residential
 
 Despite the name, this is a **child welfare / foster-care residential facility management system**, not elder care — a digital replacement for paper clinical/compliance forms at licensed group homes housing children in state custody (see `models/Client.js` fields like `childMeta_cpsNumber`, `childMeta_caseWorker`, `childMeta_medicaidNumber`). It's a monolithic MERN-adjacent app: a single Express 4 + Mongoose 5 API at the repo root, and a Create React App 5 (React 16, class components) client in `client/`. Multi-tenant across physical facilities via a `homeId` string carried on nearly every record and route.
+
 # eCare Residential — CLAUDE.md
 
 Residential care facility management system (Node/Express + React monolith). Staff use it to submit forms, track client health, log incidents, manage training, and send messages across multiple residential homes.
