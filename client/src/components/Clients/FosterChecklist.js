@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import FormActionButtons from "../Common/FormActionButtons";
 
-function FosterChecklist({ formData }) {
+function FosterChecklist({ formData, userObj }) {
   const [checklist, setChecklist] = useState({
     courtOrders: false,
     courtSummaries: false,
@@ -430,6 +431,29 @@ function FosterChecklist({ formData }) {
     }
   };
 
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const handleDelete = () => {
+    if (!checklistId) {
+      alert("No checklist to delete");
+      return;
+    }
+
+    if (window.confirm("Are you sure you want to delete this checklist? This cannot be undone.")) {
+      axios.delete(`${API_URL}/${checklistId}`)
+        .then(() => {
+          alert("Checklist deleted successfully");
+          window.location.reload();
+        })
+        .catch((e) => {
+          console.error(e);
+          alert("Error deleting checklist");
+        });
+    }
+  };
+
   return (
     <div
       className="formCompNoBg"
@@ -469,6 +493,20 @@ function FosterChecklist({ formData }) {
             <strong>Placement Date:</strong>{" "}
             {formData?.childMeta_dateOfAdmission || "________________"}
           </div>
+        </div>
+
+        {/* FormActionButtons - centered with 15px padding */}
+        <div style={{ 
+          display: "flex", 
+          justifyContent: "center", 
+          padding: "15px",
+          marginTop: "20px"
+        }}>
+          <FormActionButtons
+            onPrint={handlePrint}
+            onDelete={handleDelete}
+            showDelete={userObj?.role === "admin"}
+          />
         </div>
       </div>
 

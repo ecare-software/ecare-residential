@@ -81,12 +81,6 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
     },
   });
 
-  // const setClient = (value) => {
-  //   setIsClientSelected(true);
-  //   doToggleClientDisplay(false);
-  //   setSelectedClient(value);
-  // };
-
   const setClient = (value, view) => {
     setIsClientSelected(true);
     doToggleClientDisplay(false);
@@ -135,7 +129,6 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
             style={{ alignItems: "center" }}
           >
             <h5 style={{ margin: "0px 10px" }}>Filter</h5>
-            {/* <div className="mt-3"> */}
             <button
               onClick={() => {
                 toggleClientFilter(true);
@@ -154,7 +147,6 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
             >
               Inactive
             </button>
-            {/* </div> */}
           </div>
           <div className="form-group logInInputField d-flex mt-3 border-bottom">
             <Col className="control-label">
@@ -168,7 +160,7 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
             </Col>
           </div>
           {clients.map((client) => (
-            <div className="form-group logInInputField d-flex mt-3">
+            <div className="form-group logInInputField d-flex mt-3" key={client._id}>
               <Col className="control-label d-flex">
                 <button
                   className="btn btn-light extraInfoButton"
@@ -228,14 +220,6 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
         <IfPending state={getAllClients}>
           <p>Loading...</p>
         </IfPending>
-        {/* <IfFulfilled state={getAllClients}>
-          <FaceSheet
-            valuesSet={isClientSelected}
-            userObj={userObj}
-            id="facesheet"
-            formData={selectedClient}
-          />
-        </IfFulfilled> */}
         <IfFulfilled state={getAllClients}>
           <>
             {selectedView === "facesheet" && (

@@ -1,7 +1,45 @@
 const express = require("express");
 const router = express.Router();
-
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 const AnnualTraining = require("../../models/AnnualTraining");
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, res, cb) {
+    const uploadDir = "./uploads/annualTraining";
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(
+      null,
+      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
+    );
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = /jpeg|jpg|png|pdf|gif/;
+    const extname = allowedTypes.test(
+      path.extname(file.originalname).toLowerCase()
+    );
+    const mimetype = allowedTypes.test(file.mimetype);
+
+    if (mimetype && extname) {
+      return cb(null, true);
+    } else {
+      cb(new Error("Only images and PDFs are allowed"));
+    }
+  },
+});
 
 router.post("/", (req, res) => {
   const newAnnualTraining = new AnnualTraining({
@@ -38,16 +76,45 @@ router.post("/", (req, res) => {
     T31: req.body.T31,
     T32: req.body.T32,
 
+    // ADD THESE: Expiration dates
+    T1Expiration: req.body.T1Expiration,
+    T2Expiration: req.body.T2Expiration,
+    T3Expiration: req.body.T3Expiration,
+    T4Expiration: req.body.T4Expiration,
+    T5Expiration: req.body.T5Expiration,
+    T6Expiration: req.body.T6Expiration,
+    T7Expiration: req.body.T7Expiration,
+    T8Expiration: req.body.T8Expiration,
+    T9Expiration: req.body.T9Expiration,
+    T10Expiration: req.body.T10Expiration,
+    T11Expiration: req.body.T11Expiration,
+    T12Expiration: req.body.T12Expiration,
+    T13Expiration: req.body.T13Expiration,
+    T14Expiration: req.body.T14Expiration,
+    T15Expiration: req.body.T15Expiration,
+    T16Expiration: req.body.T16Expiration,
+    T17Expiration: req.body.T17Expiration,
+    T18Expiration: req.body.T18Expiration,
+    T19Expiration: req.body.T19Expiration,
+    T20Expiration: req.body.T20Expiration,
+    T21Expiration: req.body.T21Expiration,
+    T22Expiration: req.body.T22Expiration,
+    T23Expiration: req.body.T23Expiration,
+    T24Expiration: req.body.T24Expiration,
+    T25Expiration: req.body.T25Expiration,
+    T26Expiration: req.body.T26Expiration,
+    T27Expiration: req.body.T27Expiration,
+    T28Expiration: req.body.T28Expiration,
+    T29Expiration: req.body.T29Expiration,
+    T30Expiration: req.body.T30Expiration,
+    T31Expiration: req.body.T31Expiration,
+    T32Expiration: req.body.T32Expiration,
+
     createdBy: req.body.createdBy,
-
     createdByName: req.body.createdByName,
-
     lastEditDate: new Date().toISOString(),
-
     createDate: new Date().toISOString(),
-
     homeId: req.body.homeId,
-
     formType: "Annual Training",
   });
 
@@ -55,7 +122,8 @@ router.post("/", (req, res) => {
     .save()
     .then((annualTraining) => res.json(annualTraining))
     .catch((e) => {
-      e;
+      console.error("Error saving annual training:", e);
+      res.status(500).json({ error: e.message });
     });
 });
 
@@ -114,6 +182,84 @@ router.put("/:homeId/:formId/", (req, res) => {
     .catch((e) => {
       console.log(e);
     });
+});
+
+// Upload certificate for a specific training
+router.post("/upload/:id/:fieldName", upload.single("file"), async (req, res) => {
+  try {
+    console.log("Upload request received");
+    console.log("ID:", req.params.id);
+    console.log("Field:", req.params.fieldName);
+    console.log("File:", req.file);
+
+    const { id, fieldName } = req.params;
+    const file = req.file;
+
+    if (!file) {
+      console.error("No file in request");
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+
+    const fileData = {
+      fileName: file.originalname,
+      fileUrl: `/uploads/annualTraining/${file.filename}`,
+      mimeType: file.mimetype,
+      uploadedAt: new Date(),
+    };
+
+    // Find the training record and update the certificate field
+    const training = await AnnualTraining.findById(id);
+    if (!training) {
+      console.error("Training not found:", id);
+      return res.status(404).json({ error: "Training record not found" });
+    }
+
+    // Store certificate data in the field (e.g., T1Certificate, T2Certificate, etc.)
+    const certificateField = `${fieldName}Certificate`;
+    training[certificateField] = fileData;
+    training.lastEditDate = new Date();
+
+    await training.save();
+    console.log("Certificate saved successfully");
+
+    res.json({ success: true, file: fileData });
+  } catch (error) {
+    console.error("Upload error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Delete certificate for a specific training
+router.delete("/certificate/:id/:fieldName", async (req, res) => {
+  try {
+    const { id, fieldName } = req.params;
+
+    const training = await AnnualTraining.findById(id);
+    if (!training) {
+      return res.status(404).json({ error: "Training record not found" });
+    }
+
+    const certificateField = `${fieldName}Certificate`;
+    const certificate = training[certificateField];
+
+    // Delete the file from the filesystem
+    if (certificate && certificate.fileUrl) {
+      const filePath = path.join(__dirname, "../..", certificate.fileUrl);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+    }
+
+    // Remove certificate data from database
+    training[certificateField] = null;
+    training.lastEditDate = new Date();
+    await training.save();
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Delete error:", error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 module.exports = router;

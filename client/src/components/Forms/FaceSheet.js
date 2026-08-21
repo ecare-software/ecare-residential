@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import FormError from "../FormMods/FormError";
 import FormAlert from "../Forms/FormAlert";
+import FormActionButtons from "../Common/FormActionButtons";
 import { Form, Col } from "react-bootstrap";
 import "../../App.css";
 import Axios from "axios";
@@ -82,6 +83,7 @@ class FaceSheet extends Component {
     }
     this.setState(stateObj);
   };
+  
   resetForm = () => {
     this.setState({
       childMeta_photo: "",
@@ -235,6 +237,25 @@ class FaceSheet extends Component {
       this.setState({childMeta_photo: reader.result});
     };
     reader.readAsDataURL(file);
+  };
+
+  handlePrint = () => {
+    window.print();
+  };
+
+  handleDelete = () => {
+    if (window.confirm("Are you sure you want to delete this face sheet? This cannot be undone.")) {
+      Axios.delete(`/api/client/${this.state.homeId}/${this.state._id}`)
+        .then(() => {
+          alert("Face sheet deleted successfully");
+          // Navigate back or refresh the list
+          window.location.reload();
+        })
+        .catch((e) => {
+          console.error(e);
+          alert("Error deleting face sheet");
+        });
+    }
   };
 
   render() {
@@ -682,6 +703,16 @@ class FaceSheet extends Component {
           ) : (
             <React.Fragment />
           )}
+          
+          {/* FormActionButtons with 15px padding - hidden in print */}
+          <div style={{ padding: "15px" }} className="no-print">
+            <FormActionButtons
+              onPrint={this.handlePrint}
+              onDelete={this.handleDelete}
+              showDelete={this.props.userObj?.role === "admin"}
+            />
+          </div>
+
           <div className="formTitleDivReport">
             <h2 className="formTitle">Face Sheet</h2>
           </div>
