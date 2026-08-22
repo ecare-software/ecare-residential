@@ -1074,19 +1074,19 @@ function DisplayExtra({
   //   );
   // }
 
-  if (name === 'First aid CPR Training') {
-    return (
-      <div id='extraInfo'>
-        <div className='extraInfoNavDiv'>
-          <p className='extraInfoNavSubTitle'>
-            First Aid and CPR training is a course offered by a CPR/First Aid
-            certified instructor or at the American Red Cross within the first
-            ninety days of hiring.
-          </p>
-        </div>
-      </div>
-    );
-  }
+  // if (name === 'First aid CPR Training') {
+  //   return (
+  //     <div id='extraInfo'>
+  //       <div className='extraInfoNavDiv'>
+  //         <p className='extraInfoNavSubTitle'>
+  //           First Aid and CPR training is a course offered by a CPR/First Aid
+  //           certified instructor or at the American Red Cross within the first
+  //           ninety days of hiring.
+  //         </p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   if (name === 'Documents') {
     return (
