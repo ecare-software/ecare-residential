@@ -22,6 +22,41 @@ const SmallColRightTitle = styled.div`
   text-align: center;
 `;
 
+const AddButton = styled.button`
+  padding: 10px 20px;
+  margin: 20px 0;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #218838;
+  }
+
+  &:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+  }
+`;
+
+const DeleteButton = styled.button`
+  padding: 4px 12px;
+  margin-left: 10px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+
+  &:hover {
+    background-color: #c82333;
+  }
+`;
+
 const fetchTrainingModal = async (homeId) => {
   return await Axios.get(`/api/firstAidCprTrainingMod/${homeId}`);
 };
@@ -76,6 +111,9 @@ class FirstAidCprTraining extends Component {
     this.state = {
       T1: "",
 
+      // Custom training entries
+      customEntries: [],
+
       createdBy: this.props.valuesSet === true ? "" : this.props.userObj.email,
 
       createdByName:
@@ -110,6 +148,74 @@ class FirstAidCprTraining extends Component {
     cloneState[id] = "";
     await this.setState({ ...cloneState });
     this.submit();
+  };
+
+  // Add new custom training entry
+  addCustomEntry = () => {
+    const newEntry = {
+      id: Date.now(), // Unique ID for this entry
+      hours: "",
+      title: "",
+      presenter: "",
+      completed: null,
+    };
+
+    this.setState({
+      customEntries: [...this.state.customEntries, newEntry],
+    });
+  };
+
+  // Update custom entry field
+  updateCustomEntry = (id, field, value) => {
+    const updatedEntries = this.state.customEntries.map((entry) =>
+      entry.id === id ? { ...entry, [field]: value } : entry
+    );
+
+    this.setState({ customEntries: updatedEntries }, () => {
+      this.submit();
+    });
+  };
+
+  // Mark custom entry as completed
+  markCustomEntryComplete = (id) => {
+    const updatedEntries = this.state.customEntries.map((entry) =>
+      entry.id === id ? { ...entry, completed: new Date() } : entry
+    );
+
+    this.setState({ customEntries: updatedEntries }, () => {
+      this.submit();
+    });
+  };
+
+  // Clear custom entry completion
+  clearCustomEntryCompletion = (id) => {
+    const updatedEntries = this.state.customEntries.map((entry) =>
+      entry.id === id ? { ...entry, completed: null } : entry
+    );
+
+    this.setState({ customEntries: updatedEntries }, () => {
+      this.submit();
+    });
+  };
+
+  // Delete custom entry
+  deleteCustomEntry = (id) => {
+    const updatedEntries = this.state.customEntries.filter(
+      (entry) => entry.id !== id
+    );
+
+    this.setState({ customEntries: updatedEntries }, () => {
+      this.submit();
+    });
+  };
+
+  // Calculate total hours including custom entries
+  getTotalHours = () => {
+    const baseHours = this.state.hours || 0;
+    const customHours = this.state.customEntries.reduce((total, entry) => {
+      return total + (parseFloat(entry.hours) || 0);
+    }, 0);
+    return baseHours + customHours;
   };
 
   submit = () => {
@@ -183,6 +289,8 @@ class FirstAidCprTraining extends Component {
   }
 
   render() {
+    const totalHours = this.getTotalHours();
+
     return (
       <div className="formComp">
         <div className="formTitleDiv">
@@ -212,6 +320,8 @@ class FirstAidCprTraining extends Component {
                 <label>Completion</label>
               </SmallColRightTitle>
             </div>
+
+            {/* Original T1 Entry */}
             <div className="form-group logInInputField d-flex">
               <SmallCol className="control-label">
                 {this.state.modal?.T1Hours}
@@ -259,13 +369,132 @@ class FirstAidCprTraining extends Component {
                 )}
               </SmallColRight>
             </div>
+
+            {/* Custom Entries */}
+            {this.state.customEntries.map((entry) => (
+              <div
+                key={entry.id}
+                className="form-group logInInputField d-flex"
+                style={{ backgroundColor: "#f8f9fa" }}
+              >
+                <SmallCol className="control-label">
+                  {this.props.valuesSet ? (
+                    <span>{entry.hours}</span>
+                  ) : (
+                    <input
+                      type="number"
+                      step="0.5"
+                      value={entry.hours}
+                      onChange={(e) =>
+                        this.updateCustomEntry(entry.id, "hours", e.target.value)
+                      }
+                      style={{
+                        width: "80px",
+                        padding: "4px",
+                        border: "1px solid #ccc",
+                        borderRadius: "4px",
+                      }}
+                      placeholder="Hours"
+                    />
+                  )}
+                </SmallCol>
+                <div className="col text-center">
+                  {this.props.valuesSet ? (
+                    <span>{entry.title}</span>
+                  ) : (
+                    <input
+                      type="text"
+                      value={entry.title}
+                      onChange={(e) =>
+                        this.updateCustomEntry(entry.id, "title", e.target.value)
+                      }
+                      style={{
+                        width: "100%",
+                        padding: "4px",
+                        border: "1px solid #ccc",
+                        borderRadius: "4px",
+                      }}
+                      placeholder="Training Topic"
+                    />
+                  )}
+                </div>
+                <div className="col text-center">
+                  {this.props.valuesSet ? (
+                    <span>{entry.presenter}</span>
+                  ) : (
+                    <input
+                      type="text"
+                      value={entry.presenter}
+                      onChange={(e) =>
+                        this.updateCustomEntry(
+                          entry.id,
+                          "presenter",
+                          e.target.value
+                        )
+                      }
+                      style={{
+                        width: "100%",
+                        padding: "4px",
+                        border: "1px solid #ccc",
+                        borderRadius: "4px",
+                      }}
+                      placeholder="Presenter"
+                    />
+                  )}
+                </div>
+                <SmallColRight>
+                  {entry.completed ? (
+                    <div>
+                      <p>{`Completed ${new Date(
+                        entry.completed
+                      ).toLocaleString()}`}</p>
+                      {!this.props.valuesSet && (
+                        <a
+                          href="javascript:void(0)"
+                          onClick={() => this.clearCustomEntryCompletion(entry.id)}
+                        >
+                          Clear Completion
+                        </a>
+                      )}
+                    </div>
+                  ) : (
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <Form.Check
+                        type="checkbox"
+                        disabled={this.props.valuesSet}
+                        className="mb-2 d-flex align-items-center"
+                        label={
+                          this.props.valuesSet
+                            ? "Not Completed"
+                            : "Mark as completed"
+                        }
+                        onChange={() => this.markCustomEntryComplete(entry.id)}
+                      />
+                      {!this.props.valuesSet && (
+                        <DeleteButton
+                          onClick={() => this.deleteCustomEntry(entry.id)}
+                        >
+                          Delete
+                        </DeleteButton>
+                      )}
+                    </div>
+                  )}
+                </SmallColRight>
+              </div>
+            ))}
+
+            {/* Add Entry Button */}
+            {!this.props.valuesSet && (
+              <div style={{ textAlign: "center", margin: "20px 0" }}>
+                <AddButton onClick={this.addCustomEntry}>
+                  + Add New Training
+                </AddButton>
+              </div>
+            )}
+
             <div className="form-group logInInputField d-flex border-top">
               <SmallCol className="control-label">
-                <label>
-                  {this.state.hours === "NaN" || isNaN(this.state.hours)
-                    ? "∞"
-                    : this.state.hours}
-                </label>
+                <label>{isNaN(totalHours) ? "∞" : totalHours}</label>
               </SmallCol>
               <div className="col text-center">
                 <label className="control-label">Total Hours</label>

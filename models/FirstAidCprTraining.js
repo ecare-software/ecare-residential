@@ -45,6 +45,15 @@ const FirstAidCprTrainingSchema = new Schema({
   clientId: {
     type: String,
   },
+  customEntries: [
+    {
+      id: Number,
+      hours: String,
+      title: String,
+      presenter: String,
+      completed: Date,
+    },
+  ],
 });
 
 module.exports = firstAidCprTraining = mongoose.model(
