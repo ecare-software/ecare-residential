@@ -371,117 +371,125 @@ class FirstAidCprTraining extends Component {
             </div>
 
             {/* Custom Entries */}
-            {this.state.customEntries.map((entry) => (
-              <div
-                key={entry.id}
-                className="form-group logInInputField d-flex"
-                style={{ backgroundColor: "#f8f9fa" }}
-              >
-                <SmallCol className="control-label">
-                  {this.props.valuesSet ? (
-                    <span>{entry.hours}</span>
-                  ) : (
-                    <input
-                      type="number"
-                      step="0.5"
-                      value={entry.hours}
-                      onChange={(e) =>
-                        this.updateCustomEntry(entry.id, "hours", e.target.value)
-                      }
-                      style={{
-                        width: "80px",
-                        padding: "4px",
-                        border: "1px solid #ccc",
-                        borderRadius: "4px",
-                      }}
-                      placeholder="Hours"
-                    />
-                  )}
-                </SmallCol>
-                <div className="col text-center">
-                  {this.props.valuesSet ? (
-                    <span>{entry.title}</span>
-                  ) : (
-                    <input
-                      type="text"
-                      value={entry.title}
-                      onChange={(e) =>
-                        this.updateCustomEntry(entry.id, "title", e.target.value)
-                      }
-                      style={{
-                        width: "100%",
-                        padding: "4px",
-                        border: "1px solid #ccc",
-                        borderRadius: "4px",
-                      }}
-                      placeholder="Training Topic"
-                    />
-                  )}
-                </div>
-                <div className="col text-center">
-                  {this.props.valuesSet ? (
-                    <span>{entry.presenter}</span>
-                  ) : (
-                    <input
-                      type="text"
-                      value={entry.presenter}
-                      onChange={(e) =>
-                        this.updateCustomEntry(
-                          entry.id,
-                          "presenter",
-                          e.target.value
-                        )
-                      }
-                      style={{
-                        width: "100%",
-                        padding: "4px",
-                        border: "1px solid #ccc",
-                        borderRadius: "4px",
-                      }}
-                      placeholder="Presenter"
-                    />
-                  )}
-                </div>
-                <SmallColRight>
-                  {entry.completed ? (
-                    <div>
-                      <p>{`Completed ${new Date(
-                        entry.completed
-                      ).toLocaleString()}`}</p>
-                      {!this.props.valuesSet && (
-                        <a
-                          href="javascript:void(0)"
-                          onClick={() => this.clearCustomEntryCompletion(entry.id)}
-                        >
-                          Clear Completion
-                        </a>
-                      )}
-                    </div>
-                  ) : (
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <Form.Check
-                        type="checkbox"
-                        disabled={this.props.valuesSet}
-                        className="mb-2 d-flex align-items-center"
-                        label={
-                          this.props.valuesSet
-                            ? "Not Completed"
-                            : "Mark as completed"
+            {this.state.customEntries.map((entry) => {
+              // Check if entry has required data filled in
+              const hasRequiredData = entry.hours && entry.title && entry.presenter;
+
+              return (
+                <div
+                  key={entry.id}
+                  className="form-group logInInputField d-flex"
+                  style={{ backgroundColor: "#f8f9fa" }}
+                >
+                  <SmallCol className="control-label">
+                    {this.props.valuesSet ? (
+                      <span>{entry.hours}</span>
+                    ) : (
+                      <input
+                        type="number"
+                        step="0.5"
+                        value={entry.hours}
+                        onChange={(e) =>
+                          this.updateCustomEntry(entry.id, "hours", e.target.value)
                         }
-                        onChange={() => this.markCustomEntryComplete(entry.id)}
+                        style={{
+                          width: "80px",
+                          padding: "4px",
+                          border: "1px solid #ccc",
+                          borderRadius: "4px",
+                        }}
+                        placeholder="Hours"
                       />
-                      {!this.props.valuesSet && (
-                        <DeleteButton
-                          onClick={() => this.deleteCustomEntry(entry.id)}
-                        >
-                          Delete
-                        </DeleteButton>
-                      )}
-                    </div>
-                  )}
-                </SmallColRight>
-              </div>
-            ))}
+                    )}
+                  </SmallCol>
+                  <div className="col text-center">
+                    {this.props.valuesSet ? (
+                      <span>{entry.title}</span>
+                    ) : (
+                      <input
+                        type="text"
+                        value={entry.title}
+                        onChange={(e) =>
+                          this.updateCustomEntry(entry.id, "title", e.target.value)
+                        }
+                        style={{
+                          width: "100%",
+                          padding: "4px",
+                          border: "1px solid #ccc",
+                          borderRadius: "4px",
+                        }}
+                        placeholder="Training Topic"
+                      />
+                    )}
+                  </div>
+                  <div className="col text-center">
+                    {this.props.valuesSet ? (
+                      <span>{entry.presenter}</span>
+                    ) : (
+                      <input
+                        type="text"
+                        value={entry.presenter}
+                        onChange={(e) =>
+                          this.updateCustomEntry(
+                            entry.id,
+                            "presenter",
+                            e.target.value
+                          )
+                        }
+                        style={{
+                          width: "100%",
+                          padding: "4px",
+                          border: "1px solid #ccc",
+                          borderRadius: "4px",
+                        }}
+                        placeholder="Presenter"
+                      />
+                    )}
+                  </div>
+                  <SmallColRight>
+                    {entry.completed ? (
+                      <div>
+                        <p>{`Completed ${new Date(
+                          entry.completed
+                        ).toLocaleString()}`}</p>
+                        {!this.props.valuesSet && (
+                          <a
+                            href="javascript:void(0)"
+                            onClick={() => this.clearCustomEntryCompletion(entry.id)}
+                          >
+                            Clear Completion
+                          </a>
+                        )}
+                      </div>
+                    ) : (
+                      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                        {hasRequiredData && !this.props.valuesSet ? (
+                          <Form.Check
+                            type="checkbox"
+                            className="mb-2 d-flex align-items-center"
+                            label="Mark as completed"
+                            onChange={() => this.markCustomEntryComplete(entry.id)}
+                          />
+                        ) : this.props.valuesSet ? (
+                          <span>Not Completed</span>
+                        ) : (
+                          <span style={{ color: "#6c757d", fontSize: "14px" }}>
+                            Fill in all fields to mark complete
+                          </span>
+                        )}
+                        {!this.props.valuesSet && (
+                          <DeleteButton
+                            onClick={() => this.deleteCustomEntry(entry.id)}
+                          >
+                            Delete
+                          </DeleteButton>
+                        )}
+                      </div>
+                    )}
+                  </SmallColRight>
+                </div>
+              );
+            })}
 
             {/* Add Entry Button */}
             {!this.props.valuesSet && (
