@@ -1044,49 +1044,49 @@ function DisplayExtra({
     );
   }
 
-  if (name === 'Orientation Training') {
-    return (
-      <div id='extraInfo'>
-        <div className='extraInfoNavDiv'>
-          <p className='extraInfoNavSubTitle'>
-            New Employee Orientation training is an eight-hour (8) program
-            provided to each new employee within the first fourteen days of
-            hiring. The program includes, but is not limited to, the following
-            employee and agency information.
-          </p>
-        </div>
-      </div>
-    );
-  }
+  // if (name === 'Orientation Training') {
+  //   return (
+  //     <div id='extraInfo'>
+  //       <div className='extraInfoNavDiv'>
+  //         <p className='extraInfoNavSubTitle'>
+  //           New Employee Orientation training is an eight-hour (8) program
+  //           provided to each new employee within the first fourteen days of
+  //           hiring. The program includes, but is not limited to, the following
+  //           employee and agency information.
+  //         </p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
-  if (name === 'Pre Service Training') {
-    return (
-      <div id='extraInfo'>
-        <div className='extraInfoNavDiv'>
-          <p className='extraInfoNavSubTitle'>
-            Pre-service training is a forty (40) hour course offered by New
-            Pathways training staff at the facility within the first fourteen
-            days of hiring. The program includes all the necessary topics to
-            receive sole supervision status.
-          </p>
-        </div>
-      </div>
-    );
-  }
+  // if (name === 'Pre Service Training') {
+  //   return (
+  //     <div id='extraInfo'>
+  //       <div className='extraInfoNavDiv'>
+  //         <p className='extraInfoNavSubTitle'>
+  //           Pre-service training is a forty (40) hour course offered by New
+  //           Pathways training staff at the facility within the first fourteen
+  //           days of hiring. The program includes all the necessary topics to
+  //           receive sole supervision status.
+  //         </p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
-  if (name === 'First aid CPR Training') {
-    return (
-      <div id='extraInfo'>
-        <div className='extraInfoNavDiv'>
-          <p className='extraInfoNavSubTitle'>
-            First Aid and CPR training is a course offered by a CPR/First Aid
-            certified instructor or at the American Red Cross within the first
-            ninety days of hiring.
-          </p>
-        </div>
-      </div>
-    );
-  }
+  // if (name === 'First aid CPR Training') {
+  //   return (
+  //     <div id='extraInfo'>
+  //       <div className='extraInfoNavDiv'>
+  //         <p className='extraInfoNavSubTitle'>
+  //           First Aid and CPR training is a course offered by a CPR/First Aid
+  //           certified instructor or at the American Red Cross within the first
+  //           ninety days of hiring.
+  //         </p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   if (name === 'Documents') {
     return (
