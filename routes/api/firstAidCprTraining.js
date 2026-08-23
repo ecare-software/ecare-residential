@@ -7,6 +7,8 @@ router.post("/", (req, res) => {
   const newFirstAidCprTraining = new FirstAidCprTraining({
     T1: req.body.T1,
 
+    customEntries: req.body.customEntries || [],
+
     createdBy: req.body.createdBy,
 
     createdByName: req.body.createdByName,
@@ -24,7 +26,8 @@ router.post("/", (req, res) => {
     .save()
     .then((firstAidCprTraining) => res.json(firstAidCprTraining))
     .catch((e) => {
-      e;
+      console.error("Error saving first aid cpr training:", e);
+      res.status(500).json({ error: e.message });
     });
 });
 
@@ -65,13 +68,21 @@ router.get("/:homeId" + "/:submittedByA" + "/:lastEditDate", (req, res) => {
 });
 
 router.put("/:formId", (req, res) => {
-  FirstAidCprTraining.updateOne({ _id: req.params.formId }, req.body)
-    .then((data) => {
-      res.json(data);
+  FirstAidCprTraining.findById(req.params.formId)
+    .then((training) => {
+      training.T1 = req.body.T1;
+
+      // ADD THIS: Update customEntries
+      training.customEntries = req.body.customEntries || [];
+
+      training.lastEditDate = new Date().toISOString();
+
+      training
+        .save()
+        .then((updatedTraining) => res.json(updatedTraining))
+        .catch((err) => res.status(400).json({ error: err.message }));
     })
-    .catch((e) => {
-      console.log(e);
-    });
+    .catch((err) => res.status(404).json({ error: "Training not found" }));
 });
 
 router.put("/:homeId/:formId/", (req, res) => {
