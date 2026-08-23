@@ -294,7 +294,9 @@ class FirstAidCprTraining extends Component {
     return (
       <div className="formComp">
         <div className="formTitleDiv">
-          <h2 className="formTitle">First Aid / CPR Training</h2>
+          <h2 className="formTitle">
+            {this.state.modal?.displayName || "First Aid / CPR Training"}
+          </h2>
         </div>
         {this.state.isLoading ? (
           <div className="formLoadingDiv">

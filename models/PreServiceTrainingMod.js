@@ -130,6 +130,9 @@ const PreServiceTrainingModSchema = new Schema({
   homeId: {
     type: String,
   },
+  displayName: {
+    type: String,
+  },
 
   createDate: {
     type: Date,

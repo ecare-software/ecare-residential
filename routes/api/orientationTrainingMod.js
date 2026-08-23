@@ -37,6 +37,8 @@ router.post("/", (req, res) => {
 
     homeId: req.body.homeId,
 
+    displayName: req.body.displayName,
+
     formType: "Orientation Training",
   });
 
