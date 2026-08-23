@@ -29,6 +29,9 @@ const FirstAidCprTrainingModSchema = new Schema({
   homeId: {
     type: String,
   },
+  displayName: {
+    type: String,
+  },
   createDate: {
     type: Date,
     default: new Date(),

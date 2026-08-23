@@ -119,7 +119,7 @@ const ManageTraining = ({
                   </button>
                 </Col>
                 <Col className='control-label'>
-                  <label>{training?.formType}</label>
+                  <label>{training?.displayName || training?.formType}</label>
                 </Col>
               </div>
             ))}

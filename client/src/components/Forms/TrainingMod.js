@@ -107,6 +107,7 @@ const TrainingMod = ({ data, doToggleTrainingDisplay, userObj }) => {
   const [rows, setRows] = useState(getEditRowsModal(data, rowCount));
   const [hours, setHours] = useState(getHours(rows));
   const [isSaving, isSetSaving] = useState(false);
+  const [displayName, setDisplayName] = useState(data?.displayName || "");
 
   const handleFieldInput = (e) => {
     const acc = { ...rows };
@@ -141,6 +142,8 @@ const TrainingMod = ({ data, doToggleTrainingDisplay, userObj }) => {
         return acc1;
       }, {});
 
+      flatValues.displayName = (displayName || "").trim();
+
       await postTraining(_id, flatValues, formType, homeId, userObj);
       doToggleTrainingDisplay(true);
     } catch (e) {
@@ -159,6 +162,20 @@ const TrainingMod = ({ data, doToggleTrainingDisplay, userObj }) => {
         </h2>
       </div>
       <div className="formFieldsMobile">
+        <div className="form-group logInInputField d-flex">
+          <div className="col text-center">
+            <label className="control-label">Training Name</label>
+          </div>
+          <div className="col text-center">
+            <input
+              onChange={(e) => setDisplayName(e.target.value)}
+              value={displayName}
+              placeholder={formType}
+              className="form-control"
+              type="text"
+            />
+          </div>
+        </div>
         <div className="form-group logInInputField d-flex border-bottom">
           <SmallCol className="control-label">
             <label>Hours</label>

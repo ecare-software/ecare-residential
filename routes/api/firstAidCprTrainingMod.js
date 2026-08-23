@@ -21,6 +21,8 @@ router.post("/", (req, res) => {
 
     homeId: req.body.homeId,
 
+    displayName: req.body.displayName,
+
     formType: "First aid CPR Training",
   });
 

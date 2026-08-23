@@ -624,7 +624,9 @@ class AnnualTraining extends Component {
     return (
       <div className="formComp">
         <div className="formTitleDiv">
-          <h2 className="formTitle">Annual Training</h2>
+          <h2 className="formTitle">
+            {this.state.modal?.displayName || "Annual Training"}
+          </h2>
         </div>
         {this.state.isLoading ? (
           <div className="formLoadingDiv">
