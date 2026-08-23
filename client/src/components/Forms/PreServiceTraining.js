@@ -208,7 +208,9 @@ class PreServiceTraining extends Component {
     return (
       <div className="formComp">
         <div className="formTitleDiv">
-          <h2 className="formTitle">New Employee Pre-Service Training</h2>
+          <h2 className="formTitle">
+            {this.state.modal?.displayName || "New Employee Pre-Service Training"}
+          </h2>
         </div>
         {this.state.isLoading ? (
           <div className="formLoadingDiv">
