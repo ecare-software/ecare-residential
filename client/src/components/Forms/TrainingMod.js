@@ -142,7 +142,7 @@ const TrainingMod = ({ data, doToggleTrainingDisplay, userObj }) => {
         return acc1;
       }, {});
 
-      flatValues.displayName = displayName;
+      flatValues.displayName = (displayName || "").trim();
 
       await postTraining(_id, flatValues, formType, homeId, userObj);
       doToggleTrainingDisplay(true);
