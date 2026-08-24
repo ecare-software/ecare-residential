@@ -34,6 +34,7 @@ import leftBody from './images/left_body.png';
 import './App.css';
 import Fade from 'react-reveal/Fade';
 import ManageTraining from './components/ManageTraining/ManageTraining';
+import TrainingsList from './components/Trainings/TrainingsList';
 import { isAdminUser } from './utils/AdminReportingRoles';
 import NightMonitoring from './components/Forms/NightMonitoring';
 import DailyProgressTwo from './components/Forms/DailyProgressTwo';
@@ -759,6 +760,17 @@ function ToggleScreen({
           valuesSet={false}
           userObj={appState.userObj}
           id='AwakeNightStaffSignoff'
+          toggleDisplay={toggleDisplay}
+        />
+      </div>
+    );
+  }
+
+  if (name === 'TrainingsList') {
+    return (
+      <div>
+        <TrainingsList
+          userObj={appState.userObj}
           toggleDisplay={toggleDisplay}
         />
       </div>
