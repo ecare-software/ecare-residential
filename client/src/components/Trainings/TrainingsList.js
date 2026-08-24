@@ -12,10 +12,13 @@ const fetchTrainingMods = async (homeId) => {
 
   const data = await Promise.allSettled(promises);
 
+  const rejected = data.find((r) => r.status === "rejected");
+  if (rejected) {
+    throw rejected.reason;
+  }
+
   return TRAINING_MOD_TYPES.map((type, idx) => {
-    const result = data[idx];
-    const existing =
-      result.status === "fulfilled" ? result.value.data[0] : undefined;
+    const existing = data[idx].value?.data?.[0];
 
     return (
       existing || {
