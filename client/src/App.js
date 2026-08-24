@@ -1060,7 +1060,8 @@ function DisplayExtra({
   if (
     name === 'Orientation Training' ||
     name === 'Pre Service Training' ||
-    name === 'First aid CPR Training'
+    name === 'First aid CPR Training' ||
+    name === 'Annual Training'
   ) {
     return (
       <div id='extraInfo'>
@@ -1111,16 +1112,6 @@ function DisplayExtra({
       <div id='extraInfo'>
         <div className='extraInfoNavDiv'>
           <p className='extraInfoNavSubTitle'>Admission Assessment</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (name === 'Annual Training') {
-    return (
-      <div id='extraInfo'>
-        <div className='extraInfoNavDiv'>
-          <p className='extraInfoNavSubTitle'>Annual Training</p>
         </div>
       </div>
     );
