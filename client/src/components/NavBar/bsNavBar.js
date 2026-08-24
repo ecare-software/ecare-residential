@@ -582,16 +582,10 @@ class NavBar extends React.Component {
                     Awake Night Monitoring
                   </NavDropdown.Item>
                 </NavDropdown>
-                <NavDropdown
-                  style={navItemStyle}
-                  variant="success"
-                  color="white"
-                  title="Training"
-                  id="collasible-nav-dropdown"
-                  className="Training-nav"
-                >
-                  <NavDropdown.Item
-                    eventKey="link-7375"
+                <div className="Training-nav" style={{ display: "contents" }}>
+                  <Nav.Link
+                    eventKey="link-7376"
+                    style={navItemStyle}
                     onClick={() => {
                       document
                         .querySelector(".Training-nav > a")
@@ -602,63 +596,12 @@ class NavBar extends React.Component {
                       document
                         .querySelector(".Manage-Account-nav > a")
                         .classList.remove("active");
-                      this.props.toggleDisplay("Annual Training");
+                      this.props.toggleDisplay("TrainingsList");
                     }}
                   >
-                    Annual Ongoing
-                  </NavDropdown.Item>
-                  <NavDropdown.Item
-                    eventKey="link-777"
-                    onClick={() => {
-                      document
-                        .querySelector(".Training-nav > a")
-                        .classList.add("active");
-                      document
-                        .querySelector(".Submit-a-Form-nav > a")
-                        .classList.remove("active");
-                      document
-                        .querySelector(".Manage-Account-nav > a")
-                        .classList.remove("active");
-                      this.props.toggleDisplay("Orientation Training");
-                    }}
-                  >
-                    Orientation
-                  </NavDropdown.Item>
-                  <NavDropdown.Item
-                    eventKey="link-2747"
-                    onClick={() => {
-                      document
-                        .querySelector(".Training-nav > a")
-                        .classList.add("active");
-                      document
-                        .querySelector(".Submit-a-Form-nav > a")
-                        .classList.remove("active");
-                      document
-                        .querySelector(".Manage-Account-nav > a")
-                        .classList.remove("active");
-                      this.props.toggleDisplay("First aid CPR Training");
-                    }}
-                  >
-                    First aid / CPR
-                  </NavDropdown.Item>
-                  <NavDropdown.Item
-                    eventKey="link-787"
-                    onClick={() => {
-                      document
-                        .querySelector(".Training-nav > a")
-                        .classList.add("active");
-                      document
-                        .querySelector(".Submit-a-Form-nav > a")
-                        .classList.remove("active");
-                      document
-                        .querySelector(".Manage-Account-nav > a")
-                        .classList.remove("active");
-                      this.props.toggleDisplay("Pre Service Training");
-                    }}
-                  >
-                    Pre-Service
-                  </NavDropdown.Item>
-                </NavDropdown>
+                    Training
+                  </Nav.Link>
+                </div>
 
                 {isAdminUser(this.props.userObj) ? (
                   <Nav.Link

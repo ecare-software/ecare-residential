@@ -34,6 +34,7 @@ import leftBody from './images/left_body.png';
 import './App.css';
 import Fade from 'react-reveal/Fade';
 import ManageTraining from './components/ManageTraining/ManageTraining';
+import TrainingsList from './components/Trainings/TrainingsList';
 import { isAdminUser } from './utils/AdminReportingRoles';
 import NightMonitoring from './components/Forms/NightMonitoring';
 import DailyProgressTwo from './components/Forms/DailyProgressTwo';
@@ -765,6 +766,17 @@ function ToggleScreen({
     );
   }
 
+  if (name === 'TrainingsList') {
+    return (
+      <div>
+        <TrainingsList
+          userObj={appState.userObj}
+          toggleDisplay={toggleDisplay}
+        />
+      </div>
+    );
+  }
+
   if (name === 'Orientation Training') {
     return (
       <div>
@@ -1026,6 +1038,7 @@ function DisplayExtra({
   showClients,
   showTrainings,
   loadMessage,
+  toggleDisplay,
 }) {
   if (name === 'TreatmentPlan72') {
     return (
@@ -1044,49 +1057,29 @@ function DisplayExtra({
     );
   }
 
-  // if (name === 'Orientation Training') {
-  //   return (
-  //     <div id='extraInfo'>
-  //       <div className='extraInfoNavDiv'>
-  //         <p className='extraInfoNavSubTitle'>
-  //           New Employee Orientation training is an eight-hour (8) program
-  //           provided to each new employee within the first fourteen days of
-  //           hiring. The program includes, but is not limited to, the following
-  //           employee and agency information.
-  //         </p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
-  // if (name === 'Pre Service Training') {
-  //   return (
-  //     <div id='extraInfo'>
-  //       <div className='extraInfoNavDiv'>
-  //         <p className='extraInfoNavSubTitle'>
-  //           Pre-service training is a forty (40) hour course offered by New
-  //           Pathways training staff at the facility within the first fourteen
-  //           days of hiring. The program includes all the necessary topics to
-  //           receive sole supervision status.
-  //         </p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
-  // if (name === 'First aid CPR Training') {
-  //   return (
-  //     <div id='extraInfo'>
-  //       <div className='extraInfoNavDiv'>
-  //         <p className='extraInfoNavSubTitle'>
-  //           First Aid and CPR training is a course offered by a CPR/First Aid
-  //           certified instructor or at the American Red Cross within the first
-  //           ninety days of hiring.
-  //         </p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  if (
+    name === 'Orientation Training' ||
+    name === 'Pre Service Training' ||
+    name === 'First aid CPR Training' ||
+    name === 'Annual Training'
+  ) {
+    return (
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'></div>
+        <div className='extraInfoButtonDiv'>
+          <button
+            onClick={() => {
+              scrollTop();
+              toggleDisplay('Dashboard');
+            }}
+            className='btn btn-light extraInfoButton'
+          >
+            Dashboard
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (name === 'Documents') {
     return (
@@ -1119,16 +1112,6 @@ function DisplayExtra({
       <div id='extraInfo'>
         <div className='extraInfoNavDiv'>
           <p className='extraInfoNavSubTitle'>Admission Assessment</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (name === 'Annual Training') {
-    return (
-      <div id='extraInfo'>
-        <div className='extraInfoNavDiv'>
-          <p className='extraInfoNavSubTitle'>Annual Training</p>
         </div>
       </div>
     );
