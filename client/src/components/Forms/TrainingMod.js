@@ -5,6 +5,7 @@ import { Form } from "react-bootstrap";
 import styled from "styled-components";
 import { useAsync, IfRejected, IfPending, IfFulfilled } from "react-async";
 import { getTrainingModType } from "../../utils/TrainingModTypes";
+import FirstAidCprTraining from "./FirstAidCprTraining";
 
 const SmallCol = styled.div`
   width: 100px;
@@ -152,6 +153,119 @@ const TrainingMod = ({ data, doToggleTrainingDisplay, userObj }) => {
     }
     isSetSaving(false);
   };
+
+  if (data.formType === "First Aid CPR Training") {
+    // Check if this is editing a modal/template or a user submission
+    const isEditingModal = data._id && !data.createdBy; // Modal has no createdBy
+
+    if (isEditingModal) {
+      // Show the modal editor (the current TrainingMod template editor)
+      // This is for editing the training TEMPLATE, not individual user training records
+      return (
+        <div className="formComp">
+          <div className="formTitleDiv">
+            <h2 className="formTitle">First Aid CPR Training Template</h2>
+          </div>
+          <div className="formFieldsMobile">
+            <div className="form-group logInInputField d-flex">
+              <div className="col text-center">
+                <label className="control-label">Training Name</label>
+              </div>
+              <div className="col text-center">
+                <input
+                  onChange={(e) => setDisplayName(e.target.value)}
+                  value={displayName}
+                  placeholder="First Aid CPR Training"
+                  className="form-control"
+                  type="text"
+                />
+              </div>
+            </div>
+            <div className="form-group logInInputField d-flex border-bottom">
+              <SmallCol className="control-label">
+                <label>Hours</label>
+              </SmallCol>
+              <div className="col text-center">
+                <label className="control-label">Training Topic</label>
+              </div>
+              <div className="col text-center">
+                <label className="control-label">Presenter</label>
+              </div>
+            </div>
+            {Reflect.ownKeys(rows).map((row) => (
+              <div key={row} className="form-group logInInputField d-flex">
+                <SmallCol className="control-label">
+                  <input
+                    onChange={handleFieldInput}
+                    id={`${row}Hours`}
+                    value={rows[row].hours}
+                    className="form-control"
+                    type="text"
+                  />
+                </SmallCol>
+                <div className="col text-center">
+                  <input
+                    onChange={handleFieldInput}
+                    id={`${row}Title`}
+                    value={rows[row].title}
+                    className="form-control"
+                    type="text"
+                  />
+                </div>
+                <div className="col text-center">
+                  <input
+                    onChange={handleFieldInput}
+                    id={`${row}Presenter`}
+                    value={rows[row].presenter}
+                    className="form-control"
+                    type="text"
+                  />
+                </div>
+              </div>
+            ))}
+            <div className="form-group logInInputField d-flex">
+              <SmallCol className="control-label">
+                <label>{hours === "NaN" || isNaN(hours) ? "∞" : hours}</label>
+              </SmallCol>
+              <div className="col text-center">
+                <label className="control-label">Total Hours</label>
+              </div>
+              <div className="col text-center">
+                <label className="control-label"></label>
+              </div>
+            </div>
+            <div className="form-group logInInputField d-flex">
+              <SmallCol className="control-label">
+                <button className="darkBtn" onClick={doSave}>
+                  Save Template
+                </button>
+              </SmallCol>
+              <SmallCol />
+              <SmallCol />
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // For user training records (not editing the template)
+    return (
+      <div>
+        <div style={{ marginBottom: "20px" }}>
+          <button
+            className="btn btn-light"
+            onClick={() => doToggleTrainingDisplay(true)}
+          >
+            Back to Training List
+          </button>
+        </div>
+        <FirstAidCprTraining
+          valuesSet={false}
+          userObj={userObj}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="formComp">

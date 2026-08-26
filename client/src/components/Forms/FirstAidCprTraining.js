@@ -15,9 +15,39 @@ const SmallColRight = styled.div`
   display: flex;
   align-items: center;
   text-align: center;
+  margin-right: 20px;
 `;
 
 const SmallColRightTitle = styled.div`
+  width: 200px;
+  text-align: center;
+  margin-right: 20px;
+`;
+
+const ExpirationCol = styled.div`
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-right: 20px;
+`;
+
+const ExpirationColTitle = styled.div`
+  width: 150px;
+  text-align: center;
+  margin-right: 20px;
+`;
+
+const CertificateCol = styled.div`
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+`;
+
+const CertificateColTitle = styled.div`
   width: 200px;
   text-align: center;
 `;
@@ -56,6 +86,9 @@ const DeleteButton = styled.button`
     background-color: #c82333;
   }
 `;
+
+const API_BASE = process.env.REACT_APP_API_BASE_URL || "http://localhost:3001";
+const API_URL = `${API_BASE}/api/firstAidCprTraining`;
 
 const fetchTrainingModal = async (homeId) => {
   return await Axios.get(`/api/firstAidCprTrainingMod/${homeId}`);
@@ -112,9 +145,17 @@ class FirstAidCprTraining extends Component {
     super(props);
     this.state = {
       T1: "",
+      T1Expiration: "",
 
       // Custom training entries
       customEntries: [],
+
+      // Track which expiration dates are being edited
+      editingExpiration: {},
+      editingCustomExpiration: {},
+
+      // Certificate uploads storage
+      uploadedCertificates: {},
 
       createdBy: this.props.valuesSet === true ? "" : this.props.userObj.email,
 
@@ -152,14 +193,282 @@ class FirstAidCprTraining extends Component {
     this.submit();
   };
 
+  // Handler for expiration date changes
+  handleExpirationChange = async (event) => {
+    const id = event.target.id;
+    const value = event.target.value;
+    await this.setState({ [id]: value });
+    this.submit();
+  };
+
+  // Enable editing for a specific expiration date
+  enableExpirationEdit = (key) => {
+    this.setState({
+      editingExpiration: {
+        ...this.state.editingExpiration,
+        [key]: true,
+      },
+    });
+  };
+
+  // Disable editing for a specific expiration date (save)
+  disableExpirationEdit = (key) => {
+    this.setState({
+      editingExpiration: {
+        ...this.state.editingExpiration,
+        [key]: false,
+      },
+    });
+  };
+
+  // Enable editing for a custom entry's expiration date
+  enableCustomExpirationEdit = (id) => {
+    this.setState({
+      editingCustomExpiration: {
+        ...this.state.editingCustomExpiration,
+        [id]: true,
+      },
+    });
+  };
+
+  // Disable editing for a custom entry's expiration date (save)
+  disableCustomExpirationEdit = (id) => {
+    this.setState({
+      editingCustomExpiration: {
+        ...this.state.editingCustomExpiration,
+        [id]: false,
+      },
+    });
+  };
+
+  // Handler for certificate uploads - uploads to server
+  handleCertificateUpload = async (event, key) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Show local preview immediately
+    const uploaded = { ...this.state.uploadedCertificates };
+    uploaded[key] = {
+      fileName: file.name,
+      fileUrl: URL.createObjectURL(file),
+      rawFile: file,
+      _isLocal: true,
+    };
+    this.setState({ uploadedCertificates: uploaded });
+
+    // If no training ID exists, create the record first
+    if (!this.state._id) {
+      console.log("No training record exists yet. Creating record first...");
+      try {
+        const response = await Axios.post("/api/firstAidCprTraining", {
+          ...this.state,
+          uploadedCertificates: undefined,
+          editingExpiration: undefined,
+          editingCustomExpiration: undefined,
+        });
+        
+        await this.setState({ ...response.data, doUpdate: true });
+        console.log("Training record created with ID:", response.data._id);
+        
+        await this.uploadCertificateToServer(key, file);
+      } catch (error) {
+        console.error("Failed to create training record:", error);
+        alert("Failed to create training record before uploading certificate");
+        const updated = { ...this.state.uploadedCertificates };
+        delete updated[key];
+        this.setState({ uploadedCertificates: updated });
+      }
+    } else {
+      try {
+        await this.uploadCertificateToServer(key, file);
+      } catch (error) {
+        console.error("Upload failed:", error);
+        alert(`Failed to upload certificate: ${error.response?.data?.error || error.message}`);
+        const updated = { ...this.state.uploadedCertificates };
+        delete updated[key];
+        this.setState({ uploadedCertificates: updated });
+      }
+    }
+  };
+
+  // Upload certificate to server
+  uploadCertificateToServer = async (fieldName, file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await Axios.post(
+      `${API_URL}/upload/${this.state._id}/${fieldName}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    // Update local state with server response
+    const uploaded = { ...this.state.uploadedCertificates };
+    uploaded[fieldName] = {
+      ...response.data.file,
+      _isLocal: false,
+    };
+    this.setState({ uploadedCertificates: uploaded });
+
+    return response.data.file;
+  };
+
+  // Remove certificate
+  removeCertificate = async (key) => {
+    const certificate = this.state.uploadedCertificates[key];
+    
+    // If it's a server file, delete from server
+    if (certificate && !certificate._isLocal && this.state._id) {
+      try {
+        await Axios.delete(`${API_URL}/certificate/${this.state._id}/${key}`);
+      } catch (error) {
+        console.error("Delete failed:", error);
+        alert("Failed to delete certificate");
+        return;
+      }
+    }
+
+    // Remove from local state
+    const uploaded = { ...this.state.uploadedCertificates };
+    delete uploaded[key];
+    this.setState({ uploadedCertificates: uploaded });
+  };
+
+  // Handler for custom entry certificate uploads
+  handleCustomCertificateUpload = async (event, entryId) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Update the custom entry with the certificate
+    const updatedEntries = this.state.customEntries.map((entry) => {
+      if (entry.id === entryId) {
+        return {
+          ...entry,
+          certificate: {
+            fileName: file.name,
+            fileUrl: URL.createObjectURL(file),
+            rawFile: file,
+            _isLocal: true,
+          },
+        };
+      }
+      return entry;
+    });
+
+    this.setState({ customEntries: updatedEntries });
+
+    // If we have a training ID, upload to server
+    if (this.state._id) {
+      try {
+        await this.uploadCustomCertificateToServer(entryId, file);
+      } catch (error) {
+        console.error("Upload failed:", error);
+        alert(`Failed to upload certificate: ${error.response?.data?.error || error.message}`);
+        // Revert on error
+        const revertedEntries = this.state.customEntries.map((entry) => {
+          if (entry.id === entryId) {
+            const { certificate, ...rest } = entry;
+            return rest;
+          }
+          return entry;
+        });
+        this.setState({ customEntries: revertedEntries });
+      }
+    } else {
+      // Create record first
+      try {
+        const response = await Axios.post("/api/firstAidCprTraining", {
+          ...this.state,
+          uploadedCertificates: undefined,
+          editingExpiration: undefined,
+          editingCustomExpiration: undefined,
+        });
+        
+        await this.setState({ ...response.data, doUpdate: true });
+        await this.uploadCustomCertificateToServer(entryId, file);
+      } catch (error) {
+        console.error("Failed to create training record:", error);
+        alert("Failed to create training record before uploading certificate");
+      }
+    }
+  };
+
+  // Upload custom entry certificate to server
+  uploadCustomCertificateToServer = async (entryId, file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await Axios.post(
+      `${API_URL}/uploadCustom/${this.state._id}/${entryId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    // Update local state with server response
+    const updatedEntries = this.state.customEntries.map((entry) => {
+      if (entry.id === entryId) {
+        return {
+          ...entry,
+          certificate: {
+            ...response.data.file,
+            _isLocal: false,
+          },
+        };
+      }
+      return entry;
+    });
+
+    this.setState({ customEntries: updatedEntries });
+
+    return response.data.file;
+  };
+
+  // Remove custom entry certificate
+  removeCustomCertificate = async (entryId) => {
+    const entry = this.state.customEntries.find((e) => e.id === entryId);
+    const certificate = entry?.certificate;
+
+    // If it's a server file, delete from server
+    if (certificate && !certificate._isLocal && this.state._id) {
+      try {
+        await Axios.delete(`${API_URL}/certificateCustom/${this.state._id}/${entryId}`);
+      } catch (error) {
+        console.error("Delete failed:", error);
+        alert("Failed to delete certificate");
+        return;
+      }
+    }
+
+    // Remove from local state
+    const updatedEntries = this.state.customEntries.map((e) => {
+      if (e.id === entryId) {
+        const { certificate, ...rest } = e;
+        return rest;
+      }
+      return e;
+    });
+
+    this.setState({ customEntries: updatedEntries });
+  };
+
   // Add new custom training entry
   addCustomEntry = () => {
     const newEntry = {
-      id: Date.now(), // Unique ID for this entry
+      id: Date.now(),
       hours: "",
       title: "",
       presenter: "",
       completed: null,
+      expiration: "",
+      certificate: null,
     };
 
     this.setState({
@@ -201,7 +510,13 @@ class FirstAidCprTraining extends Component {
   };
 
   // Delete custom entry
-  deleteCustomEntry = (id) => {
+  deleteCustomEntry = async (id) => {
+    // If there's a certificate, delete it first
+    const entry = this.state.customEntries.find((e) => e.id === id);
+    if (entry?.certificate) {
+      await this.removeCustomCertificate(id);
+    }
+
     const updatedEntries = this.state.customEntries.filter(
       (entry) => entry.id !== id
     );
@@ -222,12 +537,29 @@ class FirstAidCprTraining extends Component {
 
   submit = () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
+    // Remove non-serializable fields
+    delete currentState.editingExpiration;
+    delete currentState.editingCustomExpiration;
+    delete currentState.uploadedCertificates;
+    
+    // Clean up custom entries - remove File objects
+    if (currentState.customEntries) {
+      currentState.customEntries = currentState.customEntries.map(entry => {
+        if (entry.certificate && entry.certificate.rawFile) {
+          const { rawFile, ...certWithoutFile } = entry.certificate;
+          return { ...entry, certificate: certWithoutFile };
+        }
+        return entry;
+      });
+    }
+    
     if (this.state.doUpdate) {
       Axios.put(`/api/firstAidCprTraining/${this.state._id}`, currentState)
         .then((res) => {
           console.log("training updated");
         })
         .catch((e) => {
+          console.error("Error updating:", e);
           this.setState({
             formHasError: true,
             formErrorMessage: "Error Updating",
@@ -240,16 +572,32 @@ class FirstAidCprTraining extends Component {
           this.setState({ ...data, doUpdate: true });
         })
         .catch((e) => {
+          console.error("Error creating:", e);
           this.setState({
             formHasError: true,
-            formErrorMessage: "Error Updating",
+            formErrorMessage: "Error Creating",
           });
         });
     }
   };
 
   setValues = () => {
-    this.setState({ ...this.state, ...this.props.formData });
+    const { editingExpiration, editingCustomExpiration, uploadedCertificates, ...formValues } = this.props.formData;
+    
+    // Load T1 certificate from database
+    const certs = {};
+    if (this.props.formData.T1Certificate) {
+      certs.T1 = {
+        ...this.props.formData.T1Certificate,
+        _isLocal: false,
+      };
+    }
+    
+    this.setState({ 
+      ...this.state, 
+      ...formValues,
+      uploadedCertificates: certs,
+    });
   };
 
   getModal = async () => {
@@ -277,7 +625,21 @@ class FirstAidCprTraining extends Component {
           `/api/firstAidCprTraining/${this.props.userObj.homeId}/${this.props.userObj.email}`
         );
         if (data.length !== 0) {
-          this.setState({ ...data[0], doUpdate: true, isLoading: false });
+          // Load T1 certificate from database
+          const certs = {};
+          if (data[0].T1Certificate) {
+            certs.T1 = {
+              ...data[0].T1Certificate,
+              _isLocal: false,
+            };
+          }
+          
+          this.setState({ 
+            ...data[0], 
+            doUpdate: true, 
+            isLoading: false,
+            uploadedCertificates: certs,
+          });
         }
         this.setState({ ...this.state, isLoading: false });
       }
@@ -292,6 +654,14 @@ class FirstAidCprTraining extends Component {
 
   render() {
     const totalHours = this.getTotalHours();
+    const isEditingT1Expiration = this.state.editingExpiration["T1Expiration"];
+    const hasT1ExpirationDate = this.state.T1Expiration;
+    const t1Certificate = this.state.uploadedCertificates?.T1;
+
+    console.log("=== FirstAidCprTraining Render ===");
+    console.log("valuesSet:", this.props.valuesSet);
+    console.log("customEntries:", this.state.customEntries);
+    console.log("isLoading:", this.state.isLoading);
 
     return (
       <div className="formComp">
@@ -314,15 +684,15 @@ class FirstAidCprTraining extends Component {
               <SmallCol className="control-label">
                 <label>Hours</label>
               </SmallCol>
-              <div className="col text-center">
-                <label className="control-label">Training Topics</label>
-              </div>
-              <div className="col text-center">
-                <label className="control-label">Presenter</label>
-              </div>
               <SmallColRightTitle>
                 <label>Completion</label>
               </SmallColRightTitle>
+              <ExpirationColTitle>
+                <label className="control-label">Expiration Date</label>
+              </ExpirationColTitle>
+              <CertificateColTitle>
+                <label className="control-label">Certificate</label>
+              </CertificateColTitle>
             </div>
 
             {/* Original T1 Entry */}
@@ -330,16 +700,6 @@ class FirstAidCprTraining extends Component {
               <SmallCol className="control-label">
                 {this.state.modal?.T1Hours}
               </SmallCol>
-              <div className="col text-center">
-                <label className="control-label">
-                  {this.state.modal?.T1Title}
-                </label>
-              </div>
-              <div className="col text-center">
-                <label className="control-label">
-                  {this.state.modal?.T1Presenter}
-                </label>
-              </div>
               <SmallColRight>
                 {this.state.T1 ? (
                   <div>
@@ -372,12 +732,144 @@ class FirstAidCprTraining extends Component {
                   />
                 )}
               </SmallColRight>
+              <ExpirationCol>
+                {this.props.valuesSet ? (
+                  <span>{hasT1ExpirationDate || "—"}</span>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "5px", width: "100%" }}>
+                    {!hasT1ExpirationDate || isEditingT1Expiration ? (
+                      <>
+                        <input
+                          type="date"
+                          id="T1Expiration"
+                          value={this.state.T1Expiration}
+                          onChange={this.handleExpirationChange}
+                          style={{
+                            padding: "4px",
+                            borderRadius: "4px",
+                            border: "1px solid #ccc",
+                            width: "100%",
+                          }}
+                        />
+                        {hasT1ExpirationDate && isEditingT1Expiration && (
+                          <button
+                            type="button"
+                            onClick={() => this.disableExpirationEdit("T1Expiration")}
+                            style={{
+                              padding: "4px 8px",
+                              fontSize: "12px",
+                              borderRadius: "4px",
+                              border: "1px solid #28a745",
+                              backgroundColor: "#28a745",
+                              color: "white",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Save
+                          </button>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <span style={{ fontWeight: "bold" }}>{this.state.T1Expiration}</span>
+                        <button
+                          type="button"
+                          onClick={() => this.enableExpirationEdit("T1Expiration")}
+                          style={{
+                            padding: "4px 8px",
+                            fontSize: "12px",
+                            borderRadius: "4px",
+                            border: "1px solid #007bff",
+                            backgroundColor: "#007bff",
+                            color: "white",
+                            cursor: "pointer",
+                          }}
+                        >
+                          Edit
+                        </button>
+                      </>
+                    )}
+                  </div>
+                )}
+              </ExpirationCol>
+              <CertificateCol>
+                {this.props.valuesSet ? (
+                  t1Certificate ? (
+                    <a
+                      href={t1Certificate._isLocal ? t1Certificate.fileUrl : `${API_BASE}${t1Certificate.fileUrl}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{ fontSize: "12px", color: "#007bff" }}
+                    >
+                      View Certificate
+                    </a>
+                  ) : (
+                    <span>—</span>
+                  )
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "5px", width: "100%" }}>
+                    {!t1Certificate ? (
+                      <input
+                        type="file"
+                        accept="application/pdf,image/*"
+                        onChange={(e) => this.handleCertificateUpload(e, "T1")}
+                        style={{
+                          padding: "4px",
+                          fontSize: "12px",
+                        }}
+                      />
+                    ) : (
+                      <>
+                        <div style={{ fontSize: "12px", fontWeight: "bold" }}>
+                          {t1Certificate.fileName}
+                        </div>
+                        <div style={{ display: "flex", gap: "5px", justifyContent: "center" }}>
+                          <a
+                            href={t1Certificate._isLocal ? t1Certificate.fileUrl : `${API_BASE}${t1Certificate.fileUrl}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            style={{
+                              padding: "4px 8px",
+                              fontSize: "12px",
+                              borderRadius: "4px",
+                              border: "1px solid #007bff",
+                              backgroundColor: "#007bff",
+                              color: "white",
+                              textDecoration: "none",
+                              display: "inline-block",
+                            }}
+                          >
+                            View
+                          </a>
+                          <button
+                            type="button"
+                            onClick={() => this.removeCertificate("T1")}
+                            style={{
+                              padding: "4px 8px",
+                              fontSize: "12px",
+                              borderRadius: "4px",
+                              border: "1px solid #dc3545",
+                              backgroundColor: "#dc3545",
+                              color: "white",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )}
+              </CertificateCol>
             </div>
 
             {/* Custom Entries */}
             {this.state.customEntries.map((entry) => {
-              // Check if entry has required data filled in
-              const hasRequiredData = entry.hours && entry.title && entry.presenter;
+              const hasRequiredData = entry.hours;
+              const isEditingExpiration = this.state.editingCustomExpiration[entry.id];
+              const hasExpirationDate = entry.expiration;
+              const certificate = entry.certificate;
 
               return (
                 <div
@@ -406,50 +898,6 @@ class FirstAidCprTraining extends Component {
                       />
                     )}
                   </SmallCol>
-                  <div className="col text-center">
-                    {this.props.valuesSet ? (
-                      <span>{entry.title}</span>
-                    ) : (
-                      <input
-                        type="text"
-                        value={entry.title}
-                        onChange={(e) =>
-                          this.updateCustomEntry(entry.id, "title", e.target.value)
-                        }
-                        style={{
-                          width: "100%",
-                          padding: "4px",
-                          border: "1px solid #ccc",
-                          borderRadius: "4px",
-                        }}
-                        placeholder="Training Topic"
-                      />
-                    )}
-                  </div>
-                  <div className="col text-center">
-                    {this.props.valuesSet ? (
-                      <span>{entry.presenter}</span>
-                    ) : (
-                      <input
-                        type="text"
-                        value={entry.presenter}
-                        onChange={(e) =>
-                          this.updateCustomEntry(
-                            entry.id,
-                            "presenter",
-                            e.target.value
-                          )
-                        }
-                        style={{
-                          width: "100%",
-                          padding: "4px",
-                          border: "1px solid #ccc",
-                          borderRadius: "4px",
-                        }}
-                        placeholder="Presenter"
-                      />
-                    )}
-                  </div>
                   <SmallColRight>
                     {entry.completed ? (
                       <div>
@@ -478,7 +926,7 @@ class FirstAidCprTraining extends Component {
                           <span>Not Completed</span>
                         ) : (
                           <span style={{ color: "#6c757d", fontSize: "14px" }}>
-                            Fill in all fields to mark complete
+                            Enter hours to mark complete
                           </span>
                         )}
                         {!this.props.valuesSet && (
@@ -491,6 +939,137 @@ class FirstAidCprTraining extends Component {
                       </div>
                     )}
                   </SmallColRight>
+                  <ExpirationCol>
+                    {this.props.valuesSet ? (
+                      <span>{hasExpirationDate || "—"}</span>
+                    ) : (
+                      <div style={{ display: "flex", flexDirection: "column", gap: "5px", width: "100%" }}>
+                        {!hasExpirationDate || isEditingExpiration ? (
+                          <>
+                            <input
+                              type="date"
+                              value={entry.expiration}
+                              onChange={(e) =>
+                                this.updateCustomEntry(entry.id, "expiration", e.target.value)
+                              }
+                              style={{
+                                padding: "4px",
+                                borderRadius: "4px",
+                                border: "1px solid #ccc",
+                                width: "100%",
+                              }}
+                            />
+                            {hasExpirationDate && isEditingExpiration && (
+                              <button
+                                type="button"
+                                onClick={() => this.disableCustomExpirationEdit(entry.id)}
+                                style={{
+                                  padding: "4px 8px",
+                                  fontSize: "12px",
+                                  borderRadius: "4px",
+                                  border: "1px solid #28a745",
+                                  backgroundColor: "#28a745",
+                                  color: "white",
+                                  cursor: "pointer",
+                                }}
+                              >
+                                Save
+                              </button>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            <span style={{ fontWeight: "bold" }}>{entry.expiration}</span>
+                            <button
+                              type="button"
+                              onClick={() => this.enableCustomExpirationEdit(entry.id)}
+                              style={{
+                                padding: "4px 8px",
+                                fontSize: "12px",
+                                borderRadius: "4px",
+                                border: "1px solid #007bff",
+                                backgroundColor: "#007bff",
+                                color: "white",
+                                cursor: "pointer",
+                              }}
+                            >
+                              Edit
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </ExpirationCol>
+                  <CertificateCol>
+                    {this.props.valuesSet ? (
+                      certificate ? (
+                        <a
+                          href={certificate._isLocal ? certificate.fileUrl : `${API_BASE}${certificate.fileUrl}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          style={{ fontSize: "12px", color: "#007bff" }}
+                        >
+                          View Certificate
+                        </a>
+                      ) : (
+                        <span>—</span>
+                      )
+                    ) : (
+                      <div style={{ display: "flex", flexDirection: "column", gap: "5px", width: "100%" }}>
+                        {!certificate ? (
+                          <input
+                            type="file"
+                            accept="application/pdf,image/*"
+                            onChange={(e) => this.handleCustomCertificateUpload(e, entry.id)}
+                            style={{
+                              padding: "4px",
+                              fontSize: "12px",
+                            }}
+                          />
+                        ) : (
+                          <>
+                            <div style={{ fontSize: "12px", fontWeight: "bold" }}>
+                              {certificate.fileName}
+                            </div>
+                            <div style={{ display: "flex", gap: "5px", justifyContent: "center" }}>
+                              <a
+                                href={certificate._isLocal ? certificate.fileUrl : `${API_BASE}${certificate.fileUrl}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                style={{
+                                  padding: "4px 8px",
+                                  fontSize: "12px",
+                                  borderRadius: "4px",
+                                  border: "1px solid #007bff",
+                                  backgroundColor: "#007bff",
+                                  color: "white",
+                                  textDecoration: "none",
+                                  display: "inline-block",
+                                }}
+                              >
+                                View
+                              </a>
+                              <button
+                                type="button"
+                                onClick={() => this.removeCustomCertificate(entry.id)}
+                                style={{
+                                  padding: "4px 8px",
+                                  fontSize: "12px",
+                                  borderRadius: "4px",
+                                  border: "1px solid #dc3545",
+                                  backgroundColor: "#dc3545",
+                                  color: "white",
+                                  cursor: "pointer",
+                                }}
+                              >
+                                Remove
+                              </button>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </CertificateCol>
                 </div>
               );
             })}
@@ -511,7 +1090,6 @@ class FirstAidCprTraining extends Component {
               <div className="col text-center">
                 <label className="control-label">Total Hours</label>
               </div>
-              <SmallCol />
             </div>
           </div>
         )}
