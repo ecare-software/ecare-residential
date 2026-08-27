@@ -5,6 +5,10 @@ import { Form } from "react-bootstrap";
 import styled from "styled-components";
 import ClipLoader from "react-spinners/ClipLoader";
 
+const FormContainer = styled.div`
+  min-width: 850px;
+`;
+
 const SmallCol = styled.div`
   width: 100px;
   text-align: center;
@@ -664,7 +668,7 @@ class FirstAidCprTraining extends Component {
     console.log("isLoading:", this.state.isLoading);
 
     return (
-      <div className="formComp">
+      <FormContainer className="formComp">
         <div className="formTitleDiv">
           <h2 className="formTitle">
             {this.state.modal?.displayName || "First Aid / CPR Training"}
@@ -684,6 +688,9 @@ class FirstAidCprTraining extends Component {
               <SmallCol className="control-label">
                 <label>Hours</label>
               </SmallCol>
+              <div className="col text-center">
+                <label className="control-label">Presenter</label>
+              </div>
               <SmallColRightTitle>
                 <label>Completion</label>
               </SmallColRightTitle>
@@ -700,6 +707,11 @@ class FirstAidCprTraining extends Component {
               <SmallCol className="control-label">
                 {this.state.modal?.T1Hours}
               </SmallCol>
+              <div className="col text-center">
+                <label className="control-label">
+                  {this.state.modal?.T1Presenter}
+                </label>
+              </div>
               <SmallColRight>
                 {this.state.T1 ? (
                   <div>
@@ -898,6 +910,21 @@ class FirstAidCprTraining extends Component {
                       />
                     )}
                   </SmallCol>
+                  <div className="col text-center">
+                    {this.props.valuesSet ? (
+                      <label className="control-label">{entry.presenter || "—"}</label>
+                    ) : (
+                      <input
+                        type="text"
+                        value={entry.presenter}
+                        onChange={(e) =>
+                          this.updateCustomEntry(entry.id, "presenter", e.target.value)
+                        }
+                        className="form-control"
+                        placeholder="Presenter name"
+                      />
+                    )}
+                  </div>
                   <SmallColRight>
                     {entry.completed ? (
                       <div>
@@ -1093,7 +1120,7 @@ class FirstAidCprTraining extends Component {
             </div>
           </div>
         )}
-      </div>
+      </FormContainer>
     );
   }
 }
