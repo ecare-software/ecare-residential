@@ -662,10 +662,7 @@ class FirstAidCprTraining extends Component {
     const hasT1ExpirationDate = this.state.T1Expiration;
     const t1Certificate = this.state.uploadedCertificates?.T1;
 
-    console.log("=== FirstAidCprTraining Render ===");
-    console.log("valuesSet:", this.props.valuesSet);
-    console.log("customEntries:", this.state.customEntries);
-    console.log("isLoading:", this.state.isLoading);
+
 
     return (
       <FormContainer className="formComp">

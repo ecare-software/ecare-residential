@@ -158,21 +158,7 @@ const TrainingMod = ({ data, doToggleTrainingDisplay, userObj }) => {
   const [isSaving, isSetSaving] = useState(false);
   const [displayName, setDisplayName] = useState(data?.displayName || "");
 
-  // Add debug logging
-  console.log("=== TrainingMod Debug ===");
-  console.log("formType:", formType);
-  console.log("data.formType:", data.formType);
-  console.log('Match with "First aid CPR Training"?', data.formType === "First aid CPR Training");
-  console.log("rows:", rows);
 
-  // === ALL CHECKS ===
-  console.log("data.formType value:", data.formType);
-  console.log("Checking variations:");
-  console.log('  "First Aid CPR Training":', data.formType === "First Aid CPR Training");
-  console.log('  "First aid CPR Training":', data.formType === "First aid CPR Training");
-  console.log('  "first aid CPR Training":', data.formType === "first aid CPR Training");
-  console.log('  "first aid cpr training":', data.formType === "first aid cpr training");
-  console.log("Character codes:", Array.from(data.formType).map(c => c.charCodeAt(0)));
 
   const handleFieldInput = (e) => {
     const acc = { ...rows };
