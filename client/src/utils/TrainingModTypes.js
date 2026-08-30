@@ -5,32 +5,7 @@ export const TRAINING_MOD_TYPES = [
   { apiPath: "annualTrainingMod", formType: "Annual Training", rowCount: 32 },
 ];
 
-export const getTrainingModType = (formType) => {
-  switch (formType) {
-    case "First aid CPR Training":
-      return {
-        apiPath: "firstAidCprTrainingMod",
-        rowCount: 1, // Default row count, but will grow dynamically
-      };
-    case "Orientation Training":
-      return {
-        apiPath: "orientationTrainingMod",
-        rowCount: 14,
-      };
-    case "Pre Service Training":
-      return {
-        apiPath: "preServiceTrainingMod",
-        rowCount: 6,
-      };
-    case "Annual Training":
-      return {
-        apiPath: "annualTrainingMod",
-        rowCount: 15,
-      };
-    default:
-      return {
-        apiPath: "trainingMod",
-        rowCount: 1,
-      };
-  }
-};
+
+export const getTrainingModType = (formType) =>
+   TRAINING_MOD_TYPES.find((type) => type.formType === formType) ||
+   TRAINING_MOD_TYPES[0];

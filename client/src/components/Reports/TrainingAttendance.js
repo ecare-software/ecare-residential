@@ -169,7 +169,7 @@ export class TrainingAttendance extends Component {
   loadAttendanceSheets = async () => {
     try {
       this.setState({ isLoading: true });
-      const response = await Axios.get("/api/trainingAttendance");
+      const response = await Axios.get(`/api/trainingAttendance?homeId=${this.props.userObj.homeId}`);
       
       // Sort by date descending (newest first)
       const sortedSheets = response.data.sort((a, b) => 
