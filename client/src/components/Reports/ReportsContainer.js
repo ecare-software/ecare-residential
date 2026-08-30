@@ -3,6 +3,7 @@ import "./ReportsContainer.css";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 import { FormReports } from "./FormReports";
 import { TrainingReports } from "./TrainingReports";
+import { TrainingAttendance } from "./TrainingAttendance";
 
 class ReportsContainer extends Component {
   constructor(props) {
@@ -10,21 +11,28 @@ class ReportsContainer extends Component {
     this.state = {
       showForms: false,
       showTrainings: false,
+      showAttendance: false,
     };
   }
 
   showFormReports = () => {
-    this.setState({ ...this.state, showForms: true, showTrainings: false });
+    this.setState({ showForms: true, showTrainings: false, showAttendance: false });
   };
+
   showTrainingReports = () => {
-    this.setState({ ...this.state, showForms: false, showTrainings: true });
+    this.setState({ showForms: false, showTrainings: true, showAttendance: false });
   };
+
+  showTrainingAttendance = () => {
+    this.setState({ showForms: false, showTrainings: false, showAttendance: true });
+  };
+
   resetReports = () => {
-    this.setState({ ...this.state, showForms: false, showTrainings: false });
+    this.setState({ showForms: false, showTrainings: false, showAttendance: false });
   };
 
   render() {
-    if (!this.state.showForms && !this.state.showTrainings) {
+    if (!this.state.showForms && !this.state.showTrainings && !this.state.showAttendance) {
       return (
         <div style={{ marginTop: "50px" }}>
           <div className="row" style={{ margin: "0px 30px" }}>
@@ -50,24 +58,44 @@ class ReportsContainer extends Component {
                 </div>
               </h2>
               {isAdminUser(this.props.userObj) && (
-                <h2 className="formTitle">
-                  <div
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "space-evenly",
-                    }}
-                  >
-                    <button
-                      className="btn btn-light extraInfoButton"
-                      onClick={() => {
-                        this.showTrainingReports();
+                <>
+                  <h2 className="formTitle">
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "space-evenly",
                       }}
                     >
-                      Internal Trainings
-                    </button>
-                  </div>
-                </h2>
+                      <button
+                        className="btn btn-light extraInfoButton"
+                        onClick={() => {
+                          this.showTrainingReports();
+                        }}
+                      >
+                        Internal Trainings
+                      </button>
+                    </div>
+                  </h2>
+                  <h2 className="formTitle">
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "space-evenly",
+                      }}
+                    >
+                      <button
+                        className="btn btn-light extraInfoButton"
+                        onClick={() => {
+                          this.showTrainingAttendance();
+                        }}
+                      >
+                        Training Attendance
+                      </button>
+                    </div>
+                  </h2>
+                </>
               )}
             </div>
           </div>
@@ -97,6 +125,18 @@ class ReportsContainer extends Component {
               }}
               userObj={this.props.userObj}
               allUsers={this.props.allUsers}
+            />
+          </div>
+        );
+      }
+      if (this.state.showAttendance) {
+        return (
+          <div>
+            <TrainingAttendance
+              resetReports={() => {
+                this.resetReports();
+              }}
+              userObj={this.props.userObj}
             />
           </div>
         );

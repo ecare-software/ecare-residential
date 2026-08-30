@@ -28,7 +28,7 @@ const preServiceTraining = require("./routes/api/preServiceTraining");
 const preServiceTrainingMod = require("./routes/api/preServiceTrainingMod");
 const firstAidCprTraining = require("./routes/api/firstAidCprTraining");
 const firstAidCprTrainingMod = require("./routes/api/firstAidCprTrainingMod");
-const annualTraining = require("./routes/api/AnnualTraining");
+const annualTraining = require("./routes/api/annualTraining");
 const annualTrainingMod = require("./routes/api/AnnualTrainingMod");
 const client = require("./routes/api/client");
 const email = require("./routes/api/email");
@@ -40,6 +40,7 @@ const nightMonitoring = require("./routes/api/nightMonitoring");
 const coinbase = require("./routes/api/coinbase");
 const medication = require("./routes/api/medicationRouter");
 const fosterChecklist = require("./routes/api/fosterChecklist");
+const trainingAttendance = require("./routes/api/trainingAttendance");
 
 
 //user express
@@ -138,6 +139,7 @@ app.use("/api/nightMonitoring", nightMonitoring);
 app.use("/api/coinbase", coinbase);
 app.use("/api/medication", medication);
 app.use("/api/fosterChecklist", fosterChecklist);
+app.use("/api/trainingAttendance", trainingAttendance);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -5,6 +5,7 @@ export const TRAINING_MOD_TYPES = [
   { apiPath: "annualTrainingMod", formType: "Annual Training", rowCount: 32 },
 ];
 
+
 export const getTrainingModType = (formType) =>
-  TRAINING_MOD_TYPES.find((type) => type.formType === formType) ||
-  TRAINING_MOD_TYPES[0];
+   TRAINING_MOD_TYPES.find((type) => type.formType === formType) ||
+   TRAINING_MOD_TYPES[0];

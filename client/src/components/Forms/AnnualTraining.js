@@ -5,6 +5,10 @@ import { Form } from "react-bootstrap";
 import styled from "styled-components";
 import ClipLoader from "react-spinners/ClipLoader";
 
+const FormContainer = styled.div`
+  min-width: 850px;
+`;
+
 const SmallCol = styled.div`
   width: 100px;
   text-align: center;
@@ -454,51 +458,63 @@ class AnnualTraining extends Component {
 
     return (
       <div className="form-group logInInputField d-flex" key={key}>
+        {/* Hours Column - matches SmallCol */}
         <SmallCol className="control-label">
           {this.state.modal?.[`${key}Hours`]}
         </SmallCol>
+        
+        {/* Training Topic Column - matches col */}
         <div className="col text-center">
           <label className="control-label">
             {this.state.modal?.[`${key}Title`]}
           </label>
         </div>
+        
+        {/* Presenter Column - matches col */}
         <div className="col text-center">
           <label className="control-label">
             {this.state.modal?.[`${key}Presenter`]}
           </label>
         </div>
+        
+        {/* Completion Column - matches SmallColRight */}
         <SmallColRight>
           {this.state[key] ? (
-            <div>
-              <p>{`Completed ${new Date(
+            <div style={{ textAlign: "center", width: "100%" }}>
+              <p style={{ margin: "0 0 5px 0" }}>{`Completed ${new Date(
                 this.state[key]
-              ).toLocaleString()}`}</p>
+              ).toLocaleDateString()}`}</p>
               {!this.props.valuesSet && (
                 <a
                   href="javascript:void(0)"
                   onClick={() => {
                     this.clearFieldInput(key);
                   }}
+                  style={{ fontSize: "12px" }}
                 >
                   Clear Completion
                 </a>
               )}
             </div>
           ) : (
-            <Form.Check
-              type="checkbox"
-              id={key}
-              disabled={this.props.valuesSet}
-              className="mb-2 d-flex align-items-center"
-              label={
-                this.props.valuesSet
-                  ? "Not Completed"
-                  : "Mark as completed"
-              }
-              onClick={this.handleFieldInput}
-            />
+            <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+              <Form.Check
+                type="checkbox"
+                id={key}
+                disabled={this.props.valuesSet}
+                className="mb-2"
+                label={
+                  this.props.valuesSet
+                    ? "Not Completed"
+                    : "Mark as completed"
+                }
+                onClick={this.handleFieldInput}
+              />
+            </div>
           )}
         </SmallColRight>
+        
+        {/* Expiration Date Column - matches ExpirationCol */}
         <ExpirationCol>
           {this.props.valuesSet ? (
             <span>{hasExpirationDate || "—"}</span>
@@ -516,6 +532,7 @@ class AnnualTraining extends Component {
                       borderRadius: "4px",
                       border: "1px solid #ccc",
                       width: "100%",
+                      fontSize: "14px",
                     }}
                   />
                   {hasExpirationDate && isEditingExpiration && (
@@ -526,7 +543,7 @@ class AnnualTraining extends Component {
                         padding: "4px 8px",
                         fontSize: "12px",
                         borderRadius: "4px",
-                        border: "1px solid #28a745",
+                        border: "none",
                         backgroundColor: "#28a745",
                         color: "white",
                         cursor: "pointer",
@@ -538,7 +555,7 @@ class AnnualTraining extends Component {
                 </>
               ) : (
                 <>
-                  <span style={{ fontWeight: "bold" }}>{this.state[expirationKey]}</span>
+                  <span style={{ fontWeight: "bold", fontSize: "14px" }}>{this.state[expirationKey]}</span>
                   <button
                     type="button"
                     onClick={() => this.enableExpirationEdit(expirationKey)}
@@ -546,7 +563,7 @@ class AnnualTraining extends Component {
                       padding: "4px 8px",
                       fontSize: "12px",
                       borderRadius: "4px",
-                      border: "1px solid #007bff",
+                      border: "none",
                       backgroundColor: "#007bff",
                       color: "white",
                       cursor: "pointer",
@@ -559,6 +576,8 @@ class AnnualTraining extends Component {
             </div>
           )}
         </ExpirationCol>
+        
+        {/* Certificate Column - matches CertificateCol */}
         <CertificateCol>
           {this.props.valuesSet ? (
             <span>{certificate ? certificate.fileName : "No Certificate"}</span>
@@ -572,11 +591,18 @@ class AnnualTraining extends Component {
                   style={{
                     padding: "4px",
                     fontSize: "12px",
+                    width: "100%",
                   }}
                 />
               ) : (
                 <>
-                  <div style={{ fontSize: "12px", fontWeight: "bold" }}>
+                  <div style={{ 
+                    fontSize: "12px", 
+                    fontWeight: "bold",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}>
                     {certificate.fileName}
                   </div>
                   <div style={{ display: "flex", gap: "5px", justifyContent: "center" }}>
@@ -588,7 +614,7 @@ class AnnualTraining extends Component {
                         padding: "4px 8px",
                         fontSize: "12px",
                         borderRadius: "4px",
-                        border: "1px solid #007bff",
+                        border: "none",
                         backgroundColor: "#007bff",
                         color: "white",
                         textDecoration: "none",
@@ -604,7 +630,7 @@ class AnnualTraining extends Component {
                         padding: "4px 8px",
                         fontSize: "12px",
                         borderRadius: "4px",
-                        border: "1px solid #dc3545",
+                        border: "none",
                         backgroundColor: "#dc3545",
                         color: "white",
                         cursor: "pointer",
@@ -624,7 +650,7 @@ class AnnualTraining extends Component {
 
   render() {
     return (
-      <div className="formComp">
+      <FormContainer className="formComp">
         <div className="formTitleDiv">
           <h2 className="formTitle">
             {this.state.modal?.displayName || "Annual Training"}
@@ -679,7 +705,7 @@ class AnnualTraining extends Component {
             </div>
           </div>
         )}
-      </div>
+      </FormContainer>
     );
   }
 }
