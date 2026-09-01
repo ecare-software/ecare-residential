@@ -50,6 +50,9 @@ class SearchContainer extends Component {
       let { data: clients } = await Axios.get(
         `/api/client/${this.props.userObj.homeId}`
       );
+      clients.sort((a, b) =>
+        (a.childMeta_name || "").localeCompare(b.childMeta_name || "")
+      );
       setTimeout(() => {
         this.setState({
           ...this.state,
@@ -188,7 +191,6 @@ class SearchContainer extends Component {
             <div className="form-group" style={{ margin: "0px 5px" }}>
               <label style={{ margin: "5px" }}>Approval</label>
               <select
-                defaultValue="Any"
                 onChange={this.toggleApproval.bind("")}
                 className="form-control"
                 style={{ width: "100%" }}
