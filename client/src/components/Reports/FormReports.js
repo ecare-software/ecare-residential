@@ -371,11 +371,11 @@ export class FormReports extends Component {
     if (!this.state.isLoading) {
       setTimeout(() => {
         window.print();
-      }, 10000);
+      }, 30000);
 
       setTimeout(() => {
         this.setState({ ...this.state, showFullForms: false, formsToPrint: [] });
-      }, 12000);
+      }, 35000);
     }
   };
 
