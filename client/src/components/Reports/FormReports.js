@@ -47,9 +47,9 @@ const getFilterText = (searchObj) => {
         case "ethnicityA":
           acc.unshift(`Ethnicity - ${searchObj[key].join(", ")}`);
           return acc;
-        case "submittedAfter":
-          acc.unshift(`Submitted After - ${searchObj[key]}`);
-          return acc;
+        // case "submittedAfter":
+        //   acc.unshift(`Submitted After - ${searchObj[key]}`);
+        //   return acc;
         case "submittedBefore":
           searchObj["submittedAfter"]
             ? acc.unshift(` and Before ${searchObj[key]}`)
@@ -68,7 +68,7 @@ const getFilterText = (searchObj) => {
           searchObj[key] !== "null"
             ? searchObj[key] === true || searchObj[key] === "true"
               ? acc.unshift(`Approved Forms`)
-              : acc.unshift(`Not Approved Forms`)
+              : acc.unshift(`Forms That Have Not Been Approved`)
             : acc.unshift(`Both Approved and Non-Approved Forms`);
           return acc;
         default:

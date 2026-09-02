@@ -216,7 +216,7 @@ class FormSubmitterListContainer extends Component {
                         Client
                       </th>
                       <th>
-                        Submitter
+                        Staff
                       </th>
                       {(this.state.formType === "Incident Report" || this.state.formType === "Serious Incident Report" || this.state.formType === "Restraint Report") && (
                         <th>
