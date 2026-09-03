@@ -1,6 +1,9 @@
 @media print {
-  * {
-    page-break-inside: avoid !important; 
+  .form-group,
+  .print-column,
+  .logInInputField,
+  tr {
+    page-break-inside: avoid !important;
     page-break-before: avoid !important;
   }
   .hide-on-print {
@@ -36,7 +39,12 @@
   }
 
   .sigSection {
+    page-break-inside: avoid !important;
     page-break-after: always !important;
+  }
+
+  #sigCanvasDiv {
+    page-break-inside: avoid !important;
   }
 
   #createDate {
@@ -45,9 +53,9 @@
     text-align: left;
     width: 250px
   }
-  
+
   #summary_of_daily_schedule-row {
-    margin-top: -30px;
+    margin-top: 0;
   }
 }
 
