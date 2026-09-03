@@ -29,7 +29,7 @@ const getFilterText = (searchObj) => {
           searchObj["dobAfter"]
             ? acc.unshift(` and Before ${searchObj[key]}`)
             : acc.unshift(`Date of birth Before ${searchObj[key]}`);
-          return;
+          return acc;
         case "ethnicityA":
           acc.unshift(`Ethnicity - ${searchObj[key].join(", ")}`);
           return acc;
