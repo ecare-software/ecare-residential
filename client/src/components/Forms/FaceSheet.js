@@ -18,12 +18,17 @@ class FaceSheet extends Component {
       childMeta_religion: "",
       childMeta_ethnicity: "",
       childMeta_dateOfAdmission: "",
+      childMeta_dischargeDate: "",
+      childMeta_typeOfStay: "",
       childMeta_medicaidNumber: "",
       childMeta_cpsNumber: "",
       childMeta_ssn: "",
       childMeta_caseWorker: "",
       childMeta_caseWorkerPONumber: "",
+      childMeta_referralAgency: "",
+      childMeta_referralDate: "",
       childMeta_levelOfCare: "",
+      childMeta_levelOfCareOther: "",
       childMeta_region: "",
       childMeta_county: "",
       childMeta_streetAddress: "",
@@ -94,12 +99,17 @@ class FaceSheet extends Component {
       childMeta_religion: "",
       childMeta_ethnicity: "",
       childMeta_dateOfAdmission: "",
+      childMeta_dischargeDate: "",
+      childMeta_typeOfStay: "",
       childMeta_medicaidNumber: "",
       childMeta_cpsNumber: "",
       childMeta_ssn: "",
       childMeta_caseWorker: "",
       childMeta_caseWorkerPONumber: "",
+      childMeta_referralAgency: "",
+      childMeta_referralDate: "",
       childMeta_levelOfCare: "",
+      childMeta_levelOfCareOther: "",
       childMeta_region: "",
       childMeta_county: "",
       childMeta_streetAddress: "",
@@ -161,6 +171,10 @@ class FaceSheet extends Component {
       "childMeta_cpsNumber",
       "childMeta_caseWorker",
       "childMeta_caseWorkerPONumber",
+      "childMeta_referralAgency",
+      "childMeta_referralDate",
+      "childMeta_levelOfCareOther",
+      "childMeta_dischargeDate",
       "childMeta_region",
       "childMeta_county",
       "childMeta_streetAddress",
@@ -434,6 +448,33 @@ class FaceSheet extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
+              <label className="control-label">Discharge Date</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_dischargeDate"
+                value={this.state.childMeta_dischargeDate}
+                className="form-control"
+                type="date"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Type of Stay</label>{" "}
+              <Form.Control
+                as="select"
+                onChange={this.handleFieldInput}
+                value={this.state.childMeta_typeOfStay}
+                id="childMeta_typeOfStay"
+              >
+                <option>Emergency</option>
+                <option>24 hour</option>
+                <option>14 days</option>
+                <option>30 days</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
               <label className="control-label">Medicaid Number</label>{" "}
               <input
                 onChange={this.handleFieldInput}
@@ -491,6 +532,28 @@ class FaceSheet extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
+              <label className="control-label">Referral Entity / Agency</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_referralAgency"
+                value={this.state.childMeta_referralAgency}
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Referral Date</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_referralDate"
+                value={this.state.childMeta_referralDate}
+                className="form-control"
+                type="date"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
               <label className="control-label">Level of Care</label>{" "}
               <Form.Control
                 as="select"
@@ -503,8 +566,19 @@ class FaceSheet extends Component {
                 <option>Specialized</option>
                 <option>Intense</option>
                 <option>Intense-plus</option>
+                <option>Other</option>
                 <option value={""}>Choose</option>
               </Form.Control>
+              {this.state.childMeta_levelOfCare === "Other" && (
+                <input
+                  onChange={this.handleFieldInput}
+                  id="childMeta_levelOfCareOther"
+                  value={this.state.childMeta_levelOfCareOther}
+                  className="form-control mt-2"
+                  type="text"
+                  placeholder="Please specify level of care"
+                />
+              )}
             </div>
             <div className="form-group logInInputField">
               {" "}
@@ -865,6 +939,33 @@ class FaceSheet extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
+              <label className="control-label">Discharge Date</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_dischargeDate"
+                value={this.state.childMeta_dischargeDate}
+                className="form-control"
+                type="date"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Type of Stay</label>{" "}
+              <Form.Control
+                as="select"
+                onChange={this.handleFieldInput}
+                value={this.state.childMeta_typeOfStay}
+                id="childMeta_typeOfStay"
+              >
+                <option>Emergency</option>
+                <option>24 hour</option>
+                <option>14 days</option>
+                <option>30 days</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
               <label className="control-label">Medicaid Number</label>{" "}
               <input
                 onChange={this.handleFieldInput}
@@ -922,6 +1023,28 @@ class FaceSheet extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
+              <label className="control-label">Referral Entity / Agency</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_referralAgency"
+                value={this.state.childMeta_referralAgency}
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Referral Date</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_referralDate"
+                value={this.state.childMeta_referralDate}
+                className="form-control"
+                type="date"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
               <label className="control-label">Level of Care</label>{" "}
               <Form.Control
                 as="select"
@@ -934,8 +1057,19 @@ class FaceSheet extends Component {
                 <option>Specialized</option>
                 <option>Intense</option>
                 <option>Intense-plus</option>
+                <option>Other</option>
                 <option value={""}>Choose</option>
               </Form.Control>
+              {this.state.childMeta_levelOfCare === "Other" && (
+                <input
+                  onChange={this.handleFieldInput}
+                  id="childMeta_levelOfCareOther"
+                  value={this.state.childMeta_levelOfCareOther}
+                  className="form-control mt-2"
+                  type="text"
+                  placeholder="Please specify level of care"
+                />
+              )}
             </div>
             <div className="form-group logInInputField">
               {" "}
