@@ -253,9 +253,10 @@ class App extends Component {
   };
 
 
-  appendMessage = async (message) => {
+  appendMessage = async (message, image) => {
     let newMessage = {
       message: message,
+      image: image,
       firstName: this.state.userObj.firstName,
       middleName: this.state.userObj.middleName,
       lastName: this.state.userObj.lastName,
@@ -267,7 +268,7 @@ class App extends Component {
       await Axios.post('/api/discussionMessages', newMessage);
       this.loadMessage(this.state.userObj);
     } catch (e) {
-      alert('Error loading messages');
+      alert(e.response?.data?.message || 'Error loading messages');
       console.log(e);
     }
   };

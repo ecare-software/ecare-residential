@@ -14,14 +14,37 @@ class MessagePost extends Component {
     this.props.doRemoveMessage(this.props.messageObj._id);
   };
 
+  isNew = () => {
+    const { messageObj, userObj, lastViewedBefore } = this.props;
+    if (!lastViewedBefore) return false;
+    if (messageObj.id === userObj?._id) return false;
+    return new Date(messageObj.date) > new Date(lastViewedBefore);
+  };
+
   render() {
     return (
       <div className="MessagePost">
         <div className="MessagePostMeta">
-          <div style={{ display: "flex" }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             <span className="mainFont MessagePostUser">
               {this.props.messageObj.firstName} {this.props.messageObj.lastName}
             </span>
+            {this.isNew() && (
+              <span
+                style={{
+                  backgroundColor: "maroon",
+                  color: "white",
+                  fontSize: "10px",
+                  fontWeight: "bold",
+                  letterSpacing: "0.5px",
+                  borderRadius: "4px",
+                  padding: "2px 6px",
+                  marginLeft: "8px",
+                }}
+              >
+                NEW
+              </span>
+            )}
             {isAdminUser(this.props.userObj) && (
               <button
                 style={{ marginLeft: "auto" }}
@@ -44,6 +67,19 @@ class MessagePost extends Component {
         </div>
         <div className="MessagePostTextDiv">
           <p>{this.props.children}</p>
+          {this.props.messageObj.image && (
+            <img
+              src={this.props.messageObj.image}
+              alt="Attachment"
+              style={{
+                maxWidth: "100%",
+                maxHeight: "300px",
+                borderRadius: "9px",
+                display: "block",
+                marginTop: "8px",
+              }}
+            />
+          )}
         </div>
       </div>
     );
