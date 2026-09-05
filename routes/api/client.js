@@ -1,3 +1,4 @@
+
 const express = require("express");
 const router = express.Router();
 
@@ -63,6 +64,15 @@ const isActiveOnlyToggle = (req) => {
 // as the un-role-gated button in Clients.js), not from being logged in at
 // all. Skipping auth entirely for the toggle would let a fully anonymous,
 // unauthenticated caller flip active/inactive on any record.
+//
+// Also requires the authenticated user's own homeId (looked up fresh, not
+// client-supplied) to match the home this request claims to act on -
+// req.params.homeId for PUT, req.body.homeId for POST. Neither the URL nor
+// the body's homeId is trusted by itself: the actual DB query in each route
+// handler below scopes by req.authUser.homeId (set here), not by the
+// client-supplied value, so a record belonging to a different home can
+// never be read or written even if this check were somehow satisfied with
+// a mismatched claim.
 const requireFaceSheetEditAccess = async (req, res, next) => {
   const decoded = verifyAuthToken(req.cookies?.authToken);
   if (!decoded) {
@@ -71,18 +81,27 @@ const requireFaceSheetEditAccess = async (req, res, next) => {
       .json({ success: false, message: "Not authenticated" });
   }
 
-  if (isActiveOnlyToggle(req)) {
-    return next();
-  }
-
   try {
     const user = await User.findOne({ email: decoded.email });
-    if (!user || !FACESHEET_EDIT_ROLES.includes(user.jobTitle)) {
+    const claimedHomeId = req.params.homeId || req.body.homeId;
+    if (!user || !claimedHomeId || claimedHomeId !== user.homeId) {
+      return res.status(403).json({
+        success: false,
+        message: "You do not have permission to modify this Face Sheet",
+      });
+    }
+
+    if (
+      !isActiveOnlyToggle(req) &&
+      !FACESHEET_EDIT_ROLES.includes(user.jobTitle)
+    ) {
       return res.status(403).json({
         success: false,
         message: "You do not have permission to edit the Face Sheet",
       });
     }
+
+    req.authUser = user;
     next();
   } catch (e) {
     res
@@ -219,12 +238,23 @@ router.put(
   validateFaceSheetFields,
   (req, res) => {
     const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
-    Client.updateOne({ _id: req.params.id }, updatedLastEditDate)
+    // Never let a record change which home owns it via this route.
+    delete updatedLastEditDate.homeId;
+    Client.updateOne(
+      { _id: req.params.id, homeId: req.authUser.homeId },
+      updatedLastEditDate
+    )
       .then((data) => {
+        if (!data.n) {
+          return res
+            .status(404)
+            .json({ success: false, message: "Client not found" });
+        }
         res.json(data);
       })
       .catch((e) => {
         console.log(e);
+        res.status(500).json({ success: false });
       });
   }
 );
@@ -237,9 +267,14 @@ router.delete("/:homeId/:id/", async (req, res) => {
       .json({ success: false, message: "Not authenticated" });
   }
 
+  let user;
   try {
-    const user = await User.findOne({ email: decoded.email });
-    if (!user || !FACESHEET_EDIT_ROLES.includes(user.jobTitle)) {
+    user = await User.findOne({ email: decoded.email });
+    if (
+      !user ||
+      req.params.homeId !== user.homeId ||
+      !FACESHEET_EDIT_ROLES.includes(user.jobTitle)
+    ) {
       return res.status(403).json({
         success: false,
         message: "You do not have permission to delete this Face Sheet",
@@ -251,12 +286,20 @@ router.delete("/:homeId/:id/", async (req, res) => {
       .json({ success: false, message: "Error verifying permissions" });
   }
 
-  Client.deleteOne({ _id: req.params.id })
+  // Scope by the verified user's own homeId, not the client-supplied URL
+  // param, so a record belonging to a different home can never be deleted.
+  Client.deleteOne({ _id: req.params.id, homeId: user.homeId })
     .then((data) => {
+      if (!data.deletedCount) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Client not found" });
+      }
       res.json(data);
     })
     .catch((e) => {
       console.log(e);
+      res.status(500).json({ success: false });
     });
 });
 
