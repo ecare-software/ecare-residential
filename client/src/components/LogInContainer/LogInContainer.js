@@ -62,8 +62,9 @@ class LogInContainer extends Component {
         });
     } else {
       Axios({
-        method: "get",
-        url: "/api/users/" + this.state.email + "/" + this.state.password,
+        method: "post",
+        url: "/api/users/login",
+        data: { email: this.state.email, password: this.state.password },
       })
         .then(function (response) {
           // handle success

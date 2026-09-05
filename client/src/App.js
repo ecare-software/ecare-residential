@@ -187,8 +187,9 @@ class App extends Component {
           loggedIn: loggedIn,
         });
         const { data: updatedUserData } = await Axios({
-          method: 'get',
-          url: '/api/users/' + userObj.email + '/' + userObj.password,
+          method: 'post',
+          url: '/api/users/login',
+          data: { email: userObj.email, password: userObj.password },
         });
         await this.setState({
           userObj: updatedUserData,
