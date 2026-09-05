@@ -27,6 +27,12 @@ const ClientSchema = new Schema({
   childMeta_dateOfAdmission: {
     type: String,
   },
+  childMeta_dischargeDate: {
+    type: String,
+  },
+  childMeta_typeOfStay: {
+    type: String,
+  },
   childMeta_medicaidNumber: {
     type: String,
   },
@@ -42,7 +48,16 @@ const ClientSchema = new Schema({
   childMeta_caseWorkerPONumber: {
     type: String,
   },
+  childMeta_referralAgency: {
+    type: String,
+  },
+  childMeta_referralDate: {
+    type: String,
+  },
   childMeta_levelOfCare: {
+    type: String,
+  },
+  childMeta_levelOfCareOther: {
     type: String,
   },
   childMeta_region: {
@@ -78,11 +93,23 @@ const ClientSchema = new Schema({
   food1: {
     type: String,
   },
+  noFoodAllergies: {
+    type: Boolean,
+    default: false,
+  },
   drugAllergies: {
     type: String,
   },
+  noDrugAllergies: {
+    type: Boolean,
+    default: false,
+  },
   allergies: {
     type: String,
+  },
+  noKnownAllergies: {
+    type: Boolean,
+    default: false,
   },
   chronicHealthConditions: {
     type: String,

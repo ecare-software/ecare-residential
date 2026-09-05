@@ -40,6 +40,10 @@ import NightMonitoring from './components/Forms/NightMonitoring';
 import DailyProgressTwo from './components/Forms/DailyProgressTwo';
 import MedicationLog from './components/Forms/MedicationLog';
 
+// Ensures the httpOnly authToken cookie (set by routes/api/users.js on
+// login) round-trips on every request, regardless of dev-proxy vs.
+// production topology.
+Axios.defaults.withCredentials = true;
 
 const hideStyle = {
   display: 'none',
@@ -308,6 +312,8 @@ class App extends Component {
     });
     cookies.remove('loggedIn', { path: '/' });
     cookies.remove('userObj', { path: '/' });
+    // JS can't clear the httpOnly authToken cookie itself - ask the server to.
+    Axios.post('/api/users/logout').catch((e) => console.log(e));
     window.scrollTo(0, 0);
   };
 

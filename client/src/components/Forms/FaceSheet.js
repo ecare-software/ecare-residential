@@ -149,9 +149,9 @@ class FaceSheet extends Component {
 
   submit = () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
-    // identifies who is making the request, so the backend can verify
-    // Face Sheet edit permission (see routes/api/client.js)
-    currentState.actingUserEmail = this.props.userObj?.email;
+    // Edit permission is enforced server-side (requireFaceSheetEditAccess
+    // in routes/api/client.js) via the httpOnly authToken cookie set at
+    // login - no identity needs to be attached to the request here.
     if (this.props.valuesSet) {
       Axios.put(
         `/api/client/${this.state.homeId}/${this.state._id}`,
@@ -259,10 +259,10 @@ class FaceSheet extends Component {
 
   handleDelete = () => {
     if (window.confirm("Are you sure you want to delete this face sheet? This cannot be undone.")) {
+      // Delete permission is enforced server-side via the httpOnly
+      // authToken cookie set at login - see submit()'s comment above.
       Axios.delete(
-        `/api/client/${this.state.homeId}/${this.state._id}?actingUserEmail=${encodeURIComponent(
-          this.props.userObj?.email || ""
-        )}`
+        `/api/client/${this.state.homeId}/${this.state._id}`
       )
         .then(() => {
           alert("Face sheet deleted successfully");

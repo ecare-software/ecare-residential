@@ -75,10 +75,15 @@ class MessageBoard extends Component {
   };
 
   getLastViewedTimestamp = () => {
+    // Fall back to "now" (not null) when there's no stored value yet -
+    // e.g. this user's first-ever visit. Falling back to null would suppress
+    // every "NEW" badge for the rest of this session, including messages
+    // posted by others while this person is actively viewing the board -
+    // only messages from *before* this visit should be excluded.
     try {
-      return localStorage.getItem(this.getLastViewedStorageKey());
+      return localStorage.getItem(this.getLastViewedStorageKey()) || new Date().toISOString();
     } catch (e) {
-      return null;
+      return new Date().toISOString();
     }
   };
 
