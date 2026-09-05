@@ -644,7 +644,7 @@ class NavBar extends React.Component {
                   style={navItemStyle}
                 >
                   Reports{" "}
-                  {this.props.appState.nonApprovedFormCountSet && (
+                  {/* {this.props.appState.nonApprovedFormCountSet && (
                     <span
                       style={{
                         backgroundColor: "white",
@@ -656,7 +656,7 @@ class NavBar extends React.Component {
                     >
                       {formContext.count}
                     </span>
-                  )}
+                  )} */}
                 </Nav.Link>
 
                 {isAdminUser(this.props.userObj) && (

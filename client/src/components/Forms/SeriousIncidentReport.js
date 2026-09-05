@@ -330,6 +330,10 @@ class SeriousIncidentReport extends Component {
         return !client.hasOwnProperty("active") || client.active === true;
       });
 
+      clients.sort((a, b) =>
+        (a.childMeta_name || "").localeCompare(b.childMeta_name || "")
+      );
+
       setTimeout(() => {
         this.setState({
           ...this.state,

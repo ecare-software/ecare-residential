@@ -5,6 +5,7 @@ import FormActionButtons from "../Common/FormActionButtons";
 import { Form, Col } from "react-bootstrap";
 import "../../App.css";
 import Axios from "axios";
+import { canEditFaceSheet } from "../../utils/FaceSheetEditRoles";
 
 class FaceSheet extends Component {
   constructor(props) {
@@ -18,12 +19,17 @@ class FaceSheet extends Component {
       childMeta_religion: "",
       childMeta_ethnicity: "",
       childMeta_dateOfAdmission: "",
+      childMeta_dischargeDate: "",
+      childMeta_typeOfStay: "",
       childMeta_medicaidNumber: "",
       childMeta_cpsNumber: "",
       childMeta_ssn: "",
       childMeta_caseWorker: "",
       childMeta_caseWorkerPONumber: "",
+      childMeta_referralAgency: "",
+      childMeta_referralDate: "",
       childMeta_levelOfCare: "",
+      childMeta_levelOfCareOther: "",
       childMeta_region: "",
       childMeta_county: "",
       childMeta_streetAddress: "",
@@ -35,8 +41,11 @@ class FaceSheet extends Component {
       childMeta_placeOfBirth_city: "",
       childMeta_placeOfBirth_zipcode: "",
       food1: "",
+      noFoodAllergies: false,
       drugAllergies: "",
+      noDrugAllergies: false,
       allergies: "",
+      noKnownAllergies: false,
       chronicHealthConditions: "",
 
       createdBy: this.props.valuesSet === true ? "" : this.props.userObj.email,
@@ -83,7 +92,20 @@ class FaceSheet extends Component {
     }
     this.setState(stateObj);
   };
-  
+
+  handleNoAllergiesToggle = (event) => {
+    const { id, checked } = event.target;
+    const textFieldByCheckboxId = {
+      noFoodAllergies: "food1",
+      noDrugAllergies: "drugAllergies",
+      noKnownAllergies: "allergies",
+    };
+    this.setState({
+      [id]: checked,
+      ...(checked ? { [textFieldByCheckboxId[id]]: "" } : {}),
+    });
+  };
+
   resetForm = () => {
     this.setState({
       childMeta_photo: "",
@@ -94,12 +116,17 @@ class FaceSheet extends Component {
       childMeta_religion: "",
       childMeta_ethnicity: "",
       childMeta_dateOfAdmission: "",
+      childMeta_dischargeDate: "",
+      childMeta_typeOfStay: "",
       childMeta_medicaidNumber: "",
       childMeta_cpsNumber: "",
       childMeta_ssn: "",
       childMeta_caseWorker: "",
       childMeta_caseWorkerPONumber: "",
+      childMeta_referralAgency: "",
+      childMeta_referralDate: "",
       childMeta_levelOfCare: "",
+      childMeta_levelOfCareOther: "",
       childMeta_region: "",
       childMeta_county: "",
       childMeta_streetAddress: "",
@@ -111,14 +138,20 @@ class FaceSheet extends Component {
       childMeta_placeOfBirth_city: "",
       childMeta_placeOfBirth_zipcode: "",
       food1: "",
+      noFoodAllergies: false,
       drugAllergies: "",
+      noDrugAllergies: false,
       allergies: "",
+      noKnownAllergies: false,
       chronicHealthConditions: "",
     });
   };
 
   submit = () => {
     let currentState = JSON.parse(JSON.stringify(this.state));
+    // Edit permission is enforced server-side (requireFaceSheetEditAccess
+    // in routes/api/client.js) via the httpOnly authToken cookie set at
+    // login - no identity needs to be attached to the request here.
     if (this.props.valuesSet) {
       Axios.put(
         `/api/client/${this.state.homeId}/${this.state._id}`,
@@ -132,7 +165,8 @@ class FaceSheet extends Component {
         .catch((e) => {
           this.setState({
             formHasError: true,
-            formErrorMessage: "Error Submitting Face Sheet",
+            formErrorMessage:
+              e.response?.data?.message || "Error Submitting Face Sheet",
           });
         });
     } else {
@@ -146,71 +180,51 @@ class FaceSheet extends Component {
         .catch((e) => {
           this.setState({
             formHasError: true,
-            formErrorMessage: "Error Submitting Face Sheet",
+            formErrorMessage:
+              e.response?.data?.message || "Error Submitting Face Sheet",
           });
         });
     }
   };
 
   validateForm = () => {
-    var keysToExclude = [
-      "formHasError",
-      "formSubmitted",
-      "formErrorMessage",
-      "childMeta_medicaidNumber",
-      "childMeta_cpsNumber",
-      "childMeta_caseWorker",
-      "childMeta_caseWorkerPONumber",
-      "childMeta_region",
-      "childMeta_county",
-      "childMeta_streetAddress",
-      "childMeta_state",
-      "childMeta_city",
-      "childMeta_zipcode",
-      "childMeta_placeOfBirth_streetAddress",
-      "childMeta_placeOfBirth_state",
-      "childMeta_placeOfBirth_city",
-      "childMeta_placeOfBirth_zipcode",
-      "food1",
-      "drugAllergies",
-      "allergies",
-      "chronicHealthConditions",
-      "childMeta_religion",
+    const requiredFields = [
+      { key: "childMeta_name", label: "Child's Name" },
+      { key: "childMeta_dob", label: "Date of Birth" },
+      { key: "childMeta_dateOfAdmission", label: "Date of Admission" },
+      { key: "childMeta_caseWorker", label: "Case Worker Name" },
     ];
 
-    //resubmit fields
-    keysToExclude = [
-      ...keysToExclude,
-      "__v",
-      "approved",
-      "approvedBy",
-      "approvedByDate",
-      "approvedByName",
-    ];
+    const errorFields = requiredFields
+      .filter(
+        ({ key }) =>
+          !this.state[key] || /^\s+$/.test(this.state[key])
+      )
+      .map(({ label }) => label);
 
-    var isValid = true;
-    var errorFields = [];
+    // allergy fields: satisfied by either the "none known" checkbox or free text
+    if (!this.state.noFoodAllergies && !this.state.food1.trim()) {
+      errorFields.push(
+        "Food Allergies (enter allergies or check 'No known food allergies')"
+      );
+    }
+    if (!this.state.noDrugAllergies && !this.state.drugAllergies.trim()) {
+      errorFields.push(
+        "Medicine Allergies (enter allergies or check 'No known drug allergies')"
+      );
+    }
+    if (!this.state.noKnownAllergies && !this.state.allergies.trim()) {
+      errorFields.push(
+        "Other Allergies (enter allergies or check 'No known allergies')"
+      );
+    }
 
-    /*Object.keys(this.state).forEach((key) => {
-      if (!keysToExclude.includes(key)) {
-        if (
-          !this.state[key] ||
-          /^\s+$/.test(this.state[key]) ||
-          this.state[key].length < 1
-        ) {
-          errorFields.push("\n" + key);
-          isValid = false;
-        }
-      }
-    });
-*/
-
-    if (!isValid) {
+    if (errorFields.length > 0) {
       this.setState({
         formHasError: true,
-        formErrorMessage: `Please complete the following field(s): ${errorFields
-          .toString()
-          .replace(/,/g, "\n")}`,
+        formErrorMessage: `Please complete the following field(s): ${errorFields.join(
+          "\n"
+        )}`,
       });
       return;
     }
@@ -245,7 +259,11 @@ class FaceSheet extends Component {
 
   handleDelete = () => {
     if (window.confirm("Are you sure you want to delete this face sheet? This cannot be undone.")) {
-      Axios.delete(`/api/client/${this.state.homeId}/${this.state._id}`)
+      // Delete permission is enforced server-side via the httpOnly
+      // authToken cookie set at login - see submit()'s comment above.
+      Axios.delete(
+        `/api/client/${this.state.homeId}/${this.state._id}`
+      )
         .then(() => {
           alert("Face sheet deleted successfully");
           // Navigate back or refresh the list
@@ -253,12 +271,13 @@ class FaceSheet extends Component {
         })
         .catch((e) => {
           console.error(e);
-          alert("Error deleting face sheet");
+          alert(e.response?.data?.message || "Error deleting face sheet");
         });
     }
   };
 
   render() {
+    const canEdit = canEditFaceSheet(this.props.userObj);
     if (!this.props.valuesSet) {
       return (
         <div className="formComp">
@@ -285,6 +304,16 @@ class FaceSheet extends Component {
             <h2 className="formTitle">Face Sheet</h2>
           </div>
           <div className="formFieldsMobile">
+            {!canEdit && (
+              <p style={{ color: "maroon", fontStyle: "italic" }}>
+                Your role does not have permission to edit the Face Sheet.
+                Viewing in read-only mode.
+              </p>
+            )}
+            <fieldset
+              disabled={!canEdit}
+              style={{ border: "none", margin: 0, padding: 0 }}
+            >
             <div className="form-group logInInputField" style={{display:"flex", flexDirection:"column"}}>
               <label className="control-label">Upload Child Photo</label>
                <button
@@ -345,7 +374,9 @@ class FaceSheet extends Component {
             )}
             <div className="form-group logInInputField">
               {" "}
-              <label className="control-label">Name</label>{" "}
+              <label className="control-label">
+                Name <span style={{ color: "red" }}>*</span>
+              </label>{" "}
               <input
                 onChange={this.handleFieldInput}
                 id="childMeta_name"
@@ -371,7 +402,9 @@ class FaceSheet extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
-              <label className="control-label">Date of Birth</label>{" "}
+              <label className="control-label">
+                Date of Birth <span style={{ color: "red" }}>*</span>
+              </label>{" "}
               <input
                 onChange={this.handleFieldInput}
                 id="childMeta_dob"
@@ -423,7 +456,9 @@ class FaceSheet extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
-              <label className="control-label">Date of Admission</label>{" "}
+              <label className="control-label">
+                Date of Admission <span style={{ color: "red" }}>*</span>
+              </label>{" "}
               <input
                 onChange={this.handleFieldInput}
                 id="childMeta_dateOfAdmission"
@@ -431,6 +466,33 @@ class FaceSheet extends Component {
                 className="form-control"
                 type="date"
               />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Discharge Date</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_dischargeDate"
+                value={this.state.childMeta_dischargeDate}
+                className="form-control"
+                type="date"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Type of Stay</label>{" "}
+              <Form.Control
+                as="select"
+                onChange={this.handleFieldInput}
+                value={this.state.childMeta_typeOfStay}
+                id="childMeta_typeOfStay"
+              >
+                <option>Emergency</option>
+                <option>24 hour</option>
+                <option>14 days</option>
+                <option>30 days</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
             <div className="form-group logInInputField">
               {" "}
@@ -467,7 +529,9 @@ class FaceSheet extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
-              <label className="control-label">Case Worker Name</label>{" "}
+              <label className="control-label">
+                Case Worker Name <span style={{ color: "red" }}>*</span>
+              </label>{" "}
               <input
                 onChange={this.handleFieldInput}
                 id="childMeta_caseWorker"
@@ -491,6 +555,28 @@ class FaceSheet extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
+              <label className="control-label">Referral Entity / Agency</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_referralAgency"
+                value={this.state.childMeta_referralAgency}
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Referral Date</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_referralDate"
+                value={this.state.childMeta_referralDate}
+                className="form-control"
+                type="date"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
               <label className="control-label">Level of Care</label>{" "}
               <Form.Control
                 as="select"
@@ -503,8 +589,19 @@ class FaceSheet extends Component {
                 <option>Specialized</option>
                 <option>Intense</option>
                 <option>Intense-plus</option>
+                <option>Other</option>
                 <option value={""}>Choose</option>
               </Form.Control>
+              {this.state.childMeta_levelOfCare === "Other" && (
+                <input
+                  onChange={this.handleFieldInput}
+                  id="childMeta_levelOfCareOther"
+                  value={this.state.childMeta_levelOfCareOther}
+                  className="form-control mt-2"
+                  type="text"
+                  placeholder="Please specify level of care"
+                />
+              )}
             </div>
             <div className="form-group logInInputField">
               {" "}
@@ -626,36 +723,69 @@ class FaceSheet extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
-              <label className="control-label">Food Allergies</label>{" "}
+              <label className="control-label">
+                Food Allergies <span style={{ color: "red" }}>*</span>
+              </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
                 id="food1"
                 value={this.state.food1}
                 className="form-control"
                 type="text"
+                disabled={this.state.noFoodAllergies}
               ></textarea>
+              <Form.Check
+                type="checkbox"
+                id="noFoodAllergies"
+                label="No known food allergies"
+                checked={this.state.noFoodAllergies}
+                onChange={this.handleNoAllergiesToggle}
+                className="mt-1 d-flex align-items-center"
+              />
             </div>
             <div className="form-group logInInputField">
               {" "}
-              <label className="control-label">Medicine Allergies</label>{" "}
+              <label className="control-label">
+                Medicine Allergies <span style={{ color: "red" }}>*</span>
+              </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
                 id="drugAllergies"
                 value={this.state.drugAllergies}
                 className="form-control"
                 type="text"
+                disabled={this.state.noDrugAllergies}
               ></textarea>
+              <Form.Check
+                type="checkbox"
+                id="noDrugAllergies"
+                label="No known drug allergies"
+                checked={this.state.noDrugAllergies}
+                onChange={this.handleNoAllergiesToggle}
+                className="mt-1 d-flex align-items-center"
+              />
             </div>
             <div className="form-group logInInputField">
               {" "}
-              <label className="control-label">Other Allergies</label>{" "}
+              <label className="control-label">
+                Other Allergies <span style={{ color: "red" }}>*</span>
+              </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
                 id="allergies"
                 value={this.state.allergies}
                 className="form-control"
                 type="text"
+                disabled={this.state.noKnownAllergies}
               ></textarea>
+              <Form.Check
+                type="checkbox"
+                id="noKnownAllergies"
+                label="No known allergies"
+                checked={this.state.noKnownAllergies}
+                onChange={this.handleNoAllergiesToggle}
+                className="mt-1 d-flex align-items-center"
+              />
             </div>
             <div className="form-group logInInputField">
               {" "}
@@ -678,6 +808,7 @@ class FaceSheet extends Component {
                 Submit
               </button>
             </div>
+            </fieldset>
           </div>
         </div>
       );
@@ -717,6 +848,16 @@ class FaceSheet extends Component {
             <h2 className="formTitle">Face Sheet</h2>
           </div>
           <div className="formFieldsMobileReport">
+            {!canEdit && (
+              <p style={{ color: "maroon", fontStyle: "italic" }}>
+                Your role does not have permission to edit the Face Sheet.
+                Viewing in read-only mode.
+              </p>
+            )}
+            <fieldset
+              disabled={!canEdit}
+              style={{ border: "none", margin: 0, padding: 0 }}
+            >
             <div className="form-group logInInputField" style={{ display: "flex", flexDirection: "column", }}>
               <label className="control-label">Upload Child Photo</label>
               <button
@@ -776,7 +917,9 @@ class FaceSheet extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
-              <label className="control-label">Name</label>{" "}
+              <label className="control-label">
+                Name <span style={{ color: "red" }}>*</span>
+              </label>{" "}
               <input
                 onChange={this.handleFieldInput}
                 id="childMeta_name"
@@ -802,7 +945,9 @@ class FaceSheet extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
-              <label className="control-label">Date of Birth</label>{" "}
+              <label className="control-label">
+                Date of Birth <span style={{ color: "red" }}>*</span>
+              </label>{" "}
               <input
                 onChange={this.handleFieldInput}
                 id="childMeta_dob"
@@ -854,7 +999,9 @@ class FaceSheet extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
-              <label className="control-label">Date of Admission</label>{" "}
+              <label className="control-label">
+                Date of Admission <span style={{ color: "red" }}>*</span>
+              </label>{" "}
               <input
                 onChange={this.handleFieldInput}
                 id="childMeta_dateOfAdmission"
@@ -862,6 +1009,33 @@ class FaceSheet extends Component {
                 className="form-control"
                 type="date"
               />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Discharge Date</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_dischargeDate"
+                value={this.state.childMeta_dischargeDate}
+                className="form-control"
+                type="date"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Type of Stay</label>{" "}
+              <Form.Control
+                as="select"
+                onChange={this.handleFieldInput}
+                value={this.state.childMeta_typeOfStay}
+                id="childMeta_typeOfStay"
+              >
+                <option>Emergency</option>
+                <option>24 hour</option>
+                <option>14 days</option>
+                <option>30 days</option>
+                <option value={""}>Choose</option>
+              </Form.Control>
             </div>
             <div className="form-group logInInputField">
               {" "}
@@ -898,7 +1072,9 @@ class FaceSheet extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
-              <label className="control-label">Case Worker Name</label>{" "}
+              <label className="control-label">
+                Case Worker Name <span style={{ color: "red" }}>*</span>
+              </label>{" "}
               <input
                 onChange={this.handleFieldInput}
                 id="childMeta_caseWorker"
@@ -922,6 +1098,28 @@ class FaceSheet extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
+              <label className="control-label">Referral Entity / Agency</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_referralAgency"
+                value={this.state.childMeta_referralAgency}
+                className="form-control"
+                type="text"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
+              <label className="control-label">Referral Date</label>{" "}
+              <input
+                onChange={this.handleFieldInput}
+                id="childMeta_referralDate"
+                value={this.state.childMeta_referralDate}
+                className="form-control"
+                type="date"
+              />{" "}
+            </div>
+            <div className="form-group logInInputField">
+              {" "}
               <label className="control-label">Level of Care</label>{" "}
               <Form.Control
                 as="select"
@@ -934,8 +1132,19 @@ class FaceSheet extends Component {
                 <option>Specialized</option>
                 <option>Intense</option>
                 <option>Intense-plus</option>
+                <option>Other</option>
                 <option value={""}>Choose</option>
               </Form.Control>
+              {this.state.childMeta_levelOfCare === "Other" && (
+                <input
+                  onChange={this.handleFieldInput}
+                  id="childMeta_levelOfCareOther"
+                  value={this.state.childMeta_levelOfCareOther}
+                  className="form-control mt-2"
+                  type="text"
+                  placeholder="Please specify level of care"
+                />
+              )}
             </div>
             <div className="form-group logInInputField">
               {" "}
@@ -1057,36 +1266,69 @@ class FaceSheet extends Component {
             </div>
             <div className="form-group logInInputField">
               {" "}
-              <label className="control-label">Food Allergies</label>{" "}
+              <label className="control-label">
+                Food Allergies <span style={{ color: "red" }}>*</span>
+              </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
                 id="food1"
                 value={this.state.food1}
                 className="form-control"
                 type="text"
+                disabled={this.state.noFoodAllergies}
               ></textarea>
+              <Form.Check
+                type="checkbox"
+                id="noFoodAllergies"
+                label="No known food allergies"
+                checked={this.state.noFoodAllergies}
+                onChange={this.handleNoAllergiesToggle}
+                className="mt-1 d-flex align-items-center"
+              />
             </div>
             <div className="form-group logInInputField">
               {" "}
-              <label className="control-label">Medicine Allergies</label>{" "}
+              <label className="control-label">
+                Medicine Allergies <span style={{ color: "red" }}>*</span>
+              </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
                 id="drugAllergies"
                 value={this.state.drugAllergies}
                 className="form-control"
                 type="text"
+                disabled={this.state.noDrugAllergies}
               ></textarea>
+              <Form.Check
+                type="checkbox"
+                id="noDrugAllergies"
+                label="No known drug allergies"
+                checked={this.state.noDrugAllergies}
+                onChange={this.handleNoAllergiesToggle}
+                className="mt-1 d-flex align-items-center"
+              />
             </div>
             <div className="form-group logInInputField">
               {" "}
-              <label className="control-label">Other Allergies</label>{" "}
+              <label className="control-label">
+                Other Allergies <span style={{ color: "red" }}>*</span>
+              </label>{" "}
               <textarea
                 onChange={this.handleFieldInput}
                 id="allergies"
                 value={this.state.allergies}
                 className="form-control"
                 type="text"
+                disabled={this.state.noKnownAllergies}
               ></textarea>
+              <Form.Check
+                type="checkbox"
+                id="noKnownAllergies"
+                label="No known allergies"
+                checked={this.state.noKnownAllergies}
+                onChange={this.handleNoAllergiesToggle}
+                className="mt-1 d-flex align-items-center"
+              />
             </div>
             <div className="form-group logInInputField">
               {" "}
@@ -1113,6 +1355,7 @@ class FaceSheet extends Component {
                 </div>
               </>
             )}
+            </fieldset>
           </div>
         </div>
       );

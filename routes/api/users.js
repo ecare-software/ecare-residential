@@ -3,6 +3,7 @@ const router = express.Router();
 
 // user model
 const User = require("../../models/User");
+const { signAuthToken } = require("../../utils/authToken");
 
 // @route   GET api/items
 // @desc    GET all items
@@ -39,9 +40,24 @@ router.get("/:email/:password", (req, res) => {
     { new: true }
   )
     .then((user) => {
+      if (user) {
+        const token = signAuthToken({ email: user.email });
+        res.cookie("authToken", token, {
+          httpOnly: true,
+          sameSite: "lax",
+          maxAge: 12 * 60 * 60 * 1000, // 12 hours
+        });
+      }
       res.json(user);
     })
     .catch((err) => res.status(404).json({ success: false }));
+});
+
+// Clears the httpOnly auth cookie set above. JS can't clear an httpOnly
+// cookie itself, so logging out server-side requires this route.
+router.post("/logout", (req, res) => {
+  res.clearCookie("authToken");
+  res.json({ success: true });
 });
 
 // @route   GET api/items
