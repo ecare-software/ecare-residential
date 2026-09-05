@@ -34,19 +34,30 @@ const ALLERGY_FIELD_PAIRS = [
 ];
 
 // This route also serves the lightweight Activate/Deactivate toggle from
-// Clients.js, which PUTs only `{ active }`. We only enforce Face Sheet
-// permission/validation rules when the request actually carries Face Sheet
-// content, identified by the presence of childMeta_name - the toggle body
-// never includes it, so it's left alone and stays available to any staff.
-const isFaceSheetWrite = (body) =>
-  Object.prototype.hasOwnProperty.call(body, "childMeta_name");
+// Clients.js, which PUTs only `{ active }` and should stay available to any
+// staff regardless of Face Sheet edit role. Every other request - every
+// POST (create), and any PUT whose body is anything other than exactly
+// { active } - must pass full Face Sheet authorization/validation below.
+//
+// Previously this was gated on the presence of childMeta_name, which let a
+// caller bypass both requireFaceSheetEditAccess and validateFaceSheetFields
+// entirely just by omitting that one field from an otherwise arbitrary
+// POST/PUT payload (e.g. PUT { childMeta_caseWorker: "..." } with no
+// childMeta_name would skip every check). isActiveOnlyToggle only exempts
+// the one narrow, known-safe payload shape instead of trusting the absence
+// of a single field.
+const isActiveOnlyToggle = (req) => {
+  if (req.method !== "PUT") return false;
+  const keys = Object.keys(req.body || {});
+  return keys.length === 1 && keys[0] === "active";
+};
 
 // Identity comes from the httpOnly authToken cookie (set at login, see
 // routes/api/users.js), verified server-side - not a client-supplied field.
 // Role is still looked up fresh from the DB on every request (not cached in
 // the token), so a role change/demotion takes effect immediately.
 const requireFaceSheetEditAccess = async (req, res, next) => {
-  if (!isFaceSheetWrite(req.body)) {
+  if (isActiveOnlyToggle(req)) {
     return next();
   }
 
@@ -74,16 +85,16 @@ const requireFaceSheetEditAccess = async (req, res, next) => {
 };
 
 const validateFaceSheetFields = (req, res, next) => {
-  if (!isFaceSheetWrite(req.body)) {
+  if (isActiveOnlyToggle(req)) {
     return next();
   }
 
   const errors = [];
 
-  // We already know (isFaceSheetWrite, above) that this is a genuine Face
-  // Sheet write, not the partial active/inactive toggle - so every one of
-  // these fields is required, whether the key is present-but-empty or
-  // omitted from the body entirely.
+  // We already know (isActiveOnlyToggle, above) that this is a genuine Face
+  // Sheet write, not the { active }-only toggle - so every one of these
+  // fields is required, whether the key is present-but-empty or omitted
+  // from the body entirely.
   REQUIRED_FACESHEET_FIELDS.forEach(({ key, label }) => {
     const value = req.body[key];
     if (!value || (typeof value === "string" && !value.trim())) {

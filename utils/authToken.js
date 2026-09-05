@@ -25,11 +25,16 @@ const signAuthToken = ({ email }, ttlMs = DEFAULT_TTL_MS) => {
 
 // verifyAuthToken(token) -> { email, iat, exp } | null
 const verifyAuthToken = (token) => {
-  if (typeof token !== "string" || !token.includes(".")) {
+  if (typeof token !== "string") {
     return null;
   }
 
-  const [payloadB64, signature] = token.split(".");
+  const parts = token.split(".");
+  if (parts.length !== 2) {
+    return null;
+  }
+
+  const [payloadB64, signature] = parts;
   if (!payloadB64 || !signature) {
     return null;
   }
