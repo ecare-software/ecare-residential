@@ -25,14 +25,19 @@ router.get("/user/:email/:homeId", (req, res) => {
     .catch((err) => res.status(404).json({ success: false }));
 });
 
-// @route   GET api/items
-// @desc    GET all items
-// @access  Public
-router.get("/:email/:password", (req, res) => {
+// Login. POST, not GET - credentials belong in the body, not the URL, where
+// they'd otherwise end up in browser history, proxy logs, and server access
+// logs (undermining the point of the httpOnly auth cookie issued below).
+router.post("/login", (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ success: false, message: "Email and password are required" });
+  }
+
   User.findOneAndUpdate(
     {
-      email: req.params.email.toLocaleLowerCase(),
-      password: req.params.password,
+      email: email.toLocaleLowerCase(),
+      password: password,
     },
     {
       lastLogIn: new Date().toISOString(),

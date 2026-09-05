@@ -192,13 +192,19 @@ router.post(
       allergies: req.body.allergies,
       noKnownAllergies: req.body.noKnownAllergies,
       chronicHealthConditions: req.body.chronicHealthConditions,
-      createdBy: req.body.createdBy,
-      createdByName: req.body.createdByName,
+      // Sourced from the verified authenticated user (requireFaceSheetEditAccess),
+      // not the request body - otherwise any editor could attribute a Face
+      // Sheet's creation to someone else's name/email.
+      createdBy: req.authUser.email,
+      createdByName: `${req.authUser.firstName} ${req.authUser.lastName}`,
       lastEditDate: new Date().toISOString(),
 
       createDate: new Date().toISOString(),
 
-      homeId: req.body.homeId,
+      // Already verified to equal req.authUser.homeId by
+      // requireFaceSheetEditAccess - sourced from the verified value
+      // directly rather than re-trusting the client-supplied one.
+      homeId: req.authUser.homeId,
     });
 
     newClient
@@ -238,8 +244,12 @@ router.put(
   validateFaceSheetFields,
   (req, res) => {
     const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
-    // Never let a record change which home owns it via this route.
+    // Never let a record change which home owns it, nor rewrite its
+    // creation audit trail (who created it, and when), via a routine edit.
     delete updatedLastEditDate.homeId;
+    delete updatedLastEditDate.createdBy;
+    delete updatedLastEditDate.createdByName;
+    delete updatedLastEditDate.createDate;
     Client.updateOne(
       { _id: req.params.id, homeId: req.authUser.homeId },
       updatedLastEditDate
