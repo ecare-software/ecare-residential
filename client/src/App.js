@@ -40,6 +40,10 @@ import NightMonitoring from './components/Forms/NightMonitoring';
 import DailyProgressTwo from './components/Forms/DailyProgressTwo';
 import MedicationLog from './components/Forms/MedicationLog';
 
+// Ensures the httpOnly authToken cookie (set by routes/api/users.js on
+// login) round-trips on every request, regardless of dev-proxy vs.
+// production topology.
+Axios.defaults.withCredentials = true;
 
 const hideStyle = {
   display: 'none',
@@ -183,8 +187,9 @@ class App extends Component {
           loggedIn: loggedIn,
         });
         const { data: updatedUserData } = await Axios({
-          method: 'get',
-          url: '/api/users/' + userObj.email + '/' + userObj.password,
+          method: 'post',
+          url: '/api/users/login',
+          data: { email: userObj.email, password: userObj.password },
         });
         await this.setState({
           userObj: updatedUserData,
@@ -253,9 +258,10 @@ class App extends Component {
   };
 
 
-  appendMessage = async (message) => {
+  appendMessage = async (message, image) => {
     let newMessage = {
       message: message,
+      image: image,
       firstName: this.state.userObj.firstName,
       middleName: this.state.userObj.middleName,
       lastName: this.state.userObj.lastName,
@@ -267,7 +273,7 @@ class App extends Component {
       await Axios.post('/api/discussionMessages', newMessage);
       this.loadMessage(this.state.userObj);
     } catch (e) {
-      alert('Error loading messages');
+      alert(e.response?.data?.message || 'Error loading messages');
       console.log(e);
     }
   };
@@ -307,6 +313,8 @@ class App extends Component {
     });
     cookies.remove('loggedIn', { path: '/' });
     cookies.remove('userObj', { path: '/' });
+    // JS can't clear the httpOnly authToken cookie itself - ask the server to.
+    Axios.post('/api/users/logout').catch((e) => console.log(e));
     window.scrollTo(0, 0);
   };
 

@@ -8,7 +8,13 @@ import { isAdminUser } from "../../utils/AdminReportingRoles";
 import Pagination from "./Pagination";
 
 
-const ContentAfterLoad = ({ messages, isLoading, removeMessage, userObj }) => {
+const ContentAfterLoad = ({
+  messages,
+  isLoading,
+  removeMessage,
+  userObj,
+  lastViewedBefore,
+}) => {
   const [currentMessages, setCurrentMessage] = useState(messages);
 
   const doRemoveMessage = async (id) => {
@@ -32,6 +38,7 @@ const ContentAfterLoad = ({ messages, isLoading, removeMessage, userObj }) => {
           userObj={userObj}
           messageObj={item}
           doRemoveMessage={doRemoveMessage}
+          lastViewedBefore={lastViewedBefore}
         >
           {item.message}
         </MessagePost>
@@ -44,15 +51,52 @@ const ContentAfterLoad = ({ messages, isLoading, removeMessage, userObj }) => {
 class MessageBoard extends Component {
   constructor(props) {
     super(props);
+    // messages posted after this timestamp are "new" - captured once, before
+    // componentDidMount marks the board as viewed as of now
+    this.lastViewedBefore = this.getLastViewedTimestamp();
     this.state = {
       showModal: "",
       messageText: "",
+      messageImage: "",
       postsPerPage: 20,
       currentPage: 1,
       indexOfFirstPost: 0,
       indexOfLastPost: 19,
        };
   }
+
+  componentDidMount() {
+    this.markMessageBoardViewed();
+  }
+
+  getLastViewedStorageKey = () => {
+    const { userObj } = this.props;
+    return `messageBoardLastViewed:${userObj?.homeId}:${userObj?.email}`;
+  };
+
+  getLastViewedTimestamp = () => {
+    // Fall back to "now" (not null) when there's no stored value yet -
+    // e.g. this user's first-ever visit. Falling back to null would suppress
+    // every "NEW" badge for the rest of this session, including messages
+    // posted by others while this person is actively viewing the board -
+    // only messages from *before* this visit should be excluded.
+    try {
+      return localStorage.getItem(this.getLastViewedStorageKey()) || new Date().toISOString();
+    } catch (e) {
+      return new Date().toISOString();
+    }
+  };
+
+  markMessageBoardViewed = () => {
+    try {
+      localStorage.setItem(
+        this.getLastViewedStorageKey(),
+        new Date().toISOString()
+      );
+    } catch (e) {
+      // ignore storage errors (e.g. private browsing)
+    }
+  };
 
   handlePagination = (pageNumber) => {
     this.state.currentPage = pageNumber;
@@ -91,8 +135,8 @@ class MessageBoard extends Component {
       this.state.messageText.length > 0 &&
       /^\s+/.test(this.state.messageText) === false
     ) {
-      this.props.appendMessage(this.state.messageText);
-      this.setState({ messageText: "" });
+      this.props.appendMessage(this.state.messageText, this.state.messageImage);
+      this.setState({ messageText: "", messageImage: "" });
     }
   };
 
@@ -100,6 +144,44 @@ class MessageBoard extends Component {
     var stateObj = {};
     stateObj[event.target.id] = event.target.value;
     this.setState(stateObj);
+  };
+
+  handleMessageImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const ALLOWED_IMAGE_TYPES = [
+      "image/png",
+      "image/jpeg",
+      "image/gif",
+      "image/webp",
+    ];
+    const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5MB, mirrors routes/api/discussionMessages.js
+
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      alert("Please choose a PNG, JPEG, GIF, or WEBP image.");
+      event.target.value = "";
+      return;
+    }
+    if (file.size > MAX_IMAGE_BYTES) {
+      alert(
+        `Image is too large (max ${MAX_IMAGE_BYTES / (1024 * 1024)}MB).`
+      );
+      event.target.value = "";
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      this.setState({ messageImage: reader.result });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  clearMessageImage = () => {
+    this.setState({ messageImage: "" });
+    const input = document.getElementById("messageImageUpload");
+    if (input) input.value = "";
   };
 
   render() {
@@ -137,6 +219,24 @@ class MessageBoard extends Component {
                   placeholder="Let everyone know what's going on or simply say hello! Information here will be display for all users to see."
                 ></textarea>
                 <button
+                  type="button"
+                  onClick={() =>
+                    document.getElementById("messageImageUpload").click()
+                  }
+                  className="btn btn-light"
+                  style={{ margin: "0px 5px", width: "75px" }}
+                  title="Attach a photo"
+                >
+                  <i className="fa fa-camera"></i>
+                </button>
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="messageImageUpload"
+                  onChange={this.handleMessageImageUpload}
+                  style={{ display: "none" }}
+                />
+                <button
                   onClick={this.callAppendMessage}
                   className="btn btn-light"
                   style={{ margin: "0px 5px", width: "75px" }}
@@ -148,6 +248,35 @@ class MessageBoard extends Component {
               <h2 className="formTitle text-center">Dashboard Announcements</h2>
             )}
           </div>
+          {this.state.messageImage && (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                margin: "0px 0px 10px 0px",
+              }}
+            >
+              <img
+                src={this.state.messageImage}
+                alt="Attachment preview"
+                style={{
+                  maxWidth: "150px",
+                  maxHeight: "150px",
+                  borderRadius: "9px",
+                  border: "2px solid #ccc",
+                }}
+              />
+              <button
+                type="button"
+                onClick={this.clearMessageImage}
+                className="btn btn-link"
+                style={{ padding: "2px" }}
+              >
+                Remove photo
+              </button>
+            </div>
+          )}
         </div>
         {this.props.discussionMessagesLoading && (
           <>
@@ -175,6 +304,7 @@ class MessageBoard extends Component {
           messages={this.props.messages.slice(((this.props.currentPage-1)*this.state.postsPerPage), ((this.props.currentPage*this.state.postsPerPage)-1))}
           isLoading={this.props.discussionMessagesLoading}
           userObj={this.props.userObj}
+          lastViewedBefore={this.lastViewedBefore}
         />
         <PostMessageModal
           appendMessage={this.props.appendMessage}
