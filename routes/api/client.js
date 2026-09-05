@@ -56,16 +56,23 @@ const isActiveOnlyToggle = (req) => {
 // routes/api/users.js), verified server-side - not a client-supplied field.
 // Role is still looked up fresh from the DB on every request (not cached in
 // the token), so a role change/demotion takes effect immediately.
+//
+// Authentication is required unconditionally, even for the { active }
+// toggle - isActiveOnlyToggle only exempts the toggle from the Face Sheet
+// editor *role* check below (any logged-in staff member may use it, same
+// as the un-role-gated button in Clients.js), not from being logged in at
+// all. Skipping auth entirely for the toggle would let a fully anonymous,
+// unauthenticated caller flip active/inactive on any record.
 const requireFaceSheetEditAccess = async (req, res, next) => {
-  if (isActiveOnlyToggle(req)) {
-    return next();
-  }
-
   const decoded = verifyAuthToken(req.cookies?.authToken);
   if (!decoded) {
     return res
       .status(401)
       .json({ success: false, message: "Not authenticated" });
+  }
+
+  if (isActiveOnlyToggle(req)) {
+    return next();
   }
 
   try {
