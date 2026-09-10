@@ -72,7 +72,10 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
 
   const effectiveUserObj = propUserObj || userObj;
 
-  // Determine current shift based on the number of valid signatures
+  // Determine current shift based on the number of valid signatures,
+  // capped at the last shift this form actually has (shiftCount). A
+  // 2-shift (AM/PM) form should never report "shift3" - there's no NOC
+  // shift for it to be in.
   const determineCurrentShift = () => {
     if (!propFormData || !propFormData.signatureSection || !propFormData.signatureSection.signatures) {
       return "shift1"; // New form, no signatures
@@ -84,10 +87,12 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
     );
 
     const signatureCount = validSignatures.length;
+    const lastShiftNumber = shiftCount === 2 ? 2 : 3;
 
-    if (signatureCount === 0) return "shift1"; // No signatures - AM shift
-    if (signatureCount === 1) return "shift2"; // One signature - PM shift
-    return "shift3"; // Two or more signatures - NOC shift
+    // 0 signatures -> shift1, 1 -> shift2, 2+ -> shift3 - but never past
+    // the last shift this form has.
+    const shiftNumber = Math.min(signatureCount + 1, lastShiftNumber);
+    return `shift${shiftNumber}`;
   };
 
   // Use the determined shift instead of user's shift
