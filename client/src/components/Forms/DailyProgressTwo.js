@@ -67,6 +67,9 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
   const [selectedShifts, setSelectedShifts] = useState(["", "", ""]);
   const [showSignature, setShowSignature] = useState([false, false, false]);
 
+  // Number of shift columns shown on the form (2 = AM/PM only, 3 = AM/PM/NOC)
+  const [shiftCount, setShiftCount] = useState(propFormData?.shiftCount || 3);
+
   const effectiveUserObj = propUserObj || userObj;
 
   // Determine current shift based on the number of valid signatures
@@ -237,6 +240,10 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
 
       if (propFormData.clothingDescription) {
         setClothingDescription(propFormData.clothingDescription);
+      }
+
+      if (propFormData.shiftCount === 2 || propFormData.shiftCount === 3) {
+        setShiftCount(propFormData.shiftCount);
       }
 
       // Populate checkbox states from propFormData
@@ -770,6 +777,7 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
         child: formData.child,
         childMeta_name: formData.childMeta_name || (formData.child && formData.child.name) || "",
         approved: formData.approved,
+        shiftCount,
         shiftSummary: removeIds(shiftSummary),
         clothingDescription: removeIds(clothingDescription),
         signatureSection: {
@@ -879,6 +887,10 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
           setClothingDescription(updatedReport.clothingDescription);
         }
 
+        if (updatedReport.shiftCount === 2 || updatedReport.shiftCount === 3) {
+          setShiftCount(updatedReport.shiftCount);
+        }
+
         // Preserve checkbox states - we'll use the current state since the server response
         // doesn't include the checkbox states in the same format
         // This prevents the form from being cleared after saving
@@ -983,6 +995,31 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
             </div>
           </div>
 
+          {/* Shift Count Toggle */}
+          <div className="form-group d-flex justify-content-center">
+            <div style={{ width: "650px" }} className="d-flex align-items-center justify-content-between">
+              <label className="control-label mb-0">Shift Columns</label>
+              <div className="btn-group" role="group" aria-label="Shift column toggle">
+                <button
+                  type="button"
+                  className={shiftCount === 2 ? "darkBtn" : "lightBtn"}
+                  style={{ padding: "6px 16px" }}
+                  onClick={() => setShiftCount(2)}
+                >
+                  2 Shifts
+                </button>
+                <button
+                  type="button"
+                  className={shiftCount === 3 ? "darkBtn" : "lightBtn"}
+                  style={{ padding: "6px 16px", marginLeft: "8px" }}
+                  onClick={() => setShiftCount(3)}
+                >
+                  3 Shifts
+                </button>
+              </div>
+            </div>
+          </div>
+
         {/* Main Form Sections */}
         <Form className="d-flex flex-column align-items-center">
           {[
@@ -999,20 +1036,21 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
           ].map((section, idx) => (
             <div key={idx} className="d-flex justify-content-center" style={{ width: "100%" }}>
               <div style={{ width: "650px" }}>
-                <ShiftTable 
-                  {...section} 
-                  onRadioChange={section.onRadioChange} 
-                  recActivityRadios={recActivityRadios} 
-                  setRecActivityRadios={setRecActivityRadios} 
-                  timeline={timeline} 
-                  setTimeline={setTimeline} 
+                <ShiftTable
+                  {...section}
+                  onRadioChange={section.onRadioChange}
+                  recActivityRadios={recActivityRadios}
+                  setRecActivityRadios={setRecActivityRadios}
+                  timeline={timeline}
+                  setTimeline={setTimeline}
                   isLocked={isLocked}
+                  shiftCount={shiftCount}
                 />
               </div>
             </div>
           ))}
 
-          <ShiftSummary shiftSummary={shiftSummary} setShiftSummary={setShiftSummary} isLocked={isLocked} />
+          <ShiftSummary shiftSummary={shiftSummary} setShiftSummary={setShiftSummary} isLocked={isLocked} shiftCount={shiftCount} />
           <ClothingDescription clothingDescription={clothingDescription} setClothingDescription={setClothingDescription} isLocked={isLocked}/>
           <SignatureSection
             sigRefs={sigRefs}
@@ -1033,6 +1071,7 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
             effectiveUserObj={effectiveUserObj}
             currentShift={currentShift}
             isLocked={isLocked}
+            shiftCount={shiftCount}
           />
 
           <div className="d-flex justify-content-between" style={{ marginTop: "30px", width: "650px" }}>
@@ -1068,7 +1107,8 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
 };
 
 // ---- ShiftTable ----
-const ShiftTable = ({ labels, checkState, toggleFn, isRadio = false, options = [], onRadioChange, recActivityRadios, setRecActivityRadios, timeline, setTimeline, isLocked }) => {
+const ShiftTable = ({ labels, checkState, toggleFn, isRadio = false, options = [], onRadioChange, recActivityRadios, setRecActivityRadios, timeline, setTimeline, isLocked, shiftCount = 3 }) => {
+  const visibleShifts = shiftCount === 2 ? 2 : 3;
   const rowRefs = useRef([]);
   const [rowHeights, setRowHeights] = useState([]);
 
@@ -1105,7 +1145,7 @@ const ShiftTable = ({ labels, checkState, toggleFn, isRadio = false, options = [
         >
           SHIFTS
         </div>
-        {["1st", "2nd", "3rd"].map((shift, i) => (
+        {["1st", "2nd", "3rd"].slice(0, visibleShifts).map((shift, i) => (
           <div
             key={i}
             style={{
@@ -1169,7 +1209,7 @@ const ShiftTable = ({ labels, checkState, toggleFn, isRadio = false, options = [
             </div>
 
             {/* Cells */}
-            {Array.from({ length: 3 }).map((_, colIndex) => {
+            {Array.from({ length: visibleShifts }).map((_, colIndex) => {
               const sharedStyle = {
                 width: BOX_WIDTH,
                 height: rowHeight,
@@ -1319,13 +1359,14 @@ const ShiftTable = ({ labels, checkState, toggleFn, isRadio = false, options = [
 };
 
 // ---- ShiftSummary ----
-const ShiftSummary = ({ shiftSummary, setShiftSummary, isLocked }) => {
+const ShiftSummary = ({ shiftSummary, setShiftSummary, isLocked, shiftCount = 3 }) => {
   const shiftKeys = { "1st": "shift1", "2nd": "shift2", "3rd": "shift3" };
+  const visibleShifts = shiftCount === 2 ? 2 : 3;
   return (
     <div className="d-flex justify-content-center" style={{ width: "100%" }}>
       <div style={{ border: "1px solid #ccc", borderRadius: "4px", padding: "15px", width: "650px", backgroundColor: "#f8f9fa", marginTop: "20px" }}>
         <div style={{ fontWeight: "600", fontSize: "16px", marginBottom: "10px", textAlign: "center" }}>Shift Summary</div>
-        {["1st", "2nd", "3rd"].map((shift) => (
+        {["1st", "2nd", "3rd"].slice(0, visibleShifts).map((shift) => (
           <div key={shift} style={{ marginBottom: "10px" }}>
             <label style={{ fontWeight: "500", marginBottom: "5px" }}>{shift} Shift:</label>
             <textarea 
@@ -1395,7 +1436,8 @@ const SignatureSection = ({
   areAllSignaturesValid,
   effectiveUserObj,
   currentShift,
-  isLocked
+  isLocked,
+  shiftCount = 3
 }) => {
   // Use the currentShift prop passed from parent component
 
@@ -1632,7 +1674,8 @@ const SignatureSection = ({
   }, [valuesSet, propFormData]); // Remove dependencies that cause loops
 
   // Shift labels
-  const shiftLabels = ["1st", "2nd", "3rd"];
+  const visibleShifts = shiftCount === 2 ? 2 : 3;
+  const shiftLabels = ["1st", "2nd", "3rd"].slice(0, visibleShifts);
 
   // Debug form status - removed to prevent excessive logging
   return (
