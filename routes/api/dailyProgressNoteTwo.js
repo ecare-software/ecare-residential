@@ -39,6 +39,7 @@ router.post("/", async (req, res) => {
       timeline: req.body.timeline || [],
       shiftSummary: req.body.shiftSummary || {},
       clothingDescription: req.body.clothingDescription || {},
+      shiftCount: Number(req.body.shiftCount) === 2 ? 2 : 3,
       signatureSection: req.body.signatureSection || {},
       shiftStatus: req.body.shiftStatus || {
         firstShift: { completed: false, userId: null },

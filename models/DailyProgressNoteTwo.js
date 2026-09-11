@@ -220,8 +220,15 @@ const dailyReportSchema = new mongoose.Schema(
     // 👕 CLOTHING DESCRIPTION
     clothingDescription: clothingDescriptionSchema,
 
-    // SIGNATURE 
+    // SIGNATURE
     signatureSection: signatureSchema,
+
+    // 🔀 Number of shift columns shown on the form (2 = AM/PM, 3 = AM/PM/NOC)
+    shiftCount: {
+      type: Number,
+      enum: [2, 3],
+      default: 3,
+    },
 
     // ✅ NEW FIELDS
     formType: {
