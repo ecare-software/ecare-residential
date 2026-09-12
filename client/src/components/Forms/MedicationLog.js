@@ -510,7 +510,7 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
       alert("Form completed successfully.");
     } catch (err) {
       console.error("Submit error:", err);
-      alert("Failed to submit form.");
+      alert(err?.response?.data?.error || "Failed to submit form.");
     }
   };
 

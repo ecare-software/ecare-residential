@@ -2,8 +2,16 @@ const express = require("express");
 const router = express.Router();
 
 const SeriousIncidentReport = require("../../models/SeriousIncidentReport");
+const { submitterHasSignature, MISSING_SIGNATURE_ERROR } = require("../../utils/requireUserSignature");
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
+  if (
+    req.body.status === "COMPLETED" &&
+    !(await submitterHasSignature(req.body.createdBy, req.body.homeId))
+  ) {
+    return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
+  }
+
   const newSeriousIncidentReport = new SeriousIncidentReport({
     nature_of_incident: req.body.nature_of_incident,
 
@@ -244,7 +252,14 @@ router.get(
   }
 );
 
-router.put("/:homeId/:formId/", (req, res) => {
+router.put("/:homeId/:formId/", async (req, res) => {
+  if (
+    req.body.status === "COMPLETED" &&
+    !(await submitterHasSignature(req.body.createdBy, req.params.homeId))
+  ) {
+    return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
+  }
+
   const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
   SeriousIncidentReport.updateOne(
     { _id: req.params.formId },

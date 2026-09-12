@@ -3,6 +3,28 @@ const MedicationLog = require("../../models/Medication");
 
 const router = express.Router();
 
+// Mirrors the client's isCaregiverSignatureCaptured check (MedicationLog.js)
+// - a signature counts as captured if it's a non-empty stroke-data array
+// or a real data: URL, not just a non-empty string of any kind.
+function isSignaturePresent(sig) {
+  if (Array.isArray(sig)) return sig.length > 0;
+  if (typeof sig === "string") return sig.startsWith("data:image/") && sig.length > 100;
+  return false;
+}
+
+// The completion invariant: a Medication Log can only be COMPLETED once
+// both caregiver slots (indices 0 and 1) have a captured signature. The
+// client already blocks Submit on this (see MedicationLog.js), but that
+// only protects the UI - a direct API request must not be able to bypass
+// it, so it's enforced here too.
+function hasRequiredCaregiverSignatures(caregivers) {
+  if (!Array.isArray(caregivers) || caregivers.length < 2) return false;
+  return isSignaturePresent(caregivers[0]?.signature) && isSignaturePresent(caregivers[1]?.signature);
+}
+
+const MISSING_SIGNATURES_ERROR =
+  "Both caregiver signatures are required before a Medication Log can be marked COMPLETED.";
+
 function migrateOldLogTable(med) {
   if (med?.logTable?.entries && !med.logTable.days) {
     const map = {};
@@ -85,6 +107,10 @@ router.post("/", async (req, res) => {
       status: body.status || "IN_PROGRESS",
       lastEditDate: new Date(),
     });
+
+    if (newLog.status === "COMPLETED" && !hasRequiredCaregiverSignatures(newLog.caregivers)) {
+      return res.status(400).json({ error: MISSING_SIGNATURES_ERROR });
+    }
 
     const saved = await newLog.save();
 
@@ -205,6 +231,19 @@ router.put("/:id", async (req, res) => {
           days: Array.isArray(m.logTable?.days) ? m.logTable.days : []
         }
       }));
+    }
+
+    if (updates.status === "COMPLETED") {
+      // Normally the client always sends caregivers alongside status, but
+      // fall back to what's already on the document in case a caller
+      // updates status without resending caregivers.
+      const caregiversToCheck = Array.isArray(updates.caregivers)
+        ? updates.caregivers
+        : (await MedicationLog.findById(id).select("caregivers"))?.caregivers;
+
+      if (!hasRequiredCaregiverSignatures(caregiversToCheck)) {
+        return res.status(400).json({ error: MISSING_SIGNATURES_ERROR });
+      }
     }
 
     const updatedLog = await MedicationLog.findByIdAndUpdate(

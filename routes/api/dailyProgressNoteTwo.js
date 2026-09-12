@@ -81,7 +81,11 @@ router.get("/latest/:clientId", async (req, res) => {
 // GET ALL DAILY PROGRESS NOTE TWO BY HOME ID
 router.get("/:homeId", (req, res) => {
   DailyReport.find({ homeId: req.params.homeId })
-    .sort({ lastEditDate: -1 })
+    // createDate as a secondary key: lastEditDate has a schema default for
+    // new documents but was never backfilled onto older ones, so legacy
+    // records missing it would otherwise all tie together and lose their
+    // relative order.
+    .sort({ lastEditDate: -1, createDate: -1 })
     .setOptions({ allowDiskUse: true })
     .exec()
     .then((dailyProgressNoteTwo) => res.json(dailyProgressNoteTwo))
@@ -129,7 +133,8 @@ router.get(
 
       console.log("DailyProgressNoteTwo query:", query);
 
-      const data = await DailyReport.find(query).sort({ lastEditDate: -1 });
+      // Same secondary-sort fallback as the unfiltered list above.
+      const data = await DailyReport.find(query).sort({ lastEditDate: -1, createDate: -1 });
       console.log("Fetched DailyProgressNoteTwo data:", data.length, "records");
 
       res.json(data);

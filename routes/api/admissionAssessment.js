@@ -3,8 +3,16 @@ const router = express.Router();
 ObjectID = require("mongodb").ObjectID;
 
 const AdmissionAssessment = require("../../models/AdmissionAssessment");
+const { submitterHasSignature, MISSING_SIGNATURE_ERROR } = require("../../utils/requireUserSignature");
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
+  if (
+    req.body.status === "COMPLETED" &&
+    !(await submitterHasSignature(req.body.createdBy, req.body.homeId))
+  ) {
+    return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
+  }
+
   const newAdmissionAssessment = new AdmissionAssessment({
     allergies: req.body.allergies,
     basicNeeds: req.body.basicNeeds,
@@ -260,7 +268,14 @@ router.get(
   }
 );
 
-router.put("/:homeId/:formId/", (req, res) => {
+router.put("/:homeId/:formId/", async (req, res) => {
+  if (
+    req.body.status === "COMPLETED" &&
+    !(await submitterHasSignature(req.body.createdBy, req.params.homeId))
+  ) {
+    return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
+  }
+
   const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
   AdmissionAssessment.updateOne({ _id: req.params.formId }, updatedLastEditDate)
     .then((data) => {

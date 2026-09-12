@@ -2,8 +2,16 @@ const express = require("express");
 const router = express.Router();
 
 const TreatmentPlan72 = require("../../models/TreatmentPlan72");
+const { submitterHasSignature, MISSING_SIGNATURE_ERROR } = require("../../utils/requireUserSignature");
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
+  if (
+    req.body.status === "COMPLETED" &&
+    !(await submitterHasSignature(req.body.createdBy, req.body.homeId))
+  ) {
+    return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
+  }
+
   const newTreatmentPlan72 = new TreatmentPlan72({
     childMeta_name: req.body.childMeta_name,
     childMeta_dob: req.body.childMeta_dob,
@@ -505,7 +513,14 @@ router.get(
   }
 );
 
-router.put("/:homeId/:formId/", (req, res) => {
+router.put("/:homeId/:formId/", async (req, res) => {
+  if (
+    req.body.status === "COMPLETED" &&
+    !(await submitterHasSignature(req.body.createdBy, req.params.homeId))
+  ) {
+    return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
+  }
+
   const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
   TreatmentPlan72.updateOne({ _id: req.params.formId }, updatedLastEditDate)
     .then((data) => {

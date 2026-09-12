@@ -911,8 +911,10 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
           { ...payload, clientId: formData.clientId }
         );
 
-        // Store the new _id so future saves update this report
-        setFormData((prev) => ({ ...prev, _id: newReport._id }));
+        // Store the new _id (and merge the rest of the server response -
+        // lastEditDate in particular, so the "Last Updated" field isn't
+        // left blank until the next save) so future saves update this report
+        setFormData((prev) => ({ ...prev, ...newReport }));
 
         // Explicitly preserve all form state to prevent fields from being cleared
         // This ensures the form fields remain populated after saving
@@ -1704,7 +1706,7 @@ const SignatureSection = ({
   // submission, so it shouldn't be locked out just because the form as a
   // whole is COMPLETED - only the shifts that were already there when it
   // was completed should stay locked.
-  const savedShiftCount = propFormData?.shiftCount === 2 ? 2 : 3;
+  const savedShiftCount = formData?.shiftCount === 2 ? 2 : 3;
   const isNewlyRevealedShift = (idx) => idx >= savedShiftCount;
   const isShiftLockedByCompletion = (idx) =>
     formData.status === "COMPLETED" && !isNewlyRevealedShift(idx);

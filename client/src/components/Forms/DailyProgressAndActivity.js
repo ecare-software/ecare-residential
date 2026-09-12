@@ -348,6 +348,17 @@ class DailyProgressAndActivity extends Component {
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
     delete currentState.staff;
+    // Build the payload from the effective signature values, not
+    // this.state - the completion decision above is already based on
+    // effectiveSignature1/2, and the request must match it. Serializing
+    // this.state directly here risks sending signature arrays that don't
+    // reflect what was just decided (e.g. if a caller ever passes
+    // effective values that differ from this.state, or setState from
+    // validateForm() hasn't flushed for some other reason), which would
+    // let a request mark the form COMPLETED while sending signatures that
+    // don't actually back that status.
+    currentState.signature1 = effectiveSignature1;
+    currentState.signature2 = effectiveSignature2;
     initAutoSave = false;
     clearInterval(interval);
     if (this.props.valuesSet || this.state._id) {
@@ -571,7 +582,7 @@ class DailyProgressAndActivity extends Component {
   };
 
   async componentDidMount() {
-    this.doGetHomeInfo();
+    await this.doGetHomeInfo();
     if (this.props.valuesSet) {
       this.setValues();
     } else {
