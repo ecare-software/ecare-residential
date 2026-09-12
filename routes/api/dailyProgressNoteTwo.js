@@ -81,7 +81,7 @@ router.get("/latest/:clientId", async (req, res) => {
 // GET ALL DAILY PROGRESS NOTE TWO BY HOME ID
 router.get("/:homeId", (req, res) => {
   DailyReport.find({ homeId: req.params.homeId })
-    .sort({ createDate: -1 })
+    .sort({ lastEditDate: -1 })
     .setOptions({ allowDiskUse: true })
     .exec()
     .then((dailyProgressNoteTwo) => res.json(dailyProgressNoteTwo))
@@ -129,7 +129,7 @@ router.get(
 
       console.log("DailyProgressNoteTwo query:", query);
 
-      const data = await DailyReport.find(query).sort({ createDate: -1 });
+      const data = await DailyReport.find(query).sort({ lastEditDate: -1 });
       console.log("Fetched DailyProgressNoteTwo data:", data.length, "records");
 
       res.json(data);

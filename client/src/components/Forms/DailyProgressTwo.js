@@ -972,6 +972,22 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
             </div>
           </div>
 
+          {/* Last Updated */}
+          <div className="form-group logInInputField d-flex justify-content-center">
+            <div style={{ width: "650px" }}>
+              <label className="control-label">Last Updated</label>
+              <input
+                id="lastEditDate"
+                value={formData.lastEditDate ? new Date(formData.lastEditDate).toLocaleString() : ""}
+                className="form-control"
+                type="text"
+                style={{ height: "43px", boxSizing: "border-box" }}
+                disabled
+                readOnly
+              />
+            </div>
+          </div>
+
           {/* Child Selector */}
           <div className="form-group logInInputField d-flex justify-content-center">
             <div style={{ width: "650px" }}>
@@ -1682,12 +1698,28 @@ const SignatureSection = ({
   const visibleShifts = shiftCount === 2 ? 2 : 3;
   const shiftLabels = ["1st", "2nd", "3rd"].slice(0, visibleShifts);
 
+  // How many shifts this form actually had the last time it was saved.
+  // If someone flips a completed 2-shift form to 3 shifts, shift index 2
+  // (the newly revealed 3rd/NOC shift) was never part of that completed
+  // submission, so it shouldn't be locked out just because the form as a
+  // whole is COMPLETED - only the shifts that were already there when it
+  // was completed should stay locked.
+  const savedShiftCount = propFormData?.shiftCount === 2 ? 2 : 3;
+  const isNewlyRevealedShift = (idx) => idx >= savedShiftCount;
+  const isShiftLockedByCompletion = (idx) =>
+    formData.status === "COMPLETED" && !isNewlyRevealedShift(idx);
+
   // Debug form status - removed to prevent excessive logging
   return (
     <div className="d-flex justify-content-center" style={{ width: "100%" }}>
       <div style={{ border: "1px solid #ccc", borderRadius: "4px", padding: "15px", width: "650px", backgroundColor: "#f8f9fa", marginTop: "20px" }}>
         <div style={{ fontWeight: "600", fontSize: "16px", marginBottom: "10px", textAlign: "center" }}>
           Signature {formData.status === "COMPLETED" ? "(Form Completed)" : ""}
+          {formData.status === "COMPLETED" && shiftCount > savedShiftCount && (
+            <div style={{ fontSize: "14px", color: "#b45309", marginTop: "5px" }}>
+              A shift was added after this form was completed - its signature is still open below.
+            </div>
+          )}
           {currentShift === "shift3" && formData.status !== "COMPLETED" && (
             <div style={{ fontSize: "14px", color: areAllSignaturesValid ? "green" : "red", marginTop: "5px" }}>
               {areAllSignaturesValid
@@ -1714,8 +1746,9 @@ const SignatureSection = ({
                       typeof propFormData.signatureSection.signatures[idx] === 'string' &&
                       propFormData.signatureSection.signatures[idx].startsWith('data:image/') &&
                       propFormData.signatureSection.signatures[idx].length > 100) ||
-                    // Or if the entire form is completed
-                    isLocked || formData.status === "COMPLETED"
+                    // Or if the entire form is completed (unless this shift was only
+                    // revealed after the fact by a shiftCount change)
+                    isLocked || isShiftLockedByCompletion(idx)
                   }
                 />
                 <label className="form-check-label" htmlFor={`shift-${idx}`}>
@@ -1744,8 +1777,9 @@ const SignatureSection = ({
                       typeof propFormData.signatureSection.signatures[idx] === 'string' &&
                       propFormData.signatureSection.signatures[idx].startsWith('data:image/') &&
                       propFormData.signatureSection.signatures[idx].length > 100) ||
-                    // Or if the entire form is completed
-                     isLocked || formData.status === "COMPLETED"
+                    // Or if the entire form is completed (unless this shift was only
+                    // revealed after the fact by a shiftCount change)
+                     isLocked || isShiftLockedByCompletion(idx)
                   }
                 >
                   Clear
@@ -1782,7 +1816,7 @@ const SignatureSection = ({
                                   height: "100px",
                                   backgroundColor: "#f9f9f9",
                                   borderRadius: "4px",
-                                  opacity: (formData.status === "COMPLETED" ||
+                                  opacity: (isShiftLockedByCompletion(idx) ||
                                     (propFormData?.signatureSection?.signatures &&
                                       propFormData.signatureSection.signatures[idx] &&
                                       typeof propFormData.signatureSection.signatures[idx] === 'string' &&
@@ -1792,9 +1826,11 @@ const SignatureSection = ({
                               }}
                               ref={(el) => {
                                 sigRefs.current[idx] = el;
-                                // Disable signature canvas if form is completed or this specific signature is already set
+                                // Disable signature canvas if form is completed (and this shift
+                                // isn't newly revealed by a shiftCount change) or this specific
+                                // signature is already set
                                 if (el && (
-                                  formData.status === "COMPLETED" ||
+                                  isShiftLockedByCompletion(idx) ||
                                   (propFormData?.signatureSection?.signatures &&
                                     propFormData.signatureSection.signatures[idx] &&
                                     typeof propFormData.signatureSection.signatures[idx] === 'string' &&
@@ -1845,8 +1881,9 @@ const SignatureSection = ({
                             typeof propFormData.signatureSection.signatures[idx] === 'string' &&
                             propFormData.signatureSection.signatures[idx].startsWith('data:image/') &&
                             propFormData.signatureSection.signatures[idx].length > 100) ||
-                          // Or if the entire form is completed
-                           isLocked || formData.status === "COMPLETED"
+                          // Or if the entire form is completed (unless this shift was only
+                          // revealed after the fact by a shiftCount change)
+                           isLocked || isShiftLockedByCompletion(idx)
                         }
                       >
                         Set Signature
@@ -1884,8 +1921,9 @@ const SignatureSection = ({
                         typeof propFormData.signatureSection.signatures[idx] === 'string' &&
                         propFormData.signatureSection.signatures[idx].startsWith('data:image/') &&
                         propFormData.signatureSection.signatures[idx].length > 100) ||
-                      // Or if the entire form is completed
-                       isLocked || formData.status === "COMPLETED"
+                      // Or if the entire form is completed (unless this shift was only
+                      // revealed after the fact by a shiftCount change)
+                       isLocked || isShiftLockedByCompletion(idx)
                     }
                   />
                   <input
@@ -1895,7 +1933,7 @@ const SignatureSection = ({
                     readOnly={true}
                     className="form-control"
                     style={{ flexGrow: 1, backgroundColor: "#f9f9f9" }}
-                    disabled={formData.status === "COMPLETED"}
+                    disabled={isShiftLockedByCompletion(idx)}
                   />
                 </div>
               </div>

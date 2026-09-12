@@ -55,6 +55,27 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
   const [sigDates, setSigDates] = useState([today, today]);
   const sigRefs = useRef([null, null]);
 
+  // A caregiver signature counts as captured if it's been drawn on the
+  // canvas this session, or already stored on the form from a prior save.
+  const isCaregiverSignatureCaptured = (idx) => {
+    const ref = sigRefs.current[idx];
+    let hasDrawn = false;
+    try {
+      hasDrawn = !!(ref && typeof ref.isEmpty === "function" && !ref.isEmpty());
+    } catch (err) { /* ignore */ }
+
+    const stored = signatures[idx];
+    const hasStored = !!(
+      stored &&
+      ((typeof stored === "string" && stored.startsWith("data:")) ||
+        (Array.isArray(stored) && stored.length > 0))
+    );
+
+    return hasDrawn || hasStored;
+  };
+
+  const areAllCaregiverSignaturesValid = () => [0, 1].every(isCaregiverSignatureCaptured);
+
   const [expanded, setExpanded] = useState({}); 
 
   useEffect(() => {
@@ -471,6 +492,10 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
   };
 
   const handleSubmit = async () => {
+    if (!areAllCaregiverSignaturesValid()) {
+      alert("Both caregiver signatures must be completed before submission.");
+      return;
+    }
     try {
       const payload = await buildPayload("COMPLETED");
 

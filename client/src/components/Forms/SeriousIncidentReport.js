@@ -286,6 +286,26 @@ class SeriousIncidentReport extends Component {
 
   validateForm = async (save) => {
     // save = true if 'save' btn, save = false if 'submit'
+    if (!save) {
+      const { data: createdUserData } = await GetUserSig(
+        this.props.userObj.email,
+        this.props.userObj.homeId
+      );
+
+      if (
+        !createdUserData.signature ||
+        Array.isArray(createdUserData.signature) === false ||
+        !createdUserData.signature.length > 0
+      ) {
+        this.setState({
+          ...this.state,
+          formHasError: true,
+          formErrorMessage: `User signature required to submit a form. Create a new signature under 'Manage Profile'.`,
+        });
+        return;
+      }
+    }
+
     this.setState({
       ...this.state,
       loadingClients: true,
@@ -1082,6 +1102,19 @@ class SeriousIncidentReport extends Component {
                     value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
                     className="form-control"
                     type="datetime-local"
+                  />{" "}
+                </div>
+                <div className="form-group logInInputField">
+                  <label className="control-label">
+                    Last Updated
+                  </label>{" "}
+                  <input
+                    id="lastEditDate"
+                    value={this.state.lastEditDate ? new Date(this.state.lastEditDate).toLocaleString() : ""}
+                    className="form-control"
+                    type="text"
+                    disabled
+                    readOnly
                   />{" "}
                 </div>
                 <Row>
