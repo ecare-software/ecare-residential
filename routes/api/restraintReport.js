@@ -2,13 +2,21 @@ const express = require("express");
 const router = express.Router();
 
 const RestraintReport = require("../../models/RestraintReport");
-const { submitterHasSignature, MISSING_SIGNATURE_ERROR } = require("../../utils/requireUserSignature");
+const {
+  resolveAuthenticatedUser,
+  submitterHasSignature,
+  hasValidSignature,
+  NOT_AUTHENTICATED_ERROR,
+  MISSING_SIGNATURE_ERROR,
+} = require("../../utils/requireUserSignature");
 
 router.post("/", async (req, res) => {
-  if (
-    req.body.status === "COMPLETED" &&
-    !(await submitterHasSignature(req.body.createdBy, req.body.homeId))
-  ) {
+  const authUser = await resolveAuthenticatedUser(req);
+  if (!authUser) {
+    return res.status(401).json({ error: NOT_AUTHENTICATED_ERROR });
+  }
+
+  if (req.body.status === "COMPLETED" && !hasValidSignature(authUser)) {
     return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
   }
 
@@ -103,9 +111,9 @@ router.post("/", async (req, res) => {
 
     procedural_comments: req.body.procedural_comments,
 
-    createdBy: req.body.createdBy,
+    createdBy: authUser.email,
 
-    createdByName: req.body.createdByName,
+    createdByName: `${authUser.firstName} ${authUser.lastName}`,
 
     lastEditDate: new Date().toISOString(),
 
@@ -289,12 +297,14 @@ router.get(
 router.put("/:homeId/:formId/", async (req, res) => {
   if (
     req.body.status === "COMPLETED" &&
-    !(await submitterHasSignature(req.body.createdBy, req.params.homeId))
+    !(await submitterHasSignature(req))
   ) {
     return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
   }
 
   const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
+  delete updatedLastEditDate.createdBy;
+  delete updatedLastEditDate.createdByName;
   RestraintReport.updateOne({ _id: req.params.formId }, updatedLastEditDate)
     .then((data) => {
       res.json(updatedLastEditDate);

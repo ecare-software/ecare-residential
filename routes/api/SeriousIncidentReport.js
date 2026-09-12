@@ -2,13 +2,21 @@ const express = require("express");
 const router = express.Router();
 
 const SeriousIncidentReport = require("../../models/SeriousIncidentReport");
-const { submitterHasSignature, MISSING_SIGNATURE_ERROR } = require("../../utils/requireUserSignature");
+const {
+  resolveAuthenticatedUser,
+  submitterHasSignature,
+  hasValidSignature,
+  NOT_AUTHENTICATED_ERROR,
+  MISSING_SIGNATURE_ERROR,
+} = require("../../utils/requireUserSignature");
 
 router.post("/", async (req, res) => {
-  if (
-    req.body.status === "COMPLETED" &&
-    !(await submitterHasSignature(req.body.createdBy, req.body.homeId))
-  ) {
+  const authUser = await resolveAuthenticatedUser(req);
+  if (!authUser) {
+    return res.status(401).json({ error: NOT_AUTHENTICATED_ERROR });
+  }
+
+  if (req.body.status === "COMPLETED" && !hasValidSignature(authUser)) {
     return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
   }
 
@@ -69,9 +77,12 @@ router.post("/", async (req, res) => {
 
     follow_up_results: req.body.follow_up_results,
 
-    createdBy: req.body.createdBy,
+    // Set from the verified authenticated user, not the request body -
+    // createdBy is the record's permanent audit trail of who actually
+    // created it and must not be spoofable.
+    createdBy: authUser.email,
 
-    createdByName: req.body.createdByName,
+    createdByName: `${authUser.firstName} ${authUser.lastName}`,
 
     lastEditDate: new Date().toISOString(),
 
@@ -255,12 +266,18 @@ router.get(
 router.put("/:homeId/:formId/", async (req, res) => {
   if (
     req.body.status === "COMPLETED" &&
-    !(await submitterHasSignature(req.body.createdBy, req.params.homeId))
+    !(await submitterHasSignature(req))
   ) {
     return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
   }
 
   const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
+  // createdBy/createdByName are set once at creation from the verified
+  // authenticated user and must stay immutable - strip them from every
+  // edit regardless of what the request body claims, rather than letting
+  // an edit silently reassign who the original author was.
+  delete updatedLastEditDate.createdBy;
+  delete updatedLastEditDate.createdByName;
   SeriousIncidentReport.updateOne(
     { _id: req.params.formId },
     updatedLastEditDate

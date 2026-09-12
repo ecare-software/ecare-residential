@@ -234,12 +234,17 @@ router.put("/:id", async (req, res) => {
     }
 
     if (updates.status === "COMPLETED") {
-      // Normally the client always sends caregivers alongside status, but
-      // fall back to what's already on the document in case a caller
-      // updates status without resending caregivers.
-      const caregiversToCheck = Array.isArray(updates.caregivers)
-        ? updates.caregivers
-        : (await MedicationLog.findById(id).select("caregivers"))?.caregivers;
+      // Fall back to the persisted caregivers only when the field is
+      // completely absent from the request - if the caller explicitly
+      // sent caregivers (even null, a string, or some other malformed
+      // value), validate exactly what they sent, since that's also what
+      // $set below will persist. Falling back to the old (valid) document
+      // here while still writing the caller's malformed value would let a
+      // COMPLETED record end up with its signatures cleared or replaced.
+      const caregiversToCheck =
+        updates.caregivers !== undefined
+          ? updates.caregivers
+          : (await MedicationLog.findById(id).select("caregivers"))?.caregivers;
 
       if (!hasRequiredCaregiverSignatures(caregiversToCheck)) {
         return res.status(400).json({ error: MISSING_SIGNATURES_ERROR });

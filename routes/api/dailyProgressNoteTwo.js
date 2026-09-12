@@ -3,6 +3,30 @@ const DailyReport = require("../../models/DailyProgressNoteTwo");
 
 const router = express.Router();
 
+function isValidSignatureImage(sig) {
+  return typeof sig === "string" && sig.startsWith("data:image/") && sig.length > 100;
+}
+
+// Mirrors the client's isSignatureValid/areAllSignaturesValid
+// (DailyProgressTwo.js) - a valid AM/PM signature needs a real signature
+// image plus initials, a title, and a selected shift, for both index 0
+// (AM) and 1 (PM). The client already blocks Submit on this, but that
+// only protects the UI - this is the server-side backstop for it.
+function hasRequiredAmPmSignatures(signatureSection) {
+  if (!signatureSection) return false;
+  const { signatures, initials, titles, selectedShifts } = signatureSection;
+  return [0, 1].every(
+    (idx) =>
+      isValidSignatureImage(signatures?.[idx]) &&
+      !!initials?.[idx] &&
+      !!titles?.[idx] &&
+      !!selectedShifts?.[idx]
+  );
+}
+
+const MISSING_SIGNATURES_ERROR =
+  "Both AM and PM signatures (with initials, title, and shift) are required before this report can be marked COMPLETED.";
+
 // router.use((req, res, next) => {
 //   res.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
 //   res.set("Pragma", "no-cache");
@@ -14,6 +38,13 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {
+    if (
+      req.body.status === "COMPLETED" &&
+      !hasRequiredAmPmSignatures(req.body.signatureSection)
+    ) {
+      return res.status(400).json({ error: MISSING_SIGNATURES_ERROR });
+    }
+
     const newReport = new DailyReport({
       createDate: req.body.createDate || new Date(),
       child: req.body.child || {},
@@ -167,6 +198,21 @@ router.put("/:homeId/:reportId", async (req, res) => {
   try {
     console.log(`Updating report: homeId=${req.params.homeId}, reportId=${req.params.reportId}`);
     console.log("Update payload:", req.body);
+
+    if (req.body.status === "COMPLETED") {
+      // The client always sends signatureSection alongside status, but
+      // fall back to what's already persisted in case a caller updates
+      // status without resending it.
+      const signatureSection =
+        req.body.signatureSection !== undefined
+          ? req.body.signatureSection
+          : (await DailyReport.findById(req.params.reportId).select("signatureSection"))
+              ?.signatureSection;
+
+      if (!hasRequiredAmPmSignatures(signatureSection)) {
+        return res.status(400).json({ error: MISSING_SIGNATURES_ERROR });
+      }
+    }
 
     const updatedReport = await DailyReport.findByIdAndUpdate(
       req.params.reportId,

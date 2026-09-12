@@ -2,13 +2,21 @@ const express = require("express");
 const router = express.Router();
 
 const BodyCheck = require("../../models/BodyCheck");
-const { submitterHasSignature, MISSING_SIGNATURE_ERROR } = require("../../utils/requireUserSignature");
+const {
+  resolveAuthenticatedUser,
+  submitterHasSignature,
+  hasValidSignature,
+  NOT_AUTHENTICATED_ERROR,
+  MISSING_SIGNATURE_ERROR,
+} = require("../../utils/requireUserSignature");
 
 router.post("/", async (req, res) => {
-  if (
-    req.body.status === "COMPLETED" &&
-    !(await submitterHasSignature(req.body.createdBy, req.body.homeId))
-  ) {
+  const authUser = await resolveAuthenticatedUser(req);
+  if (!authUser) {
+    return res.status(401).json({ error: NOT_AUTHENTICATED_ERROR });
+  }
+
+  if (req.body.status === "COMPLETED" && !hasValidSignature(authUser)) {
     return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
   }
 
@@ -52,8 +60,8 @@ router.post("/", async (req, res) => {
     right_ankle: req.body.right_ankle,
     left_foot: req.body.left_foot,
     right_foot: req.body.right_foot,
-    createdBy: req.body.createdBy,
-    createdByName: req.body.createdByName,
+    createdBy: authUser.email,
+    createdByName: `${authUser.firstName} ${authUser.lastName}`,
     details: req.body.details,
     lastEditDate: new Date().toISOString(),
     createDate: req.body.createDate,
@@ -155,12 +163,14 @@ router.get(
 router.put("/:homeId/:formId/", async (req, res) => {
   if (
     req.body.status === "COMPLETED" &&
-    !(await submitterHasSignature(req.body.createdBy, req.params.homeId))
+    !(await submitterHasSignature(req))
   ) {
     return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
   }
 
   const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
+  delete updatedLastEditDate.createdBy;
+  delete updatedLastEditDate.createdByName;
   BodyCheck.updateOne({ _id: req.params.formId }, updatedLastEditDate)
     .then((data) => {
       res.json(updatedLastEditDate);

@@ -3,13 +3,21 @@ const router = express.Router();
 ObjectID = require("mongodb").ObjectID;
 
 const AdmissionAssessment = require("../../models/AdmissionAssessment");
-const { submitterHasSignature, MISSING_SIGNATURE_ERROR } = require("../../utils/requireUserSignature");
+const {
+  resolveAuthenticatedUser,
+  submitterHasSignature,
+  hasValidSignature,
+  NOT_AUTHENTICATED_ERROR,
+  MISSING_SIGNATURE_ERROR,
+} = require("../../utils/requireUserSignature");
 
 router.post("/", async (req, res) => {
-  if (
-    req.body.status === "COMPLETED" &&
-    !(await submitterHasSignature(req.body.createdBy, req.body.homeId))
-  ) {
+  const authUser = await resolveAuthenticatedUser(req);
+  if (!authUser) {
+    return res.status(401).json({ error: NOT_AUTHENTICATED_ERROR });
+  }
+
+  if (req.body.status === "COMPLETED" && !hasValidSignature(authUser)) {
     return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
   }
 
@@ -34,8 +42,13 @@ router.post("/", async (req, res) => {
     childPreferred_de_escalation: req.body.childPreferred_de_escalation,
     child_de_escalator: req.body.child_de_escalator,
     chronicHealthConditions: req.body.chronicHealthConditions,
-    createdBy: req.body.createdBy,
-    createdByName: req.body.createdByName,
+    // Note: overwritten below by the second createdBy/createdByName keys
+    // in this same object literal (a pre-existing duplicate-key quirk -
+    // JS keeps the last one) - both are set from the verified
+    // authenticated user, not the request body, so it doesn't matter
+    // which wins.
+    createdBy: authUser.email,
+    createdByName: `${authUser.firstName} ${authUser.lastName}`,
     currentMedications_dosages_targetedSymptoms1_dosage_frequency:
       req.body.currentMedications_dosages_targetedSymptoms1_dosage_frequency,
     currentMedications_dosages_targetedSymptoms1_medication:
@@ -167,9 +180,11 @@ router.post("/", async (req, res) => {
     therapist_de_escalator: req.body.therapist_de_escalator,
     understanding_expectations: req.body.understanding_expectations,
 
-    createdBy: req.body.createdBy,
+    // The key that actually applies (see the note on the first,
+    // shadowed createdBy/createdByName above).
+    createdBy: authUser.email,
 
-    createdByName: req.body.createdByName,
+    createdByName: `${authUser.firstName} ${authUser.lastName}`,
 
     lastEditDate: new Date().toISOString(),
 
@@ -271,12 +286,14 @@ router.get(
 router.put("/:homeId/:formId/", async (req, res) => {
   if (
     req.body.status === "COMPLETED" &&
-    !(await submitterHasSignature(req.body.createdBy, req.params.homeId))
+    !(await submitterHasSignature(req))
   ) {
     return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
   }
 
   const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
+  delete updatedLastEditDate.createdBy;
+  delete updatedLastEditDate.createdByName;
   AdmissionAssessment.updateOne({ _id: req.params.formId }, updatedLastEditDate)
     .then((data) => {
       res.json(updatedLastEditDate);

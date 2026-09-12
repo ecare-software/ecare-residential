@@ -941,7 +941,7 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
       return true;
     } catch (err) {
       console.log(err)
-      alert("Error saving form.");
+      alert(err?.response?.data?.error || "Error saving form.");
       return false;
     }
   };

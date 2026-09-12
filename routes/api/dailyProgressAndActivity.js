@@ -3,7 +3,44 @@ const router = express.Router();
 
 const DailyProgressAndActivity = require("../../models/DailyProgressAndActivity");
 
+// Same rule the client uses to decide whether a home requires two
+// signatures before a report can be completed (see
+// DailyProgressAndActivity.js's doGetHomeInfo). Derived independently from
+// homeId here rather than trusted from req.body.twoSignaturesRequired -
+// that field is client-supplied and a direct API request could otherwise
+// just send `twoSignaturesRequired: false` to skip the second-signature
+// requirement entirely.
+//TODO add twoSignatureRequired to home API - keep in sync with the client's copy of this rule until it is
+function isTwoSignatureHome(homeId) {
+  return homeId === "home-3" || homeId === "home-1234";
+}
+
+function hasSignature(sig) {
+  return Array.isArray(sig) && sig.length > 0;
+}
+
+// The completion invariant: signature1 is always required, and signature2
+// is additionally required for two-signature homes. Mirrors the client's
+// missingRequiredSignature check in DailyProgressAndActivity.js - that
+// only protects the UI, so this is the server-side backstop for it.
+function meetsSignatureCompletionRequirement(homeId, signature1, signature2) {
+  if (!hasSignature(signature1)) return false;
+  if (isTwoSignatureHome(homeId) && !hasSignature(signature2)) return false;
+  return true;
+}
+
+const MISSING_SIGNATURE_ERROR =
+  "A signature (both caregiver signatures, for two-signature homes) is required before this report can be marked COMPLETED.";
+
 router.post("/", (req, res) => {
+  if (
+    req.body.status === "COMPLETED" &&
+    !meetsSignatureCompletionRequirement(req.body.homeId, req.body.signature1, req.body.signature2)
+  ) {
+    return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
+  }
+
+
   const newDailyProgressAndActivity = new DailyProgressAndActivity({
     childMeta_name: req.body.childMeta_name,
 
@@ -151,7 +188,30 @@ router.get(
   }
 );
 
-router.put("/:homeId/:formId/", (req, res) => {
+router.put("/:homeId/:formId/", async (req, res) => {
+  if (req.body.status === "COMPLETED") {
+    // Fall back to the persisted signatures only when a field is
+    // completely absent from the request - if the caller explicitly sent
+    // signature1/signature2 (even null, a string, or some other malformed
+    // value), validate exactly what they sent, since that's also what
+    // gets persisted below via {...req.body}. Falling back to the old
+    // (valid) document here while still writing the caller's malformed
+    // value would let a COMPLETED record end up with its signature(s)
+    // cleared or replaced.
+    let { signature1, signature2 } = req.body;
+    if (signature1 === undefined || signature2 === undefined) {
+      const existing = await DailyProgressAndActivity.findById(req.params.formId).select(
+        "signature1 signature2"
+      );
+      if (signature1 === undefined) signature1 = existing?.signature1;
+      if (signature2 === undefined) signature2 = existing?.signature2;
+    }
+
+    if (!meetsSignatureCompletionRequirement(req.params.homeId, signature1, signature2)) {
+      return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
+    }
+  }
+
   const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
   DailyProgressAndActivity.updateOne(
     { _id: req.params.formId },

@@ -383,6 +383,7 @@ class DailyProgressAndActivity extends Component {
         this.setState({
           formHasError: true,
           formErrorMessage:
+            e?.response?.data?.error ||
             "Error Submitting Daily Progress and Activity Report",
           loadingClients: false,
         });
@@ -410,6 +411,7 @@ class DailyProgressAndActivity extends Component {
           this.setState({
             formHasError: true,
             formErrorMessage:
+              e?.response?.data?.error ||
               "Error Submitting Daily Progress and Activity Report",
             loadingClients: false,
           });
