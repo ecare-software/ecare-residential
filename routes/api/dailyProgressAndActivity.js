@@ -6,6 +6,10 @@ const Home = require("../../models/Home");
 const {
   resolveHomeScopedUser,
 } = require("../../utils/requireUserSignature");
+const {
+  containsMongoOperatorKey,
+  MONGO_OPERATOR_ERROR,
+} = require("../../utils/rejectMongoOperators");
 
 // Whether a home requires two signatures before a report can be
 // completed - resolved from the persisted Home record's own
@@ -239,6 +243,17 @@ router.put("/:homeId/:formId/", async (req, res) => {
     return res.status(errorResponse.status).json(errorResponse.body);
   }
 
+  // A $-prefixed top-level key in the body is a MongoDB update operator,
+  // not a field name - see utils/rejectMongoOperators.js. Without this,
+  // a caller could smuggle e.g. { $set: { homeId: "other-home" } }
+  // alongside plain fields; MongoDB merges that into the update's
+  // effective $set and applies it verbatim, bypassing the
+  // createdBy/createdByName/homeId/createDate strip below, which only
+  // ever covers those exact top-level key names.
+  if (containsMongoOperatorKey(req.body)) {
+    return res.status(400).json({ error: MONGO_OPERATOR_ERROR });
+  }
+
   const twoSigRequired = await isTwoSignatureHome(authUser.homeId);
 
   // The record's status AFTER this update is applied - not just whatever
@@ -284,16 +299,19 @@ router.put("/:homeId/:formId/", async (req, res) => {
   }
 
   const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
-  // createdBy/createdByName/homeId are set once at creation and must stay
-  // immutable - strip them from every edit regardless of what the request
-  // body claims, rather than letting an edit silently reassign who the
-  // original author was or move the record into another tenant.
+  // createdBy/createdByName/homeId/createDate are set once at creation and
+  // must stay immutable - strip them from every edit regardless of what
+  // the request body claims, rather than letting an edit silently reassign
+  // who the original author was, move the record into another tenant, or
+  // (createDate) backdate/postdate the creation audit trail. Mirrors
+  // routes/api/client.js's identical strip on its Face Sheet update.
   // twoSignaturesRequired is refreshed to the currently resolved policy
   // rather than trusted from the body, for the same reason the completion
   // check above never trusts it.
   delete updatedLastEditDate.createdBy;
   delete updatedLastEditDate.createdByName;
   delete updatedLastEditDate.homeId;
+  delete updatedLastEditDate.createDate;
   updatedLastEditDate.twoSignaturesRequired = twoSigRequired;
   DailyProgressAndActivity.updateOne(
     // Scoped to the authenticated user's own home, not the URL's :homeId

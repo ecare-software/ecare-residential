@@ -7,6 +7,10 @@ const {
   hasValidSignature,
   MISSING_SIGNATURE_ERROR,
 } = require("../../utils/requireUserSignature");
+const {
+  containsMongoOperatorKey,
+  MONGO_OPERATOR_ERROR,
+} = require("../../utils/rejectMongoOperators");
 
 router.post("/", async (req, res) => {
   const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.body.homeId);
@@ -306,6 +310,17 @@ router.put("/:homeId/:formId/", async (req, res) => {
     return res.status(errorResponse.status).json(errorResponse.body);
   }
 
+  // A $-prefixed top-level key in the body is a MongoDB update operator,
+  // not a field name - see utils/rejectMongoOperators.js. Without this,
+  // a caller could smuggle e.g. { $set: { homeId: "other-home" } }
+  // alongside plain fields; MongoDB merges that into the update's
+  // effective $set and applies it verbatim, bypassing the
+  // createdBy/createdByName/homeId/createDate strip below, which only
+  // ever covers those exact top-level key names.
+  if (containsMongoOperatorKey(req.body)) {
+    return res.status(400).json({ error: MONGO_OPERATOR_ERROR });
+  }
+
   // The record's status AFTER this update is applied - not just
   // whatever this particular request happens to send. Gating only on
   // `req.body.status === "COMPLETED"` would let a PUT that omits status
@@ -325,13 +340,16 @@ router.put("/:homeId/:formId/", async (req, res) => {
   }
 
   const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
-  // createdBy/createdByName/homeId are set once at creation and must stay
-  // immutable - strip them from every edit regardless of what the request
-  // body claims, rather than letting an edit silently reassign who the
-  // original author was or move the record into another tenant.
+  // createdBy/createdByName/homeId/createDate are set once at creation and
+  // must stay immutable - strip them from every edit regardless of what
+  // the request body claims, rather than letting an edit silently reassign
+  // who the original author was, move the record into another tenant, or
+  // (createDate) backdate/postdate the creation audit trail. Mirrors
+  // routes/api/client.js's identical strip on its Face Sheet update.
   delete updatedLastEditDate.createdBy;
   delete updatedLastEditDate.createdByName;
   delete updatedLastEditDate.homeId;
+  delete updatedLastEditDate.createDate;
   RestraintReport.updateOne(
     // Scoped to the authenticated user's own home, not the URL's :homeId
     // (just a caller-supplied claim) - a record belonging to a different

@@ -474,8 +474,16 @@ class DailyProgressAndActivity extends Component {
     }
 
     else if (this.state.twoSignaturesRequired && this.state.signature1.length > 0 && !save) {
-      this.sigCanvas1.fromData(this.props.formData.signature1);
+      // Only restore the persisted first signature onto the canvas for an
+      // existing record - this.props.formData doesn't exist for a new
+      // report (App.js mounts it with valuesSet={false} and no formData
+      // prop at all), so dereferencing formData.signature1 unconditionally
+      // threw here on a second Submit click once signature1 had already
+      // been captured into state by the first (see the `if` branch above).
+      // A new report has no sigCanvas1 to restore into anyway - it should
+      // just keep whatever's already on the canvas from this session.
       if (this.props.valuesSet) {
+        this.sigCanvas1.fromData(this.props.formData.signature1);
         effectiveSignature2 = createdUserData.signature || [];
         this.sigCanvas2.fromData(effectiveSignature2);
         this.setState({
@@ -491,9 +499,23 @@ class DailyProgressAndActivity extends Component {
     // single-signature home could mark a form COMPLETED with no signature
     // captured anywhere.
     if (!save) {
+      // hadSignature1Already (not this.props.valuesSet) is what decides
+      // whether signature2 is required here: it's true exactly when this
+      // submission is NOT the one capturing signature1 for the first time
+      // - i.e. a second signer's completion attempt, whether that's an
+      // existing record (valuesSet=true) or a repeat Submit click on a
+      // brand-new report that already captured signature1 on session.
+      // Gating on valuesSet instead let a new two-signature-home report's
+      // Submit silently save as a draft with signature2 still missing,
+      // with no error and no path to ever complete it, instead of telling
+      // the user a second signature is still needed. Using
+      // hadSignature1Already for both cases still lets the very first
+      // capture of signature1 (new or existing record) succeed
+      // unblocked - only a submission that ALREADY had signature1 going
+      // in now also requires signature2, in a two-signature home.
       const missingRequiredSignature = this.state.twoSignaturesRequired
         ? effectiveSignature1.length === 0 ||
-          (this.props.valuesSet && hadSignature1Already && effectiveSignature2.length === 0)
+          (hadSignature1Already && effectiveSignature2.length === 0)
         : effectiveSignature1.length === 0;
 
       if (missingRequiredSignature) {

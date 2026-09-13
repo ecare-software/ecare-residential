@@ -3,6 +3,10 @@ const DailyReport = require("../../models/DailyProgressNoteTwo");
 const {
   resolveHomeScopedUser,
 } = require("../../utils/requireUserSignature");
+const {
+  containsMongoOperatorKey,
+  MONGO_OPERATOR_ERROR,
+} = require("../../utils/rejectMongoOperators");
 
 const router = express.Router();
 
@@ -282,6 +286,17 @@ router.put("/:homeId/:reportId", async (req, res) => {
       return res.status(errorResponse.status).json(errorResponse.body);
     }
 
+    // A $-prefixed top-level key in the body is a MongoDB update operator,
+    // not a field name - see utils/rejectMongoOperators.js. Without this,
+    // a caller could smuggle e.g. { $set: { homeId: "other-home" } }
+    // alongside plain fields; MongoDB merges that into the update's
+    // effective $set and applies it verbatim, bypassing the
+    // createdBy/createdByName/homeId/createDate strip below, which only
+    // ever covers those exact top-level key names.
+    if (containsMongoOperatorKey(req.body)) {
+      return res.status(400).json({ error: MONGO_OPERATOR_ERROR });
+    }
+
     console.log(`Updating report: homeId=${req.params.homeId}, reportId=${req.params.reportId}`);
     console.log("Update payload:", req.body);
 
@@ -306,16 +321,18 @@ router.put("/:homeId/:reportId", async (req, res) => {
     }
 
     const updates = { ...req.body, lastEditDate: new Date() };
-    // createdBy/createdByName/homeId are set once at creation and must
-    // stay immutable - strip them from every edit regardless of what the
-    // request body claims, rather than letting an edit silently reassign
-    // who the original author was or move the record into another
-    // tenant. completedShiftCount (below) is the same kind of field, so
-    // it's stripped here too and only ever set explicitly in the
-    // COMPLETED branch.
+    // createdBy/createdByName/homeId/createDate are set once at creation
+    // and must stay immutable - strip them from every edit regardless of
+    // what the request body claims, rather than letting an edit silently
+    // reassign who the original author was, move the record into another
+    // tenant, or backdate/postdate the creation audit trail.
+    // completedShiftCount (below) is the same kind of field, so it's
+    // stripped here too and only ever set explicitly in the COMPLETED
+    // branch.
     delete updates.createdBy;
     delete updates.createdByName;
     delete updates.homeId;
+    delete updates.createDate;
     delete updates.completedShiftCount;
 
     // Self-heal legacy selectedShifts (see the comment on
@@ -355,14 +372,23 @@ router.put("/:homeId/:reportId", async (req, res) => {
       // which stays live/editable (e.g. adding a 3rd shift to an
       // already-completed 2-shift report; see DailyProgressTwo.js's
       // isNewlyRevealedShift, which depends on this staying put). If it's
-      // already persisted, keep that historical value; otherwise this is
-      // the first completion, so capture the shiftCount as of right now.
+      // already persisted, keep that historical value; otherwise backfill
+      // it from the PERSISTED shiftCount (existingDoc, as of before this
+      // update), not the requested/live one in req.body/updates. For a
+      // legacy COMPLETED report that predates this field, the persisted
+      // shiftCount is what it actually was at the time it was originally
+      // completed - using the incoming shiftCount instead would let a
+      // request that flips such a report from 2 to 3 shifts (to open up
+      // the newly-added NOC signature) immediately persist
+      // completedShiftCount=3, which locks that very NOC shift before its
+      // signature was ever entered. The live shiftCount field itself
+      // still gets the requested value as normal, via the ...req.body
+      // spread above - this only changes what's captured as historical.
       if (existingDoc?.completedShiftCount != null) {
         updates.completedShiftCount = existingDoc.completedShiftCount;
       } else {
-        const currentShiftCount =
-          req.body.shiftCount !== undefined ? Number(req.body.shiftCount) : existingDoc?.shiftCount;
-        updates.completedShiftCount = currentShiftCount === 2 ? 2 : 3;
+        const historicalShiftCount = existingDoc?.shiftCount;
+        updates.completedShiftCount = historicalShiftCount === 2 ? 2 : 3;
       }
     }
 

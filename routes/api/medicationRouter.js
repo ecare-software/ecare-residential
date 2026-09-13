@@ -3,6 +3,10 @@ const MedicationLog = require("../../models/Medication");
 const {
   resolveHomeScopedUser,
 } = require("../../utils/requireUserSignature");
+const {
+  containsMongoOperatorKey,
+  MONGO_OPERATOR_ERROR,
+} = require("../../utils/rejectMongoOperators");
 
 const router = express.Router();
 
@@ -241,15 +245,30 @@ router.put("/:id", async (req, res) => {
       return res.status(errorResponse.status).json(errorResponse.body);
     }
 
+    // A $-prefixed top-level key in the body is a MongoDB update operator,
+    // not a field name - see utils/rejectMongoOperators.js. This route
+    // already wraps its update in an explicit { $set: updates } below,
+    // which happens to make a nested $set key throw (MongoDB rejects a
+    // literal "$set" field inside another $set, verified against this
+    // repo's actual Mongoose/MongoDB behavior) rather than silently apply
+    // it - but that's an accident of this route's shape, not a guarantee,
+    // and it'd otherwise surface as an unhelpful 500. Rejecting it
+    // outright up front is the same explicit guard the other form routes
+    // use, and turns that into a clean 400 instead.
+    if (containsMongoOperatorKey(req.body)) {
+      return res.status(400).json({ error: MONGO_OPERATOR_ERROR });
+    }
+
     updates.lastEditDate = new Date();
-    // homeId/createdBy/createdByName are set once at creation and must
-    // stay immutable - strip them from every edit regardless of what the
-    // request body claims, rather than letting an edit silently reassign
-    // who the original author was or move the record into another
-    // tenant.
+    // homeId/createdBy/createdByName/createDate are set once at creation
+    // and must stay immutable - strip them from every edit regardless of
+    // what the request body claims, rather than letting an edit silently
+    // reassign who the original author was, move the record into another
+    // tenant, or backdate/postdate the creation audit trail.
     delete updates.homeId;
     delete updates.createdBy;
     delete updates.createdByName;
+    delete updates.createDate;
 
     if (updates.medications) {
       updates.medications = updates.medications.map((m) => ({
