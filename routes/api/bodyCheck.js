@@ -205,7 +205,13 @@ router.put("/:homeId/:formId/", async (req, res) => {
     updatedLastEditDate
   )
     .then((data) => {
-      if (!data.matchedCount) {
+      // Mongoose 5's updateOne() result uses the legacy MongoDB driver
+      // shape ({ n, nModified, ok }), not matchedCount/modifiedCount
+      // (that's Mongoose 6+/the modern driver) - see routes/api/client.js's
+      // identical check for the established convention in this codebase.
+      // data.matchedCount here is always undefined, which would make this
+      // 404 on every successful update.
+      if (!data.n) {
         return res.status(404).json({ error: "Report not found" });
       }
       res.json(updatedLastEditDate);
