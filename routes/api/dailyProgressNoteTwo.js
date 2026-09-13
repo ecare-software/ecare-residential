@@ -10,21 +10,72 @@ function isValidSignatureImage(sig) {
   return typeof sig === "string" && sig.startsWith("data:image/") && sig.length > 100;
 }
 
+// selectedShifts was only added to the signatureSchema after this
+// enforcement was written (see the model's schema comment) - records
+// saved before that had signatures/initials/titles genuinely captured
+// and persisted, but Mongoose silently stripped selectedShifts on every
+// save since the field didn't exist yet. That data isn't recoverable
+// (it was never written to the database, not just hidden), but index 0
+// has always meant the AM/1st shift and index 1 the PM/2nd shift
+// throughout this form's history - there's no other value either index
+// could have meant - so a missing selectedShifts on an otherwise-valid
+// legacy signature can be safely inferred positionally instead of
+// rejecting a legitimately-completed old report outright.
+const POSITIONAL_SHIFT_FALLBACK = ["shift1", "shift2", "shift3"];
+
+// Resolves whether index idx has a valid AM/PM signature, and what shift
+// it's for - either the value actually recorded, or the positional
+// legacy fallback above when a real signature/initials/title exist but
+// selectedShifts doesn't. `inferred: true` marks the fallback case so
+// callers can self-heal it back into what gets persisted.
+function resolveAmPmSignature(signatureSection, idx) {
+  const signatures = signatureSection?.signatures;
+  const initials = signatureSection?.initials;
+  const titles = signatureSection?.titles;
+  const selectedShifts = signatureSection?.selectedShifts;
+
+  const hasCore =
+    isValidSignatureImage(signatures?.[idx]) && !!initials?.[idx] && !!titles?.[idx];
+  if (!hasCore) return { valid: false };
+
+  if (selectedShifts?.[idx]) {
+    return { valid: true, shift: selectedShifts[idx], inferred: false };
+  }
+  return { valid: true, shift: POSITIONAL_SHIFT_FALLBACK[idx], inferred: true };
+}
+
 // Mirrors the client's isSignatureValid/areAllSignaturesValid
 // (DailyProgressTwo.js) - a valid AM/PM signature needs a real signature
-// image plus initials, a title, and a selected shift, for both index 0
-// (AM) and 1 (PM). The client already blocks Submit on this, but that
-// only protects the UI - this is the server-side backstop for it.
+// image, initials, and a title, for both index 0 (AM) and 1 (PM), with
+// the shift resolved (including the legacy fallback) above. The client
+// already blocks Submit on this, but that only protects the UI - this is
+// the server-side backstop for it.
 function hasRequiredAmPmSignatures(signatureSection) {
-  if (!signatureSection) return false;
-  const { signatures, initials, titles, selectedShifts } = signatureSection;
-  return [0, 1].every(
-    (idx) =>
-      isValidSignatureImage(signatures?.[idx]) &&
-      !!initials?.[idx] &&
-      !!titles?.[idx] &&
-      !!selectedShifts?.[idx]
-  );
+  return [0, 1].every((idx) => resolveAmPmSignature(signatureSection, idx).valid);
+}
+
+// Backfills any inferred (legacy) selectedShifts into a signatureSection
+// before it's persisted, so a record that gets re-saved converges to
+// having the field explicitly populated and no longer needs the
+// positional fallback on its next check. Returns the input unchanged if
+// there's nothing to heal (including if it's missing/empty entirely -
+// this never invents a signature that isn't there).
+function healLegacySelectedShifts(signatureSection) {
+  if (!signatureSection) return signatureSection;
+  const selectedShifts = Array.isArray(signatureSection.selectedShifts)
+    ? [...signatureSection.selectedShifts]
+    : [];
+  let healed = false;
+  for (let idx = 0; idx < 3; idx++) {
+    if (!selectedShifts[idx]) {
+      const resolved = resolveAmPmSignature(signatureSection, idx);
+      if (resolved.valid && resolved.inferred) {
+        selectedShifts[idx] = resolved.shift;
+        healed = true;
+      }
+    }
+  }
+  return healed ? { ...signatureSection, selectedShifts } : signatureSection;
 }
 
 const MISSING_SIGNATURES_ERROR =
@@ -71,7 +122,11 @@ router.post("/", async (req, res) => {
       createdBy: authUser.email,
       createdByName: `${authUser.firstName} ${authUser.lastName}`,
       status: req.body.status || "IN_PROGRESS",
-      lastEditDate: req.body.lastEditDate || new Date(),
+      // Always server-generated, never taken from the request - this
+      // value is used for report ordering and shown as audit data, so a
+      // caller-supplied lastEditDate could backdate/postdate a record or
+      // skew its position in a sorted list.
+      lastEditDate: new Date(),
       approved: req.body.approved || false,
 
       // Other sections
@@ -88,6 +143,11 @@ router.post("/", async (req, res) => {
       shiftSummary: req.body.shiftSummary || {},
       clothingDescription: req.body.clothingDescription || {},
       shiftCount: Number(req.body.shiftCount) === 2 ? 2 : 3,
+      // Only set if this brand-new record is being created already
+      // COMPLETED - captures the shiftCount at that moment, permanently
+      // (see the schema comment on completedShiftCount).
+      completedShiftCount:
+        req.body.status === "COMPLETED" ? (Number(req.body.shiftCount) === 2 ? 2 : 3) : undefined,
       signatureSection: req.body.signatureSection || {},
       shiftStatus: req.body.shiftStatus || {
         firstShift: { completed: false, userId: null },
@@ -239,13 +299,45 @@ router.put("/:homeId/:reportId", async (req, res) => {
       existingDoc = await DailyReport.findOne({
         _id: req.params.reportId,
         homeId: authUser.homeId,
-      }).select("status signatureSection");
+      }).select("status signatureSection shiftCount completedShiftCount");
     }
     if (effectiveStatus === undefined) {
       effectiveStatus = existingDoc?.status;
     }
 
+    const updates = { ...req.body, lastEditDate: new Date() };
+    // createdBy/createdByName/homeId are set once at creation and must
+    // stay immutable - strip them from every edit regardless of what the
+    // request body claims, rather than letting an edit silently reassign
+    // who the original author was or move the record into another
+    // tenant. completedShiftCount (below) is the same kind of field, so
+    // it's stripped here too and only ever set explicitly in the
+    // COMPLETED branch.
+    delete updates.createdBy;
+    delete updates.createdByName;
+    delete updates.homeId;
+    delete updates.completedShiftCount;
+
+    // Self-heal legacy selectedShifts (see the comment on
+    // healLegacySelectedShifts above) whenever this save is touching
+    // signatureSection at all, so the record converges to having the
+    // field explicitly populated rather than relying on the positional
+    // fallback forever.
+    if (updates.signatureSection) {
+      updates.signatureSection = healLegacySelectedShifts(updates.signatureSection);
+    }
+
     if (effectiveStatus === "COMPLETED") {
+      // The two triggers above may not have fetched existingDoc (e.g.
+      // status and signatureSection were both sent explicitly) but this
+      // branch still needs the persisted shiftCount/completedShiftCount.
+      if (!existingDoc) {
+        existingDoc = await DailyReport.findOne({
+          _id: req.params.reportId,
+          homeId: authUser.homeId,
+        }).select("status signatureSection shiftCount completedShiftCount");
+      }
+
       // The client always sends signatureSection alongside status, but
       // fall back to what's already persisted in case a caller updates
       // status without resending it.
@@ -257,17 +349,22 @@ router.put("/:homeId/:reportId", async (req, res) => {
       if (!hasRequiredAmPmSignatures(signatureSection)) {
         return res.status(400).json({ error: MISSING_SIGNATURES_ERROR });
       }
-    }
 
-    const updates = { ...req.body, lastEditDate: new Date() };
-    // createdBy/createdByName/homeId are set once at creation and must
-    // stay immutable - strip them from every edit regardless of what the
-    // request body claims, rather than letting an edit silently reassign
-    // who the original author was or move the record into another
-    // tenant.
-    delete updates.createdBy;
-    delete updates.createdByName;
-    delete updates.homeId;
+      // completedShiftCount is set once, the first time a report becomes
+      // COMPLETED, and never changed again afterward - unlike shiftCount,
+      // which stays live/editable (e.g. adding a 3rd shift to an
+      // already-completed 2-shift report; see DailyProgressTwo.js's
+      // isNewlyRevealedShift, which depends on this staying put). If it's
+      // already persisted, keep that historical value; otherwise this is
+      // the first completion, so capture the shiftCount as of right now.
+      if (existingDoc?.completedShiftCount != null) {
+        updates.completedShiftCount = existingDoc.completedShiftCount;
+      } else {
+        const currentShiftCount =
+          req.body.shiftCount !== undefined ? Number(req.body.shiftCount) : existingDoc?.shiftCount;
+        updates.completedShiftCount = currentShiftCount === 2 ? 2 : 3;
+      }
+    }
 
     const updatedReport = await DailyReport.findOneAndUpdate(
       // Scoped to the authenticated user's own home, not the URL's

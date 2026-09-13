@@ -234,11 +234,27 @@ const dailyReportSchema = new mongoose.Schema(
     // SIGNATURE
     signatureSection: signatureSchema,
 
-    // 🔀 Number of shift columns shown on the form (2 = AM/PM, 3 = AM/PM/NOC)
+    // 🔀 Number of shift columns *currently* shown on the form (2 = AM/PM, 3
+    // = AM/PM/NOC) - this is live/editable and can change after the report
+    // is completed (e.g. adding a 3rd shift to a completed 2-shift report).
     shiftCount: {
       type: Number,
       enum: [2, 3],
       default: 3,
+    },
+
+    // 🔒 The shiftCount that was true the moment this report FIRST became
+    // COMPLETED - set once by the server (routes/api/dailyProgressNoteTwo.js)
+    // and never changed again afterward, unlike shiftCount above. This is
+    // what the client uses to tell "a shift that was already part of the
+    // completed submission" from "a shift added after the fact" (see
+    // DailyProgressTwo.js's isNewlyRevealedShift) - shiftCount itself can't
+    // be used for that because saving a newly-added shift's signature
+    // updates shiftCount too, which would immediately re-lock that very
+    // shift right after capturing it.
+    completedShiftCount: {
+      type: Number,
+      enum: [2, 3],
     },
 
     // ✅ NEW FIELDS

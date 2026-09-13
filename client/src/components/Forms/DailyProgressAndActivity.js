@@ -214,7 +214,14 @@ class DailyProgressAndActivity extends Component {
   doGetHomeInfo = async () => {
     try {
       const { data } = await FetchHomeData(this.props.userObj.homeId);
-      this.state.twoSignaturesRequired = !!data[0]?.twoSignatures;
+      // setState, not a direct mutation - this resolves asynchronously
+      // (after the initial render, from componentDidMount/componentDidUpdate,
+      // not render()), so without setState nothing tells React to re-render
+      // once the real value is known. The signature2 UI's visibility reads
+      // this same state field (see the render() condition near "signature2"),
+      // so a home that becomes two-signature after this component already
+      // rendered would otherwise never show the second signature slot.
+      this.setState({ twoSignaturesRequired: !!data[0]?.twoSignatures });
       return (data)
     } catch (e) {
       console.log("Error fetching home info");
@@ -312,9 +319,14 @@ class DailyProgressAndActivity extends Component {
         .then((res) => {
           initAutoSave = true;
 
+          // Merge the full response, not just _id - it also carries the
+          // server-generated lastEditDate, which the PUT branch above
+          // already merges on every later autosave. Storing only _id
+          // here left "Last Saved" blank from the moment this first
+          // autosave create completes until the next autosave tick.
           this.setState({
             ...this.state,
-            _id: res.data._id,
+            ...res.data,
           });
         })
         .catch((e) => {
@@ -342,7 +354,15 @@ class DailyProgressAndActivity extends Component {
     // Use the effective (just-computed) signature values rather than
     // this.state directly - setState from validateForm() may not have
     // flushed yet when submit() is called right after it.
-    if (this.state.twoSignaturesRequired && this.props.valuesSet && effectiveSignature1.length > 0 && effectiveSignature2.length > 0 && !save) {
+    //
+    // Completion is decided purely by whether the effective signatures
+    // this submission actually carries satisfy the home's policy - not
+    // by this.props.valuesSet. New Daily Activity forms are mounted with
+    // valuesSet={false} (see App.js), so requiring valuesSet here meant a
+    // two-signature-home report could never be marked COMPLETED through
+    // this handler for a new report, even once both signatures were
+    // genuinely present - it stayed IN PROGRESS regardless.
+    if (this.state.twoSignaturesRequired && effectiveSignature1.length > 0 && effectiveSignature2.length > 0 && !save) {
       this.state.status = 'COMPLETED'
     }
     else if (!this.state.twoSignaturesRequired && !save) this.state.status = "COMPLETED";
@@ -1980,10 +2000,16 @@ class DailyProgressAndActivity extends Component {
 
               <div id='signature2'
                 style={{
+                  // Driven by state.twoSignaturesRequired (the home's real
+                  // persisted twoSignatures flag - see doGetHomeInfo), not a
+                  // hardcoded homeId check - otherwise a newly configured
+                  // two-signature home would have the server correctly
+                  // requiring a second signature (see
+                  // routes/api/dailyProgressAndActivity.js's identical
+                  // isTwoSignatureHome) while this UI never shows the field
+                  // to enter it.
                   display:
-                    (this.props.userObj.homeId === 'home-3' || this.props.userObj.homeId === 'home-1234') && this.props.formData.signature2.length > 0
-                      // remove comment below & add comment out above to test Demo home without two signature requirement
-                      // (this.props.userObj.homeId === 'home-3') && this.props.formData.signature2.length > 0
+                    this.state.twoSignaturesRequired && this.props.formData.signature2.length > 0
                       ? 'block' : 'none'
                 }}
               >

@@ -1,5 +1,8 @@
 const express = require("express");
 const MedicationLog = require("../../models/Medication");
+const {
+  resolveHomeScopedUser,
+} = require("../../utils/requireUserSignature");
 
 const router = express.Router();
 
@@ -53,9 +56,24 @@ router.post("/", async (req, res) => {
   try {
     const body = req.body;
 
+    // Same verified-authentication + home-match requirement as the other
+    // form POSTs (see utils/requireUserSignature.js) - without it, this
+    // route took homeId/createdBy/createdByName straight from the request
+    // body and only checked the *shape* of a COMPLETED submission's
+    // caregiver signatures, not who was actually submitting it, so any
+    // unauthenticated caller could create a COMPLETED log for any home
+    // with fabricated data URLs that pass isSignaturePresent.
+    const { authUser, errorResponse } = await resolveHomeScopedUser(req, body.homeId);
+    if (errorResponse) {
+      return res.status(errorResponse.status).json(errorResponse.body);
+    }
+
     const newLog = new MedicationLog({
       createDate: body.createDate || new Date(),
-      homeId: body.homeId || null,
+      // Sourced from the authenticated user, not the request body - a
+      // record must belong to its creator's own home and be attributed to
+      // them, never a home or identity the caller merely names.
+      homeId: authUser.homeId,
 
       child: {
         childId: body.child?.childId || body.childId || "",
@@ -101,8 +119,8 @@ router.post("/", async (req, res) => {
         : [],
 
       formType: "Medication Log",
-      createdBy: body.createdBy || "unknown",
-      createdByName: body.createdByName || "",
+      createdBy: authUser.email,
+      createdByName: `${authUser.firstName} ${authUser.lastName}`,
       approved: body.approved || false,
       status: body.status || "IN_PROGRESS",
       lastEditDate: new Date(),
@@ -214,7 +232,24 @@ router.put("/:id", async (req, res) => {
     const { id } = req.params;
     const updates = req.body;
 
+    // Same verified-authentication + home-match requirement as the POST
+    // handler above (see utils/requireUserSignature.js) - without it, an
+    // unauthenticated caller could edit (and mark COMPLETED) any home's
+    // Medication Log by id alone.
+    const { authUser, errorResponse } = await resolveHomeScopedUser(req, updates.homeId);
+    if (errorResponse) {
+      return res.status(errorResponse.status).json(errorResponse.body);
+    }
+
     updates.lastEditDate = new Date();
+    // homeId/createdBy/createdByName are set once at creation and must
+    // stay immutable - strip them from every edit regardless of what the
+    // request body claims, rather than letting an edit silently reassign
+    // who the original author was or move the record into another
+    // tenant.
+    delete updates.homeId;
+    delete updates.createdBy;
+    delete updates.createdByName;
 
     if (updates.medications) {
       updates.medications = updates.medications.map((m) => ({
@@ -241,7 +276,7 @@ router.put("/:id", async (req, res) => {
     // check would never even run.
     const needsExistingDoc = updates.status === undefined || updates.caregivers === undefined;
     const existingDoc = needsExistingDoc
-      ? await MedicationLog.findById(id).select("status caregivers")
+      ? await MedicationLog.findOne({ _id: id, homeId: authUser.homeId }).select("status caregivers")
       : null;
 
     const effectiveStatus = updates.status !== undefined ? updates.status : existingDoc?.status;
@@ -262,8 +297,8 @@ router.put("/:id", async (req, res) => {
       }
     }
 
-    const updatedLog = await MedicationLog.findByIdAndUpdate(
-      id,
+    const updatedLog = await MedicationLog.findOneAndUpdate(
+      { _id: id, homeId: authUser.homeId },
       { $set: updates },
       { new: true, runValidators: true }
     );

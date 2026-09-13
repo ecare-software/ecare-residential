@@ -1700,13 +1700,21 @@ const SignatureSection = ({
   const visibleShifts = shiftCount === 2 ? 2 : 3;
   const shiftLabels = ["1st", "2nd", "3rd"].slice(0, visibleShifts);
 
-  // How many shifts this form actually had the last time it was saved.
-  // If someone flips a completed 2-shift form to 3 shifts, shift index 2
-  // (the newly revealed 3rd/NOC shift) was never part of that completed
-  // submission, so it shouldn't be locked out just because the form as a
-  // whole is COMPLETED - only the shifts that were already there when it
-  // was completed should stay locked.
-  const savedShiftCount = formData?.shiftCount === 2 ? 2 : 3;
+  // How many shifts this form had at the moment it was FIRST marked
+  // COMPLETED - not formData.shiftCount, which is the live/current count
+  // and changes when someone flips a completed 2-shift form to 3 shifts.
+  // Saving that newly-added 3rd shift's signature sends the new
+  // shiftCount to the server, whose response gets merged back into
+  // formData (see handleSave) - if this read formData.shiftCount, the
+  // very save that captures shift 3's signature would immediately
+  // re-lock it, since shiftCount would already be 3 by the time this next
+  // renders. completedShiftCount is set once by the server and never
+  // changed again afterward (see the model's schema comment), so it
+  // stays a reliable historical marker across saves and reloads.
+  // Falls back to shiftCount for legacy records saved before
+  // completedShiftCount existed, which never got it persisted at all.
+  const savedShiftCount =
+    (formData?.completedShiftCount ?? formData?.shiftCount) === 2 ? 2 : 3;
   const isNewlyRevealedShift = (idx) => idx >= savedShiftCount;
   const isShiftLockedByCompletion = (idx) =>
     formData.status === "COMPLETED" && !isNewlyRevealedShift(idx);

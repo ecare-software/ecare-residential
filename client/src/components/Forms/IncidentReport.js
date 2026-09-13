@@ -157,6 +157,14 @@ class IncidentReport extends Component {
 
   resetForm = () => {
     this.setState({
+      // Cleared explicitly - submit()'s create branch now merges the
+      // just-created record's _id/lastEditDate into state (see below) so
+      // this reset, which is only ever called right after that merge for
+      // a brand-new (!valuesSet) form, doesn't leave the next entry
+      // pointing at the record that was just created and displaying its
+      // timestamp.
+      _id: "",
+      lastEditDate: null,
       nature_of_incident:"",
       other_incident_description:"",
       childMeta_name: "",
@@ -234,8 +242,13 @@ class IncidentReport extends Component {
         .then((res) => {
           initAutoSave = true;
 
+          // Merge the full response, not just _id - it also carries the
+          // server-generated lastEditDate, which the PUT branch above
+          // already merges on every later autosave. Storing only _id
+          // here left "Last Updated" blank from the moment this first
+          // autosave create completes until the next autosave tick.
           this.setState({
-            ...this.state, _id: res.data._id,
+            ...this.state, ...res.data,
           });
         })
         .catch((e) => {
@@ -284,6 +297,16 @@ class IncidentReport extends Component {
 
       Axios.post("/api/incidentReport", currentState)
         .then((res) => {
+          // Merge the full response (not just _id) so state immediately
+          // reflects what the server actually saved - lastEditDate in
+          // particular, so the "Last Updated" field isn't left blank
+          // until the next autosave tick (or forever, if the form is
+          // closed before that). Also mirrors autoSave()'s own create
+          // branch, which sets initAutoSave = true here too so a
+          // subsequent save updates this same record via PUT instead of
+          // creating a duplicate.
+          initAutoSave = true;
+          this.setState({ ...this.state, ...res.data });
           window.scrollTo(0, 0);
           this.toggleSuccessAlert();
           if (!this.props.valuesSet) {

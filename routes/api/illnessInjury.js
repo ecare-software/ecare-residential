@@ -171,6 +171,7 @@ router.get(
 );
 
 router.put("/:homeId/:formId/", async (req, res) => {
+ try {
   // Home-scoped auth is required unconditionally here (not just when
   // completing) - the update predicate below must be scoped to the
   // authenticated user's own home, which requires knowing who that is on
@@ -228,6 +229,16 @@ router.put("/:homeId/:formId/", async (req, res) => {
     .catch((e) => {
       console.log(e);
     });
+ } catch (err) {
+   // A malformed :formId (or any other unexpected DB error) throws from
+   // the findOne preflight lookup above - without this, that rejection
+   // would never reach the updateOne(...).catch() below (a separate
+   // promise chain it never gets to), and since this is an async Express
+   // 4 handler with no built-in async error forwarding, the request would
+   // hang with no response instead of getting a clean error.
+   console.error("Error updating report:", err);
+   res.status(500).json({ error: "Failed to update report" });
+ }
 });
 
 router.delete("/:homeId/:formId/", (req, res) => {
