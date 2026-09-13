@@ -229,7 +229,25 @@ class DailyProgressAndActivity extends Component {
   }
 
   resetForm = () => {
+    // Cleared explicitly - without this, a fresh new-report form (which
+    // reuses this same component instance after a create) inherited
+    // whatever signature1/signature2 the PREVIOUS report ended up with.
+    // In a two-signature home, validateForm's missingRequiredSignature
+    // check treats a non-empty signature1/2 as already captured, so the
+    // next report could reach COMPLETED using a prior report's second
+    // signer's signature without that signer ever touching this one.
+    // _id/lastEditDate are cleared for the same reason as the other
+    // forms' resetForm (see e.g. BodyCheck.js) - submit()'s/autoSave()'s
+    // create branches merge the just-created record's _id/lastEditDate
+    // into state, so without this a subsequent new entry would still
+    // point at (and display the timestamp of) the record just created.
+    this.sigCanvas1?.clear();
+    this.sigCanvas2?.clear();
     this.setState({
+      _id: "",
+      lastEditDate: null,
+      signature1: [],
+      signature2: [],
       incident_type:"",
       nature_of_incident:"",
       other_incident_description:"",
@@ -559,7 +577,11 @@ class DailyProgressAndActivity extends Component {
   setSignature = (userObj) => {
     console.log('createdate before update, status', this.props.formData.createDate < '2024-08-18T00:23:52.160Z', this.props.formData.status)
     console.log('signature1 in setSignature, props: ', this.props.formData.signature1, 'length: ', this.props.formData.signature1.length)
-    console.log('signature2 in setSignature, props: ', this.props.formData.signature2, 'length: ', this.props.formData.signature2.length)
+    // signature2 is a legacy-absent field - it was only added to this form
+    // once two-signature homes existed, so a record saved before that has
+    // no signature2 at all (not even an empty array), and .length would
+    // throw on undefined.
+    console.log('signature2 in setSignature, props: ', this.props.formData.signature2, 'length: ', this.props.formData.signature2?.length)
 
     if (this.props.formData.createDate < '2024-08-18T00:23:52.160Z' && this.props.formData.status === 'COMPLETED') {
       this.sigCanvas1.fromData(userObj.signature);
@@ -574,7 +596,14 @@ class DailyProgressAndActivity extends Component {
     if (this.props.formData.signature1.length > 0) {
       this.sigCanvas1.fromData(this.props.formData.signature1);
     }
-    if (this.state.twoSignaturesRequired && this.props.formData.status === "COMPLETED") {
+    // Guarded the same way as the signature1 checks above - a legacy
+    // record predating signature2 has no such field at all, so this must
+    // not assume it's present (or even an array) before reading it.
+    if (
+      this.state.twoSignaturesRequired &&
+      this.props.formData.status === "COMPLETED" &&
+      this.props.formData.signature2?.length > 0
+    ) {
       this.sigCanvas2.fromData(this.props.formData.signature2)
     }
   };
@@ -2030,8 +2059,11 @@ class DailyProgressAndActivity extends Component {
                   // routes/api/dailyProgressAndActivity.js's identical
                   // isTwoSignatureHome) while this UI never shows the field
                   // to enter it.
+                  // signature2 is a legacy-absent field (see setSignature)
+                  // - optional-chained so a legacy record that predates it
+                  // doesn't throw reading .length off undefined.
                   display:
-                    this.state.twoSignaturesRequired && this.props.formData.signature2.length > 0
+                    this.state.twoSignaturesRequired && this.props.formData.signature2?.length > 0
                       ? 'block' : 'none'
                 }}
               >

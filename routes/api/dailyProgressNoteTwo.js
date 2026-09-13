@@ -42,10 +42,23 @@ function resolveAmPmSignature(signatureSection, idx) {
     isValidSignatureImage(signatures?.[idx]) && !!initials?.[idx] && !!titles?.[idx];
   if (!hasCore) return { valid: false };
 
-  if (selectedShifts?.[idx]) {
-    return { valid: true, shift: selectedShifts[idx], inferred: false };
+  // A truthy selectedShifts[idx] only counts if it actually names the
+  // shift this slot represents - the client records AM/PM/NOC
+  // (shift1/shift2/shift3) per slot, so a direct request could otherwise
+  // put a NOC ("shift3") value in slot 0 or 1 (or any arbitrary string)
+  // and still pass this check, even though slots 0/1 are specifically the
+  // AM/PM signatures. A present-but-mismatched value is rejected outright
+  // rather than falling back to the positional default below - it was
+  // explicitly supplied and contradicts what this slot means, so it
+  // shouldn't be silently reinterpreted as though it were missing.
+  const expectedShift = POSITIONAL_SHIFT_FALLBACK[idx];
+  const claimedShift = selectedShifts?.[idx];
+  if (claimedShift) {
+    return claimedShift === expectedShift
+      ? { valid: true, shift: claimedShift, inferred: false }
+      : { valid: false };
   }
-  return { valid: true, shift: POSITIONAL_SHIFT_FALLBACK[idx], inferred: true };
+  return { valid: true, shift: expectedShift, inferred: true };
 }
 
 // Mirrors the client's isSignatureValid/areAllSignaturesValid
