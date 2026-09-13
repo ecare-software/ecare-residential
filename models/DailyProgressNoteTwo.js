@@ -55,6 +55,17 @@ const signatureSchema = new mongoose.Schema({
   signatures: [{ type: String, default: "" }], // store as base64 or URL
   initials: [{ type: String, default: "" }],
   titles: [{ type: String, default: "" }],
+  // Which shift each signature slot was signed for (e.g. "shift1"/AM,
+  // "shift2"/PM). The client always sends this alongside
+  // signatures/initials/titles and requires it for a signature to count
+  // as valid (see DailyProgressTwo.js's isSignatureValid), and the
+  // server's own hasRequiredAmPmSignatures check in
+  // routes/api/dailyProgressNoteTwo.js requires it too - without a schema
+  // field for it, Mongoose silently stripped it on save, so a reloaded
+  // draft's fallback signatureSection would have real signatures/initials/
+  // titles but no selectedShifts, and a subsequent COMPLETED attempt
+  // would be wrongly rejected.
+  selectedShifts: [{ type: String, default: "" }],
 });
 
 

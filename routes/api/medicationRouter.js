@@ -233,7 +233,20 @@ router.put("/:id", async (req, res) => {
       }));
     }
 
-    if (updates.status === "COMPLETED") {
+    // The record's status AFTER this update is applied - not just whatever
+    // this particular request happens to send. Gating only on
+    // `updates.status === "COMPLETED"` would let a PUT that omits status
+    // entirely (leaving an already-COMPLETED record COMPLETED) slip
+    // through with an empty or malformed caregivers value, since the
+    // check would never even run.
+    const needsExistingDoc = updates.status === undefined || updates.caregivers === undefined;
+    const existingDoc = needsExistingDoc
+      ? await MedicationLog.findById(id).select("status caregivers")
+      : null;
+
+    const effectiveStatus = updates.status !== undefined ? updates.status : existingDoc?.status;
+
+    if (effectiveStatus === "COMPLETED") {
       // Fall back to the persisted caregivers only when the field is
       // completely absent from the request - if the caller explicitly
       // sent caregivers (even null, a string, or some other malformed
@@ -242,9 +255,7 @@ router.put("/:id", async (req, res) => {
       // here while still writing the caller's malformed value would let a
       // COMPLETED record end up with its signatures cleared or replaced.
       const caregiversToCheck =
-        updates.caregivers !== undefined
-          ? updates.caregivers
-          : (await MedicationLog.findById(id).select("caregivers"))?.caregivers;
+        updates.caregivers !== undefined ? updates.caregivers : existingDoc?.caregivers;
 
       if (!hasRequiredCaregiverSignatures(caregiversToCheck)) {
         return res.status(400).json({ error: MISSING_SIGNATURES_ERROR });

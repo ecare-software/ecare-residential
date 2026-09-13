@@ -200,18 +200,21 @@ class DailyProgressAndActivity extends Component {
     this.setState(stateObj);
   };
 
-  //TODO add twoSignatureRequired to home API
   // Called once from componentDidMount (and again from componentDidUpdate
   // if userObj.homeId ever changes) - not from render(), which would refire
   // this on every keystroke for no benefit since homeId doesn't change
   // mid-session.
+  //
+  // Reads the home's own persisted twoSignatures flag (Home model), not a
+  // hardcoded homeId list - kept in sync with the server's identical
+  // isTwoSignatureHome() in routes/api/dailyProgressAndActivity.js, which
+  // is the actual source of truth this client-side value only mirrors for
+  // UI purposes (showing/hiding the second signature slot). The server
+  // never trusts this value back from the client.
   doGetHomeInfo = async () => {
     try {
       const { data } = await FetchHomeData(this.props.userObj.homeId);
-      if (data[0].homeId === 'home-3' || this.props.userObj.homeId === 'home-1234') this.state.twoSignaturesRequired = true;
-      // remove comment below & add comment out above to test Demo home without two signature requirement
-      // if (data[0].homeId === 'home-3') this.state.twoSignaturesRequired = true;
-      else this.state.twoSignaturesRequired = false;
+      this.state.twoSignaturesRequired = !!data[0]?.twoSignatures;
       return (data)
     } catch (e) {
       console.log("Error fetching home info");

@@ -2,40 +2,61 @@ const express = require("express");
 const router = express.Router();
 
 const DailyProgressAndActivity = require("../../models/DailyProgressAndActivity");
+const Home = require("../../models/Home");
+const {
+  resolveHomeScopedUser,
+} = require("../../utils/requireUserSignature");
 
-// Same rule the client uses to decide whether a home requires two
-// signatures before a report can be completed (see
-// DailyProgressAndActivity.js's doGetHomeInfo). Derived independently from
-// homeId here rather than trusted from req.body.twoSignaturesRequired -
-// that field is client-supplied and a direct API request could otherwise
-// just send `twoSignaturesRequired: false` to skip the second-signature
-// requirement entirely.
-//TODO add twoSignatureRequired to home API - keep in sync with the client's copy of this rule until it is
-function isTwoSignatureHome(homeId) {
-  return homeId === "home-3" || homeId === "home-1234";
+// Whether a home requires two signatures before a report can be
+// completed - resolved from the persisted Home record's own
+// twoSignatures flag, not a hardcoded homeId list (a newly configured
+// two-signature home must not silently be treated as single-signature)
+// and not any client-supplied value (a direct request could otherwise
+// just name a one-signature home to dodge the second-signature
+// requirement). Callers must always pass a TRUSTED homeId - the
+// authenticated user's own (authUser.homeId) - never req.body.homeId or
+// req.params.homeId, which are just caller-supplied claims. Defaults to
+// false (single signature) if the home can't be found, so a
+// missing/unconfigured Home record doesn't accidentally start demanding a
+// second signature nobody set up.
+async function isTwoSignatureHome(homeId) {
+  if (!homeId) return false;
+  try {
+    const home = await Home.findOne({ homeId });
+    return !!home?.twoSignatures;
+  } catch (e) {
+    return false;
+  }
 }
 
 function hasSignature(sig) {
   return Array.isArray(sig) && sig.length > 0;
 }
 
-// The completion invariant: signature1 is always required, and signature2
-// is additionally required for two-signature homes. Mirrors the client's
-// missingRequiredSignature check in DailyProgressAndActivity.js - that
-// only protects the UI, so this is the server-side backstop for it.
-function meetsSignatureCompletionRequirement(homeId, signature1, signature2) {
+// The completion invariant given an already-resolved two-signature flag
+// (from isTwoSignatureHome, above) - split out so callers that also need
+// to persist the flag can resolve it once and reuse it here, rather than
+// looking the home up twice per request.
+function meetsSignatureCompletionRequirement(twoSigRequired, signature1, signature2) {
   if (!hasSignature(signature1)) return false;
-  if (isTwoSignatureHome(homeId) && !hasSignature(signature2)) return false;
+  if (twoSigRequired && !hasSignature(signature2)) return false;
   return true;
 }
 
 const MISSING_SIGNATURE_ERROR =
   "A signature (both caregiver signatures, for two-signature homes) is required before this report can be marked COMPLETED.";
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
+  const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.body.homeId);
+  if (errorResponse) {
+    return res.status(errorResponse.status).json(errorResponse.body);
+  }
+
+  const twoSigRequired = await isTwoSignatureHome(authUser.homeId);
+
   if (
     req.body.status === "COMPLETED" &&
-    !meetsSignatureCompletionRequirement(req.body.homeId, req.body.signature1, req.body.signature2)
+    !meetsSignatureCompletionRequirement(twoSigRequired, req.body.signature1, req.body.signature2)
   ) {
     return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
   }
@@ -80,21 +101,28 @@ router.post("/", (req, res) => {
     therapeutic_value: req.body.therapeutic_value,
     phone_calls_or_visits: req.body.phone_calls_or_visits,
 
-    createdBy: req.body.createdBy,
+    // Sourced from the verified authenticated user, not the request body -
+    // both are permanent audit/tenancy facts about the record and must
+    // not be spoofable.
+    createdBy: authUser.email,
 
-    createdByName: req.body.createdByName,
+    createdByName: `${authUser.firstName} ${authUser.lastName}`,
 
     lastEditDate: new Date().toISOString(),
 
     createDate: req.body.createDate,
 
-    homeId: req.body.homeId,
+    homeId: authUser.homeId,
 
     formType: "Daily Activity",
     status: req.body.status,
     signature1: req.body.signature1,
     signature2: req.body.signature2,
-    twoSignaturesRequired: req.body.twoSignaturesRequired,
+    // The actually-resolved policy (see isTwoSignatureHome), not the
+    // client's own claim - req.body.twoSignaturesRequired is never
+    // trusted for the completion decision above, so it shouldn't be
+    // trusted for what gets persisted either.
+    twoSignaturesRequired: twoSigRequired,
   });
 
   newDailyProgressAndActivity
@@ -189,6 +217,18 @@ router.get(
 );
 
 router.put("/:homeId/:formId/", async (req, res) => {
+  // Home-scoped auth is required unconditionally here (not just when
+  // completing) - the update predicate below, and the two-signature
+  // policy lookup, must be scoped to the authenticated user's own home,
+  // which requires knowing who that is on every edit, and req.params.homeId
+  // must actually match it.
+  const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.params.homeId);
+  if (errorResponse) {
+    return res.status(errorResponse.status).json(errorResponse.body);
+  }
+
+  const twoSigRequired = await isTwoSignatureHome(authUser.homeId);
+
   if (req.body.status === "COMPLETED") {
     // Fall back to the persisted signatures only when a field is
     // completely absent from the request - if the caller explicitly sent
@@ -200,24 +240,46 @@ router.put("/:homeId/:formId/", async (req, res) => {
     // cleared or replaced.
     let { signature1, signature2 } = req.body;
     if (signature1 === undefined || signature2 === undefined) {
-      const existing = await DailyProgressAndActivity.findById(req.params.formId).select(
-        "signature1 signature2"
-      );
+      // Scoped to the authenticated user's own home too - otherwise this
+      // fallback could read (and validate against) another tenant's
+      // signatures for a record this request's predicate would never
+      // actually be allowed to update.
+      const existing = await DailyProgressAndActivity.findOne({
+        _id: req.params.formId,
+        homeId: authUser.homeId,
+      }).select("signature1 signature2");
       if (signature1 === undefined) signature1 = existing?.signature1;
       if (signature2 === undefined) signature2 = existing?.signature2;
     }
 
-    if (!meetsSignatureCompletionRequirement(req.params.homeId, signature1, signature2)) {
+    if (!meetsSignatureCompletionRequirement(twoSigRequired, signature1, signature2)) {
       return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
     }
   }
 
   const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
+  // createdBy/createdByName/homeId are set once at creation and must stay
+  // immutable - strip them from every edit regardless of what the request
+  // body claims, rather than letting an edit silently reassign who the
+  // original author was or move the record into another tenant.
+  // twoSignaturesRequired is refreshed to the currently resolved policy
+  // rather than trusted from the body, for the same reason the completion
+  // check above never trusts it.
+  delete updatedLastEditDate.createdBy;
+  delete updatedLastEditDate.createdByName;
+  delete updatedLastEditDate.homeId;
+  updatedLastEditDate.twoSignaturesRequired = twoSigRequired;
   DailyProgressAndActivity.updateOne(
-    { _id: req.params.formId },
+    // Scoped to the authenticated user's own home, not the URL's :homeId
+    // (just a caller-supplied claim) - a record belonging to a different
+    // home can never be matched, let alone edited.
+    { _id: req.params.formId, homeId: authUser.homeId },
     updatedLastEditDate
   )
     .then((data) => {
+      if (!data.matchedCount) {
+        return res.status(404).json({ error: "Report not found" });
+      }
       res.json(updatedLastEditDate);
     })
     .catch((e) => {

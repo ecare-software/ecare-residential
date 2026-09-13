@@ -50,13 +50,55 @@ async function submitterHasSignature(req) {
 
 const NOT_AUTHENTICATED_ERROR = "Not authenticated.";
 
+const NOT_AUTHORIZED_FOR_HOME_ERROR =
+  "You do not have permission to act on this home's records.";
+
 const MISSING_SIGNATURE_ERROR =
   "A signature on file for the submitting user is required before this form can be marked COMPLETED. Create a signature under 'Manage Profile'.";
 
+// Resolves the authenticated user AND verifies their own homeId matches
+// the home this request claims to act on (req.body.homeId on create,
+// req.params.homeId on edit) - mirrors routes/api/client.js's
+// requireFaceSheetEditAccess, which does the same comparison for the same
+// reason.
+//
+// A mismatch is rejected outright here rather than silently corrected:
+// route handlers still build/scope the actual DB operation from
+// authUser.homeId, never the claim, so a mismatch was never going to be
+// allowed to act on another tenant either way - but silently substituting
+// the right value would swallow what's either a client bug or a
+// deliberate attempt to name a different tenant, instead of surfacing it
+// as the error it is.
+//
+// Returns { authUser, errorResponse }: on success authUser is the
+// resolved user and errorResponse is null; on failure authUser is null
+// and errorResponse is a { status, body } to send as-is
+// (res.status(errorResponse.status).json(errorResponse.body)).
+async function resolveHomeScopedUser(req, claimedHomeId) {
+  const authUser = await resolveAuthenticatedUser(req);
+  if (!authUser) {
+    return {
+      authUser: null,
+      errorResponse: { status: 401, body: { error: NOT_AUTHENTICATED_ERROR } },
+    };
+  }
+
+  if (!claimedHomeId || claimedHomeId !== authUser.homeId) {
+    return {
+      authUser: null,
+      errorResponse: { status: 403, body: { error: NOT_AUTHORIZED_FOR_HOME_ERROR } },
+    };
+  }
+
+  return { authUser, errorResponse: null };
+}
+
 module.exports = {
   resolveAuthenticatedUser,
+  resolveHomeScopedUser,
   submitterHasSignature,
   hasValidSignature,
   NOT_AUTHENTICATED_ERROR,
+  NOT_AUTHORIZED_FOR_HOME_ERROR,
   MISSING_SIGNATURE_ERROR,
 };

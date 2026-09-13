@@ -1,5 +1,8 @@
 const express = require("express");
 const DailyReport = require("../../models/DailyProgressNoteTwo");
+const {
+  resolveHomeScopedUser,
+} = require("../../utils/requireUserSignature");
 
 const router = express.Router();
 
@@ -38,6 +41,17 @@ const MISSING_SIGNATURES_ERROR =
 
 router.post("/", async (req, res) => {
   try {
+    // Same verified-authentication + home-match requirement as the other
+    // signature-protected form routes (see utils/requireUserSignature.js)
+    // - without it, hasRequiredAmPmSignatures below only checks the
+    // *shape* of the submitted signatureSection, not who submitted it, so
+    // any anonymous caller could supply a fabricated data URL plus
+    // truthy initials/title/shift and pass the check outright.
+    const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.body.homeId);
+    if (errorResponse) {
+      return res.status(errorResponse.status).json(errorResponse.body);
+    }
+
     if (
       req.body.status === "COMPLETED" &&
       !hasRequiredAmPmSignatures(req.body.signatureSection)
@@ -49,10 +63,13 @@ router.post("/", async (req, res) => {
       createDate: req.body.createDate || new Date(),
       child: req.body.child || {},
       childMeta_name: req.body.childMeta_name || req.body.child?.name || "",
-      homeId: req.body.homeId || null,
+      // Sourced from the authenticated user, not the request body - a
+      // record must belong to its creator's own home and be attributed to
+      // them, never a home or identity the caller merely names.
+      homeId: authUser.homeId,
       formType: req.body.formType || "Daily Progress Note Two",
-      createdBy: req.body.createdBy || "unknown",
-      createdByName: req.body.createdByName || "",
+      createdBy: authUser.email,
+      createdByName: `${authUser.firstName} ${authUser.lastName}`,
       status: req.body.status || "IN_PROGRESS",
       lastEditDate: req.body.lastEditDate || new Date(),
       approved: req.body.approved || false,
@@ -196,27 +213,56 @@ router.get("/report/:reportId", async (req, res) => {
 // PUT route to update a report by homeId and reportId
 router.put("/:homeId/:reportId", async (req, res) => {
   try {
+    // Home-scoped auth is required unconditionally here (not just when
+    // completing) - the update predicate below must be scoped to the
+    // authenticated user's own home, which requires knowing who that is
+    // on every edit, and req.params.homeId must actually match it.
+    const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.params.homeId);
+    if (errorResponse) {
+      return res.status(errorResponse.status).json(errorResponse.body);
+    }
+
     console.log(`Updating report: homeId=${req.params.homeId}, reportId=${req.params.reportId}`);
     console.log("Update payload:", req.body);
 
     if (req.body.status === "COMPLETED") {
       // The client always sends signatureSection alongside status, but
       // fall back to what's already persisted in case a caller updates
-      // status without resending it.
+      // status without resending it. Scoped to the authenticated user's
+      // own home too, so this can't be used to read another tenant's
+      // signature data for a record this request could never actually
+      // update anyway.
       const signatureSection =
         req.body.signatureSection !== undefined
           ? req.body.signatureSection
-          : (await DailyReport.findById(req.params.reportId).select("signatureSection"))
-              ?.signatureSection;
+          : (
+              await DailyReport.findOne({
+                _id: req.params.reportId,
+                homeId: authUser.homeId,
+              }).select("signatureSection")
+            )?.signatureSection;
 
       if (!hasRequiredAmPmSignatures(signatureSection)) {
         return res.status(400).json({ error: MISSING_SIGNATURES_ERROR });
       }
     }
 
-    const updatedReport = await DailyReport.findByIdAndUpdate(
-      req.params.reportId,
-      { ...req.body, lastEditDate: new Date() },
+    const updates = { ...req.body, lastEditDate: new Date() };
+    // createdBy/createdByName/homeId are set once at creation and must
+    // stay immutable - strip them from every edit regardless of what the
+    // request body claims, rather than letting an edit silently reassign
+    // who the original author was or move the record into another
+    // tenant.
+    delete updates.createdBy;
+    delete updates.createdByName;
+    delete updates.homeId;
+
+    const updatedReport = await DailyReport.findOneAndUpdate(
+      // Scoped to the authenticated user's own home, not the URL's
+      // :homeId (just a caller-supplied claim) - a record belonging to a
+      // different home can never be matched, let alone edited.
+      { _id: req.params.reportId, homeId: authUser.homeId },
+      updates,
       { new: true }
     );
 
