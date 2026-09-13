@@ -15,18 +15,29 @@ const {
 // just name a one-signature home to dodge the second-signature
 // requirement). Callers must always pass a TRUSTED homeId - the
 // authenticated user's own (authUser.homeId) - never req.body.homeId or
-// req.params.homeId, which are just caller-supplied claims. Defaults to
-// false (single signature) if the home can't be found, so a
-// missing/unconfigured Home record doesn't accidentally start demanding a
-// second signature nobody set up.
+// req.params.homeId, which are just caller-supplied claims.
+//
+// A home genuinely missing its Home record defaults to false (single
+// signature), so an unconfigured home doesn't accidentally start
+// demanding a second signature nobody set up - that's a resolved "no"
+// answer, not a failure. A query FAILURE (DB unreachable, timeout, etc.)
+// is not the same thing and must not be treated as one: silently
+// defaulting to false during an outage would let a genuinely
+// two-signature home complete a report with only one signature, exactly
+// when this check matters most. Fail closed instead - assume the
+// stricter (two-signature) policy on an indeterminate lookup. That can
+// block a legitimate single-signature completion until the outage
+// clears, but it can never under-enforce.
 async function isTwoSignatureHome(homeId) {
   if (!homeId) return false;
+  let home;
   try {
-    const home = await Home.findOne({ homeId });
-    return !!home?.twoSignatures;
+    home = await Home.findOne({ homeId });
   } catch (e) {
-    return false;
+    console.error("Error looking up Home for twoSignatures policy:", e);
+    return true;
   }
+  return !!home?.twoSignatures;
 }
 
 function hasSignature(sig) {
@@ -229,7 +240,32 @@ router.put("/:homeId/:formId/", async (req, res) => {
 
   const twoSigRequired = await isTwoSignatureHome(authUser.homeId);
 
-  if (req.body.status === "COMPLETED") {
+  // The record's status AFTER this update is applied - not just whatever
+  // this particular request happens to send. Gating only on
+  // `req.body.status === "COMPLETED"` would let a PUT that omits status
+  // entirely (leaving an already-COMPLETED report COMPLETED) slip past
+  // the signature check while still modifying the report's other fields.
+  // Scoped to the authenticated user's own home too - otherwise this
+  // fallback could read (and validate against) another tenant's data for
+  // a record this request's predicate would never actually be allowed to
+  // update.
+  let effectiveStatus = req.body.status;
+  let existingDoc = null;
+  if (
+    effectiveStatus === undefined ||
+    req.body.signature1 === undefined ||
+    req.body.signature2 === undefined
+  ) {
+    existingDoc = await DailyProgressAndActivity.findOne({
+      _id: req.params.formId,
+      homeId: authUser.homeId,
+    }).select("status signature1 signature2");
+  }
+  if (effectiveStatus === undefined) {
+    effectiveStatus = existingDoc?.status;
+  }
+
+  if (effectiveStatus === "COMPLETED") {
     // Fall back to the persisted signatures only when a field is
     // completely absent from the request - if the caller explicitly sent
     // signature1/signature2 (even null, a string, or some other malformed
@@ -238,19 +274,8 @@ router.put("/:homeId/:formId/", async (req, res) => {
     // (valid) document here while still writing the caller's malformed
     // value would let a COMPLETED record end up with its signature(s)
     // cleared or replaced.
-    let { signature1, signature2 } = req.body;
-    if (signature1 === undefined || signature2 === undefined) {
-      // Scoped to the authenticated user's own home too - otherwise this
-      // fallback could read (and validate against) another tenant's
-      // signatures for a record this request's predicate would never
-      // actually be allowed to update.
-      const existing = await DailyProgressAndActivity.findOne({
-        _id: req.params.formId,
-        homeId: authUser.homeId,
-      }).select("signature1 signature2");
-      if (signature1 === undefined) signature1 = existing?.signature1;
-      if (signature2 === undefined) signature2 = existing?.signature2;
-    }
+    const signature1 = req.body.signature1 !== undefined ? req.body.signature1 : existingDoc?.signature1;
+    const signature2 = req.body.signature2 !== undefined ? req.body.signature2 : existingDoc?.signature2;
 
     if (!meetsSignatureCompletionRequirement(twoSigRequired, signature1, signature2)) {
       return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });

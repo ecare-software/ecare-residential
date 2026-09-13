@@ -225,22 +225,34 @@ router.put("/:homeId/:reportId", async (req, res) => {
     console.log(`Updating report: homeId=${req.params.homeId}, reportId=${req.params.reportId}`);
     console.log("Update payload:", req.body);
 
-    if (req.body.status === "COMPLETED") {
+    // The record's status AFTER this update is applied - not just
+    // whatever this particular request happens to send. Gating only on
+    // `req.body.status === "COMPLETED"` would let a PUT that omits status
+    // entirely (leaving an already-COMPLETED report COMPLETED) slip past
+    // the signature check while still modifying the report's other
+    // fields. Scoped to the authenticated user's own home too, so this
+    // can't be used to read another tenant's data for a record this
+    // request could never actually update anyway.
+    let effectiveStatus = req.body.status;
+    let existingDoc = null;
+    if (effectiveStatus === undefined || req.body.signatureSection === undefined) {
+      existingDoc = await DailyReport.findOne({
+        _id: req.params.reportId,
+        homeId: authUser.homeId,
+      }).select("status signatureSection");
+    }
+    if (effectiveStatus === undefined) {
+      effectiveStatus = existingDoc?.status;
+    }
+
+    if (effectiveStatus === "COMPLETED") {
       // The client always sends signatureSection alongside status, but
       // fall back to what's already persisted in case a caller updates
-      // status without resending it. Scoped to the authenticated user's
-      // own home too, so this can't be used to read another tenant's
-      // signature data for a record this request could never actually
-      // update anyway.
+      // status without resending it.
       const signatureSection =
         req.body.signatureSection !== undefined
           ? req.body.signatureSection
-          : (
-              await DailyReport.findOne({
-                _id: req.params.reportId,
-                homeId: authUser.homeId,
-              }).select("signatureSection")
-            )?.signatureSection;
+          : existingDoc?.signatureSection;
 
       if (!hasRequiredAmPmSignatures(signatureSection)) {
         return res.status(400).json({ error: MISSING_SIGNATURES_ERROR });

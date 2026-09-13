@@ -274,7 +274,21 @@ router.put("/:homeId/:formId/", async (req, res) => {
     return res.status(errorResponse.status).json(errorResponse.body);
   }
 
-  if (req.body.status === "COMPLETED" && !hasValidSignature(authUser)) {
+  // The record's status AFTER this update is applied - not just
+  // whatever this particular request happens to send. Gating only on
+  // `req.body.status === "COMPLETED"` would let a PUT that omits status
+  // entirely (leaving an already-COMPLETED record COMPLETED) slip past
+  // the signature check while still modifying the record's other fields.
+  let effectiveStatus = req.body.status;
+  if (effectiveStatus === undefined) {
+    const existing = await IncidentReport.findOne({
+      _id: req.params.formId,
+      homeId: authUser.homeId,
+    }).select("status");
+    effectiveStatus = existing?.status;
+  }
+
+  if (effectiveStatus === "COMPLETED" && !hasValidSignature(authUser)) {
     return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
   }
 
