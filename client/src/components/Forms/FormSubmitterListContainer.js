@@ -210,7 +210,7 @@ class FormSubmitterListContainer extends Component {
                         Status
                       </th>
                       <th>
-                        Created
+                        {this.state.formType === "Daily Progress Note Two" ? "Last Updated" : "Created"}
                       </th>
                       <th>
                         Client
@@ -242,7 +242,9 @@ class FormSubmitterListContainer extends Component {
                       </td>
                     )}
                     <td>
-                      {new Date(form.createDate).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}
+                      {this.state.formType === "Daily Progress Note Two"
+                        ? new Date(form.lastEditDate || form.createDate).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
+                        : new Date(form.createDate).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}
                     </td>
                     <td>
                       {form.childMeta_name}

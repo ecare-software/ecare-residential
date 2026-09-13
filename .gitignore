@@ -106,3 +106,6 @@ npm-cache
 
 # Endpoint tests
 *.rest
+
+# Local-only Claude Code skill (not shared via the repo)
+.claude/skills/run-ecare-app/

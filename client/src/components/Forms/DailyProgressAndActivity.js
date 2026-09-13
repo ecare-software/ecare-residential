@@ -200,14 +200,28 @@ class DailyProgressAndActivity extends Component {
     this.setState(stateObj);
   };
 
-  //TODO add twoSignatureRequired to home API
+  // Called once from componentDidMount (and again from componentDidUpdate
+  // if userObj.homeId ever changes) - not from render(), which would refire
+  // this on every keystroke for no benefit since homeId doesn't change
+  // mid-session.
+  //
+  // Reads the home's own persisted twoSignatures flag (Home model), not a
+  // hardcoded homeId list - kept in sync with the server's identical
+  // isTwoSignatureHome() in routes/api/dailyProgressAndActivity.js, which
+  // is the actual source of truth this client-side value only mirrors for
+  // UI purposes (showing/hiding the second signature slot). The server
+  // never trusts this value back from the client.
   doGetHomeInfo = async () => {
     try {
       const { data } = await FetchHomeData(this.props.userObj.homeId);
-      if (data[0].homeId === 'home-3' || this.props.userObj.homeId === 'home-1234') this.state.twoSignaturesRequired = true;
-      // remove comment below & add comment out above to test Demo home without two signature requirement
-      // if (data[0].homeId === 'home-3') this.state.twoSignaturesRequired = true;
-      else this.state.twoSignaturesRequired = false;
+      // setState, not a direct mutation - this resolves asynchronously
+      // (after the initial render, from componentDidMount/componentDidUpdate,
+      // not render()), so without setState nothing tells React to re-render
+      // once the real value is known. The signature2 UI's visibility reads
+      // this same state field (see the render() condition near "signature2"),
+      // so a home that becomes two-signature after this component already
+      // rendered would otherwise never show the second signature slot.
+      this.setState({ twoSignaturesRequired: !!data[0]?.twoSignatures });
       return (data)
     } catch (e) {
       console.log("Error fetching home info");
@@ -215,7 +229,25 @@ class DailyProgressAndActivity extends Component {
   }
 
   resetForm = () => {
+    // Cleared explicitly - without this, a fresh new-report form (which
+    // reuses this same component instance after a create) inherited
+    // whatever signature1/signature2 the PREVIOUS report ended up with.
+    // In a two-signature home, validateForm's missingRequiredSignature
+    // check treats a non-empty signature1/2 as already captured, so the
+    // next report could reach COMPLETED using a prior report's second
+    // signer's signature without that signer ever touching this one.
+    // _id/lastEditDate are cleared for the same reason as the other
+    // forms' resetForm (see e.g. BodyCheck.js) - submit()'s/autoSave()'s
+    // create branches merge the just-created record's _id/lastEditDate
+    // into state, so without this a subsequent new entry would still
+    // point at (and display the timestamp of) the record just created.
+    this.sigCanvas1?.clear();
+    this.sigCanvas2?.clear();
     this.setState({
+      _id: "",
+      lastEditDate: null,
+      signature1: [],
+      signature2: [],
       incident_type:"",
       nature_of_incident:"",
       other_incident_description:"",
@@ -305,9 +337,14 @@ class DailyProgressAndActivity extends Component {
         .then((res) => {
           initAutoSave = true;
 
+          // Merge the full response, not just _id - it also carries the
+          // server-generated lastEditDate, which the PUT branch above
+          // already merges on every later autosave. Storing only _id
+          // here left "Last Saved" blank from the moment this first
+          // autosave create completes until the next autosave tick.
           this.setState({
             ...this.state,
-            _id: res.data._id,
+            ...res.data,
           });
         })
         .catch((e) => {
@@ -322,7 +359,7 @@ class DailyProgressAndActivity extends Component {
     }
   };
 
-  submit = async (save) => {
+  submit = async (save, effectiveSignature1 = this.state.signature1, effectiveSignature2 = this.state.signature2) => {
     if (this.props.valuesSet) {
       console.log('signature1 in submit, state:', this.state.signature1, 'props:', this.props.formData.signature1);
       console.log('signature2 in submit, state:', this.state.signature2, 'props:', this.props.formData.signature2);
@@ -332,7 +369,18 @@ class DailyProgressAndActivity extends Component {
       console.log('signature2 in submit, state:', this.state.signature2);
     }
 
-    if (this.state.twoSignaturesRequired && this.props.valuesSet && this.state.signature1.length > 0 && this.state.signature2.length > 0 && !save) {
+    // Use the effective (just-computed) signature values rather than
+    // this.state directly - setState from validateForm() may not have
+    // flushed yet when submit() is called right after it.
+    //
+    // Completion is decided purely by whether the effective signatures
+    // this submission actually carries satisfy the home's policy - not
+    // by this.props.valuesSet. New Daily Activity forms are mounted with
+    // valuesSet={false} (see App.js), so requiring valuesSet here meant a
+    // two-signature-home report could never be marked COMPLETED through
+    // this handler for a new report, even once both signatures were
+    // genuinely present - it stayed IN PROGRESS regardless.
+    if (this.state.twoSignaturesRequired && effectiveSignature1.length > 0 && effectiveSignature2.length > 0 && !save) {
       this.state.status = 'COMPLETED'
     }
     else if (!this.state.twoSignaturesRequired && !save) this.state.status = "COMPLETED";
@@ -341,6 +389,17 @@ class DailyProgressAndActivity extends Component {
     let currentState = JSON.parse(JSON.stringify(this.state));
     delete currentState.clients;
     delete currentState.staff;
+    // Build the payload from the effective signature values, not
+    // this.state - the completion decision above is already based on
+    // effectiveSignature1/2, and the request must match it. Serializing
+    // this.state directly here risks sending signature arrays that don't
+    // reflect what was just decided (e.g. if a caller ever passes
+    // effective values that differ from this.state, or setState from
+    // validateForm() hasn't flushed for some other reason), which would
+    // let a request mark the form COMPLETED while sending signatures that
+    // don't actually back that status.
+    currentState.signature1 = effectiveSignature1;
+    currentState.signature2 = effectiveSignature2;
     initAutoSave = false;
     clearInterval(interval);
     if (this.props.valuesSet || this.state._id) {
@@ -365,6 +424,7 @@ class DailyProgressAndActivity extends Component {
         this.setState({
           formHasError: true,
           formErrorMessage:
+            e?.response?.data?.error ||
             "Error Submitting Daily Progress and Activity Report",
           loadingClients: false,
         });
@@ -392,6 +452,7 @@ class DailyProgressAndActivity extends Component {
           this.setState({
             formHasError: true,
             formErrorMessage:
+              e?.response?.data?.error ||
               "Error Submitting Daily Progress and Activity Report",
             loadingClients: false,
           });
@@ -400,27 +461,88 @@ class DailyProgressAndActivity extends Component {
   };
 
   validateForm = async (save) => {
+    // Snapshot whether signature1 was already there *before* this call
+    // touches anything. validateForm runs after an `await`, so it's no
+    // longer inside React's synchronous event-batching window - the
+    // setState() calls below apply immediately, not on next render. That
+    // means this.state.signature1 can no longer be trusted later in this
+    // same function to mean "as of before this submission" - it may
+    // already reflect a value this very call just set.
+    const hadSignature1Already = this.state.signature1.length > 0;
+
     const { data: createdUserData } =
       await GetUserSig(
         this.props.userObj.email,
         this.props.userObj.homeId
       );
+
+    // Track the signature values this submission will actually use,
+    // rather than reading this.state back later - setState below may not
+    // have flushed by the time submit() runs.
+    let effectiveSignature1 = this.state.signature1;
+    let effectiveSignature2 = this.state.signature2;
+
     if (this.state.signature1.length === 0 && !save) {
+      effectiveSignature1 = createdUserData.signature || [];
       this.setState({
         ...this.state,
-        signature1: createdUserData.signature,
+        signature1: effectiveSignature1,
       })
-      if (this.props.valuesSet) this.sigCanvas1.fromData(createdUserData.signature);
+      if (this.props.valuesSet) this.sigCanvas1.fromData(effectiveSignature1);
     }
 
     else if (this.state.twoSignaturesRequired && this.state.signature1.length > 0 && !save) {
-      this.sigCanvas1.fromData(this.props.formData.signature1);
+      // Only restore the persisted first signature onto the canvas for an
+      // existing record - this.props.formData doesn't exist for a new
+      // report (App.js mounts it with valuesSet={false} and no formData
+      // prop at all), so dereferencing formData.signature1 unconditionally
+      // threw here on a second Submit click once signature1 had already
+      // been captured into state by the first (see the `if` branch above).
+      // A new report has no sigCanvas1 to restore into anyway - it should
+      // just keep whatever's already on the canvas from this session.
       if (this.props.valuesSet) {
-        this.sigCanvas2.fromData(createdUserData.signature);
+        this.sigCanvas1.fromData(this.props.formData.signature1);
+        effectiveSignature2 = createdUserData.signature || [];
+        this.sigCanvas2.fromData(effectiveSignature2);
         this.setState({
           ...this.state,
-          signature2: createdUserData.signature,
+          signature2: effectiveSignature2,
         })
+      }
+    }
+
+    // Block submission outright if the signature(s) this form needs are
+    // still missing after the auto-fill above - e.g. the submitting user
+    // has no signature saved to their profile at all. Without this, a
+    // single-signature home could mark a form COMPLETED with no signature
+    // captured anywhere.
+    if (!save) {
+      // hadSignature1Already (not this.props.valuesSet) is what decides
+      // whether signature2 is required here: it's true exactly when this
+      // submission is NOT the one capturing signature1 for the first time
+      // - i.e. a second signer's completion attempt, whether that's an
+      // existing record (valuesSet=true) or a repeat Submit click on a
+      // brand-new report that already captured signature1 on session.
+      // Gating on valuesSet instead let a new two-signature-home report's
+      // Submit silently save as a draft with signature2 still missing,
+      // with no error and no path to ever complete it, instead of telling
+      // the user a second signature is still needed. Using
+      // hadSignature1Already for both cases still lets the very first
+      // capture of signature1 (new or existing record) succeed
+      // unblocked - only a submission that ALREADY had signature1 going
+      // in now also requires signature2, in a two-signature home.
+      const missingRequiredSignature = this.state.twoSignaturesRequired
+        ? effectiveSignature1.length === 0 ||
+          (hadSignature1Already && effectiveSignature2.length === 0)
+        : effectiveSignature1.length === 0;
+
+      if (missingRequiredSignature) {
+        this.setState({
+          ...this.state,
+          formHasError: true,
+          formErrorMessage: `User signature required to submit a form. Create a new signature under 'Manage Profile'.`,
+        });
+        return;
       }
     }
 
@@ -445,17 +567,21 @@ class DailyProgressAndActivity extends Component {
           showIncidentModal: true,
           incidentModalMessage: message,
         },
-        () => this.submit(save)
+        () => this.submit(save, effectiveSignature1, effectiveSignature2)
       );
     } else {
-      this.submit(save);
+      this.submit(save, effectiveSignature1, effectiveSignature2);
     }
   };
 
   setSignature = (userObj) => {
     console.log('createdate before update, status', this.props.formData.createDate < '2024-08-18T00:23:52.160Z', this.props.formData.status)
     console.log('signature1 in setSignature, props: ', this.props.formData.signature1, 'length: ', this.props.formData.signature1.length)
-    console.log('signature2 in setSignature, props: ', this.props.formData.signature2, 'length: ', this.props.formData.signature2.length)
+    // signature2 is a legacy-absent field - it was only added to this form
+    // once two-signature homes existed, so a record saved before that has
+    // no signature2 at all (not even an empty array), and .length would
+    // throw on undefined.
+    console.log('signature2 in setSignature, props: ', this.props.formData.signature2, 'length: ', this.props.formData.signature2?.length)
 
     if (this.props.formData.createDate < '2024-08-18T00:23:52.160Z' && this.props.formData.status === 'COMPLETED') {
       this.sigCanvas1.fromData(userObj.signature);
@@ -470,7 +596,14 @@ class DailyProgressAndActivity extends Component {
     if (this.props.formData.signature1.length > 0) {
       this.sigCanvas1.fromData(this.props.formData.signature1);
     }
-    if (this.state.twoSignaturesRequired && this.props.formData.status === "COMPLETED") {
+    // Guarded the same way as the signature1 checks above - a legacy
+    // record predating signature2 has no such field at all, so this must
+    // not assume it's present (or even an array) before reading it.
+    if (
+      this.state.twoSignaturesRequired &&
+      this.props.formData.status === "COMPLETED" &&
+      this.props.formData.signature2?.length > 0
+    ) {
       this.sigCanvas2.fromData(this.props.formData.signature2)
     }
   };
@@ -488,7 +621,11 @@ class DailyProgressAndActivity extends Component {
     );
     this.setSignature(createdUserData);
     this.sigCanvas1.off();
-    if (this.state.twoSignaturesRequired = true) this.sigCanvas2.off();
+    // Was `if (this.state.twoSignaturesRequired = true)` - an assignment, not
+    // a comparison, which unconditionally forced this to true on every
+    // valuesSet load and stomped the home-based value doGetHomeInfo() had
+    // just set (or was about to set, via its own separate fetch).
+    if (this.state.twoSignaturesRequired === true) this.sigCanvas2.off();
     this.setState({
       ...this.state,
       ...this.props.formData,
@@ -521,6 +658,7 @@ class DailyProgressAndActivity extends Component {
   };
 
   async componentDidMount() {
+    await this.doGetHomeInfo();
     if (this.props.valuesSet) {
       this.setValues();
     } else {
@@ -528,6 +666,15 @@ class DailyProgressAndActivity extends Component {
       interval = setInterval(() => {
         this.autoSave();
       }, 7000);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    // homeId is expected to be stable for the life of this component (it
+    // comes from the logged-in user's session), but refetch if it ever
+    // does change rather than assuming it never will.
+    if (prevProps.userObj?.homeId !== this.props.userObj?.homeId) {
+      this.doGetHomeInfo();
     }
   }
 
@@ -553,7 +700,6 @@ class DailyProgressAndActivity extends Component {
   };
 
   render() {
-    this.doGetHomeInfo();
     if (!this.props.valuesSet) {
       return (
       <>
@@ -1327,6 +1473,19 @@ class DailyProgressAndActivity extends Component {
                       />{" "}
                     </div>
                     <div className="form-group logInInputField">
+                      <label className="control-label">
+                        Last Updated
+                      </label>{" "}
+                      <input
+                        id="lastEditDate"
+                        value={this.state.lastEditDate ? new Date(this.state.lastEditDate).toLocaleString() : ""}
+                        className="form-control"
+                        type="text"
+                        disabled
+                        readOnly
+                      />{" "}
+                    </div>
+                    <div className="form-group logInInputField">
                       {" "}
                       <label className="control-label">Child's Name</label>{" "}
                       <input
@@ -1892,10 +2051,19 @@ class DailyProgressAndActivity extends Component {
 
               <div id='signature2'
                 style={{
+                  // Driven by state.twoSignaturesRequired (the home's real
+                  // persisted twoSignatures flag - see doGetHomeInfo), not a
+                  // hardcoded homeId check - otherwise a newly configured
+                  // two-signature home would have the server correctly
+                  // requiring a second signature (see
+                  // routes/api/dailyProgressAndActivity.js's identical
+                  // isTwoSignatureHome) while this UI never shows the field
+                  // to enter it.
+                  // signature2 is a legacy-absent field (see setSignature)
+                  // - optional-chained so a legacy record that predates it
+                  // doesn't throw reading .length off undefined.
                   display:
-                    (this.props.userObj.homeId === 'home-3' || this.props.userObj.homeId === 'home-1234') && this.props.formData.signature2.length > 0
-                      // remove comment below & add comment out above to test Demo home without two signature requirement
-                      // (this.props.userObj.homeId === 'home-3') && this.props.formData.signature2.length > 0
+                    this.state.twoSignaturesRequired && this.props.formData.signature2?.length > 0
                       ? 'block' : 'none'
                 }}
               >

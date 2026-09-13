@@ -628,6 +628,26 @@ class TreatmentPlan72 extends Component {
 
 
   validateForm = async (save) => {
+    if (!save) {
+      const { data: createdUserData } = await GetUserSig(
+        this.props.userObj.email,
+        this.props.userObj.homeId
+      );
+
+      if (
+        !createdUserData.signature ||
+        Array.isArray(createdUserData.signature) === false ||
+        !createdUserData.signature.length > 0
+      ) {
+        this.setState({
+          ...this.state,
+          formHasError: true,
+          formErrorMessage: `User signature required to submit a form. Create a new signature under 'Manage Profile'.`,
+        });
+        return;
+      }
+    }
+
     this.setState({
       ...this.state,
       loadingClients: true,
