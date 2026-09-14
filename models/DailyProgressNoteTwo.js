@@ -55,6 +55,17 @@ const signatureSchema = new mongoose.Schema({
   signatures: [{ type: String, default: "" }], // store as base64 or URL
   initials: [{ type: String, default: "" }],
   titles: [{ type: String, default: "" }],
+  // Which shift each signature slot was signed for (e.g. "shift1"/AM,
+  // "shift2"/PM). The client always sends this alongside
+  // signatures/initials/titles and requires it for a signature to count
+  // as valid (see DailyProgressTwo.js's isSignatureValid), and the
+  // server's own hasRequiredAmPmSignatures check in
+  // routes/api/dailyProgressNoteTwo.js requires it too - without a schema
+  // field for it, Mongoose silently stripped it on save, so a reloaded
+  // draft's fallback signatureSection would have real signatures/initials/
+  // titles but no selectedShifts, and a subsequent COMPLETED attempt
+  // would be wrongly rejected.
+  selectedShifts: [{ type: String, default: "" }],
 });
 
 
@@ -223,11 +234,27 @@ const dailyReportSchema = new mongoose.Schema(
     // SIGNATURE
     signatureSection: signatureSchema,
 
-    // 🔀 Number of shift columns shown on the form (2 = AM/PM, 3 = AM/PM/NOC)
+    // 🔀 Number of shift columns *currently* shown on the form (2 = AM/PM, 3
+    // = AM/PM/NOC) - this is live/editable and can change after the report
+    // is completed (e.g. adding a 3rd shift to a completed 2-shift report).
     shiftCount: {
       type: Number,
       enum: [2, 3],
       default: 3,
+    },
+
+    // 🔒 The shiftCount that was true the moment this report FIRST became
+    // COMPLETED - set once by the server (routes/api/dailyProgressNoteTwo.js)
+    // and never changed again afterward, unlike shiftCount above. This is
+    // what the client uses to tell "a shift that was already part of the
+    // completed submission" from "a shift added after the fact" (see
+    // DailyProgressTwo.js's isNewlyRevealedShift) - shiftCount itself can't
+    // be used for that because saving a newly-added shift's signature
+    // updates shiftCount too, which would immediately re-lock that very
+    // shift right after capturing it.
+    completedShiftCount: {
+      type: Number,
+      enum: [2, 3],
     },
 
     // ✅ NEW FIELDS
