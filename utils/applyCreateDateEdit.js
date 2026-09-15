@@ -63,6 +63,10 @@ const INVALID_CREATE_DATE_ERROR = "createDate must be a valid date.";
 function applyCreateDateEdit(updates, authUser, existingDoc) {
   if (updates.createDate === undefined) return null;
 
+  if (updates.createDate === null) {
+    delete updates.createDate;
+    return INVALID_CREATE_DATE_ERROR;
+  }
   const requested = new Date(updates.createDate);
   if (Number.isNaN(requested.getTime())) {
     delete updates.createDate;
