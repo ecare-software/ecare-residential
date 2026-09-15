@@ -315,7 +315,10 @@ router.put("/:id", async (req, res) => {
         _id: id,
         homeId: authUser.homeId,
       }).select("createDate originalCreateDate");
-      applyCreateDateEdit(updates, authUser, existingForCreateDate);
+      const createDateError = applyCreateDateEdit(updates, authUser, existingForCreateDate);
+      if (createDateError) {
+        return res.status(400).json({ error: createDateError });
+      }
     }
 
     if (effectiveStatus === "COMPLETED") {

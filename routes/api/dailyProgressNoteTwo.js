@@ -357,7 +357,10 @@ router.put("/:homeId/:reportId", async (req, res) => {
       const existingForCreateDate = await DailyReport.findOne(
         { _id: req.params.reportId, homeId: authUser.homeId }
       ).select("createDate originalCreateDate");
-      applyCreateDateEdit(updates, authUser, existingForCreateDate);
+      const createDateError = applyCreateDateEdit(updates, authUser, existingForCreateDate);
+      if (createDateError) {
+        return res.status(400).json({ error: createDateError });
+      }
     }
 
     // Self-heal legacy selectedShifts (see the comment on

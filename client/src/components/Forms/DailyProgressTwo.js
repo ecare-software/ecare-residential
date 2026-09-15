@@ -1742,11 +1742,21 @@ const SignatureSection = ({
     (formData?.completedShiftCount ?? formData?.shiftCount) === 2 ? 2 : 3;
 
   // Whether shift slot idx already has a real, persisted signature image.
+  // Reads formData, not propFormData: formData starts as a copy of
+  // propFormData but also gets the server's response merged into it after
+  // every save (see handleSave's setFormData(prev => ({...prev,
+  // ...updatedReport}))), while propFormData itself is never refreshed
+  // after the initial load (the parent only pushes createDate/
+  // lastEditDate back down via doUpdateFormDates). Checking propFormData
+  // here would mean a signature saved earlier in this same session -
+  // e.g. NOC, signed after the report was already COMPLETED - reads as
+  // still unsigned until the page is reloaded, leaving it wrongly
+  // unlocked and overwritable in the meantime.
   const hasPersistedSignature = (idx) =>
-    !!(propFormData?.signatureSection?.signatures?.[idx] &&
-      typeof propFormData.signatureSection.signatures[idx] === 'string' &&
-      propFormData.signatureSection.signatures[idx].startsWith('data:image/') &&
-      propFormData.signatureSection.signatures[idx].length > 100);
+    !!(formData?.signatureSection?.signatures?.[idx] &&
+      typeof formData.signatureSection.signatures[idx] === 'string' &&
+      formData.signatureSection.signatures[idx].startsWith('data:image/') &&
+      formData.signatureSection.signatures[idx].length > 100);
 
   // A shift slot is locked by completion only once it's actually been
   // signed. NOC (idx 2) is optional at submission time (only AM/PM are
@@ -1791,11 +1801,7 @@ const SignatureSection = ({
                   onChange={() => toggleSignature(idx)}
                   disabled={
                     // Only disable if this specific shift has a valid signature (data URL)
-                    (propFormData?.signatureSection?.signatures &&
-                      propFormData.signatureSection.signatures[idx] &&
-                      typeof propFormData.signatureSection.signatures[idx] === 'string' &&
-                      propFormData.signatureSection.signatures[idx].startsWith('data:image/') &&
-                      propFormData.signatureSection.signatures[idx].length > 100) ||
+                    hasPersistedSignature(idx) ||
                     // Or if the entire form is completed (unless this shift was only
                     // revealed after the fact by a shiftCount change)
                     isLocked || isShiftLockedByCompletion(idx)
@@ -1822,11 +1828,7 @@ const SignatureSection = ({
                   style={{ marginLeft: "auto" }}
                   disabled={
                     // Only disable if this specific shift has a valid signature (data URL)
-                    (propFormData?.signatureSection?.signatures &&
-                      propFormData.signatureSection.signatures[idx] &&
-                      typeof propFormData.signatureSection.signatures[idx] === 'string' &&
-                      propFormData.signatureSection.signatures[idx].startsWith('data:image/') &&
-                      propFormData.signatureSection.signatures[idx].length > 100) ||
+                    hasPersistedSignature(idx) ||
                     // Or if the entire form is completed (unless this shift was only
                     // revealed after the fact by a shiftCount change)
                      isLocked || isShiftLockedByCompletion(idx)
@@ -1866,12 +1868,7 @@ const SignatureSection = ({
                                   height: "100px",
                                   backgroundColor: "#f9f9f9",
                                   borderRadius: "4px",
-                                  opacity: (isShiftLockedByCompletion(idx) ||
-                                    (propFormData?.signatureSection?.signatures &&
-                                      propFormData.signatureSection.signatures[idx] &&
-                                      typeof propFormData.signatureSection.signatures[idx] === 'string' &&
-                                      propFormData.signatureSection.signatures[idx].startsWith('data:image/') &&
-                                      propFormData.signatureSection.signatures[idx].length > 100)) ? "0.7" : "1"
+                                  opacity: (isShiftLockedByCompletion(idx) || hasPersistedSignature(idx)) ? "0.7" : "1"
                                 }
                               }}
                               ref={(el) => {
@@ -1879,14 +1876,7 @@ const SignatureSection = ({
                                 // Disable signature canvas if form is completed (and this shift
                                 // isn't newly revealed by a shiftCount change) or this specific
                                 // signature is already set
-                                if (el && (
-                                  isShiftLockedByCompletion(idx) ||
-                                  (propFormData?.signatureSection?.signatures &&
-                                    propFormData.signatureSection.signatures[idx] &&
-                                    typeof propFormData.signatureSection.signatures[idx] === 'string' &&
-                                    propFormData.signatureSection.signatures[idx].startsWith('data:image/') &&
-                                    propFormData.signatureSection.signatures[idx].length > 100)
-                                )) {
+                                if (el && (isShiftLockedByCompletion(idx) || hasPersistedSignature(idx))) {
                                   el.off();
                                 }
                               }}
@@ -1926,11 +1916,7 @@ const SignatureSection = ({
                         }}
                         disabled={
                           // Only disable if this specific shift has a valid signature (data URL)
-                          (propFormData?.signatureSection?.signatures &&
-                            propFormData.signatureSection.signatures[idx] &&
-                            typeof propFormData.signatureSection.signatures[idx] === 'string' &&
-                            propFormData.signatureSection.signatures[idx].startsWith('data:image/') &&
-                            propFormData.signatureSection.signatures[idx].length > 100) ||
+                          hasPersistedSignature(idx) ||
                           // Or if the entire form is completed (unless this shift was only
                           // revealed after the fact by a shiftCount change)
                            isLocked || isShiftLockedByCompletion(idx)
@@ -1966,11 +1952,7 @@ const SignatureSection = ({
                     style={{ flexGrow: 1 }}
                     disabled={
                       // Disable if this specific shift has a valid signature (data URL)
-                      (propFormData?.signatureSection?.signatures &&
-                        propFormData.signatureSection.signatures[idx] &&
-                        typeof propFormData.signatureSection.signatures[idx] === 'string' &&
-                        propFormData.signatureSection.signatures[idx].startsWith('data:image/') &&
-                        propFormData.signatureSection.signatures[idx].length > 100) ||
+                      hasPersistedSignature(idx) ||
                       // Or if the entire form is completed (unless this shift was only
                       // revealed after the fact by a shiftCount change)
                        isLocked || isShiftLockedByCompletion(idx)

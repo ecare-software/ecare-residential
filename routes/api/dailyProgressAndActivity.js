@@ -322,7 +322,10 @@ router.put("/:homeId/:formId/", async (req, res) => {
     const existingForCreateDate = await DailyProgressAndActivity.findOne(
       { _id: req.params.formId, homeId: authUser.homeId }
     ).select("createDate originalCreateDate");
-    applyCreateDateEdit(updatedLastEditDate, authUser, existingForCreateDate);
+    const createDateError = applyCreateDateEdit(updatedLastEditDate, authUser, existingForCreateDate);
+    if (createDateError) {
+      return res.status(400).json({ error: createDateError });
+    }
   }
   updatedLastEditDate.twoSignaturesRequired = twoSigRequired;
   DailyProgressAndActivity.updateOne(
