@@ -7,6 +7,7 @@ const {
   containsMongoOperatorKey,
   MONGO_OPERATOR_ERROR,
 } = require("../../utils/rejectMongoOperators");
+const { applyCreateDateEdit } = require("../../utils/applyCreateDateEdit");
 
 const router = express.Router();
 
@@ -345,8 +346,19 @@ router.put("/:homeId/:reportId", async (req, res) => {
     delete updates.createdBy;
     delete updates.createdByName;
     delete updates.homeId;
-    delete updates.createDate;
     delete updates.completedShiftCount;
+    // originalCreateDate/createDateEditedBy/createDateEditedAt are always
+    // server-computed by applyCreateDateEdit below, never taken from the
+    // request body.
+    delete updates.originalCreateDate;
+    delete updates.createDateEditedBy;
+    delete updates.createDateEditedAt;
+    if (updates.createDate !== undefined) {
+      const existingForCreateDate = await DailyReport.findOne(
+        { _id: req.params.reportId, homeId: authUser.homeId }
+      ).select("createDate originalCreateDate");
+      applyCreateDateEdit(updates, authUser, existingForCreateDate);
+    }
 
     // Self-heal legacy selectedShifts (see the comment on
     // healLegacySelectedShifts above) whenever this save is touching

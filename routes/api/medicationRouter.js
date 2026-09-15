@@ -7,6 +7,7 @@ const {
   containsMongoOperatorKey,
   MONGO_OPERATOR_ERROR,
 } = require("../../utils/rejectMongoOperators");
+const { applyCreateDateEdit } = require("../../utils/applyCreateDateEdit");
 
 const router = express.Router();
 
@@ -268,7 +269,12 @@ router.put("/:id", async (req, res) => {
     delete updates.homeId;
     delete updates.createdBy;
     delete updates.createdByName;
-    delete updates.createDate;
+    // originalCreateDate/createDateEditedBy/createDateEditedAt are always
+    // server-computed by applyCreateDateEdit below, never taken from the
+    // request body.
+    delete updates.originalCreateDate;
+    delete updates.createDateEditedBy;
+    delete updates.createDateEditedAt;
 
     if (updates.medications) {
       updates.medications = updates.medications.map((m) => ({
@@ -299,6 +305,18 @@ router.put("/:id", async (req, res) => {
       : null;
 
     const effectiveStatus = updates.status !== undefined ? updates.status : existingDoc?.status;
+
+    if (updates.createDate !== undefined) {
+      // existingDoc above only selects status/caregivers - createDate
+      // needs its own fetch (with originalCreateDate) so
+      // applyCreateDateEdit always sees the real persisted values, never
+      // an accidental undefined from a differently-scoped select.
+      const existingForCreateDate = await MedicationLog.findOne({
+        _id: id,
+        homeId: authUser.homeId,
+      }).select("createDate originalCreateDate");
+      applyCreateDateEdit(updates, authUser, existingForCreateDate);
+    }
 
     if (effectiveStatus === "COMPLETED") {
       // Fall back to the persisted caregivers only when the field is

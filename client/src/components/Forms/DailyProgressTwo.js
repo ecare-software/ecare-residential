@@ -6,6 +6,7 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import SignatureCanvas from "react-signature-canvas";
 import { GetUserSig } from "../../utils/GetUserSig";
+import { isAdminUser } from "../../utils/AdminReportingRoles";
 import {
   mapDailyIntake,
   mapRecTherapeuticActivity,
@@ -779,6 +780,7 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
 
       const payload = {
         homeId: effectiveHomeId,
+        createDate: formData.createDate,
         child: formData.child,
         childMeta_name: formData.childMeta_name || (formData.child && formData.child.name) || "",
         approved: formData.approved,
@@ -948,6 +950,13 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
 
   const isLocked = !formData.childSelected;
 
+  // Back-dating an already-saved report is admin/supervisor-only (see
+  // utils/applyCreateDateEdit.js server-side) - direct care staff can
+  // still set the creation date once, while first creating the report
+  // (formData._id not set yet), just not edit it here afterward.
+  const isExistingRecord = Boolean(formData._id);
+  const createDateLocked = isLocked || (isExistingRecord && !isAdminUser(effectiveUserObj));
+
   return (
     <Container fluid className="formComp d-flex justify-content-center" style={{ minHeight: "100vh", padding: "40px 0" }}>
       <div style={{ width: "100%", maxWidth: "1000px" }}>
@@ -969,8 +978,24 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
                 className="form-control"
                 type="datetime-local"
                 style={{ height: "43px", boxSizing: "border-box" }}
-                disabled={isLocked}
+                disabled={createDateLocked}
+                title={
+                  isExistingRecord && !isAdminUser(effectiveUserObj)
+                    ? "Only an admin or supervisor can change the creation date after a form has been saved."
+                    : undefined
+                }
               />
+              {formData.createDateEditedBy && (
+                <small className="text-muted d-block mt-1">
+                  Creation date corrected by {formData.createDateEditedBy}
+                  {formData.createDateEditedAt
+                    ? ` on ${new Date(formData.createDateEditedAt).toLocaleString()}`
+                    : ""}
+                  {formData.originalCreateDate
+                    ? ` (originally ${new Date(formData.originalCreateDate).toLocaleString()})`
+                    : ""}
+                </small>
+              )}
             </div>
           </div>
 
@@ -1715,9 +1740,24 @@ const SignatureSection = ({
   // completedShiftCount existed, which never got it persisted at all.
   const savedShiftCount =
     (formData?.completedShiftCount ?? formData?.shiftCount) === 2 ? 2 : 3;
-  const isNewlyRevealedShift = (idx) => idx >= savedShiftCount;
+
+  // Whether shift slot idx already has a real, persisted signature image.
+  const hasPersistedSignature = (idx) =>
+    !!(propFormData?.signatureSection?.signatures?.[idx] &&
+      typeof propFormData.signatureSection.signatures[idx] === 'string' &&
+      propFormData.signatureSection.signatures[idx].startsWith('data:image/') &&
+      propFormData.signatureSection.signatures[idx].length > 100);
+
+  // A shift slot is locked by completion only once it's actually been
+  // signed. NOC (idx 2) is optional at submission time (only AM/PM are
+  // required), so a report can become COMPLETED with NOC still blank -
+  // locking that slot just because the report as a whole is done would
+  // permanently shut out the NOC shift's own signer, even though nobody
+  // ever signed it. The same reasoning also covers a shift newly revealed
+  // by a shiftCount change after completion: it's unsigned too, so it
+  // stays open here without needing separate tracking.
   const isShiftLockedByCompletion = (idx) =>
-    formData.status === "COMPLETED" && !isNewlyRevealedShift(idx);
+    formData.status === "COMPLETED" && hasPersistedSignature(idx);
 
   // Debug form status - removed to prevent excessive logging
   return (
