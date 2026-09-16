@@ -12,6 +12,7 @@ const {
   containsMongoOperatorKey,
   MONGO_OPERATOR_ERROR,
 } = require("../../utils/rejectMongoOperators");
+const { applyCreateDateEdit } = require("../../utils/applyCreateDateEdit");
 
 router.post("/", async (req, res) => {
   const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.body.homeId);
@@ -342,7 +343,21 @@ router.put("/:homeId/:formId/", async (req, res) => {
   delete updatedLastEditDate.createdBy;
   delete updatedLastEditDate.createdByName;
   delete updatedLastEditDate.homeId;
-  delete updatedLastEditDate.createDate;
+  // originalCreateDate/createDateEditedBy/createDateEditedAt are always
+  // server-computed by applyCreateDateEdit below, never taken from the
+  // request body.
+  delete updatedLastEditDate.originalCreateDate;
+  delete updatedLastEditDate.createDateEditedBy;
+  delete updatedLastEditDate.createDateEditedAt;
+  if (updatedLastEditDate.createDate !== undefined) {
+    const existingForCreateDate = await AdmissionAssessment.findOne(
+      { _id: req.params.formId, homeId: authUser.homeId }
+    ).select("createDate originalCreateDate");
+    const createDateError = applyCreateDateEdit(updatedLastEditDate, authUser, existingForCreateDate);
+    if (createDateError) {
+      return res.status(400).json({ error: createDateError });
+    }
+  }
   AdmissionAssessment.updateOne(
     // Scoped to the authenticated user's own home, not the URL's :homeId
     // (just a caller-supplied claim) - a record belonging to a different

@@ -49,6 +49,16 @@ const singleMedicationSchema = new mongoose.Schema({
 
 const medicationLogSchema = new mongoose.Schema({
   createDate: { type: Date, default: Date.now },
+  // Set once, the first time createDate is ever changed after creation by
+  // an admin/supervisor (see utils/applyCreateDateEdit.js) - captures
+  // what createDate originally was, and is never overwritten again
+  // afterward, so the record's true original creation date is always
+  // recoverable even after a correction.
+  originalCreateDate: { type: Date },
+  // Who/when createDate was last changed after creation. Absent if it's
+  // never been edited post-creation.
+  createDateEditedBy: { type: String },
+  createDateEditedAt: { type: Date },
   homeId: { type: String },
 
   child: {
