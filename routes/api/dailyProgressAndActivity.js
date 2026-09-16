@@ -10,6 +10,7 @@ const {
   containsMongoOperatorKey,
   MONGO_OPERATOR_ERROR,
 } = require("../../utils/rejectMongoOperators");
+const { applyCreateDateEdit } = require("../../utils/applyCreateDateEdit");
 
 // Whether a home requires two signatures before a report can be
 // completed - resolved from the persisted Home record's own
@@ -311,7 +312,21 @@ router.put("/:homeId/:formId/", async (req, res) => {
   delete updatedLastEditDate.createdBy;
   delete updatedLastEditDate.createdByName;
   delete updatedLastEditDate.homeId;
-  delete updatedLastEditDate.createDate;
+  // originalCreateDate/createDateEditedBy/createDateEditedAt are always
+  // server-computed by applyCreateDateEdit below, never taken from the
+  // request body.
+  delete updatedLastEditDate.originalCreateDate;
+  delete updatedLastEditDate.createDateEditedBy;
+  delete updatedLastEditDate.createDateEditedAt;
+  if (updatedLastEditDate.createDate !== undefined) {
+    const existingForCreateDate = await DailyProgressAndActivity.findOne(
+      { _id: req.params.formId, homeId: authUser.homeId }
+    ).select("createDate originalCreateDate");
+    const createDateError = applyCreateDateEdit(updatedLastEditDate, authUser, existingForCreateDate);
+    if (createDateError) {
+      return res.status(400).json({ error: createDateError });
+    }
+  }
   updatedLastEditDate.twoSignaturesRequired = twoSigRequired;
   DailyProgressAndActivity.updateOne(
     // Scoped to the authenticated user's own home, not the URL's :homeId

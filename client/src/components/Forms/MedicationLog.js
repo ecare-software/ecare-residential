@@ -449,7 +449,17 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
     const childData = { childId: selectedChild.id || "", name: selectedChild.name || "" };
 
     return {
-      createDate: new Date(),
+      // Only stamp a fresh createDate for a brand-new record (no
+      // currentFormId yet, i.e. this becomes a POST) - there's no
+      // correction-date input on this form, so re-sending `new Date()` on
+      // every PUT would hit routes/api/medicationRouter.js's
+      // applyCreateDateEdit and get treated as an admin deliberately
+      // back-dating the record on every ordinary save, silently moving
+      // createDate (and stamping createDateEditedBy/At) each time. Omitting
+      // the field on update leaves the persisted createDate untouched, the
+      // same way the other 9 forms behave when their (also currently
+      // absent, for this form) date-correction UI isn't used.
+      ...(currentFormId ? {} : { createDate: new Date() }),
       homeId: effectiveUserObj?.homeId || null,
       child: childData,
       childMeta_name: selectedChild.name || "",

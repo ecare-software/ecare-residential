@@ -10,6 +10,7 @@ import SignatureCanvas from "react-signature-canvas";
 import { GetUserSig } from "../../utils/GetUserSig";
 import { FormSuccessAlert } from "../../utils/FormSuccessAlert";
 import { FormSavedAlert } from "../../utils/FormSavedAlert";
+import { isAdminUser } from "../../utils/AdminReportingRoles";
 import TextareaAutosize from "react-textarea-autosize";
 import { Container, Row, Col } from "react-bootstrap";
 
@@ -2378,7 +2379,30 @@ class AdmissionAssessment extends Component {
                         value={this.state.createDate !== null ? this.state.createDate.slice(0, -8) : ""}
                         className="form-control"
                         type="datetime-local"
+                        // Back-dating an already-saved record is admin/
+                        // supervisor-only (see utils/applyCreateDateEdit.js
+                        // server-side) - direct care staff can still set
+                        // this once at initial creation (the other
+                        // Create Date input above, for valuesSet=false),
+                        // just not edit it here afterward.
+                        disabled={!isAdminUser(this.props.userObj)}
+                        title={
+                          isAdminUser(this.props.userObj)
+                            ? undefined
+                            : "Only an admin or supervisor can change the creation date after a form has been saved."
+                        }
                       />{" "}
+                      {this.state.createDateEditedBy && (
+                        <small className="text-muted d-block mt-1">
+                          Creation date corrected by {this.state.createDateEditedBy}
+                          {this.state.createDateEditedAt
+                            ? ` on ${new Date(this.state.createDateEditedAt).toLocaleString()}`
+                            : ""}
+                          {this.state.originalCreateDate
+                            ? ` (originally ${new Date(this.state.originalCreateDate).toLocaleString()})`
+                            : ""}
+                        </small>
+                      )}
                     </div>
                     <div className="form-group logInInputField">
                       {" "}
