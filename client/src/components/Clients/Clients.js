@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useAsync, IfRejected, IfPending, IfFulfilled } from "react-async";
 import "../../App.css";
 import "../LogInContainer/LogInContainer.css";
@@ -46,33 +46,30 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
     setIsInit(false);
   }, [showClientForm]);
 
-  useEffect(() => {
-    if (!isInit) {
-      getAllClients.run([userObj.homeId]);
-    }
-  }, [showActive]);
-
   const getAllClients = useAsync({
     promiseFn: fetchAllClientsInit,
     homeId: userObj.homeId,
     deferFn: fetchAllClients,
     onResolve: (data) => {
-      const d = filterClients(data.data);
-      setClients(d);
+      setClients(data.data);
     },
   });
 
-  const filterClients = (data) => {
+  // The server always returns every client for the home regardless of
+  // active status, so switching tabs only needs to re-filter data already
+  // in memory - refetching here would leave the previous tab's list on
+  // screen until the round-trip finished.
+  const visibleClients = useMemo(() => {
     if (showActive === true) {
-      return data.filter((client) => {
+      return clients.filter((client) => {
         return !client.hasOwnProperty("active") || client.active === true;
       });
     } else {
-      return data.filter((client) => {
+      return clients.filter((client) => {
         return client.active === false;
       });
     }
-  };
+  }, [clients, showActive]);
 
   const deleteClient = useAsync({
     deferFn: doDeleteClient,
@@ -120,7 +117,7 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
             </IfPending>
             <IfFulfilled state={getAllClients}>
               <h4>
-                {clients.length} {showActive ? "Active" : "Inactive"} Clients
+                {visibleClients.length} {showActive ? "Active" : "Inactive"} Clients
               </h4>
             </IfFulfilled>
           </div>
@@ -159,7 +156,7 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
               <label className="control-label">Date of Admission</label>
             </Col>
           </div>
-          {clients.map((client) => (
+          {visibleClients.map((client) => (
             <div className="form-group logInInputField d-flex mt-3" key={client._id}>
               <Col className="control-label d-flex">
                 <button
