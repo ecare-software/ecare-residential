@@ -62,14 +62,14 @@ function resolveAmPmSignature(signatureSection, idx) {
   return { valid: true, shift: expectedShift, inferred: true };
 }
 
-// Mirrors the client's isSignatureValid/areAllSignaturesValid
-// (DailyProgressTwo.js) - a valid AM/PM signature needs a real signature
-// image, initials, and a title, for both index 0 (AM) and 1 (PM), with
-// the shift resolved (including the legacy fallback) above. The client
-// already blocks Submit on this, but that only protects the UI - this is
-// the server-side backstop for it.
-function hasRequiredAmPmSignatures(signatureSection) {
-  return [0, 1].every((idx) => resolveAmPmSignature(signatureSection, idx).valid);
+// Shifts sign independently - a report can be completed once ANY shift has a
+// valid signature (real image, initials, title, and a shift matching its
+// slot). Missing shifts don't block the others; admins are flagged about
+// them instead (see getMissingSignatureShifts on the client). The client
+// also checks this, but that only protects the UI - this is the
+// server-side backstop.
+function hasAtLeastOneShiftSignature(signatureSection) {
+  return [0, 1, 2].some((idx) => resolveAmPmSignature(signatureSection, idx).valid);
 }
 
 // Backfills any inferred (legacy) selectedShifts into a signatureSection
@@ -97,7 +97,7 @@ function healLegacySelectedShifts(signatureSection) {
 }
 
 const MISSING_SIGNATURES_ERROR =
-  "Both AM and PM signatures (with initials, title, and shift) are required before this report can be marked COMPLETED.";
+  "At least one shift signature (with initials, title, and shift) is required before this report can be marked COMPLETED.";
 
 // router.use((req, res, next) => {
 //   res.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
@@ -112,7 +112,7 @@ router.post("/", async (req, res) => {
   try {
     // Same verified-authentication + home-match requirement as the other
     // signature-protected form routes (see utils/requireUserSignature.js)
-    // - without it, hasRequiredAmPmSignatures below only checks the
+    // - without it, hasAtLeastOneShiftSignature below only checks the
     // *shape* of the submitted signatureSection, not who submitted it, so
     // any anonymous caller could supply a fabricated data URL plus
     // truthy initials/title/shift and pass the check outright.
@@ -123,7 +123,7 @@ router.post("/", async (req, res) => {
 
     if (
       req.body.status === "COMPLETED" &&
-      !hasRequiredAmPmSignatures(req.body.signatureSection)
+      !hasAtLeastOneShiftSignature(req.body.signatureSection)
     ) {
       return res.status(400).json({ error: MISSING_SIGNATURES_ERROR });
     }
@@ -391,7 +391,7 @@ router.put("/:homeId/:reportId", async (req, res) => {
           ? req.body.signatureSection
           : existingDoc?.signatureSection;
 
-      if (!hasRequiredAmPmSignatures(signatureSection)) {
+      if (!hasAtLeastOneShiftSignature(signatureSection)) {
         return res.status(400).json({ error: MISSING_SIGNATURES_ERROR });
       }
 

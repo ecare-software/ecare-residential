@@ -8,6 +8,7 @@ import Cookies from "universal-cookie";
 import SignatureCanvas from "react-signature-canvas";
 import { GetUserSig } from "../../utils/GetUserSig";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
+import { getMissingSignatureShifts } from "../../utils/missingSignatures";
 import {
   mapDailyIntake,
   mapRecTherapeuticActivity,
@@ -687,6 +688,65 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
   const toggleMedicationCheck = toggleCheck(setMedicationChecked);
   const toggleResidentCheck = toggleCheck(setResidentChecked);
 
+  // Display-only grouping of the resident behavior rows. The stored data (residentChecked and the
+  // residentBehaviorPerformance keys) is unchanged; each group just maps its rows back to the original indexes.
+  const RESIDENT_BEHAVIOR_GROUPS = [
+    {
+      title: "POSITIVE",
+      rows: [
+        "Receptive to information from staff & peers:",
+        "Enthusiastic and helpful to others:",
+        "Identifies potential solutions for problem solving:",
+        "Participates well in group/activities:",
+        "Follows instructions well:",
+      ],
+    },
+    {
+      title: "NEGATIVE",
+      rows: [
+        "Destruction of property:",
+        "Physical Aggression towards others:",
+        "Temper Outburst:",
+        "Non-Compliance with program/house rules:",
+        "Sexual Misconduct:",
+        "Limited Eye Contact:",
+        "Inappropriate Behavior Conversation:",
+        "Self-injurious behavior:",
+        "Stealing:",
+        "Disruptive Behavior:",
+      ],
+    },
+    {
+      title: "INTERACTIONS",
+      rows: [
+        "Refuse to Process with Staff:",
+        "Verbal Aggression towards peers:",
+        "Verbal aggression towards staff:",
+        "Isolation:",
+        "Bullies/Mean to others:",
+        "Peer Interaction Issues:",
+        "Cursing/Profanity:",
+        "Acts Fearful:",
+        "Demanding for Attention:",
+        "Lies/Manipulation:",
+        "Passive Aggressive:",
+        "Agitates others:",
+        "Sudden Mood Changes:",
+        "Not Following Directions:",
+      ],
+    },
+  ];
+  const residentBehaviorSections = RESIDENT_BEHAVIOR_GROUPS.map((group, groupIdx) => {
+    // index into residentChecked (labels.residentBehavior minus its header row)
+    const indexes = group.rows.map((row) => labels.residentBehavior.indexOf(row) - 1);
+    return {
+      labels: [`RESIDENT BEHAVIOR PERFORMANCE - ${group.title}:`, ...group.rows],
+      checkState: indexes.map((i) => residentChecked[i]),
+      toggleFn: (rowIndex, colIndex) => toggleResidentCheck(indexes[rowIndex], colIndex),
+      showSirReminder: groupIdx === RESIDENT_BEHAVIOR_GROUPS.length - 1,
+    };
+  });
+
   // Indexes into residentChecked (labels.residentBehavior minus header) of behaviors that require a serious incident report
   const SIR_BEHAVIOR_INDEXES = [5, 6, 11, 15, 24, 28];
   const sirBehaviorsSelected = SIR_BEHAVIOR_INDEXES
@@ -761,19 +821,17 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
       selectedShifts[idx];
   };
 
-  // Helper function to check if all required signatures are valid
-  // For submission, we only need the first two signatures (AM and PM)
-  const areAllSignaturesValid = () => {
-    return [0, 1].every(idx => isSignatureValid(idx));
-  };
+  // Shifts sign independently: one valid signature is enough to submit, and an unsigned
+  // shift never blocks another. Admins are flagged about the gaps instead.
+  const hasAnyValidSignature = () => [0, 1, 2].some(idx => isSignatureValid(idx));
 
   // ----- SAVE / SUBMIT -----
   const handleSave = async (action) => {
     try {
       // Validate all signatures are present if submitting
 
-      if (action === "submit" && !areAllSignaturesValid()) {
-        alert("Both AM and PM signatures must be completed before submission.");
+      if (action === "submit" && !hasAnyValidSignature()) {
+        alert("At least one shift signature (with initials and title) must be completed before submission.");
         return;
       }
 
@@ -842,6 +900,8 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
           signatures: sigRefs.current.map((sig) => {
             if (!sig) return "";
             try {
+              // A shown-but-unsigned canvas would otherwise save as a blank image that counts as a signature
+              if (typeof sig.isEmpty === 'function' && sig.isEmpty()) return "";
               // First try toDataURL directly if it exists
               if (typeof sig.toDataURL === 'function') {
                 return sig.toDataURL();
@@ -955,7 +1015,7 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
 
         // If doUpdateFormDates is provided (from ShowFormContainer), call it
         if (doUpdateFormDates) {
-          doUpdateFormDates(updatedReport.createDate);
+          doUpdateFormDates(updatedReport.createDate, updatedReport.signatureSection);
         }
       } else {
         // Create new report
@@ -1149,7 +1209,7 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
             { labels: labels.medicationCompliance, checkState: medicationChecked, toggleFn: toggleMedicationCheck },
             { labels: labels.dailyIntake, checkState: dailyIntake, isRadio: true, options: dailyIntakeOptions, onRadioChange: handleDailyIntakeChange },
             { labels: labels.staffIntervention, checkState: staffInterventionChecked, toggleFn: toggleStaffInterventionCheck },
-            { labels: labels.residentBehavior, checkState: residentChecked, toggleFn: toggleResidentCheck },
+            ...residentBehaviorSections,
             { labels: labels.recTherapeutic, checkState: recChecked, toggleFn: toggleRecCheck, onRadioChange: handleRecActivityChange },
             { labels: labels.timeTable, checkState: [], toggleFn: null, isRadio: false, }, // New Section
           ].map((section, idx) => (
@@ -1165,7 +1225,7 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
                   isLocked={isLocked}
                   shiftCount={shiftCount}
                 />
-                {section.labels === labels.residentBehavior && sirBehaviorsSelected.length > 0 && sirStatus !== "done" && (
+                {section.showSirReminder && sirBehaviorsSelected.length > 0 && sirStatus !== "done" && (
                   <div className="alert alert-warning" role="alert" style={{ marginTop: "12px" }}>
                     <strong>Reminder:</strong>{" "}
                     {sirStatus === "draft"
@@ -1210,7 +1270,7 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
             valuesSet={valuesSet}
             propFormData={propFormData}
             isSignatureValid={isSignatureValid}
-            areAllSignaturesValid={areAllSignaturesValid}
+            hasAnyValidSignature={hasAnyValidSignature}
             effectiveUserObj={effectiveUserObj}
             currentShift={currentShift}
             isLocked={isLocked}
@@ -1233,10 +1293,9 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
               className="darkBtn"
               style={{ width: "48%" }}
               onClick={() => handleSave("submit")}
-              // disabled={!areAllSignaturesValid()}
               title={
-                !areAllSignaturesValid()
-                  ? "Both AM and PM signatures must be completed before submission"
+                !hasAnyValidSignature()
+                  ? "At least one shift signature must be completed before submission"
                   : "Submit form"
               }
             >
@@ -1576,7 +1635,7 @@ const SignatureSection = ({
   valuesSet,
   propFormData,
   isSignatureValid,
-  areAllSignaturesValid,
+  hasAnyValidSignature,
   effectiveUserObj,
   currentShift,
   isLocked,
@@ -1875,17 +1934,25 @@ const SignatureSection = ({
               A shift was added after this form was completed - its signature is still open below.
             </div>
           )}
-          {currentShift === "shift3" && formData.status !== "COMPLETED" && (
-            <div style={{ fontSize: "14px", color: areAllSignaturesValid ? "green" : "red", marginTop: "5px" }}>
-              {areAllSignaturesValid
-                ? "✓ AM and PM signatures complete - ready for submission"
-                : "⚠️ Both AM and PM signatures required before submission"}
+          {formData.status !== "COMPLETED" && (
+            <div style={{ fontSize: "14px", color: hasAnyValidSignature() ? "green" : "red", marginTop: "5px" }}>
+              {hasAnyValidSignature()
+                ? "✓ Ready for submission - each shift signs for itself, so unsigned shifts don't block this"
+                : "⚠️ At least one shift signature is required before submission"}
+            </div>
+          )}
+          {getMissingSignatureShifts(formData.signatureSection, shiftCount).length > 0 && (
+            <div style={{ fontSize: "14px", color: "#b45309", marginTop: "5px" }}>
+              Missing signature: {getMissingSignatureShifts(formData.signatureSection, shiftCount).join(" and ")} shift
+              {getMissingSignatureShifts(formData.signatureSection, shiftCount).length > 1 ? "s" : ""} (a later shift has already signed). Administrators are flagged.
             </div>
           )}
         </div>
+        {/* All shifts side by side; columns wrap onto extra lines only when the screen is too narrow */}
+        <div className="d-flex flex-wrap" style={{ gap: "12px" }}>
         {shiftLabels.map((shiftLabel, idx) => (
-          <div key={idx} className="mb-4">
-            <div className="d-flex align-items-center mb-2" style={{ gap: "10px" }}>
+          <div key={idx} style={{ flex: "1 1 190px", minWidth: "190px" }}>
+            <div className="d-flex align-items-center flex-wrap mb-2" style={{ gap: "6px" }}>
               <div className="form-check">
                 {/* Debug info - removed to prevent excessive logging */}
                 <input
@@ -1904,14 +1971,8 @@ const SignatureSection = ({
                 />
                 <label className="form-check-label" htmlFor={`shift-${idx}`}>
                   {shiftLabel} Shift
-                  {currentShift === "shift3" && formData.status !== "COMPLETED" && (
-                    <span style={{
-                      marginLeft: "5px",
-                      color: isSignatureValid && isSignatureValid(idx) ? "green" : "red",
-                      fontSize: "12px"
-                    }}>
-                      {typeof isSignatureValid === 'function' ? (isSignatureValid(idx) ? "✓" : "⚠️") : "⚠️"}
-                    </span>
+                  {formData.status !== "COMPLETED" && typeof isSignatureValid === 'function' && isSignatureValid(idx) && (
+                    <span style={{ marginLeft: "5px", color: "green", fontSize: "12px" }}>✓</span>
                   )}
                 </label>
               </div>
@@ -1938,13 +1999,13 @@ const SignatureSection = ({
               <div className="signature-dropdown" style={{
                 border: "1px solid #ddd",
                 borderRadius: "4px",
-                padding: "20px",
+                padding: "8px",
                 backgroundColor: "#fff",
-                marginBottom: "15px",
+                marginBottom: "8px",
                 boxShadow: "0 2px 4px rgba(0,0,0,0.05)"
               }}>
-                <div className="d-flex flex-column" style={{ marginBottom: "15px", width: "100%" }}>
-                  <div className="d-flex flex-column" style={{ gap: "15px", marginBottom: "15px", width: "100%" }}>
+                <div className="d-flex flex-column" style={{ marginBottom: "4px", width: "100%" }}>
+                  <div className="d-flex flex-column" style={{ gap: "6px", marginBottom: "4px", width: "100%" }}>
                     <div style={{ flexShrink: 0, width: "100%" }}>
                       <div>
                         {/* Signature canvas is disabled when form is completed or signature exists */}
@@ -1953,14 +2014,14 @@ const SignatureSection = ({
                             <SignatureCanvas
                               penColor="black"
                               canvasProps={{
-                                width: 300,
-                                height: 100,
+                                width: 180,
+                                height: 60,
                                 className: "sigCanvas",
                                 style: {
                                   border: "1px solid #ccc",
                                   width: "100%",
-                                  maxWidth: "300px",
-                                  height: "100px",
+                                  maxWidth: "180px",
+                                  height: "60px",
                                   backgroundColor: "#f9f9f9",
                                   borderRadius: "4px",
                                   opacity: (isShiftLockedByCompletion(idx) || hasPersistedSignature(idx)) ? "0.7" : "1"
@@ -1980,7 +2041,7 @@ const SignatureSection = ({
                         )}
                       </div>
                     </div>
-                    <div style={{ marginTop: "10px", width: "100%" }}>
+                    <div style={{ width: "100%" }}>
                       <button
                         type="button"
                         className="btn btn-sm btn-outline-primary"
@@ -2021,16 +2082,8 @@ const SignatureSection = ({
                       </button>
                     </div>
                   </div>
-                  <div style={{ fontSize: "12px", color: "#666", marginBottom: "5px" }}>
-                    {effectiveUserObj && effectiveUserObj.signature ? "Signature available" : "No signature available"}
-                    <div style={{ marginTop: "5px" }}>
-                      <span style={{ fontStyle: "italic" }}>
-                        "Set Signature" loads your signature from your profile.
-                      </span>
-                    </div>
-                  </div>
                 </div>
-                <div className="d-flex align-items-center" style={{ gap: "15px", marginTop: "10px" }}>
+                <div className="d-flex flex-column" style={{ gap: "6px", marginTop: "6px" }}>
                   <input
                     type="text"
                     placeholder="Initials"
@@ -2043,7 +2096,7 @@ const SignatureSection = ({
                         return arr;
                       });
                     }}
-                    className="form-control"
+                    className="form-control form-control-sm"
                     style={{ flexGrow: 1 }}
                     disabled={
                       // Disable if this specific shift has a valid signature (data URL)
@@ -2058,7 +2111,7 @@ const SignatureSection = ({
                     placeholder="Title"
                     value={Array.isArray(titles) ? titles[idx] : ""}
                     readOnly={true}
-                    className="form-control"
+                    className="form-control form-control-sm"
                     style={{ flexGrow: 1, backgroundColor: "#f9f9f9" }}
                     disabled={isShiftLockedByCompletion(idx)}
                   />
@@ -2067,6 +2120,12 @@ const SignatureSection = ({
             )}
           </div>
         ))}
+        </div>
+        <div style={{ fontSize: "12px", color: "#666", marginTop: "8px" }}>
+          {effectiveUserObj && effectiveUserObj.signature ? "Signature available" : "No signature available"}
+          {" - "}
+          <span style={{ fontStyle: "italic" }}>"Set Signature" loads your signature from your profile.</span>
+        </div>
       </div>
     </div>
   );

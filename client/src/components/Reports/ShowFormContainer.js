@@ -1,3 +1,4 @@
+import { getMissingSignatureShifts } from "../../utils/missingSignatures";
 import React, { useState, useContext, useEffect, useCallback, useRef } from "react";
 import TreatmentPlan72 from "../Forms/TreatmentPlan72";
 import IncidentReport from "../Forms/IncidentReport";
@@ -28,7 +29,7 @@ const needsNurseSig = ["Health Body Check", "Illness Injury"];
 
 const needsAlt1Sig = ["Illness Injury"];
 
-const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
+const MetaDetails = ({ formData, isAdminRole, route, userObj, liveSignatureSection }) => {
   const [isApproved, setIsApproved] = useState(
     formData.approved ? formData.approved : false
   );
@@ -404,8 +405,18 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj }) => {
     }
   };
 
+  const missingSignatureShifts = isAdminRole
+    ? getMissingSignatureShifts(liveSignatureSection || formData.signatureSection, formData.shiftCount)
+    : [];
+
   return (
     <div className="meta-details-content">
+      {missingSignatureShifts.length > 0 && (
+        <div className="alert alert-warning hide-on-print" role="alert">
+          <strong>Missing signature:</strong> {missingSignatureShifts.join(" and ")} shift
+          {missingSignatureShifts.length > 1 ? "s have" : " has"} not signed this report, but a later shift already has.
+        </div>
+      )}
       <div className="d-flex align-items-center hide-on-print">
         <h6 style={{ fontWeight: 400, marginRight: 5 }}>Form Id</h6>{" "}
         <h6 style={{ fontWeight: 300 }}>{formData._id}</h6>
@@ -672,6 +683,8 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
   console.log("Incoming form:", form);
   console.log("formData keys:", Reflect.ownKeys(formData));
   const [updatedFormData, setFormData] = useState({});
+  // Signatures as of the last save in this view, so the admin missing-signature banner updates without reopening the report
+  const [liveSignatureSection, setLiveSignatureSection] = useState(null);
   const [route, setRoute] = useState("");
 
   useEffect(() => {
@@ -723,7 +736,8 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     console.log(`doSetRoute: name="${name}", route="${droute}"`);
   };
 
-  const doUpdateFormDates = async (createDate) => {
+  const doUpdateFormDates = async (createDate, signatureSection) => {
+    if (signatureSection) setLiveSignatureSection(signatureSection);
     const update = {
       ...updatedFormData,
       lastEditDate: new Date(),
@@ -921,6 +935,7 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
           isAdminRole={isAdminRole}
           route={route}
           userObj={userObj}
+          liveSignatureSection={liveSignatureSection}
         />
       )}
       {displayComponent(form.name ? form.name : form.formType)}
@@ -930,6 +945,8 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
 
 const OtherShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
   const [updatedFormData, setFormData] = useState({});
+  // Signatures as of the last save in this view, so the admin missing-signature banner updates without reopening the report
+  const [liveSignatureSection, setLiveSignatureSection] = useState(null);
 
   const [route, setRoute] = useState("");
 
@@ -949,7 +966,8 @@ const OtherShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     setRoute(droute);
   };
 
-  const doUpdateFormDates = async (createDate) => {
+  const doUpdateFormDates = async (createDate, signatureSection) => {
+    if (signatureSection) setLiveSignatureSection(signatureSection);
     const update = {
       ...updatedFormData,
       lastEditDate: new Date(),
@@ -989,6 +1007,7 @@ const OtherShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
           isAdminRole={isAdminRole}
           route={route}
           userObj={userObj}
+          liveSignatureSection={liveSignatureSection}
         />
       )}
       {displayComponent(form.name ? form.name : form.formType)}
