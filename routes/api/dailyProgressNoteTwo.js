@@ -26,7 +26,7 @@ function isValidSignatureImage(sig) {
 // could have meant - so a missing selectedShifts on an otherwise-valid
 // legacy signature can be safely inferred positionally instead of
 // rejecting a legitimately-completed old report outright.
-const POSITIONAL_SHIFT_FALLBACK = [["AM", "PM", "NOC"]];
+const POSITIONAL_SHIFT_FALLBACK = ["AM", "PM", "NOC"];
 
 // Resolves whether index idx has a valid AM/PM signature, and what shift
 // it's for - either the value actually recorded, or the positional

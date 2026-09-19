@@ -383,6 +383,10 @@ class SeriousIncidentReport extends Component {
           clients,
           loadingClients: false,
         });
+        const prefillClient = this.props.prefillClientId && !this.props.prefillDraft
+          ? clients.find((c) => c._id === this.props.prefillClientId)
+          : null;
+        if (prefillClient) this.applyClient(prefillClient);
       }, 2000);
     } catch (e) {
       console.log(e);
@@ -417,6 +421,15 @@ class SeriousIncidentReport extends Component {
     if (this.props.valuesSet) {
       this.setValues();
     } else {
+      if (this.props.prefillDraft) {
+        // Reopen an existing draft: once _id is in state, autosave/submit update it via PUT instead of creating a new report
+        initAutoSave = true;
+        this.setState({
+          ...this.props.prefillDraft,
+          childSelected: true,
+          loadingSig: false,
+        });
+      }
       await this.getClients();
       await this.getStaff();
       interval = setInterval(() => {
@@ -425,24 +438,27 @@ class SeriousIncidentReport extends Component {
     }
   }
 
+  applyClient = async (client) => {
+    const clonedState = { ...this.state };
+    const id = clonedState._id;
+    const lastEditDate = clonedState.lastEditDate;
+    Object.keys(client).forEach((key) => {
+      if (!key.includes("create") && clonedState.hasOwnProperty(key)) {
+        clonedState[key] = client[key];
+      }
+    });
+    await this.setState({
+      ...clonedState,
+      childSelected: true,
+      clientId: client._id,
+      _id: id,
+      lastEditDate,
+    });
+  };
+
   handleClientSelect = async (event) => {
-    this.state.childSelected = true;
     if (event.target.value !== null) {
-      const client = JSON.parse(event.target.value);
-      const clonedState = { ...this.state };
-      const id = clonedState._id;
-      const lastEditDate = clonedState.lastEditDate;
-      Object.keys(client).forEach((key) => {
-        if (!key.includes("create") && clonedState.hasOwnProperty(key)) {
-          clonedState[key] = client[key];
-        }
-      });
-      await this.setState({
-        ...clonedState,
-        clientId: client._id,
-        _id: id,
-        lastEditDate,
-      });
+      await this.applyClient(JSON.parse(event.target.value));
     }
   };
 
@@ -573,7 +589,12 @@ class SeriousIncidentReport extends Component {
                 <label className="control-label">Child's Name</label>{" "}
                 <Form.Control
                   as="select"
-                  defaultValue={null}
+                  key={`${this.state.clientId}-${this.state.clients.length}`}
+                  defaultValue={
+                    (this.state.clients.find((c) => c._id === this.state.clientId) &&
+                      JSON.stringify(this.state.clients.find((c) => c._id === this.state.clientId))) ||
+                    ""
+                  }
                   onChange={this.handleClientSelect}
                 >
                   {[null, ...this.state.clients].map(

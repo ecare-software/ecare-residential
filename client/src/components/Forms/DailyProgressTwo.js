@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect, useContext } from "react";
+import SeriousIncidentNavContext from "../../context/SeriousIncidentNavContext";
 import { Container, Form } from "react-bootstrap";
 import "../../App.css";
 import ClientOption from "../../utils/ClientOption.util";
@@ -26,6 +27,7 @@ const userObj = cookies.get("userObj");
 
 const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUserObj, doUpdateFormDates }) => {
   // Main component for Daily Progress Note Two
+  const { openSeriousIncidentReport } = useContext(SeriousIncidentNavContext);
 
   // Use a ref to track if the form has been saved
   const formSavedRef = useRef(false);
@@ -684,6 +686,55 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
   const toggleDailyChoresCheck = toggleCheck(setDailyChoresChecked);
   const toggleMedicationCheck = toggleCheck(setMedicationChecked);
   const toggleResidentCheck = toggleCheck(setResidentChecked);
+
+  // Indexes into residentChecked (labels.residentBehavior minus header) of behaviors that require a serious incident report
+  const SIR_BEHAVIOR_INDEXES = [5, 6, 11, 15, 24, 28];
+  const sirBehaviorsSelected = SIR_BEHAVIOR_INDEXES
+    .filter((i) => residentChecked[i] && residentChecked[i].some(Boolean))
+    .map((i) => labels.residentBehavior[i + 1].replace(/:$/, ""));
+
+  // "none" = no SIR yet for this child that day, "draft" = started (e.g. by 1st/2nd shift) but not completed,
+  // "done" = completed, "unknown" = couldn't check (treated like "none" so the reminder is never silently dropped)
+  const [sirStatus, setSirStatus] = useState("unknown");
+  const sirDraftRef = useRef(null); // newest not-completed report found by the last fetchSirStatus()
+  const sirChildId = formData.clientId || (formData.child && formData.child.childId) || "";
+  const sirHomeId = propUserObj?.homeId || userObj?.homeId;
+  // Blank on a new form (the server defaults it to now), so fall back to today's local date, which is how createDate values are stored
+  const sirDay = (
+    formData.createDate || new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString()
+  ).slice(0, 10);
+
+  const fetchSirStatus = async () => {
+    sirDraftRef.current = null;
+    if (!sirHomeId || !sirChildId || !sirDay) return "unknown";
+    try {
+      const { data } = await axios.get(`/api/seriousIncidentReport/${sirHomeId}`);
+      const sameChildAndDay = (data || []).filter(
+        (r) =>
+          r.clientId === sirChildId &&
+          [r.dateOfIncident, r.createDate].some((d) => typeof d === "string" && d.slice(0, 10) === sirDay)
+      );
+      if (sameChildAndDay.length === 0) return "none";
+      if (sameChildAndDay.some((r) => r.status === "COMPLETED")) return "done";
+      sirDraftRef.current = sameChildAndDay[0]; // list is newest first
+      return "draft";
+    } catch (e) {
+      return "unknown";
+    }
+  };
+
+  const needsSirCheck = sirBehaviorsSelected.length > 0;
+  useEffect(() => {
+    if (!needsSirCheck) return;
+    let cancelled = false;
+    fetchSirStatus().then((status) => {
+      if (!cancelled) setSirStatus(status);
+    });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [needsSirCheck, sirChildId, sirHomeId, sirDay]);
   const toggleRecCheck = toggleCheck(setRecChecked);
   const toggleStaffInterventionCheck = toggleCheck(setStaffInterventionChecked);
 
@@ -937,7 +988,27 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
       formSavedRef.current = true;
 
       // Show success message
-      alert(action === "submit" ? "Form submitted successfully! Status set to COMPLETED." : "Draft saved successfully!");
+      const savedMessage =
+        action === "submit" ? "Form submitted successfully! Status set to COMPLETED." : "Draft saved successfully!";
+      // Re-check at save time so a report filed since the last check isn't nagged about
+      const latestSirStatus = sirBehaviorsSelected.length > 0 ? await fetchSirStatus() : "done";
+      if (latestSirStatus === "done") {
+        alert(savedMessage);
+      } else {
+        const reminder = `${savedMessage}\n\n${
+          latestSirStatus === "draft"
+            ? "A Serious Incident Report has been started for this child today but is not completed. Please complete it"
+            : "A Serious Incident Report must be filed"
+        } for: ${sirBehaviorsSelected.join(", ")}.`;
+        if (openSeriousIncidentReport) {
+          // Browser alerts can't hold a link, so offer to open the pre-filled report from a confirm
+          if (window.confirm(`${reminder}\n\nPress OK to open ${latestSirStatus === "draft" ? "the existing draft" : "the Serious Incident Report now (pre-filled with this child)"}, or Cancel to stay here.`)) {
+            openSeriousIncidentReport(sirChildId, sirDraftRef.current);
+          }
+        } else {
+          alert(reminder);
+        }
+      }
 
       // Return true to indicate success
       return true;
@@ -1094,6 +1165,30 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
                   isLocked={isLocked}
                   shiftCount={shiftCount}
                 />
+                {section.labels === labels.residentBehavior && sirBehaviorsSelected.length > 0 && sirStatus !== "done" && (
+                  <div className="alert alert-warning" role="alert" style={{ marginTop: "12px" }}>
+                    <strong>Reminder:</strong>{" "}
+                    {sirStatus === "draft"
+                      ? "A Serious Incident Report has been started for this child today but is not completed. Please complete it"
+                      : "A Serious Incident Report must be filed"}{" "}
+                    for the following selected behavior(s): {sirBehaviorsSelected.join(", ")}.
+                    {openSeriousIncidentReport && (
+                      <div style={{ marginTop: "6px" }}>
+                        <button
+                          type="button"
+                          className="btn btn-link p-0"
+                          onClick={() => {
+                            if (window.confirm("Leave this form and open the Serious Incident Report? Unsaved changes on this form will be lost.")) {
+                              openSeriousIncidentReport(sirChildId, sirDraftRef.current);
+                            }
+                          }}
+                        >
+                          {sirStatus === "draft" ? "Open the existing Serious Incident Report draft" : "Go to Serious Incident Report form"}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           ))}
