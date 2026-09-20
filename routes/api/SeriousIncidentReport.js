@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const SeriousIncidentReport = require("../../models/SeriousIncidentReport");
+const Client = require("../../models/Client");
 const {
   resolveHomeScopedUser,
   hasValidSignature,
@@ -138,17 +139,39 @@ router.get("/status/:homeId/:clientId/:day", async (req, res) => {
     return res.status(400).json({ error: "day must be YYYY-MM-DD" });
   }
   const nextDay = new Date(dayStart.getTime() + 24 * 60 * 60 * 1000);
-  // createDate values are stored as local wall-clock time written as UTC, so a
-  // day is a plain UTC range; dateOfIncident is a string, so it's a prefix match
-  const match = {
-    homeId,
-    clientId,
-    $or: [
-      { createDate: { $gte: dayStart, $lt: nextDay } },
-      { dateOfIncident: { $regex: `^${day}` } },
-    ],
-  };
   try {
+    // Reports created before the POST handler persisted clientId have none
+    // (and a report submitted straight to COMPLETED never got one added by a
+    // later PUT), so they can't be found by ID. Read-only legacy lookup: also
+    // accept a report with NO clientId whose child name matches this
+    // client's name in this home. This errs toward finding an existing
+    // report (and so not prompting for a duplicate) rather than missing it.
+    let clientName = null;
+    try {
+      const client = await Client.findOne({ _id: clientId, homeId }).select("childMeta_name").lean();
+      clientName = client && client.childMeta_name ? client.childMeta_name : null;
+    } catch (e) {
+      // not a valid client id - fall back to ID-only matching
+    }
+    const whoMatches = [{ clientId }];
+    if (clientName) {
+      whoMatches.push({ clientId: { $in: [null, ""] }, childMeta_name: clientName });
+    }
+
+    // createDate values are stored as local wall-clock time written as UTC, so a
+    // day is a plain UTC range; dateOfIncident is a string, so it's a prefix match
+    const match = {
+      homeId,
+      $and: [
+        { $or: whoMatches },
+        {
+          $or: [
+            { createDate: { $gte: dayStart, $lt: nextDay } },
+            { dateOfIncident: { $regex: `^${day}` } },
+          ],
+        },
+      ],
+    };
     const [completed, draft] = await Promise.all([
       SeriousIncidentReport.findOne({ ...match, status: "COMPLETED" }).select("_id").lean(),
       SeriousIncidentReport.findOne({ ...match, status: { $ne: "COMPLETED" } })

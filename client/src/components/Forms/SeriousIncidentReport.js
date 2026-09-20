@@ -426,6 +426,8 @@ class SeriousIncidentReport extends Component {
         initAutoSave = true;
         this.setState({
           ...this.props.prefillDraft,
+          // a report saved before clientId was persisted has none; set it so the next autosave adds it
+          clientId: this.props.prefillDraft.clientId || this.props.prefillClientId || "",
           childSelected: true,
           loadingSig: false,
         });
