@@ -62,14 +62,17 @@ function resolveAmPmSignature(signatureSection, idx) {
   return { valid: true, shift: expectedShift, inferred: true };
 }
 
-// Shifts sign independently - a report can be completed once ANY shift has a
-// valid signature (real image, initials, title, and a shift matching its
-// slot). Missing shifts don't block the others; admins are flagged about
-// them instead (see getMissingSignatureShifts on the client). The client
-// also checks this, but that only protects the UI - this is the
-// server-side backstop.
-function hasAtLeastOneShiftSignature(signatureSection) {
-  return [0, 1, 2].some((idx) => resolveAmPmSignature(signatureSection, idx).valid);
+// Shifts sign independently - a report can be completed once ANY of its
+// shifts has a valid signature (real image, initials, title, and a shift
+// matching its slot). Missing shifts don't block the others; admins are
+// flagged about them instead (see getMissingSignatureShifts on the
+// client). Only the slots the report actually has count: a 2-shift report
+// hides slot 2 (NOC) in the UI, so a signature sitting there must not
+// complete it. The client also checks this, but that only protects the
+// UI - this is the server-side backstop.
+function hasAtLeastOneShiftSignature(signatureSection, shiftCount) {
+  const slots = Number(shiftCount) === 2 ? [0, 1] : [0, 1, 2];
+  return slots.some((idx) => resolveAmPmSignature(signatureSection, idx).valid);
 }
 
 // Backfills any inferred (legacy) selectedShifts into a signatureSection
@@ -123,7 +126,7 @@ router.post("/", async (req, res) => {
 
     if (
       req.body.status === "COMPLETED" &&
-      !hasAtLeastOneShiftSignature(req.body.signatureSection)
+      !hasAtLeastOneShiftSignature(req.body.signatureSection, req.body.shiftCount)
     ) {
       return res.status(400).json({ error: MISSING_SIGNATURES_ERROR });
     }
@@ -391,7 +394,12 @@ router.put("/:homeId/:reportId", async (req, res) => {
           ? req.body.signatureSection
           : existingDoc?.signatureSection;
 
-      if (!hasAtLeastOneShiftSignature(signatureSection)) {
+      // The shift count this report will have once this update applies: the
+      // requested one if sent (shiftCount is live/editable), else the persisted one.
+      const effectiveShiftCount =
+        req.body.shiftCount !== undefined ? req.body.shiftCount : existingDoc?.shiftCount;
+
+      if (!hasAtLeastOneShiftSignature(signatureSection, effectiveShiftCount)) {
         return res.status(400).json({ error: MISSING_SIGNATURES_ERROR });
       }
 

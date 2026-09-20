@@ -768,16 +768,12 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
     sirDraftRef.current = null;
     if (!sirHomeId || !sirChildId || !sirDay) return "unknown";
     try {
-      const { data } = await axios.get(`/api/seriousIncidentReport/${sirHomeId}`);
-      const sameChildAndDay = (data || []).filter(
-        (r) =>
-          r.clientId === sirChildId &&
-          [r.dateOfIncident, r.createDate].some((d) => typeof d === "string" && d.slice(0, 10) === sirDay)
+      // The server does the child/day lookup, so the response stays small however much incident history the home has
+      const { data } = await axios.get(
+        `/api/seriousIncidentReport/status/${sirHomeId}/${sirChildId}/${sirDay}`
       );
-      if (sameChildAndDay.length === 0) return "none";
-      if (sameChildAndDay.some((r) => r.status === "COMPLETED")) return "done";
-      sirDraftRef.current = sameChildAndDay[0]; // list is newest first
-      return "draft";
+      sirDraftRef.current = data.draft || null;
+      return data.status === "done" || data.status === "draft" ? data.status : "none";
     } catch (e) {
       return "unknown";
     }
@@ -823,8 +819,7 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
 
   // Shifts sign independently: one valid signature is enough to submit, and an unsigned
   // shift never blocks another. Admins are flagged about the gaps instead.
-  const hasAnyValidSignature = () => [0, 1, 2].some(idx => isSignatureValid(idx));
-
+const hasAnyValidSignature = () => [0, 1, 2].slice(0, shiftCount === 2 ? 2 : 3).some(idx => isSignatureValid(idx));
   // ----- SAVE / SUBMIT -----
   const handleSave = async (action) => {
     try {

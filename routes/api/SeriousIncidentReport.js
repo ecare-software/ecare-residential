@@ -108,6 +108,48 @@ router.post("/", async (req, res) => {
     });
 });
 
+// Whether a Serious Incident Report already exists for a child on a given day
+// (YYYY-MM-DD, matched against createDate or dateOfIncident), so callers - the
+// Daily Progress Two reminder - don't have to download the home's whole report
+// history to find out. Responds { status: "none" | "draft" | "done", draft }:
+// "done" if any matching report is COMPLETED, otherwise "draft" with the newest
+// not-completed one (draft is that single document, null otherwise).
+router.get("/status/:homeId/:clientId/:day", async (req, res) => {
+  const { homeId, clientId, day } = req.params;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) {
+    return res.status(400).json({ error: "day must be YYYY-MM-DD" });
+  }
+  const dayStart = new Date(`${day}T00:00:00.000Z`);
+  if (Number.isNaN(dayStart.getTime())) {
+    return res.status(400).json({ error: "day must be YYYY-MM-DD" });
+  }
+  const nextDay = new Date(dayStart.getTime() + 24 * 60 * 60 * 1000);
+  // createDate values are stored as local wall-clock time written as UTC, so a
+  // day is a plain UTC range; dateOfIncident is a string, so it's a prefix match
+  const match = {
+    homeId,
+    clientId,
+    $or: [
+      { createDate: { $gte: dayStart, $lt: nextDay } },
+      { dateOfIncident: { $regex: `^${day}` } },
+    ],
+  };
+  try {
+    const [completed, draft] = await Promise.all([
+      SeriousIncidentReport.findOne({ ...match, status: "COMPLETED" }).select("_id").lean(),
+      SeriousIncidentReport.findOne({ ...match, status: { $ne: "COMPLETED" } })
+        .sort({ createDate: -1 })
+        .lean(),
+    ]);
+    if (completed) return res.json({ status: "done", draft: null });
+    if (draft) return res.json({ status: "draft", draft });
+    return res.json({ status: "none", draft: null });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ error: "Error checking Serious Incident Report status" });
+  }
+});
+
 router.get("/:homeId", (req, res) => {
   SeriousIncidentReport.find({ homeId: req.params.homeId })
     .sort({ createDate: -1 }).setOptions({ allowDiskUse: true })
