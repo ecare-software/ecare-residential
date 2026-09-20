@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Axios from 'axios';
 import Cookies from 'universal-cookie';
 import { FormCountContext } from './context/index';
+import SeriousIncidentNavContext from './context/SeriousIncidentNavContext';
 //components
 import Header from './components/Header/Header';
 import TreatmentPlan72 from './components/Forms/TreatmentPlan72';
@@ -62,6 +63,8 @@ class App extends Component {
       message: '',
     },
     doDisplay: 'Dashboard',
+    sirPrefillClientId: '',
+    sirPrefillDraft: null,
     discussionMessages: [],
     allUsers: [],
     showLearnMore: false,
@@ -379,7 +382,17 @@ class App extends Component {
 
   toggleDisplay = (display) => {
     window.scrollTo(0, 0);
-    this.setState({ doDisplay: display });
+    this.setState({ doDisplay: display, sirPrefillClientId: '', sirPrefillDraft: null });
+  };
+
+  // draft (optional): an existing, not-yet-completed report to reopen instead of starting a new one
+  openSeriousIncidentReport = (clientId, draft) => {
+    window.scrollTo(0, 0);
+    this.setState({
+      doDisplay: 'SeriousIncidentReport',
+      sirPrefillClientId: clientId || '',
+      sirPrefillDraft: draft || null,
+    });
   };
 
   handleFieldInput = (event) => {
@@ -514,6 +527,9 @@ class App extends Component {
     if (this.state.loggedIn) {
       return (
         <FormCountContext.Provider value={this.state.formCountState}>
+        <SeriousIncidentNavContext.Provider
+          value={{ openSeriousIncidentReport: this.openSeriousIncidentReport }}
+        >
           <div className='App container' id='mainContainer'>
             <BSNavBar
               logOut={this.logOut}
@@ -599,6 +615,7 @@ class App extends Component {
               </button>
             </div>
           </div>
+        </SeriousIncidentNavContext.Provider>
         </FormCountContext.Provider>
       );
     } else {
@@ -894,6 +911,8 @@ function ToggleScreen({
           valuesSet={false}
           userObj={appState.userObj}
           id='incident'
+          prefillClientId={appState.sirPrefillClientId}
+          prefillDraft={appState.sirPrefillDraft}
         />
       </div>
     );

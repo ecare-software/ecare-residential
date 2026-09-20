@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const SeriousIncidentReport = require("../../models/SeriousIncidentReport");
+const Client = require("../../models/Client");
 const {
   resolveHomeScopedUser,
   hasValidSignature,
@@ -98,6 +99,12 @@ router.post("/", async (req, res) => {
 
     formType: "Serious Incident Report",
     status: req.body.status,
+
+    // The child this report is about - the key the status lookup above (and
+    // the Daily Progress Two reminder) finds reports by. It has to be saved
+    // on create: a report POSTed straight to COMPLETED never gets a later
+    // PUT to add it, and would otherwise never be found.
+    clientId: req.body.clientId,
   });
 
   newSeriousIncidentReport
@@ -106,6 +113,78 @@ router.post("/", async (req, res) => {
     .catch((e) => {
       console.log(e);
     });
+});
+
+// Whether a Serious Incident Report already exists for a child on a given day
+// (YYYY-MM-DD, matched against createDate or dateOfIncident), so callers - the
+// Daily Progress Two reminder - don't have to download the home's whole report
+// history to find out. Responds { status: "none" | "draft" | "done", draft }:
+// "done" if any matching report is COMPLETED, otherwise "draft" with the newest
+// not-completed one (draft is that single document, null otherwise).
+router.get("/status/:homeId/:clientId/:day", async (req, res) => {
+  // Returns a full incident document, so unlike the older list GETs this one
+  // requires a verified login, and the home comes from that verified user -
+  // the URL's homeId is only checked against it, never trusted.
+  const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.params.homeId);
+  if (errorResponse) {
+    return res.status(errorResponse.status).json(errorResponse.body);
+  }
+  const { clientId, day } = req.params;
+  const homeId = authUser.homeId;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) {
+    return res.status(400).json({ error: "day must be YYYY-MM-DD" });
+  }
+  const dayStart = new Date(`${day}T00:00:00.000Z`);
+  if (Number.isNaN(dayStart.getTime())) {
+    return res.status(400).json({ error: "day must be YYYY-MM-DD" });
+  }
+  const nextDay = new Date(dayStart.getTime() + 24 * 60 * 60 * 1000);
+  try {
+    // Reports created before the POST handler persisted clientId have none
+    // (and a report submitted straight to COMPLETED never got one added by a
+    // later PUT), so they can't be found by ID. Read-only legacy lookup: also
+    // accept a report with NO clientId whose child name matches this
+    // client's name in this home. This errs toward finding an existing
+    // report (and so not prompting for a duplicate) rather than missing it.
+    let clientName = null;
+    try {
+      const client = await Client.findOne({ _id: clientId, homeId }).select("childMeta_name").lean();
+      clientName = client && client.childMeta_name ? client.childMeta_name : null;
+    } catch (e) {
+      // not a valid client id - fall back to ID-only matching
+    }
+    const whoMatches = [{ clientId }];
+    if (clientName) {
+      whoMatches.push({ clientId: { $in: [null, ""] }, childMeta_name: clientName });
+    }
+
+    // createDate values are stored as local wall-clock time written as UTC, so a
+    // day is a plain UTC range; dateOfIncident is a string, so it's a prefix match
+    const match = {
+      homeId,
+      $and: [
+        { $or: whoMatches },
+        {
+          $or: [
+            { createDate: { $gte: dayStart, $lt: nextDay } },
+            { dateOfIncident: { $regex: `^${day}` } },
+          ],
+        },
+      ],
+    };
+    const [completed, draft] = await Promise.all([
+      SeriousIncidentReport.findOne({ ...match, status: "COMPLETED" }).select("_id").lean(),
+      SeriousIncidentReport.findOne({ ...match, status: { $ne: "COMPLETED" } })
+        .sort({ createDate: -1 })
+        .lean(),
+    ]);
+    if (completed) return res.json({ status: "done", draft: null });
+    if (draft) return res.json({ status: "draft", draft });
+    return res.json({ status: "none", draft: null });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({ error: "Error checking Serious Incident Report status" });
+  }
 });
 
 router.get("/:homeId", (req, res) => {
