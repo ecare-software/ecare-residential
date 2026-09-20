@@ -98,6 +98,12 @@ router.post("/", async (req, res) => {
 
     formType: "Serious Incident Report",
     status: req.body.status,
+
+    // The child this report is about - the key the status lookup above (and
+    // the Daily Progress Two reminder) finds reports by. It has to be saved
+    // on create: a report POSTed straight to COMPLETED never gets a later
+    // PUT to add it, and would otherwise never be found.
+    clientId: req.body.clientId,
   });
 
   newSeriousIncidentReport
@@ -115,7 +121,15 @@ router.post("/", async (req, res) => {
 // "done" if any matching report is COMPLETED, otherwise "draft" with the newest
 // not-completed one (draft is that single document, null otherwise).
 router.get("/status/:homeId/:clientId/:day", async (req, res) => {
-  const { homeId, clientId, day } = req.params;
+  // Returns a full incident document, so unlike the older list GETs this one
+  // requires a verified login, and the home comes from that verified user -
+  // the URL's homeId is only checked against it, never trusted.
+  const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.params.homeId);
+  if (errorResponse) {
+    return res.status(errorResponse.status).json(errorResponse.body);
+  }
+  const { clientId, day } = req.params;
+  const homeId = authUser.homeId;
   if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) {
     return res.status(400).json({ error: "day must be YYYY-MM-DD" });
   }
