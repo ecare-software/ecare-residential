@@ -17,8 +17,8 @@ const { isAdminUser } = require("../../utils/adminRoles");
 
 const SHIFTS = ["shift1", "shift2", "shift3"];
 
-const NOT_DRAFT_OWNER_ERROR =
-  "This Serious Incident Report is still a draft and can only be edited by the staff member who started it (or an administrator). Please file your own report.";
+const NOT_OWNER_ERROR =
+  "This Serious Incident Report can only be edited by the staff member who started it (or an administrator). Please file your own report.";
 
 router.post("/", async (req, res) => {
   const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.body.homeId);
@@ -409,17 +409,16 @@ router.put("/:homeId/:formId/", async (req, res) => {
     return res.status(404).json({ error: "Report not found" });
   }
 
-  // A draft belongs to whoever started it until they complete it - other
-  // staff (e.g. a later shift) can't edit or complete it; each shift files
-  // its own report rather than sharing one. Admin/supervisor roles (see
-  // utils/adminRoles.js) are the exception, e.g. to finish a draft left
-  // behind by someone who's no longer around to complete it.
-  if (
-    existing.status !== "COMPLETED" &&
-    existing.createdBy !== authUser.email &&
-    !isAdminUser(authUser)
-  ) {
-    return res.status(403).json({ error: NOT_DRAFT_OWNER_ERROR });
+  // A report belongs to whoever started it - other staff (e.g. a later
+  // shift) can't edit, complete, or reopen it; each shift files its own
+  // report rather than sharing one. This deliberately doesn't depend on the
+  // report's status: gating only drafts let a non-owner PUT a COMPLETED
+  // report back to "IN PROGRESS" (checked against the pre-update status),
+  // turning it into a draft they'd mutated. Admin/supervisor roles (see
+  // utils/adminRoles.js) are the exception - approval, and finishing a
+  // draft left behind by someone who's no longer around to complete it.
+  if (existing.createdBy !== authUser.email && !isAdminUser(authUser)) {
+    return res.status(403).json({ error: NOT_OWNER_ERROR });
   }
 
   let effectiveStatus = req.body.status;

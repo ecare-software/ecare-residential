@@ -228,7 +228,18 @@ router.put("/:id", async (req, res) => {
 
     const updates = { ...req.body };
     if (typeof updates.email === "string") {
-      updates.email = updates.email.toLocaleLowerCase();
+      updates.email = updates.email.trim().toLocaleLowerCase();
+    }
+    // Identity is the email: the authToken cookie is signed with it (and
+    // resolveAuthenticatedUser looks the user up by it), and the client
+    // re-logs in on reload from the email saved in its userObj cookie. A
+    // self-change would strand both, silently logging the user out on
+    // their next request - so another admin has to make it. Re-sending the
+    // unchanged email is fine (UpdateUser.js always includes it).
+    if (isSelf && "email" in updates && updates.email !== target.email) {
+      return res.status(403).json({
+        error: "You can't change your own email. Ask another administrator to change it.",
+      });
     }
     await User.updateOne({ _id: target._id }, updates);
     const user = await User.findOne({ _id: target._id });
