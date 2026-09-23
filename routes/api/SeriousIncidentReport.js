@@ -13,6 +13,12 @@ const {
   MONGO_OPERATOR_ERROR,
 } = require("../../utils/rejectMongoOperators");
 const { applyCreateDateEdit } = require("../../utils/applyCreateDateEdit");
+const { isAdminUser } = require("../../utils/adminRoles");
+
+const SHIFTS = ["shift1", "shift2", "shift3"];
+
+const NOT_DRAFT_OWNER_ERROR =
+  "This Serious Incident Report is still a draft and can only be edited by the staff member who started it (or an administrator). Please file your own report.";
 
 router.post("/", async (req, res) => {
   const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.body.homeId);
@@ -105,6 +111,10 @@ router.post("/", async (req, res) => {
     // on create: a report POSTed straight to COMPLETED never gets a later
     // PUT to add it, and would otherwise never be found.
     clientId: req.body.clientId,
+
+    // Anything other than a known shift is dropped rather than rejected -
+    // reports started outside Daily Progress Two legitimately have none.
+    shift: SHIFTS.includes(req.body.shift) ? req.body.shift : undefined,
   });
 
   newSeriousIncidentReport
@@ -118,9 +128,11 @@ router.post("/", async (req, res) => {
 // Whether a Serious Incident Report already exists for a child on a given day
 // (YYYY-MM-DD, matched against createDate or dateOfIncident), so callers - the
 // Daily Progress Two reminder - don't have to download the home's whole report
-// history to find out. Responds { status: "none" | "draft" | "done", draft }:
-// "done" if any matching report is COMPLETED, otherwise "draft" with the newest
-// not-completed one (draft is that single document, null otherwise).
+// history to find out. Scoped to reports the requesting user created, and -
+// when ?shift= is given - to that Daily Progress Two shift. Responds
+// { status: "none" | "draft" | "done", draft }: "done" if any matching report
+// is COMPLETED, otherwise "draft" with the newest not-completed one (draft is
+// that single document, null otherwise).
 router.get("/status/:homeId/:clientId/:day", async (req, res) => {
   // Returns a full incident document, so unlike the older list GETs this one
   // requires a verified login, and the home comes from that verified user -
@@ -131,6 +143,10 @@ router.get("/status/:homeId/:clientId/:day", async (req, res) => {
   }
   const { clientId, day } = req.params;
   const homeId = authUser.homeId;
+  const { shift } = req.query;
+  if (shift !== undefined && !SHIFTS.includes(shift)) {
+    return res.status(400).json({ error: "shift must be shift1, shift2, or shift3" });
+  }
   if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) {
     return res.status(400).json({ error: "day must be YYYY-MM-DD" });
   }
@@ -160,8 +176,18 @@ router.get("/status/:homeId/:clientId/:day", async (req, res) => {
 
     // createDate values are stored as local wall-clock time written as UTC, so a
     // day is a plain UTC range; dateOfIncident is a string, so it's a prefix match
+    //
+    // Only the requesting user's own reports for this shift count. Serious
+    // Incident Reports aren't shared across shifts: a later shift must never
+    // be handed an earlier shift's draft to reopen, and an earlier shift's
+    // completed report doesn't satisfy a later shift's own obligation to
+    // file one - even when the same person works both shifts. Reports with
+    // no shift recorded (older ones, or ones started outside Daily Progress
+    // Two) never match a shift-scoped lookup.
     const match = {
       homeId,
+      createdBy: authUser.email,
+      ...(shift ? { shift } : {}),
       $and: [
         { $or: whoMatches },
         {
@@ -375,13 +401,30 @@ router.put("/:homeId/:formId/", async (req, res) => {
   // `req.body.status === "COMPLETED"` would let a PUT that omits status
   // entirely (leaving an already-COMPLETED record COMPLETED) slip past
   // the signature check while still modifying the record's other fields.
+  const existing = await SeriousIncidentReport.findOne({
+    _id: req.params.formId,
+    homeId: authUser.homeId,
+  }).select("status createdBy");
+  if (!existing) {
+    return res.status(404).json({ error: "Report not found" });
+  }
+
+  // A draft belongs to whoever started it until they complete it - other
+  // staff (e.g. a later shift) can't edit or complete it; each shift files
+  // its own report rather than sharing one. Admin/supervisor roles (see
+  // utils/adminRoles.js) are the exception, e.g. to finish a draft left
+  // behind by someone who's no longer around to complete it.
+  if (
+    existing.status !== "COMPLETED" &&
+    existing.createdBy !== authUser.email &&
+    !isAdminUser(authUser)
+  ) {
+    return res.status(403).json({ error: NOT_DRAFT_OWNER_ERROR });
+  }
+
   let effectiveStatus = req.body.status;
   if (effectiveStatus === undefined) {
-    const existing = await SeriousIncidentReport.findOne({
-      _id: req.params.formId,
-      homeId: authUser.homeId,
-    }).select("status");
-    effectiveStatus = existing?.status;
+    effectiveStatus = existing.status;
   }
 
   if (effectiveStatus === "COMPLETED" && !hasValidSignature(authUser)) {
@@ -398,6 +441,9 @@ router.put("/:homeId/:formId/", async (req, res) => {
   delete updatedLastEditDate.createdBy;
   delete updatedLastEditDate.createdByName;
   delete updatedLastEditDate.homeId;
+  // shift is fixed at creation too - re-labelling a report as another
+  // shift's would let one report satisfy several shifts.
+  delete updatedLastEditDate.shift;
   // originalCreateDate/createDateEditedBy/createDateEditedAt are always
   // server-computed by applyCreateDateEdit below, never taken from the
   // request body.

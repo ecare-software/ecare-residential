@@ -411,12 +411,6 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj, liveSignatureSecti
 
   return (
     <div className="meta-details-content">
-      {missingSignatureShifts.length > 0 && (
-        <div className="alert alert-warning hide-on-print" role="alert">
-          <strong>Missing signature:</strong> {missingSignatureShifts.join(" and ")} shift
-          {missingSignatureShifts.length > 1 ? "s have" : " has"} not signed this report, but a later shift already has.
-        </div>
-      )}
       <div className="d-flex align-items-center hide-on-print">
         <h6 style={{ fontWeight: 400, marginRight: 5 }}>Form Id</h6>{" "}
         <h6 style={{ fontWeight: 300 }}>{formData._id}</h6>
@@ -465,6 +459,14 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj, liveSignatureSecti
         </div>
       </div>
       <div>
+        {/* Admin-only (missingSignatureShifts is empty otherwise) - shown next
+            to the approval checkbox so it's seen while deciding to approve */}
+        {missingSignatureShifts.length > 0 && (
+          <div className="alert alert-warning alert-inline hide-on-print" role="alert">
+            <strong>Missing signature:</strong> {missingSignatureShifts.join(" and ")} shift
+            {missingSignatureShifts.length > 1 ? "s have" : " has"} not signed this report, but a later shift already has.
+          </div>
+        )}
         <Form.Row>
           <Col xs="auto">
             <Form.Check

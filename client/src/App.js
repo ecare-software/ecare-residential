@@ -65,6 +65,7 @@ class App extends Component {
     doDisplay: 'Dashboard',
     sirPrefillClientId: '',
     sirPrefillDraft: null,
+    sirPrefillShift: '',
     discussionMessages: [],
     allUsers: [],
     showLearnMore: false,
@@ -237,13 +238,18 @@ class App extends Component {
     }
   };
 
-  loadMessage = (userObj, pageNumber) => {
-    this.doGetHomeInfo()
+  // silent: background refresh (MessageBoard's mount/poll) - no spinner, no
+  // home-info refetch, and no alert on failure; the next poll just retries.
+  loadMessage = (userObj, pageNumber, { silent = false } = {}) => {
+    if (silent && !userObj?.homeId) return;
+    if (!silent) this.doGetHomeInfo()
     if (pageNumber === undefined) { pageNumber = 1 };
-    this.setState({
-      ...this.state,
-      discussionMessagesLoading: true,
-    });
+    if (!silent) {
+      this.setState({
+        ...this.state,
+        discussionMessagesLoading: true,
+      });
+    }
     Axios.get(`/api/discussionMessages/${userObj.homeId}?page=${pageNumber}&limit=20`)
       .then((response) => {
         this.setState({
@@ -253,6 +259,10 @@ class App extends Component {
         });
       })
       .catch((error) => {
+        if (silent) {
+          console.log(`Background discussion board refresh failed - ${error}`);
+          return;
+        }
         this.setState({
           discussionMessagesLoading: false,
         });
@@ -382,16 +392,18 @@ class App extends Component {
 
   toggleDisplay = (display) => {
     window.scrollTo(0, 0);
-    this.setState({ doDisplay: display, sirPrefillClientId: '', sirPrefillDraft: null });
+    this.setState({ doDisplay: display, sirPrefillClientId: '', sirPrefillDraft: null, sirPrefillShift: '' });
   };
 
   // draft (optional): an existing, not-yet-completed report to reopen instead of starting a new one
-  openSeriousIncidentReport = (clientId, draft) => {
+  // shift (optional): the Daily Progress Two shift ("shift1"/"shift2"/"shift3") a new report is filed for
+  openSeriousIncidentReport = (clientId, draft, shift) => {
     window.scrollTo(0, 0);
     this.setState({
       doDisplay: 'SeriousIncidentReport',
       sirPrefillClientId: clientId || '',
       sirPrefillDraft: draft || null,
+      sirPrefillShift: shift || '',
     });
   };
 
@@ -913,6 +925,7 @@ function ToggleScreen({
           id='incident'
           prefillClientId={appState.sirPrefillClientId}
           prefillDraft={appState.sirPrefillDraft}
+          prefillShift={appState.sirPrefillShift}
         />
       </div>
     );

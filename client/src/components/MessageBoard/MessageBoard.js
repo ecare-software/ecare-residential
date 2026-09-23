@@ -7,6 +7,8 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
 import Pagination from "./Pagination";
 
+const BOARD_POLL_MS = 60 * 1000;
+
 
 const ContentAfterLoad = ({
   messages,
@@ -52,7 +54,7 @@ class MessageBoard extends Component {
   constructor(props) {
     super(props);
     // messages posted after this timestamp are "new" - captured once, before
-    // componentDidMount marks the board as viewed as of now
+    // markMessageBoardViewed advances it past the messages this visit shows
     this.lastViewedBefore = this.getLastViewedTimestamp();
     this.state = {
       showModal: "",
@@ -66,7 +68,26 @@ class MessageBoard extends Component {
   }
 
   componentDidMount() {
+    // App only fetches the board at login/reload, so without these the list
+    // shown here goes stale as soon as the user navigates away and back, and
+    // posts made in the meantime never appear (let alone as NEW).
+    this.props.loadMessage(this.props.userObj, 1, { silent: true });
+    this.pollInterval = setInterval(() => {
+      this.props.loadMessage(this.props.userObj, this.state.currentPage, {
+        silent: true,
+      });
+    }, BOARD_POLL_MS);
     this.markMessageBoardViewed();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.messages !== this.props.messages) {
+      this.markMessageBoardViewed();
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.pollInterval);
   }
 
   getLastViewedStorageKey = () => {
@@ -87,12 +108,23 @@ class MessageBoard extends Component {
     }
   };
 
+  // Advances the stored "last viewed" mark to the newest message actually
+  // loaded on the board - never to the current wall-clock time. Stamping
+  // "now" on mount marked posts as seen that the (possibly stale) list never
+  // displayed, so they never got a NEW badge once they finally loaded.
+  // Only moves forward, so viewing an older page can't rewind it.
   markMessageBoardViewed = () => {
+    const newest = (this.props.messages || []).reduce((max, m) => {
+      const t = new Date(m.date).getTime();
+      return t > max ? t : max;
+    }, 0);
+    if (!newest) return;
     try {
-      localStorage.setItem(
-        this.getLastViewedStorageKey(),
-        new Date().toISOString()
-      );
+      const key = this.getLastViewedStorageKey();
+      const stored = new Date(localStorage.getItem(key) || 0).getTime();
+      if (newest > stored) {
+        localStorage.setItem(key, new Date(newest).toISOString());
+      }
     } catch (e) {
       // ignore storage errors (e.g. private browsing)
     }

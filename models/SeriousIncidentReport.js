@@ -148,6 +148,14 @@ const SeriousIncidentReportSchema = new Schema({
   status: {
     type: String,
   },
+  // The Daily Progress Two shift ("shift1"/"shift2"/"shift3") this report
+  // was filed for, when it was started from that form. Each shift files its
+  // own report, so the status lookup matches on this. Set once on create;
+  // absent on reports started some other way (and on older reports).
+  shift: {
+    type: String,
+    enum: ["shift1", "shift2", "shift3"],
+  },
 });
 
 module.exports = SeriousIncidentReport = mongoose.model(
