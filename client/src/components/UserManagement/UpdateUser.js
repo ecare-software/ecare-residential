@@ -41,6 +41,7 @@ export default function UpdateUser({ fetchData, id, item }) {
 
   // Error Dialog State
   const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   // UPDATE
   const updateUserInfo = async (id) => {
@@ -74,7 +75,9 @@ export default function UpdateUser({ fetchData, id, item }) {
       // Hides Modal on submission
       setShowUpdate(false);
 
-      // Error Alert Popup
+      // Error Alert Popup - with the server's reason when it gave one
+      // (e.g. a refused change to your own email)
+      setErrorMessage(e?.response?.data?.error || "");
       setShowError(true);
     }
   };
@@ -217,7 +220,7 @@ export default function UpdateUser({ fetchData, id, item }) {
         {"Error!"}
       </Modal.Header>
       <Modal.Body style={{ backgroundColor: "#fff" }}>
-        {"There was an error updating the user."}
+        {errorMessage || "There was an error updating the user."}
       </Modal.Body>
     </Modal>
   );

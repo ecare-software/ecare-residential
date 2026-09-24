@@ -4,6 +4,39 @@ const router = express.Router();
 // user model
 const User = require("../../models/User");
 const { signAuthToken } = require("../../utils/authToken");
+const {
+  resolveAuthenticatedUser,
+  NOT_AUTHENTICATED_ERROR,
+} = require("../../utils/requireUserSignature");
+const { isAdminUser } = require("../../utils/adminRoles");
+const {
+  containsMongoOperatorKey,
+  MONGO_OPERATOR_ERROR,
+} = require("../../utils/rejectMongoOperators");
+
+// Server-side authorization for account writes. Role-based checks elsewhere
+// (e.g. utils/applyCreateDateEdit.js, the Serious Incident Report draft
+// owner exception) trust User.jobTitle via isAdminUser, so jobTitle - and
+// anything else that decides who a user is or where they belong - may only
+// be written by an already-authenticated admin of the same home. A user can
+// never grant themselves a role.
+const NOT_ADMIN_ERROR = "Only an administrator can make this change.";
+
+// What each kind of caller may write via PUT /:id. Anything else in the
+// body is rejected outright rather than silently dropped, so a caller finds
+// out their change didn't apply. homeId and isAdmin aren't writable by
+// anyone here - moving a user between homes isn't something the app does.
+const SELF_EDITABLE_FIELDS = ["password", "newUser"];
+const ADMIN_EDITABLE_FIELDS = [
+  "firstName",
+  "middleName",
+  "lastName",
+  "jobTitle",
+  "email",
+  "isActive",
+  "password",
+  "newUser",
+];
 
 // @route   GET api/items
 // @desc    GET all items
@@ -109,47 +142,155 @@ router.get("/", async (req, res) => {
 // @route   POST api/items
 // @desc    Create an item
 // @access  Public
-router.post("/", (req, res) => {
-  const newUser = new User({
-    firstName: req.body.firstName,
-    middleName: req.body.middleName,
-    lastName: req.body.lastName,
-    email: req.body.email.toLocaleLowerCase(),
-    password: req.body.password,
-    homeId: req.body.homeId,
-    jobTitle: req.body.jobTitle,
-    isAdmin: req.body.isAdmin,
-    newUser: true,
-  });
-  newUser.save().then((user) => res.json(user));
+// Admin-only: accounts are created from User Management by an admin, into
+// the admin's own home. (LogInContainer.js still has a self sign-up code
+// path, but nothing in the UI can reach it - and a public sign-up that
+// accepted jobTitle/homeId would let anyone mint an admin account.)
+router.post("/", async (req, res) => {
+  try {
+    const authUser = await resolveAuthenticatedUser(req);
+    if (!authUser) {
+      return res.status(401).json({ error: NOT_AUTHENTICATED_ERROR });
+    }
+    if (!isAdminUser(authUser)) {
+      return res.status(403).json({ error: NOT_ADMIN_ERROR });
+    }
+    if (typeof req.body.email !== "string" || !req.body.email) {
+      return res.status(400).json({ error: "Email is required" });
+    }
+
+    const newUser = new User({
+      firstName: req.body.firstName,
+      middleName: req.body.middleName,
+      lastName: req.body.lastName,
+      email: req.body.email.toLocaleLowerCase(),
+      password: req.body.password,
+      homeId: authUser.homeId,
+      jobTitle: req.body.jobTitle,
+      newUser: true,
+    });
+    const user = await newUser.save();
+    res.json(user);
+  } catch (err) {
+    console.error("Error creating user:", err);
+    res.status(500).json({ error: "Failed to create user" });
+  }
 });
+
+// Resolves the authenticated caller and the target account for a write to
+// /:id, enforcing that both belong to the same home. Returns
+// { authUser, target } or { status, body } for an error response.
+async function resolveAccountWrite(req) {
+  const authUser = await resolveAuthenticatedUser(req);
+  if (!authUser) {
+    return { status: 401, body: { error: NOT_AUTHENTICATED_ERROR } };
+  }
+  let target;
+  try {
+    target = await User.findOne({ _id: req.params.id, homeId: authUser.homeId });
+  } catch (e) {
+    target = null; // malformed id
+  }
+  if (!target) {
+    return { status: 404, body: { error: "User not found" } };
+  }
+  return { authUser, target };
+}
 
 // @route   PUT api/items
 // @desc    Create an item
 // @access  Public
-router.put("/:id", (req, res) => {
-  User.updateOne({ _id: req.params.id }, req.body).then(function () {
-    User.findOne({ _id: req.params.id }).then((user) => {
-      res.send(user);
-    });
-  });
+// Admins can edit accounts in their own home (profile, role, active state,
+// password reset). Everyone else can only change their own password.
+router.put("/:id", async (req, res) => {
+  try {
+    if (containsMongoOperatorKey(req.body)) {
+      return res.status(400).json({ error: MONGO_OPERATOR_ERROR });
+    }
+    const resolved = await resolveAccountWrite(req);
+    if (!resolved.authUser) {
+      return res.status(resolved.status).json(resolved.body);
+    }
+    const { authUser, target } = resolved;
+    const isSelf = String(target._id) === String(authUser._id);
+    const isAdmin = isAdminUser(authUser);
+
+    if (!isSelf && !isAdmin) {
+      return res.status(403).json({ error: NOT_ADMIN_ERROR });
+    }
+    const allowed = isAdmin ? ADMIN_EDITABLE_FIELDS : SELF_EDITABLE_FIELDS;
+    const disallowed = Object.keys(req.body || {}).filter((k) => !allowed.includes(k));
+    if (disallowed.length > 0) {
+      return res.status(403).json({
+        error: `Not allowed to change: ${disallowed.join(", ")}`,
+      });
+    }
+
+    const updates = { ...req.body };
+    if (typeof updates.email === "string") {
+      updates.email = updates.email.trim().toLocaleLowerCase();
+    }
+    // Identity is the email: the authToken cookie is signed with it (and
+    // resolveAuthenticatedUser looks the user up by it), and the client
+    // re-logs in on reload from the email saved in its userObj cookie. A
+    // self-change would strand both, silently logging the user out on
+    // their next request - so another admin has to make it. Re-sending the
+    // unchanged email is fine (UpdateUser.js always includes it).
+    if (isSelf && "email" in updates && updates.email !== target.email) {
+      return res.status(403).json({
+        error: "You can't change your own email. Ask another administrator to change it.",
+      });
+    }
+    await User.updateOne({ _id: target._id }, updates);
+    const user = await User.findOne({ _id: target._id });
+    res.send(user);
+  } catch (err) {
+    console.error("Error updating user:", err);
+    res.status(500).json({ error: "Failed to update user" });
+  }
 });
 
 // @route   Delete api/items
 // @desc    Delete an item
 // @access  Public
-router.delete("/:id", (req, res) => {
-  User.findById(req.params.id)
-    .then((user) => user.remove().then(() => res.json({ success: true })))
-    .catch((err) => res.status(404).json({ success: false }));
+router.delete("/:id", async (req, res) => {
+  try {
+    const resolved = await resolveAccountWrite(req);
+    if (!resolved.authUser) {
+      return res.status(resolved.status).json(resolved.body);
+    }
+    if (!isAdminUser(resolved.authUser)) {
+      return res.status(403).json({ error: NOT_ADMIN_ERROR });
+    }
+    await resolved.target.remove();
+    res.json({ success: true });
+  } catch (err) {
+    res.status(404).json({ success: false });
+  }
 });
 
-router.put("/sig/:id", (req, res) => {
-  User.updateOne({ _id: req.params.id }, req.body).then(function () {
-    User.findOne({ _id: req.params.id }).then((user) => {
-      res.send(user);
-    });
-  });
+// A profile signature is what forms stamp as proof the user signed, so only
+// the user themselves can set it - and only the signature field.
+router.put("/sig/:id", async (req, res) => {
+  try {
+    const resolved = await resolveAccountWrite(req);
+    if (!resolved.authUser) {
+      return res.status(resolved.status).json(resolved.body);
+    }
+    const { authUser, target } = resolved;
+    if (String(target._id) !== String(authUser._id)) {
+      return res.status(403).json({ error: "You can only change your own signature." });
+    }
+    if (!Array.isArray(req.body.signature)) {
+      return res.status(400).json({ error: "signature must be an array" });
+    }
+    await User.updateOne({ _id: target._id }, { signature: req.body.signature });
+    const user = await User.findOne({ _id: target._id });
+    res.send(user);
+  } catch (err) {
+    console.error("Error updating signature:", err);
+    res.status(500).json({ error: "Failed to update signature" });
+  }
 });
 
 module.exports = router;

@@ -82,6 +82,9 @@ class SeriousIncidentReport extends Component {
       loadingStaff: true,
       staff: [],
       clientId: "",
+      // Daily Progress Two shift this report is filed for, when opened from
+      // that form - each shift files its own report (saved once, on create)
+      shift: props.prefillShift || "",
       status: "IN PROGRESS",
       childSelected: false,
       createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
@@ -171,6 +174,7 @@ class SeriousIncidentReport extends Component {
       notification_made_by: "",
       follow_up_results: "",
       clientId: "",
+      shift: "",
       status: "IN PROGRESS",
       childSelected: false,
       createDate: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString(),
@@ -204,9 +208,18 @@ class SeriousIncidentReport extends Component {
         });
       } catch (e) {
         console.log(e);
+        // 403 = someone else's draft (drafts belong to whoever started
+        // them) - stop autosaving rather than retrying every tick.
+        if (e.response?.status === 403) {
+          initAutoSave = false;
+          clearInterval(interval);
+        }
         this.setState({
           formHasError: true,
-          formErrorMessage: "Error Submitting Incident Report",
+          formErrorMessage:
+            e.response?.status === 403
+              ? e.response.data?.error
+              : "Error Submitting Incident Report",
           loadingClients: false,
         });
       }
@@ -267,7 +280,10 @@ class SeriousIncidentReport extends Component {
         console.log(e);
         this.setState({
           formHasError: true,
-          formErrorMessage: "Error Submitting Incident Report",
+          formErrorMessage:
+            e.response?.status === 403
+              ? e.response.data?.error
+              : "Error Submitting Incident Report",
           loadingClients: false,
         });
       }

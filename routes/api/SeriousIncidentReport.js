@@ -13,6 +13,33 @@ const {
   MONGO_OPERATOR_ERROR,
 } = require("../../utils/rejectMongoOperators");
 const { applyCreateDateEdit } = require("../../utils/applyCreateDateEdit");
+const { isAdminUser } = require("../../utils/adminRoles");
+
+const SHIFTS = ["shift1", "shift2", "shift3"];
+
+// Ownership keys on createdById (the author's immutable user _id), not
+// createdBy (their email, which an admin can change via /api/users/:id -
+// keying on it would orphan a user's reports the moment their email
+// changed). Reports saved before createdById existed have none, so those
+// fall back to the email; the owner's next save backfills createdById (see
+// the PUT handler) so they stop depending on it.
+function ownerQuery(authUser) {
+  return {
+    $or: [
+      { createdById: String(authUser._id) },
+      { createdById: { $in: [null, ""] }, createdBy: authUser.email },
+    ],
+  };
+}
+
+function isReportOwner(report, authUser) {
+  return report.createdById
+    ? report.createdById === String(authUser._id)
+    : report.createdBy === authUser.email;
+}
+
+const NOT_OWNER_ERROR =
+  "This Serious Incident Report can only be edited by the staff member who started it (or an administrator). Please file your own report.";
 
 router.post("/", async (req, res) => {
   const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.body.homeId);
@@ -85,6 +112,7 @@ router.post("/", async (req, res) => {
     // createdBy is the record's permanent audit trail of who actually
     // created it and must not be spoofable.
     createdBy: authUser.email,
+    createdById: String(authUser._id),
 
     createdByName: `${authUser.firstName} ${authUser.lastName}`,
 
@@ -105,6 +133,10 @@ router.post("/", async (req, res) => {
     // on create: a report POSTed straight to COMPLETED never gets a later
     // PUT to add it, and would otherwise never be found.
     clientId: req.body.clientId,
+
+    // Anything other than a known shift is dropped rather than rejected -
+    // reports started outside Daily Progress Two legitimately have none.
+    shift: SHIFTS.includes(req.body.shift) ? req.body.shift : undefined,
   });
 
   newSeriousIncidentReport
@@ -118,9 +150,11 @@ router.post("/", async (req, res) => {
 // Whether a Serious Incident Report already exists for a child on a given day
 // (YYYY-MM-DD, matched against createDate or dateOfIncident), so callers - the
 // Daily Progress Two reminder - don't have to download the home's whole report
-// history to find out. Responds { status: "none" | "draft" | "done", draft }:
-// "done" if any matching report is COMPLETED, otherwise "draft" with the newest
-// not-completed one (draft is that single document, null otherwise).
+// history to find out. Scoped to reports the requesting user created, and -
+// when ?shift= is given - to that Daily Progress Two shift. Responds
+// { status: "none" | "draft" | "done", draft }: "done" if any matching report
+// is COMPLETED, otherwise "draft" with the newest not-completed one (draft is
+// that single document, null otherwise).
 router.get("/status/:homeId/:clientId/:day", async (req, res) => {
   // Returns a full incident document, so unlike the older list GETs this one
   // requires a verified login, and the home comes from that verified user -
@@ -131,6 +165,10 @@ router.get("/status/:homeId/:clientId/:day", async (req, res) => {
   }
   const { clientId, day } = req.params;
   const homeId = authUser.homeId;
+  const { shift } = req.query;
+  if (shift !== undefined && !SHIFTS.includes(shift)) {
+    return res.status(400).json({ error: "shift must be shift1, shift2, or shift3" });
+  }
   if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) {
     return res.status(400).json({ error: "day must be YYYY-MM-DD" });
   }
@@ -160,9 +198,19 @@ router.get("/status/:homeId/:clientId/:day", async (req, res) => {
 
     // createDate values are stored as local wall-clock time written as UTC, so a
     // day is a plain UTC range; dateOfIncident is a string, so it's a prefix match
+    //
+    // Only the requesting user's own reports for this shift count. Serious
+    // Incident Reports aren't shared across shifts: a later shift must never
+    // be handed an earlier shift's draft to reopen, and an earlier shift's
+    // completed report doesn't satisfy a later shift's own obligation to
+    // file one - even when the same person works both shifts. Reports with
+    // no shift recorded (older ones, or ones started outside Daily Progress
+    // Two) never match a shift-scoped lookup.
     const match = {
       homeId,
+      ...(shift ? { shift } : {}),
       $and: [
+        ownerQuery(authUser),
         { $or: whoMatches },
         {
           $or: [
@@ -375,13 +423,30 @@ router.put("/:homeId/:formId/", async (req, res) => {
   // `req.body.status === "COMPLETED"` would let a PUT that omits status
   // entirely (leaving an already-COMPLETED record COMPLETED) slip past
   // the signature check while still modifying the record's other fields.
+  const existing = await SeriousIncidentReport.findOne({
+    _id: req.params.formId,
+    homeId: authUser.homeId,
+  }).select("status createdBy createdById");
+  if (!existing) {
+    return res.status(404).json({ error: "Report not found" });
+  }
+
+  // A report belongs to whoever started it - other staff (e.g. a later
+  // shift) can't edit, complete, or reopen it; each shift files its own
+  // report rather than sharing one. This deliberately doesn't depend on the
+  // report's status: gating only drafts let a non-owner PUT a COMPLETED
+  // report back to "IN PROGRESS" (checked against the pre-update status),
+  // turning it into a draft they'd mutated. Admin/supervisor roles (see
+  // utils/adminRoles.js) are the exception - approval, and finishing a
+  // draft left behind by someone who's no longer around to complete it.
+  const callerIsOwner = isReportOwner(existing, authUser);
+  if (!callerIsOwner && !isAdminUser(authUser)) {
+    return res.status(403).json({ error: NOT_OWNER_ERROR });
+  }
+
   let effectiveStatus = req.body.status;
   if (effectiveStatus === undefined) {
-    const existing = await SeriousIncidentReport.findOne({
-      _id: req.params.formId,
-      homeId: authUser.homeId,
-    }).select("status");
-    effectiveStatus = existing?.status;
+    effectiveStatus = existing.status;
   }
 
   if (effectiveStatus === "COMPLETED" && !hasValidSignature(authUser)) {
@@ -396,8 +461,17 @@ router.put("/:homeId/:formId/", async (req, res) => {
   // (createDate) backdate/postdate the creation audit trail. Mirrors
   // routes/api/client.js's identical strip on its Face Sheet update.
   delete updatedLastEditDate.createdBy;
+  delete updatedLastEditDate.createdById;
   delete updatedLastEditDate.createdByName;
+  // Backfill a legacy (pre-createdById) report's owner id while its email
+  // match still holds - only from the owner's own save, never an admin's.
+  if (callerIsOwner && !existing.createdById) {
+    updatedLastEditDate.createdById = String(authUser._id);
+  }
   delete updatedLastEditDate.homeId;
+  // shift is fixed at creation too - re-labelling a report as another
+  // shift's would let one report satisfy several shifts.
+  delete updatedLastEditDate.shift;
   // originalCreateDate/createDateEditedBy/createDateEditedAt are always
   // server-computed by applyCreateDateEdit below, never taken from the
   // request body.

@@ -35,7 +35,9 @@ const DiscussionMessageSchema = new Schema({
   },
   createDate: {
     type: Date,
-    default: new Date(),
+    // Date.now (a function), not new Date() - the latter is evaluated once
+    // at module load, stamping every message with the server's start time.
+    default: Date.now,
   },
 });
 
