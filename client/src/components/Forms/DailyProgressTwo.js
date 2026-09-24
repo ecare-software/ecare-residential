@@ -8,7 +8,6 @@ import Cookies from "universal-cookie";
 import SignatureCanvas from "react-signature-canvas";
 import { GetUserSig } from "../../utils/GetUserSig";
 import { isAdminUser } from "../../utils/AdminReportingRoles";
-import { getMissingSignatureShifts } from "../../utils/missingSignatures";
 import {
   mapDailyIntake,
   mapRecTherapeuticActivity,
@@ -753,10 +752,12 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
     .filter((i) => residentChecked[i] && residentChecked[i].some(Boolean))
     .map((i) => labels.residentBehavior[i + 1].replace(/:$/, ""));
 
-  // "none" = no SIR yet for this child that day, "draft" = started (e.g. by 1st/2nd shift) but not completed,
-  // "done" = completed, "unknown" = couldn't check (treated like "none" so the reminder is never silently dropped)
+  // Scoped to the logged-in user's own reports for the current shift - SIRs aren't shared across shifts, so each
+  // shift files its own, even when the same person works more than one. "none" = no SIR from this user for this
+  // child/day/shift, "draft" = they started one but haven't completed it, "done" = they completed one,
+  // "unknown" = couldn't check (treated like "none" so the reminder is never silently dropped)
   const [sirStatus, setSirStatus] = useState("unknown");
-  const sirDraftRef = useRef(null); // newest not-completed report found by the last fetchSirStatus()
+  const sirDraftRef = useRef(null); // this user's newest not-completed report found by the last fetchSirStatus()
   const sirChildId = formData.clientId || (formData.child && formData.child.childId) || "";
   const sirHomeId = propUserObj?.homeId || userObj?.homeId;
   // Blank on a new form (the server defaults it to now), so fall back to today's local date, which is how createDate values are stored
@@ -770,7 +771,7 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
     try {
       // The server does the child/day lookup, so the response stays small however much incident history the home has
       const { data } = await axios.get(
-        `/api/seriousIncidentReport/status/${sirHomeId}/${sirChildId}/${sirDay}`
+        `/api/seriousIncidentReport/status/${sirHomeId}/${sirChildId}/${sirDay}?shift=${currentShift}`
       );
       sirDraftRef.current = data.draft || null;
       return data.status === "done" || data.status === "draft" ? data.status : "none";
@@ -790,11 +791,24 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [needsSirCheck, sirChildId, sirHomeId, sirDay]);
+  }, [needsSirCheck, sirChildId, sirHomeId, sirDay, currentShift]);
   const toggleRecCheck = toggleCheck(setRecChecked);
   const toggleStaffInterventionCheck = toggleCheck(setStaffInterventionChecked);
 
   const sigRefs = useRef([null, null, null]);
+
+  // Whether a signature pad has nothing on it. signature_pad 2.x's isEmpty()
+  // alone isn't enough: fromData() - what "Set Signature" uses to load the
+  // user's profile signature, which is stored as point data - redraws the
+  // strokes but never clears the pad's internal empty flag, so isEmpty()
+  // stays true for a visibly signed pad. Its point data (toData()) is set,
+  // though, so a pad only counts as blank when both say so.
+  const isPadBlank = (pad) => {
+    if (!pad) return true;
+    const data = typeof pad.toData === "function" ? pad.toData() : null;
+    const hasPointData = Array.isArray(data) && data.length > 0;
+    return typeof pad.isEmpty === "function" && pad.isEmpty() && !hasPointData;
+  };
 
   // Helper function to check if an individual signature is valid
   const isSignatureValid = (idx) => {
@@ -811,7 +825,7 @@ const DailyProgressTwo = ({ valuesSet, formData: propFormData, userObj: propUser
 
     // Otherwise check all conditions for a new signature
     return sigRefs.current[idx] &&
-      !sigRefs.current[idx].isEmpty() &&
+      !isPadBlank(sigRefs.current[idx]) &&
       initials[idx] &&
       titles[idx] &&
       selectedShifts[idx];
@@ -892,11 +906,20 @@ const hasAnyValidSignature = () => [0, 1, 2].slice(0, shiftCount === 2 ? 2 : 3).
         shiftSummary: removeIds(shiftSummary),
         clothingDescription: removeIds(clothingDescription),
         signatureSection: {
-          signatures: sigRefs.current.map((sig) => {
+          signatures: sigRefs.current.map((sig, idx) => {
+            // A shift that's already signed and saved keeps its stored image
+            // as-is, rather than re-reading it back off the canvas - that
+            // redraw is async (fromDataURL) and the pad may not be mounted
+            // or finished loading yet, which would otherwise save the
+            // earlier shift's signature as blank.
+            const persisted = formData?.signatureSection?.signatures?.[idx];
+            if (typeof persisted === "string" && persisted.startsWith("data:image/") && persisted.length > 100) {
+              return persisted;
+            }
             if (!sig) return "";
             try {
               // A shown-but-unsigned canvas would otherwise save as a blank image that counts as a signature
-              if (typeof sig.isEmpty === 'function' && sig.isEmpty()) return "";
+              if (isPadBlank(sig)) return "";
               // First try toDataURL directly if it exists
               if (typeof sig.toDataURL === 'function') {
                 return sig.toDataURL();
@@ -1052,13 +1075,13 @@ const hasAnyValidSignature = () => [0, 1, 2].slice(0, shiftCount === 2 ? 2 : 3).
       } else {
         const reminder = `${savedMessage}\n\n${
           latestSirStatus === "draft"
-            ? "A Serious Incident Report has been started for this child today but is not completed. Please complete it"
+            ? "You started a Serious Incident Report for this child this shift but have not completed it. Please complete it"
             : "A Serious Incident Report must be filed"
         } for: ${sirBehaviorsSelected.join(", ")}.`;
         if (openSeriousIncidentReport) {
           // Browser alerts can't hold a link, so offer to open the pre-filled report from a confirm
-          if (window.confirm(`${reminder}\n\nPress OK to open ${latestSirStatus === "draft" ? "the existing draft" : "the Serious Incident Report now (pre-filled with this child)"}, or Cancel to stay here.`)) {
-            openSeriousIncidentReport(sirChildId, sirDraftRef.current);
+          if (window.confirm(`${reminder}\n\nPress OK to open ${latestSirStatus === "draft" ? "your draft" : "the Serious Incident Report now (pre-filled with this child)"}, or Cancel to stay here.`)) {
+            openSeriousIncidentReport(sirChildId, sirDraftRef.current, currentShift);
           }
         } else {
           alert(reminder);
@@ -1221,10 +1244,10 @@ const hasAnyValidSignature = () => [0, 1, 2].slice(0, shiftCount === 2 ? 2 : 3).
                   shiftCount={shiftCount}
                 />
                 {section.showSirReminder && sirBehaviorsSelected.length > 0 && sirStatus !== "done" && (
-                  <div className="alert alert-warning" role="alert" style={{ marginTop: "12px" }}>
+                  <div className="alert alert-warning alert-inline" role="alert" style={{ marginTop: "12px" }}>
                     <strong>Reminder:</strong>{" "}
                     {sirStatus === "draft"
-                      ? "A Serious Incident Report has been started for this child today but is not completed. Please complete it"
+                      ? "You started a Serious Incident Report for this child this shift but have not completed it. Please complete it"
                       : "A Serious Incident Report must be filed"}{" "}
                     for the following selected behavior(s): {sirBehaviorsSelected.join(", ")}.
                     {openSeriousIncidentReport && (
@@ -1234,11 +1257,11 @@ const hasAnyValidSignature = () => [0, 1, 2].slice(0, shiftCount === 2 ? 2 : 3).
                           className="btn btn-link p-0"
                           onClick={() => {
                             if (window.confirm("Leave this form and open the Serious Incident Report? Unsaved changes on this form will be lost.")) {
-                              openSeriousIncidentReport(sirChildId, sirDraftRef.current);
+                              openSeriousIncidentReport(sirChildId, sirDraftRef.current, currentShift);
                             }
                           }}
                         >
-                          {sirStatus === "draft" ? "Open the existing Serious Incident Report draft" : "Go to Serious Incident Report form"}
+                          {sirStatus === "draft" ? "Open your Serious Incident Report draft" : "Go to Serious Incident Report form"}
                         </button>
                       </div>
                     )}
@@ -1934,12 +1957,6 @@ const SignatureSection = ({
               {hasAnyValidSignature()
                 ? "✓ Ready for submission - each shift signs for itself, so unsigned shifts don't block this"
                 : "⚠️ At least one shift signature is required before submission"}
-            </div>
-          )}
-          {getMissingSignatureShifts(formData.signatureSection, shiftCount).length > 0 && (
-            <div style={{ fontSize: "14px", color: "#b45309", marginTop: "5px" }}>
-              Missing signature: {getMissingSignatureShifts(formData.signatureSection, shiftCount).join(" and ")} shift
-              {getMissingSignatureShifts(formData.signatureSection, shiftCount).length > 1 ? "s" : ""} (a later shift has already signed). Administrators are flagged.
             </div>
           )}
         </div>

@@ -82,7 +82,10 @@ router.post("/", validateMessageImage, (req, res) => {
     lastName: req.body.lastName,
     id: req.body.id,
     homeId: req.body.homeId,
-    date: req.body.date,
+    // Server time, not the poster's device clock - the board's NEW badge
+    // compares these across users, so a poster whose clock ran behind
+    // would otherwise post messages that never show as new.
+    date: new Date(),
     message: req.body.message,
     image: req.body.image,
   });

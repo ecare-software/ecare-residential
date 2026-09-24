@@ -31,10 +31,21 @@ class CreateNewUser extends Component {
         document.getElementById(key).value = "";
       }
     });
+    // Clearing only the inputs left the previous user's values in state,
+    // so the next submit could silently reuse e.g. their job title.
+    this.setState({
+      firstName: "",
+      middleName: "",
+      lastName: "",
+      jobTitle: "",
+      email: "",
+      password: "",
+      password2: "",
+    });
   };
 
-  submit = (isNew) => {
-    let currentState = JSON.parse(JSON.stringify(this.state));
+  submit = (isNew, validatedState) => {
+    let currentState = validatedState || JSON.parse(JSON.stringify(this.state));
     var staticThis = this;
     Axios({
       method: "post",
@@ -60,24 +71,49 @@ class CreateNewUser extends Component {
       });
   };
 
+  // Returns an error message naming the first problem found, or null.
+  // Leading/trailing whitespace is trimmed first (autofill and mobile
+  // autocomplete often add a trailing space). Names may contain spaces
+  // (e.g. "Mary Ann", "De La Cruz"); email and password may not, since
+  // login matches them exactly.
+  getValidationError = (simpleState) => {
+    const required = {
+      firstName: "First Name",
+      lastName: "Last Name",
+      jobTitle: "Job Title",
+      homeId: "Home ID",
+      email: "Email",
+      password: "Temporary Password",
+      password2: "Re-Enter Password",
+    };
+    for (const key of Object.keys(required)) {
+      if (!simpleState[key]) return `${required[key]} is required`;
+    }
+    if (/\s/.test(simpleState.email) || !/^[^@]+@[^@]+\.[^@]+$/.test(simpleState.email)) {
+      return "Email must be a valid email address with no spaces";
+    }
+    if (/\s/.test(simpleState.password)) {
+      return "Password cannot contain spaces";
+    }
+    return null;
+  };
+
   validateForm = () => {
-    var validForm = true;
     let staticThis = this;
     let simpleState = JSON.parse(JSON.stringify(this.state));
+    Object.keys(simpleState).forEach((k) => {
+      if (typeof simpleState[k] === "string") simpleState[k] = simpleState[k].trim();
+    });
+    // submit() is handed simpleState directly (setState may not have
+    // flushed by then); this just keeps state in sync with what's posted.
+    this.setState(simpleState);
 
     document.getElementById(staticThis.props.id + "-error").style.display =
       "none";
 
-    Object.keys(simpleState).forEach(function (k) {
-      let value = simpleState[k];
-      if (value === "" || value.includes(" ")) {
-        if (k !== "middleName") {
-          validForm = false;
-        }
-      }
-    });
+    const validationError = this.getValidationError(simpleState);
 
-    if (validForm) {
+    if (!validationError) {
       if (simpleState.password !== simpleState.password2) {
         document.getElementById(staticThis.props.id + "-error").innerText =
           "Passwords do not match";
@@ -86,12 +122,12 @@ class CreateNewUser extends Component {
       } else {
         Axios({
           method: "get",
-          url: "/api/users/" + this.state.email,
+          url: "/api/users/" + simpleState.email,
         })
           .then(function (response) {
             // handle success
             if (response.data.length === 0) {
-              staticThis.submit(true);
+              staticThis.submit(true, simpleState);
             } else {
               document.getElementById(
                 staticThis.props.id + "-error"
@@ -103,12 +139,12 @@ class CreateNewUser extends Component {
           })
           .catch(function (error) {
             // handle error
-            staticThis.submit(true);
+            staticThis.submit(true, simpleState);
           });
       }
     } else {
       document.getElementById(staticThis.props.id + "-error").innerText =
-        "Invalid form submission";
+        validationError;
       document.getElementById(staticThis.props.id + "-error").style.display =
         "block";
     }

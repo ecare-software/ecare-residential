@@ -1054,3 +1054,15 @@ html {
     transform: rotate(360deg);
   }
 }
+/* The .alert rules in the desktop/tablet media queries above pin every
+   Bootstrap alert to the viewport (position: fixed) for pop-up notices.
+   Add alert-inline to a banner that belongs in the page flow instead, so
+   it stays where it's placed rather than following the user as they
+   scroll. Two classes, so it outranks those single-class rules. */
+.alert.alert-inline {
+  position: static;
+  width: auto;
+  margin: 0 0 1rem 0;
+  max-height: none;
+  overflow: visible;
+}

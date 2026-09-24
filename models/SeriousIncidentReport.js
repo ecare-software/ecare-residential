@@ -91,6 +91,14 @@ const SeriousIncidentReportSchema = new Schema({
     type: String,
     required: false,
   },
+  // The creating user's _id (as a string). Unlike createdBy (their email,
+  // which an admin can change), this never changes, so it's what ownership
+  // checks key on. Absent on reports created before it was added - those
+  // fall back to matching createdBy (see ownership helpers in
+  // routes/api/SeriousIncidentReport.js).
+  createdById: {
+    type: String,
+  },
   createdByName: {
     type: String,
     required: false,
@@ -147,6 +155,14 @@ const SeriousIncidentReportSchema = new Schema({
   },
   status: {
     type: String,
+  },
+  // The Daily Progress Two shift ("shift1"/"shift2"/"shift3") this report
+  // was filed for, when it was started from that form. Each shift files its
+  // own report, so the status lookup matches on this. Set once on create;
+  // absent on reports started some other way (and on older reports).
+  shift: {
+    type: String,
+    enum: ["shift1", "shift2", "shift3"],
   },
 });
 
