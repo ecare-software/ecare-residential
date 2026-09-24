@@ -91,6 +91,14 @@ const SeriousIncidentReportSchema = new Schema({
     type: String,
     required: false,
   },
+  // The creating user's _id (as a string). Unlike createdBy (their email,
+  // which an admin can change), this never changes, so it's what ownership
+  // checks key on. Absent on reports created before it was added - those
+  // fall back to matching createdBy (see ownership helpers in
+  // routes/api/SeriousIncidentReport.js).
+  createdById: {
+    type: String,
+  },
   createdByName: {
     type: String,
     required: false,

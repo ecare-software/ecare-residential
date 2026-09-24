@@ -17,6 +17,27 @@ const { isAdminUser } = require("../../utils/adminRoles");
 
 const SHIFTS = ["shift1", "shift2", "shift3"];
 
+// Ownership keys on createdById (the author's immutable user _id), not
+// createdBy (their email, which an admin can change via /api/users/:id -
+// keying on it would orphan a user's reports the moment their email
+// changed). Reports saved before createdById existed have none, so those
+// fall back to the email; the owner's next save backfills createdById (see
+// the PUT handler) so they stop depending on it.
+function ownerQuery(authUser) {
+  return {
+    $or: [
+      { createdById: String(authUser._id) },
+      { createdById: { $in: [null, ""] }, createdBy: authUser.email },
+    ],
+  };
+}
+
+function isReportOwner(report, authUser) {
+  return report.createdById
+    ? report.createdById === String(authUser._id)
+    : report.createdBy === authUser.email;
+}
+
 const NOT_OWNER_ERROR =
   "This Serious Incident Report can only be edited by the staff member who started it (or an administrator). Please file your own report.";
 
@@ -91,6 +112,7 @@ router.post("/", async (req, res) => {
     // createdBy is the record's permanent audit trail of who actually
     // created it and must not be spoofable.
     createdBy: authUser.email,
+    createdById: String(authUser._id),
 
     createdByName: `${authUser.firstName} ${authUser.lastName}`,
 
@@ -186,9 +208,9 @@ router.get("/status/:homeId/:clientId/:day", async (req, res) => {
     // Two) never match a shift-scoped lookup.
     const match = {
       homeId,
-      createdBy: authUser.email,
       ...(shift ? { shift } : {}),
       $and: [
+        ownerQuery(authUser),
         { $or: whoMatches },
         {
           $or: [
@@ -404,7 +426,7 @@ router.put("/:homeId/:formId/", async (req, res) => {
   const existing = await SeriousIncidentReport.findOne({
     _id: req.params.formId,
     homeId: authUser.homeId,
-  }).select("status createdBy");
+  }).select("status createdBy createdById");
   if (!existing) {
     return res.status(404).json({ error: "Report not found" });
   }
@@ -417,7 +439,8 @@ router.put("/:homeId/:formId/", async (req, res) => {
   // turning it into a draft they'd mutated. Admin/supervisor roles (see
   // utils/adminRoles.js) are the exception - approval, and finishing a
   // draft left behind by someone who's no longer around to complete it.
-  if (existing.createdBy !== authUser.email && !isAdminUser(authUser)) {
+  const callerIsOwner = isReportOwner(existing, authUser);
+  if (!callerIsOwner && !isAdminUser(authUser)) {
     return res.status(403).json({ error: NOT_OWNER_ERROR });
   }
 
@@ -438,7 +461,13 @@ router.put("/:homeId/:formId/", async (req, res) => {
   // (createDate) backdate/postdate the creation audit trail. Mirrors
   // routes/api/client.js's identical strip on its Face Sheet update.
   delete updatedLastEditDate.createdBy;
+  delete updatedLastEditDate.createdById;
   delete updatedLastEditDate.createdByName;
+  // Backfill a legacy (pre-createdById) report's owner id while its email
+  // match still holds - only from the owner's own save, never an admin's.
+  if (callerIsOwner && !existing.createdById) {
+    updatedLastEditDate.createdById = String(authUser._id);
+  }
   delete updatedLastEditDate.homeId;
   // shift is fixed at creation too - re-labelling a report as another
   // shift's would let one report satisfy several shifts.
