@@ -545,6 +545,57 @@ class NavBar extends React.Component {
                   >
                     Illness Injury
                   </NavDropdown.Item>
+                  <NavDropdown.Item
+                    eventKey="link-883"
+                    onClick={() => {
+                      document
+                        .querySelector(".Submit-a-Form-nav > a")
+                        .classList.add("active");
+                      document
+                        .querySelector(".Manage-Account-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Training-nav > a")
+                        .classList.remove("active");
+                      this.props.toggleDisplay("ClothingInventory");
+                    }}
+                  >
+                    Clothing Inventory
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    eventKey="link-884"
+                    onClick={() => {
+                      document
+                        .querySelector(".Submit-a-Form-nav > a")
+                        .classList.add("active");
+                      document
+                        .querySelector(".Manage-Account-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Training-nav > a")
+                        .classList.remove("active");
+                      this.props.toggleDisplay("RoomCheck");
+                    }}
+                  >
+                    Room Check
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    eventKey="link-885"
+                    onClick={() => {
+                      document
+                        .querySelector(".Submit-a-Form-nav > a")
+                        .classList.add("active");
+                      document
+                        .querySelector(".Manage-Account-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Training-nav > a")
+                        .classList.remove("active");
+                      this.props.toggleDisplay("CssrsScreening");
+                    }}
+                  >
+                    Suicide Risk Screening (C-SSRS)
+                  </NavDropdown.Item>
 
                   <NavDropdown.Item
                     eventKey="link-812"

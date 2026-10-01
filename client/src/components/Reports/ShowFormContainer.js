@@ -22,6 +22,9 @@ import NightMonitoring from "../Forms/NightMonitoring";
 import ClipLoader from "react-spinners/ClipLoader";
 import DailyProgressTwo from "../Forms/DailyProgressTwo";
 import MedicationLog from "../Forms/MedicationLog";
+import ClothingInventory from "../Forms/ClothingInventory";
+import RoomCheck from "../Forms/RoomCheck";
+import CssrsScreening from "../Forms/CssrsScreening";
 import "../../App.css";
 import FormActionButtons from "../Common/FormActionButtons";
 
@@ -732,6 +735,12 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
       droute = "dailyProgressNoteTwo";
     } else if (name === "Medication Log") {
       droute = "medication"
+    } else if (name === "Monthly Clothing Inventory") {
+      droute = "clothingInventory";
+    } else if (name === "Room Check") {
+      droute = "roomCheck";
+    } else if (name === "C-SSRS Screening") {
+      droute = "cssrsScreening";
     }
 
     setRoute(droute);
@@ -913,6 +922,39 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     if (name === "Night Monitoring") {
       return (
         <NightMonitoring
+          valuesSet="true"
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    }
+
+    if (name === "Monthly Clothing Inventory") {
+      return (
+        <ClothingInventory
+          valuesSet="true"
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    }
+
+    if (name === "Room Check") {
+      return (
+        <RoomCheck
+          valuesSet="true"
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    }
+
+    if (name === "C-SSRS Screening") {
+      return (
+        <CssrsScreening
           valuesSet="true"
           userObj={userObj}
           formData={updatedFormData}

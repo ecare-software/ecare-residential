@@ -241,7 +241,10 @@ export class FormReports extends Component {
               "Awake Night Staff Signoff",
               "Night Monitoring",
               "Daily Progress Note Two", 
-              "Medication Log"
+              "Medication Log",
+              "Monthly Clothing Inventory",
+              "Room Check",
+              "C-SSRS Screening"
             ],
           });
           this.setState({ formNamesReady: true });
@@ -253,6 +256,29 @@ export class FormReports extends Component {
       }
     });
   };
+
+  // These routes (clothingInventory, roomCheck, cssrsScreening) require a verified login
+  // (unlike the older form routes' list GETs), so a failure here is
+  // recoverable - fall back to no results rather than letting one rejected
+  // request fail the whole Axios.all.
+  getAuthedForms = (route, formName, searchString, submittedAfter, submittedBefore, submittedByA, approved) =>
+    Axios.get(
+      `/api/${route}/` +
+      this.props.userObj.homeId +
+      "/" +
+      searchString +
+      "/" +
+      submittedAfter +
+      "/" +
+      submittedBefore +
+      "/" +
+      submittedByA +
+      "/" +
+      approved
+    ).catch((e) => {
+      console.log(`Error loading ${formName} - ${e}`);
+      return { data: [] };
+    });
 
   getForms = () => {
     console.log("Fetching all forms for homeId:", this.props.userObj.homeId);
@@ -269,6 +295,9 @@ export class FormReports extends Component {
         this.props.userObj.homeId +
         "/none/" + fortyFiveDaysAgo + "/none/none/false"
       ),
+      this.getAuthedForms("clothingInventory", "Monthly Clothing Inventory", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("roomCheck", "Room Check", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("cssrsScreening", "C-SSRS Screening", "none", fortyFiveDaysAgo, "none", "none", "false"),
       Axios.get(
         "/api/dailyProgressAndActivity/" +
         this.props.userObj.homeId +
@@ -445,6 +474,9 @@ export class FormReports extends Component {
         this.props.userObj.homeId +
         "/none/" + fortyFiveDaysAgo + "/none/none/false"
       ),
+      this.getAuthedForms("clothingInventory", "Monthly Clothing Inventory", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("roomCheck", "Room Check", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("cssrsScreening", "C-SSRS Screening", "none", fortyFiveDaysAgo, "none", "none", "false"),
       Axios.get(
         "/api/incidentReport/" +
         this.props.userObj.homeId +
@@ -593,6 +625,45 @@ export class FormReports extends Component {
               "/" +
               submittedByA +
               "/" +
+              approved
+            )
+          );
+        }
+        if (formName === "Monthly Clothing Inventory") {
+          formRequests.push(
+            this.getAuthedForms(
+              "clothingInventory",
+              "Monthly Clothing Inventory",
+              searchString,
+              submittedAfter,
+              submittedBefore,
+              submittedByA,
+              approved
+            )
+          );
+        }
+        if (formName === "Room Check") {
+          formRequests.push(
+            this.getAuthedForms(
+              "roomCheck",
+              "Room Check",
+              searchString,
+              submittedAfter,
+              submittedBefore,
+              submittedByA,
+              approved
+            )
+          );
+        }
+        if (formName === "C-SSRS Screening") {
+          formRequests.push(
+            this.getAuthedForms(
+              "cssrsScreening",
+              "C-SSRS Screening",
+              searchString,
+              submittedAfter,
+              submittedBefore,
+              submittedByA,
               approved
             )
           );
@@ -912,6 +983,33 @@ export class FormReports extends Component {
           "/" +
           submittedByA +
           "/" +
+          approved
+        ),
+        this.getAuthedForms(
+          "clothingInventory",
+          "Monthly Clothing Inventory",
+          searchString,
+          submittedAfter,
+          submittedBefore,
+          submittedByA,
+          approved
+        ),
+        this.getAuthedForms(
+          "roomCheck",
+          "Room Check",
+          searchString,
+          submittedAfter,
+          submittedBefore,
+          submittedByA,
+          approved
+        ),
+        this.getAuthedForms(
+          "cssrsScreening",
+          "C-SSRS Screening",
+          searchString,
+          submittedAfter,
+          submittedBefore,
+          submittedByA,
           approved
         ),
         Axios.get(
