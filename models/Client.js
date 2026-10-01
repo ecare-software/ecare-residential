@@ -130,6 +130,7 @@ const ClientSchema = new Schema({
   },
   homeId: {
     type: String,
+    index: true,
   },
   active: {
     type: Boolean,

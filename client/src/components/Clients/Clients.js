@@ -7,8 +7,10 @@ import FaceSheet from "../Forms/FaceSheet";
 import FosterChecklist from "./FosterChecklist";
 import { Col } from "react-bootstrap";
 
+// The list only needs names/admission dates; full records (with base64
+// photos) are fetched one at a time when a client is opened.
 const fetchAllClientsInit = async ({ homeId }) => {
-  return await Axios.get(`/api/client/${homeId}`);
+  return await Axios.get(`/api/client/${homeId}?summary=true`);
 };
 
 const doDeleteClient = async ([homeId, clientId, active]) => {
@@ -18,7 +20,7 @@ const doDeleteClient = async ([homeId, clientId, active]) => {
 };
 
 const fetchAllClients = async ([homeId]) => {
-  return await Axios.get(`/api/client/${homeId}`);
+  return await Axios.get(`/api/client/${homeId}?summary=true`);
 };
 
 const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
@@ -29,6 +31,7 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
   const [selectedClient, setSelectedClient] = useState(null);
   const [clients, setClients] = useState([]);
   const [showActive, setShowActive] = useState(true);
+  const [isLoadingClient, setIsLoadingClient] = useState(false);
 
   useEffect(() => {
     if (showClientForm) {
@@ -78,11 +81,23 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
     },
   });
 
-  const setClient = (value, view) => {
+  const setClient = async (value, view) => {
     setIsClientSelected(true);
     doToggleClientDisplay(false);
-    setSelectedClient(value);
     setSelectedView(view);
+    setSelectedClient(null);
+    setIsLoadingClient(true);
+    try {
+      const { data } = await Axios.get(
+        `/api/client/${value._id}/${userObj.homeId}/`
+      );
+      setSelectedClient(data);
+    } catch (e) {
+      // Fall back to the summary record so the view still opens.
+      setSelectedClient(value);
+    } finally {
+      setIsLoadingClient(false);
+    }
   };
 
   const deleteClientCall = async (value, active) => {
@@ -104,6 +119,13 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
     }
   };
 
+  // Fixed column widths (out of 12), shared by the header and every row so
+  // they line up - equal-width Cols let the wide Actions buttons push the
+  // row's other cells out of alignment with the header.
+  const colWidths = showActive
+    ? { actions: 5, name: 4, admission: 3 }
+    : { actions: 5, name: 3, admission: 2, discharge: 2 };
+
   if (showClients) {
     return (
       <div className="formCompNoBg">
@@ -112,7 +134,7 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
         </div>
         <div className="formFieldsMobile">
           <div style={{ height: "25px" }}>
-            <IfPending>
+            <IfPending state={getAllClients}>
               <h4>Loading...</h4>
             </IfPending>
             <IfFulfilled state={getAllClients}>
@@ -146,19 +168,28 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
             </button>
           </div>
           <div className="form-group logInInputField d-flex mt-3 border-bottom">
-            <Col className="control-label">
+            <Col xs={colWidths.actions} className="control-label">
                <label style={{ fontWeight: "bold" }}>Actions</label>
             </Col>
-            <Col className="control-label">
+            <Col xs={colWidths.name} className="control-label">
               <label>Name</label>
             </Col>
-            <Col>
+            <Col xs={colWidths.admission}>
               <label className="control-label">Date of Admission</label>
             </Col>
+            {!showActive && (
+              <Col xs={colWidths.discharge}>
+                <label className="control-label">Discharge Date</label>
+              </Col>
+            )}
           </div>
           {visibleClients.map((client) => (
             <div className="form-group logInInputField d-flex mt-3" key={client._id}>
-              <Col className="control-label d-flex">
+              <Col
+                xs={colWidths.actions}
+                className="control-label d-flex"
+                style={{ flexWrap: "wrap" }}
+              >
                 <button
                   className="btn btn-light extraInfoButton"
                   onClick={() => {
@@ -192,14 +223,21 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
                   </span>
                 </button>
               </Col>
-              <Col className="control-label">
+              <Col xs={colWidths.name} className="control-label">
                 <label>{client.childMeta_name}</label>
               </Col>
-              <Col>
+              <Col xs={colWidths.admission}>
                 <label className="control-label">
                   {client.childMeta_dateOfAdmission}
                 </label>
               </Col>
+              {!showActive && (
+                <Col xs={colWidths.discharge}>
+                  <label className="control-label">
+                    {client.childMeta_dischargeDate}
+                  </label>
+                </Col>
+              )}
             </div>
           ))}
         </div>
@@ -217,7 +255,9 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
         <IfPending state={getAllClients}>
           <p>Loading...</p>
         </IfPending>
+        {isLoadingClient && <p>Loading...</p>}
         <IfFulfilled state={getAllClients}>
+          {!isLoadingClient && (
           <>
             {selectedView === "facesheet" && (
               <FaceSheet
@@ -236,6 +276,7 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
               />
             )}
           </>
+          )}
         </IfFulfilled>
       </div>
     );

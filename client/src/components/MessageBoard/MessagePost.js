@@ -22,14 +22,15 @@ class MessagePost extends Component {
   };
 
   render() {
+    const isNew = this.isNew();
     return (
-      <div className="MessagePost">
+      <div className={`MessagePost${isNew ? " MessagePostNew" : ""}`}>
         <div className="MessagePostMeta">
           <div style={{ display: "flex", alignItems: "center" }}>
             <span className="mainFont MessagePostUser">
               {this.props.messageObj.firstName} {this.props.messageObj.lastName}
             </span>
-            {this.isNew() && (
+            {isNew && (
               <span
                 style={{
                   backgroundColor: "maroon",

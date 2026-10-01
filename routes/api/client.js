@@ -230,8 +230,15 @@ router.get("/:homeId", (req, res) => {
   if (activeFilter) {
     filter.active = true;
   }
-  Client.find(filter)
+  // ?summary=true returns only the fields the Manage Clients list renders.
+  // Full records carry childMeta_photo as a base64 data URL, which made the
+  // list payload grow with every photo uploaded.
+  const projection = req.query.summary
+    ? "childMeta_name childMeta_dateOfAdmission childMeta_dischargeDate active homeId"
+    : null;
+  Client.find(filter, projection)
     .sort({ childMeta_name: -1 })
+    .lean()
     .exec()
     .then((clients) => res.json(clients))
     .catch((err) => res.status(404).json({ success: false }));
