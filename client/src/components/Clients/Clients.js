@@ -32,12 +32,14 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
   const [clients, setClients] = useState([]);
   const [showActive, setShowActive] = useState(true);
   const [isLoadingClient, setIsLoadingClient] = useState(false);
+  const [clientLoadError, setClientLoadError] = useState(null);
 
   useEffect(() => {
     if (showClientForm) {
       setIsClientSelected(false);
       setSelectedClient(null);
       setSelectedView("facesheet");
+      setClientLoadError(null);
     }
 
     setShowClients(showClientForm);
@@ -86,6 +88,7 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
     doToggleClientDisplay(false);
     setSelectedView(view);
     setSelectedClient(null);
+    setClientLoadError(null);
     setIsLoadingClient(true);
     try {
       const { data } = await Axios.get(
@@ -93,8 +96,12 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
       );
       setSelectedClient(data);
     } catch (e) {
-      // Fall back to the summary record so the view still opens.
-      setSelectedClient(value);
+      // Don't fall back to the summary record: opening the Face Sheet with
+      // only a few fields filled in and then saving would blank out the
+      // rest of the real record.
+      setClientLoadError(
+        e.response?.data?.message || "Error loading this client"
+      );
     } finally {
       setIsLoadingClient(false);
     }
@@ -256,8 +263,9 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
           <p>Loading...</p>
         </IfPending>
         {isLoadingClient && <p>Loading...</p>}
+        {clientLoadError && <p>{clientLoadError}</p>}
         <IfFulfilled state={getAllClients}>
-          {!isLoadingClient && (
+          {!isLoadingClient && !clientLoadError && (
           <>
             {selectedView === "facesheet" && (
               <FaceSheet
