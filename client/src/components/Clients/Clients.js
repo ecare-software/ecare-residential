@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useAsync, IfRejected, IfPending, IfFulfilled } from "react-async";
 import "../../App.css";
 import "../LogInContainer/LogInContainer.css";
@@ -33,9 +33,26 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
   const [showActive, setShowActive] = useState(true);
   const [isLoadingClient, setIsLoadingClient] = useState(false);
   const [clientLoadError, setClientLoadError] = useState(null);
+  // Guards the full-record fetch in setClient. Each open bumps the ID, and
+  // only the response matching the latest ID may touch state - otherwise a
+  // slow request for client A could land after the user went Back and
+  // opened client B, showing (and letting them save) A's record as B.
+  const clientRequestId = useRef(0);
+  const clientRequestAbort = useRef(null);
+
+  const cancelClientRequest = () => {
+    clientRequestId.current += 1;
+    if (clientRequestAbort.current) {
+      clientRequestAbort.current.abort();
+      clientRequestAbort.current = null;
+    }
+  };
 
   useEffect(() => {
     if (showClientForm) {
+      // Back to the list: drop any in-flight client fetch.
+      cancelClientRequest();
+      setIsLoadingClient(false);
       setIsClientSelected(false);
       setSelectedClient(null);
       setSelectedView("facesheet");
@@ -50,6 +67,9 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
 
     setIsInit(false);
   }, [showClientForm]);
+
+  // Leaving the Clients page entirely: drop any in-flight client fetch.
+  useEffect(() => cancelClientRequest, []);
 
   const getAllClients = useAsync({
     promiseFn: fetchAllClientsInit,
@@ -84,6 +104,11 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
   });
 
   const setClient = async (value, view) => {
+    cancelClientRequest();
+    const requestId = clientRequestId.current;
+    const controller = new AbortController();
+    clientRequestAbort.current = controller;
+
     setIsClientSelected(true);
     doToggleClientDisplay(false);
     setSelectedView(view);
@@ -92,10 +117,14 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
     setIsLoadingClient(true);
     try {
       const { data } = await Axios.get(
-        `/api/client/${value._id}/${userObj.homeId}/`
+        `/api/client/${value._id}/${userObj.homeId}/`,
+        { signal: controller.signal }
       );
+      if (requestId !== clientRequestId.current) return;
       setSelectedClient(data);
     } catch (e) {
+      // Superseded or cancelled - a newer open/Back owns the state now.
+      if (requestId !== clientRequestId.current) return;
       // Don't fall back to the summary record: opening the Face Sheet with
       // only a few fields filled in and then saving would blank out the
       // rest of the real record.
@@ -103,7 +132,10 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
         e.response?.data?.message || "Error loading this client"
       );
     } finally {
-      setIsLoadingClient(false);
+      if (requestId === clientRequestId.current) {
+        clientRequestAbort.current = null;
+        setIsLoadingClient(false);
+      }
     }
   };
 
