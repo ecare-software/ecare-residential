@@ -11,6 +11,9 @@ const SeriousIncidentReport = require("../../models/SeriousIncidentReport");
 const TreatmentPlan72 = require("../../models/TreatmentPlan72");
 const AwakeNightStaffSignoff = require("../../models/AwakeNightStaffSignoff");
 const NightMonitoring = require("../../models/NightMonitoring");
+const ClothingInventory = require("../../models/ClothingInventory");
+const RoomCheck = require("../../models/RoomCheck");
+const CssrsScreening = require("../../models/CssrsScreening");
 
 const getApprovalFilter = (status) => {
   if (status == "true") {
@@ -176,6 +179,42 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
     console.log(`Error loading TreatmentPlan72 -  ${e}`);
   }
 
+  try {
+    formPromises.push(
+      ClothingInventory.find({
+        homeId: req.params.homeId,
+        approved,
+        ...dateFilter,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading ClothingInventory -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      RoomCheck.find({
+        homeId: req.params.homeId,
+        approved,
+        ...dateFilter,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading RoomCheck -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      CssrsScreening.find({
+        homeId: req.params.homeId,
+        approved,
+        ...dateFilter,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading CssrsScreening -  ${e}`);
+  }
+
   const completedPromisses = await Promise.all(formPromises);
 
   const count = completedPromisses.reduce((acc, formTypePromise) => {
@@ -291,6 +330,36 @@ router.get("/count/:homeId", async (req, res) => {
     );
   } catch (e) {
     console.log(`Error loading TreatmentPlan72 -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      ClothingInventory.find({
+        homeId: req.params.homeId,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading ClothingInventory -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      RoomCheck.find({
+        homeId: req.params.homeId,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading RoomCheck -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      CssrsScreening.find({
+        homeId: req.params.homeId,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading CssrsScreening -  ${e}`);
   }
 
   const completedPromisses = await Promise.all(formPromises);
