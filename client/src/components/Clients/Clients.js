@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useAsync, IfRejected, IfPending, IfFulfilled } from "react-async";
 import "../../App.css";
 import "../LogInContainer/LogInContainer.css";
@@ -7,8 +7,10 @@ import FaceSheet from "../Forms/FaceSheet";
 import FosterChecklist from "./FosterChecklist";
 import { Col } from "react-bootstrap";
 
+// The list only needs names/admission dates; full records (with base64
+// photos) are fetched one at a time when a client is opened.
 const fetchAllClientsInit = async ({ homeId }) => {
-  return await Axios.get(`/api/client/${homeId}`);
+  return await Axios.get(`/api/client/${homeId}?summary=true`);
 };
 
 const doDeleteClient = async ([homeId, clientId, active]) => {
@@ -18,7 +20,7 @@ const doDeleteClient = async ([homeId, clientId, active]) => {
 };
 
 const fetchAllClients = async ([homeId]) => {
-  return await Axios.get(`/api/client/${homeId}`);
+  return await Axios.get(`/api/client/${homeId}?summary=true`);
 };
 
 const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
@@ -29,12 +31,32 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
   const [selectedClient, setSelectedClient] = useState(null);
   const [clients, setClients] = useState([]);
   const [showActive, setShowActive] = useState(true);
+  const [isLoadingClient, setIsLoadingClient] = useState(false);
+  const [clientLoadError, setClientLoadError] = useState(null);
+  // Guards the full-record fetch in setClient. Each open bumps the ID, and
+  // only the response matching the latest ID may touch state - otherwise a
+  // slow request for client A could land after the user went Back and
+  // opened client B, showing (and letting them save) A's record as B.
+  const clientRequestId = useRef(0);
+  const clientRequestAbort = useRef(null);
+
+  const cancelClientRequest = () => {
+    clientRequestId.current += 1;
+    if (clientRequestAbort.current) {
+      clientRequestAbort.current.abort();
+      clientRequestAbort.current = null;
+    }
+  };
 
   useEffect(() => {
     if (showClientForm) {
+      // Back to the list: drop any in-flight client fetch.
+      cancelClientRequest();
+      setIsLoadingClient(false);
       setIsClientSelected(false);
       setSelectedClient(null);
       setSelectedView("facesheet");
+      setClientLoadError(null);
     }
 
     setShowClients(showClientForm);
@@ -45,6 +67,9 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
 
     setIsInit(false);
   }, [showClientForm]);
+
+  // Leaving the Clients page entirely: drop any in-flight client fetch.
+  useEffect(() => cancelClientRequest, []);
 
   const getAllClients = useAsync({
     promiseFn: fetchAllClientsInit,
@@ -78,11 +103,40 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
     },
   });
 
-  const setClient = (value, view) => {
+  const setClient = async (value, view) => {
+    cancelClientRequest();
+    const requestId = clientRequestId.current;
+    const controller = new AbortController();
+    clientRequestAbort.current = controller;
+
     setIsClientSelected(true);
     doToggleClientDisplay(false);
-    setSelectedClient(value);
     setSelectedView(view);
+    setSelectedClient(null);
+    setClientLoadError(null);
+    setIsLoadingClient(true);
+    try {
+      const { data } = await Axios.get(
+        `/api/client/${value._id}/${userObj.homeId}/`,
+        { signal: controller.signal }
+      );
+      if (requestId !== clientRequestId.current) return;
+      setSelectedClient(data);
+    } catch (e) {
+      // Superseded or cancelled - a newer open/Back owns the state now.
+      if (requestId !== clientRequestId.current) return;
+      // Don't fall back to the summary record: opening the Face Sheet with
+      // only a few fields filled in and then saving would blank out the
+      // rest of the real record.
+      setClientLoadError(
+        e.response?.data?.message || "Error loading this client"
+      );
+    } finally {
+      if (requestId === clientRequestId.current) {
+        clientRequestAbort.current = null;
+        setIsLoadingClient(false);
+      }
+    }
   };
 
   const deleteClientCall = async (value, active) => {
@@ -104,6 +158,13 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
     }
   };
 
+  // Fixed column widths (out of 12), shared by the header and every row so
+  // they line up - equal-width Cols let the wide Actions buttons push the
+  // row's other cells out of alignment with the header.
+  const colWidths = showActive
+    ? { actions: 5, name: 4, admission: 3 }
+    : { actions: 5, name: 3, admission: 2, discharge: 2 };
+
   if (showClients) {
     return (
       <div className="formCompNoBg">
@@ -112,7 +173,7 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
         </div>
         <div className="formFieldsMobile">
           <div style={{ height: "25px" }}>
-            <IfPending>
+            <IfPending state={getAllClients}>
               <h4>Loading...</h4>
             </IfPending>
             <IfFulfilled state={getAllClients}>
@@ -146,19 +207,28 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
             </button>
           </div>
           <div className="form-group logInInputField d-flex mt-3 border-bottom">
-            <Col className="control-label">
+            <Col xs={colWidths.actions} className="control-label">
                <label style={{ fontWeight: "bold" }}>Actions</label>
             </Col>
-            <Col className="control-label">
+            <Col xs={colWidths.name} className="control-label">
               <label>Name</label>
             </Col>
-            <Col>
+            <Col xs={colWidths.admission}>
               <label className="control-label">Date of Admission</label>
             </Col>
+            {!showActive && (
+              <Col xs={colWidths.discharge}>
+                <label className="control-label">Discharge Date</label>
+              </Col>
+            )}
           </div>
           {visibleClients.map((client) => (
             <div className="form-group logInInputField d-flex mt-3" key={client._id}>
-              <Col className="control-label d-flex">
+              <Col
+                xs={colWidths.actions}
+                className="control-label d-flex"
+                style={{ flexWrap: "wrap" }}
+              >
                 <button
                   className="btn btn-light extraInfoButton"
                   onClick={() => {
@@ -192,14 +262,21 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
                   </span>
                 </button>
               </Col>
-              <Col className="control-label">
+              <Col xs={colWidths.name} className="control-label">
                 <label>{client.childMeta_name}</label>
               </Col>
-              <Col>
+              <Col xs={colWidths.admission}>
                 <label className="control-label">
                   {client.childMeta_dateOfAdmission}
                 </label>
               </Col>
+              {!showActive && (
+                <Col xs={colWidths.discharge}>
+                  <label className="control-label">
+                    {client.childMeta_dischargeDate}
+                  </label>
+                </Col>
+              )}
             </div>
           ))}
         </div>
@@ -217,7 +294,10 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
         <IfPending state={getAllClients}>
           <p>Loading...</p>
         </IfPending>
+        {isLoadingClient && <p>Loading...</p>}
+        {clientLoadError && <p>{clientLoadError}</p>}
         <IfFulfilled state={getAllClients}>
+          {!isLoadingClient && !clientLoadError && (
           <>
             {selectedView === "facesheet" && (
               <FaceSheet
@@ -236,6 +316,7 @@ const Clients = ({ showClientForm, userObj, doToggleClientDisplay }) => {
               />
             )}
           </>
+          )}
         </IfFulfilled>
       </div>
     );
