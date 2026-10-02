@@ -126,3 +126,12 @@
 /* stupid iphone 5 */
 @media only screen and (max-width: 361px) {
 }
+
+/* Unread posts: maroon outline alongside the NEW badge. Two-class selector
+   so it overrides the per-breakpoint .MessagePost borders above. */
+.MessagePost.MessagePostNew {
+  border: 2px solid maroon;
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 8px;
+}

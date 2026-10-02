@@ -110,6 +110,35 @@ const requireFaceSheetEditAccess = async (req, res, next) => {
   }
 };
 
+// Read access to client records (full Face Sheets: SSN, Medicaid/CPS
+// numbers, photo). Requires the authToken cookie, and the URL's homeId must
+// match the authenticated user's own homeId (looked up fresh). Handlers
+// still query by req.authUser.homeId, never the URL value.
+const requireSameHomeReader = async (req, res, next) => {
+  const decoded = verifyAuthToken(req.cookies?.authToken);
+  if (!decoded) {
+    return res
+      .status(401)
+      .json({ success: false, message: "Not authenticated" });
+  }
+
+  try {
+    const user = await User.findOne({ email: decoded.email });
+    if (!user || req.params.homeId !== user.homeId) {
+      return res.status(403).json({
+        success: false,
+        message: "You do not have permission to view these clients",
+      });
+    }
+    req.authUser = user;
+    next();
+  } catch (e) {
+    res
+      .status(500)
+      .json({ success: false, message: "Error verifying permissions" });
+  }
+};
+
 const validateFaceSheetFields = (req, res, next) => {
   if (isActiveOnlyToggle(req)) {
     return next();
@@ -217,21 +246,40 @@ router.post(
 );
 
 // Get single client by ID
-router.get("/:clientId/:homeId/", (req, res) => {
-  Client.findById({ _id: req.params.clientId })
-    .then((client) => res.json(client))
-    .catch((err) => res.status(404).json({ success: false }));
+router.get("/:clientId/:homeId/", requireSameHomeReader, async (req, res) => {
+  try {
+    const client = await Client.findOne({
+      _id: req.params.clientId,
+      homeId: req.authUser.homeId,
+    });
+    if (!client) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Client not found" });
+    }
+    res.json(client);
+  } catch (e) {
+    // Malformed clientId (CastError) lands here too.
+    res.status(404).json({ success: false, message: "Client not found" });
+  }
 });
 
 // Get all clients in a home
-router.get("/:homeId", (req, res) => {
+router.get("/:homeId", requireSameHomeReader, (req, res) => {
   const activeFilter = req.query.active;
-  const filter = { homeId: req.params.homeId };
+  const filter = { homeId: req.authUser.homeId };
   if (activeFilter) {
     filter.active = true;
   }
-  Client.find(filter)
+  // ?summary=true returns only the fields the Manage Clients list renders.
+  // Full records carry childMeta_photo as a base64 data URL, which made the
+  // list payload grow with every photo uploaded.
+  const projection = req.query.summary
+    ? "childMeta_name childMeta_dateOfAdmission childMeta_dischargeDate active homeId"
+    : null;
+  Client.find(filter, projection)
     .sort({ childMeta_name: -1 })
+    .lean()
     .exec()
     .then((clients) => res.json(clients))
     .catch((err) => res.status(404).json({ success: false }));
