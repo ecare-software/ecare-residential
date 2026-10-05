@@ -580,6 +580,23 @@ class NavBar extends React.Component {
                     Room Check
                   </NavDropdown.Item>
                   <NavDropdown.Item
+                    eventKey="link-886"
+                    onClick={() => {
+                      document
+                        .querySelector(".Submit-a-Form-nav > a")
+                        .classList.add("active");
+                      document
+                        .querySelector(".Manage-Account-nav > a")
+                        .classList.remove("active");
+                      document
+                        .querySelector(".Training-nav > a")
+                        .classList.remove("active");
+                      this.props.toggleDisplay("SearchLog");
+                    }}
+                  >
+                    Search Log
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
                     eventKey="link-885"
                     onClick={() => {
                       document

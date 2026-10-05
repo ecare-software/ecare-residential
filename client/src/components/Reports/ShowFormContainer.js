@@ -24,6 +24,7 @@ import DailyProgressTwo from "../Forms/DailyProgressTwo";
 import MedicationLog from "../Forms/MedicationLog";
 import ClothingInventory from "../Forms/ClothingInventory";
 import RoomCheck from "../Forms/RoomCheck";
+import SearchLog from "../Forms/SearchLog";
 import CssrsScreening from "../Forms/CssrsScreening";
 import "../../App.css";
 import FormActionButtons from "../Common/FormActionButtons";
@@ -739,6 +740,8 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
       droute = "clothingInventory";
     } else if (name === "Room Check") {
       droute = "roomCheck";
+    } else if (name === "Search Log") {
+      droute = "searchLog";
     } else if (name === "C-SSRS Screening") {
       droute = "cssrsScreening";
     }
@@ -944,6 +947,17 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     if (name === "Room Check") {
       return (
         <RoomCheck
+          valuesSet="true"
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    }
+
+    if (name === "Search Log") {
+      return (
+        <SearchLog
           valuesSet="true"
           userObj={userObj}
           formData={updatedFormData}

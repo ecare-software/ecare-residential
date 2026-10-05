@@ -244,6 +244,7 @@ export class FormReports extends Component {
               "Medication Log",
               "Monthly Clothing Inventory",
               "Room Check",
+              "Search Log",
               "C-SSRS Screening"
             ],
           });
@@ -257,7 +258,7 @@ export class FormReports extends Component {
     });
   };
 
-  // These routes (clothingInventory, roomCheck, cssrsScreening) require a verified login
+  // These routes (clothingInventory, roomCheck, searchLog, cssrsScreening) require a verified login
   // (unlike the older form routes' list GETs), so a failure here is
   // recoverable - fall back to no results rather than letting one rejected
   // request fail the whole Axios.all.
@@ -297,6 +298,7 @@ export class FormReports extends Component {
       ),
       this.getAuthedForms("clothingInventory", "Monthly Clothing Inventory", "none", fortyFiveDaysAgo, "none", "none", "false"),
       this.getAuthedForms("roomCheck", "Room Check", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("searchLog", "Search Log", "none", fortyFiveDaysAgo, "none", "none", "false"),
       this.getAuthedForms("cssrsScreening", "C-SSRS Screening", "none", fortyFiveDaysAgo, "none", "none", "false"),
       Axios.get(
         "/api/dailyProgressAndActivity/" +
@@ -476,6 +478,7 @@ export class FormReports extends Component {
       ),
       this.getAuthedForms("clothingInventory", "Monthly Clothing Inventory", "none", fortyFiveDaysAgo, "none", "none", "false"),
       this.getAuthedForms("roomCheck", "Room Check", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("searchLog", "Search Log", "none", fortyFiveDaysAgo, "none", "none", "false"),
       this.getAuthedForms("cssrsScreening", "C-SSRS Screening", "none", fortyFiveDaysAgo, "none", "none", "false"),
       Axios.get(
         "/api/incidentReport/" +
@@ -647,6 +650,19 @@ export class FormReports extends Component {
             this.getAuthedForms(
               "roomCheck",
               "Room Check",
+              searchString,
+              submittedAfter,
+              submittedBefore,
+              submittedByA,
+              approved
+            )
+          );
+        }
+        if (formName === "Search Log") {
+          formRequests.push(
+            this.getAuthedForms(
+              "searchLog",
+              "Search Log",
               searchString,
               submittedAfter,
               submittedBefore,
@@ -997,6 +1013,15 @@ export class FormReports extends Component {
         this.getAuthedForms(
           "roomCheck",
           "Room Check",
+          searchString,
+          submittedAfter,
+          submittedBefore,
+          submittedByA,
+          approved
+        ),
+        this.getAuthedForms(
+          "searchLog",
+          "Search Log",
           searchString,
           submittedAfter,
           submittedBefore,

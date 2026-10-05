@@ -25,6 +25,7 @@ import Documents from './components/Documents/Documents';
 import IllnessInjury from './components/Forms/IllnessInjury';
 import ClothingInventory from './components/Forms/ClothingInventory';
 import RoomCheck from './components/Forms/RoomCheck';
+import SearchLog from './components/Forms/SearchLog';
 import CssrsScreening from './components/Forms/CssrsScreening';
 import AdmissionAssessment from './components/Forms/AdmissionAssessment';
 import BodyCheck from './components/Forms/BodyCheck';
@@ -1042,6 +1043,18 @@ function ToggleScreen({
     );
   }
 
+  if (name === 'SearchLog') {
+    return (
+      <div>
+        <SearchLog
+          valuesSet={false}
+          userObj={appState.userObj}
+          id='searchLog'
+        />
+      </div>
+    );
+  }
+
   if (name === 'CssrsScreening') {
     return (
       <div>
@@ -1272,6 +1285,20 @@ function DisplayExtra({
           <p className='extraInfoNavSubTitle'>
             Record a check of a child's room or unit: what was found, whether
             follow-up is needed, and the child's signature.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === 'SearchLog') {
+    return (
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
+            Log a search of a child or their belongings: when and where it
+            happened, why, who conducted it, what was found, and what was done
+            with it.
           </p>
         </div>
       </div>

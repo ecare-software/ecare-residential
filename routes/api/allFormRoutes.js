@@ -13,6 +13,7 @@ const AwakeNightStaffSignoff = require("../../models/AwakeNightStaffSignoff");
 const NightMonitoring = require("../../models/NightMonitoring");
 const ClothingInventory = require("../../models/ClothingInventory");
 const RoomCheck = require("../../models/RoomCheck");
+const SearchLog = require("../../models/SearchLog");
 const CssrsScreening = require("../../models/CssrsScreening");
 
 const getApprovalFilter = (status) => {
@@ -205,6 +206,18 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
 
   try {
     formPromises.push(
+      SearchLog.find({
+        homeId: req.params.homeId,
+        approved,
+        ...dateFilter,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading SearchLog -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
       CssrsScreening.find({
         homeId: req.params.homeId,
         approved,
@@ -350,6 +363,16 @@ router.get("/count/:homeId", async (req, res) => {
     );
   } catch (e) {
     console.log(`Error loading RoomCheck -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      SearchLog.find({
+        homeId: req.params.homeId,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading SearchLog -  ${e}`);
   }
 
   try {

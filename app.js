@@ -43,6 +43,7 @@ const fosterChecklist = require("./routes/api/fosterChecklist");
 const trainingAttendance = require("./routes/api/trainingAttendance");
 const clothingInventory = require("./routes/api/clothingInventory");
 const roomCheck = require("./routes/api/roomCheck");
+const searchLog = require("./routes/api/searchLog");
 const cssrsScreening = require("./routes/api/cssrsScreening");
 
 
@@ -145,6 +146,7 @@ app.use("/api/fosterChecklist", fosterChecklist);
 app.use("/api/trainingAttendance", trainingAttendance);
 app.use("/api/clothingInventory", clothingInventory);
 app.use("/api/roomCheck", roomCheck);
+app.use("/api/searchLog", searchLog);
 app.use("/api/cssrsScreening", cssrsScreening);
 
 // catch 404 and forward to error handler
