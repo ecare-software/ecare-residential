@@ -1,36 +1,33 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const SearchLogSchema = new Schema({
+const ClientRefusalSchema = new Schema({
   childMeta_name: {
     type: String,
   },
   clientId: {
     type: String,
   },
-  // datetime-local value ("YYYY-MM-DDTHH:mm") - when the search happened,
-  // which can differ from createDate (when the record was entered).
-  searchDateTime: {
+  // What the child refused (medication, meal, appointment, school, chore,
+  // hygiene, ...).
+  refusedItem: {
     type: String,
   },
-  location: {
+  // datetime-local value ("YYYY-MM-DDTHH:mm") - when the refusal happened,
+  // which can differ from createDate (when the record was entered).
+  refusalDateTime: {
     type: String,
   },
   reason: {
     type: String,
   },
   // Free text, prefilled with the submitting user's name - the staff member
-  // who conducted the search isn't always the one entering it.
+  // who witnessed/documented the refusal isn't always the one entering it.
   // createdBy/createdByName remain the audit record of who submitted it.
-  staffConducting: {
+  staffDocumenting: {
     type: String,
   },
-  itemsFound: {
-    type: String,
-  },
-  // What was done with anything found (returned, confiscated, disposed of,
-  // turned over to law enforcement, ...).
-  disposition: {
+  followUpAction: {
     type: String,
   },
 
@@ -101,4 +98,4 @@ const SearchLogSchema = new Schema({
   },
 });
 
-module.exports = SearchLog = mongoose.model("searchLog", SearchLogSchema);
+module.exports = ClientRefusal = mongoose.model("clientRefusal", ClientRefusalSchema);

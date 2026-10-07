@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const SearchLog = require("../../models/SearchLog");
+const ClientRefusal = require("../../models/ClientRefusal");
 const {
   resolveHomeScopedUser,
   hasValidSignature,
@@ -25,29 +25,28 @@ const {
 // Mirrors routes/api/roomCheck.js - same auth, home scoping, field
 // whitelist, and admin-only approval/delete; only the form fields differ.
 
-const FORM_TYPE = "Search Log";
+const FORM_TYPE = "Client Refusal";
 const STATUSES = ["IN PROGRESS", "COMPLETED"];
 
 const NOT_ADMIN_APPROVAL_ERROR =
-  "Only an administrator can approve or unapprove a Search Log.";
+  "Only an administrator can approve or unapprove a Client Refusal.";
 const SUBMITTED_LOCKED_ERROR =
-  "This Search Log has been submitted and can only be edited by the staff member who submitted it or an administrator.";
+  "This Client Refusal has been submitted and can only be edited by the staff member who submitted it or an administrator.";
 const CLIENT_REQUIRED_ERROR = "Please select a client from this home.";
 
-// Required before a Search Log can be COMPLETED (mirrors REQUIRED_FIELDS in
-// client/src/components/Forms/SearchLog.js). Drafts may be partial.
+// Required before a Client Refusal can be COMPLETED (mirrors REQUIRED_FIELDS in
+// client/src/components/Forms/ClientRefusal.js). Drafts may be partial.
 const REQUIRED_FIELDS = [
-  { key: "searchDateTime", label: "Date/Time of Search" },
-  { key: "location", label: "Location" },
-  { key: "reason", label: "Reason for Search" },
-  { key: "staffConducting", label: "Staff Conducting Search" },
-  { key: "itemsFound", label: "Items Found" },
-  { key: "disposition", label: "Disposition" },
+  { key: "refusedItem", label: "What Was Refused" },
+  { key: "refusalDateTime", label: "Date/Time of Refusal" },
+  { key: "reason", label: "Reason for Refusal" },
+  { key: "staffDocumenting", label: "Staff Member Documenting" },
+  { key: "followUpAction", label: "Follow-Up Action" },
 ];
-const DATETIME_FIELD = { key: "searchDateTime", label: "Date/Time of Search" };
+const DATETIME_FIELD = { key: "refusalDateTime", label: "Date/Time of Refusal" };
 
 const APPROVED_LOCKED_ERROR =
-  "This Search Log has been approved and can only be edited by an administrator.";
+  "This Client Refusal has been approved and can only be edited by an administrator.";
 
 // Every field a client may write on create/edit. Anything else in the
 // body (createdBy, homeId, approvedBy*, ...) is ignored rather than
@@ -56,16 +55,15 @@ const APPROVED_LOCKED_ERROR =
 const EDITABLE_FIELDS = [
   "childMeta_name",
   "clientId",
-  "searchDateTime",
-  "location",
+  "refusedItem",
+  "refusalDateTime",
   "reason",
-  "staffConducting",
-  "itemsFound",
-  "disposition",
+  "staffDocumenting",
+  "followUpAction",
 ];
 
 // Free-text fields long enough to need more than toText's default limit.
-const LONG_TEXT_FIELDS = ["reason", "itemsFound", "disposition"];
+const LONG_TEXT_FIELDS = ["reason", "followUpAction"];
 
 function toText(value, maxLength = 200) {
   return value === undefined || value === null ? "" : String(value).slice(0, maxLength);
@@ -150,7 +148,7 @@ router.post("/", async (req, res) => {
       }
     }
 
-    const newSearchLog = new SearchLog({
+    const newClientRefusal = new ClientRefusal({
       ...fields,
       // Identity and tenant come from the verified login, never the body.
       createdBy: authUser.email,
@@ -164,31 +162,31 @@ router.post("/", async (req, res) => {
       approved: false,
     });
 
-    const saved = await newSearchLog.save();
+    const saved = await newClientRefusal.save();
     res.json(saved);
   } catch (err) {
-    console.error("Error creating Search Log:", err);
-    res.status(500).json({ error: "Failed to create Search Log" });
+    console.error("Error creating Client Refusal:", err);
+    res.status(500).json({ error: "Failed to create Client Refusal" });
   }
 });
 
 // Unlike the older form routes' list GETs, these require a verified login
 // and scope to that user's own home - the URL's homeId is only checked
-// against it, never trusted. (What was searched for and found on a child
-// is as sensitive as anything else on their file.)
+// against it, never trusted. (A child's refusals - of medication, care,
+// meals - are as sensitive as anything else on their file.)
 router.get("/:homeId", async (req, res) => {
   const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.params.homeId);
   if (errorResponse) {
     return res.status(errorResponse.status).json(errorResponse.body);
   }
   try {
-    const searchLogs = await SearchLog.find({ homeId: authUser.homeId })
+    const clientRefusals = await ClientRefusal.find({ homeId: authUser.homeId })
       .sort({ createDate: -1 })
       .setOptions({ allowDiskUse: true })
       .exec();
-    res.json(searchLogs);
+    res.json(clientRefusals);
   } catch (err) {
-    res.status(500).json({ error: "Error loading Search Logs" });
+    res.status(500).json({ error: "Error loading Client Refusals" });
   }
 });
 
@@ -229,14 +227,14 @@ router.get(
         query.approved = approved === "true";
       }
 
-      const searchLogs = await SearchLog.find(query)
+      const clientRefusals = await ClientRefusal.find(query)
         .sort({ createDate: -1 })
         .setOptions({ allowDiskUse: true })
         .exec();
-      res.json(searchLogs);
+      res.json(clientRefusals);
     } catch (err) {
-      console.error("Error searching Search Logs:", err);
-      res.status(500).json({ error: "Error loading Search Logs" });
+      console.error("Error searching Client Refusals:", err);
+      res.status(500).json({ error: "Error loading Client Refusals" });
     }
   }
 );
@@ -253,7 +251,7 @@ router.put("/:homeId/:formId/", async (req, res) => {
       return res.status(400).json({ error: MONGO_OPERATOR_ERROR });
     }
 
-    const existing = await SearchLog.findOne({
+    const existing = await ClientRefusal.findOne({
       _id: req.params.formId,
       homeId: authUser.homeId,
     });
@@ -285,7 +283,7 @@ router.put("/:homeId/:formId/", async (req, res) => {
       Object.assign(updates, client);
     }
 
-    // A submitted Search Log stays submitted - "Finish Later" is only for
+    // A submitted Client Refusal stays submitted - "Finish Later" is only for
     // drafts, so COMPLETED never reverts to IN PROGRESS.
     if (existing.status === "COMPLETED") {
       updates.status = "COMPLETED";
@@ -342,7 +340,7 @@ router.put("/:homeId/:formId/", async (req, res) => {
       }
     }
 
-    const updated = await SearchLog.findOneAndUpdate(
+    const updated = await ClientRefusal.findOneAndUpdate(
       { _id: req.params.formId, homeId: authUser.homeId },
       { $set: updates },
       { new: true }
@@ -354,8 +352,8 @@ router.put("/:homeId/:formId/", async (req, res) => {
   } catch (err) {
     // Also catches a malformed :formId (CastError) - see the matching
     // comment in routes/api/bodyCheck.js.
-    console.error("Error updating Search Log:", err);
-    res.status(500).json({ error: "Failed to update Search Log" });
+    console.error("Error updating Client Refusal:", err);
+    res.status(500).json({ error: "Failed to update Client Refusal" });
   }
 });
 
@@ -370,14 +368,14 @@ router.delete("/:homeId/:formId/", async (req, res) => {
     if (!isAdminUser(authUser)) {
       return res.status(403).json({ error: "Only an administrator can delete a form." });
     }
-    const data = await SearchLog.deleteOne({
+    const data = await ClientRefusal.deleteOne({
       _id: req.params.formId,
       homeId: authUser.homeId,
     });
     res.json(data);
   } catch (err) {
-    console.error("Error deleting Search Log:", err);
-    res.status(500).json({ error: "Failed to delete Search Log" });
+    console.error("Error deleting Client Refusal:", err);
+    res.status(500).json({ error: "Failed to delete Client Refusal" });
   }
 });
 

@@ -25,6 +25,8 @@ import MedicationLog from "../Forms/MedicationLog";
 import ClothingInventory from "../Forms/ClothingInventory";
 import RoomCheck from "../Forms/RoomCheck";
 import SearchLog from "../Forms/SearchLog";
+import ClientRefusal from "../Forms/ClientRefusal";
+import MedicationDestruction from "../Forms/MedicationDestruction";
 import CssrsScreening from "../Forms/CssrsScreening";
 import "../../App.css";
 import FormActionButtons from "../Common/FormActionButtons";
@@ -422,7 +424,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj, liveSignatureSecti
       <div className="d-flex align-items-center hide-on-print">
         <h6 style={{ fontWeight: 400, marginRight: 5 }}>Last Updated</h6>{" "}
         <h6 style={{ fontWeight: 300 }}>
-          {` ${formData.createdByName}, ${formData.lastEditDate
+          {` ${formData.lastEditedByName || formData.createdByName}, ${formData.lastEditDate
             ? `${new Date(formData.lastEditDate).toLocaleDateString()}`
             : ""
             }`}
@@ -742,6 +744,10 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
       droute = "roomCheck";
     } else if (name === "Search Log") {
       droute = "searchLog";
+    } else if (name === "Client Refusal") {
+      droute = "clientRefusal";
+    } else if (name === "Medication Destruction") {
+      droute = "medicationDestruction";
     } else if (name === "C-SSRS Screening") {
       droute = "cssrsScreening";
     }
@@ -958,6 +964,28 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     if (name === "Search Log") {
       return (
         <SearchLog
+          valuesSet="true"
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    }
+
+    if (name === "Client Refusal") {
+      return (
+        <ClientRefusal
+          valuesSet="true"
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    }
+
+    if (name === "Medication Destruction") {
+      return (
+        <MedicationDestruction
           valuesSet="true"
           userObj={userObj}
           formData={updatedFormData}

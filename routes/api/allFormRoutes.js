@@ -14,6 +14,8 @@ const NightMonitoring = require("../../models/NightMonitoring");
 const ClothingInventory = require("../../models/ClothingInventory");
 const RoomCheck = require("../../models/RoomCheck");
 const SearchLog = require("../../models/SearchLog");
+const ClientRefusal = require("../../models/ClientRefusal");
+const MedicationDestruction = require("../../models/MedicationDestruction");
 const CssrsScreening = require("../../models/CssrsScreening");
 
 const getApprovalFilter = (status) => {
@@ -218,6 +220,30 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
 
   try {
     formPromises.push(
+      ClientRefusal.find({
+        homeId: req.params.homeId,
+        approved,
+        ...dateFilter,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading ClientRefusal -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      MedicationDestruction.find({
+        homeId: req.params.homeId,
+        approved,
+        ...dateFilter,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading MedicationDestruction -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
       CssrsScreening.find({
         homeId: req.params.homeId,
         approved,
@@ -373,6 +399,26 @@ router.get("/count/:homeId", async (req, res) => {
     );
   } catch (e) {
     console.log(`Error loading SearchLog -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      ClientRefusal.find({
+        homeId: req.params.homeId,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading ClientRefusal -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      MedicationDestruction.find({
+        homeId: req.params.homeId,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading MedicationDestruction -  ${e}`);
   }
 
   try {

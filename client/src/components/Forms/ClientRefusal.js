@@ -14,8 +14,8 @@ import { isAdminUser } from "../../utils/AdminReportingRoles";
 import TextareaAutosize from "react-textarea-autosize";
 import { Container, Row, Col } from "react-bootstrap";
 
-const FORM_TITLE = "Search Log";
-const API_ROUTE = "/api/searchLog";
+const FORM_TITLE = "Client Refusal";
+const API_ROUTE = "/api/clientRefusal";
 const AUTO_SAVE_MS = 7000;
 
 const localNowIso = () =>
@@ -26,15 +26,14 @@ const localNowInput = () => localNowIso().slice(0, 16);
 
 // Required before Submit (Finish Later saves whatever is there).
 const REQUIRED_FIELDS = [
-  { key: "searchDateTime", label: "Date/Time of Search" },
-  { key: "location", label: "Location" },
-  { key: "reason", label: "Reason for Search" },
-  { key: "staffConducting", label: "Staff Conducting Search" },
-  { key: "itemsFound", label: "Items Found" },
-  { key: "disposition", label: "Disposition" },
+  { key: "refusedItem", label: "What Was Refused" },
+  { key: "refusalDateTime", label: "Date/Time of Refusal" },
+  { key: "reason", label: "Reason for Refusal" },
+  { key: "staffDocumenting", label: "Staff Member Documenting" },
+  { key: "followUpAction", label: "Follow-Up Action" },
 ];
 
-class SearchLog extends Component {
+class ClientRefusal extends Component {
   constructor(props) {
     super(props);
     this.autoSaveInterval = null;
@@ -60,16 +59,15 @@ class SearchLog extends Component {
     lastEditDate: null,
     childMeta_name: "",
     clientId: "",
-    searchDateTime: localNowInput(),
-    location: "",
+    refusedItem: "",
+    refusalDateTime: localNowInput(),
     reason: "",
     // Prefilled with whoever is entering the form; editable, since the
-    // staff member who conducted the search isn't always the one entering it.
-    staffConducting: this.props.userObj
+    // staff member who documented the refusal isn't always the one entering it.
+    staffDocumenting: this.props.userObj
       ? `${this.props.userObj.firstName} ${this.props.userObj.lastName}`
       : "",
-    itemsFound: "",
-    disposition: "",
+    followUpAction: "",
     createDate: localNowIso(),
     status: "IN PROGRESS",
     childSelected: false,
@@ -113,12 +111,11 @@ class SearchLog extends Component {
     homeId: this.state.homeId,
     childMeta_name: this.state.childMeta_name,
     clientId: this.state.clientId,
-    searchDateTime: this.state.searchDateTime,
-    location: this.state.location,
+    refusedItem: this.state.refusedItem,
+    refusalDateTime: this.state.refusalDateTime,
     reason: this.state.reason,
-    staffConducting: this.state.staffConducting,
-    itemsFound: this.state.itemsFound,
-    disposition: this.state.disposition,
+    staffDocumenting: this.state.staffDocumenting,
+    followUpAction: this.state.followUpAction,
     createDate: this.state.createDate,
     status,
   });
@@ -173,7 +170,7 @@ class SearchLog extends Component {
       window.scrollTo(0, 0);
       this.toggleSuccessAlert();
       if (!this.props.valuesSet) {
-        // A fresh blank form for the next search - drop the saved record
+        // A fresh blank form for the next refusal - drop the saved record
         // and restart autosave from scratch.
         this.autoSaveCreated = false;
         this.resetForm();
@@ -359,11 +356,25 @@ class SearchLog extends Component {
         <Row>
           <Col md={4} className="print-column">
             <div className="form-group logInInputField">
-              <label className="control-label">Date/Time of Search</label>{" "}
+              <label className="control-label">What Was Refused</label>{" "}
               <input
-                id="searchDateTime"
+                id="refusedItem"
                 onChange={this.handleFieldInput}
-                value={this.state.searchDateTime}
+                value={this.state.refusedItem}
+                className="form-control"
+                type="text"
+                placeholder="e.g. medication, meal, school, appointment"
+                disabled={disabled}
+              />
+            </div>
+          </Col>
+          <Col md={4} className="print-column">
+            <div className="form-group logInInputField">
+              <label className="control-label">Date/Time of Refusal</label>{" "}
+              <input
+                id="refusalDateTime"
+                onChange={this.handleFieldInput}
+                value={this.state.refusalDateTime}
                 className="form-control"
                 type="datetime-local"
                 disabled={disabled}
@@ -372,24 +383,11 @@ class SearchLog extends Component {
           </Col>
           <Col md={4} className="print-column">
             <div className="form-group logInInputField">
-              <label className="control-label">Location</label>{" "}
+              <label className="control-label">Staff Member Documenting</label>{" "}
               <input
-                id="location"
+                id="staffDocumenting"
                 onChange={this.handleFieldInput}
-                value={this.state.location}
-                className="form-control"
-                type="text"
-                disabled={disabled}
-              />
-            </div>
-          </Col>
-          <Col md={4} className="print-column">
-            <div className="form-group logInInputField">
-              <label className="control-label">Staff Conducting Search</label>{" "}
-              <input
-                id="staffConducting"
-                onChange={this.handleFieldInput}
-                value={this.state.staffConducting}
+                value={this.state.staffDocumenting}
                 className="form-control"
                 type="text"
                 disabled={disabled}
@@ -400,43 +398,30 @@ class SearchLog extends Component {
         <Row>
           <Col md={12} className="print-column">
             <div className="form-group logInInputField">
-              <label className="control-label">Reason for Search</label>{" "}
+              <label className="control-label">Reason for Refusal</label>{" "}
               <TextareaAutosize
                 id="reason"
                 onChange={this.handleFieldInput}
                 value={this.state.reason}
                 className="form-control"
                 minRows={3}
+                placeholder="The child's stated reason, in their words where possible"
                 disabled={disabled}
               />
             </div>
           </Col>
         </Row>
         <Row>
-          <Col md={6} className="print-column">
+          <Col md={12} className="print-column">
             <div className="form-group logInInputField">
-              <label className="control-label">Items Found</label>{" "}
+              <label className="control-label">Follow-Up Action</label>{" "}
               <TextareaAutosize
-                id="itemsFound"
+                id="followUpAction"
                 onChange={this.handleFieldInput}
-                value={this.state.itemsFound}
+                value={this.state.followUpAction}
                 className="form-control"
                 minRows={3}
-                placeholder='Enter "None" if nothing was found'
-                disabled={disabled}
-              />
-            </div>
-          </Col>
-          <Col md={6} className="print-column">
-            <div className="form-group logInInputField">
-              <label className="control-label">Disposition</label>{" "}
-              <TextareaAutosize
-                id="disposition"
-                onChange={this.handleFieldInput}
-                value={this.state.disposition}
-                className="form-control"
-                minRows={3}
-                placeholder="e.g. returned to youth, confiscated and stored, disposed of, turned over to law enforcement"
+                placeholder="e.g. re-offered later, nurse/prescriber notified, caseworker notified"
                 disabled={disabled}
               />
             </div>
@@ -585,4 +570,4 @@ class SearchLog extends Component {
   }
 }
 
-export default SearchLog;
+export default ClientRefusal;

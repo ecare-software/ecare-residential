@@ -26,6 +26,8 @@ import IllnessInjury from './components/Forms/IllnessInjury';
 import ClothingInventory from './components/Forms/ClothingInventory';
 import RoomCheck from './components/Forms/RoomCheck';
 import SearchLog from './components/Forms/SearchLog';
+import ClientRefusal from './components/Forms/ClientRefusal';
+import MedicationDestruction from './components/Forms/MedicationDestruction';
 import CssrsScreening from './components/Forms/CssrsScreening';
 import AdmissionAssessment from './components/Forms/AdmissionAssessment';
 import BodyCheck from './components/Forms/BodyCheck';
@@ -1055,6 +1057,30 @@ function ToggleScreen({
     );
   }
 
+  if (name === 'ClientRefusal') {
+    return (
+      <div>
+        <ClientRefusal
+          valuesSet={false}
+          userObj={appState.userObj}
+          id='clientRefusal'
+        />
+      </div>
+    );
+  }
+
+  if (name === 'MedicationDestruction') {
+    return (
+      <div>
+        <MedicationDestruction
+          valuesSet={false}
+          userObj={appState.userObj}
+          id='medicationDestruction'
+        />
+      </div>
+    );
+  }
+
   if (name === 'CssrsScreening') {
     return (
       <div>
@@ -1299,6 +1325,35 @@ function DisplayExtra({
             Log a search of a child or their belongings: when and where it
             happened, why, who conducted it, what was found, and what was done
             with it.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === 'ClientRefusal') {
+    return (
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
+            Document a child refusing medication, care, meals, school, or
+            another activity: what was refused, when, why, who documented it,
+            and the follow-up action taken.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === 'MedicationDestruction') {
+    return (
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
+            Record the destruction of a child's medication. You sign as
+            witness 1 when you submit; the second staff witness you choose
+            co-signs from their own login. Forms waiting on your signature
+            appear at the top of this page.
           </p>
         </div>
       </div>

@@ -188,6 +188,9 @@ export class FormReports extends Component {
       data = data.reduce((acc, cur) => {
         const formHasUserArray = cur.filter((formType) => {
           return formType.createdBy === this.props.userObj.email || 
+          // Witness 2 needs to find the form they're asked to co-sign.
+          (formType.formType === 'Medication Destruction' &&
+            formType.witness2Id === this.props.userObj._id) ||
           formType.formType == 'Daily Progress Note Two' ||
           formType.formType === 'Medication Log'
         });
@@ -245,6 +248,8 @@ export class FormReports extends Component {
               "Monthly Clothing Inventory",
               "Room Check",
               "Search Log",
+              "Client Refusal",
+              "Medication Destruction",
               "C-SSRS Screening"
             ],
           });
@@ -258,7 +263,8 @@ export class FormReports extends Component {
     });
   };
 
-  // These routes (clothingInventory, roomCheck, searchLog, cssrsScreening) require a verified login
+  // These routes (medication, clothingInventory, roomCheck, searchLog,
+  // clientRefusal, medicationDestruction, cssrsScreening) require a verified login
   // (unlike the older form routes' list GETs), so a failure here is
   // recoverable - fall back to no results rather than letting one rejected
   // request fail the whole Axios.all.
@@ -291,14 +297,12 @@ export class FormReports extends Component {
         this.props.userObj.homeId +
         "/none/" + fortyFiveDaysAgo + "/none/none/false"
       ),
-      Axios.get(
-        "/api/medication/" +
-        this.props.userObj.homeId +
-        "/none/" + fortyFiveDaysAgo + "/none/none/false"
-      ),
+      this.getAuthedForms("medication", "Medication Log", "none", fortyFiveDaysAgo, "none", "none", "false"),
       this.getAuthedForms("clothingInventory", "Monthly Clothing Inventory", "none", fortyFiveDaysAgo, "none", "none", "false"),
       this.getAuthedForms("roomCheck", "Room Check", "none", fortyFiveDaysAgo, "none", "none", "false"),
       this.getAuthedForms("searchLog", "Search Log", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("clientRefusal", "Client Refusal", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("medicationDestruction", "Medication Destruction", "none", fortyFiveDaysAgo, "none", "none", "false"),
       this.getAuthedForms("cssrsScreening", "C-SSRS Screening", "none", fortyFiveDaysAgo, "none", "none", "false"),
       Axios.get(
         "/api/dailyProgressAndActivity/" +
@@ -471,14 +475,12 @@ export class FormReports extends Component {
         this.props.userObj.homeId +
         "/none/" + fortyFiveDaysAgo + "/none/none/false"
       ),
-      Axios.get(
-        "/api/medication/" +
-        this.props.userObj.homeId +
-        "/none/" + fortyFiveDaysAgo + "/none/none/false"
-      ),
+      this.getAuthedForms("medication", "Medication Log", "none", fortyFiveDaysAgo, "none", "none", "false"),
       this.getAuthedForms("clothingInventory", "Monthly Clothing Inventory", "none", fortyFiveDaysAgo, "none", "none", "false"),
       this.getAuthedForms("roomCheck", "Room Check", "none", fortyFiveDaysAgo, "none", "none", "false"),
       this.getAuthedForms("searchLog", "Search Log", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("clientRefusal", "Client Refusal", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("medicationDestruction", "Medication Destruction", "none", fortyFiveDaysAgo, "none", "none", "false"),
       this.getAuthedForms("cssrsScreening", "C-SSRS Screening", "none", fortyFiveDaysAgo, "none", "none", "false"),
       Axios.get(
         "/api/incidentReport/" +
@@ -616,18 +618,13 @@ export class FormReports extends Component {
         }
         if (formName === "Medication Log") {
           formRequests.push(
-            Axios.get(
-              "/api/medication/" +
-              this.props.userObj.homeId +
-              "/" +
-              searchString +
-              "/" +
-              submittedAfter +
-              "/" +
-              submittedBefore +
-              "/" +
-              submittedByA +
-              "/" +
+            this.getAuthedForms(
+              "medication",
+              "Medication Log",
+              searchString,
+              submittedAfter,
+              submittedBefore,
+              submittedByA,
               approved
             )
           );
@@ -663,6 +660,32 @@ export class FormReports extends Component {
             this.getAuthedForms(
               "searchLog",
               "Search Log",
+              searchString,
+              submittedAfter,
+              submittedBefore,
+              submittedByA,
+              approved
+            )
+          );
+        }
+        if (formName === "Client Refusal") {
+          formRequests.push(
+            this.getAuthedForms(
+              "clientRefusal",
+              "Client Refusal",
+              searchString,
+              submittedAfter,
+              submittedBefore,
+              submittedByA,
+              approved
+            )
+          );
+        }
+        if (formName === "Medication Destruction") {
+          formRequests.push(
+            this.getAuthedForms(
+              "medicationDestruction",
+              "Medication Destruction",
               searchString,
               submittedAfter,
               submittedBefore,
@@ -987,18 +1010,13 @@ export class FormReports extends Component {
           "/" +
           approved
         ),
-        Axios.get(
-          "/api/medication/" +
-          this.props.userObj.homeId +
-          "/" +
-          searchString +
-          "/" +
-          submittedAfter +
-          "/" +
-          submittedBefore +
-          "/" +
-          submittedByA +
-          "/" +
+        this.getAuthedForms(
+          "medication",
+          "Medication Log",
+          searchString,
+          submittedAfter,
+          submittedBefore,
+          submittedByA,
           approved
         ),
         this.getAuthedForms(
@@ -1022,6 +1040,24 @@ export class FormReports extends Component {
         this.getAuthedForms(
           "searchLog",
           "Search Log",
+          searchString,
+          submittedAfter,
+          submittedBefore,
+          submittedByA,
+          approved
+        ),
+        this.getAuthedForms(
+          "clientRefusal",
+          "Client Refusal",
+          searchString,
+          submittedAfter,
+          submittedBefore,
+          submittedByA,
+          approved
+        ),
+        this.getAuthedForms(
+          "medicationDestruction",
+          "Medication Destruction",
           searchString,
           submittedAfter,
           submittedBefore,
