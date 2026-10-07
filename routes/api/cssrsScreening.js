@@ -13,6 +13,17 @@ const {
 } = require("../../utils/rejectMongoOperators");
 const { applyCreateDateEdit } = require("../../utils/applyCreateDateEdit");
 const { isAdminUser } = require("../../utils/adminRoles");
+const {
+  resolveHomeClient,
+  submittedFields,
+  canEditForm,
+  lastEditedFields,
+  dateTimeLocalError,
+} = require("../../utils/formIntegrity");
+
+// "Date/time of assessment" is a datetime-local value ("YYYY-MM-DDTHH:mm");
+// completion only checks it's present, so its format is checked here.
+const ASSESSMENT_DATETIME_LABEL = "Date/time of assessment";
 
 // Same auth, home scoping, field whitelist, and admin-only approval/delete
 // as routes/api/clothingInventory.js. On top of that, every save runs the
@@ -46,16 +57,22 @@ const YES_NO_BEHAVIOR_ITEMS = [
   ["suicide", "Suicide"],
 ];
 
+const CLIENT_REQUIRED_ERROR = "Please select a client from this home.";
+const NOT_COMPLETED_APPROVAL_ERROR =
+  "This C-SSRS Screening is still a draft. It can only be approved after it has been submitted.";
 const NOT_ADMIN_APPROVAL_ERROR =
   "Only an administrator can approve or unapprove a C-SSRS Screening.";
+const SUBMITTED_LOCKED_ERROR =
+  "This C-SSRS Screening has been submitted and can only be edited by the staff member who submitted it or an administrator.";
 const APPROVED_LOCKED_ERROR =
   "This C-SSRS Screening has been approved and can only be edited by an administrator.";
 
 // Every field a client may write. Derived fields (mostSevereIdeationType,
 // riskFlags) and identity/approval fields are never taken from the body.
+// clientId and childMeta_name are deliberately absent: the client is
+// resolved within the user's own home and the name taken from that Client
+// record (see resolveHomeClient below), never from the request.
 const EDITABLE_FIELDS = [
-  "childMeta_name",
-  "clientId",
   "assessmentDateTime",
   "administeredBy",
   "ideation",
@@ -301,7 +318,20 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
     }
 
-    const screening = normalizeScreening(pickEditableFields(req.body));
+    const client = await resolveHomeClient(authUser, req.body.clientId);
+    if (!client) {
+      return res.status(400).json({ error: CLIENT_REQUIRED_ERROR });
+    }
+
+    const screening = normalizeScreening({ ...pickEditableFields(req.body), ...client });
+    // Blank is fine on a draft; anything entered must be a real date/time.
+    if (screening.assessmentDateTime) {
+      const invalidDateTime = dateTimeLocalError(
+        screening.assessmentDateTime,
+        ASSESSMENT_DATETIME_LABEL
+      );
+      if (invalidDateTime) return res.status(400).json({ error: invalidDateTime });
+    }
     if (status === "COMPLETED") {
       const missing = validateCompletion(screening);
       if (missing.length) return res.status(400).json(incompleteError(missing));
@@ -321,8 +351,9 @@ router.post("/", async (req, res) => {
       homeId: authUser.homeId,
       formType: FORM_TYPE,
       status,
+      ...(status === "COMPLETED" ? submittedFields(authUser) : {}),
       createDate,
-      lastEditDate: new Date(),
+      ...lastEditedFields(authUser),
       approved: false,
     });
 
@@ -428,9 +459,31 @@ router.put("/:homeId/:formId/", async (req, res) => {
     if (existing.approved && !isAdmin) {
       return res.status(403).json({ error: APPROVED_LOCKED_ERROR });
     }
+    // A submitted screening carries its signer's signature, so only the signer
+    // or an admin may change it afterward (see canEditForm). Drafts stay
+    // editable by any staff in the home.
+    if (!canEditForm(authUser, existing)) {
+      return res.status(403).json({ error: SUBMITTED_LOCKED_ERROR });
+    }
 
-    const screening = normalizeScreening({ ...existing, ...pickEditableFields(req.body) });
-    const updates = { ...screening, lastEditDate: new Date() };
+    // Moving the record to a different child requires a client of this
+    // home, with the name taken from its record. An unchanged clientId is
+    // left alone (that client may have been deactivated since).
+    let clientChange = {};
+    if (req.body.clientId !== undefined && req.body.clientId !== (existing.clientId || "")) {
+      const client = await resolveHomeClient(authUser, req.body.clientId);
+      if (!client) {
+        return res.status(400).json({ error: CLIENT_REQUIRED_ERROR });
+      }
+      clientChange = client;
+    }
+
+    const screening = normalizeScreening({
+      ...existing,
+      ...pickEditableFields(req.body),
+      ...clientChange,
+    });
+    const updates = { ...screening, ...lastEditedFields(authUser) };
 
     // A submitted screening stays submitted - "Finish Later" is only for
     // drafts, so COMPLETED never reverts to IN PROGRESS.
@@ -439,6 +492,25 @@ router.put("/:homeId/:formId/", async (req, res) => {
     } else if (STATUSES.includes(req.body.status)) {
       updates.status = req.body.status;
     }
+    // Whoever submits signs: a draft handed off between staff is recorded
+    // (and its signature shown) under the person who actually submitted it.
+    if (existing.status !== "COMPLETED" && updates.status === "COMPLETED") {
+      Object.assign(updates, submittedFields(authUser));
+    }
+    // Check the date/time whenever this request sets it or submits the
+    // screening (not on an approval-only request against an older record).
+    const isSubmitting = existing.status !== "COMPLETED" && updates.status === "COMPLETED";
+    if (
+      screening.assessmentDateTime &&
+      (req.body.assessmentDateTime !== undefined || isSubmitting)
+    ) {
+      const invalidDateTime = dateTimeLocalError(
+        screening.assessmentDateTime,
+        ASSESSMENT_DATETIME_LABEL
+      );
+      if (invalidDateTime) return res.status(400).json({ error: invalidDateTime });
+    }
+
     const effectiveStatus = updates.status || existing.status;
     if (effectiveStatus === "COMPLETED") {
       if (!hasValidSignature(authUser)) {
@@ -453,6 +525,12 @@ router.put("/:homeId/:formId/", async (req, res) => {
         return res.status(403).json({ error: NOT_ADMIN_APPROVAL_ERROR });
       }
       const approved = req.body.approved === true;
+      // Only a submitted form can be approved - approving a draft would
+      // skip the submit-time checks and lock it incomplete. (Unapproving is
+      // always allowed.)
+      if (approved && effectiveStatus !== "COMPLETED") {
+        return res.status(400).json({ error: NOT_COMPLETED_APPROVAL_ERROR });
+      }
       if (approved && !hasValidSignature(authUser)) {
         return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
       }

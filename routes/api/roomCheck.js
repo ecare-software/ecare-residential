@@ -13,6 +13,12 @@ const {
 } = require("../../utils/rejectMongoOperators");
 const { applyCreateDateEdit } = require("../../utils/applyCreateDateEdit");
 const { isAdminUser } = require("../../utils/adminRoles");
+const {
+  resolveHomeClient,
+  submittedFields,
+  canEditForm,
+  lastEditedFields,
+} = require("../../utils/formIntegrity");
 
 // Mirrors routes/api/clothingInventory.js - same auth, home scoping, field
 // whitelist, and admin-only approval/delete; only the form fields differ.
@@ -20,8 +26,28 @@ const { isAdminUser } = require("../../utils/adminRoles");
 const FORM_TYPE = "Room Check";
 const STATUSES = ["IN PROGRESS", "COMPLETED"];
 
+const CLIENT_REQUIRED_ERROR = "Please select a client from this home.";
+
+// What a COMPLETED Room Check must have (mirrors validateForm in
+// client/src/components/Forms/RoomCheck.js, which requires the room/unit -
+// the client is enforced by the dropdown). Returns the labels of anything
+// missing from `doc`, the full record as it will be saved.
+function missingForCompletion(doc) {
+  const missing = [];
+  if (!doc.clientId) missing.push("Client");
+  if (!String(doc.roomUnit || "").trim()) missing.push("Room/Unit");
+  return missing;
+}
+
+const incompleteError = (missing) => ({
+  error: `Please complete the following field(s): ${missing.join(", ")}`,
+});
+const NOT_COMPLETED_APPROVAL_ERROR =
+  "This Room Check is still a draft. It can only be approved after it has been submitted.";
 const NOT_ADMIN_APPROVAL_ERROR =
   "Only an administrator can approve or unapprove a Room Check.";
+const SUBMITTED_LOCKED_ERROR =
+  "This Room Check has been submitted and can only be edited by the staff member who submitted it or an administrator.";
 const APPROVED_LOCKED_ERROR =
   "This Room Check has been approved and can only be edited by an administrator.";
 
@@ -29,9 +55,10 @@ const APPROVED_LOCKED_ERROR =
 // body (createdBy, homeId, approvedBy*, ...) is ignored rather than
 // stripped key-by-key, so a field added to the model later can't become
 // silently client-writable.
+// clientId and childMeta_name are deliberately absent: the client is
+// resolved within the user's own home and the name taken from that Client
+// record (see resolveHomeClient below), never from the request.
 const EDITABLE_FIELDS = [
-  "childMeta_name",
-  "clientId",
   "roomUnit",
   "checkDateTime",
   "checkedBy",
@@ -97,8 +124,19 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ error: "createDate must be a valid date." });
     }
 
+    const client = await resolveHomeClient(authUser, req.body.clientId);
+    if (!client) {
+      return res.status(400).json({ error: CLIENT_REQUIRED_ERROR });
+    }
+
+    const fields = { ...pickEditableFields(req.body), ...client };
+    if (status === "COMPLETED") {
+      const missing = missingForCompletion(fields);
+      if (missing.length) return res.status(400).json(incompleteError(missing));
+    }
+
     const newRoomCheck = new RoomCheck({
-      ...pickEditableFields(req.body),
+      ...fields,
       // Identity and tenant come from the verified login, never the body.
       createdBy: authUser.email,
       createdById: String(authUser._id),
@@ -106,8 +144,9 @@ router.post("/", async (req, res) => {
       homeId: authUser.homeId,
       formType: FORM_TYPE,
       status,
+      ...(status === "COMPLETED" ? submittedFields(authUser) : {}),
       createDate,
-      lastEditDate: new Date(),
+      ...lastEditedFields(authUser),
       approved: false,
     });
 
@@ -203,7 +242,9 @@ router.put("/:homeId/:formId/", async (req, res) => {
     const existing = await RoomCheck.findOne({
       _id: req.params.formId,
       homeId: authUser.homeId,
-    }).select("status approved createDate originalCreateDate");
+    }).select(
+      "status approved createDate originalCreateDate clientId roomUnit createdBy createdById submittedById"
+    );
     if (!existing) {
       return res.status(404).json({ error: "Report not found" });
     }
@@ -212,8 +253,28 @@ router.put("/:homeId/:formId/", async (req, res) => {
     if (existing.approved && !isAdmin) {
       return res.status(403).json({ error: APPROVED_LOCKED_ERROR });
     }
+    // A submitted Room Check carries its signer's signature, so only the signer
+    // or an admin may change it afterward (see canEditForm). Drafts stay
+    // editable by any staff in the home.
+    if (!canEditForm(authUser, existing)) {
+      return res.status(403).json({ error: SUBMITTED_LOCKED_ERROR });
+    }
 
-    const updates = { ...pickEditableFields(req.body), lastEditDate: new Date() };
+    const editedFields = pickEditableFields(req.body);
+    const updates = { ...editedFields, ...lastEditedFields(authUser) };
+
+    // Moving the record to a different child requires a client of this
+    // home, with the name taken from its record. An unchanged clientId is
+    // left alone (that client may have been deactivated since).
+    let clientChange = {};
+    if (req.body.clientId !== undefined && req.body.clientId !== (existing.clientId || "")) {
+      const client = await resolveHomeClient(authUser, req.body.clientId);
+      if (!client) {
+        return res.status(400).json({ error: CLIENT_REQUIRED_ERROR });
+      }
+      clientChange = client;
+    }
+    Object.assign(updates, clientChange);
 
     // A submitted Room Check stays submitted - "Finish Later" is only for
     // drafts, so COMPLETED never reverts to IN PROGRESS.
@@ -222,9 +283,25 @@ router.put("/:homeId/:formId/", async (req, res) => {
     } else if (STATUSES.includes(req.body.status)) {
       updates.status = req.body.status;
     }
+    // Whoever submits signs: a draft handed off between staff is recorded
+    // (and its signature shown) under the person who actually submitted it.
+    if (existing.status !== "COMPLETED" && updates.status === "COMPLETED") {
+      Object.assign(updates, submittedFields(authUser));
+    }
     const effectiveStatus = updates.status || existing.status;
     if (effectiveStatus === "COMPLETED" && !hasValidSignature(authUser)) {
       return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
+    }
+    // Checked when this request submits the Room Check or edits a completed
+    // one (so the room/unit can't be blanked out afterward) - not on an
+    // approval-only request.
+    const isSubmitting = existing.status !== "COMPLETED" && updates.status === "COMPLETED";
+    if (effectiveStatus === "COMPLETED" && (isSubmitting || Object.keys(editedFields).length)) {
+      const missing = missingForCompletion({
+        clientId: updates.clientId || existing.clientId,
+        roomUnit: updates.roomUnit !== undefined ? updates.roomUnit : existing.roomUnit,
+      });
+      if (missing.length) return res.status(400).json(incompleteError(missing));
     }
 
     if (req.body.approved !== undefined) {
@@ -232,6 +309,12 @@ router.put("/:homeId/:formId/", async (req, res) => {
         return res.status(403).json({ error: NOT_ADMIN_APPROVAL_ERROR });
       }
       const approved = req.body.approved === true;
+      // Only a submitted form can be approved - approving a draft would
+      // skip the submit-time checks and lock it incomplete. (Unapproving is
+      // always allowed.)
+      if (approved && effectiveStatus !== "COMPLETED") {
+        return res.status(400).json({ error: NOT_COMPLETED_APPROVAL_ERROR });
+      }
       if (approved && !hasValidSignature(authUser)) {
         return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
       }

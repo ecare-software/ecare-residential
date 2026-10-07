@@ -188,6 +188,8 @@ export class FormReports extends Component {
       data = data.reduce((acc, cur) => {
         const formHasUserArray = cur.filter((formType) => {
           return formType.createdBy === this.props.userObj.email || 
+          // Staff who submitted (and so signed) a draft someone else started.
+          formType.submittedBy === this.props.userObj.email ||
           // Witness 2 needs to find the form they're asked to co-sign.
           (formType.formType === 'Medication Destruction' &&
             formType.witness2Id === this.props.userObj._id) ||

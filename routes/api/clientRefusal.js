@@ -20,6 +20,7 @@ const {
   missingRequiredFields,
   canEditForm,
   lastEditedFields,
+  submittedFields,
 } = require("../../utils/formIntegrity");
 
 // Mirrors routes/api/roomCheck.js - same auth, home scoping, field
@@ -28,6 +29,8 @@ const {
 const FORM_TYPE = "Client Refusal";
 const STATUSES = ["IN PROGRESS", "COMPLETED"];
 
+const NOT_COMPLETED_APPROVAL_ERROR =
+  "This Client Refusal is still a draft. It can only be approved after it has been submitted.";
 const NOT_ADMIN_APPROVAL_ERROR =
   "Only an administrator can approve or unapprove a Client Refusal.";
 const SUBMITTED_LOCKED_ERROR =
@@ -157,6 +160,7 @@ router.post("/", async (req, res) => {
       homeId: authUser.homeId,
       formType: FORM_TYPE,
       status,
+      ...(status === "COMPLETED" ? submittedFields(authUser) : {}),
       createDate,
       ...lastEditedFields(authUser),
       approved: false,
@@ -290,6 +294,11 @@ router.put("/:homeId/:formId/", async (req, res) => {
     } else if (STATUSES.includes(req.body.status)) {
       updates.status = req.body.status;
     }
+    // Whoever submits signs: a draft handed off between staff is recorded
+    // (and its signature shown) under the person who actually submitted it.
+    if (existing.status !== "COMPLETED" && updates.status === "COMPLETED") {
+      Object.assign(updates, submittedFields(authUser));
+    }
     const effectiveStatus = updates.status || existing.status;
     if (effectiveStatus === "COMPLETED" && !hasValidSignature(authUser)) {
       return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
@@ -322,6 +331,12 @@ router.put("/:homeId/:formId/", async (req, res) => {
         return res.status(403).json({ error: NOT_ADMIN_APPROVAL_ERROR });
       }
       const approved = req.body.approved === true;
+      // Only a submitted form can be approved - approving a draft would
+      // skip the submit-time checks and lock it incomplete. (Unapproving is
+      // always allowed.)
+      if (approved && effectiveStatus !== "COMPLETED") {
+        return res.status(400).json({ error: NOT_COMPLETED_APPROVAL_ERROR });
+      }
       if (approved && !hasValidSignature(authUser)) {
         return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
       }

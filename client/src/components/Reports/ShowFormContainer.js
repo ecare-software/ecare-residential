@@ -393,12 +393,24 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj, liveSignatureSecti
         }
       }
     } catch (e) {
-      //go back
+      // Go back to how the checkbox and caption were before the click.
+      // getPostObjectData already flipped them optimistically; the state
+      // values in this closure are still the pre-click ones (it was created
+      // before that update), so restore those rather than flipping again -
+      // flipping again left a rejected approval showing as approved.
       console.log(e);
       if (isMounted.current) {
-        alert("Error update form state");
-        setApprovedByText("");
-        setIsApproved(!isApproved);
+        alert(e?.response?.data?.error || "Error update form state");
+        if (type === "nurse") {
+          setIsApprovedByNurse(isApprovedByNurse);
+          setApprovedByNurseText(approvedByNurseText);
+        } else if (type === "alt1") {
+          setIsApprovedByAlt1(isApprovedByAlt1);
+          setApprovedByAlt1Text(approvedByAlt1Text);
+        } else {
+          setIsApproved(isApproved);
+          setApprovedByText(approvedByText);
+        }
       }
     }
 

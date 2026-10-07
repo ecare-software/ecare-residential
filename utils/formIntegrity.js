@@ -1,5 +1,6 @@
-// Server-side integrity checks shared by the simple single-client form
-// routes (searchLog, clientRefusal). The browser runs its own versions of
+// Server-side integrity checks shared by the single-client form routes
+// (searchLog, clientRefusal, roomCheck, clothingInventory, cssrsScreening,
+// medicationDestruction). The browser runs its own versions of
 // some of these, but the API is reachable directly, so nothing here may
 // rely on the client having validated first.
 
@@ -24,7 +25,13 @@ function dateTimeLocalError(value, label) {
   // Parsed as UTC purely to range-check it - the stored value stays the
   // string the user entered.
   const parsed = new Date(`${value}:00Z`);
-  if (Number.isNaN(parsed.getTime()) || parsed < EARLIEST_DATE) {
+  // Date rolls impossible values over instead of rejecting them
+  // ("2026-02-30" becomes March 2), so require an exact round trip.
+  if (
+    Number.isNaN(parsed.getTime()) ||
+    parsed.toISOString().slice(0, 16) !== value ||
+    parsed < EARLIEST_DATE
+  ) {
     return `${label} must be a valid date and time.`;
   }
   if (isTooFarInFuture(parsed)) {
@@ -38,11 +45,34 @@ function dateOnlyError(value, label) {
   if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
     return `${label} must be a valid date.`;
   }
-  return dateTimeLocalError(`${value}T00:00`, label);
+  const error = dateTimeLocalError(`${value}T00:00`, label);
+  return error && error.endsWith("must be a valid date and time.")
+    ? `${label} must be a valid date.`
+    : error;
+}
+
+// The forms send createDate as an ISO string ("2026-10-07T14:30:00.000Z",
+// or a bare "2026-10-07"); nothing else is accepted.
+const ISO_DATE_RE =
+  /^(\d{4})-(\d{2})-(\d{2})(T\d{2}:\d{2}(:\d{2}(\.\d{1,3})?)?(Z|[+-]\d{2}:\d{2})?)?$/;
+
+// Whether year/month/day name a real calendar day (Date would otherwise
+// roll Feb 31 over to March 3).
+function isRealCalendarDay(year, month, day) {
+  const d = new Date(Date.UTC(year, month - 1, day));
+  return (
+    d.getUTCFullYear() === year && d.getUTCMonth() === month - 1 && d.getUTCDate() === day
+  );
 }
 
 // Same rules for a createDate (an ISO string or Date).
 function createDateError(value) {
+  if (!(value instanceof Date)) {
+    const match = typeof value === "string" && ISO_DATE_RE.exec(value);
+    if (!match || !isRealCalendarDay(Number(match[1]), Number(match[2]), Number(match[3]))) {
+      return "createDate must be a valid date.";
+    }
+  }
   const parsed = new Date(value);
   if (Number.isNaN(parsed.getTime()) || parsed < EARLIEST_DATE) {
     return "createDate must be a valid date.";
@@ -81,17 +111,20 @@ function missingRequiredFields(doc, requiredFields) {
     .map(({ label }) => label);
 }
 
-// Ownership keys on the immutable createdById, falling back to the
+// The form's signer: whoever submitted it (submittedById, set by
+// submittedFields below), or for a record submitted before that existed,
+// its creator - by the immutable createdById, falling back to the
 // createdBy email only for a record that predates createdById (see
 // routes/api/SeriousIncidentReport.js).
 function isFormAuthor(authUser, form) {
+  if (form.submittedById) return form.submittedById === String(authUser._id);
   if (form.createdById) return form.createdById === String(authUser._id);
   return !!form.createdBy && form.createdBy === authUser.email;
 }
 
-// A submitted (COMPLETED) form may only be changed by its author or an
+// A submitted (COMPLETED) form may only be changed by its signer or an
 // admin. Drafts stay editable by any staff in the home so a shift can hand
-// one off.
+// one off - whoever then submits it becomes the signer.
 function canEditForm(authUser, form) {
   if (form.status !== "COMPLETED") return true;
   return isAdminUser(authUser) || isFormAuthor(authUser, form);
@@ -108,7 +141,21 @@ function lastEditedFields(authUser) {
   };
 }
 
+// Stamped when a form moves to COMPLETED. The person who submits signs the
+// form - their profile signature is what the report view shows - so a
+// draft started by one staff member and submitted by another is never
+// shown under the first one's signature.
+function submittedFields(authUser) {
+  return {
+    submittedBy: authUser.email,
+    submittedById: String(authUser._id),
+    submittedByName: `${authUser.firstName} ${authUser.lastName}`,
+    submittedAt: new Date(),
+  };
+}
+
 module.exports = {
+  submittedFields,
   dateTimeLocalError,
   dateOnlyError,
   createDateError,

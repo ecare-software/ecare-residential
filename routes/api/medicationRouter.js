@@ -14,6 +14,7 @@ const {
   MONGO_OPERATOR_ERROR,
 } = require("../../utils/rejectMongoOperators");
 const { applyCreateDateEdit } = require("../../utils/applyCreateDateEdit");
+const { resolveHomeClient } = require("../../utils/formIntegrity");
 
 const router = express.Router();
 
@@ -36,7 +37,19 @@ function hasRequiredCaregiverSignatures(caregivers) {
   return isSignaturePresent(caregivers[0]?.signature) && isSignaturePresent(caregivers[1]?.signature);
 }
 
+const CLIENT_REQUIRED_ERROR = "Please select a client from this home.";
+
+// The log's child, resolved within the caller's own home: the id and name
+// come from the Client record, never the request. Returns null if there's
+// no such client in this home.
+async function resolveHomeChild(authUser, childId) {
+  const client = await resolveHomeClient(authUser, childId);
+  return client ? { childId: client.clientId, name: client.childMeta_name } : null;
+}
+
 const NOT_ADMIN_APPROVAL_ERROR = "Only an administrator can approve or unapprove a Medication Log.";
+const NOT_COMPLETED_APPROVAL_ERROR =
+  "This Medication Log is still in progress. It can only be approved after it has been submitted.";
 const APPROVED_LOCKED_ERROR =
   "This Medication Log has been approved and can only be edited by an administrator.";
 
@@ -170,10 +183,13 @@ router.post("/", async (req, res) => {
       return res.status(errorResponse.status).json(errorResponse.body);
     }
 
-    const postChild = {
-      childId: body.child?.childId || body.childId || "",
-      name: body.child?.name || body.childName || "",
-    };
+    // Used both to validate linked incident reports and as the saved child,
+    // so it must be a real client of this home - not whatever id/name the
+    // request claims.
+    const postChild = await resolveHomeChild(authUser, body.child?.childId || body.childId);
+    if (!postChild) {
+      return res.status(400).json({ error: CLIENT_REQUIRED_ERROR });
+    }
     const postMedications = Array.isArray(body.medications)
       ? body.medications.map((m) => ({ logTable: m.logTable }))
       : [];
@@ -189,11 +205,8 @@ router.post("/", async (req, res) => {
       // them, never a home or identity the caller merely names.
       homeId: authUser.homeId,
 
-      child: {
-        childId: body.child?.childId || body.childId || "",
-        name: body.child?.name || body.childName || "",
-      },
-      childMeta_name: body.childMeta_name || body.child?.name || "",
+      child: postChild,
+      childMeta_name: postChild.name,
 
       unit: body.unit || "",
       monthYear: body.monthYear || "",
@@ -414,6 +427,26 @@ const updateMedicationLog = async (req, res) => {
     delete updates.createDateEditedBy;
     delete updates.createDateEditedAt;
 
+    // The child is only ever the canonical Client record of this home. A
+    // changed child id must resolve to one; an unchanged one keeps the
+    // stored child (that client may have been deactivated since). The
+    // request's name is never used.
+    delete updates.childMeta_name;
+    let child = existing.child;
+    if (updates.child !== undefined) {
+      const requestedId = updates.child?.childId || "";
+      if (requestedId !== (existing.child?.childId || "")) {
+        child = await resolveHomeChild(authUser, requestedId);
+        if (!child) {
+          return res.status(400).json({ error: CLIENT_REQUIRED_ERROR });
+        }
+        updates.child = child;
+        updates.childMeta_name = child.name;
+      } else {
+        delete updates.child;
+      }
+    }
+
     // Approval: only an admin can change it, and the approver fields come
     // from their verified login. A request that merely repeats the current
     // value (older clients send approved: false on every save) is ignored
@@ -427,6 +460,15 @@ const updateMedicationLog = async (req, res) => {
     if (existing.approved && !isAdmin && (isEdit || isApprovalChange)) {
       return res.status(403).json({ error: APPROVED_LOCKED_ERROR });
     }
+    // The status after this request (a log submitted in the same request
+    // counts as COMPLETED, and the completion invariant below still runs).
+    const statusAfter = updates.status !== undefined ? updates.status : existing.status;
+    // Only a COMPLETED log can be approved - also rejected when the log is
+    // already approved, rather than silently unapproving it below.
+    // Unapproving is always allowed.
+    if (requestedApproval === true && statusAfter !== "COMPLETED") {
+      return res.status(400).json({ error: NOT_COMPLETED_APPROVAL_ERROR });
+    }
     if (isApprovalChange) {
       if (!isAdmin) {
         return res.status(403).json({ error: NOT_ADMIN_APPROVAL_ERROR });
@@ -435,6 +477,12 @@ const updateMedicationLog = async (req, res) => {
         return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
       }
       Object.assign(updates, approvalFields(requestedApproval === true, authUser));
+    } else if (existing.approved && statusAfter !== "COMPLETED") {
+      // Unlike the other forms, a Medication Log can move back from
+      // COMPLETED to IN_PROGRESS (Finish Later). An approved log that does
+      // so - only an admin can still edit it - is unapproved, so it's never
+      // left approved while in progress.
+      Object.assign(updates, approvalFields(false, authUser));
     }
     updates.lastEditDate = new Date();
 
@@ -442,9 +490,8 @@ const updateMedicationLog = async (req, res) => {
       if (!Array.isArray(updates.medications)) {
         return res.status(400).json({ error: "medications must be a list." });
       }
-      // Linked incident reports are checked against the log's child - the
-      // one this request sets, else the one already saved.
-      const child = updates.child || existing.child;
+      // Linked incident reports are checked against the log's (canonical)
+      // child, resolved above.
       const { error: logTableError } = await sanitizeLogTables(updates.medications, authUser, child);
       if (logTableError) {
         return res.status(400).json({ error: logTableError });

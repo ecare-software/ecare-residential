@@ -232,7 +232,8 @@ class SearchLog extends Component {
 
     try {
       const { data: createdUserData } = await GetUserSig(
-        formData.createdBy,
+        // The signer is whoever submitted the form (older records: its creator).
+        formData.submittedBy || formData.createdBy,
         this.props.userObj.homeId
       );
       if (this.staffSigCanvas && createdUserData.signature && createdUserData.signature.length) {
@@ -287,7 +288,10 @@ class SearchLog extends Component {
     // Mirrors canEditForm in utils/formIntegrity.js: a submitted form is
     // read-only except to its author or an admin.
     if (formData.status !== "COMPLETED" || isAdminUser(userObj)) return false;
-    const isAuthor = formData.createdById
+    // The signer: whoever submitted it, else (older records) its creator.
+    const isAuthor = formData.submittedById
+      ? formData.submittedById === userObj._id
+      : formData.createdById
       ? formData.createdById === userObj._id
       : formData.createdBy === userObj.email;
     return !isAuthor;
@@ -571,7 +575,7 @@ class SearchLog extends Component {
                 />
               </div>
               <small className="text-muted">
-                {this.state.createdByName}
+                {this.state.submittedByName || this.state.createdByName}
                 {this.state.lastEditDate
                   ? ` - ${new Date(this.state.lastEditDate).toLocaleDateString()}`
                   : ""}

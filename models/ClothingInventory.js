@@ -88,9 +88,35 @@ const ClothingInventorySchema = new Schema({
   createdByName: {
     type: String,
   },
+  // Whoever moved the form to COMPLETED - the form's signer, whose profile
+  // signature the report view shows (see submittedFields in
+  // utils/formIntegrity.js). May differ from createdBy for a handed-off draft.
+  submittedBy: {
+    type: String,
+  },
+  submittedById: {
+    type: String,
+  },
+  submittedByName: {
+    type: String,
+  },
+  submittedAt: {
+    type: Date,
+  },
   lastEditDate: {
     type: Date,
     default: Date.now,
+  },
+  // Who made the most recent change (see utils/formIntegrity.js) -
+  // createdBy* stays the original author.
+  lastEditedBy: {
+    type: String,
+  },
+  lastEditedById: {
+    type: String,
+  },
+  lastEditedByName: {
+    type: String,
   },
   homeId: {
     type: String,
