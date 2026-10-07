@@ -155,22 +155,31 @@ function submittedFields(authUser) {
 }
 
 // Every edit route checks status/approval/ownership against the record it
-// loaded, then writes. Without this, anything that changed in between - a
-// submit, an approval, a return to draft - would be silently overwritten
-// (e.g. a slow autosave of a draft landing after Submit would turn the
-// form back into a draft). Spread into the update's filter so the write
-// only applies if the record is still in the state that was checked; a
-// null result then means it changed (or was deleted) - see CONFLICT_ERROR.
+// loaded, then writes. Spread into the update's filter so the write only
+// applies if the record is exactly as that request saw it:
+//   - status/approval: a submit, approval, or return to draft in between
+//     isn't silently overwritten (e.g. a slow autosave of a draft landing
+//     after Submit would otherwise turn the form back into a draft);
+//   - lastEditDate: every write stamps a new one, so two overlapping saves
+//     that loaded the same version can't both succeed - the one that would
+//     overwrite newer content with older content gets a conflict instead.
+// A null result then means it changed (or was deleted) - see CONFLICT_ERROR.
 function unchangedSince(existing) {
+  // A schema default (lastEditDate: Date.now) filled in on load for a
+  // record saved without one isn't a stored value - match "missing" then.
+  const lastEditDateIsDefault =
+    typeof existing.$isDefault === "function" && existing.$isDefault("lastEditDate");
+  const lastEditDate = lastEditDateIsDefault ? undefined : existing.lastEditDate;
   return {
-    // null also matches a record saved before status existed.
+    // null also matches a record saved before the field existed.
     status: existing.status === undefined ? null : existing.status,
     approved: existing.approved === true ? true : { $ne: true },
+    lastEditDate: lastEditDate == null ? null : lastEditDate,
   };
 }
 
 const CONFLICT_ERROR =
-  "This form was submitted, approved, or returned to draft by someone else while you were saving, so your changes weren't saved. Reload it to see the latest version.";
+  "This form was changed by someone else while you were saving, so your changes weren't saved. Reload it to see the latest version.";
 
 module.exports = {
   unchangedSince,

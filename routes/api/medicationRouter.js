@@ -43,6 +43,15 @@ function hasRequiredCaregiverSignatures(caregivers) {
 
 const CLIENT_REQUIRED_ERROR = "Please select a client from this home.";
 
+// Older incident reports were saved without a clientId, only the child's
+// name. A name-only report is attributed to a child only when that name is
+// unambiguous - exactly one client in the home has it - so two children
+// with the same name never see (or get linked to) each other's reports.
+async function isUniqueChildName(homeId, name) {
+  if (!name) return false;
+  return (await Client.countDocuments({ homeId, childMeta_name: name })) === 1;
+}
+
 // The log's child, resolved within the caller's own home: the id and name
 // come from the Client record, never the request. Returns null if there's
 // no such client in this home.
@@ -134,9 +143,10 @@ async function sanitizeLogTables(medications, authUser, child) {
     } catch (e) {
       reports = []; // malformed id
     }
+    const nameIsUnique = await isUniqueChildName(authUser.homeId, child?.name);
     const sameChild = (report) =>
       (child?.childId && report.clientId === child.childId) ||
-      (!report.clientId && child?.name && report.childMeta_name === child.name);
+      (!report.clientId && nameIsUnique && report.childMeta_name === child.name);
     const valid = new Set(reports.filter(sameChild).map((r) => String(r._id)));
     if ([...linkedIds].some((id) => !valid.has(id))) {
       return {
@@ -277,8 +287,9 @@ router.post("/", async (req, res) => {
 });
 
 // Incident reports a dose's medication error can be linked to: this
-// home's reports about the given child (matched by clientId, or by name for
-// older reports saved without one). Returns just enough to pick one.
+// home's reports about the given child (matched by clientId, or - for older
+// reports saved without one - by name, only when no other client in the
+// home shares it; see isUniqueChildName). Returns just enough to pick one.
 router.get("/:homeId/incidentReports/:childId", async (req, res) => {
   const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.params.homeId);
   if (errorResponse) {
@@ -293,12 +304,13 @@ router.get("/:homeId/incidentReports/:childId", async (req, res) => {
       client = null; // malformed id
     }
     if (!client) return res.json([]);
+    const matchers = [{ clientId: String(client._id) }];
+    if (await isUniqueChildName(authUser.homeId, client.childMeta_name)) {
+      matchers.push({ clientId: { $in: [null, ""] }, childMeta_name: client.childMeta_name });
+    }
     const reports = await IncidentReport.find({
       homeId: authUser.homeId,
-      $or: [
-        { clientId: String(client._id) },
-        { clientId: { $in: [null, ""] }, childMeta_name: client.childMeta_name },
-      ],
+      $or: matchers,
     })
       .select("dateOfIncident time_of_incident nature_of_incident createDate")
       .sort({ createDate: -1 });

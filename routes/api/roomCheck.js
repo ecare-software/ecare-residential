@@ -245,7 +245,7 @@ router.put("/:homeId/:formId/", async (req, res) => {
       _id: req.params.formId,
       homeId: authUser.homeId,
     }).select(
-      "status approved createDate originalCreateDate clientId roomUnit createdBy createdById submittedById"
+      "status approved createDate originalCreateDate clientId roomUnit createdBy createdById submittedById lastEditDate"
     );
     if (!existing) {
       return res.status(404).json({ error: "Report not found" });

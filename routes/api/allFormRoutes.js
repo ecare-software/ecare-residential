@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { resolveHomeScopedUser } = require("../../utils/requireUserSignature");
 
 const AdmissionAssessment = require("../../models/AdmissionAssessment");
 const BodyCheck = require("../../models/BodyCheck");
@@ -47,7 +48,19 @@ const getApprovalFilter = (status) => {
     };
   }
 };
+// Both count routes require a verified login and only ever count the
+// caller's own home - the URL's homeId is checked against it, never trusted.
+// (Even counts of C-SSRS screenings, medication destructions, etc. are
+// sensitive.)
 router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
+  const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.params.homeId);
+  if (errorResponse) {
+    return res.status(errorResponse.status).json(errorResponse.body);
+  }
+  if (req.params.lastEditDateAfter !== "none" &&
+      Number.isNaN(new Date(req.params.lastEditDateAfter).getTime())) {
+    return res.status(400).json({ error: "lastEditDateAfter must be a valid date." });
+  }
   const approved =
     (req.params.status && req.params.status == "true") ||
     req.params.status == "false"
@@ -55,7 +68,7 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
       : false;
 
   const formPromises = [];
-  const homeId = req.params.homeId;
+  const homeId = authUser.homeId;
 
   const dateFilter =
     req.params.lastEditDateAfter !== "none"
@@ -65,7 +78,7 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
   try {
     formPromises.push(
       AdmissionAssessment.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -77,7 +90,7 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
   try {
     formPromises.push(
       AwakeNightStaffSignoff.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -89,7 +102,7 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
   try {
     formPromises.push(
       NightMonitoring.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -101,7 +114,7 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
   try {
     formPromises.push(
       BodyCheck.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -113,7 +126,7 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
   try {
     formPromises.push(
       DailyProgressAndActivity.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -125,7 +138,7 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
   try {
     formPromises.push(
       IllnessInjury.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -137,7 +150,7 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
   try {
     formPromises.push(
       IncidentReport.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -149,7 +162,7 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
   try {
     formPromises.push(
       RestraintReport.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -161,7 +174,7 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
   try {
     formPromises.push(
       SeriousIncidentReport.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -173,7 +186,7 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
   try {
     formPromises.push(
       TreatmentPlan72.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -185,7 +198,7 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
   try {
     formPromises.push(
       ClothingInventory.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -197,7 +210,7 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
   try {
     formPromises.push(
       RoomCheck.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -209,7 +222,7 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
   try {
     formPromises.push(
       SearchLog.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -221,7 +234,7 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
   try {
     formPromises.push(
       ClientRefusal.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -233,7 +246,7 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
   try {
     formPromises.push(
       MedicationDestruction.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -245,7 +258,7 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
   try {
     formPromises.push(
       CssrsScreening.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -254,7 +267,13 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
     console.log(`Error loading CssrsScreening -  ${e}`);
   }
 
-  const completedPromisses = await Promise.all(formPromises);
+  let completedPromisses;
+  try {
+    completedPromisses = await Promise.all(formPromises);
+  } catch (e) {
+    console.log(`Error counting forms - ${e}`);
+    return res.status(500).json({ error: "Error counting forms" });
+  }
 
   const count = completedPromisses.reduce((acc, formTypePromise) => {
     acc = acc + formTypePromise.length;
@@ -268,13 +287,17 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
 });
 
 router.get("/count/:homeId", async (req, res) => {
+  const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.params.homeId);
+  if (errorResponse) {
+    return res.status(errorResponse.status).json(errorResponse.body);
+  }
   const formPromises = [];
-  const homeId = req.params.homeId;
+  const homeId = authUser.homeId;
 
   try {
     formPromises.push(
       AdmissionAssessment.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -284,7 +307,7 @@ router.get("/count/:homeId", async (req, res) => {
   try {
     formPromises.push(
       AwakeNightStaffSignoff.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -294,7 +317,7 @@ router.get("/count/:homeId", async (req, res) => {
   try {
     formPromises.push(
       NightMonitoring.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -304,7 +327,7 @@ router.get("/count/:homeId", async (req, res) => {
   try {
     formPromises.push(
       BodyCheck.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -314,7 +337,7 @@ router.get("/count/:homeId", async (req, res) => {
   try {
     formPromises.push(
       DailyProgressAndActivity.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -324,7 +347,7 @@ router.get("/count/:homeId", async (req, res) => {
   try {
     formPromises.push(
       IllnessInjury.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -334,7 +357,7 @@ router.get("/count/:homeId", async (req, res) => {
   try {
     formPromises.push(
       IncidentReport.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -344,7 +367,7 @@ router.get("/count/:homeId", async (req, res) => {
   try {
     formPromises.push(
       RestraintReport.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -354,7 +377,7 @@ router.get("/count/:homeId", async (req, res) => {
   try {
     formPromises.push(
       SeriousIncidentReport.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -364,7 +387,7 @@ router.get("/count/:homeId", async (req, res) => {
   try {
     formPromises.push(
       TreatmentPlan72.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -374,7 +397,7 @@ router.get("/count/:homeId", async (req, res) => {
   try {
     formPromises.push(
       ClothingInventory.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -384,7 +407,7 @@ router.get("/count/:homeId", async (req, res) => {
   try {
     formPromises.push(
       RoomCheck.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -394,7 +417,7 @@ router.get("/count/:homeId", async (req, res) => {
   try {
     formPromises.push(
       SearchLog.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -404,7 +427,7 @@ router.get("/count/:homeId", async (req, res) => {
   try {
     formPromises.push(
       ClientRefusal.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -414,7 +437,7 @@ router.get("/count/:homeId", async (req, res) => {
   try {
     formPromises.push(
       MedicationDestruction.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -424,14 +447,20 @@ router.get("/count/:homeId", async (req, res) => {
   try {
     formPromises.push(
       CssrsScreening.find({
-        homeId: req.params.homeId,
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
     console.log(`Error loading CssrsScreening -  ${e}`);
   }
 
-  const completedPromisses = await Promise.all(formPromises);
+  let completedPromisses;
+  try {
+    completedPromisses = await Promise.all(formPromises);
+  } catch (e) {
+    console.log(`Error counting forms - ${e}`);
+    return res.status(500).json({ error: "Error counting forms" });
+  }
 
   const count = completedPromisses.reduce((acc, formTypePromise) => {
     acc = acc + formTypePromise.length;

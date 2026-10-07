@@ -315,7 +315,12 @@ export class FormReports extends Component {
         "/api/incidentReport/" +
         this.props.userObj.homeId +
         "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
-      ),
+      ).catch((e) => {
+        // Requires a verified login - fall back to no results rather than
+        // failing the whole Axios.all (see getAuthedForms).
+        console.log(`Error loading Incident Report - ${e}`);
+        return { data: [] };
+      }),
       Axios.get(
         "/api/seriousIncidentReport/" +
         this.props.userObj.homeId +
@@ -488,7 +493,12 @@ export class FormReports extends Component {
         "/api/incidentReport/" +
         this.props.userObj.homeId +
         "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
-      ),
+      ).catch((e) => {
+        // Requires a verified login - fall back to no results rather than
+        // failing the whole Axios.all (see getAuthedForms).
+        console.log(`Error loading Incident Report - ${e}`);
+        return { data: [] };
+      }),
       Axios.get(
         "/api/seriousIncidentReport/" +
         this.props.userObj.homeId +
@@ -764,7 +774,12 @@ export class FormReports extends Component {
               submittedByA +
               "/" +
               approved
-            )
+            ).catch((e) => {
+        // Requires a verified login - fall back to no results rather than
+        // failing the whole Axios.all (see getAuthedForms).
+        console.log(`Error loading Incident Report - ${e}`);
+        return { data: [] };
+      })
           );
         }
 
@@ -1122,7 +1137,12 @@ export class FormReports extends Component {
           submittedByA +
           "/" +
           approved
-        ),
+        ).catch((e) => {
+        // Requires a verified login - fall back to no results rather than
+        // failing the whole Axios.all (see getAuthedForms).
+        console.log(`Error loading Incident Report - ${e}`);
+        return { data: [] };
+      }),
         Axios.get(
           "/api/seriousIncidentReport/" +
           this.props.userObj.homeId +

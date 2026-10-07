@@ -51,6 +51,12 @@ class MedicationDestruction extends Component {
     super(props);
     this.autoSaveInterval = null;
     this.autoSaveCreated = false;
+    // The autosave request currently running, if any - Submit waits for it
+    // (see submit) so it can't race the autosave's create or edit.
+    this.autoSaveInFlight = null;
+    // Bumped whenever the form is cleared for a new entry, so a late
+    // autosave response can't attach the old record to the blank form.
+    this.formGeneration = 0;
     this.state = {
       ...this.blankFields(),
       homeId: this.props.valuesSet === true ? "" : this.props.userObj.homeId,
@@ -127,10 +133,11 @@ class MedicationDestruction extends Component {
   });
 
   resetForm = () => {
+    this.formGeneration += 1;
     this.setState(this.blankFields());
   };
 
-  autoSave = async () => {
+  runAutoSave = async (generation) => {
     if (!this.state.clientId || this.state.status !== DRAFT) return;
     try {
       if (this.autoSaveCreated) {
@@ -139,13 +146,17 @@ class MedicationDestruction extends Component {
           `${API_ROUTE}/${this.state.homeId}/${this.state._id}`,
           this.buildPayload(DRAFT)
         );
+        if (generation !== this.formGeneration) return;
         this.setState({ lastEditDate: data.lastEditDate });
       } else {
         this.autoSaveCreated = true;
         const { data } = await Axios.post(API_ROUTE, this.buildPayload(DRAFT));
+        if (generation !== this.formGeneration) return;
         this.setState({ _id: data._id, lastEditDate: data.lastEditDate });
       }
     } catch (e) {
+      // The form was cleared since this started - nothing to report.
+      if (generation !== this.formGeneration) return;
       // The form changed underneath this one (someone submitted, approved,
       // or returned it to draft - 409) or this user may no longer edit it
       // (403): stop autosaving rather than repeat the error every few seconds.
@@ -157,10 +168,28 @@ class MedicationDestruction extends Component {
     }
   };
 
+  // One autosave at a time, and Submit / Finish Later wait for it - so a
+  // create still in flight can't be followed by a second create, and its
+  // response can't land on a form that has since been cleared.
+  autoSave = async () => {
+    if (this.autoSaveInFlight) return;
+    const run = this.runAutoSave(this.formGeneration);
+    this.autoSaveInFlight = run;
+    try {
+      await run;
+    } finally {
+      if (this.autoSaveInFlight === run) this.autoSaveInFlight = null;
+    }
+  };
+
   // save=true: Finish Later (stay a draft). save=false: submit to witness 2.
   submit = async (save) => {
     const status = save ? DRAFT : AWAITING;
     clearInterval(this.autoSaveInterval);
+    // Let an autosave that's already running finish first: if it's still
+    // creating the record, this then updates that record instead of
+    // creating a second one. (runAutoSave handles its own errors.)
+    if (this.autoSaveInFlight) await this.autoSaveInFlight;
     try {
       let data;
       if (this.props.valuesSet || this.state._id) {
