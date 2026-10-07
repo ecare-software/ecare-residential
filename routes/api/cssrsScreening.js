@@ -19,6 +19,8 @@ const {
   canEditForm,
   lastEditedFields,
   dateTimeLocalError,
+  unchangedSince,
+  CONFLICT_ERROR,
 } = require("../../utils/formIntegrity");
 
 // "Date/time of assessment" is a datetime-local value ("YYYY-MM-DDTHH:mm");
@@ -545,13 +547,19 @@ router.put("/:homeId/:formId/", async (req, res) => {
       }
     }
 
+    // Only if it's still in the status/approval state checked above.
     const updated = await CssrsScreening.findOneAndUpdate(
-      { _id: req.params.formId, homeId: authUser.homeId },
+      { _id: req.params.formId, homeId: authUser.homeId, ...unchangedSince(existing) },
       { $set: updates },
       { new: true }
     );
     if (!updated) {
-      return res.status(404).json({ error: "Report not found" });
+      // It was found above, so it has since been deleted or had its
+      // status/approval changed by another request.
+      const stillExists = await CssrsScreening.exists({ _id: req.params.formId, homeId: authUser.homeId });
+      return stillExists
+        ? res.status(409).json({ error: CONFLICT_ERROR })
+        : res.status(404).json({ error: "Report not found" });
     }
     res.json(updated);
   } catch (err) {

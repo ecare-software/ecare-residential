@@ -154,7 +154,27 @@ function submittedFields(authUser) {
   };
 }
 
+// Every edit route checks status/approval/ownership against the record it
+// loaded, then writes. Without this, anything that changed in between - a
+// submit, an approval, a return to draft - would be silently overwritten
+// (e.g. a slow autosave of a draft landing after Submit would turn the
+// form back into a draft). Spread into the update's filter so the write
+// only applies if the record is still in the state that was checked; a
+// null result then means it changed (or was deleted) - see CONFLICT_ERROR.
+function unchangedSince(existing) {
+  return {
+    // null also matches a record saved before status existed.
+    status: existing.status === undefined ? null : existing.status,
+    approved: existing.approved === true ? true : { $ne: true },
+  };
+}
+
+const CONFLICT_ERROR =
+  "This form was submitted, approved, or returned to draft by someone else while you were saving, so your changes weren't saved. Reload it to see the latest version.";
+
 module.exports = {
+  unchangedSince,
+  CONFLICT_ERROR,
   submittedFields,
   dateTimeLocalError,
   dateOnlyError,

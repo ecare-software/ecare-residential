@@ -300,9 +300,16 @@ class ClothingInventory extends Component {
         this.setState({ _id: data._id, lastEditDate: data.lastEditDate });
       }
     } catch (e) {
+      // The form changed underneath this one (someone submitted, approved,
+      // or returned it to draft - 409) or this user may no longer edit it
+      // (403): stop autosaving rather than repeat the error every few seconds.
+      const httpStatus = e.response && e.response.status;
+      if (httpStatus === 409 || httpStatus === 403) clearInterval(this.autoSaveInterval);
       console.log(e);
       if (!this.state._id) this.autoSaveCreated = false;
-      this.showError(`Error saving ${FORM_TITLE}`);
+      this.showError(
+        (e.response && e.response.data && e.response.data.error) || `Error saving ${FORM_TITLE}`
+      );
     }
   };
 

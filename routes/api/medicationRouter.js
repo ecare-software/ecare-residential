@@ -14,7 +14,11 @@ const {
   MONGO_OPERATOR_ERROR,
 } = require("../../utils/rejectMongoOperators");
 const { applyCreateDateEdit } = require("../../utils/applyCreateDateEdit");
-const { resolveHomeClient } = require("../../utils/formIntegrity");
+const {
+  resolveHomeClient,
+  unchangedSince,
+  CONFLICT_ERROR,
+} = require("../../utils/formIntegrity");
 
 const router = express.Router();
 
@@ -531,13 +535,19 @@ const updateMedicationLog = async (req, res) => {
       }
     }
 
+    // Only if it's still in the status/approval state checked above.
     const updatedLog = await MedicationLog.findOneAndUpdate(
-      { _id: id, homeId: authUser.homeId },
+      { _id: id, homeId: authUser.homeId, ...unchangedSince(existing) },
       { $set: updates },
       { new: true, runValidators: true }
     );
     if (!updatedLog) {
-      return res.status(404).json({ error: "Medication log not found" });
+      // It was found above, so it has since been deleted or had its
+      // status/approval changed by another request.
+      const stillExists = await MedicationLog.exists({ _id: id, homeId: authUser.homeId });
+      return stillExists
+        ? res.status(409).json({ error: CONFLICT_ERROR })
+        : res.status(404).json({ error: "Medication log not found" });
     }
     res.json(flatten(updatedLog));
   } catch (err) {
