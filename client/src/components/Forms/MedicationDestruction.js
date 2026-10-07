@@ -727,7 +727,7 @@ class MedicationDestruction extends Component {
           {this.renderAlerts()}
           <div className="formTitleDiv">
             <h2 className="formTitle">{FORM_TITLE}</h2>
-            <h5 className="text-center" style={{ color: "rgb(119 119 119 / 93%)" }}>
+            <h5 className="text-center hide-on-print" style={{ color: "rgb(119 119 119 / 93%)" }}>
               {this.state.lastEditDate ? (
                 <i>
                   {" "}

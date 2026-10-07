@@ -754,7 +754,7 @@ class TreatmentPlan72 extends Component {
           <div className="formTitleDiv">
             <h2 className="formTitle">72 Hour Treatment Plan</h2>
             <h5
-              className="text-center"
+              className="text-center hide-on-print"
               style={{ color: "rgb(119 119 119 / 93%)" }}
             >
               {this.state.lastEditDate ? (

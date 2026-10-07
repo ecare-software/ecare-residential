@@ -836,7 +836,7 @@ class ClothingInventory extends Component {
           {this.renderAlerts()}
           <div className="formTitleDiv">
             <h2 className="formTitle">{FORM_TITLE}</h2>
-            <h5 className="text-center" style={{ color: "rgb(119 119 119 / 93%)" }}>
+            <h5 className="text-center hide-on-print" style={{ color: "rgb(119 119 119 / 93%)" }}>
               {this.state.lastEditDate ? (
                 <i>
                   {" "}
@@ -890,8 +890,10 @@ class ClothingInventory extends Component {
               </div>
               <small className="text-muted">
                 {this.state.submittedByName || this.state.createdByName}
-                {this.state.lastEditDate
-                  ? ` - ${new Date(this.state.lastEditDate).toLocaleDateString()}`
+                {/* Creation date, not last-edited date - only the creation date
+                    appears on a printed form. */}
+                {this.state.createDate
+                  ? ` - ${new Date(this.state.createDate).toLocaleDateString()}`
                   : ""}
               </small>
             </div>
