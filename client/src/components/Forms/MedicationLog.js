@@ -175,14 +175,19 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
   }, [formData]);
 
   useEffect(() => {
-    if (!formData || clients.length === 0) return;
+    if (!formData?.child?.childId) return;
 
-    const matchedChild = clients.find(c => c._id === formData.child?.childId);
+    const matchedChild = clients.find(c => c._id === formData.child.childId);
     if (matchedChild) {
       setSelectedChild({
         id: matchedChild._id,
         name: matchedChild.childMeta_name || `${matchedChild.child_firstName || ""} ${matchedChild.child_lastName || ""}`.trim(),
       });
+    } else {
+      // Not in the active-clients list (e.g. discharged since): keep the
+      // log's stored child so saves send the unchanged id, rather than
+      // blanking it - the dropdown shows it as an extra option below.
+      setSelectedChild({ id: formData.child.childId, name: formData.child.name || "" });
     }
   }, [formData, clients]);
 
@@ -648,6 +653,9 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
             }}
           >
             <option value="">Select a child</option>
+            {selectedChild.id && !clients.some(c => c._id === selectedChild.id) && (
+              <option value={selectedChild.id}>{selectedChild.name} (inactive)</option>
+            )}
             {clients.map(client => {
               const displayName = client.childMeta_name || `${client.child_firstName || ""} ${client.child_lastName || ""}`;
               return <option key={client._id} value={client._id}>{displayName}</option>;

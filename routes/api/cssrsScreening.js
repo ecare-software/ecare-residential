@@ -521,7 +521,13 @@ router.put("/:homeId/:formId/", async (req, res) => {
     }
 
     const effectiveStatus = updates.status || existing.status;
-    if (effectiveStatus === "COMPLETED") {
+    // Editing or submitting a completed screening needs the editor's
+    // signature and a complete screening; an approval-only request doesn't
+    // (approving checks the signature itself below, and unapproving is
+    // always allowed).
+    const changesContent =
+      Object.keys(pickEditableFields(req.body)).length > 0 || isSubmitting;
+    if (effectiveStatus === "COMPLETED" && changesContent) {
       if (!hasValidSignature(authUser)) {
         return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
       }

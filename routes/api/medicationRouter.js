@@ -470,7 +470,10 @@ const updateMedicationLog = async (req, res) => {
     let child = existing.child;
     if (updates.child !== undefined) {
       const requestedId = updates.child?.childId || "";
-      if (requestedId !== (existing.child?.childId || "")) {
+      // A log can't be cleared of its child, so an empty id means "unchanged"
+      // - e.g. a form whose child has since been discharged (inactive) and so
+      // isn't in its active-clients dropdown.
+      if (requestedId && requestedId !== (existing.child?.childId || "")) {
         child = await resolveHomeChild(authUser, requestedId);
         if (!child) {
           return res.status(400).json({ error: CLIENT_REQUIRED_ERROR });

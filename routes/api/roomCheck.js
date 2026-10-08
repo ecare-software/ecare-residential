@@ -298,7 +298,13 @@ router.put("/:homeId/:formId/", async (req, res) => {
       Object.assign(updates, submittedFields(authUser));
     }
     const effectiveStatus = updates.status || existing.status;
-    if (effectiveStatus === "COMPLETED" && !hasValidSignature(authUser)) {
+    // Editing or submitting a completed form needs the editor's signature;
+    // an approval-only request doesn't (approving checks the signature
+    // itself below, and unapproving is always allowed).
+    const changesContent =
+      Object.keys(editedFields).length > 0 ||
+      (existing.status !== "COMPLETED" && updates.status === "COMPLETED");
+    if (effectiveStatus === "COMPLETED" && changesContent && !hasValidSignature(authUser)) {
       return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
     }
     // Checked when this request submits the Room Check or edits a completed
