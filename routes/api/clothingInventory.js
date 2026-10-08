@@ -20,6 +20,7 @@ const {
   submittedFields,
   unchangedSince,
   CONFLICT_ERROR,
+  submittedByFilter,
 } = require("../../utils/formIntegrity");
 
 const FORM_TYPE = "Monthly Clothing Inventory";
@@ -275,7 +276,7 @@ router.get(
       }
       // SearchContainer's "submitted by" options carry user emails.
       if (submittedByA !== "none") {
-        query.createdBy = { $in: submittedByA.split(",") };
+        Object.assign(query, submittedByFilter(submittedByA.split(",")));
       }
       if (approved !== "null") {
         query.approved = approved === "true";

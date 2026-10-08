@@ -21,6 +21,7 @@ const {
   dateTimeLocalError,
   unchangedSince,
   CONFLICT_ERROR,
+  submittedByFilter,
 } = require("../../utils/formIntegrity");
 
 // "Date/time of assessment" is a datetime-local value ("YYYY-MM-DDTHH:mm");
@@ -416,7 +417,7 @@ router.get(
       }
       // SearchContainer's "submitted by" options carry user emails.
       if (submittedByA !== "none") {
-        query.createdBy = { $in: submittedByA.split(",") };
+        Object.assign(query, submittedByFilter(submittedByA.split(",")));
       }
       if (approved !== "null") {
         query.approved = approved === "true";

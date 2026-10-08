@@ -401,15 +401,20 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj, liveSignatureSecti
       console.log(e);
       if (isMounted.current) {
         alert(e?.response?.data?.error || "Error update form state");
+        // Also clear the saving flag set above - otherwise its spinner stays
+        // up and the signature section stays hidden.
         if (type === "nurse") {
           setIsApprovedByNurse(isApprovedByNurse);
           setApprovedByNurseText(approvedByNurseText);
+          setIsSavingSigCanvasNurse(false);
         } else if (type === "alt1") {
           setIsApprovedByAlt1(isApprovedByAlt1);
           setApprovedByAlt1Text(approvedByAlt1Text);
+          setIsSavingSigCanvasAdminAlt1(false);
         } else {
           setIsApproved(isApproved);
           setApprovedByText(approvedByText);
+          setIsSavingSigCanvasAdmin(false);
         }
       }
     }

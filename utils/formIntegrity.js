@@ -181,7 +181,22 @@ function unchangedSince(existing) {
 const CONFLICT_ERROR =
   "This form was changed by someone else while you were saving, so your changes weren't saved. Reload it to see the latest version.";
 
+// Reports' "Submitted By" search filter (SearchContainer sends user
+// emails). The signer of a submitted form is submittedBy - which differs
+// from createdBy for a draft one staff member started and another
+// submitted - so match that; fall back to createdBy only for records that
+// have no submittedBy (drafts, and forms submitted before it existed).
+function submittedByFilter(emails) {
+  return {
+    $or: [
+      { submittedBy: { $in: emails } },
+      { submittedBy: { $in: [null, ""] }, createdBy: { $in: emails } },
+    ],
+  };
+}
+
 module.exports = {
+  submittedByFilter,
   unchangedSince,
   CONFLICT_ERROR,
   submittedFields,

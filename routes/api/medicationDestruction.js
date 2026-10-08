@@ -355,8 +355,16 @@ router.get(
         }
       }
       // SearchContainer's "submitted by" options carry user emails.
+      // The signer of a submitted Medication Destruction is witness 1,
+      // stored by user id - match those staff, falling back to createdBy
+      // only while no witness 1 is recorded (drafts).
       if (submittedByA !== "none") {
-        query.createdBy = { $in: submittedByA.split(",") };
+        const emails = submittedByA.split(",");
+        const staff = await User.find({ homeId: authUser.homeId, email: { $in: emails } }).select("_id");
+        query.$or = [
+          { witness1Id: { $in: staff.map((u) => String(u._id)) } },
+          { witness1Id: { $in: [null, ""] }, createdBy: { $in: emails } },
+        ];
       }
       if (approved !== "null") {
         query.approved = approved === "true";

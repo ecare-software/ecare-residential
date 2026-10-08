@@ -190,9 +190,13 @@ export class FormReports extends Component {
           return formType.createdBy === this.props.userObj.email || 
           // Staff who submitted (and so signed) a draft someone else started.
           formType.submittedBy === this.props.userObj.email ||
-          // Witness 2 needs to find the form they're asked to co-sign.
+          // Medication Destruction records its signers as witnesses, not
+          // submittedBy: witness 1 (whoever submitted - possibly a handed-off
+          // draft they didn't create) needs it for Return to Draft, and
+          // witness 2 needs to find the form they're asked to co-sign.
           (formType.formType === 'Medication Destruction' &&
-            formType.witness2Id === this.props.userObj._id) ||
+            (formType.witness1Id === this.props.userObj._id ||
+              formType.witness2Id === this.props.userObj._id)) ||
           formType.formType == 'Daily Progress Note Two' ||
           formType.formType === 'Medication Log'
         });

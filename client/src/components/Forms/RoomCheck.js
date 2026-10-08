@@ -220,6 +220,14 @@ class RoomCheck extends Component {
       console.log(e);
       const serverMessage = e.response && e.response.data && e.response.data.error;
       this.showError(serverMessage || `Error submitting ${FORM_TITLE}`);
+      // A failed Submit (rejected fields, a network error, ...) leaves a new
+      // form open as a draft, so keep autosaving it - unless the form changed
+      // underneath (409) or this user may no longer edit it (403), where
+      // autosave would only fail again.
+      const httpStatus = e.response && e.response.status;
+      if (!this.props.valuesSet && httpStatus !== 409 && httpStatus !== 403) {
+        this.startAutoSave();
+      }
     }
   };
 

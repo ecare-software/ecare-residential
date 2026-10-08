@@ -20,6 +20,7 @@ const {
   lastEditedFields,
   unchangedSince,
   CONFLICT_ERROR,
+  submittedByFilter,
 } = require("../../utils/formIntegrity");
 
 // Mirrors routes/api/clothingInventory.js - same auth, home scoping, field
@@ -211,7 +212,7 @@ router.get(
       }
       // SearchContainer's "submitted by" options carry user emails.
       if (submittedByA !== "none") {
-        query.createdBy = { $in: submittedByA.split(",") };
+        Object.assign(query, submittedByFilter(submittedByA.split(",")));
       }
       if (approved !== "null") {
         query.approved = approved === "true";
