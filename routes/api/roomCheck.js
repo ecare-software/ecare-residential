@@ -21,6 +21,7 @@ const {
   unchangedSince,
   CONFLICT_ERROR,
   submittedByFilter,
+  createDateError,
 } = require("../../utils/formIntegrity");
 
 // Mirrors routes/api/clothingInventory.js - same auth, home scoping, field
@@ -122,10 +123,15 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
     }
 
-    const createDate = req.body.createDate ? new Date(req.body.createDate) : new Date();
-    if (Number.isNaN(createDate.getTime())) {
-      return res.status(400).json({ error: "createDate must be a valid date." });
+    // Same rules as the other forms: a real date, not before 2000, not in
+    // the future (utils/formIntegrity.js).
+    if (req.body.createDate) {
+      const invalidCreateDate = createDateError(req.body.createDate);
+      if (invalidCreateDate) {
+        return res.status(400).json({ error: invalidCreateDate });
+      }
     }
+    const createDate = req.body.createDate ? new Date(req.body.createDate) : new Date();
 
     const client = await resolveHomeClient(authUser, req.body.clientId);
     if (!client) {
@@ -325,10 +331,14 @@ router.put("/:homeId/:formId/", async (req, res) => {
     }
 
     if (req.body.createDate !== undefined) {
+      const invalidCreateDate = createDateError(req.body.createDate);
+      if (invalidCreateDate) {
+        return res.status(400).json({ error: invalidCreateDate });
+      }
       updates.createDate = req.body.createDate;
-      const createDateError = applyCreateDateEdit(updates, authUser, existing);
-      if (createDateError) {
-        return res.status(400).json({ error: createDateError });
+      const createDateEditError = applyCreateDateEdit(updates, authUser, existing);
+      if (createDateEditError) {
+        return res.status(400).json({ error: createDateEditError });
       }
     }
 

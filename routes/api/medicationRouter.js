@@ -96,7 +96,25 @@ const MISSING_SIGNATURES_ERROR =
 // fields on each dose. `child` is the log's { childId, name }; a linked
 // incident report must be one of this home's reports about that child.
 // Replaces each med.logTable in place; returns { error } (null if valid).
-async function sanitizeLogTables(medications, authUser, child) {
+// Every incident report id linked anywhere in a log's medications.
+function linkedIncidentReportIds(medications) {
+  const ids = new Set();
+  (medications || []).forEach((med) =>
+    (med?.logTable?.days || []).forEach((day) =>
+      (day?.doses || []).forEach((dose) => {
+        if (dose?.linkedIncidentReportId) ids.add(String(dose.linkedIncidentReportId));
+      })
+    )
+  );
+  return ids;
+}
+
+// `alreadyLinked`: ids this log already links (and were checked when they
+// were added). The form resends every medication on each save, so
+// re-checking those would make one link that has since gone stale (its
+// report deleted, or a same-named client admitted) block every later save of
+// the log - only new links are checked.
+async function sanitizeLogTables(medications, authUser, child, alreadyLinked = new Set()) {
   const linkedIds = new Set();
 
   for (const med of medications) {
@@ -133,11 +151,12 @@ async function sanitizeLogTables(medications, authUser, child) {
     med.logTable = { days: cleanDays };
   }
 
-  if (linkedIds.size) {
+  const newLinkedIds = [...linkedIds].filter((id) => !alreadyLinked.has(id));
+  if (newLinkedIds.length) {
     let reports;
     try {
       reports = await IncidentReport.find({
-        _id: { $in: [...linkedIds] },
+        _id: { $in: newLinkedIds },
         homeId: authUser.homeId,
       }).select("clientId childMeta_name");
     } catch (e) {
@@ -148,7 +167,7 @@ async function sanitizeLogTables(medications, authUser, child) {
       (child?.childId && report.clientId === child.childId) ||
       (!report.clientId && nameIsUnique && report.childMeta_name === child.name);
     const valid = new Set(reports.filter(sameChild).map((r) => String(r._id)));
-    if ([...linkedIds].some((id) => !valid.has(id))) {
+    if (newLinkedIds.some((id) => !valid.has(id))) {
       return {
         error: "A linked incident report must be one of this home's incident reports for this child.",
       };
@@ -508,7 +527,19 @@ const updateMedicationLog = async (req, res) => {
       }
       // Linked incident reports are checked against the log's (canonical)
       // child, resolved above.
-      const { error: logTableError } = await sanitizeLogTables(updates.medications, authUser, child);
+      // Links already on this log were checked when added; if the log is
+      // moving to a different child, though, every link must be re-checked
+      // against the new one.
+      const childChanged = (child?.childId || "") !== (existing.child?.childId || "");
+      const alreadyLinked = childChanged
+        ? new Set()
+        : linkedIncidentReportIds(existing.medications);
+      const { error: logTableError } = await sanitizeLogTables(
+        updates.medications,
+        authUser,
+        child,
+        alreadyLinked
+      );
       if (logTableError) {
         return res.status(400).json({ error: logTableError });
       }
