@@ -8,6 +8,18 @@ import axios from "axios";
 
 const cookies = new Cookies();
 
+// Mirrors MEDICATION_ERROR_TYPES in models/Medication.js. `short` fits the
+// 31-column log table; `label` is used everywhere else.
+const MEDICATION_ERROR_TYPES = [
+  { value: "wrong_dose", short: "Dose", label: "Wrong dose" },
+  { value: "wrong_time", short: "Time", label: "Wrong time" },
+  { value: "wrong_medication", short: "Med", label: "Wrong medication" },
+  { value: "missed_dose", short: "Miss", label: "Missed dose" },
+  { value: "other", short: "Oth", label: "Other" },
+];
+const errorTypeLabel = (value) =>
+  (MEDICATION_ERROR_TYPES.find((t) => t.value === value) || {}).label || value;
+
 const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserObj, formData }) => {
   const cookieUser = cookies.get("userObj");
   const effectiveUserObj = propEffectiveUserObj || cookieUser || null;
@@ -17,6 +29,8 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
 
   const [clients, setClients] = useState([]);
   const [selectedChild, setSelectedChild] = useState({ id: "", name: "" });
+  // The selected child's incident reports, for linking a medication error.
+  const [incidentReports, setIncidentReports] = useState([]);
 
   const [unit, setUnit] = useState("");
   const [monthYear, setMonthYear] = useState("");
@@ -36,8 +50,6 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
     return {
       days: days.map((d) => ({
         day: d,
-        initials: "",
-        amountRemaining: "",
         doses: Array.from({ length: doseCount }, () => ({
           time: "",
           amountRemaining: "",
@@ -163,16 +175,41 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
   }, [formData]);
 
   useEffect(() => {
-    if (!formData || clients.length === 0) return;
+    if (!formData?.child?.childId) return;
 
-    const matchedChild = clients.find(c => c._id === formData.child?.childId);
+    const matchedChild = clients.find(c => c._id === formData.child.childId);
     if (matchedChild) {
       setSelectedChild({
         id: matchedChild._id,
         name: matchedChild.childMeta_name || `${matchedChild.child_firstName || ""} ${matchedChild.child_lastName || ""}`.trim(),
       });
+    } else {
+      // Not in the active-clients list (e.g. discharged since): keep the
+      // log's stored child so saves send the unchanged id, rather than
+      // blanking it - the dropdown shows it as an extra option below.
+      setSelectedChild({ id: formData.child.childId, name: formData.child.name || "" });
     }
   }, [formData, clients]);
+
+  useEffect(() => {
+    const homeId = effectiveUserObj?.homeId;
+    if (!homeId || !selectedChild.id) {
+      setIncidentReports([]);
+      return;
+    }
+    let cancelled = false;
+    axios
+      .get(`/api/medication/${homeId}/incidentReports/${selectedChild.id}`)
+      .then(({ data }) => {
+        if (!cancelled) setIncidentReports(Array.isArray(data) ? data : []);
+      })
+      .catch(() => {
+        if (!cancelled) setIncidentReports([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [effectiveUserObj?.homeId, selectedChild.id]);
 
   useEffect(() => {
     signatures.forEach((sig, i) => {
@@ -364,6 +401,65 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
     });
   };
 
+  // Sets (or, with "", clears) the medication error on one dose. Clearing
+  // the error also drops any linked incident report, which the server only
+  // accepts on a dose that has an error.
+  const setDoseError = (medIndex, dayIndex, doseIndex, errorType) => {
+    setMedications(prev => {
+      const next = [...prev];
+      const med = { ...next[medIndex] };
+      const log = { ...med.logTable };
+      const days = [...log.days];
+      const day = { ...days[dayIndex] };
+      const doses = [...day.doses];
+
+      const dose = { ...doses[doseIndex] };
+      if (errorType) {
+        dose.errorType = errorType;
+      } else {
+        delete dose.errorType;
+        delete dose.linkedIncidentReportId;
+      }
+      doses[doseIndex] = dose;
+
+      day.doses = doses;
+      days[dayIndex] = day;
+      log.days = days;
+      med.logTable = log;
+      next[medIndex] = med;
+      return next;
+    });
+  };
+
+  const formatIncidentOption = (report) => {
+    const when = report.dateOfIncident || (report.createDate ? new Date(report.createDate).toLocaleDateString() : "");
+    return [when, report.time_of_incident, report.nature_of_incident].filter(Boolean).join(" - ") || report._id;
+  };
+
+  const renderDoseErrorSelect = (medIndex, dayIndex, doseIndex, dose) => (
+    <ErrorSelect
+      aria-label={`Medication error, day ${dayIndex + 1}, dose ${doseIndex + 1}`}
+      title={dose?.errorType ? errorTypeLabel(dose.errorType) : "No error"}
+      $flagged={!!dose?.errorType}
+      value={dose?.errorType || ""}
+      onChange={(e) => setDoseError(medIndex, dayIndex, doseIndex, e.target.value)}
+    >
+      <option value="">-</option>
+      {MEDICATION_ERROR_TYPES.map((t) => (
+        <option key={t.value} value={t.value}>{t.short}</option>
+      ))}
+    </ErrorSelect>
+  );
+
+  // Every flagged dose on one medication, for the details list under its
+  // log table.
+  const flaggedDoses = (med) =>
+    (med.logTable?.days || []).flatMap((dayObj, dayIndex) =>
+      (dayObj.doses || [])
+        .map((dose, doseIndex) => ({ dayObj, dayIndex, dose, doseIndex }))
+        .filter(({ dose }) => dose?.errorType)
+    );
+
   const addPrnDose = (medIndex, dayIndex) => {
     setMedications(prev => {
       const next = [...prev];
@@ -373,7 +469,7 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
       const days = [...log.days];
       const day = { ...days[dayIndex] };
 
-      day.doses = [...day.doses, { time: "" }];
+      day.doses = [...day.doses, { time: "", amountRemaining: "", initials: "" }];
       days[dayIndex] = day;
 
       log.days = days;
@@ -398,26 +494,6 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
 
       day.doses = day.doses.filter((_, i) => i !== doseIndex);
       days[dayIndex] = day;
-
-      log.days = days;
-      med.logTable = log;
-      next[medIndex] = med;
-
-      return next;
-    });
-  };
-
-  const handleDayFieldChange = (medIndex, dayIndex, field, value) => {
-    setMedications(prev => {
-      const next = [...prev];
-      const med = { ...next[medIndex] };
-      const log = { ...med.logTable };
-
-      const days = [...log.days];
-      days[dayIndex] = {
-        ...days[dayIndex],
-        [field]: value
-      };
 
       log.days = days;
       med.logTable = log;
@@ -476,7 +552,9 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
       formType: "Medication Log",
       createdBy: effectiveUserObj?.email || "unknown",
       createdByName: `${effectiveUserObj?.firstName || ""} ${effectiveUserObj?.lastName || ""}`.trim(),
-      approved: false,
+      // No `approved` here - approval is an admin action from the report
+      // view, and sending approved: false on every save used to silently
+      // un-approve an approved log.
       status,
       lastEditDate: new Date(),
     };
@@ -497,7 +575,7 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
       alert("Saved draft successfully.");
     } catch (err) {
       console.error("Save error:", err);
-      alert("Failed to save draft.");
+      alert(err?.response?.data?.error || "Failed to save draft.");
     }
   };
 
@@ -575,6 +653,9 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
             }}
           >
             <option value="">Select a child</option>
+            {selectedChild.id && !clients.some(c => c._id === selectedChild.id) && (
+              <option value={selectedChild.id}>{selectedChild.name} (inactive)</option>
+            )}
             {clients.map(client => {
               const displayName = client.childMeta_name || `${client.child_firstName || ""} ${client.child_lastName || ""}`;
               return <option key={client._id} value={client._id}>{displayName}</option>;
@@ -804,11 +885,12 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
                                         <td key={`prn-amt-${colIdx}`}>
                                           {colIdx === dayIndex && (
                                             <SmallInput
-                                              value={dayObj.amountRemaining || ""}
+                                              value={dose.amountRemaining || ""}
                                               onChange={(e) =>
-                                                handleDayFieldChange(
+                                                handleDoseChange(
                                                   medIndex,
                                                   dayIndex,
+                                                  doseIndex,
                                                   "amountRemaining",
                                                   e.target.value
                                                 )
@@ -819,24 +901,39 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
                                       ))}
                                     </tr>
 
-                                    {/* INITIALS — DIRECTLY UNDER AMOUNT */}
+                                    {/* INITIALS — DIRECTLY UNDER AMOUNT. Amount and initials
+                                        are per dose (doseSchema); they used to be bound to the
+                                        day, which the schema has no field for, so they were
+                                        silently dropped on save. */}
                                     <tr>
                                       <td>Initials</td>
                                       {med.logTable.days.map((_, colIdx) => (
                                         <td key={`prn-init-${colIdx}`}>
                                           {colIdx === dayIndex && (
                                             <SmallInput
-                                              value={dayObj.initials || ""}
+                                              value={dose.initials || ""}
                                               onChange={(e) =>
-                                                handleDayFieldChange(
+                                                handleDoseChange(
                                                   medIndex,
                                                   dayIndex,
+                                                  doseIndex,
                                                   "initials",
                                                   e.target.value
                                                 )
                                               }
                                             />
                                           )}
+                                        </td>
+                                      ))}
+                                    </tr>
+
+                                    {/* MEDICATION ERROR FOR THIS DOSE */}
+                                    <tr>
+                                      <td>Error</td>
+                                      {med.logTable.days.map((_, colIdx) => (
+                                        <td key={`prn-err-${colIdx}`}>
+                                          {colIdx === dayIndex &&
+                                            renderDoseErrorSelect(medIndex, dayIndex, doseIndex, dose)}
                                         </td>
                                       ))}
                                     </tr>
@@ -920,6 +1017,14 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
                                   </td>
                                 ))}
                               </tr>
+                              <tr>
+                                <td>Error</td>
+                                {med.logTable.days.map((dayObj, dayIndex) => (
+                                  <td key={`err-${dayIndex}-${doseIndex}`}>
+                                    {renderDoseErrorSelect(medIndex, dayIndex, doseIndex, dayObj.doses[doseIndex])}
+                                  </td>
+                                ))}
+                              </tr>
                             </React.Fragment>
                           ))}
                         </>
@@ -927,6 +1032,51 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
                     </tbody>
                   </LogTable>
                 </LogSection>
+
+                {flaggedDoses(med).length > 0 && (
+                  <ErrorList>
+                    <Label>Medication errors</Label>
+                    {flaggedDoses(med).map(({ dayObj, dayIndex, dose, doseIndex }) => (
+                      <ErrorListRow key={`err-detail-${dayIndex}-${doseIndex}`}>
+                        <span>
+                          Day {dayObj.day}, dose {doseIndex + 1}
+                          {dose.time ? ` (${dose.time})` : ""}
+                        </span>
+                        <select
+                          className="form-control form-control-sm"
+                          aria-label="Error type"
+                          value={dose.errorType}
+                          onChange={(e) => setDoseError(medIndex, dayIndex, doseIndex, e.target.value)}
+                        >
+                          <option value="">No error (clear)</option>
+                          {MEDICATION_ERROR_TYPES.map((t) => (
+                            <option key={t.value} value={t.value}>{t.label}</option>
+                          ))}
+                        </select>
+                        <select
+                          className="form-control form-control-sm"
+                          aria-label="Linked incident report"
+                          value={dose.linkedIncidentReportId || ""}
+                          onChange={(e) =>
+                            handleDoseChange(medIndex, dayIndex, doseIndex, "linkedIncidentReportId", e.target.value)
+                          }
+                        >
+                          <option value="">
+                            {incidentReports.length ? "No linked incident report" : "No incident reports for this child"}
+                          </option>
+                          {/* Keep a saved link visible even if it isn't in the fetched list. */}
+                          {dose.linkedIncidentReportId &&
+                            !incidentReports.some((r) => r._id === dose.linkedIncidentReportId) && (
+                              <option value={dose.linkedIncidentReportId}>Incident report {dose.linkedIncidentReportId}</option>
+                            )}
+                          {incidentReports.map((r) => (
+                            <option key={r._id} value={r._id}>Incident report: {formatIncidentOption(r)}</option>
+                          ))}
+                        </select>
+                      </ErrorListRow>
+                    ))}
+                  </ErrorList>
+                )}
 
                 <div style={{ marginTop: 8 }}>
                   <button type="button" className="btn btn-sm btn-outline-danger" onClick={() => removeMedicationById(med.id)}>
@@ -1277,6 +1427,35 @@ const AddButton = styled.button`
 
   &:hover {
     background: #3a8;
+  }
+`;
+
+const ErrorSelect = styled.select`
+  width: 44px;
+  padding: 1px;
+  border: 1px solid ${(props) => (props.$flagged ? "#c0392b" : "#ccc")};
+  background: ${(props) => (props.$flagged ? "#fdecea" : "white")};
+  border-radius: 3px;
+  font-size: 0.7rem;
+`;
+
+const ErrorList = styled.div`
+  margin-top: 12px;
+  padding: 10px;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+  background: #fff8f8;
+`;
+
+const ErrorListRow = styled.div`
+  display: grid;
+  grid-template-columns: minmax(140px, 1fr) minmax(140px, 1fr) minmax(200px, 2fr);
+  gap: 8px;
+  align-items: center;
+  margin-top: 6px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
   }
 `;
 

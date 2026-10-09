@@ -325,7 +325,7 @@ class NightMonitoring extends Component {
           <div className="formTitleDiv">
             <h2 className="formTitle">Awake Night Monitoring</h2>
             <h5
-              className="text-center"
+              className="text-center hide-on-print"
               style={{ color: "rgb(119 119 119 / 93%)" }}
             >
               {this.state.lastEditDate ? (

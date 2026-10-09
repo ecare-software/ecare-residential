@@ -8,11 +8,26 @@ const caregiverSchema = new mongoose.Schema({
   title: { type: String, default: "" },
 });
 
+// A medication error is flagged on the specific dose it happened on.
+// Absent errorType means no error was recorded for that dose.
+const MEDICATION_ERROR_TYPES = [
+  "wrong_dose",
+  "wrong_time",
+  "wrong_medication",
+  "missed_dose",
+  "other",
+];
+
 const doseSchema = new mongoose.Schema(
   {
     time: { type: String, default: "" },
     initials: { type: String, default: "" },
-    amountRemaining: { type: String, default: "" }
+    amountRemaining: { type: String, default: "" },
+    errorType: { type: String, enum: MEDICATION_ERROR_TYPES },
+    // Optional IncidentReport._id for the same child and home - checked
+    // server-side in routes/api/medicationRouter.js, and only allowed on a
+    // dose that has an errorType.
+    linkedIncidentReportId: { type: String },
   },
   { _id: false }
 );
@@ -85,8 +100,14 @@ const medicationLogSchema = new mongoose.Schema({
   createdBy: { type: String, required: true },
   createdByName: { type: String, default: "" },
   approved: { type: Boolean, default: false },
+  // Set server-side from the approving admin (routes/api/medicationRouter.js).
+  approvedBy: { type: String },
+  approvedByName: { type: String },
+  approvedByDate: { type: Date },
+  approvedSig: { type: Array },
   status: { type: String, default: "IN_PROGRESS" },
   lastEditDate: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model("MedicationLog", medicationLogSchema);
+module.exports.MEDICATION_ERROR_TYPES = MEDICATION_ERROR_TYPES;

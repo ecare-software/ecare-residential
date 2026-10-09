@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { resolveHomeScopedUser } = require("../../utils/requireUserSignature");
 
 const AdmissionAssessment = require("../../models/AdmissionAssessment");
 const BodyCheck = require("../../models/BodyCheck");
@@ -11,6 +12,12 @@ const SeriousIncidentReport = require("../../models/SeriousIncidentReport");
 const TreatmentPlan72 = require("../../models/TreatmentPlan72");
 const AwakeNightStaffSignoff = require("../../models/AwakeNightStaffSignoff");
 const NightMonitoring = require("../../models/NightMonitoring");
+const ClothingInventory = require("../../models/ClothingInventory");
+const RoomCheck = require("../../models/RoomCheck");
+const SearchLog = require("../../models/SearchLog");
+const ClientRefusal = require("../../models/ClientRefusal");
+const MedicationDestruction = require("../../models/MedicationDestruction");
+const CssrsScreening = require("../../models/CssrsScreening");
 
 const getApprovalFilter = (status) => {
   if (status == "true") {
@@ -41,7 +48,19 @@ const getApprovalFilter = (status) => {
     };
   }
 };
+// Both count routes require a verified login and only ever count the
+// caller's own home - the URL's homeId is checked against it, never trusted.
+// (Even counts of C-SSRS screenings, medication destructions, etc. are
+// sensitive.)
 router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
+  const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.params.homeId);
+  if (errorResponse) {
+    return res.status(errorResponse.status).json(errorResponse.body);
+  }
+  if (req.params.lastEditDateAfter !== "none" &&
+      Number.isNaN(new Date(req.params.lastEditDateAfter).getTime())) {
+    return res.status(400).json({ error: "lastEditDateAfter must be a valid date." });
+  }
   const approved =
     (req.params.status && req.params.status == "true") ||
     req.params.status == "false"
@@ -49,7 +68,7 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
       : false;
 
   const formPromises = [];
-  const homeId = req.params.homeId;
+  const homeId = authUser.homeId;
 
   const dateFilter =
     req.params.lastEditDateAfter !== "none"
@@ -58,8 +77,8 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
 
   try {
     formPromises.push(
-      AdmissionAssessment.find({
-        homeId: req.params.homeId,
+      AdmissionAssessment.countDocuments({
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -70,8 +89,8 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
 
   try {
     formPromises.push(
-      AwakeNightStaffSignoff.find({
-        homeId: req.params.homeId,
+      AwakeNightStaffSignoff.countDocuments({
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -82,8 +101,8 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
 
   try {
     formPromises.push(
-      NightMonitoring.find({
-        homeId: req.params.homeId,
+      NightMonitoring.countDocuments({
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -94,8 +113,8 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
 
   try {
     formPromises.push(
-      BodyCheck.find({
-        homeId: req.params.homeId,
+      BodyCheck.countDocuments({
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -106,8 +125,8 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
 
   try {
     formPromises.push(
-      DailyProgressAndActivity.find({
-        homeId: req.params.homeId,
+      DailyProgressAndActivity.countDocuments({
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -118,8 +137,8 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
 
   try {
     formPromises.push(
-      IllnessInjury.find({
-        homeId: req.params.homeId,
+      IllnessInjury.countDocuments({
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -130,8 +149,8 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
 
   try {
     formPromises.push(
-      IncidentReport.find({
-        homeId: req.params.homeId,
+      IncidentReport.countDocuments({
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -142,8 +161,8 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
 
   try {
     formPromises.push(
-      RestraintReport.find({
-        homeId: req.params.homeId,
+      RestraintReport.countDocuments({
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -154,8 +173,8 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
 
   try {
     formPromises.push(
-      SeriousIncidentReport.find({
-        homeId: req.params.homeId,
+      SeriousIncidentReport.countDocuments({
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -166,8 +185,8 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
 
   try {
     formPromises.push(
-      TreatmentPlan72.find({
-        homeId: req.params.homeId,
+      TreatmentPlan72.countDocuments({
+        homeId: authUser.homeId,
         approved,
         ...dateFilter,
       })
@@ -176,12 +195,89 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
     console.log(`Error loading TreatmentPlan72 -  ${e}`);
   }
 
-  const completedPromisses = await Promise.all(formPromises);
+  try {
+    formPromises.push(
+      ClothingInventory.countDocuments({
+        homeId: authUser.homeId,
+        approved,
+        ...dateFilter,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading ClothingInventory -  ${e}`);
+  }
 
-  const count = completedPromisses.reduce((acc, formTypePromise) => {
-    acc = acc + formTypePromise.length;
-    return acc;
-  }, 0);
+  try {
+    formPromises.push(
+      RoomCheck.countDocuments({
+        homeId: authUser.homeId,
+        approved,
+        ...dateFilter,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading RoomCheck -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      SearchLog.countDocuments({
+        homeId: authUser.homeId,
+        approved,
+        ...dateFilter,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading SearchLog -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      ClientRefusal.countDocuments({
+        homeId: authUser.homeId,
+        approved,
+        ...dateFilter,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading ClientRefusal -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      MedicationDestruction.countDocuments({
+        homeId: authUser.homeId,
+        approved,
+        ...dateFilter,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading MedicationDestruction -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      CssrsScreening.countDocuments({
+        homeId: authUser.homeId,
+        approved,
+        ...dateFilter,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading CssrsScreening -  ${e}`);
+  }
+
+  let completedPromisses;
+  try {
+    completedPromisses = await Promise.all(formPromises);
+  } catch (e) {
+    console.log(`Error counting forms - ${e}`);
+    return res.status(500).json({ error: "Error counting forms" });
+  }
+
+  // Each entry is already a number (countDocuments) - the matching records
+  // themselves are never loaded just to be counted.
+  const count = completedPromisses.reduce((acc, formTypeCount) => acc + formTypeCount, 0);
   res.json({
     approved,
     count,
@@ -190,13 +286,17 @@ router.get("/count/:status/:homeId/:lastEditDateAfter", async (req, res) => {
 });
 
 router.get("/count/:homeId", async (req, res) => {
+  const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.params.homeId);
+  if (errorResponse) {
+    return res.status(errorResponse.status).json(errorResponse.body);
+  }
   const formPromises = [];
-  const homeId = req.params.homeId;
+  const homeId = authUser.homeId;
 
   try {
     formPromises.push(
-      AdmissionAssessment.find({
-        homeId: req.params.homeId,
+      AdmissionAssessment.countDocuments({
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -205,8 +305,8 @@ router.get("/count/:homeId", async (req, res) => {
 
   try {
     formPromises.push(
-      AwakeNightStaffSignoff.find({
-        homeId: req.params.homeId,
+      AwakeNightStaffSignoff.countDocuments({
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -215,8 +315,8 @@ router.get("/count/:homeId", async (req, res) => {
 
   try {
     formPromises.push(
-      NightMonitoring.find({
-        homeId: req.params.homeId,
+      NightMonitoring.countDocuments({
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -225,8 +325,8 @@ router.get("/count/:homeId", async (req, res) => {
 
   try {
     formPromises.push(
-      BodyCheck.find({
-        homeId: req.params.homeId,
+      BodyCheck.countDocuments({
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -235,8 +335,8 @@ router.get("/count/:homeId", async (req, res) => {
 
   try {
     formPromises.push(
-      DailyProgressAndActivity.find({
-        homeId: req.params.homeId,
+      DailyProgressAndActivity.countDocuments({
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -245,8 +345,8 @@ router.get("/count/:homeId", async (req, res) => {
 
   try {
     formPromises.push(
-      IllnessInjury.find({
-        homeId: req.params.homeId,
+      IllnessInjury.countDocuments({
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -255,8 +355,8 @@ router.get("/count/:homeId", async (req, res) => {
 
   try {
     formPromises.push(
-      IncidentReport.find({
-        homeId: req.params.homeId,
+      IncidentReport.countDocuments({
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -265,8 +365,8 @@ router.get("/count/:homeId", async (req, res) => {
 
   try {
     formPromises.push(
-      RestraintReport.find({
-        homeId: req.params.homeId,
+      RestraintReport.countDocuments({
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -275,8 +375,8 @@ router.get("/count/:homeId", async (req, res) => {
 
   try {
     formPromises.push(
-      SeriousIncidentReport.find({
-        homeId: req.params.homeId,
+      SeriousIncidentReport.countDocuments({
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
@@ -285,20 +385,85 @@ router.get("/count/:homeId", async (req, res) => {
 
   try {
     formPromises.push(
-      TreatmentPlan72.find({
-        homeId: req.params.homeId,
+      TreatmentPlan72.countDocuments({
+        homeId: authUser.homeId,
       })
     );
   } catch (e) {
     console.log(`Error loading TreatmentPlan72 -  ${e}`);
   }
 
-  const completedPromisses = await Promise.all(formPromises);
+  try {
+    formPromises.push(
+      ClothingInventory.countDocuments({
+        homeId: authUser.homeId,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading ClothingInventory -  ${e}`);
+  }
 
-  const count = completedPromisses.reduce((acc, formTypePromise) => {
-    acc = acc + formTypePromise.length;
-    return acc;
-  }, 0);
+  try {
+    formPromises.push(
+      RoomCheck.countDocuments({
+        homeId: authUser.homeId,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading RoomCheck -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      SearchLog.countDocuments({
+        homeId: authUser.homeId,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading SearchLog -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      ClientRefusal.countDocuments({
+        homeId: authUser.homeId,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading ClientRefusal -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      MedicationDestruction.countDocuments({
+        homeId: authUser.homeId,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading MedicationDestruction -  ${e}`);
+  }
+
+  try {
+    formPromises.push(
+      CssrsScreening.countDocuments({
+        homeId: authUser.homeId,
+      })
+    );
+  } catch (e) {
+    console.log(`Error loading CssrsScreening -  ${e}`);
+  }
+
+  let completedPromisses;
+  try {
+    completedPromisses = await Promise.all(formPromises);
+  } catch (e) {
+    console.log(`Error counting forms - ${e}`);
+    return res.status(500).json({ error: "Error counting forms" });
+  }
+
+  // Each entry is already a number (countDocuments) - the matching records
+  // themselves are never loaded just to be counted.
+  const count = completedPromisses.reduce((acc, formTypeCount) => acc + formTypeCount, 0);
   res.json({
     count,
     homeId,

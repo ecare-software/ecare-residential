@@ -23,6 +23,12 @@ import Clients from './components/Clients/Clients';
 import FormAlert from './components/Forms/FormAlert';
 import Documents from './components/Documents/Documents';
 import IllnessInjury from './components/Forms/IllnessInjury';
+import ClothingInventory from './components/Forms/ClothingInventory';
+import RoomCheck from './components/Forms/RoomCheck';
+import SearchLog from './components/Forms/SearchLog';
+import ClientRefusal from './components/Forms/ClientRefusal';
+import MedicationDestruction from './components/Forms/MedicationDestruction';
+import CssrsScreening from './components/Forms/CssrsScreening';
 import AdmissionAssessment from './components/Forms/AdmissionAssessment';
 import BodyCheck from './components/Forms/BodyCheck';
 import OrientationTraining from './components/Forms/OrientationTraining';
@@ -1015,6 +1021,78 @@ function ToggleScreen({
     );
   }
 
+  if (name === 'ClothingInventory') {
+    return (
+      <div>
+        <ClothingInventory
+          valuesSet={false}
+          userObj={appState.userObj}
+          id='clothingInventory'
+        />
+      </div>
+    );
+  }
+
+  if (name === 'RoomCheck') {
+    return (
+      <div>
+        <RoomCheck
+          valuesSet={false}
+          userObj={appState.userObj}
+          id='roomCheck'
+        />
+      </div>
+    );
+  }
+
+  if (name === 'SearchLog') {
+    return (
+      <div>
+        <SearchLog
+          valuesSet={false}
+          userObj={appState.userObj}
+          id='searchLog'
+        />
+      </div>
+    );
+  }
+
+  if (name === 'ClientRefusal') {
+    return (
+      <div>
+        <ClientRefusal
+          valuesSet={false}
+          userObj={appState.userObj}
+          id='clientRefusal'
+        />
+      </div>
+    );
+  }
+
+  if (name === 'MedicationDestruction') {
+    return (
+      <div>
+        <MedicationDestruction
+          valuesSet={false}
+          userObj={appState.userObj}
+          id='medicationDestruction'
+        />
+      </div>
+    );
+  }
+
+  if (name === 'CssrsScreening') {
+    return (
+      <div>
+        <CssrsScreening
+          valuesSet={false}
+          userObj={appState.userObj}
+          id='cssrsScreening'
+        />
+      </div>
+    );
+  }
+
   if (name === 'restraintReport') {
     return (
       <div>
@@ -1206,6 +1284,90 @@ function DisplayExtra({
         <div className='extraInfoNavDiv'>
           <p className='extraInfoNavSubTitle'>
             Illness and Injury Report Extra info
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === 'ClothingInventory') {
+    return (
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
+            Each month, count the child's clothing and note what was added
+            (new or used) and removed (will not fit, lost, or destroyed), then
+            record which hygiene supplies they have, are almost out of, or need.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === 'RoomCheck') {
+    return (
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
+            Record a check of a child's room or unit: what was found, whether
+            follow-up is needed, and the child's signature.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === 'SearchLog') {
+    return (
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
+            Log a search of a child or their belongings: when and where it
+            happened, why, who conducted it, what was found, and what was done
+            with it.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === 'ClientRefusal') {
+    return (
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
+            Document a child refusing medication, care, meals, school, or
+            another activity: what was refused, when, why, who documented it,
+            and the follow-up action taken.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === 'MedicationDestruction') {
+    return (
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
+            Record the destruction of a child's medication. You sign as
+            witness 1 when you submit; the second staff witness you choose
+            co-signs from their own login. Forms waiting on your signature
+            appear at the top of this page.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (name === 'CssrsScreening') {
+    return (
+      <div id='extraInfo'>
+        <div className='extraInfoNavDiv'>
+          <p className='extraInfoNavSubTitle'>
+            Columbia-Suicide Severity Rating Scale (Pediatric, Since Last
+            Contact). For use by staff trained to administer it. Any positive
+            response requires following the facility's suicide risk protocol.
           </p>
         </div>
       </div>

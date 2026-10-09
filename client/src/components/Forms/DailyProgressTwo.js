@@ -1149,7 +1149,7 @@ const hasAnyValidSignature = () => [0, 1, 2].slice(0, shiftCount === 2 ? 2 : 3).
           </div>
 
           {/* Last Updated */}
-          <div className="form-group logInInputField d-flex justify-content-center">
+          <div className="form-group logInInputField d-flex justify-content-center hide-on-print">
             <div style={{ width: "650px" }}>
               <label className="control-label">Last Updated</label>
               <input

@@ -570,7 +570,7 @@ class AdmissionAssessment extends Component {
           <div className="formTitleDiv">
             <h2 className="formTitle">Admission Assessment</h2>
             <h5
-              className="text-center"
+              className="text-center hide-on-print"
               style={{ color: "rgb(119 119 119 / 93%)" }}
             >
               {this.state.lastEditDate ? (

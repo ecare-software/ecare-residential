@@ -12,6 +12,10 @@ const {
   MONGO_OPERATOR_ERROR,
 } = require("../../utils/rejectMongoOperators");
 const { applyCreateDateEdit } = require("../../utils/applyCreateDateEdit");
+const { resolveHomeClient } = require("../../utils/formIntegrity");
+const { isAdminUser } = require("../../utils/adminRoles");
+
+const CLIENT_REQUIRED_ERROR = "Please select a client from this home.";
 
 router.post("/", async (req, res) => {
   const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.body.homeId);
@@ -23,12 +27,23 @@ router.post("/", async (req, res) => {
     return res.status(400).json({ error: MISSING_SIGNATURE_ERROR });
   }
 
+  // The report's child, resolved within the caller's own home: clientId
+  // and childMeta_name come from the Client record, never the request.
+  // Other forms (e.g. a Medication Log's linked medication errors) match
+  // reports to a child by this clientId, so it must always be stored.
+  const client = await resolveHomeClient(authUser, req.body.clientId);
+  if (!client) {
+    return res.status(400).json({ error: CLIENT_REQUIRED_ERROR });
+  }
+
   const newIncidentReport = new IncidentReport({
     nature_of_incident: req.body.nature_of_incident,
 
     other_incident_description: req.body.other_incident_description,
 
-    childMeta_name: req.body.childMeta_name,
+    clientId: client.clientId,
+
+    childMeta_name: client.childMeta_name,
 
     childMeta_gender: req.body.childMeta_gender,
 
@@ -107,8 +122,14 @@ router.post("/", async (req, res) => {
     });
 });
 
-router.get("/:homeId", (req, res) => {
-  IncidentReport.find({ homeId: req.params.homeId })
+// Both list GETs require a verified login and scope to that user's own
+// home - the URL's homeId is only checked against it, never trusted.
+router.get("/:homeId", async (req, res) => {
+  const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.params.homeId);
+  if (errorResponse) {
+    return res.status(errorResponse.status).json(errorResponse.body);
+  }
+  IncidentReport.find({ homeId: authUser.homeId })
     .sort({ createDate: -1 }).setOptions({ allowDiskUse: true })
     .exec()
     .then((IncidentReports) => res.json(IncidentReports))
@@ -123,15 +144,18 @@ router.get(
   "/:ethnicityA" +
   "/:submittedByA" +
   "/:approved",
-  (req, res) => {
+  async (req, res) => {
+    const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.params.homeId);
+    if (errorResponse) {
+      return res.status(errorResponse.status).json(errorResponse.body);
+    }
     var findObj = {
-      homeId: req.params.homeId,
+      homeId: authUser.homeId,
     };
-    console.log(req.params.searchString);
-    //search string
+    //search string - escaped: this is a name search, not a caller-supplied regex
     if (req.params.searchString !== "none") {
       findObj["childMeta_name"] = {
-        $regex: ".*" + req.params.searchString + ".*",
+        $regex: req.params.searchString.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
         $options: "i",
       };
     }
@@ -310,6 +334,27 @@ router.put("/:homeId/:formId/", async (req, res) => {
   }
 
   const updatedLastEditDate = { ...req.body, lastEditDate: new Date() };
+
+  // The child is only ever a canonical Client record of this home: a
+  // changed clientId must resolve to one (and its name is taken from it);
+  // otherwise the stored clientId/childMeta_name are left untouched - the
+  // request can't relabel the report or point it at another child.
+  delete updatedLastEditDate.childMeta_name;
+  const requestedClientId = updatedLastEditDate.clientId;
+  delete updatedLastEditDate.clientId;
+  if (requestedClientId !== undefined) {
+    const existingClient = await IncidentReport.findOne({
+      _id: req.params.formId,
+      homeId: authUser.homeId,
+    }).select("clientId");
+    if (existingClient && requestedClientId !== (existingClient.clientId || "")) {
+      const client = await resolveHomeClient(authUser, requestedClientId);
+      if (!client) {
+        return res.status(400).json({ error: CLIENT_REQUIRED_ERROR });
+      }
+      Object.assign(updatedLastEditDate, client);
+    }
+  }
   // createdBy/createdByName/homeId/createDate are set once at creation and
   // must stay immutable - strip them from every edit regardless of what
   // the request body claims, rather than letting an edit silently reassign
@@ -368,14 +413,31 @@ router.put("/:homeId/:formId/", async (req, res) => {
  }
 });
 
-router.delete("/:homeId/:formId/", (req, res) => {
-  IncidentReport.deleteOne({ _id: req.params.formId })
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+// Admin-only and home-scoped, matching the report view, which only shows
+// Delete to admins (ShowFormContainer's showDelete={isAdminRole}).
+router.delete("/:homeId/:formId/", async (req, res) => {
+  try {
+    const { authUser, errorResponse } = await resolveHomeScopedUser(req, req.params.homeId);
+    if (errorResponse) {
+      return res.status(errorResponse.status).json(errorResponse.body);
+    }
+    if (!isAdminUser(authUser)) {
+      return res.status(403).json({ error: "Only an administrator can delete a form." });
+    }
+    let data;
+    try {
+      data = await IncidentReport.deleteOne({ _id: req.params.formId, homeId: authUser.homeId });
+    } catch (e) {
+      data = { deletedCount: 0 }; // malformed id
+    }
+    if (!data.deletedCount) {
+      return res.status(404).json({ error: "Report not found" });
+    }
+    res.json(data);
+  } catch (err) {
+    console.error("Error deleting Incident Report:", err);
+    res.status(500).json({ error: "Failed to delete Incident Report" });
+  }
 });
 
 module.exports = router;
