@@ -758,7 +758,7 @@ class DailyProgressAndActivity extends Component {
           <div className="formTitleDiv">
             <h2 className="formTitle">Daily Progress 1</h2>
             <h5
-              className="text-center"
+              className="text-center hide-on-print"
               style={{ color: "rgb(119 119 119 / 93%)" }}
             >
               {this.state.lastEditDate ? (
@@ -1495,7 +1495,7 @@ class DailyProgressAndActivity extends Component {
                         </small>
                       )}
                     </div>
-                    <div className="form-group logInInputField">
+                    <div className="form-group logInInputField hide-on-print">
                       <label className="control-label">
                         Last Updated
                       </label>{" "}

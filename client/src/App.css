@@ -24,6 +24,18 @@
     flex-wrap: wrap;
   }
 
+  /* Clothing Inventory / C-SSRS: their tables, item cards, and section
+     headings must each take a full row, not flow side by side like the
+     per-field columns above. */
+  .clothing-inventory > *,
+  .cssrs-screening > * {
+    flex: 1 0 100%;
+  }
+
+  .clothing-inventory .table-responsive {
+    overflow: visible;
+  }
+
   .print-column {
     flex: 1 0 33.33%;
     box-sizing: border-box;

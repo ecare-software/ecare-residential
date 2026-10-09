@@ -22,6 +22,12 @@ import NightMonitoring from "../Forms/NightMonitoring";
 import ClipLoader from "react-spinners/ClipLoader";
 import DailyProgressTwo from "../Forms/DailyProgressTwo";
 import MedicationLog from "../Forms/MedicationLog";
+import ClothingInventory from "../Forms/ClothingInventory";
+import RoomCheck from "../Forms/RoomCheck";
+import SearchLog from "../Forms/SearchLog";
+import ClientRefusal from "../Forms/ClientRefusal";
+import MedicationDestruction from "../Forms/MedicationDestruction";
+import CssrsScreening from "../Forms/CssrsScreening";
 import "../../App.css";
 import FormActionButtons from "../Common/FormActionButtons";
 
@@ -387,12 +393,29 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj, liveSignatureSecti
         }
       }
     } catch (e) {
-      //go back
+      // Go back to how the checkbox and caption were before the click.
+      // getPostObjectData already flipped them optimistically; the state
+      // values in this closure are still the pre-click ones (it was created
+      // before that update), so restore those rather than flipping again -
+      // flipping again left a rejected approval showing as approved.
       console.log(e);
       if (isMounted.current) {
-        alert("Error update form state");
-        setApprovedByText("");
-        setIsApproved(!isApproved);
+        alert(e?.response?.data?.error || "Error update form state");
+        // Also clear the saving flag set above - otherwise its spinner stays
+        // up and the signature section stays hidden.
+        if (type === "nurse") {
+          setIsApprovedByNurse(isApprovedByNurse);
+          setApprovedByNurseText(approvedByNurseText);
+          setIsSavingSigCanvasNurse(false);
+        } else if (type === "alt1") {
+          setIsApprovedByAlt1(isApprovedByAlt1);
+          setApprovedByAlt1Text(approvedByAlt1Text);
+          setIsSavingSigCanvasAdminAlt1(false);
+        } else {
+          setIsApproved(isApproved);
+          setApprovedByText(approvedByText);
+          setIsSavingSigCanvasAdmin(false);
+        }
       }
     }
 
@@ -418,7 +441,7 @@ const MetaDetails = ({ formData, isAdminRole, route, userObj, liveSignatureSecti
       <div className="d-flex align-items-center hide-on-print">
         <h6 style={{ fontWeight: 400, marginRight: 5 }}>Last Updated</h6>{" "}
         <h6 style={{ fontWeight: 300 }}>
-          {` ${formData.createdByName}, ${formData.lastEditDate
+          {` ${formData.lastEditedByName || formData.createdByName}, ${formData.lastEditDate
             ? `${new Date(formData.lastEditDate).toLocaleDateString()}`
             : ""
             }`}
@@ -732,6 +755,18 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
       droute = "dailyProgressNoteTwo";
     } else if (name === "Medication Log") {
       droute = "medication"
+    } else if (name === "Monthly Clothing Inventory") {
+      droute = "clothingInventory";
+    } else if (name === "Room Check") {
+      droute = "roomCheck";
+    } else if (name === "Search Log") {
+      droute = "searchLog";
+    } else if (name === "Client Refusal") {
+      droute = "clientRefusal";
+    } else if (name === "Medication Destruction") {
+      droute = "medicationDestruction";
+    } else if (name === "C-SSRS Screening") {
+      droute = "cssrsScreening";
     }
 
     setRoute(droute);
@@ -913,6 +948,72 @@ const ShowFormContainer = ({ formData, userObj, isAdminRole, form }) => {
     if (name === "Night Monitoring") {
       return (
         <NightMonitoring
+          valuesSet="true"
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    }
+
+    if (name === "Monthly Clothing Inventory") {
+      return (
+        <ClothingInventory
+          valuesSet="true"
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    }
+
+    if (name === "Room Check") {
+      return (
+        <RoomCheck
+          valuesSet="true"
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    }
+
+    if (name === "Search Log") {
+      return (
+        <SearchLog
+          valuesSet="true"
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    }
+
+    if (name === "Client Refusal") {
+      return (
+        <ClientRefusal
+          valuesSet="true"
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    }
+
+    if (name === "Medication Destruction") {
+      return (
+        <MedicationDestruction
+          valuesSet="true"
+          userObj={userObj}
+          formData={updatedFormData}
+          doUpdateFormDates={doUpdateFormDates}
+        />
+      );
+    }
+
+    if (name === "C-SSRS Screening") {
+      return (
+        <CssrsScreening
           valuesSet="true"
           userObj={userObj}
           formData={updatedFormData}

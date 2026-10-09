@@ -41,6 +41,12 @@ const coinbase = require("./routes/api/coinbase");
 const medication = require("./routes/api/medicationRouter");
 const fosterChecklist = require("./routes/api/fosterChecklist");
 const trainingAttendance = require("./routes/api/trainingAttendance");
+const clothingInventory = require("./routes/api/clothingInventory");
+const roomCheck = require("./routes/api/roomCheck");
+const searchLog = require("./routes/api/searchLog");
+const clientRefusal = require("./routes/api/clientRefusal");
+const medicationDestruction = require("./routes/api/medicationDestruction");
+const cssrsScreening = require("./routes/api/cssrsScreening");
 
 
 //user express
@@ -140,6 +146,12 @@ app.use("/api/coinbase", coinbase);
 app.use("/api/medication", medication);
 app.use("/api/fosterChecklist", fosterChecklist);
 app.use("/api/trainingAttendance", trainingAttendance);
+app.use("/api/clothingInventory", clothingInventory);
+app.use("/api/roomCheck", roomCheck);
+app.use("/api/searchLog", searchLog);
+app.use("/api/clientRefusal", clientRefusal);
+app.use("/api/medicationDestruction", medicationDestruction);
+app.use("/api/cssrsScreening", cssrsScreening);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

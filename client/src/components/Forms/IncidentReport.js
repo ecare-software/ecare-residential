@@ -515,7 +515,7 @@ class IncidentReport extends Component {
           <div className="formTitleDiv">
             <h4 className="formTitle">Incident Report</h4>
             <h5
-              className="text-center"
+              className="text-center hide-on-print"
               style={{ color: "rgb(119 119 119 / 93%)" }}
             >
               {this.state.lastEditDate ? (
@@ -1198,7 +1198,7 @@ class IncidentReport extends Component {
 
                 <Row>
                   <Col xs={12}>
-                    <div className="form-group logInInputField">
+                    <div className="form-group logInInputField hide-on-print">
                       <label className="control-label">
                         Last Updated
                       </label>{" "}

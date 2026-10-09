@@ -188,6 +188,15 @@ export class FormReports extends Component {
       data = data.reduce((acc, cur) => {
         const formHasUserArray = cur.filter((formType) => {
           return formType.createdBy === this.props.userObj.email || 
+          // Staff who submitted (and so signed) a draft someone else started.
+          formType.submittedBy === this.props.userObj.email ||
+          // Medication Destruction records its signers as witnesses, not
+          // submittedBy: witness 1 (whoever submitted - possibly a handed-off
+          // draft they didn't create) needs it for Return to Draft, and
+          // witness 2 needs to find the form they're asked to co-sign.
+          (formType.formType === 'Medication Destruction' &&
+            (formType.witness1Id === this.props.userObj._id ||
+              formType.witness2Id === this.props.userObj._id)) ||
           formType.formType == 'Daily Progress Note Two' ||
           formType.formType === 'Medication Log'
         });
@@ -241,7 +250,13 @@ export class FormReports extends Component {
               "Awake Night Staff Signoff",
               "Night Monitoring",
               "Daily Progress Note Two", 
-              "Medication Log"
+              "Medication Log",
+              "Monthly Clothing Inventory",
+              "Room Check",
+              "Search Log",
+              "Client Refusal",
+              "Medication Destruction",
+              "C-SSRS Screening"
             ],
           });
           this.setState({ formNamesReady: true });
@@ -254,6 +269,30 @@ export class FormReports extends Component {
     });
   };
 
+  // These routes (medication, clothingInventory, roomCheck, searchLog,
+  // clientRefusal, medicationDestruction, cssrsScreening) require a verified login
+  // (unlike the older form routes' list GETs), so a failure here is
+  // recoverable - fall back to no results rather than letting one rejected
+  // request fail the whole Axios.all.
+  getAuthedForms = (route, formName, searchString, submittedAfter, submittedBefore, submittedByA, approved) =>
+    Axios.get(
+      `/api/${route}/` +
+      this.props.userObj.homeId +
+      "/" +
+      searchString +
+      "/" +
+      submittedAfter +
+      "/" +
+      submittedBefore +
+      "/" +
+      submittedByA +
+      "/" +
+      approved
+    ).catch((e) => {
+      console.log(`Error loading ${formName} - ${e}`);
+      return { data: [] };
+    });
+
   getForms = () => {
     console.log("Fetching all forms for homeId:", this.props.userObj.homeId);
     this.flushFormStateData();
@@ -264,11 +303,13 @@ export class FormReports extends Component {
         this.props.userObj.homeId +
         "/none/" + fortyFiveDaysAgo + "/none/none/false"
       ),
-      Axios.get(
-        "/api/medication/" +
-        this.props.userObj.homeId +
-        "/none/" + fortyFiveDaysAgo + "/none/none/false"
-      ),
+      this.getAuthedForms("medication", "Medication Log", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("clothingInventory", "Monthly Clothing Inventory", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("roomCheck", "Room Check", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("searchLog", "Search Log", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("clientRefusal", "Client Refusal", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("medicationDestruction", "Medication Destruction", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("cssrsScreening", "C-SSRS Screening", "none", fortyFiveDaysAgo, "none", "none", "false"),
       Axios.get(
         "/api/dailyProgressAndActivity/" +
         this.props.userObj.homeId +
@@ -278,7 +319,12 @@ export class FormReports extends Component {
         "/api/incidentReport/" +
         this.props.userObj.homeId +
         "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
-      ),
+      ).catch((e) => {
+        // Requires a verified login - fall back to no results rather than
+        // failing the whole Axios.all (see getAuthedForms).
+        console.log(`Error loading Incident Report - ${e}`);
+        return { data: [] };
+      }),
       Axios.get(
         "/api/seriousIncidentReport/" +
         this.props.userObj.homeId +
@@ -440,16 +486,23 @@ export class FormReports extends Component {
         this.props.userObj.homeId +
         "/none/" + fortyFiveDaysAgo + "/none/none/false"
       ),
-      Axios.get(
-        "/api/medication/" +
-        this.props.userObj.homeId +
-        "/none/" + fortyFiveDaysAgo + "/none/none/false"
-      ),
+      this.getAuthedForms("medication", "Medication Log", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("clothingInventory", "Monthly Clothing Inventory", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("roomCheck", "Room Check", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("searchLog", "Search Log", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("clientRefusal", "Client Refusal", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("medicationDestruction", "Medication Destruction", "none", fortyFiveDaysAgo, "none", "none", "false"),
+      this.getAuthedForms("cssrsScreening", "C-SSRS Screening", "none", fortyFiveDaysAgo, "none", "none", "false"),
       Axios.get(
         "/api/incidentReport/" +
         this.props.userObj.homeId +
         "/none/" + fortyFiveDaysAgo + "/none/none/none/none/none/none/none/false"
-      ),
+      ).catch((e) => {
+        // Requires a verified login - fall back to no results rather than
+        // failing the whole Axios.all (see getAuthedForms).
+        console.log(`Error loading Incident Report - ${e}`);
+        return { data: [] };
+      }),
       Axios.get(
         "/api/seriousIncidentReport/" +
         this.props.userObj.homeId +
@@ -581,18 +634,91 @@ export class FormReports extends Component {
         }
         if (formName === "Medication Log") {
           formRequests.push(
-            Axios.get(
-              "/api/medication/" +
-              this.props.userObj.homeId +
-              "/" +
-              searchString +
-              "/" +
-              submittedAfter +
-              "/" +
-              submittedBefore +
-              "/" +
-              submittedByA +
-              "/" +
+            this.getAuthedForms(
+              "medication",
+              "Medication Log",
+              searchString,
+              submittedAfter,
+              submittedBefore,
+              submittedByA,
+              approved
+            )
+          );
+        }
+        if (formName === "Monthly Clothing Inventory") {
+          formRequests.push(
+            this.getAuthedForms(
+              "clothingInventory",
+              "Monthly Clothing Inventory",
+              searchString,
+              submittedAfter,
+              submittedBefore,
+              submittedByA,
+              approved
+            )
+          );
+        }
+        if (formName === "Room Check") {
+          formRequests.push(
+            this.getAuthedForms(
+              "roomCheck",
+              "Room Check",
+              searchString,
+              submittedAfter,
+              submittedBefore,
+              submittedByA,
+              approved
+            )
+          );
+        }
+        if (formName === "Search Log") {
+          formRequests.push(
+            this.getAuthedForms(
+              "searchLog",
+              "Search Log",
+              searchString,
+              submittedAfter,
+              submittedBefore,
+              submittedByA,
+              approved
+            )
+          );
+        }
+        if (formName === "Client Refusal") {
+          formRequests.push(
+            this.getAuthedForms(
+              "clientRefusal",
+              "Client Refusal",
+              searchString,
+              submittedAfter,
+              submittedBefore,
+              submittedByA,
+              approved
+            )
+          );
+        }
+        if (formName === "Medication Destruction") {
+          formRequests.push(
+            this.getAuthedForms(
+              "medicationDestruction",
+              "Medication Destruction",
+              searchString,
+              submittedAfter,
+              submittedBefore,
+              submittedByA,
+              approved
+            )
+          );
+        }
+        if (formName === "C-SSRS Screening") {
+          formRequests.push(
+            this.getAuthedForms(
+              "cssrsScreening",
+              "C-SSRS Screening",
+              searchString,
+              submittedAfter,
+              submittedBefore,
+              submittedByA,
               approved
             )
           );
@@ -652,7 +778,12 @@ export class FormReports extends Component {
               submittedByA +
               "/" +
               approved
-            )
+            ).catch((e) => {
+        // Requires a verified login - fall back to no results rather than
+        // failing the whole Axios.all (see getAuthedForms).
+        console.log(`Error loading Incident Report - ${e}`);
+        return { data: [] };
+      })
           );
         }
 
@@ -900,18 +1031,67 @@ export class FormReports extends Component {
           "/" +
           approved
         ),
-        Axios.get(
-          "/api/medication/" +
-          this.props.userObj.homeId +
-          "/" +
-          searchString +
-          "/" +
-          submittedAfter +
-          "/" +
-          submittedBefore +
-          "/" +
-          submittedByA +
-          "/" +
+        this.getAuthedForms(
+          "medication",
+          "Medication Log",
+          searchString,
+          submittedAfter,
+          submittedBefore,
+          submittedByA,
+          approved
+        ),
+        this.getAuthedForms(
+          "clothingInventory",
+          "Monthly Clothing Inventory",
+          searchString,
+          submittedAfter,
+          submittedBefore,
+          submittedByA,
+          approved
+        ),
+        this.getAuthedForms(
+          "roomCheck",
+          "Room Check",
+          searchString,
+          submittedAfter,
+          submittedBefore,
+          submittedByA,
+          approved
+        ),
+        this.getAuthedForms(
+          "searchLog",
+          "Search Log",
+          searchString,
+          submittedAfter,
+          submittedBefore,
+          submittedByA,
+          approved
+        ),
+        this.getAuthedForms(
+          "clientRefusal",
+          "Client Refusal",
+          searchString,
+          submittedAfter,
+          submittedBefore,
+          submittedByA,
+          approved
+        ),
+        this.getAuthedForms(
+          "medicationDestruction",
+          "Medication Destruction",
+          searchString,
+          submittedAfter,
+          submittedBefore,
+          submittedByA,
+          approved
+        ),
+        this.getAuthedForms(
+          "cssrsScreening",
+          "C-SSRS Screening",
+          searchString,
+          submittedAfter,
+          submittedBefore,
+          submittedByA,
           approved
         ),
         Axios.get(
@@ -961,7 +1141,12 @@ export class FormReports extends Component {
           submittedByA +
           "/" +
           approved
-        ),
+        ).catch((e) => {
+        // Requires a verified login - fall back to no results rather than
+        // failing the whole Axios.all (see getAuthedForms).
+        console.log(`Error loading Incident Report - ${e}`);
+        return { data: [] };
+      }),
         Axios.get(
           "/api/seriousIncidentReport/" +
           this.props.userObj.homeId +
