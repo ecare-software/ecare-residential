@@ -54,6 +54,8 @@ class MedicationDestruction extends Component {
     // The autosave request currently running, if any - Submit waits for it
     // (see submit) so it can't race the autosave's create or edit.
     this.autoSaveInFlight = null;
+    // True while a Submit / Finish Later is running (see validateForm).
+    this.saveInFlight = false;
     // Bumped whenever the form is cleared for a new entry, so a late
     // autosave response can't attach the old record to the blank form.
     this.formGeneration = 0;
@@ -225,7 +227,27 @@ class MedicationDestruction extends Component {
     }
   };
 
+  // One Submit / Finish Later at a time: a second click while one is still
+  // running (it first looks up the user's signature, then saves) used to
+  // send a second save - which either hit a 409 conflict with the first or
+  // ran against the form after it had been cleared. The buttons are also
+  // disabled meanwhile (isSaving).
   validateForm = async (save) => {
+    if (this.saveInFlight) return;
+    this.saveInFlight = true;
+    this.setState({ isSaving: true });
+    try {
+      await this.runValidateForm(save);
+    } catch (e) {
+      console.log(e);
+      this.showError(`Error submitting ${FORM_TITLE}`);
+    } finally {
+      this.saveInFlight = false;
+      this.setState({ isSaving: false });
+    }
+  };
+
+  runValidateForm = async (save) => {
     if (!save) {
       const missing = REQUIRED_FIELDS.filter(
         ({ key }) => !String(this.state[key] || "").trim()
@@ -253,7 +275,7 @@ class MedicationDestruction extends Component {
       }
     }
     this.setState({ loadingClients: true });
-    this.submit(save);
+    await this.submit(save);
   };
 
   // Report view: witness 1 (or an admin) pulls a form back from
@@ -660,7 +682,7 @@ class MedicationDestruction extends Component {
             <button
               className="lightBtn hide hide-on-print save-submit-btn"
               style={{ width: "100%" }}
-              disabled={disabled}
+              disabled={disabled || this.state.isSaving}
               onClick={() => this.validateForm(true)}
             >
               Finish Later
@@ -670,7 +692,7 @@ class MedicationDestruction extends Component {
             <button
               className="darkBtn hide hide-on-print save-submit-btn"
               style={{ width: "100%" }}
-              disabled={disabled}
+              disabled={disabled || this.state.isSaving}
               onClick={() => this.validateForm(false)}
             >
               Sign &amp; Send to Witness 2

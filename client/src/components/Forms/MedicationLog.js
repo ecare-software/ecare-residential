@@ -560,6 +560,23 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
     };
   };
 
+  // One Submit / Finish Later at a time - a second click while a save is
+  // still running would otherwise send a second save (a duplicate log, or a
+  // conflicting edit). The buttons are disabled meanwhile too.
+  const saveInFlight = useRef(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const runOneSave = async (save) => {
+    if (saveInFlight.current) return;
+    saveInFlight.current = true;
+    setIsSaving(true);
+    try {
+      await save();
+    } finally {
+      saveInFlight.current = false;
+      setIsSaving(false);
+    }
+  };
+
   const handleFinishLater = async () => {
     try {
       const payload = await buildPayload("IN_PROGRESS");
@@ -1168,8 +1185,8 @@ const MedicationLog = ({ effectiveUserObj: propEffectiveUserObj, secondaryUserOb
           })}
         </Section>
         <div className="d-flex justify-content-between" style={{ marginTop: "30px", width: "650px" }}>
-          <button type="button" className="lightBtn" style={{ width: "48%" }} onClick={handleFinishLater}>Finish Later</button>
-          <button type="button" className="darkBtn" style={{ width: "48%" }} onClick={handleSubmit}>Submit</button>
+          <button type="button" className="lightBtn" style={{ width: "48%" }} disabled={isSaving} onClick={() => runOneSave(handleFinishLater)}>Finish Later</button>
+          <button type="button" className="darkBtn" style={{ width: "48%" }} disabled={isSaving} onClick={() => runOneSave(handleSubmit)}>Submit</button>
         </div>
       </FormSection>
     </Container>

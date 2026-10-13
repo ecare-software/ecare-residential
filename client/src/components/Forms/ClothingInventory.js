@@ -134,6 +134,8 @@ class ClothingInventory extends Component {
     // The autosave request currently running, if any - Submit waits for it
     // (see submit) so it can't race the autosave's create or edit.
     this.autoSaveInFlight = null;
+    // True while a Submit / Finish Later is running (see validateForm).
+    this.saveInFlight = false;
     // Bumped whenever the form is cleared for a new entry, so a late
     // autosave response can't attach the old record to the blank form.
     this.formGeneration = 0;
@@ -383,7 +385,27 @@ class ClothingInventory extends Component {
     }
   };
 
+  // One Submit / Finish Later at a time: a second click while one is still
+  // running (it first looks up the user's signature, then saves) used to
+  // send a second save - which either hit a 409 conflict with the first or
+  // ran against the form after it had been cleared. The buttons are also
+  // disabled meanwhile (isSaving).
   validateForm = async (save) => {
+    if (this.saveInFlight) return;
+    this.saveInFlight = true;
+    this.setState({ isSaving: true });
+    try {
+      await this.runValidateForm(save);
+    } catch (e) {
+      console.log(e);
+      this.showError(`Error submitting ${FORM_TITLE}`);
+    } finally {
+      this.saveInFlight = false;
+      this.setState({ isSaving: false });
+    }
+  };
+
+  runValidateForm = async (save) => {
     if (!save) {
       if (!this.state.monthOf) {
         this.showError("Please enter the inventory month before submitting.");
@@ -405,7 +427,7 @@ class ClothingInventory extends Component {
       }
     }
     this.setState({ loadingClients: true });
-    this.submit(save);
+    await this.submit(save);
   };
 
   startAutoSave = () => {
@@ -821,7 +843,7 @@ class ClothingInventory extends Component {
                 width: "100%",
                 display: this.state.status === "COMPLETED" ? "none" : "block",
               }}
-              disabled={disabled}
+              disabled={disabled || this.state.isSaving}
               onClick={() => {
                 this.validateForm(true);
               }}
@@ -833,7 +855,7 @@ class ClothingInventory extends Component {
             <button
               className="darkBtn hide hide-on-print save-submit-btn"
               style={{ width: "100%" }}
-              disabled={disabled}
+              disabled={disabled || this.state.isSaving}
               onClick={() => {
                 this.validateForm(false);
               }}
