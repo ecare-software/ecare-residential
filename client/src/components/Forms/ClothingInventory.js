@@ -94,10 +94,9 @@ const defaultClothingItems = () =>
 const defaultHygieneItems = () =>
   HYGIENE_ROWS.map(([key, item, custom]) => ({ key, item, custom, status: "" }));
 
-const defaultClientSignatures = () => [
-  { sig: [], date: "" },
-  { sig: [], date: "" },
-];
+// One client signature. (Inventories saved while the form had two boxes
+// keep a signed second one - see setValues.)
+const defaultClientSignatures = () => [{ sig: [], date: "" }];
 
 const localNowIso = () =>
   new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString();
@@ -407,8 +406,16 @@ class ClothingInventory extends Component {
 
   runValidateForm = async (save) => {
     if (!save) {
-      if (!this.state.monthOf) {
-        this.showError("Please enter the inventory month before submitting.");
+      // Mirrors missingForCompletion in routes/api/clothingInventory.js:
+      // the client signature is required.
+      const missing = [];
+      if (!this.state.monthOf) missing.push("Month Of");
+      const clientSigned = this.state.clientSignatures.some(
+        (entry) => Array.isArray(entry.sig) && entry.sig.length > 0
+      );
+      if (!clientSigned) missing.push("Client Signature");
+      if (missing.length) {
+        this.showError(`Please complete the following field(s): ${missing.join(", ")}`);
         return;
       }
       const { data: createdUserData } = await GetUserSig(
@@ -443,7 +450,12 @@ class ClothingInventory extends Component {
     const formData = this.props.formData;
     const clientSignatures =
       Array.isArray(formData.clientSignatures) && formData.clientSignatures.length
-        ? [...formData.clientSignatures, ...defaultClientSignatures()].slice(0, 2)
+        ? // Keep the first entry, plus a second only if it was actually
+          // signed (older inventories had two boxes); an empty second box
+          // is dropped.
+          formData.clientSignatures
+            .slice(0, 2)
+            .filter((entry, index) => index === 0 || (Array.isArray(entry?.sig) && entry.sig.length))
         : defaultClientSignatures();
     await this.setState({
       ...formData,
@@ -675,7 +687,9 @@ class ClothingInventory extends Component {
         {this.state.clientSignatures.map((entry, index) => (
           <Col md={6} className="print-column" key={index}>
             <div className="form-group logInInputField">
-              <label className="control-label">Client Signature {index + 1}</label>
+              <label className="control-label">
+                {index === 0 ? "Client Signature" : `Client Signature ${index + 1}`}
+              </label>
               <div id="sigCanvasDiv">
                 <SignatureCanvas
                   ref={(ref) => {

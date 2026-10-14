@@ -31,6 +31,8 @@ const HYGIENE_STATUSES = ["", "have", "almostOut", "need"];
 // Generous upper bounds - the form ships ~20 clothing rows and ~8 hygiene
 // rows - just so a single request can't grow a record without limit.
 const MAX_ROWS = 60;
+// The form collects one client signature; up to two are still accepted so
+// inventories saved while it had a second box keep that signature on edit.
 const MAX_CLIENT_SIGNATURES = 2;
 const MAX_COUNT = 9999;
 
@@ -47,6 +49,11 @@ function missingForCompletion(doc) {
   const missing = [];
   if (!doc.clientId) missing.push("Client");
   if (!doc.monthOf) missing.push("Month Of");
+  // The client signature (an older inventory may also carry a second one).
+  const signed = (doc.clientSignatures || []).some(
+    (entry) => Array.isArray(entry?.sig) && entry.sig.length > 0
+  );
+  if (!signed) missing.push("Client Signature");
   return missing;
 }
 
@@ -316,7 +323,7 @@ router.put("/:homeId/:formId/", async (req, res) => {
       _id: req.params.formId,
       homeId: authUser.homeId,
     }).select(
-      "status approved createDate originalCreateDate clientId monthOf createdBy createdById submittedById lastEditDate"
+      "status approved createDate originalCreateDate clientId monthOf clientSignatures createdBy createdById submittedById lastEditDate"
     );
     if (!existing) {
       return res.status(404).json({ error: "Report not found" });
@@ -380,6 +387,10 @@ router.put("/:homeId/:formId/", async (req, res) => {
       const missing = missingForCompletion({
         clientId: updates.clientId || existing.clientId,
         monthOf: updates.monthOf !== undefined ? updates.monthOf : existing.monthOf,
+        clientSignatures:
+          updates.clientSignatures !== undefined
+            ? updates.clientSignatures
+            : existing.clientSignatures,
       });
       if (missing.length) return res.status(400).json(incompleteError(missing));
     }

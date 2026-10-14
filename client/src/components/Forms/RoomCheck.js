@@ -255,8 +255,12 @@ class RoomCheck extends Component {
 
   runValidateForm = async (save) => {
     if (!save) {
-      if (!this.state.roomUnit.trim()) {
-        this.showError("Please enter the room/unit before submitting.");
+      // Mirrors missingForCompletion in routes/api/roomCheck.js.
+      const missing = [];
+      if (!this.state.roomUnit.trim()) missing.push("Room/Unit");
+      if (!this.state.findings.trim()) missing.push("Findings/Notes");
+      if (missing.length) {
+        this.showError(`Please complete the following field(s): ${missing.join(", ")}`);
         return;
       }
       const { data: createdUserData } = await GetUserSig(
