@@ -280,6 +280,22 @@ class MedicationDestruction extends Component {
 
   // Report view: witness 1 (or an admin) pulls a form back from
   // AWAITING WITNESS to fix it or pick a different witness.
+  // Co-sign and Return to Draft go through the same one-at-a-time guard as
+  // Submit / Finish Later (saveInFlight): a double-click on Co-sign used to
+  // send two co-signs - the first succeeded, the second was refused ("isn't
+  // waiting on your signature") and showed an error after the success.
+  runExclusive = async (action) => {
+    if (this.saveInFlight) return;
+    this.saveInFlight = true;
+    this.setState({ isSaving: true });
+    try {
+      await action();
+    } finally {
+      this.saveInFlight = false;
+      this.setState({ isSaving: false });
+    }
+  };
+
   returnToDraft = async () => {
     if (!window.confirm("Return this form to draft? Witness 1's signature will be removed.")) {
       return;
@@ -555,12 +571,20 @@ class MedicationDestruction extends Component {
         {(canCosign || canReturnToDraft) && (
           <Col md={12} className="hide-on-print d-flex" style={{ gap: 10 }}>
             {canCosign && (
-              <button className="darkBtn" onClick={this.cosignThisForm}>
+              <button
+                className="darkBtn"
+                disabled={this.state.isSaving}
+                onClick={() => this.runExclusive(this.cosignThisForm)}
+              >
                 Co-sign as Witness 2
               </button>
             )}
             {canReturnToDraft && (
-              <button className="lightBtn" onClick={this.returnToDraft}>
+              <button
+                className="lightBtn"
+                disabled={this.state.isSaving}
+                onClick={() => this.runExclusive(this.returnToDraft)}
+              >
                 Return to Draft
               </button>
             )}
@@ -742,7 +766,11 @@ class MedicationDestruction extends Component {
                       <p className="mb-2">
                         Witness 1 signed: {this.formatDateTime(form.witness1SignedAt)}
                       </p>
-                      <button className="darkBtn" onClick={() => this.cosignPending(form._id)}>
+                      <button
+                        className="darkBtn"
+                        disabled={this.state.isSaving}
+                        onClick={() => this.runExclusive(() => this.cosignPending(form._id))}
+                      >
                         I witnessed this - Co-sign
                       </button>
                     </div>

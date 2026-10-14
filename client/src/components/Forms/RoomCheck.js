@@ -257,8 +257,9 @@ class RoomCheck extends Component {
     if (!save) {
       // Mirrors missingForCompletion in routes/api/roomCheck.js.
       const missing = [];
-      if (!this.state.roomUnit.trim()) missing.push("Room/Unit");
-      if (!this.state.findings.trim()) missing.push("Findings/Notes");
+      // String(... || "") - an older record may hold null/undefined here.
+      if (!String(this.state.roomUnit || "").trim()) missing.push("Room/Unit");
+      if (!String(this.state.findings || "").trim()) missing.push("Findings/Notes");
       if (missing.length) {
         this.showError(`Please complete the following field(s): ${missing.join(", ")}`);
         return;
