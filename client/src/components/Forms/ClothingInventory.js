@@ -407,13 +407,20 @@ class ClothingInventory extends Component {
   runValidateForm = async (save) => {
     if (!save) {
       // Mirrors missingForCompletion in routes/api/clothingInventory.js:
-      // the client signature is required.
+      // the client signature is required when submitting, and can't be
+      // removed from a submitted inventory that has one - but an inventory
+      // submitted unsigned before it was required stays editable.
       const missing = [];
       if (!this.state.monthOf) missing.push("Month Of");
-      const clientSigned = this.state.clientSignatures.some(
-        (entry) => Array.isArray(entry.sig) && entry.sig.length > 0
-      );
-      if (!clientSigned) missing.push("Client Signature");
+      const signed = (sigs) =>
+        (sigs || []).some((entry) => Array.isArray(entry?.sig) && entry.sig.length > 0);
+      const alreadySubmitted =
+        this.props.valuesSet && this.props.formData && this.props.formData.status === "COMPLETED";
+      const signatureRequired =
+        !alreadySubmitted || signed(this.props.formData.clientSignatures);
+      if (signatureRequired && !signed(this.state.clientSignatures)) {
+        missing.push("Client Signature");
+      }
       if (missing.length) {
         this.showError(`Please complete the following field(s): ${missing.join(", ")}`);
         return;

@@ -45,15 +45,22 @@ const INVALID_MONTH_ERROR = "Month Of must be a valid month.";
 // client/src/components/Forms/ClothingInventory.js, which only checks the
 // month - the client is enforced by the dropdown). Returns the labels of
 // anything missing from `doc`, the full record as it will be saved.
-function missingForCompletion(doc) {
+const hasClientSignature = (clientSignatures) =>
+  (clientSignatures || []).some((entry) => Array.isArray(entry?.sig) && entry.sig.length > 0);
+
+// `requireSignature`: the client signature is required when an inventory is
+// submitted, and can't later be removed from one that has it - but an
+// inventory submitted before it was required (Oct 1-13 2026) may have none,
+// and must stay correctable (counts, notes) without the child re-signing,
+// who may since have been discharged.
+function missingForCompletion(doc, { requireSignature = true } = {}) {
   const missing = [];
   if (!doc.clientId) missing.push("Client");
   if (!doc.monthOf) missing.push("Month Of");
-  // The client signature (an older inventory may also carry a second one).
-  const signed = (doc.clientSignatures || []).some(
-    (entry) => Array.isArray(entry?.sig) && entry.sig.length > 0
-  );
-  if (!signed) missing.push("Client Signature");
+  // (an older inventory may also carry a second signature)
+  if (requireSignature && !hasClientSignature(doc.clientSignatures)) {
+    missing.push("Client Signature");
+  }
   return missing;
 }
 
@@ -384,14 +391,19 @@ router.put("/:homeId/:formId/", async (req, res) => {
     // approval-only request.
     const isSubmitting = existing.status !== "COMPLETED" && updates.status === "COMPLETED";
     if (effectiveStatus === "COMPLETED" && (isSubmitting || Object.keys(editedFields).length)) {
-      const missing = missingForCompletion({
-        clientId: updates.clientId || existing.clientId,
-        monthOf: updates.monthOf !== undefined ? updates.monthOf : existing.monthOf,
-        clientSignatures:
-          updates.clientSignatures !== undefined
-            ? updates.clientSignatures
-            : existing.clientSignatures,
-      });
+      const missing = missingForCompletion(
+        {
+          clientId: updates.clientId || existing.clientId,
+          monthOf: updates.monthOf !== undefined ? updates.monthOf : existing.monthOf,
+          clientSignatures:
+            updates.clientSignatures !== undefined
+              ? updates.clientSignatures
+              : existing.clientSignatures,
+        },
+        // Required when submitting; on an edit of a submitted inventory, only
+        // if it already had one (so it can't be removed).
+        { requireSignature: isSubmitting || hasClientSignature(existing.clientSignatures) }
+      );
       if (missing.length) return res.status(400).json(incompleteError(missing));
     }
 
