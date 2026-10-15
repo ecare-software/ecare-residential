@@ -33,13 +33,14 @@ const STATUSES = ["IN PROGRESS", "COMPLETED"];
 const CLIENT_REQUIRED_ERROR = "Please select a client from this home.";
 
 // What a COMPLETED Room Check must have (mirrors validateForm in
-// client/src/components/Forms/RoomCheck.js, which requires the room/unit -
-// the client is enforced by the dropdown). Returns the labels of anything
+// client/src/components/Forms/RoomCheck.js, which requires the room/unit and
+// findings/notes - the client is enforced by the dropdown). Returns the labels of anything
 // missing from `doc`, the full record as it will be saved.
 function missingForCompletion(doc) {
   const missing = [];
   if (!doc.clientId) missing.push("Client");
   if (!String(doc.roomUnit || "").trim()) missing.push("Room/Unit");
+  if (!String(doc.findings || "").trim()) missing.push("Findings/Notes");
   return missing;
 }
 
@@ -252,7 +253,7 @@ router.put("/:homeId/:formId/", async (req, res) => {
       _id: req.params.formId,
       homeId: authUser.homeId,
     }).select(
-      "status approved createDate originalCreateDate clientId roomUnit createdBy createdById submittedById lastEditDate"
+      "status approved createDate originalCreateDate clientId roomUnit findings createdBy createdById submittedById lastEditDate"
     );
     if (!existing) {
       return res.status(404).json({ error: "Report not found" });
@@ -315,6 +316,7 @@ router.put("/:homeId/:formId/", async (req, res) => {
       const missing = missingForCompletion({
         clientId: updates.clientId || existing.clientId,
         roomUnit: updates.roomUnit !== undefined ? updates.roomUnit : existing.roomUnit,
+        findings: updates.findings !== undefined ? updates.findings : existing.findings,
       });
       if (missing.length) return res.status(400).json(incompleteError(missing));
     }
