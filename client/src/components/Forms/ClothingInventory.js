@@ -94,10 +94,9 @@ const defaultClothingItems = () =>
 const defaultHygieneItems = () =>
   HYGIENE_ROWS.map(([key, item, custom]) => ({ key, item, custom, status: "" }));
 
-const defaultClientSignatures = () => [
-  { sig: [], date: "" },
-  { sig: [], date: "" },
-];
+// One client signature. (Inventories saved while the form had two boxes
+// keep a signed second one - see setValues.)
+const defaultClientSignatures = () => [{ sig: [], date: "" }];
 
 const localNowIso = () =>
   new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString();
@@ -134,6 +133,8 @@ class ClothingInventory extends Component {
     // The autosave request currently running, if any - Submit waits for it
     // (see submit) so it can't race the autosave's create or edit.
     this.autoSaveInFlight = null;
+    // True while a Submit / Finish Later is running (see validateForm).
+    this.saveInFlight = false;
     // Bumped whenever the form is cleared for a new entry, so a late
     // autosave response can't attach the old record to the blank form.
     this.formGeneration = 0;
@@ -383,10 +384,45 @@ class ClothingInventory extends Component {
     }
   };
 
+  // One Submit / Finish Later at a time: a second click while one is still
+  // running (it first looks up the user's signature, then saves) used to
+  // send a second save - which either hit a 409 conflict with the first or
+  // ran against the form after it had been cleared. The buttons are also
+  // disabled meanwhile (isSaving).
   validateForm = async (save) => {
+    if (this.saveInFlight) return;
+    this.saveInFlight = true;
+    this.setState({ isSaving: true });
+    try {
+      await this.runValidateForm(save);
+    } catch (e) {
+      console.log(e);
+      this.showError(`Error submitting ${FORM_TITLE}`);
+    } finally {
+      this.saveInFlight = false;
+      this.setState({ isSaving: false });
+    }
+  };
+
+  runValidateForm = async (save) => {
     if (!save) {
-      if (!this.state.monthOf) {
-        this.showError("Please enter the inventory month before submitting.");
+      // Mirrors missingForCompletion in routes/api/clothingInventory.js:
+      // the client signature is required when submitting, and can't be
+      // removed from a submitted inventory that has one - but an inventory
+      // submitted unsigned before it was required stays editable.
+      const missing = [];
+      if (!this.state.monthOf) missing.push("Month Of");
+      const signed = (sigs) =>
+        (sigs || []).some((entry) => Array.isArray(entry?.sig) && entry.sig.length > 0);
+      const alreadySubmitted =
+        this.props.valuesSet && this.props.formData && this.props.formData.status === "COMPLETED";
+      const signatureRequired =
+        !alreadySubmitted || signed(this.props.formData.clientSignatures);
+      if (signatureRequired && !signed(this.state.clientSignatures)) {
+        missing.push("Client Signature");
+      }
+      if (missing.length) {
+        this.showError(`Please complete the following field(s): ${missing.join(", ")}`);
         return;
       }
       const { data: createdUserData } = await GetUserSig(
@@ -405,7 +441,7 @@ class ClothingInventory extends Component {
       }
     }
     this.setState({ loadingClients: true });
-    this.submit(save);
+    await this.submit(save);
   };
 
   startAutoSave = () => {
@@ -421,7 +457,12 @@ class ClothingInventory extends Component {
     const formData = this.props.formData;
     const clientSignatures =
       Array.isArray(formData.clientSignatures) && formData.clientSignatures.length
-        ? [...formData.clientSignatures, ...defaultClientSignatures()].slice(0, 2)
+        ? // Keep the first entry, plus a second only if it was actually
+          // signed (older inventories had two boxes); an empty second box
+          // is dropped.
+          formData.clientSignatures
+            .slice(0, 2)
+            .filter((entry, index) => index === 0 || (Array.isArray(entry?.sig) && entry.sig.length))
         : defaultClientSignatures();
     await this.setState({
       ...formData,
@@ -653,7 +694,9 @@ class ClothingInventory extends Component {
         {this.state.clientSignatures.map((entry, index) => (
           <Col md={6} className="print-column" key={index}>
             <div className="form-group logInInputField">
-              <label className="control-label">Client Signature {index + 1}</label>
+              <label className="control-label">
+                {index === 0 ? "Client Signature" : `Client Signature ${index + 1}`}
+              </label>
               <div id="sigCanvasDiv">
                 <SignatureCanvas
                   ref={(ref) => {
@@ -821,7 +864,7 @@ class ClothingInventory extends Component {
                 width: "100%",
                 display: this.state.status === "COMPLETED" ? "none" : "block",
               }}
-              disabled={disabled}
+              disabled={disabled || this.state.isSaving}
               onClick={() => {
                 this.validateForm(true);
               }}
@@ -833,7 +876,7 @@ class ClothingInventory extends Component {
             <button
               className="darkBtn hide hide-on-print save-submit-btn"
               style={{ width: "100%" }}
-              disabled={disabled}
+              disabled={disabled || this.state.isSaving}
               onClick={() => {
                 this.validateForm(false);
               }}
