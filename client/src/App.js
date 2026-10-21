@@ -100,6 +100,7 @@ class App extends Component {
     incompleteDailyProgressTwo: [],
     showIncompleteDailyProgressTwo: false,
     reportsInitialForm: '',
+    reportsKey: 0,
   };
 
 
@@ -332,6 +333,9 @@ class App extends Component {
       allUsersSet: false,
       blockCompUpdates: false,
       nonApprovedFormCountSet: false,
+      incompleteDailyProgressTwo: [],
+      showIncompleteDailyProgressTwo: false,
+      reportsInitialForm: '',
     });
     cookies.remove('loggedIn', { path: '/' });
     cookies.remove('userObj', { path: '/' });
@@ -392,6 +396,7 @@ class App extends Component {
     delete cookieToSet.incompleteDailyProgressTwo;
     delete cookieToSet.showIncompleteDailyProgressTwo;
     delete cookieToSet.reportsInitialForm;
+    delete cookieToSet.reportsKey;
 
     delete cookieToSet.userObj.signature; // messes up cookie storage
     const current = new Date();
@@ -411,6 +416,11 @@ class App extends Component {
     if (userObj?.jobTitle !== 'Direct/Care/Staff') return;
     try {
       const { data } = await Axios.get('/api/dailyProgressNoteTwo/incomplete/mine');
+      // Drop the result if whoever asked for it is no longer the one
+      // signed in (logged out, or someone else signed in on this tab while
+      // the request was in flight) - otherwise their client names would be
+      // shown to the next user.
+      if (!this.state.loggedIn || this.state.userObj?.email !== userObj.email) return;
       if (Array.isArray(data) && data.length > 0) {
         this.setState({
           incompleteDailyProgressTwo: data,
@@ -432,6 +442,9 @@ class App extends Component {
   // dropdown active-class cleanup move to Reports exactly as a real click
   // would. reportsInitialForm is set after that click so toggleDisplay's
   // reset of it doesn't wipe it out (both updates batch into one render).
+  // Bumping reportsKey remounts Reports: ReportsContainer and FormReports
+  // only read initialFormName when they're created, so without it a user
+  // who already had Reports open would stay wherever they were.
   openIncompleteDailyProgressTwoReports = () => {
     this.closeIncompleteDailyProgressTwo();
     const reportsTab = document.getElementById('ReportsTab');
@@ -440,7 +453,10 @@ class App extends Component {
     } else {
       this.toggleDisplay('Reports');
     }
-    this.setState({ reportsInitialForm: 'Daily Progress Note Two' });
+    this.setState((prevState) => ({
+      reportsInitialForm: 'Daily Progress Note Two',
+      reportsKey: prevState.reportsKey + 1,
+    }));
   };
 
   toggleDisplay = (display) => {
@@ -660,6 +676,7 @@ class App extends Component {
                   }
                 >
                   <Reports
+                    key={this.state.reportsKey}
                     userObj={this.state.userObj}
                     allUsers={this.state.allUsers}
                     initialFormName={this.state.reportsInitialForm}
