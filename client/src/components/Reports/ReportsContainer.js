@@ -8,10 +8,15 @@ import { TrainingAttendance } from "./TrainingAttendance";
 class ReportsContainer extends Component {
   constructor(props) {
     super(props);
+    // initialFormName (optional): open straight into Form Reports with that
+    // form type selected (e.g. the sign-in reminder's "Go to Reports").
+    // Only used for the first Form Reports visit - going back to the
+    // Reports menu clears it, so reopening Form Reports starts unselected.
     this.state = {
-      showForms: false,
+      showForms: !!props.initialFormName,
       showTrainings: false,
       showAttendance: false,
+      initialFormName: props.initialFormName || "",
     };
   }
 
@@ -28,7 +33,7 @@ class ReportsContainer extends Component {
   };
 
   resetReports = () => {
-    this.setState({ showForms: false, showTrainings: false, showAttendance: false });
+    this.setState({ showForms: false, showTrainings: false, showAttendance: false, initialFormName: "" });
   };
 
   render() {
@@ -112,6 +117,7 @@ class ReportsContainer extends Component {
               }}
               userObj={this.props.userObj}
               allUsers={this.props.allUsers}
+              initialFormName={this.state.initialFormName}
             />
           </div>
         );

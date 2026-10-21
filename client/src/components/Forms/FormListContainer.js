@@ -47,10 +47,18 @@ class FormListContainer extends Component {
     };
   }
 
-  componentDidUpdate = () => {
+  componentDidUpdate = (prevProps) => {
     if (this.props.doReset && this.state.selectedForm !== -1) {
       console.log("reset state");
       this.setState({ selectedForm: -1 });
+    }
+    // Highlight/expand a form type FormReports pre-selected for us (see
+    // FormReports' applyInitialFormSelection).
+    if (
+      this.props.initialSelectedForm !== prevProps.initialSelectedForm &&
+      this.props.initialSelectedForm > -1
+    ) {
+      this.setState({ selectedForm: this.props.initialSelectedForm });
     }
   };
 
