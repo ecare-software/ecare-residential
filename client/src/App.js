@@ -97,6 +97,10 @@ class App extends Component {
     showMessageSent: false,
     loading: false,
     currentPage: 1,
+    incompleteDailyProgressTwo: [],
+    showIncompleteDailyProgressTwo: false,
+    reportsInitialForm: '',
+    reportsKey: 0,
   };
 
 
@@ -329,6 +333,9 @@ class App extends Component {
       allUsersSet: false,
       blockCompUpdates: false,
       nonApprovedFormCountSet: false,
+      incompleteDailyProgressTwo: [],
+      showIncompleteDailyProgressTwo: false,
+      reportsInitialForm: '',
     });
     cookies.remove('loggedIn', { path: '/' });
     cookies.remove('userObj', { path: '/' });
@@ -361,6 +368,7 @@ class App extends Component {
     if (isAdminUser(userObj)) {
       this.doFetchFormApprovalCount();
     }
+    this.checkIncompleteDailyProgressTwo(userObj);
 
     let cookieToSet = { ...this.state };
     delete cookieToSet.discussionMessages;
@@ -385,6 +393,10 @@ class App extends Component {
     delete cookieToSet.showUploadModal;
     delete cookieToSet.showClients;
     delete cookieToSet.showTrainings;
+    delete cookieToSet.incompleteDailyProgressTwo;
+    delete cookieToSet.showIncompleteDailyProgressTwo;
+    delete cookieToSet.reportsInitialForm;
+    delete cookieToSet.reportsKey;
 
     delete cookieToSet.userObj.signature; // messes up cookie storage
     const current = new Date();
@@ -396,9 +408,60 @@ class App extends Component {
     await cookies.set('loggedIn', cookieToSet.loggedIn, { expires: nextYear });
   };
 
+  // Sign-in reminder: direct care staff get a list of the Daily Progress
+  // Note Two reports they started but haven't completed yet. Only runs from
+  // toggleLogIn (an actual sign-in), not the cookie restore on reload, so
+  // it doesn't reappear on every page refresh.
+  checkIncompleteDailyProgressTwo = async (userObj) => {
+    if (userObj?.jobTitle !== 'Direct/Care/Staff') return;
+    try {
+      const { data } = await Axios.get('/api/dailyProgressNoteTwo/incomplete/mine');
+      // Drop the result if whoever asked for it is no longer the one
+      // signed in (logged out, or someone else signed in on this tab while
+      // the request was in flight) - otherwise their client names would be
+      // shown to the next user.
+      if (!this.state.loggedIn || this.state.userObj?.email !== userObj.email) return;
+      if (Array.isArray(data) && data.length > 0) {
+        this.setState({
+          incompleteDailyProgressTwo: data,
+          showIncompleteDailyProgressTwo: true,
+        });
+      }
+    } catch (e) {
+      console.log('Error checking incomplete Daily Progress Note Two reports', e);
+    }
+  };
+
+  closeIncompleteDailyProgressTwo = () => {
+    this.setState({ showIncompleteDailyProgressTwo: false });
+  };
+
+  // "Go to Reports" from the reminder: opens Form Reports with Daily
+  // Progress Note Two already selected. Goes through the nav's own Reports
+  // link (rather than toggleDisplay directly) so the nav highlight and its
+  // dropdown active-class cleanup move to Reports exactly as a real click
+  // would. reportsInitialForm is set after that click so toggleDisplay's
+  // reset of it doesn't wipe it out (both updates batch into one render).
+  // Bumping reportsKey remounts Reports: ReportsContainer and FormReports
+  // only read initialFormName when they're created, so without it a user
+  // who already had Reports open would stay wherever they were.
+  openIncompleteDailyProgressTwoReports = () => {
+    this.closeIncompleteDailyProgressTwo();
+    const reportsTab = document.getElementById('ReportsTab');
+    if (reportsTab) {
+      reportsTab.click();
+    } else {
+      this.toggleDisplay('Reports');
+    }
+    this.setState((prevState) => ({
+      reportsInitialForm: 'Daily Progress Note Two',
+      reportsKey: prevState.reportsKey + 1,
+    }));
+  };
+
   toggleDisplay = (display) => {
     window.scrollTo(0, 0);
-    this.setState({ doDisplay: display, sirPrefillClientId: '', sirPrefillDraft: null, sirPrefillShift: '' });
+    this.setState({ doDisplay: display, sirPrefillClientId: '', sirPrefillDraft: null, sirPrefillShift: '', reportsInitialForm: '' });
   };
 
   // draft (optional): an existing, not-yet-completed report to reopen instead of starting a new one
@@ -613,8 +676,10 @@ class App extends Component {
                   }
                 >
                   <Reports
+                    key={this.state.reportsKey}
                     userObj={this.state.userObj}
                     allUsers={this.state.allUsers}
+                    initialFormName={this.state.reportsInitialForm}
                   />
                 </div>
               </div>
@@ -632,6 +697,61 @@ class App extends Component {
                 <i className='fa fa-arrow-up'></i>
               </button>
             </div>
+            <Modal
+              show={this.state.showIncompleteDailyProgressTwo}
+              onHide={this.closeIncompleteDailyProgressTwo}
+              centered
+              contentClassName='dpn2-reminder-content'
+            >
+              <Modal.Header closeButton>
+                <Modal.Title className='dpn2-reminder-title'>
+                  Reminder: Daily Progress Note Two
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <p>
+                  You have {this.state.incompleteDailyProgressTwo.length}{' '}
+                  Daily Progress Note Two{' '}
+                  {this.state.incompleteDailyProgressTwo.length === 1
+                    ? 'report'
+                    : 'reports'}{' '}
+                  from the last 14 days that you started but have not completed.
+                  Please continue to document in{' '}
+                  {this.state.incompleteDailyProgressTwo.length === 1
+                    ? 'it'
+                    : 'them'}
+                  .
+                </p>
+                <ul style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                  {this.state.incompleteDailyProgressTwo.map((report) => (
+                    <li key={report._id}>
+                      <strong>{report.childMeta_name || 'Unnamed client'}</strong>
+                      {' - '}
+                      {report.createDate
+                        ? new Date(report.createDate).toLocaleDateString()
+                        : 'No date'}
+                    </li>
+                  ))}
+                </ul>
+                <p style={{ marginBottom: 0 }}>
+                  You can find them under Reports &gt; Daily Progress Note Two.
+                </p>
+              </Modal.Body>
+              <Modal.Footer>
+                <button
+                  className='btn btn-light'
+                  onClick={this.closeIncompleteDailyProgressTwo}
+                >
+                  Remind me later
+                </button>
+                <button
+                  className='btn btn-primary'
+                  onClick={this.openIncompleteDailyProgressTwoReports}
+                >
+                  Go to Reports
+                </button>
+              </Modal.Footer>
+            </Modal>
           </div>
         </SeriousIncidentNavContext.Provider>
         </FormCountContext.Provider>

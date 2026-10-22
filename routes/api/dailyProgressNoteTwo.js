@@ -1,7 +1,9 @@
 const express = require("express");
 const DailyReport = require("../../models/DailyProgressNoteTwo");
 const {
+  resolveAuthenticatedUser,
   resolveHomeScopedUser,
+  NOT_AUTHENTICATED_ERROR,
 } = require("../../utils/requireUserSignature");
 const {
   containsMongoOperatorKey,
@@ -204,6 +206,43 @@ router.get("/latest/:clientId", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send("Server error");
+  }
+});
+
+// GET THE CALLER'S OWN NOT-YET-COMPLETED REPORTS
+// Backs the sign-in reminder for direct care staff (see App.js's
+// checkIncompleteDailyProgressTwo). Identity and home come from the
+// verified auth cookie, never the URL, so a caller can only ever list
+// their own drafts. Only summary fields are returned - the reminder just
+// needs enough to tell the reports apart, not the full form bodies.
+// Limited to reports started within the last REMINDER_WINDOW_DAYS so old,
+// abandoned drafts don't keep resurfacing on every sign-in.
+const REMINDER_WINDOW_DAYS = 14;
+
+router.get("/incomplete/mine", async (req, res) => {
+  try {
+    const authUser = await resolveAuthenticatedUser(req);
+    if (!authUser) {
+      return res.status(401).json({ error: NOT_AUTHENTICATED_ERROR });
+    }
+
+    const windowStart = new Date();
+    windowStart.setDate(windowStart.getDate() - REMINDER_WINDOW_DAYS);
+
+    const reports = await DailyReport.find({
+      homeId: authUser.homeId,
+      createdBy: authUser.email,
+      status: { $ne: "COMPLETED" },
+      createDate: { $gte: windowStart },
+    })
+      .select("childMeta_name createDate lastEditDate status")
+      .sort({ createDate: -1 })
+      .lean();
+
+    res.json(reports);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch incomplete Daily Progress Note Two reports" });
   }
 });
 

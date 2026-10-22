@@ -118,6 +118,7 @@ export class FormReports extends Component {
       formsToPrint: [],
       formsLoaded: false,
       disablePrint: true,
+      initialSelectedForm: -1,
     };
   }
   openPrintModal = () => {
@@ -370,9 +371,26 @@ export class FormReports extends Component {
     Axios.all(formRequests).then((results) => {
       this.setFormsData(results);
       this.setState({ doReset: false });
+      this.applyInitialFormSelection();
     });
 
     return;
+  };
+
+  // Pre-selects props.initialFormName (see ReportsContainer) once, after the
+  // initial load - by then doReset is false, so FormListContainer won't
+  // immediately clear the selection again. If that form type has no
+  // results, nothing is selected and the list shows as usual.
+  applyInitialFormSelection = () => {
+    if (!this.props.initialFormName || this.initialFormApplied) return;
+    this.initialFormApplied = true;
+    const index = this.state.forms.findIndex(
+      (form) => form.name === this.props.initialFormName
+    );
+    if (index > -1) {
+      this.setSelectedForm(index);
+      this.setState({ initialSelectedForm: index });
+    }
   };
 
   triggerPrint = () => {
@@ -443,6 +461,7 @@ export class FormReports extends Component {
         doReset={this.state.doReset}
         setSelectedForm={this.setSelectedForm}
         setSelectedUser={this.setSelectedUser}
+        initialSelectedForm={this.state.initialSelectedForm}
         formObjs={this.state.forms}
         userObj={this.props.userObj}
         searchObj={this.state.searchObj}

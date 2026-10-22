@@ -439,6 +439,21 @@ html {
     color: red;  /* title in red */
   }
 
+/* Sign-in reminder for incomplete Daily Progress Note Two reports (App.js).
+   Chained with .modal-content to beat the global transparent/borderless
+   .modal-content rule above. */
+.modal-content.dpn2-reminder-content {
+  background-color: #f2f2f2;
+  border: 3px solid #d32f2f;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.dpn2-reminder-title {
+  font-weight: bold;
+  color: #d32f2f;
+}
+
 /* desktop */
 @media only screen and (min-width: 1226px) {
   .mobileLearnMore {
