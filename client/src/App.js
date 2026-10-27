@@ -319,7 +319,13 @@ class App extends Component {
   };
 
   getAllUsers = () => {
-    Axios.get(`/api/users/${this.state.userObj.homeId}`).then((allUsers) => {
+    const { homeId } = this.state.userObj;
+    if (!homeId) return;
+    Axios.get(`/api/users/${homeId}`).then((allUsers) => {
+      // Drop the result if the signed-in user's home changed while the
+      // request was in flight (logout, or another user signed in on this
+      // tab) - otherwise the DM "To" list would show the wrong home's staff.
+      if (!this.state.loggedIn || this.state.userObj?.homeId !== homeId) return;
       this.setState({ allUsers: allUsers.data, allUsersSet: true });
     });
   };
@@ -330,7 +336,11 @@ class App extends Component {
       loggedIn: false,
       userObj: {},
       doDisplay: 'Dashboard',
+      allUsers: [],
       allUsersSet: false,
+      dmTo: null,
+      dmMessage: '',
+      messages: [],
       blockCompUpdates: false,
       nonApprovedFormCountSet: false,
       incompleteDailyProgressTwo: [],
@@ -363,6 +373,7 @@ class App extends Component {
       message,
       title,
     });
+    this.getAllUsers();
     this.getMyMessages();
     this.loadMessage(userObj);
     if (isAdminUser(userObj)) {
