@@ -6,6 +6,7 @@ const User = require("../../models/User");
 const { signAuthToken } = require("../../utils/authToken");
 const {
   resolveAuthenticatedUser,
+  resolveHomeScopedUser,
   NOT_AUTHENTICATED_ERROR,
 } = require("../../utils/requireUserSignature");
 const { isAdminUser } = require("../../utils/adminRoles");
@@ -101,10 +102,22 @@ router.post("/logout", (req, res) => {
 // @route   GET api/items
 // @desc    GET all items
 // @access  Public
-router.get("/:homeId", (req, res) => {
+// Staff list for the caller's own home only - a signed-in user from another
+// home (or nobody) can't list a home's staff by naming its homeId. Never
+// returns password or signature: this list ends up in client state, and
+// signatures are fetched individually where a form needs one.
+router.get("/:homeId", async (req, res) => {
   const { isActive } = req.query;
 
-  User.find({ homeId: req.params.homeId })
+  const { authUser, errorResponse } = await resolveHomeScopedUser(
+    req,
+    req.params.homeId
+  );
+  if (errorResponse) {
+    return res.status(errorResponse.status).json(errorResponse.body);
+  }
+
+  User.find({ homeId: authUser.homeId }, { password: 0, signature: 0 })
     .then((users) => {
       if (isActive !== undefined) {
         const isActiveBool = isActive === "true";
