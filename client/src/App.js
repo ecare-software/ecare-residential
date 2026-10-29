@@ -172,12 +172,23 @@ class App extends Component {
     }
   };
 
+  // Whether userObj is still the one signed in on this tab. Async fetches
+  // check this before writing their result, so a response that lands after
+  // a logout (or another user's sign-in) never shows one user's - or one
+  // home's - data to the next.
+  isCurrentSession = (userObj) =>
+    !!this.state.loggedIn &&
+    this.state.userObj?.email === userObj?.email &&
+    this.state.userObj?.homeId === userObj?.homeId;
+
   getMyMessages = () => {
-    Axios.get(
-      `/api/directMessages/${this.state.userObj.email}/${this.state.userObj.homeId}`
-    ).then((messages) => {
-      this.setState({ messages: messages.data });
-    });
+    const userObj = this.state.userObj;
+    return Axios.get(`/api/directMessages/${userObj.email}/${userObj.homeId}`)
+      .then((messages) => {
+        if (!this.isCurrentSession(userObj)) return;
+        this.setState({ messages: messages.data });
+      })
+      .catch((e) => console.log(`Error fetching direct messages - ${e}`));
   };
 
   setDmToUser = async (id) => {
@@ -214,8 +225,7 @@ class App extends Component {
         }
 
         this.loadMessage(updatedUserData);
-        await this.getAllUsers();
-        await this.getMyMessages();
+        await Promise.all([this.getAllUsers(), this.getMyMessages()]);
 
       } catch (e) {
         console.log(e);
@@ -238,7 +248,6 @@ class App extends Component {
   }
 
   componentDidUpdate = () => {
-    setTimeout((callGetAllUsers) => { }, 10000)
     if (
       !this.state.messagesInitLoad &&
       !this.state.blockCompUpdates &&
@@ -262,6 +271,7 @@ class App extends Component {
     }
     Axios.get(`/api/discussionMessages/${userObj.homeId}?page=${pageNumber}&limit=20`)
       .then((response) => {
+        if (!this.isCurrentSession(userObj)) return;
         this.setState({
           discussionMessages: response.data,
           messagesInitLoad: true,
@@ -319,9 +329,16 @@ class App extends Component {
   };
 
   getAllUsers = () => {
-    Axios.get(`/api/users/${this.state.userObj.homeId}`).then((allUsers) => {
-      this.setState({ allUsers: allUsers.data, allUsersSet: true });
-    });
+    const userObj = this.state.userObj;
+    if (!userObj?.homeId) return Promise.resolve();
+    return Axios.get(`/api/users/${userObj.homeId}`)
+      .then((allUsers) => {
+        if (!this.isCurrentSession(userObj)) return;
+        this.setState({ allUsers: allUsers.data, allUsersSet: true });
+      })
+      // Left unset on failure; callGetAllUsers retries when Direct Message
+      // is opened.
+      .catch((e) => console.log(`Error fetching users - ${e}`));
   };
 
   logOut = () => {
@@ -330,7 +347,12 @@ class App extends Component {
       loggedIn: false,
       userObj: {},
       doDisplay: 'Dashboard',
+      allUsers: [],
       allUsersSet: false,
+      dmTo: null,
+      dmMessage: '',
+      messages: [],
+      discussionMessages: [],
       blockCompUpdates: false,
       nonApprovedFormCountSet: false,
       incompleteDailyProgressTwo: [],
@@ -363,6 +385,7 @@ class App extends Component {
       message,
       title,
     });
+    this.getAllUsers();
     this.getMyMessages();
     this.loadMessage(userObj);
     if (isAdminUser(userObj)) {
@@ -420,7 +443,7 @@ class App extends Component {
       // signed in (logged out, or someone else signed in on this tab while
       // the request was in flight) - otherwise their client names would be
       // shown to the next user.
-      if (!this.state.loggedIn || this.state.userObj?.email !== userObj.email) return;
+      if (!this.isCurrentSession(userObj)) return;
       if (Array.isArray(data) && data.length > 0) {
         this.setState({
           incompleteDailyProgressTwo: data,
@@ -461,6 +484,7 @@ class App extends Component {
 
   toggleDisplay = (display) => {
     window.scrollTo(0, 0);
+    if (display === 'Direct Message') this.callGetAllUsers();
     this.setState({ doDisplay: display, sirPrefillClientId: '', sirPrefillDraft: null, sirPrefillShift: '', reportsInitialForm: '' });
   };
 
@@ -521,16 +545,11 @@ class App extends Component {
   };
 
   sendDM = async () => {
-    if (
-      this.state.dmTo !== '' ||
-      (this.state.dmTo !== null && this.state.dmMessage)
-    ) {
+    if (this.state.dmTo && this.state.dmMessage) {
       try {
+        // Sender and recipient details are looked up server-side.
         await Axios.post(`/api/directMessages`, {
-          toObj: this.state.dmTo,
-          fromObj: this.state.userObj,
           toID: this.state.dmTo.email,
-          fromID: this.state.userObj.email,
           message: this.state.dmMessage,
           date: new Date(),
           homeId: this.state.userObj.homeId,
@@ -542,14 +561,7 @@ class App extends Component {
           dmMessage: '',
         });
 
-        const { data } = await Axios.get(
-          `/api/directMessages/${this.state.userObj.email}/${this.state.userObj.homeId}`
-        );
-
-        this.setState({
-          ...this.state,
-          messages: data,
-        });
+        await this.getMyMessages();
 
         setTimeout(() => {
           this.setState({
@@ -1649,7 +1661,7 @@ function DisplayExtra({
                 </option>
                 {appState.allUsers
                   .filter((user) => {
-                    return user._id !== userObj._id;
+                    return user._id !== userObj._id && user.isActive;
                   })
                   .map((user) => {
                     return (

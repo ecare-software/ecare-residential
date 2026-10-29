@@ -57,6 +57,17 @@ const sendEmail = async (
 
 // direct message model
 const DirectMessage = require("../../models/DirectMessage");
+const User = require("../../models/User");
+const { resolveHomeScopedUser } = require("../../utils/requireUserSignature");
+
+// The parts of a user a DM stores and the client displays.
+const messageParty = (user) => ({
+  _id: user._id,
+  firstName: user.firstName,
+  lastName: user.lastName,
+  email: user.email,
+  homeId: user.homeId,
+});
 
 // @route   GET api/items
 // @desc    GET all items
@@ -97,35 +108,52 @@ router.get("/", (req, res) => {
 // @desc    Create an item
 // @access  Public
 
+// Sender comes from the verified auth cookie and must belong to the claimed
+// homeId; the recipient must be an active user in that same home. Both
+// toObj/fromObj are built from the DB records (name/email only) rather
+// than taken from the body, so a stale or tampered client can't message
+// another home's staff or store anyone's password on the message.
 router.post("/", async (req, res) => {
   console.log(
     `Posting Direct Message for user ${req.body.toID} at home ${req.body.homeId}`
   );
 
-  var toObj = req.body.toObj;
-  var fromObj = req.body.fromObj;
-  var toEmail = req.body.toID.toLocaleLowerCase();
-  var toName = toObj ? `${toObj.firstName} ${toObj.lastName}` : null;
-  var homeId = req.body.homeId;
-  var fromEmail = req.body.fromID;
-  var fromName = fromObj ? `${fromObj.firstName} ${fromObj.lastName}` : null;
-  var message = req.body.message;
-  var date = req.body.date;
+  const { authUser, errorResponse } = await resolveHomeScopedUser(
+    req,
+    req.body.homeId
+  );
+  if (errorResponse) {
+    return res.status(errorResponse.status).json(errorResponse.body);
+  }
 
-  if (
-    !toObj ||
-    !fromObj ||
-    !toEmail ||
-    !toName ||
-    !homeId ||
-    !fromEmail ||
-    !fromName ||
-    !message ||
-    !date
-  ) {
-    res.status(500).send(`Missing required fields`);
+  var homeId = authUser.homeId;
+  var toEmail =
+    typeof req.body.toID === "string" ? req.body.toID.toLocaleLowerCase() : "";
+  var message = req.body.message;
+  var date = req.body.date || new Date();
+
+  if (!toEmail || !message) {
+    res.status(400).send(`Missing required fields`);
     return;
   }
+
+  let recipient;
+  try {
+    recipient = await User.findOne({ email: toEmail, homeId });
+  } catch (e) {
+    return res.status(500).send(`Direct message error ${e}`);
+  }
+  if (!recipient || !recipient.isActive) {
+    return res
+      .status(400)
+      .send(`Recipient is not an active user at this home`);
+  }
+
+  const toObj = messageParty(recipient);
+  const fromObj = messageParty(authUser);
+  const toName = `${toObj.firstName} ${toObj.lastName}`;
+  const fromEmail = authUser.email;
+  const fromName = `${fromObj.firstName} ${fromObj.lastName}`;
 
   const newDirectMessage = new DirectMessage({
     toObj,
@@ -141,13 +169,12 @@ router.post("/", async (req, res) => {
   try {
     directMessage = await newDirectMessage.save();
   } catch (e) {
-    res.status(500).send(`Direct message error ${e}`);
+    return res.status(500).send(`Direct message error ${e}`);
   }
 
   try {
     [foundHome] = await Home.find({ homeId });
-  } catch {
-    res.status(200).json(directMessage);
+  } catch (e) {
     console.log(`Home fetch error ${e}`);
   }
 
@@ -155,7 +182,7 @@ router.post("/", async (req, res) => {
     toEmail,
     toName,
     homeId,
-    foundHome.name,
+    foundHome ? foundHome.name : homeId,
     fromEmail,
     fromName,
     message
